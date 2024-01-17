@@ -23,17 +23,14 @@
 ## Setup Requirements
 * Install Node.js 20+ (latest LTS should work at this time)
   * Suggest installing and managing versions with FNM (Fast Node Manager)
-* Install yarn (latest)
-  * Suggest installing by running the following with admin privileges
-    * ```npm install yarn -g```
 
 ## Installation
 * Clone the repo
 * Open in Visual Studio Code (preferred) or software of your choice
 * Run yarn to install dependencies
-  * ```yarn```
+  * ```npm install```
 * Run yarn dev to run the development server
-  * ```yarn dev```
+  * ```npm run dev```
 * Open [http://localhost:3000](http://localhost:3000) with your browser to view the application
 
 ## Branches
@@ -52,7 +49,7 @@
         * e.g.
           * dan-dev
     * Note
-      * In rare situations, branching off of something other than dev may be helpful, hence the option, but, I can't imagine any reason why we should ever branch off of main for this project until it goes to true production 
+      * In rare situations, branching off of something other than dev may be helpful, hence the option, but, I can't imagine any reason why we should ever branch off of main for this project until it goes to true production
 
 ## Environment Vars and Environment Management
 * TODO
@@ -73,7 +70,7 @@
     * If code becomes too long, for clarity, extract it into separate functions, even if not reusable
     * Be consistent
   * Avoid
-    * Semicolons unless required for the code to work as intended  
+    * Semicolons unless required for the code to work as intended
     * ```var``` unless for some reason you need that level of scope, use ```let``` instead
     * Class based React components
     * Next.js pages routing
@@ -92,7 +89,7 @@
 
 ## Troubleshooting
 * TODO
-  
+
 ---
 
 ## Next.js Default Info
