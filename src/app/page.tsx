@@ -11,7 +11,7 @@ export default function Home() {
         fully evaluating specific technical standards and maximizing the potential of their health
         IT implementations. SITE is organized in a collection of sandboxes that provide test tools,
         sample data, collaboration resources, and useful links.</p>
-
+''
       <h1>ONC Certification Tools</h1>
       <h5>All tools required for certification.</h5>
       <ul>
