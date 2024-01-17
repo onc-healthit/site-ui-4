@@ -1,16 +1,9 @@
-import Image from 'next/image'
+import Link from "next/link"
+import styles from './page.module.css'
 
 export default function Home() {
   return (
-    <>
-      <Image
-        src="/healthit-gov-logo-temp.png"
-        alt="healthit.gov logo"
-        width={281}
-        height={109}
-        priority
-      />
-
+    <main className={styles.main}>
       <h1>Welcome to the ONC SITE The hub for testing tools & resources</h1>
       <h2>The hub for testing tools & resources</h2>
       <p>The Standards Implementation & Testing Environment (SITE) is a centralized collection
@@ -22,10 +15,18 @@ export default function Home() {
       <h1>ONC Certification Tools</h1>
       <h5>All tools required for certification.</h5>
       <ul>
-        <li>Inferno FHIR Testing</li>
-        <li>C-CDA Testing</li>
-        <li>Direct Project Toling</li>
-        <li>CQM QRDA Testing</li>
+        <li>
+          <Link href={'https://inferno.healthit.gov/'}>Inferno FHIR Testing</Link>
+        </li>
+        <li>
+          <Link href={'/c-cda'} >C-CDA Testing</Link>
+        </li>
+        <li>
+          <Link href={'/direct'}>Direct Project Tooling</Link>
+        </li>
+        <li>
+          <Link href={'/cqm-qrda'}>CQM QRDA Testing</Link>
+        </li>
       </ul>
 
       <h1>General Testing Tools</h1>
@@ -44,7 +45,6 @@ export default function Home() {
         <li>Reference Data</li>
         <li>Implementation Guides</li>
       </ul>
-
-    </>
+    </main >
   )
 }
