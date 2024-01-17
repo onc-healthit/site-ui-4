@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
 export const metadata: Metadata = {
   title: 'SITE UI 4.0',
   description: 'The Standards Implementation and Testing Environment (SITE) is a centralized collection ' +
@@ -25,7 +25,7 @@ export default function RootLayout({
           <nav>*Nav Component Placeholder*</nav>
         </section>
 
-        {children}
+        <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
 
       </body>
     </html>
