@@ -5,7 +5,7 @@ import CriteriaCard from "./CriteriaCard"
 import b1 from "@/../public/b1.svg"
 import h1 from "@/../public/h1.svg"
 import h2 from "@/../public/h2.svg"
-import { Container, Divider, Grid, Typography } from "@mui/material"
+import { Container, Divider, BottomNavigation, Typography } from "@mui/material"
 import CategoryCard from "./CategoryCard"
 import CertificateCard from "./CertificateCard"
 import publicCert from "@/../public/publicCert.svg"
@@ -16,6 +16,7 @@ import rootCA from "@/../public/rootCA.svg"
 const DirectHome = () => {
   return (
     <Box>
+      {/* Global Header */}
       <BannerBox
         title={"Direct"}
         href={"/direct"}
@@ -175,6 +176,31 @@ const DirectHome = () => {
           />
         </Box>
       </Container>
+      {/* Global Ankle */}
+      <Box bgcolor="#122953" pt={4} pb={4}>
+        <Container disableGutters>
+          <Typography variant="h5" color="#fff" component={"h2"}>
+            <strong>Cant find what your looking for?</strong>
+          </Typography>
+          <Typography variant="body1" color="#fff">
+            Please checkout our <Link color="secondary">Archives</Link> or <Link color="secondary">Resources</Link> for more details.
+          </Typography>
+        </Container>
+      </Box>
+      {/* Global Footer */}
+      <BottomNavigation sx={{ backgroundColor: "#000000", padding: 1 }}>
+        <Box width='100%'>
+          <Container disableGutters>
+            <Box pt={1} display="flex" flexDirection="row" justifyContent="space-between">
+              <Box display="flex" flexDirection="row" gap={2}>
+                <Link color="secondary">Disclaimer</Link>
+                <Link color="secondary">Privacy Policy</Link>
+              </Box>
+              <Typography color="white">Owned by The Office of the National Coordinator for Health Information Technology</Typography>
+            </Box>
+          </Container>
+        </Box>
+      </BottomNavigation>
     </Box>
   );
 };
