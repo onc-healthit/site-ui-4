@@ -38,10 +38,11 @@ const DirectHome = () => {
           </>
         }
       />
-      <Container>
+      {/* Main Content */}
+      <Container disableGutters>
         <Box paddingTop={4} paddingBottom={4}>
-          <Typography variant="h3" component={"h2"}>
-            Test By Criteria
+          <Typography variant="h4" component={"h2"}>
+            <strong>Test By Criteria</strong>
           </Typography>
           <Typography variant="body1" color="secondary">
             <strong>A deep dive with one click away</strong>
@@ -78,10 +79,10 @@ const DirectHome = () => {
             }
           />
         </Box>
-        <Divider sx={{ p: 2, borderBottomWidth: 5 }} />
+        <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
         <Box paddingTop={4} paddingBottom={4}>
-          <Typography variant="h3" component={"h2"}>
-            Select a category to start your direct project tooling.
+          <Typography variant="h4" component={"h2"}>
+           <strong>Select a category to start your direct project tooling.</strong>
           </Typography>
           <Typography variant="body1" color="secondary">
             <strong>All Direct in One Place</strong>
@@ -132,16 +133,16 @@ const DirectHome = () => {
             }
           />
         </Box>
-        <Divider sx={{ p: 2, borderBottomWidth: 5 }} />
+        <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
         <Box paddingTop={4} paddingBottom={4}>
-          <Typography variant="h3" component={"h2"}>
-            Certification for Download
+          <Typography variant="h4" component={"h2"}>
+            <strong>Certification for Download</strong>
           </Typography>
           <Typography variant="body1" color="secondary">
             <strong>Tagline</strong>
           </Typography>
         </Box>
-        <Box display={"flex"} width={"100%"} justifyContent={"space-between"}>
+        <Box paddingBottom={4} display={"flex"} width={"100%"} justifyContent={"space-between"}>
           <CertificateCard
             title={"Public Cert"}
             cardImage={publicCert}
@@ -155,7 +156,7 @@ const DirectHome = () => {
             cardImage={trustAnchor}
             cardHeader={"Trust Anchor"}
             description={
-              "The ETT Public Cert is used for the signing of Direct messages."
+              "The Trust Anchor establishes the relationship between the certificate authority's (CA) certificate and the HISP's (in this case, the ETT acting as a HISP) certificate.Invalid Trust Anchor"
             }
           />
           <CertificateCard
@@ -163,7 +164,7 @@ const DirectHome = () => {
             cardImage={invalidTrustAnchor}
             cardHeader={"Invalid Trust Anchor"}
             description={
-              "The ETT Public Cert is used for the signing of Direct messages."
+              "The Invalid Trust Anchor is used for negative testing and establishes and invalid relationship between the certificate authority's (CA) certificate and the ETT for negative testing.ETT Public Root CA"
             }
           />
           <CertificateCard
@@ -171,7 +172,7 @@ const DirectHome = () => {
             cardImage={rootCA}
             cardHeader={"Public Root CA"}
             description={
-              "The ETT Public Cert is used for the signing of Direct messages."
+              "The public root CA certificate is the self-signed certificate that identifies the root CA, i.e. the trusted authorit y that issues certificates. A HISP will need to download the root certificate to verify that the trust anchor is valid and that it correctly verifies the identity of the HISP's certificate."
             }
           />
         </Box>
