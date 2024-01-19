@@ -15,19 +15,18 @@ export interface CertificateCardProps {
 const CertificateCard = ({title,cardImage,cardHeader,description}:CertificateCardProps) => {
   return (
    
-    <Card id="certificateDownload">    
+    <Card sx={{ maxWidth: 250, display:'flex', alignItems:'flex-start', flexDirection: 'column' }} id="certificateDownload">    
        <CardMedia
         title={title}
-        ><Image src={cardImage} alt={title} /></CardMedia>
-        <CardContent  sx ={{p:3}}>
-            
+        sx={{display:'flex', alignItems:'flex-start', justifyContent:'center'      }}
+        ><Image style={{ width: '250px', height: 'auto',}} src={cardImage} alt={title} /></CardMedia>
+        <CardContent sx={{display:'flex',flexDirection:'column', flex: '1 auto', alignItems:'flex-start', justifyContent:'flex-start'}}>
           <Typography variant="h6" component="h3" color="default">
             {cardHeader}
           </Typography>
-         
-          <Typography variant="body1" color="default">{description}</Typography>
+          <Typography variant="body2" color="default">{description}</Typography>
         </CardContent>
-      <CardActions>
+      <CardActions sx={{display:'flex', alignItems:'flex-end', justifyContent:'center'}}>
         <Button size="small" variant="text" color="secondary" endIcon={<ArrowForwardIcon/>}>
          DOWNLOAD
         </Button>
