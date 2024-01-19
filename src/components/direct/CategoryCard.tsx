@@ -14,10 +14,10 @@ const CategoryCard = ({ cardHeader, description }: CriteriaCardProps) => {
     <Card sx={{ maxWidth: 345, borderTop: "16px solid #122953" }} id="category">
       <CardContent sx={{ p: 3 }}>
         <Typography variant="h6" component="h3" color="default">
-          {cardHeader}
+          <strong>{cardHeader}</strong>
         </Typography>
 
-        <Typography variant="body1" color="default" >
+        <Typography variant="body2" color="default" >
           {description}
         </Typography>
       </CardContent>
