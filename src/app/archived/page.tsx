@@ -1,5 +1,6 @@
 import Link from "next/link"
 import styles from '../page.module.css'
+import './WelcomeText.css'
 import CardList from './CardList';
 import React from 'react';
 import Card from "./Card";
@@ -13,11 +14,28 @@ export default function ArchivedHome() {
   ];
   return (
     <main className={styles.main}>
-        <h1>Archived help tools, files and other additional content</h1>
-        <p>Welcome to the Frequently Asked Questions (FAQ) section of the SITE website. Here, we've compiled a comprehensive list of common queries and inquiries to provide you with quick and informative answers to your most pressing questions about SITE. Whether you're a new visitor exploring our platform or a long-time user seeking clarification, this FAQ section aims to simplify your experience and provide valuable insights into SITE's features and functionalities.</p>
+        <div className="frame-44">
+          <div className="group-44">
+            <div className="sub-frame-44">
+              <div className="welcome-header-text">
+                Archived tools, files and other additional content
+              </div>
+              <div className="rectangle-44">
 
+              </div>
+            </div>
+            <div className="welcome-header-subtext">
+            Welcome to the Frequently Asked Questions (FAQ) section of the SITE website. Here, we've compiled a comprehensive list of common queries and inquiries to provide you with quick and informative answers to your most pressing questions about SITE. Whether you're a new visitor exploring our platform or a long-time user seeking clarification, this FAQ section aims to simplify your experience and provide valuable insights into SITE's features and functionalities.
+            </div>
+          </div>
+        </div>
+        
+        <div className="card-list-wrapper">
         <CardList cards={cards} />
+        </div>
+        
     </main>
+    
     
     )
 }

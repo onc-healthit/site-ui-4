@@ -1,3 +1,17 @@
+.card-list-wrapper {
+    width: 1075px;
+    height: 1353px;
+    position: relative;
+    top: 333px;
+    left: 583px;
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    align-content: flex-start;
+    padding: 16px;
+  }
+
 .card {
     width: 244.75px;
     height: 245px;
