@@ -1,5 +1,4 @@
 import styles from '../page.module.css'
-import './WelcomeText.css'
 import React from 'react'
 import ArchiveCard from './ArchiveCard'
 import Box from '@mui/material/Box'
