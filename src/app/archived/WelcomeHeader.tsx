@@ -8,21 +8,20 @@ const WelcomeHeader = ({ heading, description }: WelcomeHeaderProps) => {
   return (
     <Box
       sx={{
-        width: '1441px',
+        width: '100%',
         height: '231px',
         position: 'absolute',
         top: '67px',
-        left: '287px',
         boxShadow: 'inset 0px 14px 16px 16px rgb(0 0 0 / 8%)',
         p: 2,
       }}
     >
       <Container disableGutters>
         <Breadcrumbs aria-label="breadcrumb"></Breadcrumbs>
-        <Typography variant="h2" component={'h1'} sx={{ mb: 6, mt: 2 }}>
+        <Typography variant="h2" component={'h1'} sx={{ mb: 2, mt: 2, fontSize: '2rem' }}>
           <strong>{heading}</strong>
         </Typography>
-        <Typography variant="body1" sx={{ fontSize: '0.75rem' }}>
+        <Typography variant="body1" sx={{ fontSize: '1rem' }}>
           {description}
         </Typography>
       </Container>

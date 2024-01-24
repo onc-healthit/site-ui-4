@@ -25,44 +25,43 @@ export default function ArchivedHome() {
         }
       />
       {/* Main Content */}
-      <Container disableGutters>
+      <Container disableGutters sx={{ display: 'flex', alignItems: 'flex-end' }}>
         <ArchiveSubMenu></ArchiveSubMenu>
         <Box
           display={'flex'}
           maxWidth={'1075px'}
           width={'100%'}
-          justifyContent={'flex-end'}
+          alignItems={'flex-end'}
           marginRight={'32px'}
-          marginLeft={'300px'}
+          ml={'320px'}
           mt={'263px'}
           paddingBottom={4}
         >
           <ArchiveCard
-            cardHeader="Register for Direct Email"
+            cardHeader="Cures Update"
             description={
-              'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
+              'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 2-US Realm, Oct 2021 (with errata)'
             }
           />
           <ArchiveCard
-            cardHeader="Send Direct Email"
+            cardHeader="Cures Update"
             description={
-              'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
+              'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 2-US Realm, Oct 2021 (with errata)'
             }
           />
           <ArchiveCard
-            cardHeader="Send Direct Email"
+            cardHeader="USCDI v2"
             description={
-              'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
+              'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 3-US Realm, May 2022'
             }
           />
           <ArchiveCard
-            cardHeader="Send Direct Email"
+            cardHeader="USCDI v2"
             description={
-              'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
+              'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 3-US Realm, May 2022'
             }
           />
         </Box>
-        <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
       </Container>
     </Box>
   )
