@@ -1,13 +1,9 @@
-/* Remove these styles when we start adding MUI components to the page
+/* Remove these styles when we start adding MUI components to the page (or add to a global CSS)
 The styles are only here to minimally undo the CSS reset temporarilly while working on other items */
 
 .main {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: left;
-  padding: 6rem;
-  min-height: 100vh;
+  padding-left: 340px;
+  padding-top: 20px;
 }
 
 .main a {
