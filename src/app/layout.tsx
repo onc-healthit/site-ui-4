@@ -4,6 +4,7 @@ import React from 'react'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material'
 import lightThemeOptions from '../styles/lightThemeOptions'
+import AppBarWithNav from '@/components/shared/AppBarWithNav'
 
 const lightTheme = createTheme(lightThemeOptions)
 
@@ -21,21 +22,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-    </head>
       <body>
-      <ThemeProvider theme={lightTheme}>
-        <CssBaseline>
-        <section>
-          <header>*AppBar Component Placeholder*</header>
-        </section>
-
-        <section>
-          <nav>*Nav Component Placeholder*</nav>
-        </section>
-
-        <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
-        </CssBaseline>
+        <ThemeProvider theme={lightTheme}>
+          <CssBaseline>
+            <AppRouterCacheProvider>
+              <AppBarWithNav />
+              {children}
+            </AppRouterCacheProvider>
+          </CssBaseline>
         </ThemeProvider>
       </body>
     </html>
