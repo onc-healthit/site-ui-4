@@ -3,12 +3,12 @@ import { Inter } from 'next/font/google'
 import palette from './palette'
 
 const InterSite = Inter({
-  weight: ["100","200","300", "400","500","600","700","800","900"],
-  style: ["normal"],
-  subsets: ["latin"],
-});
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal'],
+  subsets: ['latin'],
+})
 
-const lightThemeOptions: ThemeOptions = {
+export const lightThemeOptions: ThemeOptions = {
   palette: {
     mode: 'light',
     background: {
@@ -54,10 +54,7 @@ const lightThemeOptions: ThemeOptions = {
     },
   },
   typography: {
-    fontFamily: [
-      InterSite.style.fontFamily,
-      'san-serif',
-   ].join(','),
+    fontFamily: [InterSite.style.fontFamily, 'san-serif'].join(','),
     h1: {
       fontSize: '2em',
     },
@@ -78,7 +75,7 @@ const lightThemeOptions: ThemeOptions = {
     },
     body1: {
       fontSize: '1em',
-      lineHeight: '1.4em'
+      lineHeight: '1.4em',
     },
     body2: {
       fontSize: '0.875em',
@@ -95,5 +92,3 @@ const lightThemeOptions: ThemeOptions = {
     },
   },
 }
-
-export default lightThemeOptions
