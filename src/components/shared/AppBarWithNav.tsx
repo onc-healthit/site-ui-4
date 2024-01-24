@@ -31,6 +31,7 @@ import Switch from '@mui/material/Switch'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import AccountCircle from '@mui/icons-material/AccountCircle'
+import Link from 'next/link'
 import {
   AddchartOutlined,
   AltRouteOutlined,
@@ -59,7 +60,6 @@ import {
   QuestionAnswerOutlined,
   SquareFootOutlined,
 } from '@mui/icons-material'
-import Link from 'next/link'
 
 const drawerWidth = 300
 const navPaddingLeft = 4
@@ -192,10 +192,8 @@ export default function AppBarWithNav() {
   }
 
   const [openCertList, setOpenCertList] = React.useState(true)
-  const [openGeneralTestingList, setOpenGeneralTestingList] =
-    React.useState(false)
-  const [openIndustryTestingList, setOpenIndustryTestingList] =
-    React.useState(false)
+  const [openGeneralTestingList, setOpenGeneralTestingList] = React.useState(false)
+  const [openIndustryTestingList, setOpenIndustryTestingList] = React.useState(false)
   const [openResourcesList, setOpenResourcesList] = React.useState(false)
 
   const handleClickCertList = () => {
@@ -264,10 +262,7 @@ export default function AppBarWithNav() {
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
+            <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
           </Search>
 
           {/* Login */}
@@ -348,7 +343,7 @@ export default function AppBarWithNav() {
         <DrawerHeader>
           <Link href={'/'} passHref>
             <Image
-              src="/site-nav-logo.svg"
+              src="/shared/site-nav-logo.svg"
               width={242}
               height={42}
               alt="SITE logo with text: The hub for testing tools & resources"
@@ -356,11 +351,7 @@ export default function AppBarWithNav() {
             />
           </Link>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
+            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
 
@@ -405,10 +396,7 @@ export default function AppBarWithNav() {
         -Consider matching FIGMA design exactly, or, allowing home to still be selected on drawer close
         -'Industry Testing Resources' is overlapping: Change text, font size, or tighten padding */}
         <Divider />
-        <List
-          sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-          component="nav"
-        >
+        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} component="nav">
           {/* ONC Certification Tools */}
           <ListItemButton onClick={handleClickCertList}>
             <ListItemIcon>
@@ -420,11 +408,7 @@ export default function AppBarWithNav() {
           <Divider />
           <Collapse in={openCertList} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://inferno.healthit.gov/"
-              >
+              <Link target="_blank" rel="noopener noreferrer" href="https://inferno.healthit.gov/">
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
                     <LocalFireDepartmentOutlined />
@@ -464,11 +448,7 @@ export default function AppBarWithNav() {
               </Link>
             </List>
             <List component="div" disablePadding>
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href={genericLinkToReplace}
-              >
+              <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
                     <MedicationOutlined />
@@ -478,11 +458,7 @@ export default function AppBarWithNav() {
               </Link>
             </List>
             <List component="div" disablePadding>
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href={genericLinkToReplace}
-              >
+              <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
                     <GroupsOutlined />
@@ -492,11 +468,7 @@ export default function AppBarWithNav() {
               </Link>
             </List>
             <List component="div" disablePadding>
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href={genericLinkToReplace}
-              >
+              <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
                     <AltRouteOutlined />
@@ -519,11 +491,7 @@ export default function AppBarWithNav() {
           <Divider />
           <Collapse in={openGeneralTestingList} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href={genericLinkToReplace}
-              >
+              <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
                     <ImportantDevicesOutlined />
@@ -533,11 +501,7 @@ export default function AppBarWithNav() {
               </Link>
             </List>
             <List component="div" disablePadding>
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href={genericLinkToReplace}
-              >
+              <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
                     <HealingOutlined />
@@ -547,11 +511,7 @@ export default function AppBarWithNav() {
               </Link>
             </List>
             <List component="div" disablePadding>
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href={genericLinkToReplace}
-              >
+              <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
                     <FireplaceOutlined />
@@ -561,11 +521,7 @@ export default function AppBarWithNav() {
               </Link>
             </List>
             <List component="div" disablePadding>
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href={genericLinkToReplace}
-              >
+              <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
                     <SquareFootOutlined />
@@ -587,11 +543,7 @@ export default function AppBarWithNav() {
           <Divider />
           <Collapse in={openIndustryTestingList} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href={genericLinkToReplace}
-              >
+              <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
                     <MonitorHeartOutlined />
@@ -601,11 +553,7 @@ export default function AppBarWithNav() {
               </Link>
             </List>
             <List component="div" disablePadding>
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href={genericLinkToReplace}
-              >
+              <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
                     <FolderSpecialOutlined />
@@ -615,11 +563,7 @@ export default function AppBarWithNav() {
               </Link>
             </List>
             <List component="div" disablePadding>
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href={genericLinkToReplace}
-              >
+              <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
                     <MenuBookOutlined />
@@ -629,11 +573,7 @@ export default function AppBarWithNav() {
               </Link>
             </List>
             <List component="div" disablePadding>
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://github.com/orgs/mitre"
-              >
+              <Link target="_blank" rel="noopener noreferrer" href="https://github.com/orgs/mitre">
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
                     <Biotech />
@@ -711,13 +651,7 @@ export default function AppBarWithNav() {
           <li>
             <FormGroup>
               <FormControlLabel
-                control={
-                  <Switch
-                    checked={auth}
-                    onChange={handleChange}
-                    aria-label="login switch"
-                  />
-                }
+                control={<Switch checked={auth} onChange={handleChange} aria-label="login switch" />}
                 label={auth ? 'Logout' : 'Login'}
               />
             </FormGroup>
