@@ -147,21 +147,15 @@ const AppBar = styled(MuiAppBar, {
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
-  a: {
-    textDecoration: 'none',
-    color: 'inherit',
-  },
   width: drawerWidth,
   flexShrink: 0,
   whiteSpace: 'nowrap',
   boxSizing: 'border-box',
   ...(open && {
-    textWrap: 'wrap',
     ...openedMixin(theme),
     '& .MuiDrawer-paper': openedMixin(theme),
   }),
   ...(!open && {
-    textWrap: 'nowrap',
     ...closedMixin(theme),
     '& .MuiDrawer-paper': closedMixin(theme),
   }),
@@ -407,7 +401,7 @@ export default function AppBarWithNav() {
           {/* ONC Certification Tools */}
           <ListItemButton onClick={handleClickCertList}>
             <ListItemIcon>
-              <CheckCircleOutline color="primary" />
+              <CheckCircleOutline />
             </ListItemIcon>
             <ListItemText primary="ONC Certification Tools" />
             {openCertList ? <ExpandLess /> : <ExpandMore />}
@@ -418,7 +412,7 @@ export default function AppBarWithNav() {
               <Link target="_blank" rel="noopener noreferrer" href="https://inferno.healthit.gov/">
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <LocalFireDepartmentOutlined color="primary" />
+                    <LocalFireDepartmentOutlined />
                   </ListItemIcon>
                   <ListItemText primary="FHIR Inferno Framework" />
                 </ListItemButton>
@@ -428,7 +422,7 @@ export default function AppBarWithNav() {
               <Link href="/c-cda" passHref>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <PublishedWithChanges color="primary" />
+                    <PublishedWithChanges />
                   </ListItemIcon>
                   <ListItemText primary="C-CDA Testing" />
                 </ListItemButton>
@@ -438,7 +432,7 @@ export default function AppBarWithNav() {
               <Link href="/direct" passHref>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <CompareArrows color="primary" />
+                    <CompareArrows />
                   </ListItemIcon>
                   <ListItemText primary="Direct Project Tooling" />
                 </ListItemButton>
@@ -448,7 +442,7 @@ export default function AppBarWithNav() {
               <Link href="/cqm-qrda">
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <AddchartOutlined color="primary" />
+                    <AddchartOutlined />
                   </ListItemIcon>
                   <ListItemText primary="CQM QRDA Testing" />
                 </ListItemButton>
@@ -458,7 +452,7 @@ export default function AppBarWithNav() {
               <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <MedicationOutlined color="primary" />
+                    <MedicationOutlined />
                   </ListItemIcon>
                   <ListItemText primary="Electronic Prescribing (eRX) Tool" />
                 </ListItemButton>
@@ -468,7 +462,7 @@ export default function AppBarWithNav() {
               <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <GroupsOutlined color="primary" />
+                    <GroupsOutlined />
                   </ListItemIcon>
                   <ListItemText primary="Public Health Reporting" />
                 </ListItemButton>
@@ -478,7 +472,7 @@ export default function AppBarWithNav() {
               <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <AltRouteOutlined color="primary" />
+                    <AltRouteOutlined />
                   </ListItemIcon>
                   <ListItemText primary="Alternative Test Methods" />
                 </ListItemButton>
@@ -490,7 +484,7 @@ export default function AppBarWithNav() {
           <ListItemButton onClick={handleClickGeneralTestingList}>
             <ListItemIcon>
               {/* <SpaceDashboardOutlined /> */}
-              <HandymanOutlined color="primary" />
+              <HandymanOutlined />
             </ListItemIcon>
             <ListItemText primary="General Testing Tools" />
             {openGeneralTestingList ? <ExpandLess /> : <ExpandMore />}
@@ -501,7 +495,7 @@ export default function AppBarWithNav() {
               <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <ImportantDevicesOutlined color="primary" />
+                    <ImportantDevicesOutlined />
                   </ListItemIcon>
                   <ListItemText primary="CPOE Evaluation Tool" />
                 </ListItemButton>
@@ -511,22 +505,17 @@ export default function AppBarWithNav() {
               <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <HealingOutlined color="primary" />
+                    <HealingOutlined />
                   </ListItemIcon>
                   <ListItemText primary="IHE Testing Tools" />
                 </ListItemButton>
               </Link>
             </List>
             <List component="div" disablePadding>
-              <Link
-                style={{ textDecoration: 'none!important' }}
-                target="_blank"
-                rel="noopener noreferrer"
-                href={genericLinkToReplace}
-              >
+              <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <FireplaceOutlined color="primary" />
+                    <FireplaceOutlined />
                   </ListItemIcon>
                   <ListItemText primary="Lantern Project" />
                 </ListItemButton>
@@ -536,7 +525,7 @@ export default function AppBarWithNav() {
               <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <SquareFootOutlined color="primary" />
+                    <SquareFootOutlined />
                   </ListItemIcon>
                   <ListItemText primary="NIST Conformance Test" />
                 </ListItemButton>
@@ -547,7 +536,7 @@ export default function AppBarWithNav() {
           {/* Industry Testing Resources */}
           <ListItemButton onClick={handleClickIndustryTestingList}>
             <ListItemIcon>
-              <CloudOutlined color="primary" />
+              <CloudOutlined />
             </ListItemIcon>
             <ListItemText primary="Industry Testing Resources" />
             {openIndustryTestingList ? <ExpandLess /> : <ExpandMore />}
@@ -558,7 +547,7 @@ export default function AppBarWithNav() {
               <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <MonitorHeartOutlined color="primary" />
+                    <MonitorHeartOutlined />
                   </ListItemIcon>
                   <ListItemText primary="HL7 Tools" />
                 </ListItemButton>
@@ -568,7 +557,7 @@ export default function AppBarWithNav() {
               <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <FolderSpecialOutlined color="primary" />
+                    <FolderSpecialOutlined />
                   </ListItemIcon>
                   <ListItemText primary="Reference Data" />
                 </ListItemButton>
@@ -578,7 +567,7 @@ export default function AppBarWithNav() {
               <Link target="_blank" rel="noopener noreferrer" href={genericLinkToReplace}>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <MenuBookOutlined color="primary" />
+                    <MenuBookOutlined />
                   </ListItemIcon>
                   <ListItemText primary="Implementation Guide Authoring Tools" />
                 </ListItemButton>
@@ -588,7 +577,7 @@ export default function AppBarWithNav() {
               <Link target="_blank" rel="noopener noreferrer" href="https://github.com/orgs/mitre">
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <Biotech color="primary" />
+                    <Biotech />
                   </ListItemIcon>
                   <ListItemText primary="MITRE Github" />
                 </ListItemButton>
@@ -599,7 +588,7 @@ export default function AppBarWithNav() {
           {/* SITE Resources */}
           <ListItemButton onClick={handleClickResourcesList}>
             <ListItemIcon>
-              <ContentCopy color="primary" />
+              <ContentCopy />
             </ListItemIcon>
             <ListItemText primary="SITE Resources" />
             {openResourcesList ? <ExpandLess /> : <ExpandMore />}
@@ -610,7 +599,7 @@ export default function AppBarWithNav() {
               <Link href="/faqs">
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <QuestionAnswerOutlined color="primary" />
+                    <QuestionAnswerOutlined />
                   </ListItemIcon>
                   <ListItemText primary="FAQs" />
                 </ListItemButton>
@@ -620,7 +609,7 @@ export default function AppBarWithNav() {
               <Link href="/docs-and-vids" passHref>
                 <ListItemButton sx={{ pl: navPaddingLeft }}>
                   <ListItemIcon>
-                    <IntegrationInstructionsOutlined color="primary" />
+                    <IntegrationInstructionsOutlined />
                   </ListItemIcon>
                   <ListItemText primary="Documentation & Videos" />
                 </ListItemButton>
@@ -631,16 +620,14 @@ export default function AppBarWithNav() {
 
           {/* TODO: What is causing the grey text here vs the other list items?}
           {/* Archived */}
-          <List component="div" disablePadding>
-            <Link href="/archived" passHref>
-              <ListItemButton>
-                <ListItemIcon>
-                  <ArchiveOutlined color="primary" />
-                </ListItemIcon>
-                <ListItemText color="inherit" primary="Archived" />
-              </ListItemButton>
-            </Link>
-          </List>
+          <Link href="/archived" passHref>
+            <ListItem>
+              <ListItemIcon>
+                <ArchiveOutlined />
+                <ListItemText primary="Archived" sx={{ pl: navPaddingLeft }} />
+              </ListItemIcon>
+            </ListItem>
+          </Link>
         </List>
         <Divider />
 

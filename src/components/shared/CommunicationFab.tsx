@@ -19,9 +19,9 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import InfoIcon from '@mui/icons-material/Info'
 import CloseIcon from '@mui/icons-material/Close'
 import LinkButton from './LinkButton'
-import Image from 'next/image'
 
 import palette from '@/styles/palette'
+
 const drawerWidth = 300
 
 const CommunicationFab: React.FC = () => {
