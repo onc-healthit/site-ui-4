@@ -18,6 +18,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import InfoIcon from '@mui/icons-material/Info'
 import CloseIcon from '@mui/icons-material/Close'
+import LinkButton from './LinkButton'
 import Image from 'next/image'
 
 import palette from '@/styles/palette'
@@ -63,71 +64,21 @@ const CommunicationFab: React.FC = () => {
               </Button>
             </CardActions>
           </Card>
-          <Box display={'flex'} flexDirection={'column'} gap={4}>
-            <Button
-              aria-label="Access Forum"
-              target="_blank"
-              href="https://groups.google.com/g/edge-test-tool"
-              sx={{
-                boxShadow:
-                  '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
-                padding: '8px',
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                borderRadius: '4px',
-                alignItems: 'center',
-                textTransform: 'capitalize',
-              }}
-            >
-              <Typography variant="body1" color="primary">
-                <strong>Access Forum</strong>
-              </Typography>
-              <ExitToAppIcon fontSize="small" htmlColor={palette.primaryDark} />
-            </Button>
-            <Button
-              aria-label="Health Data Standards"
-              target="_blank"
-              href="https://www.healthit.gov/topic/interoperability/standards-and-technology"
-              sx={{
-                boxShadow:
-                  '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
-                padding: '8px',
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                borderRadius: '4px',
-                alignItems: 'center',
-                textTransform: 'capitalize',
-              }}
-            >
-              <Typography color="primary">
-                <strong>Health Data Standards</strong>
-              </Typography>
-              <SecurityIcon fontSize="small" htmlColor={palette.primaryDark} />
-            </Button>
-            <Button
-              target="_blank"
-              aria-label="Email your Question"
-              href="mailto:edge-test-tool@googlegroups.com"
-              sx={{
-                boxShadow:
-                  '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
-                display: 'flex',
-                padding: '8px',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                borderRadius: '4px',
-                alignItems: 'center',
-                textTransform: 'capitalize',
-              }}
-            >
-              <Typography title="Questions & Inquires" color="primary">
-                <strong>Questions & Inquires</strong>
-              </Typography>
-              <MoreVertIcon fontSize="small" htmlColor={palette.primaryDark} />
-            </Button>
-          </Box>
+          <LinkButton
+            label="Access Forum"
+            url="https://groups.google.com/g/edge-test-tool"
+            icon={<ExitToAppIcon fontSize="small" htmlColor={palette.primaryDark} />}
+          />
+          <LinkButton
+            label="Health Data Standards"
+            url="https://www.healthit.gov/topic/interoperability/standards-and-technology"
+            icon={<SecurityIcon fontSize="small" htmlColor={palette.primaryDark} />}
+          />
+          <LinkButton
+            label="Questions or Inquiries"
+            url="mailto:edge-test-tool@googlegroups.com"
+            icon={<MoreVertIcon fontSize="small" htmlColor={palette.primaryDark} />}
+          />
         </Box>
         <Fab
           onClick={handleDrawerClose}
