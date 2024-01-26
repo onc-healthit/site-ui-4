@@ -1,21 +1,14 @@
 import { Box, Breadcrumbs, Container, Typography } from '@mui/material'
-import Link from '@mui/material/Link'
-
 export interface BannerProps {
-  title: string
-  href: string
+  breadcrumbs: React.ReactNode
   heading: string
   description: React.ReactNode
 }
-const BannerBox = ({ title, href, heading, description }: BannerProps) => {
+const BannerBox = ({ breadcrumbs, heading, description }: BannerProps) => {
   return (
     <Box sx={{ width: '100%', boxShadow: 'inset 0px 14px 16px 16px rgb(0 0 0 / 8%)', p: 4 }}>
       <Container disableGutters>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href={href}>
-            {title}
-          </Link>
-        </Breadcrumbs>
+        <Breadcrumbs aria-label="breadcrumb">{breadcrumbs}</Breadcrumbs>
         <Typography variant="h3" component={'h1'}>
           <strong>{heading}</strong>
         </Typography>

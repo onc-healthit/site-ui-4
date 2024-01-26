@@ -91,4 +91,24 @@ export const lightThemeOptions: ThemeOptions = {
       fontSize: '0.875em',
     },
   },
+  components: {
+    MuiTabs: {
+      styleOverrides: {
+        root: {
+          backgroundColor: palette.primary,
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          color: palette.white,
+          '&.Mui-selected': {
+            color: palette.white,
+            backgroundColor: palette.primaryDark,
+          },
+        },
+      },
+    },
+  },
 }

@@ -5,11 +5,11 @@ import Typography from '@mui/material/Typography'
 import { Button, CardActions } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
-export interface CriteriaCardProps {
+export interface CategoryCardProps {
   cardHeader: string
   description: string
 }
-const CategoryCard = ({ cardHeader, description }: CriteriaCardProps) => {
+const CategoryCard = ({ cardHeader, description }: CategoryCardProps) => {
   return (
     <Card sx={{ maxWidth: 345, borderTop: '16px solid #122953' }} id="category">
       <CardContent sx={{ p: 3 }}>

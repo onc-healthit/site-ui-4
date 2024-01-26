@@ -20,8 +20,11 @@ const DirectHome = () => {
     <Box>
       {/* Global Header */}
       <BannerBox
-        title={'Direct'}
-        href={'/direct'}
+        breadcrumbs={
+          <Link underline="hover" color="inherit" href="/direct">
+            Direct
+          </Link>
+        }
         heading={'Direct Project Tooling'}
         description={
           <>
@@ -52,6 +55,7 @@ const DirectHome = () => {
             cardHeader={'Transitions of Care'}
             cardSubheader={'170.315 (b)(1):'}
             description={'Sender Or Receiver. We have group all the test regarding this... to help user ... do this.'}
+            pathname={'/direct/testbycriteria/B1'}
           />
 
           <CriteriaCard
@@ -60,6 +64,7 @@ const DirectHome = () => {
             cardHeader={'Direct Project'}
             cardSubheader={'§ 170.315(h)(1)'}
             description={'Sender Or Receiver. We have group all the test regarding this... to help user ... do this.'}
+            pathname={'/direct/testbycriteria/H1'}
           />
 
           <CriteriaCard
@@ -68,6 +73,7 @@ const DirectHome = () => {
             cardHeader={'Direct Project, Edge Protocol, and XDR/XDM'}
             cardSubheader={'§ 170.315(h)(2)'}
             description={'Sender Or Receiver. We have group all the test regarding this... to help user ... do this.'}
+            pathname={'/direct/testbycriteria/H2'}
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
