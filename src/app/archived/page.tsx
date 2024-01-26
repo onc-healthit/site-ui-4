@@ -1,11 +1,8 @@
-import styles from '../page.module.css'
-import React from 'react'
-import ArchiveCard from './ArchiveCard'
+import { Container } from '@mui/material'
 import Box from '@mui/material/Box'
-import WelcomeHeader from './WelcomeHeader'
-import Link from '@mui/material/Link'
-import { Container, Divider, Typography } from '@mui/material'
+import ArchiveCard from './ArchiveCard'
 import ArchiveSubMenu from './ArchiveSubMenu'
+import WelcomeHeader from './WelcomeHeader'
 
 export default function ArchivedHome() {
   return (
@@ -13,16 +10,14 @@ export default function ArchivedHome() {
       {/* Global Header */}
       <WelcomeHeader
         heading={'Archived tools, files and other additional content'}
-        description={
-          <>
+        description={`
             Welcome to the Frequently Asked Questions (FAQ) section of the SITE website. Here, we've compiled a
             comprehensive list of common queries and inquiries to provide you with quick and informative answers to your
             most pressing questions about SITE. Whether you're a new visitor exploring our platform or a long-time user
             seeking clarification, this FAQ section aims to simplify your experience and provide valuable insights into
-            SITE's features and functionalities.
-          </>
-        }
+            SITE's features and functionalities.`}
       />
+
       {/* Main Content */}
       <Container disableGutters sx={{ display: 'flex', alignItems: 'flex-end' }}>
         <ArchiveSubMenu></ArchiveSubMenu>
