@@ -19,6 +19,7 @@ import {
 
 /* Custom Imports */
 import { GENERIC_LINK_TO_REPLACE, NAV_PADDING_LEFT } from '@/constants/navConstants'
+import palette from '@/styles/palette'
 
 export default function SiteNavGeneralTools() {
   const [openGeneralTestingList, setOpenGeneralTestingList] = useState(false)
@@ -32,9 +33,9 @@ export default function SiteNavGeneralTools() {
       <ListItemButton onClick={handleClickGeneralTestingList}>
         <ListItemIcon>
           {/* <SpaceDashboardOutlined /> */}
-          <HandymanOutlined />
+          <HandymanOutlined color="primary" />
         </ListItemIcon>
-        <ListItemText primary="General Testing Tools" />
+        <ListItemText primaryTypographyProps={{ color: palette.primary }} primary="General Testing Tools" />
         {openGeneralTestingList ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Divider />
@@ -43,29 +44,29 @@ export default function SiteNavGeneralTools() {
           {
             text: 'CPOE Evaluation Tool',
             href: GENERIC_LINK_TO_REPLACE,
-            icon: <ImportantDevicesOutlined />,
+            icon: <ImportantDevicesOutlined color="primary" />,
           },
           {
             text: 'IHE Testing Tools',
             href: GENERIC_LINK_TO_REPLACE,
-            icon: <HealingOutlined />,
+            icon: <HealingOutlined color="primary" />,
           },
           {
             text: 'Lantern Project',
             href: GENERIC_LINK_TO_REPLACE,
-            icon: <FireplaceOutlined />,
+            icon: <FireplaceOutlined color="primary" />,
           },
           {
             text: 'NIST Conformance Test',
             href: GENERIC_LINK_TO_REPLACE,
-            icon: <SquareFootOutlined />,
+            icon: <SquareFootOutlined color="primary" />,
           },
         ].map((item) => (
           <List key={item.text} component="div" disablePadding>
             <Link href={item.href} target="_blank" rel="noopener noreferrer">
               <ListItemButton sx={{ pl: NAV_PADDING_LEFT }}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
+                <ListItemText primaryTypographyProps={{ color: palette.primary }} primary={item.text} />
               </ListItemButton>
             </Link>
           </List>

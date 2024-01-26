@@ -22,6 +22,7 @@ import {
 
 /* Custom Imports */
 import { GENERIC_LINK_TO_REPLACE, NAV_PADDING_LEFT } from '@/constants/navConstants'
+import palette from '@/styles/palette'
 
 export default function SiteNavOncCertTools() {
   const [openCertList, setOpenCertList] = useState(true)
@@ -34,9 +35,9 @@ export default function SiteNavOncCertTools() {
     <>
       <ListItemButton onClick={handleClickCertList}>
         <ListItemIcon>
-          <CheckCircleOutline />
+          <CheckCircleOutline color="primary" />
         </ListItemIcon>
-        <ListItemText primary="ONC Certification Tools" />
+        <ListItemText primaryTypographyProps={{ color: palette.primary }} primary="ONC Certification Tools" />
         {openCertList ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Divider />
@@ -46,43 +47,43 @@ export default function SiteNavOncCertTools() {
             text: 'FHIR Inferno Framework',
             isExternalLink: true,
             href: 'https://inferno.healthit.gov/',
-            icon: <LocalFireDepartmentOutlined />,
+            icon: <LocalFireDepartmentOutlined color="primary" />,
           },
           {
             text: 'C-CDA Testing',
             isExternalLink: false,
             href: '/c-cda',
-            icon: <PublishedWithChanges />,
+            icon: <PublishedWithChanges color="primary" />,
           },
           {
             text: 'Direct Project Tooling',
             isExternalLink: false,
             href: '/direct',
-            icon: <CompareArrows />,
+            icon: <CompareArrows color="primary" />,
           },
           {
             text: 'CQM QRDA Testing',
             isExternalLink: false,
             href: '/cqm-qrda',
-            icon: <AddchartOutlined />,
+            icon: <AddchartOutlined color="primary" />,
           },
           {
             text: 'Electronic Prescribing (eRX) Tool',
             isExternalLink: true,
             href: GENERIC_LINK_TO_REPLACE,
-            icon: <MedicationOutlined />,
+            icon: <MedicationOutlined color="primary" />,
           },
           {
             text: 'Public Health Reporting',
             isExternalLink: true,
             href: GENERIC_LINK_TO_REPLACE,
-            icon: <GroupsOutlined />,
+            icon: <GroupsOutlined color="primary" />,
           },
           {
             text: 'Alternative Test Methods',
             isExternalLink: true,
             href: GENERIC_LINK_TO_REPLACE,
-            icon: <AltRouteOutlined />,
+            icon: <AltRouteOutlined color="primary" />,
           },
         ].map((item) => (
           <List key={item.text} component="div" disablePadding>
@@ -93,7 +94,7 @@ export default function SiteNavOncCertTools() {
             >
               <ListItemButton sx={{ pl: NAV_PADDING_LEFT }}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
+                <ListItemText primaryTypographyProps={{ color: palette.primary }} primary={item.text} />
               </ListItemButton>
             </Link>
           </List>
