@@ -32,22 +32,28 @@ const closedMixin = (theme: Theme): CSSObject => ({
   overflowX: 'hidden',
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
+    width: `calc(${theme.spacing(8)} + 4px)`,
   },
 })
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
+  a: {
+    textDecoration: 'none',
+    color: 'inherit',
+  },
   width: DRAWER_WIDTH,
   flexShrink: 0,
   whiteSpace: 'nowrap',
   boxSizing: 'border-box',
   ...(open && {
+    textWrap: 'wrap',
     ...openedMixin(theme),
     '& .MuiDrawer-paper': openedMixin(theme),
   }),
   ...(!open && {
+    textWrap: 'nowrap',
     ...closedMixin(theme),
     '& .MuiDrawer-paper': closedMixin(theme),
   }),
