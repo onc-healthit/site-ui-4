@@ -22,11 +22,11 @@ interface SiteNavHeaderProps {
 export default function NavHeader({ handleDrawerClose, theme }: SiteNavHeaderProps) {
   return (
     <>
-      <DrawerHeader>
+      <DrawerHeader sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         <Link href={'/'} passHref>
           <Image
             src="/shared/site-nav-logo.svg"
-            width={242}
+            width={250}
             height={42}
             alt="SITE logo with text: The hub for testing tools & resources"
             priority
