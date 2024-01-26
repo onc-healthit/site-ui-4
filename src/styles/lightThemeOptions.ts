@@ -91,4 +91,55 @@ export const lightThemeOptions: ThemeOptions = {
       fontSize: '0.875em',
     },
   },
+  components: {
+    MuiDrawer: {
+      styleOverrides: {
+        docked: {
+          flex: 1,
+        },
+      },
+    },
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          scrollbarColor: palette.greyDark,
+          '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
+            backgroundColor: palette.greyLight,
+          },
+          '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
+            borderRadius: 8,
+            backgroundColor: palette.greyMain,
+            border: `4px solid ${palette.greyLight}`,
+          },
+          '&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus': {
+            backgroundColor: palette.greyMain,
+          },
+          '&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active': {
+            backgroundColor: palette.greyMain,
+          },
+          '&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: palette.greyMain,
+          },
+          '&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner': {
+            backgroundColor: palette.greyMain,
+          },
+        },
+      },
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          '&:hover': {
+            backgroundColor: palette.greyLight,
+          },
+          '&:focus': {
+            backgroundColor: palette.secondaryLight,
+          },
+          '&.Mui-selected': {
+            backgroundColor: 'rgba(0, 0, 0, 0.12)', // Example selected background color
+          },
+        },
+      },
+    },
+  },
 }
