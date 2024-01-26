@@ -1,9 +1,9 @@
-import React from 'react'
-import type { Metadata } from 'next'
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
-import { CssBaseline, ThemeProvider, createTheme } from '@mui/material'
+import CombinedNavAndAppBar from '@/components/shared/nav/CombinedNavAndAppBar'
 import { lightTheme } from '@/styles/lightTheme'
-import AppBarWithNav from '@/components/shared/AppBarWithNav'
+import { CssBaseline, ThemeProvider } from '@mui/material'
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
+import type { Metadata } from 'next'
+import React from 'react'
 
 export const metadata: Metadata = {
   title: 'SITE UI 4.0',
@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider theme={lightTheme}>
           <CssBaseline>
             <AppRouterCacheProvider>
-              <AppBarWithNav />
+              <CombinedNavAndAppBar />
               {children}
             </AppRouterCacheProvider>
           </CssBaseline>

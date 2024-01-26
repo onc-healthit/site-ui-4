@@ -7,24 +7,17 @@ export default function Home() {
       <h1>Welcome to the ONC SITE The hub for testing tools & resources</h1>
       <h2>The hub for testing tools & resources</h2>
       <p>
-        The Standards Implementation & Testing Environment (SITE) is a
-        centralized collection of testing tools and resources designed to assist
-        health IT developers and health IT users fully evaluating specific
-        technical standards and maximizing the potential of their health IT
-        implementations. SITE is organized in a collection of sandboxes that
-        provide test tools, sample data, collaboration resources, and useful
-        links.
+        The Standards Implementation & Testing Environment (SITE) is a centralized collection of testing tools and
+        resources designed to assist health IT developers and health IT users fully evaluating specific technical
+        standards and maximizing the potential of their health IT implementations. SITE is organized in a collection of
+        sandboxes that provide test tools, sample data, collaboration resources, and useful links.
       </p>
 
       <h1>ONC Certification Tools</h1>
       <h5>All tools required for certification.</h5>
       <ul>
         <li>
-          <Link
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://inferno.healthit.gov/"
-          >
+          <Link target="_blank" rel="noopener noreferrer" href="https://inferno.healthit.gov/">
             Inferno FHIR Testing
           </Link>
         </li>
@@ -40,10 +33,7 @@ export default function Home() {
       </ul>
 
       <h1>General Testing Tools</h1>
-      <h5>
-        All tools not required for certification, but a benefit for your
-        software!
-      </h5>
+      <h5>All tools not required for certification, but a benefit for your software!</h5>
       <ul>
         <li>CPOE Evaluation Tool</li>
         <li>IHE Testing Tools</li>
