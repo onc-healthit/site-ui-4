@@ -41,7 +41,7 @@ export default function SiteNavGeneralTools() {
         />
         {openGeneralTestingList ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Divider />
+      <Divider sx={{ borderWidth: 1.4 }} />
       <Collapse in={openGeneralTestingList} timeout="auto" unmountOnExit>
         {[
           {

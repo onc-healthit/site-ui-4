@@ -43,7 +43,7 @@ export default function SiteNavOncCertTools() {
         />
         {openCertList ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Divider />
+      <Divider sx={{ borderWidth: 1.4 }} />
       <Collapse in={openCertList} timeout="auto" unmountOnExit>
         {[
           {

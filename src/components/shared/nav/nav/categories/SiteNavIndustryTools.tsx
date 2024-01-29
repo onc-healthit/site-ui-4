@@ -40,7 +40,7 @@ export default function SiteNavIndustryTools() {
         />
         {openIndustryTestingList ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Divider />
+      <Divider sx={{ borderWidth: 1.4 }} />
       <Collapse in={openIndustryTestingList} timeout="auto" unmountOnExit>
         {[
           {

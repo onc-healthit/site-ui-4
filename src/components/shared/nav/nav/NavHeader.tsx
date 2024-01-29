@@ -37,7 +37,7 @@ export default function NavHeader({ handleDrawerClose, theme }: SiteNavHeaderPro
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </DrawerHeader>
-      <Divider />
+      <Divider sx={{ borderWidth: 1.4 }} />
     </>
   )
 }

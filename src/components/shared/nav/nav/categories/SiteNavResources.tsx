@@ -35,7 +35,6 @@ export default function SiteNavResources() {
         <ListItemText primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }} primary="SITE Resources" />
         {openResourcesList ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Divider />
       <Collapse in={openResourcesList} timeout="auto" unmountOnExit>
         {[
           {
@@ -59,7 +58,7 @@ export default function SiteNavResources() {
           </List>
         ))}
       </Collapse>
-      <Divider />
+      <Divider sx={{ borderWidth: 1.4 }} />
     </>
   )
 }

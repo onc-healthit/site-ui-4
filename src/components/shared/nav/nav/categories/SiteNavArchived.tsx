@@ -19,7 +19,7 @@ export default function SiteNavArchived() {
           </ListItemIcon>
         </ListItemButton>
       </Link>
-      <Divider />
+      <Divider sx={{ borderWidth: 1.4 }} />
     </>
   )
 }
