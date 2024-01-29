@@ -9,8 +9,8 @@ export interface BannerProps {
 }
 const BannerBox = ({ title, href, heading, description }: BannerProps) => {
   return (
-    <Box sx={{ width: '100%', boxShadow: 'inset 0px 14px 16px 16px rgb(0 0 0 / 8%)', p: 4 }}>
-      <Container disableGutters>
+    <Box sx={{ width: '100%', boxShadow: 'inset 0px 14px 16px 16px rgb(0 0 0 / 8%)', pt: 4, pb: 4 }}>
+      <Container>
         <Breadcrumbs aria-label="breadcrumb">
           <Link underline="hover" color="inherit" href={href}>
             {title}
