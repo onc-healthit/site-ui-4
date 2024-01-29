@@ -1,6 +1,6 @@
 import Divider from '@mui/material/Divider'
 import MuiDrawer from '@mui/material/Drawer'
-import List from '@mui/material/List'
+import { List, Box } from '@mui/material/'
 import { CSSObject, Theme, styled, useTheme } from '@mui/material/styles'
 import React from 'react'
 
@@ -75,18 +75,17 @@ export default function SiteNav({ open, handleDrawerClose, auth, handleAuthChang
 
       {/* Expandable Nav List Categories:
         TODO: Consider matching FIGMA design exactly, or, allowing home to still be selected on drawer close */}
-      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} component="nav">
-        <SiteNavOncCertTools />
-        <SiteNavGeneralTools />
-        <SiteNavIndustryTools />
-        <SiteNavResources />
-        <SiteNavArchived />
-      </List>
-      <Divider />
-
-      <NavFooter />
-
-      <DevTools auth={auth} handleAuthChange={handleAuthChange} />
+      <Box display={'flex'} height={'100vh'} flexDirection={'column'} justifyContent={'space-between'}>
+        <List disablePadding sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} component="nav">
+          <SiteNavOncCertTools />
+          <SiteNavGeneralTools />
+          <SiteNavIndustryTools />
+          <SiteNavResources />
+          <SiteNavArchived />
+        </List>
+        <DevTools auth={auth} handleAuthChange={handleAuthChange} />
+        <NavFooter />
+      </Box>
     </Drawer>
   )
 }
