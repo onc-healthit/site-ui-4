@@ -15,7 +15,7 @@ const TabsComponent = (props: TabsProps) => {
 
   return (
     <Box sx={{ width: '100%', backgroundColor: palette.primary }}>
-      <Container disableGutters maxWidth="xl">
+      <Container>
         <Tabs
           variant="fullWidth"
           scrollButtons="auto"
