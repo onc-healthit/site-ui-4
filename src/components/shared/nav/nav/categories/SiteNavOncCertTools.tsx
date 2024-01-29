@@ -35,9 +35,12 @@ export default function SiteNavOncCertTools() {
     <>
       <ListItemButton onClick={handleClickCertList}>
         <ListItemIcon>
-          <CheckCircleOutline color="primary" />
+          <CheckCircleOutline sx={{ strokeWidth: 0.5, stroke: `${palette.primary}` }} color="primary" />
         </ListItemIcon>
-        <ListItemText primaryTypographyProps={{ color: palette.primary }} primary="ONC Certification Tools" />
+        <ListItemText
+          primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }}
+          primary="ONC Certification Tools"
+        />
         {openCertList ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Divider />

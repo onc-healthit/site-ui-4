@@ -33,9 +33,12 @@ export default function SiteNavGeneralTools() {
       <ListItemButton onClick={handleClickGeneralTestingList}>
         <ListItemIcon>
           {/* <SpaceDashboardOutlined /> */}
-          <HandymanOutlined color="primary" />
+          <HandymanOutlined sx={{ strokeWidth: 0.5, stroke: `${palette.primary}` }} color="primary" />
         </ListItemIcon>
-        <ListItemText primaryTypographyProps={{ color: palette.primary }} primary="General Testing Tools" />
+        <ListItemText
+          primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }}
+          primary="General Testing Tools"
+        />
         {openGeneralTestingList ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Divider />

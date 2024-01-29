@@ -32,9 +32,12 @@ export default function SiteNavIndustryTools() {
     <>
       <ListItemButton onClick={handleClickIndustryTestingList}>
         <ListItemIcon>
-          <CloudOutlined color="primary" />
+          <CloudOutlined sx={{ strokeWidth: 0.5, stroke: `${palette.primary}` }} color="primary" />
         </ListItemIcon>
-        <ListItemText primaryTypographyProps={{ color: palette.primary }} primary="Industry Testing Resources" />
+        <ListItemText
+          primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }}
+          primary="Industry Testing Resources"
+        />
         {openIndustryTestingList ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Divider />

@@ -10,9 +10,9 @@ export default function SiteNavArchived() {
       <Link href="/archived" passHref>
         <ListItemButton>
           <ListItemIcon>
-            <ArchiveOutlined color="primary" />
+            <ArchiveOutlined sx={{ strokeWidth: 0.5, stroke: `${palette.primary}` }} color="primary" />
             <ListItemText
-              primaryTypographyProps={{ color: palette.primary }}
+              primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }}
               primary="Archived"
               sx={{ pl: 4, color: 'inherit' }}
             />

@@ -30,9 +30,9 @@ export default function SiteNavResources() {
     <>
       <ListItemButton onClick={handleClickResourcesList}>
         <ListItemIcon>
-          <ContentCopy color="primary" />
+          <ContentCopy sx={{ strokeWidth: 0.5, stroke: `${palette.primary}` }} color="primary" />
         </ListItemIcon>
-        <ListItemText primaryTypographyProps={{ color: palette.primary }} primary="SITE Resources" />
+        <ListItemText primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }} primary="SITE Resources" />
         {openResourcesList ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Divider />
