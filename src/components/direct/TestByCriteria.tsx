@@ -43,7 +43,7 @@ const TestByCriteria = ({ selectedTab }: criteriaProps) => {
   function CustomTabPanel(props: TabPanelProps) {
     const { children, value, index } = props
 
-    return <div>{value === index && <Box sx={{ p: 10, width: '100%' }}>{children}</Box>}</div>
+    return <div>{value === index && <>{children}</>}</div>
   }
 
   return (
@@ -63,7 +63,7 @@ const TestByCriteria = ({ selectedTab }: criteriaProps) => {
       />
 
       <Box sx={{ width: '100%', backgroundColor: palette.primary }}>
-        <Container disableGutters maxWidth="xl">
+        <Container>
           <Tabs
             variant="fullWidth"
             scrollButtons="auto"

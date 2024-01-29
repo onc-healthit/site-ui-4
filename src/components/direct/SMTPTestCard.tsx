@@ -11,33 +11,39 @@ const TestCard = ({ cardHeader, cardContent }: TestCardProps) => {
       <CardHeader title={cardHeader}></CardHeader>
       <Divider />
       <CardContent>
-        <Typography variant="body1">{cardContent}</Typography>
+        <Typography variant="body2">{cardContent}</Typography>
       </CardContent>
       <Divider />
-      <CardActions>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-          <Stack direction="column">
-            <Typography>
-              CCDA Document Type <InfoIcon fontSize="small" />
-            </Typography>
-
-            <Button variant="outlined" color="primary">
-              SELECT A DOCUMENT
-            </Button>
-          </Stack>
-          <Stack direction="row" spacing={2}>
-            <Button variant="outlined" color="primary" disabled>
-              RUN
-            </Button>
-            <Button variant="outlined" color="primary">
-              MORE INFO
-            </Button>
-            <Button variant="outlined" color="primary">
-              LOGS
-            </Button>
-          </Stack>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'end',
+          width: '100%',
+          p: 2,
+        }}
+      >
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+          <Typography>
+            CCDA Document Type <InfoIcon color="primary" fontSize="small" />
+          </Typography>
+          <Button variant="outlined" color="primary">
+            SELECT A DOCUMENT
+          </Button>
         </Box>
-      </CardActions>
+        <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+          <Button variant="contained" color="primary" disabled>
+            RUN
+          </Button>
+          <Button variant="contained" color="inherit">
+            MORE INFO
+          </Button>
+          <Button variant="contained" color="inherit">
+            LOGS
+          </Button>
+        </Box>
+      </Box>
     </Card>
   )
 }
