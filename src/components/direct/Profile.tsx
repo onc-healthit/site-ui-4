@@ -1,14 +1,15 @@
-import { Box, TextField, Button, MenuItem } from '@mui/material'
+import palette from '@/styles/palette'
+import { Box, TextField, Button, MenuItem, Stack } from '@mui/material'
 
 const Profile = () => {
   return (
-    <Box component="form">
+    <Box component="form" sx={{ backgroundColor: palette.white, p: 2 }}>
       <TextField fullWidth id="select-profile" select label="Select A Profile" variant="standard">
         <MenuItem value="">
           <em>None</em>
         </MenuItem>
       </TextField>
-      <Box>
+      <Box sx={{ paddingBottom: 2 }}>
         <TextField
           id="outlined-vendor-hostname"
           label="Vendor Hostname/IP"
@@ -38,21 +39,20 @@ const Profile = () => {
           defaultValue="test"
         />
       </Box>
-      <Box>
-        <Box sx={{ display: 'flex' }}>
-          <Button variant="outlined" color="primary">
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Stack direction="row" spacing={2}>
+          <Button variant="outlined" sx={{ color: palette.primary }}>
             Make a Profile
           </Button>
 
-          <Button variant="outlined" color="primary">
+          <Button variant="outlined" sx={{ color: palette.primary }}>
             Save
           </Button>
-        </Box>
-        <Box>
-          <Button variant="outlined" color="error">
-            Remove
-          </Button>
-        </Box>
+        </Stack>
+
+        <Button variant="outlined" sx={{ color: '#FF5252' }}>
+          Remove
+        </Button>
       </Box>
     </Box>
   )

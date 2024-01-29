@@ -10,18 +10,26 @@ import H1Component from './H1Component'
 import H2Component from './H2Component'
 import palette from '@/styles/palette'
 import TabsComponent from './TabsComponent'
+import { useEffect } from 'react'
 export interface criteriaProps {
-  criteria: string
+  selectedTab: string
 }
 
-const TestByCriteria = ({ criteria }: criteriaProps) => {
+const TestByCriteria = ({ selectedTab }: criteriaProps) => {
+  const [value, setValue] = React.useState(0)
   const criteriaTabs = [
     { criteria: 'B1', index: 0 },
     { criteria: 'H1', index: 1 },
     { criteria: 'H2', index: 2 },
   ]
 
-  const [value, setValue] = React.useState(0)
+  useEffect(() => {
+    if (selectedTab !== '') {
+      const criteriaTabIndex = criteriaTabs.filter((c) => c.criteria === selectedTab)
+      setValue(criteriaTabIndex[0].index)
+    }
+  }, [selectedTab])
+
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
@@ -35,15 +43,7 @@ const TestByCriteria = ({ criteria }: criteriaProps) => {
   function CustomTabPanel(props: TabPanelProps) {
     const { children, value, index } = props
 
-    return (
-      <div>
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            <Container>{children}</Container>
-          </Box>
-        )}
-      </div>
-    )
+    return <div>{value === index && <Box sx={{ p: 10, width: '100%' }}>{children}</Box>}</div>
   }
 
   return (

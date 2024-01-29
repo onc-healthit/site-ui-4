@@ -1,6 +1,7 @@
 import { BoxProps, Box, Typography, TextField, MenuItem } from '@mui/material'
 import Profile from './Profile'
 import SMTPTestCard from './SMTPTestCard'
+import palette from '@/styles/palette'
 
 const H2Component = () => {
   function Item(props: BoxProps) {
@@ -35,34 +36,30 @@ const H2Component = () => {
   return (
     <div>
       <Box sx={{ display: 'flex', gap: 4 }}>
-        <Item sx={{ width: '30%' }}>
-          <Item component="form">
+        <Item sx={{ width: '40%' }}>
+          <Item component="form" sx={{ backgroundColor: palette.white, p: 2 }}>
             <Typography variant="body2">Use the menu to select what sub criteria you want to test for.</Typography>
 
-            <div>
-              <TextField id="outlined-select-criteria" select label="Choose a sub category" defaultValue="A" fullWidth>
-                {dropdown.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </div>
+            <TextField id="outlined-select-criteria" select label="Choose a sub category" defaultValue="A" fullWidth>
+              {dropdown.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
           </Item>
-          <Item component="form">
+          <Item component="form" sx={{ backgroundColor: palette.white, p: 2 }}>
             <Typography variant="body2">Use the menu to select what sub criteria you want to test for.</Typography>
 
-            <div>
-              <TextField id="outlined-select-criteria" select label="Choose a sub category" defaultValue="A" fullWidth>
-                {dropdown.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </div>
+            <TextField id="outlined-select-criteria" select label="Choose a sub category" defaultValue="A" fullWidth>
+              {dropdown.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
           </Item>
-          <Item>
+          <Item sx={{ paddingTop: 4 }}>
             <Profile />
           </Item>
         </Item>
