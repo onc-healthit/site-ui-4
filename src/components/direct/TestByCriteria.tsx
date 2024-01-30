@@ -48,7 +48,7 @@ const TestByCriteria = ({ selectedTab }: criteriaProps) => {
   }
 
   return (
-    <Box>
+    <Box width="100%" pt={8}>
       {/* Global Header */}
       <BannerBox
         breadcrumbs={[
