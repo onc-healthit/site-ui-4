@@ -1,16 +1,17 @@
 'use client'
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import BannerBox from './BannerBox'
+import BannerBox from './shared/BannerBox'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import { Container, Link, Typography } from '@mui/material'
-import B1Component from './B1Component'
-import H1Component from './H1Component'
-import H2Component from './H2Component'
+import { Container } from '@mui/material'
+import B1Component from './B1Tab'
+import H1Component from './H1Tab'
+import H2Component from './H2Tab'
 import palette from '@/styles/palette'
-import TabsComponent from './TabsComponent'
 import { useEffect } from 'react'
+import Link from 'next/link'
+import styles from './styles.module.css'
 export interface criteriaProps {
   selectedTab: string
 }
@@ -18,15 +19,15 @@ export interface criteriaProps {
 const TestByCriteria = ({ selectedTab }: criteriaProps) => {
   const [value, setValue] = React.useState(0)
   const criteriaTabs = [
-    { criteria: 'B1', index: 0 },
-    { criteria: 'H1', index: 1 },
-    { criteria: 'H2', index: 2 },
+    { criteria: 'B1', tabIndex: 0 },
+    { criteria: 'H1', tabIndex: 1 },
+    { criteria: 'H2', tabIndex: 2 },
   ]
 
   useEffect(() => {
     if (selectedTab !== '') {
       const criteriaTabIndex = criteriaTabs.filter((c) => c.criteria === selectedTab)
-      setValue(criteriaTabIndex[0].index)
+      setValue(criteriaTabIndex[0].tabIndex)
     }
   }, [selectedTab])
 
@@ -51,10 +52,10 @@ const TestByCriteria = ({ selectedTab }: criteriaProps) => {
       {/* Global Header */}
       <BannerBox
         breadcrumbs={[
-          <Link underline="hover" color="inherit" href="/direct" key="1">
+          <Link color="inherit" href="/direct" key="1" className={styles.link}>
             Direct
           </Link>,
-          <Link underline="hover" color="inherit" href="/direct/testbycriteria" key="2">
+          <Link color="inherit" href="/direct/testbycriteria" key="2" className={styles.link}>
             Test By Criteria
           </Link>,
         ]}
@@ -71,13 +72,12 @@ const TestByCriteria = ({ selectedTab }: criteriaProps) => {
             onChange={handleTabChange}
             indicatorColor="secondary"
           >
-            {criteriaTabs.map((tab, index) => (
-              <Tab label={tab.criteria} key={index} />
+            {criteriaTabs.map((tab) => (
+              <Tab label={tab.criteria} key={tab.tabIndex} />
             ))}
           </Tabs>
         </Container>
       </Box>
-      {/* <TabsComponent value={tabIndex} tabs={createTabs} /> */}
       <CustomTabPanel value={value} index={0}>
         <B1Component />
       </CustomTabPanel>

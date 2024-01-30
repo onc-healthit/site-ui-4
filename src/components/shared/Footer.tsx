@@ -1,5 +1,5 @@
-'use client'
-import { Box, Container, Typography, Link } from '@mui/material'
+import { Box, Container, Typography } from '@mui/material'
+import Link from 'next/link'
 
 export default function Footer() {
   return (

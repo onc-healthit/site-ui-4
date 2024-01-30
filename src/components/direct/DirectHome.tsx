@@ -1,19 +1,20 @@
 import Box from '@mui/material/Box'
-import BannerBox from './BannerBox'
-import Link from '@mui/material/Link'
-import CriteriaCard from './CriteriaCard'
+import BannerBox from './shared/BannerBox'
+import CriteriaCard from './shared/CriteriaCard'
 import b1 from '@public/direct/b1.svg'
 import h1 from '@public/direct/h1.svg'
 import h2 from '@public/direct/h2.svg'
 import { Container, Divider, Typography } from '@mui/material'
-import CategoryCard from './CategoryCard'
-import CertificateCard from './CertificateCard'
+import CategoryCard from './shared/CategoryCard'
+import CertificateCard from './shared/CertificateCard'
 import publicCert from '@public/direct/publicCert.svg'
 import trustAnchor from '@public/direct/trustAnchor.svg'
 import invalidTrustAnchor from '@public/direct/invalidTrustAnchor.svg'
 import rootCA from '@public/direct/rootCA.svg'
 import Ankle from '../shared/Ankle'
 import Footer from '../shared/Footer'
+import Link from 'next/link'
+import styles from './styles.module.css'
 
 const DirectHome = () => {
   return (
@@ -21,7 +22,7 @@ const DirectHome = () => {
       {/* Global Header */}
       <BannerBox
         breadcrumbs={
-          <Link underline="hover" color="inherit" href="/direct">
+          <Link color="inherit" href="/direct" className={styles.link}>
             Direct
           </Link>
         }
@@ -31,7 +32,7 @@ const DirectHome = () => {
             This area provides capabilities to validate your Direct implementation to applicable
             standards-specifications. To verify basic Direct send capabilities of your system send a message to:
             <span>
-              <Link underline="hover" color="#42A5F5" href="mailto:testing@ett.healthit.gov">
+              <Link color="#42A5F5" href="mailto:testing@ett.healthit.gov">
                 testing@ett.healthit.gov
               </Link>
             </span>
