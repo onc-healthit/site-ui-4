@@ -6,7 +6,7 @@ export interface BannerProps {
 }
 const BannerBox = ({ breadcrumbs, heading, description }: BannerProps) => {
   return (
-    <Box sx={{ width: '100%', boxShadow: 'inset 0px 14px 16px 16px rgb(0 0 0 / 8%)', p: 4 }}>
+    <Box sx={{ width: '100%', boxShadow: 'inset 0px 14px 16px 16px rgb(0 0 0 / 8%)', pt: 4, pb: 4 }}>
       <Container>
         <Breadcrumbs aria-label="breadcrumb">{breadcrumbs}</Breadcrumbs>
         <Typography variant="h3" component={'h1'}>

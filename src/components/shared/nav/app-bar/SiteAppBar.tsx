@@ -37,7 +37,7 @@ interface SiteAppBarProps {
 }
 export default function SiteAppBar({ open, handleDrawerOpen, auth }: SiteAppBarProps) {
   return (
-    <StyledAppBar position="sticky" open={open}>
+    <StyledAppBar sx={{ top: 0, height: 'fit-content' }} open={open}>
       <Toolbar
         sx={{
           display: 'flex',

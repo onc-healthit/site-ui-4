@@ -1,6 +1,6 @@
 import Divider from '@mui/material/Divider'
 import MuiDrawer from '@mui/material/Drawer'
-import List from '@mui/material/List'
+import { List, Box } from '@mui/material/'
 import { CSSObject, Theme, styled, useTheme } from '@mui/material/styles'
 import React from 'react'
 
@@ -32,22 +32,28 @@ const closedMixin = (theme: Theme): CSSObject => ({
   overflowX: 'hidden',
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
+    width: `calc(${theme.spacing(8)} + 4px)`,
   },
 })
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
+  a: {
+    textDecoration: 'none',
+    color: 'inherit',
+  },
   width: DRAWER_WIDTH,
   flexShrink: 0,
   whiteSpace: 'nowrap',
   boxSizing: 'border-box',
   ...(open && {
+    textWrap: 'wrap',
     ...openedMixin(theme),
     '& .MuiDrawer-paper': openedMixin(theme),
   }),
   ...(!open && {
+    textWrap: 'nowrap',
     ...closedMixin(theme),
     '& .MuiDrawer-paper': closedMixin(theme),
   }),
@@ -69,18 +75,17 @@ export default function SiteNav({ open, handleDrawerClose, auth, handleAuthChang
 
       {/* Expandable Nav List Categories:
         TODO: Consider matching FIGMA design exactly, or, allowing home to still be selected on drawer close */}
-      <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} component="nav">
-        <SiteNavOncCertTools />
-        <SiteNavGeneralTools />
-        <SiteNavIndustryTools />
-        <SiteNavResources />
-        <SiteNavArchived />
-      </List>
-      <Divider />
-
-      <NavFooter />
-
-      <DevTools auth={auth} handleAuthChange={handleAuthChange} />
+      <Box display={'flex'} height={'100vh'} flexDirection={'column'} justifyContent={'space-between'}>
+        <List disablePadding sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} component="nav">
+          <SiteNavOncCertTools />
+          <SiteNavGeneralTools />
+          <SiteNavIndustryTools />
+          <SiteNavResources />
+          <SiteNavArchived />
+        </List>
+        <DevTools auth={auth} handleAuthChange={handleAuthChange} />
+        <NavFooter />
+      </Box>
     </Drawer>
   )
 }

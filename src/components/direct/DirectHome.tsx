@@ -18,7 +18,7 @@ import styles from './styles.module.css'
 
 const DirectHome = () => {
   return (
-    <Box>
+    <Box width="100%" pt={8}>
       {/* Global Header */}
       <BannerBox
         breadcrumbs={
@@ -40,7 +40,7 @@ const DirectHome = () => {
         }
       />
       {/* Main Content */}
-      <Container disableGutters>
+      <Container>
         <Box paddingTop={4} paddingBottom={4}>
           <Typography variant="h4" component={'h2'}>
             <strong>Test By Criteria</strong>

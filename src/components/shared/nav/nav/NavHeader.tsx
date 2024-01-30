@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton'
 import { Theme, styled } from '@mui/material/styles'
 import Image from 'next/image'
 import Link from 'next/link'
+import { NAV_THICKER_DIVIDER } from '@/constants/navConstants'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -22,11 +23,11 @@ interface SiteNavHeaderProps {
 export default function NavHeader({ handleDrawerClose, theme }: SiteNavHeaderProps) {
   return (
     <>
-      <DrawerHeader>
+      <DrawerHeader sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         <Link href={'/'} passHref>
           <Image
             src="/shared/site-nav-logo.svg"
-            width={242}
+            width={250}
             height={42}
             alt="SITE logo with text: The hub for testing tools & resources"
             priority
@@ -37,7 +38,7 @@ export default function NavHeader({ handleDrawerClose, theme }: SiteNavHeaderPro
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </DrawerHeader>
-      <Divider />
+      <Divider sx={{ borderWidth: NAV_THICKER_DIVIDER }} />
     </>
   )
 }

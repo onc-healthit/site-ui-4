@@ -4,7 +4,7 @@ import Link from 'next/link'
 export default function Ankle() {
   return (
     <Box bgcolor="#122953" pt={4} pb={4}>
-      <Container disableGutters>
+      <Container>
         <Typography variant="h5" color="#fff" component={'h2'}>
           <strong>Cant find what your looking for?</strong>
         </Typography>
