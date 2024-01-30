@@ -16,7 +16,8 @@ import {
 } from '@mui/icons-material'
 
 /* Custom Imports */
-import { NAV_PADDING_LEFT } from '@/constants/navConstants'
+import { NAV_PADDING_LEFT, NAV_THICKER_DIVIDER } from '@/constants/navConstants'
+import palette from '@/styles/palette'
 
 export default function SiteNavResources() {
   const [openResourcesList, setOpenResourcesList] = useState(false)
@@ -29,36 +30,35 @@ export default function SiteNavResources() {
     <>
       <ListItemButton onClick={handleClickResourcesList}>
         <ListItemIcon>
-          <ContentCopy />
+          <ContentCopy sx={{ strokeWidth: 0.5, stroke: `${palette.primary}` }} color="primary" />
         </ListItemIcon>
-        <ListItemText primary="SITE Resources" />
+        <ListItemText primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }} primary="SITE Resources" />
         {openResourcesList ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Divider />
       <Collapse in={openResourcesList} timeout="auto" unmountOnExit>
         {[
           {
             text: 'FAQs',
             href: '/faqs',
-            icon: <QuestionAnswerOutlined />,
+            icon: <QuestionAnswerOutlined color="primary" />,
           },
           {
             text: 'Documentation & Videos',
             href: '/docs-and-vids',
-            icon: <IntegrationInstructionsOutlined />,
+            icon: <IntegrationInstructionsOutlined color="primary" />,
           },
         ].map((item) => (
           <List key={item.text} component="div" disablePadding>
             <Link href={item.href}>
               <ListItemButton sx={{ pl: NAV_PADDING_LEFT }}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
+                <ListItemText primaryTypographyProps={{ color: palette.primary }} primary={item.text} />
               </ListItemButton>
             </Link>
           </List>
         ))}
       </Collapse>
-      <Divider />
+      <Divider sx={{ borderWidth: NAV_THICKER_DIVIDER }} />
     </>
   )
 }

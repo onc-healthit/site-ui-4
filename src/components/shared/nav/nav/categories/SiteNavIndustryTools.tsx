@@ -18,7 +18,8 @@ import {
 } from '@mui/icons-material'
 
 /* Custom Imports */
-import { GENERIC_LINK_TO_REPLACE, NAV_PADDING_LEFT } from '@/constants/navConstants'
+import { GENERIC_LINK_TO_REPLACE, NAV_PADDING_LEFT, NAV_THICKER_DIVIDER } from '@/constants/navConstants'
+import palette from '@/styles/palette'
 
 export default function SiteNavIndustryTools() {
   const [openIndustryTestingList, setOpenIndustryTestingList] = useState(false)
@@ -31,40 +32,43 @@ export default function SiteNavIndustryTools() {
     <>
       <ListItemButton onClick={handleClickIndustryTestingList}>
         <ListItemIcon>
-          <CloudOutlined />
+          <CloudOutlined sx={{ strokeWidth: 0.5, stroke: `${palette.primary}` }} color="primary" />
         </ListItemIcon>
-        <ListItemText primary="Industry Testing Resources" />
+        <ListItemText
+          primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }}
+          primary="Industry Testing Resources"
+        />
         {openIndustryTestingList ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Divider />
+      <Divider sx={{ borderWidth: NAV_THICKER_DIVIDER }} />
       <Collapse in={openIndustryTestingList} timeout="auto" unmountOnExit>
         {[
           {
             text: 'HL7 Tools',
             href: GENERIC_LINK_TO_REPLACE,
-            icon: <MonitorHeartOutlined />,
+            icon: <MonitorHeartOutlined color="primary" />,
           },
           {
             text: 'Reference Data',
             href: GENERIC_LINK_TO_REPLACE,
-            icon: <FolderSpecialOutlined />,
+            icon: <FolderSpecialOutlined color="primary" />,
           },
           {
             text: 'Implementation Guide Authoring Tools',
             href: GENERIC_LINK_TO_REPLACE,
-            icon: <MenuBookOutlined />,
+            icon: <MenuBookOutlined color="primary" />,
           },
           {
             text: 'MITRE Github',
             href: 'https://github.com/orgs/mitre',
-            icon: <Biotech />,
+            icon: <Biotech color="primary" />,
           },
         ].map((item) => (
           <List key={item.text} component="div" disablePadding>
             <Link href={item.href} target="_blank" rel="noopener noreferrer">
               <ListItemButton sx={{ pl: NAV_PADDING_LEFT }}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} />
+                <ListItemText primaryTypographyProps={{ color: palette.primary }} primary={item.text} />
               </ListItemButton>
             </Link>
           </List>

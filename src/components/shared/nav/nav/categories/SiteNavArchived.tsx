@@ -1,22 +1,26 @@
-import ListItem from '@mui/material/ListItem'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
+import { Divider, ListItemButton, ListItemIcon, ListItemText } from '@mui/material/'
 import Link from 'next/link'
 
 import { ArchiveOutlined } from '@mui/icons-material'
-
-/* Custom Imports */
-import { NAV_PADDING_LEFT } from '@/constants/navConstants'
+import palette from '@/styles/palette'
+import { NAV_THICKER_DIVIDER } from '@/constants/navConstants'
 
 export default function SiteNavArchived() {
   return (
-    <Link href="/archived" passHref>
-      <ListItem>
-        <ListItemIcon>
-          <ArchiveOutlined />
-          <ListItemText primary="Archived" sx={{ pl: NAV_PADDING_LEFT }} />
-        </ListItemIcon>
-      </ListItem>
-    </Link>
+    <>
+      <Link href="/archived" passHref>
+        <ListItemButton>
+          <ListItemIcon>
+            <ArchiveOutlined sx={{ strokeWidth: 0.5, stroke: `${palette.primary}` }} color="primary" />
+            <ListItemText
+              primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }}
+              primary="Archived"
+              sx={{ pl: 4, color: 'inherit' }}
+            />
+          </ListItemIcon>
+        </ListItemButton>
+      </Link>
+      <Divider sx={{ borderWidth: NAV_THICKER_DIVIDER }} />
+    </>
   )
 }

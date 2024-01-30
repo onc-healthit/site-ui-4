@@ -1,6 +1,6 @@
 import CombinedNavAndAppBar from '@/components/shared/nav/CombinedNavAndAppBar'
 import { lightTheme } from '@/styles/lightTheme'
-import { CssBaseline, ThemeProvider } from '@mui/material'
+import { CssBaseline, ThemeProvider, Box } from '@mui/material'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
 import type { Metadata } from 'next'
 import React from 'react'
@@ -20,8 +20,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider theme={lightTheme}>
           <CssBaseline>
             <AppRouterCacheProvider>
-              <CombinedNavAndAppBar />
-              {children}
+              <Box display={'flex'}>
+                <CombinedNavAndAppBar />
+                {children}
+              </Box>
             </AppRouterCacheProvider>
           </CssBaseline>
         </ThemeProvider>
