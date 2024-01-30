@@ -21,7 +21,7 @@ import {
 } from '@mui/icons-material'
 
 /* Custom Imports */
-import { GENERIC_LINK_TO_REPLACE, NAV_PADDING_LEFT } from '@/constants/navConstants'
+import { GENERIC_LINK_TO_REPLACE, NAV_PADDING_LEFT, NAV_THICKER_DIVIDER } from '@/constants/navConstants'
 import palette from '@/styles/palette'
 
 export default function SiteNavOncCertTools() {
@@ -43,7 +43,7 @@ export default function SiteNavOncCertTools() {
         />
         {openCertList ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Divider sx={{ borderWidth: 1.4 }} />
+      <Divider sx={{ borderWidth: NAV_THICKER_DIVIDER }} />
       <Collapse in={openCertList} timeout="auto" unmountOnExit>
         {[
           {

@@ -10,19 +10,13 @@ export default function DevTools({ auth, handleAuthChange }: DevToolsInterface) 
       <Typography variant="h6" noWrap component="h6">
         Debug Dev Controls
       </Typography>
-      <ol>
-        <li>Toggle Auth State</li>
-        <li>
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Switch color="secondary" checked={auth} onChange={handleAuthChange} aria-label="login switch" />
-              }
-              label={auth ? 'Logout' : 'Login'}
-            />
-          </FormGroup>
-        </li>
-      </ol>
+      <Typography variant="body1">Toggle Auth State</Typography>
+      <FormGroup>
+        <FormControlLabel
+          control={<Switch color="secondary" checked={auth} onChange={handleAuthChange} aria-label="login switch" />}
+          label={auth ? 'Logout' : 'Login'}
+        />
+      </FormGroup>
     </Box>
   )
 }

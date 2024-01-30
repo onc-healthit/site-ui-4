@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 import { ArchiveOutlined } from '@mui/icons-material'
 import palette from '@/styles/palette'
+import { NAV_THICKER_DIVIDER } from '@/constants/navConstants'
 
 export default function SiteNavArchived() {
   return (
@@ -19,7 +20,7 @@ export default function SiteNavArchived() {
           </ListItemIcon>
         </ListItemButton>
       </Link>
-      <Divider sx={{ borderWidth: 1.4 }} />
+      <Divider sx={{ borderWidth: NAV_THICKER_DIVIDER }} />
     </>
   )
 }

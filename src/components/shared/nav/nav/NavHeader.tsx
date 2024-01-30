@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton'
 import { Theme, styled } from '@mui/material/styles'
 import Image from 'next/image'
 import Link from 'next/link'
+import { NAV_THICKER_DIVIDER } from '@/constants/navConstants'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -37,7 +38,7 @@ export default function NavHeader({ handleDrawerClose, theme }: SiteNavHeaderPro
           {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
         </IconButton>
       </DrawerHeader>
-      <Divider sx={{ borderWidth: 1.4 }} />
+      <Divider sx={{ borderWidth: NAV_THICKER_DIVIDER }} />
     </>
   )
 }

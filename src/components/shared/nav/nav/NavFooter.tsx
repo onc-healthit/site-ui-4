@@ -41,15 +41,16 @@ export default function NavFooter() {
             provide valuable insights into the evolution of our platform.
           </Typography>
           <Typography variant="body2">
-            <strong>Version v4.0 - March 1, 2024</strong>
+            <strong>Version v{SITE_VERSION} - March 1, 2024</strong>
           </Typography>
           <ol>
-            1. Reference C-CDA: Removed SHALL constraint for Nonexistent id Requirement in Section Time Range
-            Observation{' '}
+            <li>
+              Reference C-CDA: Removed SHALL constraint for Nonexistent id Requirement in Section Time Range Observation
+            </li>
+            <li>Reference C-CDA: Fixed incorrect error for Informant RelatedEntity </li>
+            <li>SITE Content: Updated SITE/test-tools section to remove non functional links </li>
+            <li>C-CDA: Update scenario files language in word document to match pdf scenarios</li>
           </ol>
-          <ol>2. Reference C-CDA: Fixed incorrect error for Informant RelatedEntity </ol>
-          <ol>3. SITE Content: Updated SITE/test-tools section to remove non functional links </ol>
-          <ol>4. C-CDA: Update scenario files language in word document to match pdf scenarios</ol>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="secondary">
