@@ -2,22 +2,22 @@ import Box from '@mui/material/Box'
 import BannerBox from './BannerBox'
 import Link from '@mui/material/Link'
 import CriteriaCard from './CriteriaCard'
-import b1 from '@/../public/b1.svg'
-import h1 from '@/../public/h1.svg'
-import h2 from '@/../public/h2.svg'
+import b1 from '@public/direct/b1.svg'
+import h1 from '@public/direct/h1.svg'
+import h2 from '@public/direct/h2.svg'
 import { Container, Divider, Typography } from '@mui/material'
 import CategoryCard from './CategoryCard'
 import CertificateCard from './CertificateCard'
-import publicCert from '@/../public/publicCert.svg'
-import trustAnchor from '@/../public/trustAnchor.svg'
-import invalidTrustAnchor from '@/../public/invalidTrustAnchor.svg'
-import rootCA from '@/../public/rootCA.svg'
+import publicCert from '@public/direct/publicCert.svg'
+import trustAnchor from '@public/direct/trustAnchor.svg'
+import invalidTrustAnchor from '@public/direct/invalidTrustAnchor.svg'
+import rootCA from '@public/direct/rootCA.svg'
 import Ankle from '../shared/Ankle'
 import Footer from '../shared/Footer'
 
 const DirectHome = () => {
   return (
-    <Box>
+    <Box width="100%" pt={8}>
       {/* Global Header */}
       <BannerBox
         title={'Direct'}
@@ -36,7 +36,7 @@ const DirectHome = () => {
         }
       />
       {/* Main Content */}
-      <Container disableGutters>
+      <Container>
         <Box paddingTop={4} paddingBottom={4}>
           <Typography variant="h4" component={'h2'}>
             <strong>Test By Criteria</strong>

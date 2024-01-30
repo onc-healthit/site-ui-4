@@ -3,12 +3,12 @@ import { Inter } from 'next/font/google'
 import palette from './palette'
 
 const InterSite = Inter({
-  weight: ["100","200","300", "400","500","600","700","800","900"],
-  style: ["normal"],
-  subsets: ["latin"],
-});
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal'],
+  subsets: ['latin'],
+})
 
-const lightThemeOptions: ThemeOptions = {
+export const lightThemeOptions: ThemeOptions = {
   palette: {
     mode: 'light',
     background: {
@@ -54,10 +54,7 @@ const lightThemeOptions: ThemeOptions = {
     },
   },
   typography: {
-    fontFamily: [
-      InterSite.style.fontFamily,
-      'san-serif',
-   ].join(','),
+    fontFamily: [InterSite.style.fontFamily, 'san-serif'].join(','),
     h1: {
       fontSize: '2em',
     },
@@ -78,7 +75,7 @@ const lightThemeOptions: ThemeOptions = {
     },
     body1: {
       fontSize: '1em',
-      lineHeight: '1.4em'
+      lineHeight: '1.4em',
     },
     body2: {
       fontSize: '0.875em',
@@ -94,6 +91,55 @@ const lightThemeOptions: ThemeOptions = {
       fontSize: '0.875em',
     },
   },
+  components: {
+    MuiDrawer: {
+      styleOverrides: {
+        docked: {
+          flex: 1,
+        },
+      },
+    },
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          scrollbarColor: palette.greyDark,
+          '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
+            backgroundColor: palette.greyLight,
+          },
+          '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
+            borderRadius: 8,
+            backgroundColor: palette.greyMain,
+            border: `4px solid ${palette.greyLight}`,
+          },
+          '&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus': {
+            backgroundColor: palette.greyMain,
+          },
+          '&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active': {
+            backgroundColor: palette.greyMain,
+          },
+          '&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: palette.greyMain,
+          },
+          '&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner': {
+            backgroundColor: palette.greyMain,
+          },
+        },
+      },
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          '&:hover': {
+            backgroundColor: palette.greyLight,
+          },
+          '&:focus': {
+            backgroundColor: palette.secondaryLight,
+          },
+          '&.Mui-selected': {
+            backgroundColor: 'rgba(0, 0, 0, 0.12)', // Example selected background color
+          },
+        },
+      },
+    },
+  },
 }
-
-export default lightThemeOptions

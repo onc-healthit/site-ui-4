@@ -4,7 +4,7 @@ import { Box, Container, Typography, Link } from '@mui/material'
 export default function Footer() {
   return (
     <Box width="100%" sx={{ backgroundColor: '#000000', padding: 1 }} component={'footer'}>
-      <Container disableGutters>
+      <Container>
         <Box pt={1} display="flex" flexDirection="row" justifyContent="space-between">
           <Box display="flex" flexDirection="row" gap={2}>
             <Link color="secondary" href={''}>
