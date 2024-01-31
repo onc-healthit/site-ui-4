@@ -1,19 +1,18 @@
-import Divider from '@mui/material/Divider'
+import { Box, List } from '@mui/material/'
 import MuiDrawer from '@mui/material/Drawer'
-import { List, Box } from '@mui/material/'
 import { CSSObject, Theme, styled, useTheme } from '@mui/material/styles'
 import React from 'react'
 
 /* Custom Imports */
+import DevTools from '@/components/shared/nav/nav/DevTools'
+import NavFooter from '@/components/shared/nav/nav/NavFooter'
+import NavHeader from '@/components/shared/nav/nav/NavHeader'
 import SiteNavArchived from '@/components/shared/nav/nav/categories/SiteNavArchived'
 import SiteNavGeneralTools from '@/components/shared/nav/nav/categories/SiteNavGeneralTools'
 import SiteNavIndustryTools from '@/components/shared/nav/nav/categories/SiteNavIndustryTools'
 import SiteNavOncCertTools from '@/components/shared/nav/nav/categories/SiteNavOncCertTools'
 import SiteNavResources from '@/components/shared/nav/nav/categories/SiteNavResources'
 import { DRAWER_WIDTH } from '@/constants/navConstants'
-import DevTools from '@/components/shared/nav/nav/DevTools'
-import NavFooter from '@/components/shared/nav/nav/NavFooter'
-import NavHeader from '@/components/shared/nav/nav/NavHeader'
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: DRAWER_WIDTH,

@@ -1,23 +1,10 @@
-import { Collapse } from '@mui/material'
-import Divider from '@mui/material/Divider'
-import List from '@mui/material/List'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import Link from 'next/link'
+import { ContentCopy, IntegrationInstructionsOutlined, QuestionAnswerOutlined } from '@mui/icons-material'
 import { useState } from 'react'
 
-import {
-  ContentCopy,
-  ExpandLess,
-  ExpandMore,
-  IntegrationInstructionsOutlined,
-  QuestionAnswerOutlined,
-} from '@mui/icons-material'
-
 /* Custom Imports */
-import { NAV_PADDING_LEFT, NAV_THICKER_DIVIDER } from '@/constants/navConstants'
-import palette from '@/styles/palette'
+import { NavListItemType } from '@/types/NavListItemType'
+import NavListHeadItem from '../NavListHeadItem'
+import NavListSubItems from '../NavListSubItems'
 
 export default function SiteNavResources() {
   const [openResourcesList, setOpenResourcesList] = useState(false)
@@ -26,39 +13,30 @@ export default function SiteNavResources() {
     setOpenResourcesList(!openResourcesList)
   }
 
+  const items: NavListItemType[] = [
+    {
+      text: 'FAQs',
+      isExternalLink: false,
+      href: '/faqs',
+      icon: <QuestionAnswerOutlined />,
+    },
+    {
+      text: 'Documentation & Videos',
+      isExternalLink: false,
+      href: '/docs-and-vids',
+      icon: <IntegrationInstructionsOutlined />,
+    },
+  ]
+
   return (
     <>
-      <ListItemButton onClick={handleClickResourcesList}>
-        <ListItemIcon>
-          <ContentCopy sx={{ strokeWidth: 0.5, stroke: `${palette.primary}` }} color="primary" />
-        </ListItemIcon>
-        <ListItemText primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }} primary="SITE Resources" />
-        {openResourcesList ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={openResourcesList} timeout="auto" unmountOnExit>
-        {[
-          {
-            text: 'FAQs',
-            href: '/faqs',
-            icon: <QuestionAnswerOutlined color="primary" />,
-          },
-          {
-            text: 'Documentation & Videos',
-            href: '/docs-and-vids',
-            icon: <IntegrationInstructionsOutlined color="primary" />,
-          },
-        ].map((item) => (
-          <List key={item.text} component="div" disablePadding>
-            <Link href={item.href}>
-              <ListItemButton sx={{ pl: NAV_PADDING_LEFT }}>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primaryTypographyProps={{ color: palette.primary }} primary={item.text} />
-              </ListItemButton>
-            </Link>
-          </List>
-        ))}
-      </Collapse>
-      <Divider sx={{ borderWidth: NAV_THICKER_DIVIDER }} />
+      <NavListHeadItem
+        text="SITE Resources"
+        handleClickCategoryList={handleClickResourcesList}
+        icon={<ContentCopy />}
+        openCategoryList={openResourcesList}
+      />
+      <NavListSubItems items={items} openCategoryList={openResourcesList} />
     </>
   )
 }
