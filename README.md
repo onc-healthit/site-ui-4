@@ -33,9 +33,9 @@
 
 - Clone the repo
 - Open in Visual Studio Code (preferred) or software of your choice
-- Run yarn to install dependencies
+- Use npm to install dependencies
   - `npm install`
-- Run yarn dev to run the development server
+- Use npm to run the development server
   - `npm run dev`
 - Open [http://localhost:3000](http://localhost:3000) with your browser to view the application
 
@@ -64,10 +64,10 @@
 
 ## Coding Style
 
-- Setup prettier, eslint for code formatting in VS Code(only works with VS Code). ( \*\*Note: The config setup has been completed, steps can be referenced from here https://www.franciscomoretti.com/blog/prettier-the-code-formatter-vs-code-extension-for-modern-web-development)
+- Setup prettier, eslint for code formatting in VS Code(only works with VS Code). ( \*\*Note: The config setup has been completed, steps can be referenced from here https://www.franciscomoretti.com/blog/how-to-set-up-prettier-and-eslint-in-vs-code-for-next-js)
   - Install ESLint VS Code Extension on VS Code
   - Install Prettier VS Code Extension on VS Code
-  - Uncheck option for prettier to load only if the config is available
+  - Note: .prettierrc config file needs to exist in the repo for the formatting to work.
 - For now:
 
   - Do

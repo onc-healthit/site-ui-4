@@ -1,9 +1,10 @@
 import { Divider, ListItemButton, ListItemIcon, ListItemText } from '@mui/material/'
 import Link from 'next/link'
 
-import { ArchiveOutlined } from '@mui/icons-material'
+/* Custom Imports */
+import { NAV_PADDING_LEFT_SINGLE_HEADER, NAV_THICKER_DIVIDER } from '@/constants/navConstants'
 import palette from '@/styles/palette'
-import { NAV_THICKER_DIVIDER } from '@/constants/navConstants'
+import { ArchiveOutlined } from '@mui/icons-material'
 
 export default function SiteNavArchived() {
   return (
@@ -15,7 +16,7 @@ export default function SiteNavArchived() {
             <ListItemText
               primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }}
               primary="Archived"
-              sx={{ pl: 4, color: 'inherit' }}
+              sx={{ pl: NAV_PADDING_LEFT_SINGLE_HEADER, color: 'inherit' }}
             />
           </ListItemIcon>
         </ListItemButton>

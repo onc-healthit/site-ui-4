@@ -141,5 +141,30 @@ export const lightThemeOptions: ThemeOptions = {
         },
       },
     },
+    MuiTabs: {
+      styleOverrides: {
+        root: {
+          backgroundColor: palette.primary,
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          color: palette.white,
+          '&.Mui-selected': {
+            color: palette.white,
+            backgroundColor: palette.primaryDark,
+          },
+        },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        asterisk: {
+          color: palette.errorDark,
+        },
+      },
+    },
   },
 }
