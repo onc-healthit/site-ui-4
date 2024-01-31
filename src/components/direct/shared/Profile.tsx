@@ -50,7 +50,7 @@ const Profile = () => {
       <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} p={2}>
         <Box display={'flex'} flexDirection={'row'} gap={1}>
           <Button variant="outlined" sx={{ color: palette.primary }}>
-            Make a Profile
+            Make Profile
           </Button>
           <Button disabled variant="outlined" sx={{ color: palette.primary }}>
             Save
