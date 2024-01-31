@@ -64,10 +64,10 @@
 
 ## Coding Style
 
-- Setup prettier, eslint for code formatting in VS Code(only works with VS Code). ( \*\*Note: The config setup has been completed, steps can be referenced from here https://www.franciscomoretti.com/blog/prettier-the-code-formatter-vs-code-extension-for-modern-web-development)
+- Setup prettier, eslint for code formatting in VS Code(only works with VS Code). ( \*\*Note: The config setup has been completed, steps can be referenced from here https://www.franciscomoretti.com/blog/how-to-set-up-prettier-and-eslint-in-vs-code-for-next-js)
   - Install ESLint VS Code Extension on VS Code
   - Install Prettier VS Code Extension on VS Code
-  - Uncheck option for prettier to load only if the config is available
+  - Note: .prettierrc config file needs to exist in the repo for the formatting to work.
 - For now:
 
   - Do

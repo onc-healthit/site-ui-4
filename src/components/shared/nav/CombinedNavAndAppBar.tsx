@@ -8,8 +8,6 @@ import SiteAppBar from '@/components/shared/nav/app-bar/SiteAppBar'
 import Nav from '@/components/shared/nav/nav/Nav'
 
 export default function CombinedNavAndAppBar() {
-  const drawerWidth: number = 300
-
   const [auth, setAuth] = React.useState(false)
   const handleAuthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAuth(event.target.checked)
