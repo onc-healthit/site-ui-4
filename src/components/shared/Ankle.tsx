@@ -1,4 +1,5 @@
-import { Box, Container, Typography, Link } from '@mui/material'
+import { Box, Container, Typography } from '@mui/material'
+import Link from 'next/link'
 
 export default function Ankle() {
   return (
@@ -8,8 +9,15 @@ export default function Ankle() {
           <strong>Cant find what your looking for?</strong>
         </Typography>
         <Typography variant="body1" color="#fff">
-          Please checkout our <Link color="secondary">Archives</Link> or <Link color="secondary">Resources</Link> for
-          more details.
+          Please checkout our{' '}
+          <Link color="secondary" href={''}>
+            Archives
+          </Link>{' '}
+          or{' '}
+          <Link color="secondary" href={''}>
+            Resources
+          </Link>{' '}
+          for more details.
         </Typography>
       </Container>
     </Box>
