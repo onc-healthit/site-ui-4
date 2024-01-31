@@ -50,8 +50,8 @@ const CCDAHome = () => {
             cardSubheader={''}
             description={'This will be available when the website is launched in Early, 2024'}
             pathname={''}
-            maxWidth={545}
-            imageWidth={'600px'}
+            maxWidth={550}
+            imageWidth={'550px'}
           />
 
           <CardWithImage
@@ -63,8 +63,8 @@ const CCDAHome = () => {
               'Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
             }
             pathname={''}
-            maxWidth={545}
-            imageWidth={'600px'}
+            maxWidth={550}
+            imageWidth={'550px'}
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
@@ -82,14 +82,14 @@ const CCDAHome = () => {
             description={
               'The SITE C-CDA Scorecard provides an enhanced level of interoperability for C-CDA documents by using a comprehensive scoring system, which allows implementers to improve the data quality and representation of their C-CDA documents.'
             }
-            maxWidth={545}
+            maxWidth={550}
           />
           <CardWithBorder
             cardHeader="One Click Scorecard"
             description={
               'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 2-US Realm, Oct 2021 (with errata)'
             }
-            maxWidth={545}
+            maxWidth={550}
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
@@ -113,7 +113,7 @@ const CCDAHome = () => {
               'HL7® Implementation Guide for CDA® Release 2: Consolidated CDA Templates for Clinical Notes (US Realm), Draft Standard for Trial Use Release 2.1, August 2015'
             }
             pathname={''}
-            maxWidth={345}
+            maxWidth={350}
             imageWidth={'350px'}
           />
 
@@ -126,7 +126,7 @@ const CCDAHome = () => {
               'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 2-US Realm, Oct 2021 (with errata)'
             }
             pathname={''}
-            maxWidth={345}
+            maxWidth={350}
             imageWidth={'350px'}
           />
           <CardWithImage
@@ -138,7 +138,7 @@ const CCDAHome = () => {
               'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 3-US Realm, May 2022'
             }
             pathname={''}
-            maxWidth={345}
+            maxWidth={350}
             imageWidth={'350px'}
           />
         </Box>
