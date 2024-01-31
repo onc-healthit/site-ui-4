@@ -8,10 +8,11 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 export interface CategoryCardProps {
   cardHeader: string
   description: string
+  maxWidth: number
 }
-const CategoryCard = ({ cardHeader, description }: CategoryCardProps) => {
+const CategoryCard = ({ cardHeader, description, maxWidth }: CategoryCardProps) => {
   return (
-    <Card sx={{ maxWidth: 345, borderTop: '16px solid #122953' }} id="category">
+    <Card sx={{ maxWidth: maxWidth, borderTop: '16px solid #122953' }} id="category">
       <CardContent sx={{ p: 3 }}>
         <Typography variant="h6" component="h3" color="default">
           <strong>{cardHeader}</strong>

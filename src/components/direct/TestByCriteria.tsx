@@ -1,7 +1,7 @@
 'use client'
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import BannerBox from './shared/BannerBox'
+import BannerBox from '@shared/BannerBox'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import { Container } from '@mui/material'
@@ -11,7 +11,7 @@ import H2Component from './H2Tab'
 import palette from '@/styles/palette'
 import { useEffect } from 'react'
 import Link from 'next/link'
-import styles from './styles.module.css'
+import styles from '@shared/styles.module.css'
 export interface criteriaProps {
   selectedTab: string
 }
