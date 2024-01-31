@@ -33,9 +33,9 @@
 
 - Clone the repo
 - Open in Visual Studio Code (preferred) or software of your choice
-- Run yarn to install dependencies
+- Use npm to install dependencies
   - `npm install`
-- Run yarn dev to run the development server
+- Use npm to run the development server
   - `npm run dev`
 - Open [http://localhost:3000](http://localhost:3000) with your browser to view the application
 
