@@ -1,3 +1,5 @@
+import Ankle from '@/components/shared/Ankle'
+import Footer from '@/components/shared/Footer'
 import CombinedNavAndAppBar from '@/components/shared/nav/CombinedNavAndAppBar'
 import { lightTheme } from '@/styles/lightTheme'
 import { CssBaseline, ThemeProvider, Box } from '@mui/material'
@@ -13,6 +15,22 @@ export const metadata: Metadata = {
     'evaluate specific technical standards and maximize the potential of their health IT implementations',
 }
 
+const content = {
+  display: 'flex',
+}
+
+const pageContainer = {
+  width: '100%',
+  minHeight: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  pt: 8,
+}
+
+const footer = {
+  marginTop: 'auto',
+}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -20,9 +38,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider theme={lightTheme}>
           <CssBaseline>
             <AppRouterCacheProvider>
-              <Box display={'flex'}>
+              <Box sx={content}>
                 <CombinedNavAndAppBar />
-                {children}
+                <Box role="main" sx={pageContainer}>
+                  {children}
+                  <Box sx={footer}>
+                    {/* Global Ankle */}
+                    <Ankle />
+                    {/* Global Footer */}
+                    <Footer />
+                  </Box>
+                </Box>
               </Box>
             </AppRouterCacheProvider>
           </CssBaseline>

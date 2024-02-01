@@ -15,14 +15,25 @@ export interface CriteriaCardProps {
   cardSubheader: string
   description: string
   pathname: string
+  maxWidth: number
+  imageWidth: string
 }
 
-const CriteriaCard = ({ title, cardImage, cardHeader, cardSubheader, description, pathname }: CriteriaCardProps) => {
+const CriteriaCard = ({
+  title,
+  cardImage,
+  cardHeader,
+  cardSubheader,
+  description,
+  pathname,
+  maxWidth,
+  imageWidth,
+}: CriteriaCardProps) => {
   return (
-    <Card sx={{ maxWidth: 345 }} id="criteria">
+    <Card sx={{ maxWidth: maxWidth }} id="criteria">
       <CardActionArea>
         <CardMedia title={title}>
-          <Image style={{ width: '350px', height: 'auto' }} src={cardImage} alt={title} />
+          <Image style={{ width: imageWidth, height: 'auto' }} src={cardImage} alt={title} />
         </CardMedia>
         <CardContent sx={{ p: 3 }}>
           <Typography variant="h6" component="h3" color="default">
