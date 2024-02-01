@@ -1,5 +1,5 @@
 // MUI Imports
-import BannerBox from '../direct/shared/BannerBox'
+import BannerBox from '../shared/BannerBox'
 import {
   Box,
   Button,
@@ -83,7 +83,7 @@ const flexiableContent = {
 
 const CqmHome = () => {
   return (
-    <Box width={'100%'} pt={8}>
+    <Box>
       {/* Global Header */}
       <BannerBox
         breadcrumbs={
@@ -385,10 +385,6 @@ const CqmHome = () => {
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
       </Container>
-      {/* Global Ankle */}
-      <Ankle />
-      {/* Global Footer */}
-      <Footer />
     </Box>
   )
 }
