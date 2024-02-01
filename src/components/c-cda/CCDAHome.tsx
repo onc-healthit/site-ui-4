@@ -1,18 +1,17 @@
-import { Box, Container, Divider, Typography } from '@mui/material'
+import { Box, Container, Divider } from '@mui/material'
 import Link from 'next/link'
 import BannerBox from '@shared/BannerBox'
 import styles from '@shared/styles.module.css'
-import Footer from '@shared/Footer'
-import Ankle from '@shared/Ankle'
 import CardWithImage from '@shared/CardWithImage'
 import uscdiv3 from '@public/c-cda/uscdi-v3.svg'
 import uscdiv2 from '@public/c-cda/uscdi-v2.svg'
 import placeholder from '@public/c-cda/placeholder.svg'
 import CardWithBorder from '@shared/CardWithBorder'
+import SectionHeader from '../shared/SectionHeader'
 
 const CCDAHome = () => {
   return (
-    <Box width="100%" pt={8}>
+    <div>
       {/* Global Header */}
       <BannerBox
         breadcrumbs={
@@ -34,21 +33,17 @@ const CCDAHome = () => {
       />
       {/* Main Content */}
       <Container>
-        <Box paddingTop={4} paddingBottom={4}>
-          <Typography variant="h4" component={'h2'}>
-            <strong>C-CDA Validators</strong>
-          </Typography>
-          <Typography variant="body1" color="secondary">
-            <strong>The latest C-CCDA validators from ONC</strong>
-          </Typography>
-        </Box>
+        <SectionHeader header={'C-CDA Validators'} subHeader={'The latest C-CCDA validators from ONC'} />
+
         <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
           <CardWithImage
             title={'C-CDA Validators USCDI v3'}
             cardImage={uscdiv3}
             cardHeader={'C-CDA Validators USCDI v3'}
             cardSubheader={''}
-            description={'This will be available when the website is launched in Early, 2024'}
+            description={
+              'Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
+            }
             pathname={''}
             maxWidth={550}
             imageWidth={'550px'}
@@ -68,14 +63,11 @@ const CCDAHome = () => {
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
-        <Box paddingTop={4} paddingBottom={4}>
-          <Typography variant="h4" component={'h2'}>
-            <strong>C-CDA Additional Tools</strong>
-          </Typography>
-          <Typography variant="body1" color="secondary">
-            <strong>Help with quantitative assessment of the data quality using the Scorecard.</strong>
-          </Typography>
-        </Box>
+        <SectionHeader
+          header={'C-CDA Additional Tools'}
+          subHeader={'Help with quantitative assessment of the data quality using the Scorecard.'}
+        />
+
         <Box display={'flex'} width={'100%'} justifyContent={'space-between'} paddingBottom={4}>
           <CardWithBorder
             cardHeader="C-CDA Scorecard"
@@ -93,16 +85,12 @@ const CCDAHome = () => {
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
-        <Box paddingTop={4} paddingBottom={4}>
-          <Typography variant="h4" component={'h2'}>
-            <strong>Certification Criteria Version</strong>
-          </Typography>
-          <Typography variant="body1" color="secondary">
-            <strong>
-              This area provides tools for testing conformance of artifacts to industry standards and specific criteria.
-            </strong>
-          </Typography>
-        </Box>
+        <SectionHeader
+          header={'Certification Criteria Version'}
+          subHeader={
+            'This area provides tools for testing conformance of artifacts to industry standards and specific criteria.'
+          }
+        />
         <Box paddingBottom={4} display={'flex'} width={'100%'} justifyContent={'space-between'}>
           <CardWithImage
             title={'2015 Edition'}
@@ -143,11 +131,7 @@ const CCDAHome = () => {
           />
         </Box>
       </Container>
-      {/* Global Ankle */}
-      <Ankle />
-      {/* Global Footer */}
-      <Footer />
-    </Box>
+    </div>
   )
 }
 

@@ -4,21 +4,22 @@ import CriteriaCard from '@shared/CardWithImage'
 import b1 from '@public/direct/b1.svg'
 import h1 from '@public/direct/h1.svg'
 import h2 from '@public/direct/h2.svg'
-import { Container, Divider, Typography } from '@mui/material'
+import { Container, Divider } from '@mui/material'
 import CategoryCard from '@shared/CardWithBorder'
 import CertificateCard from './shared/CertificateCard'
 import publicCert from '@public/direct/publicCert.svg'
 import trustAnchor from '@public/direct/trustAnchor.svg'
 import invalidTrustAnchor from '@public/direct/invalidTrustAnchor.svg'
 import rootCA from '@public/direct/rootCA.svg'
-import Ankle from '@shared/Ankle'
-import Footer from '@shared/Footer'
 import Link from 'next/link'
 import styles from '@shared/styles.module.css'
+import SectionHeader from '../shared/SectionHeader'
 
 const DirectHome = () => {
+  const cardMaxWidth = 345
+  const cardImageWidth = '350px'
   return (
-    <Box width="100%" pt={8}>
+    <div>
       {/* Global Header */}
       <BannerBox
         breadcrumbs={
@@ -41,14 +42,7 @@ const DirectHome = () => {
       />
       {/* Main Content */}
       <Container>
-        <Box paddingTop={4} paddingBottom={4}>
-          <Typography variant="h4" component={'h2'}>
-            <strong>Test By Criteria</strong>
-          </Typography>
-          <Typography variant="body1" color="secondary">
-            <strong>A deep dive with one click away</strong>
-          </Typography>
-        </Box>
+        <SectionHeader header={'Test By Criteria'} subHeader={'A deep dive with one click away'} />
         <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
           <CriteriaCard
             title={'B1'}
@@ -57,8 +51,8 @@ const DirectHome = () => {
             cardSubheader={'170.315 (b)(1):'}
             description={'Sender Or Receiver. We have group all the test regarding this... to help user ... do this.'}
             pathname={'/direct/testbycriteria/B1'}
-            maxWidth={345}
-            imageWidth={'350px'}
+            maxWidth={cardMaxWidth}
+            imageWidth={cardImageWidth}
           />
 
           <CriteriaCard
@@ -68,8 +62,8 @@ const DirectHome = () => {
             cardSubheader={'§ 170.315(h)(1)'}
             description={'Sender Or Receiver. We have group all the test regarding this... to help user ... do this.'}
             pathname={'/direct/testbycriteria/H1'}
-            maxWidth={345}
-            imageWidth={'350px'}
+            maxWidth={cardMaxWidth}
+            imageWidth={cardImageWidth}
           />
 
           <CriteriaCard
@@ -79,40 +73,36 @@ const DirectHome = () => {
             cardSubheader={'§ 170.315(h)(2)'}
             description={'Sender Or Receiver. We have group all the test regarding this... to help user ... do this.'}
             pathname={'/direct/testbycriteria/H2'}
-            maxWidth={345}
-            imageWidth={'350px'}
+            maxWidth={cardMaxWidth}
+            imageWidth={cardImageWidth}
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
-        <Box paddingTop={4} paddingBottom={4}>
-          <Typography variant="h4" component={'h2'}>
-            <strong>Select a category to start your direct project tooling.</strong>
-          </Typography>
-          <Typography variant="body1" color="secondary">
-            <strong>All Direct in One Place</strong>
-          </Typography>
-        </Box>
+        <SectionHeader
+          header={'Select a category to start your direct project tooling.'}
+          subHeader={'All Direct in One Place'}
+        />
         <Box display={'flex'} width={'100%'} justifyContent={'space-between'} paddingBottom={4}>
           <CategoryCard
             cardHeader="Register for Direct Email"
             description={
               'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
             }
-            maxWidth={345}
+            maxWidth={cardMaxWidth}
           />
           <CategoryCard
             cardHeader="Send Direct Email"
             description={
               'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
             }
-            maxWidth={345}
+            maxWidth={cardMaxWidth}
           />
           <CategoryCard
             cardHeader="Validate Direct Email"
             description={
               'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
             }
-            maxWidth={345}
+            maxWidth={cardMaxWidth}
           />
         </Box>
         <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
@@ -121,32 +111,25 @@ const DirectHome = () => {
             description={
               'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
             }
-            maxWidth={345}
+            maxWidth={cardMaxWidth}
           />
           <CategoryCard
             cardHeader="Transport Test Tool"
             description={
               'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
             }
-            maxWidth={345}
+            maxWidth={cardMaxWidth}
           />
           <CategoryCard
             cardHeader="HISP Testing Portal"
             description={
               'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
             }
-            maxWidth={345}
+            maxWidth={cardMaxWidth}
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
-        <Box paddingTop={4} paddingBottom={4}>
-          <Typography variant="h4" component={'h2'}>
-            <strong>Certification for Download</strong>
-          </Typography>
-          <Typography variant="body1" color="secondary">
-            <strong>Tagline</strong>
-          </Typography>
-        </Box>
+        <SectionHeader header={'Certification for Download'} subHeader={'Tagline'} />
         <Box paddingBottom={4} display={'flex'} width={'100%'} justifyContent={'space-between'}>
           <CertificateCard
             title={'Public Cert'}
@@ -180,11 +163,7 @@ const DirectHome = () => {
           />
         </Box>
       </Container>
-      {/* Global Ankle */}
-      <Ankle />
-      {/* Global Footer */}
-      <Footer />
-    </Box>
+    </div>
   )
 }
 

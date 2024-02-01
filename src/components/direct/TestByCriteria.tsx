@@ -48,7 +48,7 @@ const TestByCriteria = ({ selectedTab }: criteriaProps) => {
   }
 
   return (
-    <Box width="100%" pt={8}>
+    <div>
       {/* Global Header */}
       <BannerBox
         breadcrumbs={[
@@ -87,7 +87,7 @@ const TestByCriteria = ({ selectedTab }: criteriaProps) => {
       <CustomTabPanel value={value} index={2}>
         <H2Component />
       </CustomTabPanel>
-    </Box>
+    </div>
   )
 }
 
