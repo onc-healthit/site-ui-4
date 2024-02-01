@@ -8,7 +8,6 @@ import {
 import { useState } from 'react'
 
 /* Custom Imports */
-import { GENERIC_LINK_TO_REPLACE } from '@/constants/navConstants'
 import { NavListItemType } from '@/types/NavListItemType'
 import NavListHeadItem from '../NavListHeadItem'
 import NavListSubItems from '../NavListSubItems'
@@ -23,20 +22,20 @@ export default function SiteNavIndustryTools() {
   const items: NavListItemType[] = [
     {
       text: 'HL7 Tools',
-      isExternalLink: true,
-      href: GENERIC_LINK_TO_REPLACE,
+      isExternalLink: false,
+      href: '/hl7-tools',
       icon: <MonitorHeartOutlined />,
     },
     {
       text: 'Reference Data',
-      isExternalLink: true,
-      href: GENERIC_LINK_TO_REPLACE,
+      isExternalLink: false,
+      href: 'reference-data',
       icon: <FolderSpecialOutlined />,
     },
     {
       text: 'Implementation Guide Authoring Tools',
-      isExternalLink: true,
-      href: GENERIC_LINK_TO_REPLACE,
+      isExternalLink: false,
+      href: 'implementation-guide-authoring-tools',
       icon: <MenuBookOutlined />,
     },
     {
