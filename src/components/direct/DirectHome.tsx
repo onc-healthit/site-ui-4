@@ -19,7 +19,7 @@ const DirectHome = () => {
   const cardMaxWidth = 345
   const cardImageWidth = '350px'
   return (
-    <div>
+    <>
       {/* Global Header */}
       <BannerBox
         breadcrumbs={
@@ -163,7 +163,7 @@ const DirectHome = () => {
           />
         </Box>
       </Container>
-    </div>
+    </>
   )
 }
 

@@ -13,7 +13,7 @@ const CCDAHome = () => {
   const maxWidth = 550
   const certCardMaxWidth = 350
   return (
-    <div>
+    <>
       {/* Global Header */}
       <BannerBox
         breadcrumbs={
@@ -133,7 +133,7 @@ const CCDAHome = () => {
           />
         </Box>
       </Container>
-    </div>
+    </>
   )
 }
 
