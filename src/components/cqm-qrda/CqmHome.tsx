@@ -14,8 +14,6 @@ import {
   Typography,
 } from '@mui/material'
 // Global Imports
-import Ankle from '../shared/Ankle'
-import Footer from '../shared/Footer'
 import Link from 'next/link'
 // MUI Icons
 import ArrowForwardIcon from '@mui/icons-material/ArrowDownward'
