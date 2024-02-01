@@ -11,7 +11,6 @@ import {
   Container,
   Divider,
   Typography,
-  ButtonBase,
 } from '@mui/material'
 // Global Imports
 import Link from 'next/link'
@@ -28,13 +27,14 @@ import palette from '@/styles/palette'
 const cypressKnowledgeBaseImagery = '/cqm-qrda/Cypress-Knowledge-Base1.svg'
 const cypressValidatorImagery = '/cqm-qrda/Cypress-QRDA-Validator.svg'
 
-const hoverGrow = {
-  transition: 'transform 0.15s ease-in-out',
-  '&:hover': {
-    transform: 'scale3d(1.05, 1.05, 1)',
-    boxShadow: '0px 0px 16px 8px rgba(0,0,0,0.1)',
-  },
-}
+// * Will bring in at a different time
+// const hoverGrow = {
+//   transition: 'transform 0.15s ease-in-out',
+//   '&:hover': {
+//     transform: 'scale3d(1.05, 1.05, 1)',
+//     boxShadow: '0px 0px 16px 8px rgba(0,0,0,0.1)',
+//   },
+// }
 
 const genericCardBlueBorder = {
   display: 'flex',
@@ -117,7 +117,6 @@ const CqmHome = () => {
           <Box display={'flex'} flexDirection={'row'} width={'60%'} gap={4}>
             <Card
               sx={{
-                ...hoverGrow,
                 ...cypressCardWithImage,
               }}
               id=""
@@ -150,13 +149,7 @@ const CqmHome = () => {
                 </Button>
               </CardActions>
             </Card>
-            <Card
-              sx={{
-                ...hoverGrow,
-                ...cypressCardWithImage,
-              }}
-              id=""
-            >
+            <Card sx={{ ...cypressCardWithImage }} id="">
               <CardMedia sx={{ ...cypressCardImage }} component="div" image={cypressValidatorImagery} />
               <CardContent
                 sx={{
@@ -187,11 +180,7 @@ const CqmHome = () => {
           </Box>
           {/* Vertical Cypress Resources */}
           <Box display={'flex'} flexDirection={'column'} width={'40%'} justifyContent={'space-between'} gap={2}>
-            <Card
-              sx={{
-                ...hoverGrow,
-              }}
-            >
+            <Card>
               <CardHeader
                 sx={{ pb: 0 }}
                 titleTypographyProps={{ fontSize: '1em', fontWeight: '600' }}
@@ -215,11 +204,7 @@ const CqmHome = () => {
                 ACCESS LOGIN
               </Button>
             </Card>
-            <Card
-              sx={{
-                ...hoverGrow,
-              }}
-            >
+            <Card>
               <CardHeader
                 sx={{ pb: 0 }}
                 titleTypographyProps={{ fontSize: '1em', fontWeight: '600' }}
@@ -244,11 +229,7 @@ const CqmHome = () => {
               </Button>
             </Card>
 
-            <Card
-              sx={{
-                ...hoverGrow,
-              }}
-            >
+            <Card>
               <CardHeader
                 sx={{ pb: 0 }}
                 titleTypographyProps={{ fontSize: '1em', fontWeight: '600' }}
@@ -286,7 +267,6 @@ const CqmHome = () => {
           {/* Bonnie Card */}
           <Card
             sx={{
-              ...hoverGrow,
               ...genericCardBlueBorder,
             }}
             id="category"
@@ -312,7 +292,6 @@ const CqmHome = () => {
           {/* eCQI Resource CenterCard */}
           <Card
             sx={{
-              ...hoverGrow,
               ...genericCardBlueBorder,
             }}
             id="category"
