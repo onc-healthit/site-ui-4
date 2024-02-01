@@ -1,3 +1,12 @@
-export default function CCDAHome() {
-  return <h1 style={{ paddingLeft: 340, paddingTop: 20 }}>C-CDA Home</h1>
+import CCDAHomeComponent from '@/components/c-cda/CCDAHome'
+import CommunicationFab from '@/components/shared/CommunicationFab'
+const CCDAHome = () => {
+  return (
+    <>
+      <CCDAHomeComponent />
+      <CommunicationFab />
+    </>
+  )
 }
+
+export default CCDAHome
