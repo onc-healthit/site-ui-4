@@ -3,7 +3,6 @@ import BannerBox from '../shared/BannerBox'
 import {
   Box,
   Button,
-  ButtonBase,
   Card,
   CardActions,
   CardContent,
@@ -12,6 +11,7 @@ import {
   Container,
   Divider,
   Typography,
+  ButtonBase,
 } from '@mui/material'
 // Global Imports
 import Link from 'next/link'
@@ -34,13 +34,6 @@ const hoverGrow = {
     transform: 'scale3d(1.05, 1.05, 1)',
     boxShadow: '0px 0px 16px 8px rgba(0,0,0,0.1)',
   },
-}
-
-const buttonBaseGenericCard = {
-  display: 'flex',
-  flexDirection: 'column',
-  textAlign: 'left',
-  alignItems: 'flex-start',
 }
 
 const genericCardBlueBorder = {
@@ -81,11 +74,11 @@ const flexiableContent = {
 
 const CqmHome = () => {
   return (
-    <Box>
+    <Box width={'100%'} pt={8}>
       {/* Global Header */}
       <BannerBox
         breadcrumbs={
-          <Link style={{ textDecoration: 'none' }} color={palette.secondary} href={'/cqm-qrda'}>
+          <Link color={palette.secondary} href={'/cqm-qrda'}>
             CQM-QRDA
           </Link>
         }
@@ -129,41 +122,33 @@ const CqmHome = () => {
               }}
               id=""
             >
-              <ButtonBase
-                target="_blank"
-                href="http://www.projectcypress.org/"
+              <CardMedia sx={{ ...cypressCardImage }} component="div" image={cypressKnowledgeBaseImagery} />
+              <CardContent
                 sx={{
                   ...cypressContentWithImage,
                 }}
               >
-                <CardMedia sx={{ ...cypressCardImage }} component="div" image={cypressKnowledgeBaseImagery} />
-                <CardContent
-                  sx={{
-                    ...cypressContentWithImage,
-                  }}
+                <Typography variant="h6" component="h3" color="default">
+                  <strong>Cypress Knowledge Base</strong>
+                </Typography>
+                <Typography variant="body2" color="default">
+                  The Cypress Knowledge Base is a starting point for vendors and Authorized Testing Labs responsible for
+                  testing EHR technologies. The Knowledge Base has Frequently Asked Questions, as well as links to
+                  additional eCQM resources.
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button
+                  disableRipple
+                  href="http://www.projectcypress.org/"
+                  size="small"
+                  variant="text"
+                  color="secondary"
+                  endIcon={<StartIcon />}
                 >
-                  <Typography variant="h6" component="h3" color="default">
-                    <strong>Cypress Knowledge Base</strong>
-                  </Typography>
-                  <Typography variant="body2" color="default">
-                    The Cypress Knowledge Base is a starting point for vendors and Authorized Testing Labs responsible
-                    for testing EHR technologies. The Knowledge Base has Frequently Asked Questions, as well as links to
-                    additional eCQM resources.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    disableRipple
-                    href="http://www.projectcypress.org/"
-                    size="small"
-                    variant="text"
-                    color="secondary"
-                    endIcon={<StartIcon />}
-                  >
-                    START HERE
-                  </Button>
-                </CardActions>
-              </ButtonBase>
+                  START HERE
+                </Button>
+              </CardActions>
             </Card>
             <Card
               sx={{
@@ -172,40 +157,32 @@ const CqmHome = () => {
               }}
               id=""
             >
-              <ButtonBase
-                target="_blank"
-                href="https://cypressvalidator.healthit.gov/"
+              <CardMedia sx={{ ...cypressCardImage }} component="div" image={cypressValidatorImagery} />
+              <CardContent
                 sx={{
                   ...cypressContentWithImage,
                 }}
               >
-                <CardMedia sx={{ ...cypressCardImage }} component="div" image={cypressValidatorImagery} />
-                <CardContent
-                  sx={{
-                    ...cypressContentWithImage,
-                  }}
+                <Typography variant="h6" component="h3" color="default">
+                  <strong>Cypress QRDA Validator</strong>
+                </Typography>
+                <Typography variant="body2" color="default">
+                  The CYPRESS QRDA Validator provides implementers with the ability to validate the conformance of QRDA
+                  Category I and Category III documents to the published CMS and HL7 implementation guides.
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button
+                  disableRipple
+                  href="https://cypressvalidator.healthit.gov/"
+                  size="small"
+                  variant="text"
+                  color="secondary"
+                  endIcon={<CheckIcon />}
                 >
-                  <Typography variant="h6" component="h3" color="default">
-                    <strong>Cypress QRDA Validator</strong>
-                  </Typography>
-                  <Typography variant="body2" color="default">
-                    The CYPRESS QRDA Validator provides implementers with the ability to validate the conformance of
-                    QRDA Category I and Category III documents to the published CMS and HL7 implementation guides.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    disableRipple
-                    href="https://cypressvalidator.healthit.gov/"
-                    size="small"
-                    variant="text"
-                    color="secondary"
-                    endIcon={<CheckIcon />}
-                  >
-                    VALIDATE
-                  </Button>
-                </CardActions>
-              </ButtonBase>
+                  VALIDATE
+                </Button>
+              </CardActions>
             </Card>
           </Box>
           {/* Vertical Cypress Resources */}
@@ -215,70 +192,56 @@ const CqmHome = () => {
                 ...hoverGrow,
               }}
             >
-              <ButtonBase
+              <CardHeader
+                sx={{ pb: 0 }}
+                titleTypographyProps={{ fontSize: '1em', fontWeight: '600' }}
+                title="Demo Cypress"
+              ></CardHeader>
+              <CardContent sx={{ pb: 1 }}>
+                <Typography variant="body2">
+                  Experiment with the current Cypress Baseline (Note: You will be prompted to log in with your NLM UMLS
+                  credentials)
+                </Typography>
+              </CardContent>
+              <Button
+                disableRipple
                 href="https://cypressdemo.healthit.gov/"
-                target="_blank"
-                sx={{
-                  ...buttonBaseGenericCard,
-                }}
+                sx={{ ml: 1, mb: 1 }}
+                size="small"
+                variant="text"
+                color="secondary"
+                endIcon={<LoginIcon />}
               >
-                <CardHeader
-                  sx={{ pb: 0 }}
-                  titleTypographyProps={{ fontSize: '1em', fontWeight: '600' }}
-                  title="Demo Cypress"
-                ></CardHeader>
-                <CardContent sx={{ pb: 1 }}>
-                  <Typography variant="body2">
-                    Experiment with the current Cypress Baseline (Note: You will be prompted to log in with your NLM
-                    UMLS credentials)
-                  </Typography>
-                </CardContent>
-                <Button
-                  disableRipple
-                  href="https://cypressdemo.healthit.gov/"
-                  sx={{ ml: 1, mb: 1 }}
-                  size="small"
-                  variant="text"
-                  color="secondary"
-                  endIcon={<LoginIcon />}
-                >
-                  ACCESS LOGIN
-                </Button>
-              </ButtonBase>
+                ACCESS LOGIN
+              </Button>
             </Card>
             <Card
               sx={{
                 ...hoverGrow,
               }}
             >
-              <ButtonBase
-                target="_blank"
+              <CardHeader
+                sx={{ pb: 0 }}
+                titleTypographyProps={{ fontSize: '1em', fontWeight: '600' }}
+                title="Install Cypress"
+              ></CardHeader>
+              <CardContent sx={{ pb: 1 }}>
+                <Typography variant="body2">
+                  Download your own instance of Cypress to test and experiment with prior to certification with an
+                  Accredited Testing Laboratory.
+                </Typography>
+              </CardContent>
+              <Button
+                disableRipple
                 href="https://github.com/projectcypress/cypress/wiki"
-                sx={{ ...buttonBaseGenericCard }}
+                sx={{ ml: 1, mb: 1 }}
+                size="small"
+                variant="text"
+                color="secondary"
+                endIcon={<GitHubIcon />}
               >
-                <CardHeader
-                  sx={{ pb: 0 }}
-                  titleTypographyProps={{ fontSize: '1em', fontWeight: '600' }}
-                  title="Install Cypress"
-                ></CardHeader>
-                <CardContent sx={{ pb: 1 }}>
-                  <Typography variant="body2">
-                    Download your own instance of Cypress to test and experiment with prior to certification with an
-                    Accredited Testing Laboratory.
-                  </Typography>
-                </CardContent>
-                <Button
-                  disableRipple
-                  href="https://github.com/projectcypress/cypress/wiki"
-                  sx={{ ml: 1, mb: 1 }}
-                  size="small"
-                  variant="text"
-                  color="secondary"
-                  endIcon={<GitHubIcon />}
-                >
-                  Go to GitHub
-                </Button>
-              </ButtonBase>
+                Go to GitHub
+              </Button>
             </Card>
 
             <Card
@@ -286,31 +249,25 @@ const CqmHome = () => {
                 ...hoverGrow,
               }}
             >
-              <ButtonBase
-                target="_blank"
-                href="http://jira.oncprojectracking.org/browse/CYPRESSef"
-                sx={{ ...buttonBaseGenericCard }}
+              <CardHeader
+                sx={{ pb: 0 }}
+                titleTypographyProps={{ fontSize: '1em', fontWeight: '600' }}
+                title="Cypress Issue Tracker"
+              ></CardHeader>
+              <CardContent sx={{ pb: 1 }}>
+                <Typography variant="body2">Track questions and issue that Cypress supports </Typography>
+              </CardContent>
+              <Button
+                href="https://jira.oncprojectracking.org/browse/CYPRESSef"
+                sx={{ ml: 1, mb: 1 }}
+                size="small"
+                variant="text"
+                color="secondary"
+                disableRipple
+                endIcon={<TrackChangesIcon />}
               >
-                <CardHeader
-                  sx={{ pb: 0 }}
-                  titleTypographyProps={{ fontSize: '1em', fontWeight: '600' }}
-                  title="Cypress Issue Tracker"
-                ></CardHeader>
-                <CardContent sx={{ pb: 1 }}>
-                  <Typography variant="body2">Track questions and issue that Cypress supports </Typography>
-                </CardContent>
-                <Button
-                  href="https://jira.oncprojectracking.org/browse/CYPRESSef"
-                  sx={{ ml: 1, mb: 1 }}
-                  size="small"
-                  variant="text"
-                  color="secondary"
-                  disableRipple
-                  endIcon={<TrackChangesIcon />}
-                >
-                  TRACK your question
-                </Button>
-              </ButtonBase>
+                TRACK your question
+              </Button>
             </Card>
           </Box>
         </Box>
@@ -334,25 +291,23 @@ const CqmHome = () => {
             }}
             id="category"
           >
-            <ButtonBase target="_blank" href="https://bonnie.healthit.gov/" sx={{ ...buttonBaseGenericCard }}>
-              <CardContent
-                sx={{
-                  ...flexiableContent,
-                }}
-              >
-                <Typography variant="h6" component="h3" color="default">
-                  <strong>BONNIE</strong>
-                </Typography>
-                <Typography variant="body2" color="default">
-                  Bonnie is a tool for testing electronic clinical quality measures (eCQMs) designed to support
-                  streamlined and efficient pre-testing of eCQMs, particularly those used in the CMS Quality Reporting
-                  Programs.
-                </Typography>
-                <Button disableRipple size="small" variant="text" color="secondary" endIcon={<ArrowForwardIcon />}>
-                  ACCESS
-                </Button>
-              </CardContent>
-            </ButtonBase>
+            <CardContent
+              sx={{
+                ...flexiableContent,
+              }}
+            >
+              <Typography variant="h6" component="h3" color="default">
+                <strong>BONNIE</strong>
+              </Typography>
+              <Typography variant="body2" color="default">
+                Bonnie is a tool for testing electronic clinical quality measures (eCQMs) designed to support
+                streamlined and efficient pre-testing of eCQMs, particularly those used in the CMS Quality Reporting
+                Programs.
+              </Typography>
+              <Button disableRipple size="small" variant="text" color="secondary" endIcon={<ArrowForwardIcon />}>
+                ACCESS
+              </Button>
+            </CardContent>
           </Card>
           {/* eCQI Resource CenterCard */}
           <Card
@@ -362,23 +317,21 @@ const CqmHome = () => {
             }}
             id="category"
           >
-            <ButtonBase target="_blank" href="http://ecqi.healthit.gov/" sx={{ ...buttonBaseGenericCard }}>
-              <CardContent
-                sx={{
-                  ...flexiableContent,
-                }}
-              >
-                <Typography variant="h6" component="h3" color="default">
-                  <strong>eCQI Resource Center</strong>
-                </Typography>
-                <Typography variant="body2" color="default">
-                  The one-stop shop for the most current resources to support electronic clinical quality improvement.
-                </Typography>
-                <Button disableRipple size="small" variant="text" color="secondary" endIcon={<ArrowForwardIcon />}>
-                  Go to center
-                </Button>
-              </CardContent>
-            </ButtonBase>
+            <CardContent
+              sx={{
+                ...flexiableContent,
+              }}
+            >
+              <Typography variant="h6" component="h3" color="default">
+                <strong>eCQI Resource Center</strong>
+              </Typography>
+              <Typography variant="body2" color="default">
+                The one-stop shop for the most current resources to support electronic clinical quality improvement.
+              </Typography>
+              <Button disableRipple size="small" variant="text" color="secondary" endIcon={<ArrowForwardIcon />}>
+                Go to center
+              </Button>
+            </CardContent>
           </Card>
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
