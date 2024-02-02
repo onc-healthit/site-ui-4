@@ -63,7 +63,7 @@ const cypressCardImage = {
   height: '175px',
 }
 
-const flexiableContent = {
+const flexibleContent = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
@@ -74,7 +74,7 @@ const flexiableContent = {
 
 const CqmHome = () => {
   return (
-    <Box width={'100%'} pt={8}>
+    <Box>
       {/* Global Header */}
       <BannerBox
         breadcrumbs={
@@ -273,7 +273,7 @@ const CqmHome = () => {
           >
             <CardContent
               sx={{
-                ...flexiableContent,
+                ...flexibleContent,
               }}
             >
               <Typography variant="h6" component="h3" color="default">
@@ -298,7 +298,7 @@ const CqmHome = () => {
           >
             <CardContent
               sx={{
-                ...flexiableContent,
+                ...flexibleContent,
               }}
             >
               <Typography variant="h6" component="h3" color="default">
