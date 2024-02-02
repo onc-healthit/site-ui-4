@@ -8,7 +8,6 @@ import {
 import { useState } from 'react'
 
 /* Custom Imports */
-import { GENERIC_LINK_TO_REPLACE } from '@/constants/navConstants'
 import { NavListItemType } from '@/types/NavListItemType'
 import NavListHeadItem from '../NavListHeadItem'
 import NavListSubItems from '../NavListSubItems'
@@ -24,25 +23,25 @@ export default function SiteNavGeneralTools() {
     {
       text: 'CPOE Evaluation Tool',
       isExternalLink: true,
-      href: GENERIC_LINK_TO_REPLACE,
+      href: 'https://www.leapfroggroup.org/survey-materials/prepare-cpoe-tool',
       icon: <ImportantDevicesOutlined />,
     },
     {
       text: 'IHE Testing Tools',
       isExternalLink: true,
-      href: GENERIC_LINK_TO_REPLACE,
+      href: 'https://www.ihe.net/testing/testing_tools/',
       icon: <HealingOutlined />,
     },
     {
       text: 'Lantern Project',
       isExternalLink: true,
-      href: GENERIC_LINK_TO_REPLACE,
+      href: 'https://lantern.healthit.gov/?tab=dashboard_tab',
       icon: <FireplaceOutlined />,
     },
     {
       text: 'NIST Conformance Test',
-      isExternalLink: true,
-      href: GENERIC_LINK_TO_REPLACE,
+      isExternalLink: false,
+      href: '/nist-conformance-test',
       icon: <SquareFootOutlined />,
     },
   ]
