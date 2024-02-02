@@ -126,6 +126,14 @@ export const lightThemeOptions: ThemeOptions = {
         },
       },
     },
+    // If we don't want to override this globally, can revert to using a local override in SiteHome
+    MuiButton: {
+      styleOverrides: {
+        containedSecondary: {
+          color: palette.white,
+        },
+      },
+    },
     MuiListItemButton: {
       styleOverrides: {
         root: {

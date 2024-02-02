@@ -11,7 +11,6 @@ import {
 import { useState } from 'react'
 
 /* Custom Imports */
-import { GENERIC_LINK_TO_REPLACE } from '@/constants/navConstants'
 import { NavListItemType } from '@/types/NavListItemType'
 import NavListHeadItem from '../NavListHeadItem'
 import NavListSubItems from '../NavListSubItems'
@@ -51,19 +50,19 @@ export default function SiteNavOncCertTools() {
     {
       text: 'Electronic Prescribing (eRX) Tool',
       isExternalLink: true,
-      href: GENERIC_LINK_TO_REPLACE,
+      href: 'https://tools.ncpdp.org/erx/#/home',
       icon: <MedicationOutlined />,
     },
     {
       text: 'Public Health Reporting',
-      isExternalLink: true,
-      href: GENERIC_LINK_TO_REPLACE,
+      isExternalLink: false,
+      href: '/public-health-reporting',
       icon: <GroupsOutlined />,
     },
     {
       text: 'Alternative Test Methods',
-      isExternalLink: true,
-      href: GENERIC_LINK_TO_REPLACE,
+      isExternalLink: false,
+      href: '/alternative-test-methods',
       icon: <AltRouteOutlined />,
     },
   ]
