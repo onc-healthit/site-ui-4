@@ -14,10 +14,12 @@ import rootCA from '@public/direct/rootCA.svg'
 import Link from 'next/link'
 import styles from '@shared/styles.module.css'
 import SectionHeader from '../shared/SectionHeader'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
 const DirectHome = () => {
   const cardMaxWidth = 345
-  const cardImageWidth = '350px'
+  const cardImageWidth = '345px'
+  const flexibleBox = { display: 'flex', gap: 4, flexDirection: 'row', width: '100%', justifyContent: 'space-between' }
   return (
     <>
       {/* Global Header */}
@@ -82,50 +84,62 @@ const DirectHome = () => {
           header={'Select a category to start your direct project tooling.'}
           subHeader={'All Direct in One Place'}
         />
-        <Box display={'flex'} width={'100%'} justifyContent={'space-between'} paddingBottom={4}>
+        <Box sx={{ ...flexibleBox }} paddingBottom={4}>
           <CategoryCard
             cardHeader="Register for Direct Email"
             description={
               'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
             }
-            maxWidth={cardMaxWidth}
+            buttonTitle={'GO'}
+            buttonLink={''}
+            buttonIcon={<ArrowForwardIcon />}
           />
           <CategoryCard
             cardHeader="Send Direct Email"
             description={
               'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
             }
-            maxWidth={cardMaxWidth}
+            buttonTitle={'GO'}
+            buttonLink={''}
+            buttonIcon={<ArrowForwardIcon />}
           />
           <CategoryCard
             cardHeader="Validate Direct Email"
             description={
               'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
             }
-            maxWidth={cardMaxWidth}
+            buttonTitle={'GO'}
+            buttonLink={''}
+            buttonIcon={<ArrowForwardIcon />}
           />
         </Box>
-        <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
+        <Box sx={{ ...flexibleBox }}>
           <CategoryCard
             cardHeader="Discovery Test Tool"
             description={
               'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
             }
-            maxWidth={cardMaxWidth}
+            buttonTitle={'GO'}
+            buttonLink={''}
+            buttonIcon={<ArrowForwardIcon />}
           />
           <CategoryCard
             cardHeader="Transport Test Tool"
             description={
               'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
             }
-            maxWidth={cardMaxWidth}
+            buttonTitle={'GO'}
+            buttonLink={''}
+            buttonIcon={<ArrowForwardIcon />}
           />
           <CategoryCard
             cardHeader="HISP Testing Portal"
             description={
               'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
             }
-            maxWidth={cardMaxWidth}
+            buttonTitle={'GO'}
+            buttonLink={''}
+            buttonIcon={<ArrowForwardIcon />}
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
