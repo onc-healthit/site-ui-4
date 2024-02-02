@@ -12,7 +12,7 @@ export interface CriteriaCardProps {
   title: string
   cardImage: string
   cardHeader: string
-  cardSubheader: string
+  cardSubheader?: string
   description: string
   pathname: string
   maxWidth: number
@@ -29,6 +29,8 @@ const CriteriaCard = ({
   maxWidth,
   imageWidth,
 }: CriteriaCardProps) => {
+  const isExternalLink = pathname.startsWith('http')
+
   return (
     <Card sx={{ maxWidth: maxWidth }} id="criteria">
       <CardActionArea>
@@ -49,9 +51,9 @@ const CriteriaCard = ({
       </CardActionArea>
       <CardActions>
         <Link
-          href={{
-            pathname: pathname,
-          }}
+          href={pathname}
+          target={isExternalLink ? '_blank' : undefined}
+          rel={isExternalLink ? 'noopener noreferrer' : undefined}
         >
           <Button size="small" variant="text" color="secondary" endIcon={<ArrowForwardIcon />}>
             Go
