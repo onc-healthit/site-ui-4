@@ -29,13 +29,13 @@ export default function SiteNavIndustryTools() {
     {
       text: 'Reference Data',
       isExternalLink: false,
-      href: 'reference-data',
+      href: '/reference-data',
       icon: <FolderSpecialOutlined />,
     },
     {
       text: 'Implementation Guide Authoring Tools',
       isExternalLink: false,
-      href: 'implementation-guide-authoring-tools',
+      href: '/implementation-guide-authoring-tools',
       icon: <MenuBookOutlined />,
     },
     {
