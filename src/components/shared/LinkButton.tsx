@@ -2,7 +2,12 @@ import React from 'react'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
-const LinkButton = ({ label, url, icon }) => {
+export interface LinkButtonProps {
+  label: string
+  url: string
+  icon: React.ReactNode
+}
+const LinkButton = ({ label, url, icon }: LinkButtonProps) => {
   return (
     <Button
       target="_blank"
