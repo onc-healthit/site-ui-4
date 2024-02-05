@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Divider, Button, Dialog, DialogTitle, DialogContent, DialogActions, Typography } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
+import { useState } from 'react'
 
 /* Custom Imports */
 import { SITE_VERSION } from '@/constants/navConstants'
@@ -37,7 +37,7 @@ export default function NavFooter() {
         <DialogContent>
           <Typography gutterBottom>
             Our commitment to transparency and keeping you informed about the latest updates is at the heart of this
-            section. Whether you're a developer, an IT professional, or a healthcare stakeholder, our release notes
+            section. Whether you&apos;re a developer, an IT professional, or a healthcare stakeholder, our release notes
             provide valuable insights into the evolution of our platform.
           </Typography>
           <Typography variant="body2">

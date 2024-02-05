@@ -18,18 +18,20 @@ export interface criteriaProps {
 
 const TestByCriteria = ({ selectedTab }: criteriaProps) => {
   const [value, setValue] = React.useState(0)
-  const criteriaTabs = [
-    { criteria: 'B1', tabIndex: 0 },
-    { criteria: 'H1', tabIndex: 1 },
-    { criteria: 'H2', tabIndex: 2 },
-  ]
+  const criteriaTabs = React.useMemo(() => {
+    return [
+      { criteria: 'B1', tabIndex: 0 },
+      { criteria: 'H1', tabIndex: 1 },
+      { criteria: 'H2', tabIndex: 2 },
+    ]
+  }, [])
 
   useEffect(() => {
     if (selectedTab !== '') {
       const criteriaTabIndex = criteriaTabs.filter((c) => c.criteria === selectedTab)
       setValue(criteriaTabIndex[0].tabIndex)
     }
-  }, [selectedTab])
+  }, [selectedTab, criteriaTabs])
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
