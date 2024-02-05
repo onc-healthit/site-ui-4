@@ -11,11 +11,11 @@ export default function Ankle() {
         <Typography variant="body1" color="#fff">
           Please checkout our{' '}
           <Link color="secondary" href={''}>
-            Archives
+            Resources
           </Link>{' '}
           or{' '}
           <Link color="secondary" href={''}>
-            Resources
+            Archives
           </Link>{' '}
           for more details.
         </Typography>
