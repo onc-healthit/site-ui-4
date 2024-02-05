@@ -124,6 +124,11 @@ export const lightThemeOptions: ThemeOptions = {
             backgroundColor: palette.greyMain,
           },
         },
+        a: {
+          '&:visited': {
+            color: '#0F46A1',
+          },
+        },
       },
     },
     // If we don't want to override this globally, can revert to using a local override in SiteHome

@@ -17,6 +17,8 @@ import SectionHeader from '../shared/SectionHeader'
 export default function SiteHomeRows() {
   const maxWidth: number = 270
   const rowPaddingBottom: number = 20
+  const industryTestingResourceRow = 370
+  const imageURL = '../shared/ONCLogo-backgroundImage.png'
 
   return (
     <>
@@ -30,7 +32,16 @@ export default function SiteHomeRows() {
       -Externalize links (external and routes) here and in nav to constants since there is reuse now
       -Support scrolling of cards
       -Could further modularize this into SiteHomeRow and then map them here if time (or separte row components if less time) */}
-      <Box bgcolor={palette.primary}>
+      <Box
+        bgcolor={palette.primary}
+        sx={{
+          backgroundImage: `url(${imageURL})`,
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: palette.primary,
+        }}
+      >
         <Container>
           {/* Row 1: ONC Certification Tools*/}
           <SectionHeader
@@ -144,7 +155,13 @@ export default function SiteHomeRows() {
             subHeader={'Outside tools may help you!'}
             isHeaderAlternateColor={true}
           />
-          <Box display={'flex'} width={'100%'} justifyContent={'space-between'} sx={{ pb: `${rowPaddingBottom}px` }}>
+          <Box
+            display={'flex'}
+            width={'100%'}
+            justifyContent={'space-between'}
+            gap={4}
+            sx={{ pb: `${rowPaddingBottom}px` }}
+          >
             <CardWithImage
               title={'HL7 Tools'}
               cardImage={hl7Svg}
@@ -153,8 +170,8 @@ export default function SiteHomeRows() {
                 'Assess the conformance, interoperability, and functionality of healthcare information systems implementing HL7 standards.'
               }
               pathname={'/hl7-tools'}
-              maxWidth={maxWidth}
-              imageWidth={maxWidth + 'px'}
+              maxWidth={industryTestingResourceRow}
+              imageWidth={industryTestingResourceRow + 'px'}
             />
             <CardWithImage
               title={'Reference Data'}
@@ -164,8 +181,8 @@ export default function SiteHomeRows() {
                 'Values used to standardize and categorize data elements within a system, making it easier to understand and compare data across different applications or processes.'
               }
               pathname={'/reference-data'}
-              maxWidth={maxWidth}
-              imageWidth={maxWidth + 'px'}
+              maxWidth={industryTestingResourceRow}
+              imageWidth={industryTestingResourceRow + 'px'}
             />
             <CardWithImage
               title={'Implementation Guides'}
@@ -175,8 +192,8 @@ export default function SiteHomeRows() {
                 'Implementation guides in healthcare serve as comprehensive documents outlining the specific rules, standards, and protocols for implementing interoperable health information systems.'
               }
               pathname={'/implementation-guide-authoring-tools'}
-              maxWidth={maxWidth}
-              imageWidth={maxWidth + 'px'}
+              maxWidth={industryTestingResourceRow}
+              imageWidth={industryTestingResourceRow + 'px'}
             />
           </Box>
         </Container>
