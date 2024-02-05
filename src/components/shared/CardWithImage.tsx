@@ -32,7 +32,10 @@ const CriteriaCard = ({
   const isExternalLink = pathname.startsWith('http')
 
   return (
-    <Card sx={{ maxWidth: maxWidth }} id="criteria">
+    <Card
+      sx={{ maxWidth: maxWidth, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+      id="criteria"
+    >
       <CardActionArea>
         <CardMedia title={title}>
           <Image style={{ width: imageWidth, height: 'auto' }} src={cardImage} alt={title} />
