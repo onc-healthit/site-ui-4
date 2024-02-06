@@ -1,9 +1,9 @@
 import { Container, Card, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import WelcomeHeader from './WelcomeHeader'
-import Overview, { QAItem } from './OverviewCard'
-import ArchiveSubMenu from '@/app/archived/ArchiveSubMenu'
-import FAQCard from './FAQCard'
+import WelcomeHeader from '../../../components/resources/WelcomeHeader'
+import Overview, { QAItem } from '../../../components/resources/OverviewCard'
+import ArchiveSubMenu from '@/components/archived/ArchiveSubMenu'
+import FAQCard from '../../../components/resources/FAQCard'
 
 export default function ArchivedHome() {
   const faqItems: QAItem[] = [
@@ -21,16 +21,17 @@ export default function ArchivedHome() {
       answer: 'Explore the various tools, functions, and capabilities that SITE offers to help you achieve your goals.',
     },
     {
-      question: 'What are the key features of SITE?',
-      answer: 'Explore the various tools, functions, and capabilities that SITE offers to help you achieve your goals.',
+      question: 'How can I connect with other users on SITE?',
+      answer: 'Learn how to build connections, join communities, and engage with fellow SITE users.',
     },
     {
-      question: 'What are the key features of SITE?',
-      answer: 'Explore the various tools, functions, and capabilities that SITE offers to help you achieve your goals.',
+      question: 'Is SITE compatible with mobile devices?',
+      answer:
+        'Find out if SITE is accessible on smartphones and tablets, and how to make the most of the mobile experience.',
     },
     {
-      question: 'What are the key features of SITE?',
-      answer: 'Explore the various tools, functions, and capabilities that SITE offers to help you achieve your goals.',
+      question: 'How can I report issues or seek assistance on SITE?',
+      answer: 'Get information on how to report bugs, seek technical support, or contact our customer service team.',
     },
   ]
 
