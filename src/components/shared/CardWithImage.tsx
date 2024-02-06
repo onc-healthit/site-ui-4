@@ -17,6 +17,7 @@ export interface CriteriaCardProps {
   pathname: string
   maxWidth: number
   imageWidth: string
+  buttonTitle?: string // optional as has default
 }
 
 const CriteriaCard = ({
@@ -28,8 +29,10 @@ const CriteriaCard = ({
   pathname,
   maxWidth,
   imageWidth,
+  buttonTitle,
 }: CriteriaCardProps) => {
-  const isExternalLink = pathname.startsWith('http')
+  const isExternalLink: boolean = pathname.startsWith('http')
+  const defaultButtonTitle: string = buttonTitle ?? 'Go'
 
   return (
     <Card
@@ -59,7 +62,7 @@ const CriteriaCard = ({
           rel={isExternalLink ? 'noopener noreferrer' : undefined}
         >
           <Button size="small" variant="text" color="secondary" endIcon={<ArrowForwardIcon />}>
-            Go
+            {defaultButtonTitle}
           </Button>
         </Link>
       </CardActions>
