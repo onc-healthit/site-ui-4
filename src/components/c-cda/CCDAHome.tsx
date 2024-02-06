@@ -8,10 +8,12 @@ import uscdiv2 from '@public/c-cda/uscdi-v2.svg'
 import placeholder from '@public/c-cda/placeholder.svg'
 import CardWithBorder from '@shared/CardWithBorder'
 import SectionHeader from '../shared/SectionHeader'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
 const CCDAHome = () => {
   const maxWidth = 550
   const certCardMaxWidth = 350
+  const flexibleBox = { display: 'flex', gap: 4, flexDirection: 'row', width: '100%', justifyContent: 'space-between' }
   return (
     <>
       {/* Global Header */}
@@ -70,20 +72,24 @@ const CCDAHome = () => {
           subHeader={'Help with quantitative assessment of the data quality using the Scorecard.'}
         />
 
-        <Box display={'flex'} width={'100%'} justifyContent={'space-between'} paddingBottom={4}>
+        <Box sx={{ ...flexibleBox }}>
           <CardWithBorder
             cardHeader="C-CDA Scorecard"
             description={
               'The SITE C-CDA Scorecard provides an enhanced level of interoperability for C-CDA documents by using a comprehensive scoring system, which allows implementers to improve the data quality and representation of their C-CDA documents.'
             }
-            maxWidth={maxWidth}
+            buttonTitle={'GO'}
+            buttonLink={''}
+            buttonIcon={<ArrowForwardIcon />}
           />
           <CardWithBorder
             cardHeader="One Click Scorecard"
             description={
               'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 2-US Realm, Oct 2021 (with errata)'
             }
-            maxWidth={maxWidth}
+            buttonTitle={'GO'}
+            buttonLink={''}
+            buttonIcon={<ArrowForwardIcon />}
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
