@@ -24,11 +24,10 @@ export default function SiteHomeRows() {
     <>
       {/* TODO:
       -@Matt: "Take A Tour" button location matches design but would it look better aligned with main header vs subHeader?
-      -@Matt Export of CQM image not working correctly so it's rendered off, fix and re-import
-      -Fix card overlap on lower res screens
-      -Fix width and height of cards to match design (likely need to support height in CardWIthImage)
-      -Support unique link button names e.g. Go, Access, Start, etc.
-      -Ensure if description is short, that link buttons stick to bottom of card
+      -@Matt: Export of CQM image not working correctly so it's rendered off, fix and re-import
+      -#Matt: Fix card overlap on lower res screens
+      -@Matt: Fix width and height of cards to match design (likely need to support height in CardWIthImage),
+      or should we, taller descriptions are better than wide, right?
       -Externalize links (external and routes) here and in nav to constants since there is reuse now
       -Support scrolling of cards
       -Could further modularize this into SiteHomeRow and then map them here if time (or separte row components if less time) */}
