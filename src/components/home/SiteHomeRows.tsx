@@ -60,6 +60,7 @@ export default function SiteHomeRows() {
               pathname={'https://inferno.healthit.gov/'}
               maxWidth={maxWidth}
               imageWidth={maxWidth + 'px'}
+              buttonTitle="Start"
             />
             <CardWithImage
               title={'C-CDA Testing'}
@@ -71,6 +72,7 @@ export default function SiteHomeRows() {
               pathname={'/c-cda'}
               maxWidth={maxWidth}
               imageWidth={maxWidth + 'px'}
+              buttonTitle="Access"
             />
             <CardWithImage
               title={'Direct Project Tooling'}
@@ -93,6 +95,7 @@ export default function SiteHomeRows() {
               pathname={'/cqm-qrda'}
               maxWidth={maxWidth}
               imageWidth={maxWidth + 'px'}
+              buttonTitle="Start"
             />
           </Box>
 
@@ -113,6 +116,7 @@ export default function SiteHomeRows() {
               pathname={'https://www.leapfroggroup.org/survey-materials/prepare-cpoe-tool'}
               maxWidth={maxWidth}
               imageWidth={maxWidth + 'px'}
+              buttonTitle="View"
             />
             <CardWithImage
               title={'IHE Testing Tools'}
@@ -124,6 +128,7 @@ export default function SiteHomeRows() {
               pathname={'https://www.ihe.net/testing/testing_tools'}
               maxWidth={maxWidth}
               imageWidth={maxWidth + 'px'}
+              buttonTitle="Learn"
             />
             <CardWithImage
               title={'NIST Conformance Testing'}
@@ -135,6 +140,7 @@ export default function SiteHomeRows() {
               pathname={'/nist-conformance-test'}
               maxWidth={maxWidth}
               imageWidth={maxWidth + 'px'}
+              buttonTitle="Learn"
             />
             <CardWithImage
               title={'Lantern Project'}
@@ -146,6 +152,7 @@ export default function SiteHomeRows() {
               pathname={'https://lantern.healthit.gov/?tab=dashboard_tab'}
               maxWidth={maxWidth}
               imageWidth={maxWidth + 'px'}
+              buttonTitle="Start"
             />
           </Box>
 
@@ -172,6 +179,7 @@ export default function SiteHomeRows() {
               pathname={'/hl7-tools'}
               maxWidth={industryTestingResourceRow}
               imageWidth={industryTestingResourceRow + 'px'}
+              buttonTitle="Access"
             />
             <CardWithImage
               title={'Reference Data'}
@@ -194,6 +202,7 @@ export default function SiteHomeRows() {
               pathname={'/implementation-guide-authoring-tools'}
               maxWidth={industryTestingResourceRow}
               imageWidth={industryTestingResourceRow + 'px'}
+              buttonTitle="Learn"
             />
           </Box>
         </Container>
