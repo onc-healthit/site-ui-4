@@ -1,7 +1,7 @@
 'use client'
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import BannerBox from './shared/BannerBox'
+import BannerBox from '@shared/BannerBox'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import { Container } from '@mui/material'
@@ -11,25 +11,27 @@ import H2Component from './H2Tab'
 import palette from '@/styles/palette'
 import { useEffect } from 'react'
 import Link from 'next/link'
-import styles from './styles.module.css'
+import styles from '@shared/styles.module.css'
 export interface criteriaProps {
   selectedTab: string
 }
 
 const TestByCriteria = ({ selectedTab }: criteriaProps) => {
   const [value, setValue] = React.useState(0)
-  const criteriaTabs = [
-    { criteria: 'B1', tabIndex: 0 },
-    { criteria: 'H1', tabIndex: 1 },
-    { criteria: 'H2', tabIndex: 2 },
-  ]
+  const criteriaTabs = React.useMemo(() => {
+    return [
+      { criteria: 'B1', tabIndex: 0 },
+      { criteria: 'H1', tabIndex: 1 },
+      { criteria: 'H2', tabIndex: 2 },
+    ]
+  }, [])
 
   useEffect(() => {
     if (selectedTab !== '') {
       const criteriaTabIndex = criteriaTabs.filter((c) => c.criteria === selectedTab)
       setValue(criteriaTabIndex[0].tabIndex)
     }
-  }, [selectedTab])
+  }, [selectedTab, criteriaTabs])
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -48,7 +50,7 @@ const TestByCriteria = ({ selectedTab }: criteriaProps) => {
   }
 
   return (
-    <Box width="100%" pt={8}>
+    <div>
       {/* Global Header */}
       <BannerBox
         breadcrumbs={[
@@ -87,7 +89,7 @@ const TestByCriteria = ({ selectedTab }: criteriaProps) => {
       <CustomTabPanel value={value} index={2}>
         <H2Component />
       </CustomTabPanel>
-    </Box>
+    </div>
   )
 }
 
