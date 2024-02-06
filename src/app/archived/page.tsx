@@ -1,8 +1,8 @@
 import { Container } from '@mui/material'
 import Box from '@mui/material/Box'
-import ArchiveCard from './ArchiveCard'
-import ArchiveSubMenu from './ArchiveSubMenu'
-import WelcomeHeader from './WelcomeHeader'
+import ArchiveCard from '../../components/archived/ArchiveCard'
+import ArchiveSubMenu from '../../components/archived/ArchiveSubMenu'
+import WelcomeHeader from '../../components/archived/WelcomeHeader'
 
 export default function ArchivedHome() {
   return (
