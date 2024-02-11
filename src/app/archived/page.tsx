@@ -1,35 +1,42 @@
-import { Container } from '@mui/material'
 import Box from '@mui/material/Box'
 import ArchiveCard from '../../components/archived/ArchiveCard'
 import ArchiveSubMenu from '../../components/archived/ArchiveSubMenu'
-import WelcomeHeader from '../../components/archived/WelcomeHeader'
+import BannerBox from '@shared/BannerBox'
 
 export default function ArchivedHome() {
   return (
-    <Box>
-      {/* Global Header */}
-      <WelcomeHeader
+    <div>
+      <BannerBox
+        breadcrumbs={undefined}
         heading={'Archived tools, files and other additional content'}
-        description={`
-            Welcome to the Frequently Asked Questions (FAQ) section of the SITE website. Here, we've compiled a
-            comprehensive list of common queries and inquiries to provide you with quick and informative answers to your
-            most pressing questions about SITE. Whether you're a new visitor exploring our platform or a long-time user
-            seeking clarification, this FAQ section aims to simplify your experience and provide valuable insights into
-            SITE's features and functionalities.`}
+        isTourButton={false}
+        description={
+          "Welcome to the Frequently Asked Questions (FAQ) section of the SITE website. Here, we've compiled a comprehensive list of common queries and inquiries to provide you with quick and informative answers to your most pressing questions about SITE. Whether you're a new visitor exploring our platform or a long-time user seeking clarification, this FAQ section aims to simplify your experience and provide valuable insights into SITE's features and functionalities."
+        }
       />
-
-      {/* Main Content */}
-      <Container disableGutters sx={{ display: 'flex', alignItems: 'flex-end' }}>
-        <ArchiveSubMenu></ArchiveSubMenu>
+      <Box
+        sx={{
+          position: 'relative',
+          width: '1441px',
+          height: '1457px',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'flex',
+          padding: '0 32px',
+          mt: 4,
+        }}
+      >
+        <ArchiveSubMenu />
         <Box
-          display={'flex'}
-          maxWidth={'1075px'}
-          width={'100%'}
-          alignItems={'flex-end'}
-          marginRight={'32px'}
-          ml={'320px'}
-          mt={'263px'}
-          paddingBottom={4}
+          sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            left: '300px',
+            maxWidth: '1075px',
+            width: '100%',
+            paddingBottom: 4,
+          }}
         >
           <ArchiveCard
             cardHeader="Cures Update"
@@ -56,7 +63,7 @@ export default function ArchivedHome() {
             }
           />
         </Box>
-      </Container>
-    </Box>
+      </Box>
+    </div>
   )
 }

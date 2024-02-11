@@ -27,6 +27,7 @@ const Overview: React.FC<FAQProps> = ({ header, items }) => {
         borderRadius: '4px',
         border: 1,
         borderColor: 'grey.300',
+        margin: '8px',
       }}
     >
       <Typography variant="h5" component="div" sx={{ fontWeight: 'bold' }}>
