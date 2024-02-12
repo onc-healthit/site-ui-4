@@ -8,6 +8,8 @@ const ArchiveSubMenu = () => {
       sx={{
         width: '450px',
         borderRadius: '4px',
+        top: '80px',
+        position: 'sticky',
         height: 'fit-content',
         border: '1px solid #E8E8E8',
         backgroundColor: '#FFFFFF',
