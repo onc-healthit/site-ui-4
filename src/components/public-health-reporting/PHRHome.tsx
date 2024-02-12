@@ -31,12 +31,20 @@ const PHRHome = () => {
           </Link>
         }
         heading={'Public Health Reporting'}
-        description={<>Text</>}
+        description={
+          <>
+            Explore public health reporting and CDA reporting tools, including HL7® CDA® Cancer Registry Reporting
+            Validation Tool for validating cancer-related medical information. Additionally, ensure compliance with
+            HL7® CDA® National Health Care Surveys Validator for testing CDA XML documents. NIST offers specialized
+            test suites like the HL7® v2 Immunization and Syndromic Surveillance Test Suites, along with the Electronic
+            Laboratory Reporting Validation Suite for HIT certification testing.
+          </>
+        }
       />
       {/* Main Content */}
       <Container>
         {/* CDA Reporting Header */}
-        <SectionHeader header={'CDA Reporting'} subHeader={'Tagline'} />
+        <SectionHeader header={'CDA Reporting'} subHeader={'Ensuring CDA Compliance: Precision in Reporting'} />
         {/* Other Tools & Resources Content */}
         <Box gap={4} display={'flex'} justifyContent={'space-between'} flexDirection={'row'} width={'100%'}>
           {/* HL7® CDA® Cancer Registry Reporting Validation Tool*/}
@@ -73,7 +81,10 @@ const PHRHome = () => {
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
         {/* NIST Reporting Header */}
-        <SectionHeader header={'NIST Reporting'} subHeader={'Tagline'} />
+        <SectionHeader
+          header={'NIST Reporting'}
+          subHeader={'Elevating Healthcare Data Integrity: NIST Reporting Excellence.'}
+        />
         {/* Other Tools & Resources Content */}
         <Box gap={4} pb={8} display={'flex'} justifyContent={'space-between'} flexDirection={'row'} width={'100%'}>
           {/* NIST HL7® v2 Immunization Test Suite Card */}
