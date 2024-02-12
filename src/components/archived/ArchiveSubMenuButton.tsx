@@ -13,7 +13,7 @@ const ArchiveSubMenuButton = ({ heading }: ArchiveSubMenuProps) => {
         justifyContent: 'flex-start',
         height: 'auto',
         minHeight: '36px',
-        padding: '6px 16px',
+        padding: '8px 16px',
       }}
     >
       {heading}
