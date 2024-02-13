@@ -10,8 +10,8 @@ import {
   CardContent,
   Container,
 } from '@mui/material'
-import Profile from './shared/Profile'
-import SMTPTestCard from './shared/SMTPTestCard'
+import Profile from '../shared/Profile'
+import SMTPTestCard from '../shared/SMTPTestCard'
 import palette from '@/styles/palette'
 import React, { useEffect } from 'react'
 
