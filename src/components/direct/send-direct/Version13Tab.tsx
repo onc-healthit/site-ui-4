@@ -159,7 +159,7 @@ const Version13 = () => {
               arrow
               placement="right"
             >
-              <HelpIcon fontSize={'small'} />
+              <HelpIcon color="primary" fontSize={'small'} />
             </Tooltip>
           </Stack>
           <DragandDropFile />
@@ -193,7 +193,7 @@ const Version13 = () => {
               <strong>or select message with invalid digest (message which had been altered)</strong>
             </Typography>
             <FormGroup>
-              <FormControlLabel control={<Switch color="secondary" />} label="INVALID DIGEST" />
+              <FormControlLabel control={<Switch color="secondary" />} label="Invalid Digest" />
             </FormGroup>
           </Box>
         </Box>
@@ -222,7 +222,7 @@ const Version13 = () => {
               arrow
               placement="right"
             >
-              <HelpIcon fontSize="small" />
+              <HelpIcon color="primary" fontSize="small" />
             </Tooltip>
           </Stack>
 
