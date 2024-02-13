@@ -11,7 +11,13 @@ export interface CriteriaCardProps {
 }
 const ArchiveCard = ({ cardHeader, description }: CriteriaCardProps) => {
   return (
-    <Card sx={{ width: '244.75px', height: '245px', margin: '8px', borderTop: '16px solid #E8E8E8' }} id="category">
+    <Card
+      sx={{
+        width: '250px',
+        borderTop: '16px solid #E8E8E8',
+      }}
+      id="category"
+    >
       <CardContent sx={{ pt: 2, pb: 3, pl: 3, pr: 3 }}>
         <Typography variant="h6" component="h3" color="default" sx={{ mb: 1 }}>
           <strong>{cardHeader}</strong>
