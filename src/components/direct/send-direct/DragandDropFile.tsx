@@ -5,13 +5,14 @@ import FileUploadIcon from '@mui/icons-material/FileUpload'
 import palette from '@/styles/palette'
 
 const baseStyle = {
-  flex: 1,
   display: 'flex',
   alignItems: 'center',
+  flexDirection: 'row',
+  justifyContent: 'center',
   padding: '20px',
   borderWidth: 2,
-  borderRadius: 2,
-  borderColor: '#000000',
+  borderRadius: 4,
+  borderColor: palette.primary,
   borderStyle: 'dashed',
   backgroundColor: '#F5F5F5',
   color: palette.primary,
@@ -24,11 +25,12 @@ const focusedStyle = {
 }
 
 const acceptStyle = {
-  borderColor: '#00e676',
+  borderColor: palette.secondary,
+  backgroundColor: palette.greyLight,
 }
 
 const rejectStyle = {
-  borderColor: '#ff1744',
+  borderColor: palette.error,
 }
 
 export default function DragDropFileUpload() {
@@ -52,7 +54,8 @@ export default function DragDropFileUpload() {
     <div className="container">
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
-        <FileUploadIcon /> <Typography>Drag & Drop file here or </Typography>
+        <FileUploadIcon />
+        <Typography>Drag & Drop file here or </Typography>
         <Button component="label" size="large" variant="text" color="primary" onClick={open}>
           BROWSE
         </Button>

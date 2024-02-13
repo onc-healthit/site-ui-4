@@ -77,19 +77,26 @@ const algorithmDropdown = [
 const Version13 = () => {
   return (
     <Container>
-      <Box component="form" width={'100%'}>
-        <Typography variant="h3" component={'h1'} sx={{ p: 4, pl: 0 }}>
-          Enter the fields below to send your Direct message
+      <Box pb={8} component="form" width={'100%'}>
+        <Typography gutterBottom variant="caption" component={'h1'} sx={{ pt: 4, pb: 0, pl: 0 }}>
+          Step 1
+        </Typography>
+        <Typography variant="h3" component={'h1'} sx={{ pl: 0, pt: 0, pb: 4 }}>
+          Enter the fields below to send your direct message
         </Typography>
 
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} pb={2} gap={2}>
+        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} pb={4} gap={4}>
           <TextField
             fullWidth
             id="from-email"
             label="From Email Address"
             helperText="The Direct From Address from where the message will be sent"
             InputProps={{
-              endAdornment: <InputAdornment position="end">@ett.healthit.gov</InputAdornment>,
+              endAdornment: (
+                <InputAdornment position="end">
+                  <strong>@ett.healthit.gov</strong>
+                </InputAdornment>
+              ),
             }}
             required
           />
@@ -101,9 +108,16 @@ const Version13 = () => {
             required
           />
         </Box>
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} pb={2} gap={2}>
+        <Box
+          display={'flex'}
+          alignItems={'baseline'}
+          flexDirection={'row'}
+          justifyContent={'space-between'}
+          pb={4}
+          gap={4}
+        >
           <TextField
-            fullWidth
+            sx={{ width: '50%' }}
             id="select-document"
             select
             label="Choose document to be sent as the message content"
@@ -116,12 +130,12 @@ const Version13 = () => {
               </MenuItem>
             ))}
           </TextField>
-          <FormGroup>
-            <FormControlLabel control={<Switch defaultChecked />} label="Wrapped" />
+          <FormGroup sx={{ width: '50%' }}>
+            <FormControlLabel control={<Switch color="secondary" defaultChecked />} label="Wrapped" />
           </FormGroup>
         </Box>
         <TextField
-          sx={{ pb: 2 }}
+          sx={{ pb: 4 }}
           fullWidth
           id="subject"
           label="Subject"
@@ -133,29 +147,33 @@ const Version13 = () => {
           multiline
           rows={4}
           helperText="Text attachment of the Direct message"
-          sx={{ width: '100%', pb: 2 }}
+          sx={{ width: '100%', pb: 4 }}
         />
-        <Box width={'50%'} pb={2}>
-          <Stack direction="row" alignItems="center" gap={1}>
-            <Typography variant="h6">Upload your own C-CDA file </Typography>
+        <Box width={'48%'} pb={4}>
+          <Stack direction="row" alignItems="flex-start" gap={1}>
+            <Typography gutterBottom variant="body1">
+              Upload your own C-CDA file
+            </Typography>
             <Tooltip
               title="Upload your own C-CDA to attach the message. Only one C-CDA document will be attached either your own or the one you selected from the tool."
               arrow
               placement="right"
             >
-              <HelpIcon />
+              <HelpIcon color="primary" fontSize={'small'} />
             </Tooltip>
           </Stack>
           <DragandDropFile />
         </Box>
 
         <Divider sx={{ borderBottomWidth: 2 }} />
-
-        <Typography variant="h3" component={'h1'} sx={{ p: 4, pl: 0 }}>
+        <Typography gutterBottom variant="caption" component={'h1'} sx={{ pt: 4, pb: 0, pl: 0 }}>
+          Step 2
+        </Typography>
+        <Typography variant="h3" component={'h1'} sx={{ pl: 0, pt: 0, pb: 4 }}>
           Signing
         </Typography>
 
-        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} pb={2} gap={2}>
+        <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} pb={2} gap={4}>
           <TextField
             sx={{ width: '50%', pb: 2 }}
             id="select-certificate"
@@ -170,12 +188,12 @@ const Version13 = () => {
               </MenuItem>
             ))}
           </TextField>
-          <Box width={'50%'}>
-            <Typography variant="body1">
+          <Box display={'flex'} flexDirection={'row'} flexWrap={'wrap'} alignContent={'flex-start'} width={'50%'}>
+            <Typography variant="body2">
               <strong>or select message with invalid digest (message which had been altered)</strong>
             </Typography>
             <FormGroup>
-              <FormControlLabel control={<Switch />} label="INVALID DIGEST" />
+              <FormControlLabel control={<Switch color="secondary" />} label="Invalid Digest" />
             </FormGroup>
           </Box>
         </Box>
@@ -194,15 +212,17 @@ const Version13 = () => {
             </MenuItem>
           ))}
         </TextField>
-        <Box width={'50%'} pb={4}>
-          <Stack direction="row" alignItems="center" gap={1}>
-            <Typography variant="body1">Encryption Certificate</Typography>
+        <Box width={'48%'} pb={4}>
+          <Stack direction="row" alignItems="flex-start" gap={1}>
+            <Typography gutterBottom variant="body1">
+              Encryption Certificate
+            </Typography>
             <Tooltip
               title="Encryption certificate (optional) if not provided by DNS or LDAP lookup"
               arrow
               placement="right"
             >
-              <HelpIcon />
+              <HelpIcon color="primary" fontSize="small" />
             </Tooltip>
           </Stack>
 

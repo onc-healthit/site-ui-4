@@ -175,7 +175,7 @@ export const lightThemeOptions: ThemeOptions = {
     MuiFormLabel: {
       styleOverrides: {
         asterisk: {
-          color: palette.errorDark,
+          color: palette.error,
         },
       },
     },
