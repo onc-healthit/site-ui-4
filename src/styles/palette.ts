@@ -3,7 +3,7 @@ const palette = {
   background: '#f9f9f9',
   black: '#000',
   divider: '#BCBCBC',
-  error: '#0F46A1',
+  error: '#FF5252',
   errorDark: '#6D0D0D',
   grey: '#c6d5e5',
   greyLight: '#E8E8E8',
