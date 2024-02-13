@@ -10,13 +10,16 @@ export default function Ankle() {
         </Typography>
         <Typography variant="body1" color="#fff">
           Please checkout our{' '}
-          <Link color="secondary" href={''}>
-            Resources
-          </Link>{' '}
+          <Link color="secondary" href="/faqs" passHref>
+            FAQs
+          </Link>{', '}
+          <Link color="secondary" href="/docs-and-vids" passHref>
+            Documentation &amp; Videos
+          </Link>{', '}
           or{' '}
-          <Link color="secondary" href={''}>
-            Archives
-          </Link>{' '}
+          <Link color="secondary" href="/archived" passHref>
+            Archived
+          </Link>{' section '}
           for more details.
         </Typography>
       </Container>
