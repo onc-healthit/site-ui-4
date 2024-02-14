@@ -1,28 +1,27 @@
 import {
   Box,
+  Typography,
+  MenuItem,
   Card,
   CardContent,
   Container,
   FormControl,
   InputLabel,
-  MenuItem,
   Select,
   SelectChangeEvent,
-  Typography,
 } from '@mui/material'
-import Profile from './shared/Profile'
-import SMTPTestCard from './shared/SMTPTestCard'
+import Profile from '../shared/Profile'
+import SMTPTestCard from '../shared/SMTPTestCard'
 import palette from '@/styles/palette'
 import * as React from 'react'
 import { useEffect } from 'react'
 
-const B1Component = () => {
+const H2Component = () => {
   const [option, setOption] = React.useState('')
   const [showTestCard, setShowTestCard] = React.useState(false)
   const handleChange = (event: SelectChangeEvent) => {
     setOption(event.target.value as string)
   }
-
   useEffect(() => {
     if (option !== '') {
       setShowTestCard(true)
@@ -58,10 +57,37 @@ const B1Component = () => {
                 </Typography>
                 <Box>
                   <FormControl fullWidth>
-                    <InputLabel id="b1-select-label">Choose a sub category</InputLabel>
+                    <InputLabel id="h2-select-a-label">Choose a sub category</InputLabel>
                     <Select
-                      labelId="b1-select-label"
-                      id="b1-select"
+                      labelId="h2-select-a-label"
+                      id="h2-a-select"
+                      value={option}
+                      label="Choose a sub category"
+                      onChange={handleChange}
+                    >
+                      {dropdown.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+              </Box>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <Box component="form" sx={{ backgroundColor: palette.white }}>
+                <Typography variant="body2" gutterBottom>
+                  Use the menu to select what sub criteria you want to test for.
+                </Typography>
+                <Box>
+                  <FormControl fullWidth>
+                    <InputLabel id="h2-select-b-label">Choose a sub category</InputLabel>
+                    <Select
+                      labelId="h2-select-b-label"
+                      id="h2-b-select"
                       value={option}
                       label="Choose a sub category"
                       onChange={handleChange}
@@ -95,4 +121,4 @@ const B1Component = () => {
     </Container>
   )
 }
-export default B1Component
+export default H2Component
