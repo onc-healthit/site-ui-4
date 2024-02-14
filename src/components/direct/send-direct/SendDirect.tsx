@@ -26,6 +26,7 @@ const SendDirect = () => {
         heading={'Send Direct Message '}
         description={<>Send a Direct message from this tool to a HISP of your choosing. Need more text here</>}
       />
+      {/* Main Content */}
       <TabsComponent selectedTab={''} tabs={sendDirectTabs} />
     </>
   )

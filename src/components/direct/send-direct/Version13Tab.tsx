@@ -15,7 +15,9 @@ import {
 } from '@mui/material'
 import DragandDropFile from './DragandDropFile'
 import HelpIcon from '@mui/icons-material/Help'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import _ from 'lodash'
+
 const documentDropdown = [
   {
     value: 'CCDA_Ambulatory.xml',
@@ -75,9 +77,46 @@ const algorithmDropdown = [
 ]
 
 const Version13 = () => {
+  const [formErrors, setFormErrors] = useState({})
+  const [formValues, setFormValues] = useState({})
+  const [disableSendButton, setDisableSendButton] = React.useState(true)
+  /* TO-DO: Form submission, this would change when we work on functionality */
+  const handleSubmit = (e) => {
+    const { name, value } = e.target
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    })
+    console.log(formValues)
+  }
+
+  /* Validation*/
+  const handleValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let errors = {}
+    const { name, value } = e.target
+
+    if (value === '') {
+      errors = { ...errors, [name]: 'Email Address is required' }
+    }
+    if (!/^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/.test(value)) {
+      errors = { ...errors, [name]: 'Please enter a valid email' }
+    }
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    })
+    setFormErrors(errors)
+  }
+
+  useEffect(() => {
+    if (_.has(formValues, 'fromEmail') && _.has(formValues, 'toEmail') && _.isEmpty(formErrors)) {
+      setDisableSendButton(false)
+    }
+  }, [disableSendButton, formErrors, formValues])
+
   return (
     <Container>
-      <Box pb={8} component="form" width={'100%'}>
+      <Box pb={8} component="form" width={'100%'} noValidate onSubmit={handleSubmit}>
         <Typography gutterBottom variant="caption" component={'h1'} sx={{ pt: 4, pb: 0, pl: 0 }}>
           Step 1
         </Typography>
@@ -89,23 +128,39 @@ const Version13 = () => {
           <TextField
             fullWidth
             id="from-email"
+            name="fromEmail"
             label="From Email Address"
-            helperText="The Direct From Address from where the message will be sent"
+            error={_.has(formErrors, 'fromEmail')}
+            helperText={
+              _.has(formErrors, 'fromEmail')
+                ? _.get(formErrors, 'fromEmail', null)
+                : 'The Direct From Address from where the message will be sent'
+            }
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
                   <strong>@ett.healthit.gov</strong>
                 </InputAdornment>
               ),
+              type: 'email',
             }}
             required
+            onChange={handleValidation}
           />
           <TextField
             fullWidth
             id="to-email"
+            name="toEmail"
             label="To Email Address"
-            helperText="The Direct To Address where the message will be sent. Must be an email"
+            error={_.has(formErrors, 'toEmail')}
+            helperText={
+              _.has(formErrors, 'toEmail')
+                ? _.get(formErrors, 'toEmail', null)
+                : 'The Direct To Address where the message will be sent. Must be an email'
+            }
             required
+            InputProps={{ type: 'email' }}
+            onChange={handleValidation}
           />
         </Box>
         <Box
@@ -119,6 +174,7 @@ const Version13 = () => {
           <TextField
             sx={{ width: '50%' }}
             id="select-document"
+            name="document"
             select
             label="Choose document to be sent as the message content"
             helperText="The CDA sample which will be attached to the message"
@@ -131,19 +187,21 @@ const Version13 = () => {
             ))}
           </TextField>
           <FormGroup sx={{ width: '50%' }}>
-            <FormControlLabel control={<Switch color="secondary" defaultChecked />} label="Wrapped" />
+            <FormControlLabel control={<Switch color="secondary" defaultChecked />} label="Wrapped" name="wrapped" />
           </FormGroup>
         </Box>
         <TextField
           sx={{ pb: 4 }}
           fullWidth
           id="subject"
+          name="subject"
           label="Subject"
           helperText="Message Subject or Test Session Name. This field is optional."
         />
         <TextField
           id="outlined-multiline-static"
           label="Message"
+          name="message"
           multiline
           rows={4}
           helperText="Text attachment of the Direct message"
@@ -178,6 +236,7 @@ const Version13 = () => {
             sx={{ width: '50%', pb: 2 }}
             id="select-certificate"
             select
+            name="signingCertificate"
             label="Signing certificate"
             helperText="The private certificate which will be used to sign the message"
             defaultValue=""
@@ -193,7 +252,12 @@ const Version13 = () => {
               <strong>or select message with invalid digest (message which had been altered)</strong>
             </Typography>
             <FormGroup>
-              <FormControlLabel control={<Switch color="secondary" />} label="Invalid Digest" />
+              <FormControlLabel
+                value=""
+                control={<Switch color="secondary" />}
+                label="Invalid Digest"
+                name="invalidDigest"
+              />
             </FormGroup>
           </Box>
         </Box>
@@ -201,6 +265,7 @@ const Version13 = () => {
           sx={{ pb: 2 }}
           fullWidth
           id="select-algorithm"
+          name="signingAlgorithm"
           select
           label="Signing Algorithm"
           helperText="This is the algorithm used to sign the message"
@@ -228,7 +293,7 @@ const Version13 = () => {
 
           <DragandDropFile />
         </Box>
-        <Button variant="contained" color="primary" size="large">
+        <Button variant="contained" color="primary" size="large" disabled={disableSendButton} type="submit">
           SEND
         </Button>
       </Box>

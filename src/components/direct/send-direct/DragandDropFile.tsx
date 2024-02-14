@@ -4,6 +4,9 @@ import { useDropzone } from 'react-dropzone'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import palette from '@/styles/palette'
 
+{
+  /* TO-DO: Handle upload file as per functionality */
+}
 const baseStyle = {
   display: 'flex',
   alignItems: 'center',
