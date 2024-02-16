@@ -102,26 +102,27 @@ export const lightThemeOptions: ThemeOptions = {
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          scrollbarColor: palette.greyDark,
+          scrollbarColor: '#00000020',
           '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
-            backgroundColor: palette.greyLight,
+            backgroundColor: '#00000020',
+            width: '16px',
+            borderRadius: 8,
           },
           '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
-            borderRadius: 8,
-            backgroundColor: palette.greyMain,
-            border: `4px solid ${palette.greyLight}`,
+            borderRadius: 16,
+            backgroundColor: '#00000040',
           },
           '&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus': {
-            backgroundColor: palette.greyMain,
+            backgroundColor: '#00000060',
           },
           '&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active': {
-            backgroundColor: palette.greyMain,
+            backgroundColor: '#00000060',
           },
           '&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover': {
-            backgroundColor: palette.greyMain,
+            backgroundColor: '#00000060',
           },
           '&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner': {
-            backgroundColor: palette.greyMain,
+            borderRadius: 8,
           },
         },
         a: {
