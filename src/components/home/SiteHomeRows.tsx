@@ -1,3 +1,5 @@
+'use client'
+import React, { useState, useRef } from 'react'
 import palette from '@/styles/palette'
 import { Box, Container } from '@mui/material'
 import cCdaSvg from '@public/home/c-cda.svg'
@@ -15,10 +17,53 @@ import CardWithImage from '@shared/CardWithImage'
 import SectionHeader from '../shared/SectionHeader'
 
 export default function SiteHomeRows() {
-  const maxWidth: number = 270
+  const maxWidth: number = 350
   const rowPaddingBottom: number = 20
-  const industryTestingResourceRow = 370
+  const industryTestingResourceRow = 350
   const imageURL = '../shared/ONCLogo-backgroundImage.png'
+  const containerRef = useRef(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
+
+  const containerStyles = {
+    display: '-webkit-box',
+    flexDirection: 'row',
+    width: '100%',
+    overflowX: 'scroll',
+    gap: '48px',
+    cursor: 'grab', // Set the cursor to grab
+    '&:active': {
+      cursor: 'grabbing', // Change cursor to grabbing when clicked
+    },
+    paddingBottom: `${rowPaddingBottom}px`,
+  }
+
+  const containerNoDragStyles = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingBottom: `${rowPaddingBottom}px`,
+  }
+
+  const startDragging = (e) => {
+    setIsDragging(true)
+    setStartX(e.pageX - containerRef.current.offsetLeft)
+    setScrollLeft(containerRef.current.scrollLeft)
+  }
+
+  const stopDragging = () => {
+    setIsDragging(false)
+  }
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return
+    e.preventDefault()
+    const x = e.pageX - containerRef.current.offsetLeft
+    const walk = x - startX
+    containerRef.current.scrollLeft = scrollLeft - walk
+  }
 
   return (
     <>
@@ -48,7 +93,14 @@ export default function SiteHomeRows() {
             subHeader={'All tools required for certification.'}
             isHeaderAlternateColor={true}
           />
-          <Box display={'flex'} width={'100%'} justifyContent={'space-between'} sx={{ pb: `${rowPaddingBottom}px` }}>
+          <Box
+            ref={containerRef}
+            sx={containerStyles}
+            onMouseDown={startDragging}
+            onMouseUp={stopDragging}
+            onMouseLeave={stopDragging}
+            onMouseMove={handleMouseMove}
+          >
             <CardWithImage
               title={'Inferno FHIR Testing'}
               cardImage={infernoSvg}
@@ -97,14 +149,19 @@ export default function SiteHomeRows() {
               buttonTitle="Start"
             />
           </Box>
-
           {/* Row 2: General Testing Tools*/}
           <SectionHeader
             header={'General Testing Tools'}
             subHeader={'All tools not required for certification, but a benefit for your software!'}
             isHeaderAlternateColor={true}
           />
-          <Box display={'flex'} width={'100%'} justifyContent={'space-between'} sx={{ pb: `${rowPaddingBottom}px` }}>
+          <Box
+            onMouseDown={startDragging}
+            onMouseUp={stopDragging}
+            onMouseLeave={stopDragging}
+            onMouseMove={handleMouseMove}
+            sx={containerStyles}
+          >
             <CardWithImage
               title={'CPOE Evaluation Tool'}
               cardImage={cpoeSvg}
@@ -161,13 +218,7 @@ export default function SiteHomeRows() {
             subHeader={'Outside tools may help you!'}
             isHeaderAlternateColor={true}
           />
-          <Box
-            display={'flex'}
-            width={'100%'}
-            justifyContent={'space-between'}
-            gap={4}
-            sx={{ pb: `${rowPaddingBottom}px` }}
-          >
+          <Box sx={containerNoDragStyles}>
             <CardWithImage
               title={'HL7 Tools'}
               cardImage={hl7Svg}
