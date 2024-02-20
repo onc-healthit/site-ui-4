@@ -19,6 +19,17 @@ import {
 } from '@mui/material'
 import palette from '@/styles/palette'
 import React, { useEffect } from 'react'
+
+const SiteList = {
+  listStyleType: 'number',
+  ml: 4,
+  [`& li.MuiListItem-root::marker`]: {
+    width: '1em',
+    fontSize: '14px',
+    color: palette.primary,
+  },
+}
+
 const menuItems: menuProps[] = [
   { heading: 'Overview', href: '#overview' },
   { heading: 'Hosting', href: '#hosting' },
@@ -202,8 +213,12 @@ const DiscoveryTool = () => {
                 <Typography variant="body1" pb={2}>
                   <strong>The tool is divided into two main testing areas:</strong>
                 </Typography>
-                <List sx={{ listStyleType: 'number', pl: 4 }}>
-                  <ListItem sx={{ display: 'list-item' }}>
+                <List sx={SiteList}>
+                  <ListItem
+                    sx={{
+                      display: 'list-item',
+                    }}
+                  >
                     <Typography variant="body2">
                       Hosting allows a System Under Test (SUT) to verify that their certificates are hosted correctly,
                       and discoverable by other Direct implementations.
@@ -233,7 +248,7 @@ const DiscoveryTool = () => {
                 <Typography variant="body1">
                   <strong>Directions</strong>
                 </Typography>
-                <List sx={{ listStyleType: 'number', pl: 4 }}>
+                <List sx={SiteList}>
                   <ListItem sx={{ display: 'list-item' }}>
                     <Typography variant="body2">
                       Determine the required test cases for your SUT (System Under Test). Notice that there are two
@@ -305,7 +320,7 @@ const DiscoveryTool = () => {
                 <Typography variant="body1">
                   <strong>Directions</strong>
                 </Typography>
-                <List sx={{ listStyleType: 'number', pl: 4 }}>
+                <List sx={SiteList}>
                   <ListItem sx={{ display: 'list-item' }}>
                     <Typography variant="body2">
                       {"Download the Testing Tool's trust anchor."} <Link href={''}>Download Trust Anchor</Link>
