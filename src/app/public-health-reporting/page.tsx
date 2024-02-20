@@ -1,3 +1,12 @@
-export default function PHRHome() {
-  return <h1 style={{ paddingLeft: 340, paddingTop: 20 }}>Public Health Reporting Home</h1>
+import PHRComponent from '@/components/public-health-reporting/PHRHome'
+import CommunicationFab from '@/components/shared/CommunicationFab'
+const PHRHome = () => {
+  return (
+    <>
+      <PHRComponent />
+      <CommunicationFab />
+    </>
+  )
 }
+
+export default PHRHome
