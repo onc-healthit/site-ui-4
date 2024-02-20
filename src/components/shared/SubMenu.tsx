@@ -1,6 +1,7 @@
 import React from 'react'
-import { Box } from '@mui/material'
-import SubMenuButton from './SubMenuButton' // Adjust the import path as necessary
+import { Box, List, ListItemButton, ListItemText } from '@mui/material'
+import Link from 'next/link'
+import palette from '@/styles/palette'
 
 export type menuProps = {
   heading: string
@@ -24,9 +25,22 @@ const SubMenu = ({ menuItems }: SubMenuProps) => {
         boxShadow: '8px 0px 32px 0px rgba(0, 0, 0, 0.16)',
       }}
     >
-      {menuItems.map((item, index) => (
-        <SubMenuButton heading={item.heading} href={item.href} key={index} />
-      ))}
+      <List component="nav">
+        {menuItems.map((item, index) => (
+          <Link href={item.href} key={index} passHref style={{ textDecoration: 'none' }}>
+            <ListItemButton
+              sx={{
+                justifyContent: 'flex-start',
+                height: 'auto',
+                minHeight: '36px',
+                padding: '8px 16px',
+              }}
+            >
+              <ListItemText primaryTypographyProps={{ color: palette.primary }} primary={item.heading} />
+            </ListItemButton>
+          </Link>
+        ))}
+      </List>
     </Box>
   )
 }
