@@ -6,7 +6,7 @@ const ArchiveSubMenu = () => {
   return (
     <Box
       sx={{
-        width: '450px',
+        width: '229px',
         borderRadius: '4px',
         top: '80px',
         position: 'sticky',
