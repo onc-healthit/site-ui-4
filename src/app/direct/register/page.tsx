@@ -1,4 +1,4 @@
-import RegisterComponent from '@/components/direct/Register'
+import RegisterComponent from '@/components/direct/register/Register'
 
 const Register = () => {
   return <RegisterComponent />
