@@ -53,40 +53,44 @@ export default function SiteHomeRows() {
     paddingBottom: `${rowPaddingBottom}px`,
   }
 
-  const startDragging = (e) => {
+  const startDragging = (e: React.MouseEvent<HTMLElement>) => {
     setIsDragging(true)
-    setStartX(e.pageX - containerRef.current.offsetLeft)
-    setScrollLeft(containerRef.current.scrollLeft)
+    const scrollContainer = containerRef.current as unknown as HTMLElement
+    setStartX(e.pageX - scrollContainer.offsetLeft)
+    setScrollLeft(scrollContainer.scrollLeft)
   }
 
   const stopDragging = () => {
     setIsDragging(false)
   }
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     if (!isDragging) return
     e.preventDefault()
-    const x = e.pageX - containerRef.current.offsetLeft
+    const scrollContainer = containerRef.current as unknown as HTMLElement
+    const x = e.pageX - scrollContainer.offsetLeft
     const walk = x - startX
-    containerRef.current.scrollLeft = scrollLeft - walk
+    scrollContainer.scrollLeft = scrollLeft - walk
   }
 
-  const startDragging2 = (e) => {
+  const startDragging2 = (e: React.MouseEvent<HTMLElement>) => {
     setIsDragging2(true)
-    setStartX2(e.pageX - containerRef2.current.offsetLeft)
-    setScrollLeft2(containerRef2.current.scrollLeft)
+    const scrollContainer = containerRef2.current as unknown as HTMLElement
+    setStartX2(e.pageX - scrollContainer.offsetLeft)
+    setScrollLeft2(scrollContainer.scrollLeft)
   }
 
   const stopDragging2 = () => {
     setIsDragging2(false)
   }
 
-  const handleMouseMove2 = (e) => {
+  const handleMouseMove2 = (e: React.MouseEvent<HTMLElement>) => {
     if (!isDragging2) return
     e.preventDefault()
-    const x = e.pageX - containerRef2.current.offsetLeft
+    const scrollContainer = containerRef2.current as unknown as HTMLElement
+    const x = e.pageX - scrollContainer.offsetLeft
     const walk = x - startX2
-    containerRef2.current.scrollLeft = scrollLeft2 - walk
+    scrollContainer.scrollLeft = scrollLeft2 - walk
   }
 
   return (
