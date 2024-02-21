@@ -21,10 +21,16 @@ export default function SiteHomeRows() {
   const rowPaddingBottom: number = 20
   const industryTestingResourceRow = 350
   const imageURL = '../shared/ONCLogo-backgroundImage.png'
+
   const containerRef = useRef(null)
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
+
+  const containerRef2 = useRef(null)
+  const [isDragging2, setIsDragging2] = useState(false)
+  const [startX2, setStartX2] = useState(0)
+  const [scrollLeft2, setScrollLeft2] = useState(0)
 
   const containerStyles = {
     display: '-webkit-box',
@@ -65,6 +71,24 @@ export default function SiteHomeRows() {
     containerRef.current.scrollLeft = scrollLeft - walk
   }
 
+  const startDragging2 = (e) => {
+    setIsDragging2(true)
+    setStartX2(e.pageX - containerRef2.current.offsetLeft)
+    setScrollLeft2(containerRef2.current.scrollLeft)
+  }
+
+  const stopDragging2 = () => {
+    setIsDragging2(false)
+  }
+
+  const handleMouseMove2 = (e) => {
+    if (!isDragging2) return
+    e.preventDefault()
+    const x = e.pageX - containerRef2.current.offsetLeft
+    const walk = x - startX2
+    containerRef2.current.scrollLeft = scrollLeft2 - walk
+  }
+
   return (
     <>
       {/* TODO:
@@ -74,7 +98,7 @@ export default function SiteHomeRows() {
       -@Matt: Fix width and height of cards to match design (likely need to support height in CardWIthImage),
       or should we, taller descriptions are better than wide, right?
       -Externalize links (external and routes) here and in nav to constants since there is reuse now
-      -Support scrolling of cards
+      -Make full cards grabbable for scroll and clickable for links vs portions of them
       -Could further modularize this into SiteHomeRow and then map them here if time (or separte row components if less time) */}
       <Box
         bgcolor={palette.primary}
@@ -156,10 +180,11 @@ export default function SiteHomeRows() {
             isHeaderAlternateColor={true}
           />
           <Box
-            onMouseDown={startDragging}
-            onMouseUp={stopDragging}
-            onMouseLeave={stopDragging}
-            onMouseMove={handleMouseMove}
+            ref={containerRef2}
+            onMouseDown={startDragging2}
+            onMouseUp={stopDragging2}
+            onMouseLeave={stopDragging2}
+            onMouseMove={handleMouseMove2}
             sx={containerStyles}
           >
             <CardWithImage
