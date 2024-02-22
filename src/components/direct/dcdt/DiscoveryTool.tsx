@@ -18,6 +18,8 @@ import {
   Button,
 } from '@mui/material'
 import palette from '@/styles/palette'
+import _ from 'lodash'
+import TestCasePanel, { TestCaseFields } from './TestCasePanel'
 import React, { useEffect } from 'react'
 
 const SiteList = {
@@ -36,31 +38,69 @@ const menuItems: menuProps[] = [
   { heading: "Discover DCDT's Certificates", href: '#certificates' },
   { heading: 'Resources', href: '#resources' },
 ]
-
-const hostingTestCases = [
+const hostingTestCases: TestCaseFields[] = [
+  { code: ' ', name: '--No testcase selected--' },
   {
-    value: ' ',
-    label: '--No testcase selected--',
+    code: 'H1_DNS_AB_Normal',
+    name: 'H1 - Normal address-bound certificate search in DNS',
+    Binding_Type: 'ADDRESS',
+    Location_Type: 'DNS',
+    Negative: 'false',
+    Optional: 'false',
+    Description:
+      "This test case verifies that your system's DNS can host and return the expected address-bound X.509 certificate.",
+    RTM_Sections: '1, 3',
+    RFC_4398: 'Section 2.1',
+    Direct_SHT: 'Section 5.3',
+    Instructions:
+      "Enter a Direct address corresponding to an address-bound X.509 certificate that is hosted by your system's DNS and then click Submit. DCDT will attempt to discover the certificate and display the result on the screen.",
   },
   {
-    value: 'H1_DNS_AB_Normal',
-    label: 'H1 - Normal address-bound certificate search in DNS',
+    code: 'H2_DNS_DB_Normal',
+    name: 'H2 - Normal domain-bound certificate search in DNS',
+    Binding_Type: 'DOMAIN',
+    Location_Type: 'DNS',
+    Negative: 'false',
+    Optional: 'false',
+    Description:
+      "This test case verifies that your system's DNS can host and return the expected domain-bound X.509 certificate.",
+    RTM_Sections: '1, 3',
+    RFC_4398: 'Section 2.1',
+    Direct_SHT: 'Section 5.3',
+    Instructions:
+      "Enter a Direct address corresponding to a domain-bound X.509 certificate that is hosted by your system's DNS and then click Submit. DCDT will attempt to discover the certificate and display the result on the screen.",
   },
   {
-    value: 'H2_DNS_DB_Normal',
-    label: 'H2 - Normal domain-bound certificate search in DNS',
+    code: 'H3_LDAP_AB_Normal',
+    name: 'H3 - Normal address-bound certificate search in LDAP',
+    Binding_Type: 'ADDRESS',
+    Location_Type: 'LDAP',
+    Negative: 'false',
+    Optional: 'false',
+    Description:
+      "This test case verifies that your system's LDAP server can host and return the expected address-bound X.509 certificate.",
+    RTM_Sections: '2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22',
+    RFC_2798: 'Section 9.1.2',
+    Instructions:
+      "Enter a Direct address corresponding to an address-bound X.509 certificate that is hosted by your system's LDAP server and then click Submit. DCDT will attempt to discover the certificate and display the result on the screen.",
   },
   {
-    value: 'H3_LDAP_AB_Normal',
-    label: 'H3 - Normal address-bound certificate search in LDAP',
-  },
-  {
-    value: 'H4_LDAP_DB_Normal',
-    label: 'H4 - Normal domain-bound certificate search in LDAP',
+    code: 'H4_LDAP_DB_Normal',
+    name: 'H4 - Normal domain-bound certificate search in LDAP',
+    Binding_Type: 'DOMAIN',
+    Location_Type: 'LDAP',
+    Negative: 'false',
+    Optional: 'false',
+    Description:
+      "This test case verifies that your system's LDAP server can host and return the expected domain-bound X.509 certificate.",
+    RTM_Sections: '2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22',
+    RFC_2798: 'Section 9.1.2',
+    Instructions:
+      "Enter a Direct address corresponding to a domain-bound X.509 certificate that is hosted by your system's LDAP server and then click Submit. DCDT will attempt to discover the certificate and display the result on the screen.",
   },
 ]
 
-const discoveryTestCases = [
+const discoveryDropdown = [
   {
     value: ' ',
     label: '--No testcase selected--',
@@ -152,21 +192,25 @@ const LinkButton = ({ href, title }: LinkButtonProps) => {
   )
 }
 const DiscoveryTool = () => {
-  const [hostingCase, setHostingCase] = React.useState(' ')
+  const [hostingCase, setHostingCase] = React.useState(hostingTestCases.filter((c) => c.code === ' '))
   const [discoverCase, setDiscoverCase] = React.useState(' ')
   const [openHostingCase, setOpenHostingCase] = React.useState(false)
   const [openDiscoverCase, setOpenDiscoverCase] = React.useState(false)
+  const [hostingDirectAddress, setHostingDirectAddress] = React.useState('')
 
   const handleHostingCaseSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setHostingCase(event.target.value as string)
+    const testCase = hostingTestCases.filter((c) => c.code === event.target.value)
+    setHostingCase(testCase)
   }
 
   const handleDiscoverCaseSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDiscoverCase(event.target.value as string)
   }
-
+  const handleReset = () => {
+    setHostingCase(hostingTestCases.filter((c) => c.code === ' '))
+  }
   useEffect(() => {
-    if (hostingCase !== ' ') {
+    if (hostingCase[0].code !== ' ') {
       setOpenHostingCase(true)
     } else {
       setOpenHostingCase(false)
@@ -267,7 +311,7 @@ const DiscoveryTool = () => {
                     </Typography>
                   </ListItem>
                 </List>
-                <Box p={2}>
+                <Box p={2} component={'form'}>
                   <TextField
                     fullWidth
                     id="select-hosting-test-case"
@@ -275,21 +319,17 @@ const DiscoveryTool = () => {
                     select
                     label="Select a Hosting Test Case"
                     helperText=""
-                    value={hostingCase}
+                    value={hostingCase[0].code}
                     sx={{ pb: 2 }}
                     onChange={handleHostingCaseSelect}
                   >
                     {hostingTestCases.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
+                      <MenuItem key={option.code} value={option.code}>
+                        {option.name}
                       </MenuItem>
                     ))}
                   </TextField>
-                  {openHostingCase && (
-                    <Box>
-                      <Typography>TBD</Typography>
-                    </Box>
-                  )}
+                  {openHostingCase && <TestCasePanel testCaseFields={hostingCase} />}
                   <TextField
                     fullWidth
                     id="step1DirectAddress"
@@ -306,7 +346,7 @@ const DiscoveryTool = () => {
                       SUBMIT
                     </Button>
                   </Box>
-                  <Button variant="outlined" sx={{ color: palette.primary }}>
+                  <Button variant="outlined" sx={{ color: palette.primary }} onClick={handleReset}>
                     RESET FIELDS
                   </Button>
                 </Box>
@@ -385,7 +425,7 @@ const DiscoveryTool = () => {
                       value={discoverCase}
                       onChange={handleDiscoverCaseSelect}
                     >
-                      {discoveryTestCases.map((option) => (
+                      {discoveryDropdown.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
