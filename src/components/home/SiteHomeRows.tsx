@@ -15,35 +15,13 @@ import nistSvg from '@public/home/nist.svg'
 import referenceDataSvg from '@public/home/reference-data.svg'
 import CardWithImage from '@shared/CardWithImage'
 import SectionHeader from '../shared/SectionHeader'
+import DragScrollContainer from './DragScrollContainer'
 
 export default function SiteHomeRows() {
   const maxWidth: number = 350
   const rowPaddingBottom: number = 20
-  const industryTestingResourceRow = 350
-  const imageURL = '../shared/ONCLogo-backgroundImage.png'
-
-  const containerRef = useRef(null)
-  const [isDragging, setIsDragging] = useState(false)
-  const [startX, setStartX] = useState(0)
-  const [scrollLeft, setScrollLeft] = useState(0)
-
-  const containerRef2 = useRef(null)
-  const [isDragging2, setIsDragging2] = useState(false)
-  const [startX2, setStartX2] = useState(0)
-  const [scrollLeft2, setScrollLeft2] = useState(0)
-
-  const containerStyles = {
-    display: '-webkit-box',
-    flexDirection: 'row',
-    width: '100%',
-    overflowX: 'scroll',
-    gap: '48px',
-    cursor: 'grab', // Set the cursor to grab
-    '&:active': {
-      cursor: 'grabbing', // Change cursor to grabbing when clicked
-    },
-    paddingBottom: `${rowPaddingBottom}px`,
-  }
+  const industryTestingResourceRow: number = 350
+  const imageURL: string = '../shared/ONCLogo-backgroundImage.png'
 
   const containerNoDragStyles = {
     display: 'flex',
@@ -53,54 +31,11 @@ export default function SiteHomeRows() {
     paddingBottom: `${rowPaddingBottom}px`,
   }
 
-  const startDragging = (e: React.MouseEvent<HTMLElement>) => {
-    setIsDragging(true)
-    const scrollContainer = containerRef.current as unknown as HTMLElement
-    setStartX(e.pageX - scrollContainer.offsetLeft)
-    setScrollLeft(scrollContainer.scrollLeft)
-  }
-
-  const stopDragging = () => {
-    setIsDragging(false)
-  }
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (!isDragging) return
-    e.preventDefault()
-    const scrollContainer = containerRef.current as unknown as HTMLElement
-    const x = e.pageX - scrollContainer.offsetLeft
-    const walk = x - startX
-    scrollContainer.scrollLeft = scrollLeft - walk
-  }
-
-  const startDragging2 = (e: React.MouseEvent<HTMLElement>) => {
-    setIsDragging2(true)
-    const scrollContainer = containerRef2.current as unknown as HTMLElement
-    setStartX2(e.pageX - scrollContainer.offsetLeft)
-    setScrollLeft2(scrollContainer.scrollLeft)
-  }
-
-  const stopDragging2 = () => {
-    setIsDragging2(false)
-  }
-
-  const handleMouseMove2 = (e: React.MouseEvent<HTMLElement>) => {
-    if (!isDragging2) return
-    e.preventDefault()
-    const scrollContainer = containerRef2.current as unknown as HTMLElement
-    const x = e.pageX - scrollContainer.offsetLeft
-    const walk = x - startX2
-    scrollContainer.scrollLeft = scrollLeft2 - walk
-  }
-
   return (
     <>
       {/* TODO:
       -@Matt: "Take A Tour" button location matches design but would it look better aligned with main header vs subHeader?
-      -@Matt: Export of CQM image not working correctly so it's rendered off, fix and re-import
-      -#Matt: Fix card overlap on lower res screens
-      -@Matt: Fix width and height of cards to match design (likely need to support height in CardWIthImage),
-      or should we, taller descriptions are better than wide, right?
+      -#Matt: Fix card overlap (in 3rd row only now) on lower res screens
       -Externalize links (external and routes) here and in nav to constants since there is reuse now
       -Make full cards grabbable for scroll and clickable for links vs portions of them
       -Could further modularize this into SiteHomeRow and then map them here if time (or separte row components if less time) */}
@@ -115,20 +50,13 @@ export default function SiteHomeRows() {
         }}
       >
         <Container>
-          {/* Row 1: ONC Certification Tools*/}
+          {/* Row 1: Scrollable: ONC Certification Tools*/}
           <SectionHeader
             header={'ONC Certification Tools'}
             subHeader={'All tools required for certification.'}
             isHeaderAlternateColor={true}
           />
-          <Box
-            ref={containerRef}
-            sx={containerStyles}
-            onMouseDown={startDragging}
-            onMouseUp={stopDragging}
-            onMouseLeave={stopDragging}
-            onMouseMove={handleMouseMove}
-          >
+          <DragScrollContainer>
             <CardWithImage
               title={'Inferno FHIR Testing'}
               cardImage={infernoSvg}
@@ -176,21 +104,15 @@ export default function SiteHomeRows() {
               imageWidth={maxWidth + 'px'}
               buttonTitle="Start"
             />
-          </Box>
-          {/* Row 2: General Testing Tools*/}
+          </DragScrollContainer>
+
+          {/* Row 2: Scrollable: General Testing Tools*/}
           <SectionHeader
             header={'General Testing Tools'}
             subHeader={'All tools not required for certification, but a benefit for your software!'}
             isHeaderAlternateColor={true}
           />
-          <Box
-            ref={containerRef2}
-            onMouseDown={startDragging2}
-            onMouseUp={stopDragging2}
-            onMouseLeave={stopDragging2}
-            onMouseMove={handleMouseMove2}
-            sx={containerStyles}
-          >
+          <DragScrollContainer>
             <CardWithImage
               title={'CPOE Evaluation Tool'}
               cardImage={cpoeSvg}
@@ -239,9 +161,9 @@ export default function SiteHomeRows() {
               imageWidth={maxWidth + 'px'}
               buttonTitle="Start"
             />
-          </Box>
+          </DragScrollContainer>
 
-          {/* Row 3:  */}
+          {/* Row 3: Fixed: Industry Testing Resources */}
           <SectionHeader
             header={'Industry Testing Resources'}
             subHeader={'Outside tools may help you!'}
