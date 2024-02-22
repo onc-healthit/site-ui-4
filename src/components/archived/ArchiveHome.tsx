@@ -2,11 +2,12 @@
 import BannerBox from '../shared/BannerBox'
 import { Box, Link, Container } from '@mui/material'
 // Global Imports
-import React from 'react' // Import React if you haven't already
+import React from 'react'
 // Styles
 import palette from '@/styles/palette'
 import ArchiveSubMenu from './ArchiveSubMenu'
 import ArchiveCard from './ArchiveCard'
+import ArchiveFilter from './ArchiveFilter'
 // Images
 
 const ArchiveHome = () => {
@@ -30,8 +31,11 @@ const ArchiveHome = () => {
         }
       />
       <Container>
-        <Box pt={4} pb={4} gap={4} display={'flex'} flexDirection={'row'}>
-          <ArchiveSubMenu />
+        <Box pt={4} pb={4} display={'flex'} flexDirection={'row'} gap={4}>
+          <Box display={'flex'} flexDirection={'column'} gap={4}>
+            <ArchiveSubMenu />
+            <ArchiveFilter />
+          </Box>
           <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
             <ArchiveCard
               cardHeader="Cures Update"
