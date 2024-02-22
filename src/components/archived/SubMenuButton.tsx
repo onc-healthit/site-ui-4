@@ -1,11 +1,11 @@
 import React from 'react'
 import { Button } from '@mui/material'
 
-export interface ArchiveSubMenuProps {
+export interface SubMenuProps {
   heading: string
 }
 
-const ArchiveSubMenuButton = ({ heading }: ArchiveSubMenuProps) => {
+const SubMenuButton = ({ heading }: SubMenuProps) => {
   return (
     <Button
       fullWidth
@@ -21,4 +21,4 @@ const ArchiveSubMenuButton = ({ heading }: ArchiveSubMenuProps) => {
   )
 }
 
-export default ArchiveSubMenuButton
+export default SubMenuButton
