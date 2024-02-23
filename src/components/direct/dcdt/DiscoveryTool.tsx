@@ -13,16 +13,13 @@ import {
   Typography,
   List,
   ListItem,
-  MenuItem,
-  TextField,
   Button,
 } from '@mui/material'
 import palette from '@/styles/palette'
-import _ from 'lodash'
-import TestCasePanel, { TestCaseFields } from './TestCasePanel'
-import React, { useEffect } from 'react'
+import Hosting from './Hosting'
+import DCDTCertificates from './DCDTCertificates'
 
-const SiteList = {
+export const SiteList = {
   listStyleType: 'number',
   ml: 4,
   [`& li.MuiListItem-root::marker`]: {
@@ -38,146 +35,7 @@ const menuItems: menuProps[] = [
   { heading: "Discover DCDT's Certificates", href: '#certificates' },
   { heading: 'Resources', href: '#resources' },
 ]
-const hostingTestCases: TestCaseFields[] = [
-  { code: ' ', name: '--No testcase selected--' },
-  {
-    code: 'H1_DNS_AB_Normal',
-    name: 'H1 - Normal address-bound certificate search in DNS',
-    Binding_Type: 'ADDRESS',
-    Location_Type: 'DNS',
-    Negative: 'false',
-    Optional: 'false',
-    Description:
-      "This test case verifies that your system's DNS can host and return the expected address-bound X.509 certificate.",
-    RTM_Sections: '1, 3',
-    RFC_4398: 'Section 2.1',
-    Direct_SHT: 'Section 5.3',
-    Instructions:
-      "Enter a Direct address corresponding to an address-bound X.509 certificate that is hosted by your system's DNS and then click Submit. DCDT will attempt to discover the certificate and display the result on the screen.",
-  },
-  {
-    code: 'H2_DNS_DB_Normal',
-    name: 'H2 - Normal domain-bound certificate search in DNS',
-    Binding_Type: 'DOMAIN',
-    Location_Type: 'DNS',
-    Negative: 'false',
-    Optional: 'false',
-    Description:
-      "This test case verifies that your system's DNS can host and return the expected domain-bound X.509 certificate.",
-    RTM_Sections: '1, 3',
-    RFC_4398: 'Section 2.1',
-    Direct_SHT: 'Section 5.3',
-    Instructions:
-      "Enter a Direct address corresponding to a domain-bound X.509 certificate that is hosted by your system's DNS and then click Submit. DCDT will attempt to discover the certificate and display the result on the screen.",
-  },
-  {
-    code: 'H3_LDAP_AB_Normal',
-    name: 'H3 - Normal address-bound certificate search in LDAP',
-    Binding_Type: 'ADDRESS',
-    Location_Type: 'LDAP',
-    Negative: 'false',
-    Optional: 'false',
-    Description:
-      "This test case verifies that your system's LDAP server can host and return the expected address-bound X.509 certificate.",
-    RTM_Sections: '2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22',
-    RFC_2798: 'Section 9.1.2',
-    Instructions:
-      "Enter a Direct address corresponding to an address-bound X.509 certificate that is hosted by your system's LDAP server and then click Submit. DCDT will attempt to discover the certificate and display the result on the screen.",
-  },
-  {
-    code: 'H4_LDAP_DB_Normal',
-    name: 'H4 - Normal domain-bound certificate search in LDAP',
-    Binding_Type: 'DOMAIN',
-    Location_Type: 'LDAP',
-    Negative: 'false',
-    Optional: 'false',
-    Description:
-      "This test case verifies that your system's LDAP server can host and return the expected domain-bound X.509 certificate.",
-    RTM_Sections: '2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22',
-    RFC_2798: 'Section 9.1.2',
-    Instructions:
-      "Enter a Direct address corresponding to a domain-bound X.509 certificate that is hosted by your system's LDAP server and then click Submit. DCDT will attempt to discover the certificate and display the result on the screen.",
-  },
-]
 
-const discoveryDropdown = [
-  {
-    value: ' ',
-    label: '--No testcase selected--',
-  },
-  {
-    value: 'D1_DNS_AB_Valid',
-    label: 'D1 - Valid address-bound certificate discovery in DNS',
-  },
-  {
-    value: 'D2_DNS_DB_Valid',
-    label: 'D2 - Valid domain-bound certificate discovery in DNS',
-  },
-  {
-    value: 'D3_LDAP_AB_Valid',
-    label: 'D3 - Valid address-bound certificate discovery in LDAP',
-  },
-  {
-    value: 'D4_LDAP_DB_Valid',
-    label: 'D4 - Valid domain-bound certificate discovery in LDAP',
-  },
-  {
-    value: 'D5_DNS_AB_Invalid',
-    label: 'D5 - Invalid address-bound certificate discovery in DNS',
-  },
-  {
-    value: 'D6_DNS_DB_Invalid',
-    label: 'D6 - Invalid domain-bound certificate discovery in DNS',
-  },
-  {
-    value: 'D7_LDAP_AB_Invalid',
-    label: 'D7 - Invalid address-bound certificate discovery in LDAP',
-  },
-  {
-    value: 'D8_LDAP_DB_Invalid',
-    label: 'D8 - Invalid domain-bound certificate discovery in LDAP',
-  },
-  {
-    value: 'D9_DNS_AB_SelectValid',
-    label: 'D9 - Select valid address-bound certificate over invalid certificate in DNS',
-  },
-  {
-    value: 'D10_LDAP_AB_UnavailableLDAPServer',
-    label: 'D10 - Certificate discovery in LDAP with one unavailable LDAP server',
-  },
-  {
-    value: 'D11_DNS_NB_NoDNSCertsorSRV',
-    label: 'D11 - No certificates discovered in DNS CERT records and no SRV records',
-  },
-  {
-    value: 'D12_LDAP_NB_UnavailableLDAPServer',
-    label: 'D12 - No certificates found in DNS CERT records and no available LDAP servers',
-  },
-  {
-    value: 'D13_LDAP_NB_NoCerts',
-    label: 'D13 - No certificates discovered in DNS CERT records or LDAP servers',
-  },
-  {
-    value: 'D14_DNS_AB_TCPLargeCert',
-    label: 'D14 - Discovery of certificate larger than 512 bytes in DNS',
-  },
-  {
-    value: 'D15_LDAP_AB_SRVPriority',
-    label: 'D15 - Certificate discovery in LDAP based on SRV priority value',
-  },
-  {
-    value: 'D16_LDAP_AB_SRVWeight',
-    label: 'D16 - Certificate discovery in LDAP based on SRV weight value',
-  },
-  {
-    value: 'D17_DNS_AB_CRLRevocation',
-    label: 'D17 - CRL-based revocation checking for address-bound certificate discovery in DNS',
-  },
-  {
-    value: 'D18_DNS_AB_AIAIntermediateIssuer',
-    label: 'D18 - AIA-based intermediate issuer certificate retrieval for address-bound certificate discovery in DNS',
-  },
-]
 type LinkButtonProps = {
   href: string
   title: string
@@ -192,35 +50,6 @@ const LinkButton = ({ href, title }: LinkButtonProps) => {
   )
 }
 const DiscoveryTool = () => {
-  const [hostingCase, setHostingCase] = React.useState(hostingTestCases.filter((c) => c.code === ' '))
-  const [discoverCase, setDiscoverCase] = React.useState(' ')
-  const [openHostingCase, setOpenHostingCase] = React.useState(false)
-  const [openDiscoverCase, setOpenDiscoverCase] = React.useState(false)
-  const [hostingDirectAddress, setHostingDirectAddress] = React.useState('')
-
-  const handleHostingCaseSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const testCase = hostingTestCases.filter((c) => c.code === event.target.value)
-    setHostingCase(testCase)
-  }
-
-  const handleDiscoverCaseSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDiscoverCase(event.target.value as string)
-  }
-  const handleReset = () => {
-    setHostingCase(hostingTestCases.filter((c) => c.code === ' '))
-  }
-  useEffect(() => {
-    if (hostingCase[0].code !== ' ') {
-      setOpenHostingCase(true)
-    } else {
-      setOpenHostingCase(false)
-    }
-    if (discoverCase !== ' ') {
-      setOpenDiscoverCase(true)
-    } else {
-      setOpenDiscoverCase(false)
-    }
-  }, [discoverCase, hostingCase])
   return (
     <>
       {/* Header */}
@@ -289,67 +118,7 @@ const DiscoveryTool = () => {
               />
               <Divider />
               <CardContent>
-                <Typography variant="body1">
-                  <strong>Directions</strong>
-                </Typography>
-                <List sx={SiteList}>
-                  <ListItem sx={{ display: 'list-item' }}>
-                    <Typography variant="body2">
-                      Determine the required test cases for your SUT (System Under Test). Notice that there are two
-                      options for storage of address-bound and domain-bound certificates.
-                    </Typography>
-                  </ListItem>
-                  <ListItem sx={{ display: 'list-item' }}>
-                    <Typography variant="body2">Select a test case that reflects the SUT from the dropdown.</Typography>
-                  </ListItem>
-                  <ListItem sx={{ display: 'list-item' }}>
-                    <Typography variant="body2">
-                      Read the Description and Instructions for the selected test case. Then enter the Direct address
-                      and submit. Your SUT configuration may require that you select more than one test case. If so,
-                      then select one test case at a time, following the instructions to execute the test after each
-                      selection.
-                    </Typography>
-                  </ListItem>
-                </List>
-                <Box p={2} component={'form'}>
-                  <TextField
-                    fullWidth
-                    id="select-hosting-test-case"
-                    name="hostingTestCase"
-                    select
-                    label="Select a Hosting Test Case"
-                    helperText=""
-                    value={hostingCase[0].code}
-                    sx={{ pb: 2 }}
-                    onChange={handleHostingCaseSelect}
-                  >
-                    {hostingTestCases.map((option) => (
-                      <MenuItem key={option.code} value={option.code}>
-                        {option.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                  {openHostingCase && <TestCasePanel testCaseFields={hostingCase} />}
-                  <TextField
-                    fullWidth
-                    id="step1DirectAddress"
-                    name="step1DirectAddress"
-                    label="Enter your Direct Address"
-                    helperText=""
-                    required
-                    InputProps={{ type: 'email' }}
-                  />
-                </Box>
-                <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} p={2}>
-                  <Box display={'flex'} flexDirection={'row'} gap={1}>
-                    <Button variant="contained" sx={{ color: palette.white }}>
-                      SUBMIT
-                    </Button>
-                  </Box>
-                  <Button variant="outlined" sx={{ color: palette.primary }} onClick={handleReset}>
-                    RESET FIELDS
-                  </Button>
-                </Box>
+                <Hosting />
               </CardContent>
             </Card>
             {/* Discover DCDT's Certificates */}
@@ -357,98 +126,7 @@ const DiscoveryTool = () => {
               <CardHeader title="Discover DCDT's Certificates" titleTypographyProps={{ fontWeight: 'bold' }} />
               <Divider />
               <CardContent>
-                <Typography variant="body1">
-                  <strong>Directions</strong>
-                </Typography>
-                <List sx={SiteList}>
-                  <ListItem sx={{ display: 'list-item' }}>
-                    <Typography variant="body2">
-                      {"Download the Testing Tool's trust anchor."} <Link href={''}>Download Trust Anchor</Link>
-                    </Typography>
-                  </ListItem>
-                  <ListItem sx={{ display: 'list-item' }}>
-                    <Typography variant="body2">
-                      Upload the anchor to your Direct instance. This will allow you to send messages to our tool.
-                    </Typography>
-                  </ListItem>
-                  <ListItem sx={{ display: 'list-item' }}>
-                    <Typography variant="body2">
-                      Using the form below, map the Direct email address from which you will be sending messages to a
-                      non-Direct email address that will receive a regular email containing test results. This email
-                      address should be able to receive plain text messages. Make sure you have access to the recipient
-                      email address in order to verify the receipt of the messages.
-                    </Typography>
-                  </ListItem>
-                  <Box p={2}>
-                    <TextField
-                      fullWidth
-                      id="step2DirectAddress"
-                      name="step2DirectAddress"
-                      label="Enter your Direct Address"
-                      helperText=""
-                      required
-                      InputProps={{ type: 'email' }}
-                      sx={{ pb: 2 }}
-                    />
-                    <TextField
-                      fullWidth
-                      id="emailAddress"
-                      name="emailAddress"
-                      label="Enter your Email Address"
-                      helperText="For Results"
-                      required
-                      InputProps={{ type: 'email' }}
-                    />
-                  </Box>
-                  <ListItem sx={{ display: 'list-item' }}>
-                    <Typography variant="body2">
-                      {
-                        'Choose a test case from the drop down menu below. Read the test case description below the "Direct Address" field, copy the displayed Direct address and proceed to step 5. You should run all of the tests in order to verify that your system can correctly discover certificates in either DNS CERT records or LDAP servers. (Note: your system MUST NOT already contain a certificate for the address selected or the test case will not be valid).'
-                      }
-                    </Typography>
-                  </ListItem>
-                  <ListItem sx={{ display: 'list-item' }}>
-                    <Typography variant="body2">
-                      {
-                        "Attempt to send a message to the Direct address that you've just copied. Please only send to one address at a time. The test case results message will indicate the test case results. See the test case instructions for additional information."
-                      }
-                    </Typography>
-                  </ListItem>
-                  <Box p={2}>
-                    <TextField
-                      fullWidth
-                      id="select-discover-test-case"
-                      name="discoverTestCase"
-                      select
-                      label="Select a Discover Test Case"
-                      helperText=""
-                      value={discoverCase}
-                      onChange={handleDiscoverCaseSelect}
-                    >
-                      {discoveryDropdown.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                    {openDiscoverCase && (
-                      <Box>
-                        <Typography>TBD</Typography>
-                      </Box>
-                    )}
-                  </Box>
-                </List>
-
-                <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} p={2}>
-                  <Box display={'flex'} flexDirection={'row'} gap={1}>
-                    <Button variant="contained" sx={{ color: palette.white }}>
-                      SUBMIT
-                    </Button>
-                  </Box>
-                  <Button variant="outlined" sx={{ color: palette.primary }}>
-                    RESET FIELDS
-                  </Button>
-                </Box>
+                <DCDTCertificates />
               </CardContent>
             </Card>
             {/* Resources */}

@@ -25,15 +25,18 @@ export type LocationFields = {
   Port?: string
 }
 export type CertificateFields = {
-  name?: string
-  Valid?: string
-  Description?: string
-  Binding_Type?: string
-  Location?: LocationFields[]
+  name: string
+  Valid: string
+  Description: string
+  Binding_Type: string
+  Location: LocationFields[] | []
 }
 export type TestCaseFields = {
   code?: string
   name?: string
+  testcaseid?: string
+  Direct_address_2014?: string
+  Direct_address_2015?: string
   Binding_Type?: string
   Location_Type?: string
   Negative?: string
@@ -43,6 +46,9 @@ export type TestCaseFields = {
   RFC_4398?: string
   RFC_2782?: string
   RFC_2798?: string
+  RFC_1035?: string
+  RFC_4298?: string
+  RFC_5280?: string
   Direct_SHT?: string
   Instructions?: string
   Target_Certificate?: CertificateFields[]
@@ -51,6 +57,77 @@ export type TestCaseFields = {
 
 export interface TestCasePanelProps {
   testCaseFields: TestCaseFields[]
+}
+interface CertificateListProps {
+  certificateFields: CertificateFields[] | []
+}
+const bulletedList = (style: string) => {
+  const styledBullet = {
+    listStyleType: style,
+    ml: 4,
+    [`& li.MuiListItem-root::marker`]: {
+      width: '1em',
+      fontSize: '14px',
+      color: palette.primary,
+    },
+  }
+  return styledBullet
+}
+
+interface ListFields {
+  name: string
+  value: string
+}
+const CustomListItem = ({ name, value }: ListFields) => {
+  return (
+    <>
+      <ListItem
+        sx={{
+          display: 'list-item',
+        }}
+      >
+        <Typography variant="body2">
+          <strong>{name}: </strong>
+          {value}
+        </Typography>
+      </ListItem>
+    </>
+  )
+}
+const CertificateList = ({ certificateFields }: CertificateListProps) => {
+  return (
+    <>
+      {certificateFields.map((c, i) => {
+        return (
+          <List disablePadding key={i} sx={bulletedList('disc')}>
+            {_.has(c, 'name') && <CustomListItem name={c.name} value={''} />}
+            <List sx={bulletedList('circle')}>
+              {_.has(c, 'Valid') && <CustomListItem name={'Valid'} value={c.Valid} />}
+              {_.has(c, 'Binding_Type') && <CustomListItem name={'Binding Type'} value={c.Binding_Type} />}
+              {_.has(c, 'Location') && (
+                <>
+                  <CustomListItem name={'Location'} value={''} />
+                  {c.Location.map((l, i) => {
+                    return (
+                      <List key={i} sx={bulletedList('square')}>
+                        {_.has(l, 'Type') && <CustomListItem name={'Type'} value={l.Type || ''} />}
+                        {_.has(l, 'Mail_Address') && (
+                          <CustomListItem name={'Mail Address'} value={l.Mail_Address || ''} />
+                        )}
+                        {_.has(l, 'Host') && <CustomListItem name={'Host'} value={l.Host || ''} />}
+                        {_.has(l, 'Port') && <CustomListItem name={'Port'} value={l.Port || ''} />}
+                      </List>
+                    )
+                  })}
+                </>
+              )}
+              {_.has(c, 'Description') && <CustomListItem name={'Description'} value={c.Description} />}
+            </List>
+          </List>
+        )
+      })}
+    </>
+  )
 }
 const TestCasePanel = ({ testCaseFields }: TestCasePanelProps) => {
   return (
@@ -101,37 +178,41 @@ const TestCasePanel = ({ testCaseFields }: TestCasePanelProps) => {
           </Typography>
         )}
 
-        <Typography variant="body2">
-          <strong>Underlying Specification References: </strong>
-          <List disablePadding>
+        <Box>
+          <Typography variant="body2">
+            <strong>Underlying Specification References: </strong>
+          </Typography>
+          <List disablePadding sx={bulletedList('disc')}>
             {_.has(testCaseFields[0], 'RFC_4398') && (
-              <ListItem>
-                <Typography> RFC 4398: {testCaseFields[0].RFC_4398}</Typography>{' '}
-              </ListItem>
+              <CustomListItem name={'RFC 4398'} value={testCaseFields[0].RFC_4398 || ''} />
             )}
 
             {_.has(testCaseFields[0], 'RFC_2782') && (
-              <ListItem>
-                <Typography> RFC 2782: {testCaseFields[0].RFC_2782}</Typography>
-              </ListItem>
+              <CustomListItem name={'RFC 2782'} value={testCaseFields[0].RFC_2782 || ''} />
             )}
 
             {_.has(testCaseFields[0], 'RFC_2798') && (
-              <ListItem>
-                <Typography> RFC 2798: {testCaseFields[0].RFC_2798}</Typography>{' '}
-              </ListItem>
+              <CustomListItem name={'RFC 2798'} value={testCaseFields[0].RFC_2798 || ''} />
+            )}
+
+            {_.has(testCaseFields[0], 'RFC_1035') && (
+              <CustomListItem name={'RFC 1035'} value={testCaseFields[0].RFC_1035 || ''} />
+            )}
+            {_.has(testCaseFields[0], 'RFC_4298') && (
+              <CustomListItem name={'RFC 4298'} value={testCaseFields[0].RFC_4298 || ''} />
+            )}
+            {_.has(testCaseFields[0], 'RFC_5280') && (
+              <CustomListItem name={'RFC 5280'} value={testCaseFields[0].RFC_5280 || ''} />
             )}
 
             {_.has(testCaseFields[0], 'Direct_SHT') && (
-              <ListItem>
-                {' '}
-                <Typography>
-                  Direct Applicability Statement for Secure Health Transport: {testCaseFields[0].Direct_SHT}
-                </Typography>
-              </ListItem>
+              <CustomListItem
+                name={'Direct Applicability Statement for Secure Health Transport'}
+                value={testCaseFields[0].Direct_SHT || ''}
+              />
             )}
           </List>
-        </Typography>
+        </Box>
 
         {_.has(testCaseFields[0], 'Instructions') && (
           <Typography variant="body2">
@@ -140,9 +221,20 @@ const TestCasePanel = ({ testCaseFields }: TestCasePanelProps) => {
           </Typography>
         )}
         {_.has(testCaseFields[0], 'Target_Certificate') && (
-          <Typography variant="body2">
-            <strong>Target Certificate(s)</strong>
-          </Typography>
+          <Box>
+            <Typography variant="body2">
+              <strong>Target Certificate(s)</strong>
+            </Typography>
+            <CertificateList certificateFields={testCaseFields[0].Target_Certificate || []} />
+          </Box>
+        )}
+        {_.has(testCaseFields[0], 'Background_Certificate') && (
+          <Box>
+            <Typography variant="body2">
+              <strong>Background Certificate(s)</strong>
+            </Typography>
+            <CertificateList certificateFields={testCaseFields[0].Background_Certificate || []} />
+          </Box>
         )}
       </Box>
     </Box>
