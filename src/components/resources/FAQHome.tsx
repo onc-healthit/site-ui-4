@@ -1,9 +1,9 @@
 import { Typography, Container } from '@mui/material'
 import Box from '@mui/material/Box'
 import Overview, { QAItem } from '@/components/resources/OverviewCard'
-import ArchiveSubMenu from '@/components/archived/ArchiveSubMenu'
 import FAQCard from '@/components/resources/FAQCard'
 import BannerBox from '@shared/BannerBox'
+import SubMenu, { menuProps } from '@/components/shared/SubMenu'
 
 export default function FAQHome() {
   const faqItems: QAItem[] = [
@@ -35,6 +35,16 @@ export default function FAQHome() {
     },
   ]
 
+  const menuItems: menuProps[] = [
+    { heading: 'Overview', href: '' },
+    { heading: 'C-CDA', href: '' },
+    { heading: 'Direct', href: '' },
+    { heading: 'Edge', href: '' },
+    { heading: 'XDM', href: '' },
+    { heading: 'Other', href: '' },
+    { heading: 'Contact Us', href: '' },
+  ]
+
   return (
     <div>
       <BannerBox
@@ -48,7 +58,7 @@ export default function FAQHome() {
       />
       <Container>
         <Box pt={4} pb={4} gap={4} display={'flex'} flexDirection={'row'}>
-          <ArchiveSubMenu />
+          <SubMenu menuItems={menuItems} />
           <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
             <Overview header="Overview" items={faqItems}></Overview>
             <FAQCard
