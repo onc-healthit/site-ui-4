@@ -4,6 +4,7 @@ import DocsCard from './DocsCard'
 import BannerBox from '@shared/BannerBox'
 import Divider from '@mui/material/Divider'
 import DocsSubMenu from './DocsSubMenu'
+import VideoItem from './VideoItem'
 
 export default function DocsHome() {
   return (
@@ -72,16 +73,83 @@ export default function DocsHome() {
               header="Videos"
               content={
                 <div>
-                  <Typography sx={{ mb: 5 }}>
-                    <Typography variant="body1" sx={{ mb: 1.5 }}>
-                      <strong>
-                        {
-                          'For those who prefer visual learning, our video collection offers an engaging way to absorb information'
-                        }
-                      </strong>
-                      <Divider sx={{ mb: 2, mt: 4 }} />
-                    </Typography>
+                  <Typography variant="body1" sx={{ mb: 1 }}>
+                    <strong>
+                      {
+                        'For those who prefer visual learning, our video collection offers an engaging way to absorb information '
+                      }
+                    </strong>
+                    <Divider sx={{ mb: 1, mt: 2 }} />
                   </Typography>
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(2, 1fr)',
+                      gap: '20px',
+                    }}
+                  >
+                    <VideoItem
+                      fileName="Intro_To_ETT.mp4"
+                      fileDate="2016-12-12"
+                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/Intro_To_ETT.mp4"
+                      showFileType
+                    />
+                    <VideoItem
+                      fileName="MDHT.mp4"
+                      fileDate="2016-12-12"
+                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/MDHT.mp4"
+                      showFileType
+                    />
+                    <VideoItem
+                      fileName="XDM_Validation.mp4"
+                      fileDate="2016-12-12"
+                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/XDM_Validation.mp4"
+                      showFileType
+                    />
+                    <VideoItem
+                      fileName="Receiver Tests SMTP.mp4"
+                      fileDate="2016-12-12"
+                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/Receiver%20Tests%20SMTP.mp4"
+                      showFileType
+                    />
+                    <VideoItem
+                      fileName="XDR_EDGE_RECEIVER.mp4"
+                      fileDate="2016-12-12"
+                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/XDR_EDGE_RECEIVER.mp4"
+                      showFileType
+                    />
+                    <VideoItem
+                      fileName="XDR_EDGE_SENDER.mp4"
+                      fileDate="2016-12-12"
+                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/XDR_EDGE_SENDER.mp4"
+                      showFileType
+                    />
+
+                    <VideoItem
+                      fileName="XDR_Validation.mp4"
+                      fileDate="2016-12-12"
+                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/XDR_Validation.mp4"
+                      showFileType
+                    />
+                    <VideoItem
+                      fileName="readme.txt"
+                      fileDate="2016-12-12"
+                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/readme.txt"
+                      showFileType
+                    />
+                    <VideoItem
+                      fileName="Update readme.txt"
+                      fileDate="2016-12-12"
+                      fileUrl="https://github.com/onc-healthit/ett/commit/b7f3e765747720b2d6a9b918e7137dd9ba5eeb3c"
+                      showFileType
+                    />
+                    <VideoItem
+                      fileName="video_demos.html"
+                      fileDate="2016-12-12"
+                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/video_demos.html"
+                      showFileType
+                    />
+                  </div>
                 </div>
               }
             />
