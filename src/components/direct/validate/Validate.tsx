@@ -3,7 +3,7 @@ import BannerBox from '@/components/shared/BannerBox'
 import styles from '@/components/shared/styles.module.css'
 import { Box, Button, Container, Stack, TextField, Tooltip, Typography } from '@mui/material'
 import Link from 'next/link'
-import DragandDropFile from '../send-direct/DragandDropFile'
+import DragandDropFile from '@components/shared/DragandDropFile'
 import HelpIcon from '@mui/icons-material/Help'
 import palette from '@/styles/palette'
 

@@ -1,5 +1,3 @@
-'use client'
-import React, { useState, useRef } from 'react'
 import palette from '@/styles/palette'
 import { Box, Container } from '@mui/material'
 import cCdaSvg from '@public/home/c-cda.svg'

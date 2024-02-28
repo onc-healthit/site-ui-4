@@ -44,7 +44,7 @@ const DirectHome = () => {
       />
       {/* Main Content */}
       <Container>
-        <SectionHeader header={'Test By Criteria'} subHeader={'A deep dive with one click away'} />
+        <SectionHeader header={'Test By Criteria'} subHeader={'A deep dive is one click away'} />
         <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
           <CriteriaCard
             title={'B1'}

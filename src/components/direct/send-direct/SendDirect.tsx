@@ -2,7 +2,7 @@
 import BannerBox from '@/components/shared/BannerBox'
 import Link from 'next/link'
 import styles from '@shared/styles.module.css'
-import TabsComponent, { TabInputs } from '../shared/TabsComponent'
+import TabsComponent, { TabInputs } from '@/components/shared/TabsComponent'
 import Version13 from './Version13Tab'
 import Version12 from './Version12Tab'
 
