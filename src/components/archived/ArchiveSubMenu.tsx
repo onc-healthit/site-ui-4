@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box } from '@mui/material'
-import ArchiveSubMenuButton from './SubMenuButton' // Adjust the import path as necessary
+import ArchiveSubMenuButton from './SubMenuButton'
 
 const ArchiveSubMenu = () => {
   return (
