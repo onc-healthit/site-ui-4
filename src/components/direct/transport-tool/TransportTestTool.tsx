@@ -41,6 +41,9 @@ const TransportTestTool = () => {
 
       {/* Main Content */}
       <Container>
+        <Typography variant="h3" component={'h1'} sx={{ pt: 4 }}>
+          Prepare to exchange Direct messages with the Sandbox
+        </Typography>
         <Box pt={4} pb={4} gap={4} display={'flex'} flexDirection={'row'}>
           <SubMenu menuItems={menuItems} />
           <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
