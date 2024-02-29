@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import BannerBox from '../shared/BannerBox'
-import styles from '../shared/styles.module.css'
+import BannerBox from '../../shared/BannerBox'
+import styles from '../../shared/styles.module.css'
 import { Box, Button, Container, TextField, Typography } from '@mui/material'
 import palette from '@/styles/palette'
 const Register = () => {

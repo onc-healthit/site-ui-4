@@ -26,7 +26,7 @@ const CCDAHome = () => {
         heading={'Consolidated Clinical Document Architecture (C-CDA) Testing & More'}
         description={
           <>
-            (Consolidated Clinical Document Architecture) C-CDA s a standardized framework used in healthcare to
+            Consolidated Clinical Document Architecture (C-CDA) is a standardized framework used in healthcare to
             structure and share various clinical documents electronically. It improves patient care coordination by
             ensuring consistent and accurate exchange of information between different healthcare systems and providers.
             By using C-CDA validators, healthcare organizations, EHR vendors, and other stakeholders can identify and
@@ -41,27 +41,25 @@ const CCDAHome = () => {
 
         <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
           <CardWithImage
-            title={'C-CDA Validators USCDI v3'}
+            title={'C-CDA Validator: USCDI v3'}
             cardImage={uscdiv3}
-            cardHeader={'C-CDA Validators USCDI v3'}
-            cardSubheader={''}
+            cardHeader={'C-CDA Validator: USCDI v3'}
             description={
               'Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
             }
-            pathname={''}
+            pathname={'/c-cda/uscdi-v3'}
             maxWidth={maxWidth}
             imageWidth={maxWidth + 'px'}
           />
-
+          {/* TODO: @Matt: Update this image to USCDI v1 */}
           <CardWithImage
-            title={'C-CDA Validators USCDI v2'}
+            title={'C-CDA Validator: USCDI v1'}
             cardImage={uscdiv2}
-            cardHeader={'C-CDA Validators USCDI v2'}
-            cardSubheader={''}
+            cardHeader={'C-CDA Validator: USCDI v1'}
             description={
               'Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
             }
-            pathname={''}
+            pathname={'/c-cda/uscdi-v1'}
             maxWidth={maxWidth}
             imageWidth={maxWidth + 'px'}
           />
@@ -104,7 +102,6 @@ const CCDAHome = () => {
             title={'2015 Edition'}
             cardImage={placeholder}
             cardHeader={'2015 Edition'}
-            cardSubheader={''}
             description={
               'HL7® Implementation Guide for CDA® Release 2: Consolidated CDA Templates for Clinical Notes (US Realm), Draft Standard for Trial Use Release 2.1, August 2015'
             }
@@ -117,7 +114,6 @@ const CCDAHome = () => {
             title={'Cures Update'}
             cardImage={placeholder}
             cardHeader={'Cures Update'}
-            cardSubheader={''}
             description={
               'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 2-US Realm, Oct 2021 (with errata)'
             }
@@ -129,7 +125,6 @@ const CCDAHome = () => {
             title={'USCDI v2'}
             cardImage={placeholder}
             cardHeader={'USCDI v2'}
-            cardSubheader={''}
             description={
               'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 3-US Realm, May 2022'
             }

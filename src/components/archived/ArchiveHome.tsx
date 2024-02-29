@@ -2,14 +2,25 @@
 import BannerBox from '../shared/BannerBox'
 import { Box, Link, Container } from '@mui/material'
 // Global Imports
-import React from 'react' // Import React if you haven't already
+import React from 'react'
 // Styles
 import palette from '@/styles/palette'
-import ArchiveSubMenu from './ArchiveSubMenu'
 import ArchiveCard from './ArchiveCard'
+import ArchiveFilter from './ArchiveFilter'
+import SubMenu, { menuProps } from '@/components/shared/SubMenu'
 // Images
 
 const ArchiveHome = () => {
+  const menuItems: menuProps[] = [
+    { heading: 'All', href: '' },
+    { heading: 'C-CDA', href: '' },
+    { heading: 'Direct', href: '' },
+    { heading: 'Edge', href: '' },
+    { heading: 'XDM', href: '' },
+    { heading: 'Other', href: '' },
+    { heading: 'Contact Us', href: '' },
+  ]
+
   return (
     <Box>
       {/* Global Header */}
@@ -30,8 +41,11 @@ const ArchiveHome = () => {
         }
       />
       <Container>
-        <Box pt={4} pb={4} gap={4} display={'flex'} flexDirection={'row'}>
-          <ArchiveSubMenu />
+        <Box pt={4} pb={4} display={'flex'} flexDirection={'row'} gap={4}>
+          <Box display={'flex'} flexDirection={'column'} gap={4}>
+            <SubMenu menuItems={menuItems} />
+            <ArchiveFilter />
+          </Box>
           <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
             <ArchiveCard
               cardHeader="Cures Update"

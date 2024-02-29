@@ -44,7 +44,7 @@ const DirectHome = () => {
       />
       {/* Main Content */}
       <Container>
-        <SectionHeader header={'Test By Criteria'} subHeader={'A deep dive with one click away'} />
+        <SectionHeader header={'Test By Criteria'} subHeader={'A deep dive is one click away'} />
         <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
           <CriteriaCard
             title={'B1'}
@@ -109,7 +109,7 @@ const DirectHome = () => {
               'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
             }
             buttonTitle={'GO'}
-            buttonLink={''}
+            buttonLink={'/direct/validate'}
             buttonIcon={<ArrowForwardIcon />}
           />
         </Box>
@@ -120,7 +120,7 @@ const DirectHome = () => {
               'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
             }
             buttonTitle={'GO'}
-            buttonLink={''}
+            buttonLink={'/direct/dcdt'}
             buttonIcon={<ArrowForwardIcon />}
           />
           <CategoryCard

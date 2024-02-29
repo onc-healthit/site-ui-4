@@ -13,23 +13,29 @@ import nistSvg from '@public/home/nist.svg'
 import referenceDataSvg from '@public/home/reference-data.svg'
 import CardWithImage from '@shared/CardWithImage'
 import SectionHeader from '../shared/SectionHeader'
+import DragScrollContainer from './DragScrollContainer'
 
 export default function SiteHomeRows() {
-  const maxWidth: number = 270
+  const maxWidth: number = 350
   const rowPaddingBottom: number = 20
-  const industryTestingResourceRow = 370
-  const imageURL = '../shared/ONCLogo-backgroundImage.png'
+  const industryTestingResourceRow: number = 350
+  const imageURL: string = '../shared/ONCLogo-backgroundImage.png'
+
+  const containerNoDragStyles = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingBottom: `${rowPaddingBottom}px`,
+  }
 
   return (
     <>
       {/* TODO:
       -@Matt: "Take A Tour" button location matches design but would it look better aligned with main header vs subHeader?
-      -@Matt: Export of CQM image not working correctly so it's rendered off, fix and re-import
-      -#Matt: Fix card overlap on lower res screens
-      -@Matt: Fix width and height of cards to match design (likely need to support height in CardWIthImage),
-      or should we, taller descriptions are better than wide, right?
+      -#Matt: Fix card overlap (in 3rd row only now) on lower res screens
       -Externalize links (external and routes) here and in nav to constants since there is reuse now
-      -Support scrolling of cards
+      -Make full cards grabbable for scroll and clickable for links vs portions of them
       -Could further modularize this into SiteHomeRow and then map them here if time (or separte row components if less time) */}
       <Box
         bgcolor={palette.primary}
@@ -42,13 +48,13 @@ export default function SiteHomeRows() {
         }}
       >
         <Container>
-          {/* Row 1: ONC Certification Tools*/}
+          {/* Row 1: Scrollable: ONC Certification Tools*/}
           <SectionHeader
             header={'ONC Certification Tools'}
             subHeader={'All tools required for certification.'}
             isHeaderAlternateColor={true}
           />
-          <Box display={'flex'} width={'100%'} justifyContent={'space-between'} sx={{ pb: `${rowPaddingBottom}px` }}>
+          <DragScrollContainer>
             <CardWithImage
               title={'Inferno FHIR Testing'}
               cardImage={infernoSvg}
@@ -96,15 +102,15 @@ export default function SiteHomeRows() {
               imageWidth={maxWidth + 'px'}
               buttonTitle="Start"
             />
-          </Box>
+          </DragScrollContainer>
 
-          {/* Row 2: General Testing Tools*/}
+          {/* Row 2: Scrollable: General Testing Tools*/}
           <SectionHeader
             header={'General Testing Tools'}
             subHeader={'All tools not required for certification, but a benefit for your software!'}
             isHeaderAlternateColor={true}
           />
-          <Box display={'flex'} width={'100%'} justifyContent={'space-between'} sx={{ pb: `${rowPaddingBottom}px` }}>
+          <DragScrollContainer>
             <CardWithImage
               title={'CPOE Evaluation Tool'}
               cardImage={cpoeSvg}
@@ -153,21 +159,15 @@ export default function SiteHomeRows() {
               imageWidth={maxWidth + 'px'}
               buttonTitle="Start"
             />
-          </Box>
+          </DragScrollContainer>
 
-          {/* Row 3:  */}
+          {/* Row 3: Fixed: Industry Testing Resources */}
           <SectionHeader
             header={'Industry Testing Resources'}
             subHeader={'Outside tools may help you!'}
             isHeaderAlternateColor={true}
           />
-          <Box
-            display={'flex'}
-            width={'100%'}
-            justifyContent={'space-between'}
-            gap={4}
-            sx={{ pb: `${rowPaddingBottom}px` }}
-          >
+          <Box sx={containerNoDragStyles}>
             <CardWithImage
               title={'HL7 Tools'}
               cardImage={hl7Svg}
