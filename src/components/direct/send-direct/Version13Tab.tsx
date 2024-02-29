@@ -81,8 +81,8 @@ const Version13 = () => {
   const [formValues, setFormValues] = useState({})
   const [disableSendButton, setDisableSendButton] = React.useState(true)
   /* TO-DO: Form submission, this would change when we work on functionality */
-  const handleSubmit = (e) => {
-    const { name, value } = e.target
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const { name, value } = e.currentTarget
     setFormValues({
       ...formValues,
       [name]: value,

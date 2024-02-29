@@ -1,9 +1,10 @@
+'use client'
 import palette from '@/styles/palette'
 import { Typography, List, ListItem, Box, TextField, MenuItem, Button } from '@mui/material'
 import TestCasePanel from './TestCasePanel'
 import React, { useEffect, useState } from 'react'
 import hostingTestCases from './HostingTestCases'
-import { SiteList } from './DiscoveryTool'
+import bulletedList from '../shared/BulletList'
 
 const Hosting = () => {
   const [hostingCase, setHostingCase] = useState(hostingTestCases.filter((c) => c.code === ' '))
@@ -40,7 +41,7 @@ const Hosting = () => {
       <Typography variant="body1">
         <strong>Directions</strong>
       </Typography>
-      <List sx={SiteList}>
+      <List sx={bulletedList('number')}>
         <ListItem sx={{ display: 'list-item' }}>
           <Typography variant="body2">
             Determine the required test cases for your SUT (System Under Test). Notice that there are two options for
