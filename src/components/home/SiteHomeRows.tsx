@@ -100,7 +100,7 @@ export default function SiteHomeRows() {
               cardImage={cqmQrdaSvg}
               cardHeader={'CQM QRDA Testing'}
               description={
-                'Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
+                'Sponsored by the ONC and developed by The MITRE Corporation, facilitates rigorous and repeatable testing for accurate calculation of CQMs for Eligible Providers & Hospitals.'
               }
               pathname={'/cqm-qrda'}
               maxWidth={maxWidth}
@@ -112,9 +112,9 @@ export default function SiteHomeRows() {
               cardImage={eRxSvg}
               cardHeader={'Electronic Prescribing (eRX) Tool'}
               description={
-                'Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
+                'ePrescribing Test Suite supports a broad range of testing in support of the ePrescribing Community, including transport, messaging (content), and functional.'
               }
-              pathname={'/'}
+              pathname={'https://tools.ncpdp.org/erx/#/home'}
               maxWidth={maxWidth}
               imageWidth={maxWidth + 'px'}
               buttonTitle="Start"
@@ -124,9 +124,9 @@ export default function SiteHomeRows() {
               cardImage={phrSvg}
               cardHeader={'Public Health Reporting'}
               description={
-                'Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
+                'Explore public health reporting and CDA reporting tools, including HL7® CDA® Cancer Registry Reporting Validation Tool for validating cancer-related medical information. '
               }
-              pathname={'/'}
+              pathname={'/public-health-reporting'}
               maxWidth={maxWidth}
               imageWidth={maxWidth + 'px'}
               buttonTitle="Start"
@@ -136,9 +136,9 @@ export default function SiteHomeRows() {
               cardImage={atmSvg}
               cardHeader={'Alternative Test Methods'}
               description={
-                'Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
+                'Innovative approaches deviating from conventional techniques, aiming to enhance accuracy, efficiency, or ethical considerations in assessing health-related data, systems, or software solutions.'
               }
-              pathname={'/cqm-qrda'}
+              pathname={'/alternative-test-methods'}
               maxWidth={maxWidth}
               imageWidth={maxWidth + 'px'}
               buttonTitle="Start"
