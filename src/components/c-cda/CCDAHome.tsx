@@ -4,7 +4,7 @@ import BannerBox from '@shared/BannerBox'
 import styles from '@shared/styles.module.css'
 import CardWithImage from '@shared/CardWithImage'
 import uscdiv3 from '@public/c-cda/uscdi-v3.svg'
-import uscdiv2 from '@public/c-cda/uscdi-v2.svg'
+import uscdiv1 from '@public/c-cda/uscdi-v1.svg'
 import placeholder from '@public/c-cda/placeholder.svg'
 import CardWithBorder from '@shared/CardWithBorder'
 import SectionHeader from '../shared/SectionHeader'
@@ -51,11 +51,10 @@ const CCDAHome = () => {
             maxWidth={maxWidth}
             imageWidth={maxWidth + 'px'}
           />
-          {/* TODO: @Matt: Update this image to USCDI v1 */}
           <CardWithImage
-            title={'C-CDA Validator: USCDI v2'}
-            cardImage={uscdiv2}
-            cardHeader={'C-CDA Validator: USCDI v2'}
+            title={'C-CDA Validator: USCDI v1'}
+            cardImage={uscdiv1}
+            cardHeader={'C-CDA Validator: USCDI v1'}
             description={
               'Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
             }
