@@ -1,6 +1,7 @@
 import palette from '@/styles/palette'
 import { Box, List, ListItem, Typography } from '@mui/material'
 import _ from 'lodash'
+import bulletedList from '../shared/BulletList'
 
 const oneColumnContainer = {
   display: 'flex',
@@ -61,19 +62,6 @@ export interface TestCasePanelProps {
 interface CertificateListProps {
   certificateFields: CertificateFields[] | []
 }
-const bulletedList = (style: string) => {
-  const styledBullet = {
-    listStyleType: style,
-    ml: 4,
-    [`& li.MuiListItem-root::marker`]: {
-      width: '1em',
-      fontSize: '14px',
-      color: palette.primary,
-    },
-  }
-  return styledBullet
-}
-
 interface ListFields {
   name: string
   value: string

@@ -1,4 +1,3 @@
-'use client'
 import BannerBox from '@/components/shared/BannerBox'
 import Link from 'next/link'
 import styles from '@/components/shared/styles.module.css'
@@ -18,16 +17,7 @@ import {
 import palette from '@/styles/palette'
 import Hosting from './Hosting'
 import DCDTCertificates from './DCDTCertificates'
-
-export const SiteList = {
-  listStyleType: 'number',
-  ml: 4,
-  [`& li.MuiListItem-root::marker`]: {
-    width: '1em',
-    fontSize: '14px',
-    color: palette.primary,
-  },
-}
+import bulletedList from '../shared/BulletList'
 
 const menuItems: menuProps[] = [
   { heading: 'Overview', href: '#overview' },
@@ -59,7 +49,7 @@ const DiscoveryTool = () => {
             Direct
           </Link>,
           <Link color="inherit" href="/direct/dcdt" key="2" className={styles.link}>
-            Direct Message
+            Discovery Tool
           </Link>,
         ]}
         heading={'2015 Direct Certificate Discovery Tool'}
@@ -86,7 +76,7 @@ const DiscoveryTool = () => {
                 <Typography variant="body1" pb={2}>
                   <strong>The tool is divided into two main testing areas:</strong>
                 </Typography>
-                <List sx={SiteList}>
+                <List sx={bulletedList('number')}>
                   <ListItem
                     sx={{
                       display: 'list-item',
