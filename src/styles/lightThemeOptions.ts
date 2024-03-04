@@ -127,7 +127,7 @@ export const lightThemeOptions: ThemeOptions = {
         },
         a: {
           '&:visited': {
-            color: '#0F46A1',
+            color: '#B142F5',
           },
         },
       },
