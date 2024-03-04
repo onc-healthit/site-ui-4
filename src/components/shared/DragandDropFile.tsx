@@ -1,3 +1,4 @@
+'use client'
 import { Button, Typography } from '@mui/material'
 import React, { useMemo } from 'react'
 import { useDropzone } from 'react-dropzone'
@@ -10,7 +11,7 @@ import palette from '@/styles/palette'
 const baseStyle = {
   display: 'flex',
   alignItems: 'center',
-  flexDirection: 'row',
+  // flexDirection: 'row', {/* commenting this for now because of typescript warning /*}
   justifyContent: 'center',
   padding: '20px',
   borderWidth: 2,

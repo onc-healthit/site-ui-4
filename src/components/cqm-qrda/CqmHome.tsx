@@ -62,11 +62,9 @@ const CqmHome = () => {
         heading={'CQM QDRA Testing'}
         description={
           <>
-            Cypress, the official testing tool for EHR Certification under ONC's 2014 and 2015 Certification Editions,
-            ensures precise evaluation of Clinical Quality Measures (CQM) in Electronic Health Records. Tailored for
-            both EHR vendors and Authorized Testing Labs, Cypress, sponsored by the Office of the National Coordinator
-            for Health IT and developed by The MITRE Corporation, facilitates rigorous and repeatable testing for
-            accurate calculation of CQMs for Eligible Providers and Hospitals.
+            {
+              "Cypress, the official testing tool for EHR Certification under ONC's 2014 and 2015 Certification Editions, ensures precise evaluation of Clinical Quality Measures (CQM) in Electronic Health Records. Tailored for both EHR vendors and Authorized Testing Labs, Cypress, sponsored by the Office of the National Coordinator for Health IT and developed by The MITRE Corporation, facilitates rigorous and repeatable testing for accurate calculation of CQMs for Eligible Providers and Hospitals."
+            }
           </>
         }
       />

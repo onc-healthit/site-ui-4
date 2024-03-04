@@ -51,7 +51,6 @@ const CCDAHome = () => {
             maxWidth={maxWidth}
             imageWidth={maxWidth + 'px'}
           />
-          {/* TODO: @Matt: Update this image to USCDI v1 */}
           <CardWithImage
             title={'C-CDA Validator: USCDI v1'}
             cardImage={uscdiv1}
@@ -59,7 +58,7 @@ const CCDAHome = () => {
             description={
               'Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
             }
-            pathname={'/c-cda/uscdi-v1'}
+            pathname={'/c-cda/uscdi-v2'}
             maxWidth={maxWidth}
             imageWidth={maxWidth + 'px'}
           />

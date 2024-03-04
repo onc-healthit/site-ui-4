@@ -1,3 +1,4 @@
+'use client'
 import palette from '@/styles/palette'
 import { Typography, List, ListItem, Box, TextField, MenuItem, Button } from '@mui/material'
 import TestCasePanel from './TestCasePanel'
@@ -5,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 import _ from 'lodash'
 import Link from 'next/link'
 import discoverTestCases from './DiscoverTestCases'
-import { SiteList } from './DiscoveryTool'
+import bulletedList from '../shared/BulletList'
 
 const DCDTCertificates = () => {
   const [discoverCase, setDiscoverCase] = React.useState(discoverTestCases.filter((c) => c.code === ' '))
@@ -52,7 +53,7 @@ const DCDTCertificates = () => {
       <Typography variant="body1">
         <strong>Directions</strong>
       </Typography>
-      <List sx={SiteList}>
+      <List sx={bulletedList('number')}>
         <ListItem sx={{ display: 'list-item' }}>
           <Typography variant="body2">
             {"Download the Testing Tool's trust anchor."} <Link href={''}>Download Trust Anchor</Link>
