@@ -1,8 +1,11 @@
 import palette from '@/styles/palette'
 import { Box, Container } from '@mui/material'
+import atmSvg from '@public/home/alternative.svg'
 import cCdaSvg from '@public/home/c-cda.svg'
 import cpoeSvg from '@public/home/cpoe.svg'
 import cqmQrdaSvg from '@public/home/cqm-qrda.svg'
+import eRxSvg from '@public/home/erx.svg'
+import phrSvg from '@public/home/phr.svg'
 import directSvg from '@public/home/direct.svg'
 import hl7Svg from '@public/home/hl7.svg'
 import igSvg from '@public/home/ig.svg'
@@ -11,12 +14,12 @@ import infernoSvg from '@public/home/inferno.svg'
 import lanternSvg from '@public/home/lantern.svg'
 import nistSvg from '@public/home/nist.svg'
 import referenceDataSvg from '@public/home/reference-data.svg'
-import CardWithImage from '@shared/CardWithImage'
+import CardWithImageHome from '@shared/CardWithImageHome'
 import SectionHeader from '../shared/SectionHeader'
 import DragScrollContainer from './DragScrollContainer'
 
 export default function SiteHomeRows() {
-  const maxWidth: number = 350
+  const maxWidth: number = 320
   const rowPaddingBottom: number = 20
   const industryTestingResourceRow: number = 350
   const imageURL: string = '../shared/ONCLogo-backgroundImage.png'
@@ -55,19 +58,19 @@ export default function SiteHomeRows() {
             isHeaderAlternateColor={true}
           />
           <DragScrollContainer>
-            <CardWithImage
-              title={'Inferno FHIR Testing'}
-              cardImage={infernoSvg}
-              cardHeader={'Inferno FHIR Testing'}
+            <CardWithImageHome
               description={
                 'This is an instance of Inferno hosted by ONC for purposes of testing for the ONC Health IT Certification Program and to support community-driven health IT standards development projects.'
               }
+              cardHeader={'Inferno FHIR Testing'}
+              title={'Inferno FHIR Testing'}
+              cardImage={infernoSvg}
               pathname={'https://inferno.healthit.gov/'}
               maxWidth={maxWidth}
               imageWidth={maxWidth + 'px'}
               buttonTitle="Start"
             />
-            <CardWithImage
+            <CardWithImageHome
               title={'C-CDA Testing'}
               cardImage={cCdaSvg}
               cardHeader={'C-CDA Testing'}
@@ -79,25 +82,61 @@ export default function SiteHomeRows() {
               imageWidth={maxWidth + 'px'}
               buttonTitle="Access"
             />
-            <CardWithImage
+            <CardWithImageHome
               title={'Direct Project Tooling'}
               cardImage={directSvg}
               cardHeader={'Direct Project Tooling'}
               description={
-                'Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
+                'A collection of testing utilities created to validate the requirements of the ONC Health IT Certification Program.'
               }
               pathname={'/direct'}
               maxWidth={maxWidth}
               imageWidth={maxWidth + 'px'}
             />
-            <CardWithImage
+            <CardWithImageHome
               title={'CQM QRDA Testing'}
               cardImage={cqmQrdaSvg}
               cardHeader={'CQM QRDA Testing'}
               description={
-                'Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
+                'Sponsored by the ONC and developed by The MITRE Corporation, facilitates rigorous and repeatable testing for accurate calculation of CQMs for Eligible Providers & Hospitals.'
               }
               pathname={'/cqm-qrda'}
+              maxWidth={maxWidth}
+              imageWidth={maxWidth + 'px'}
+              buttonTitle="Start"
+            />
+            <CardWithImageHome
+              title={'Electronic Prescribing (eRX) Tool'}
+              cardImage={eRxSvg}
+              cardHeader={'Electronic Prescribing (eRX) Tool'}
+              description={
+                'ePrescribing Test Suite supports a broad range of testing in support of the ePrescribing Community, including transport, messaging (content), and functional.'
+              }
+              pathname={'https://tools.ncpdp.org/erx/#/home'}
+              maxWidth={maxWidth}
+              imageWidth={maxWidth + 'px'}
+              buttonTitle="Start"
+            />
+            <CardWithImageHome
+              title={'Public Health Reporting'}
+              cardImage={phrSvg}
+              cardHeader={'Public Health Reporting'}
+              description={
+                'Explore public health reporting and CDA reporting tools, including HL7® CDA® Cancer Registry Reporting Validation Tool for validating cancer-related medical information. '
+              }
+              pathname={'/public-health-reporting'}
+              maxWidth={maxWidth}
+              imageWidth={maxWidth + 'px'}
+              buttonTitle="Start"
+            />
+            <CardWithImageHome
+              title={'Alternative Test Methods'}
+              cardImage={atmSvg}
+              cardHeader={'Alternative Test Methods'}
+              description={
+                'Innovative approaches deviating from conventional techniques, aiming to enhance accuracy, efficiency, or ethical considerations in assessing health-related data, systems, or software solutions.'
+              }
+              pathname={'/alternative-test-methods'}
               maxWidth={maxWidth}
               imageWidth={maxWidth + 'px'}
               buttonTitle="Start"
@@ -111,7 +150,7 @@ export default function SiteHomeRows() {
             isHeaderAlternateColor={true}
           />
           <DragScrollContainer>
-            <CardWithImage
+            <CardWithImageHome
               title={'CPOE Evaluation Tool'}
               cardImage={cpoeSvg}
               cardHeader={'CPOE Evaluation Tool'}
@@ -123,7 +162,7 @@ export default function SiteHomeRows() {
               imageWidth={maxWidth + 'px'}
               buttonTitle="View"
             />
-            <CardWithImage
+            <CardWithImageHome
               title={'IHE Testing Tools'}
               cardImage={iheSvg}
               cardHeader={'IHE Testing Tools'}
@@ -135,7 +174,7 @@ export default function SiteHomeRows() {
               imageWidth={maxWidth + 'px'}
               buttonTitle="Learn"
             />
-            <CardWithImage
+            <CardWithImageHome
               title={'NIST Conformance Testing'}
               cardImage={nistSvg}
               cardHeader={'NIST Conformance Testing'}
@@ -147,7 +186,7 @@ export default function SiteHomeRows() {
               imageWidth={maxWidth + 'px'}
               buttonTitle="Learn"
             />
-            <CardWithImage
+            <CardWithImageHome
               title={'Lantern Project'}
               cardImage={lanternSvg}
               cardHeader={'Lantern Project'}
@@ -168,7 +207,7 @@ export default function SiteHomeRows() {
             isHeaderAlternateColor={true}
           />
           <Box sx={containerNoDragStyles}>
-            <CardWithImage
+            <CardWithImageHome
               title={'HL7 Tools'}
               cardImage={hl7Svg}
               cardHeader={'HL7 Tools'}
@@ -180,7 +219,7 @@ export default function SiteHomeRows() {
               imageWidth={industryTestingResourceRow + 'px'}
               buttonTitle="Access"
             />
-            <CardWithImage
+            <CardWithImageHome
               title={'Reference Data'}
               cardImage={referenceDataSvg}
               cardHeader={'Reference Data'}
@@ -191,7 +230,7 @@ export default function SiteHomeRows() {
               maxWidth={industryTestingResourceRow}
               imageWidth={industryTestingResourceRow + 'px'}
             />
-            <CardWithImage
+            <CardWithImageHome
               title={'Implementation Guides'}
               cardImage={igSvg}
               cardHeader={'Implementation Guides'}

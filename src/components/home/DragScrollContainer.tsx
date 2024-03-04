@@ -15,6 +15,7 @@ export default function DragScrollContainer(props: DragScrollContainerProps) {
 
   const draggableContainerStyles = {
     display: '-webkit-box',
+    position: 'relative',
     flexDirection: 'row',
     width: '100%',
     overflowX: 'scroll',
@@ -48,6 +49,7 @@ export default function DragScrollContainer(props: DragScrollContainerProps) {
 
   return (
     <Box
+      p={1}
       ref={containerRef}
       sx={draggableContainerStyles}
       onMouseDown={startDragging}
