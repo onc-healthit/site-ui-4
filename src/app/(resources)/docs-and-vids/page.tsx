@@ -1,7 +1,12 @@
-export default function ResourcesDocs() {
+import DocsHomeComponent from '@/components/resources/DocsHome'
+import CommunicationFab from '@/components/shared/CommunicationFab'
+const DocsHome = () => {
   return (
-    <h1 style={{ paddingLeft: 340, paddingTop: 20 }}>
-      Resources: Documentation & Videos
-    </h1>
+    <>
+      <DocsHomeComponent />
+      <CommunicationFab />
+    </>
   )
 }
+
+export default DocsHome

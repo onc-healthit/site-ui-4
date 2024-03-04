@@ -6,7 +6,7 @@ import H1Component from './H1Tab'
 import H2Component from './H2Tab'
 import Link from 'next/link'
 import styles from '@shared/styles.module.css'
-import TabsComponent, { TabInputs } from '../shared/TabsComponent'
+import TabsComponent, { TabInputs } from '@/components/shared/TabsComponent'
 export interface criteriaProps {
   selectedTab: string
 }
