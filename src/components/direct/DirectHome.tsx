@@ -138,7 +138,7 @@ const DirectHome = () => {
               'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
             }
             buttonTitle={'GO'}
-            buttonLink={''}
+            buttonLink={'/direct/hisp'}
             buttonIcon={<ArrowForwardIcon />}
           />
         </Box>

@@ -19,7 +19,7 @@ const BannerBox = ({ breadcrumbs, heading, subHeading, description, isTourButton
       <Container>
         {breadcrumbs && <Breadcrumbs aria-label="breadcrumb">{breadcrumbs}</Breadcrumbs>}
         <Box sx={subHeadingAndTourButtonBoxStyle}>
-          <Typography variant="h3" component={'h1'} sx={{}}>
+          <Typography variant="h3" component={'h1'} sx={{ pt: 1 }}>
             <strong>{heading}</strong>
           </Typography>
           {isTourButton && (
@@ -33,7 +33,7 @@ const BannerBox = ({ breadcrumbs, heading, subHeading, description, isTourButton
             {subHeading}
           </Typography>
         )}
-        <Typography variant="body1" sx={{}}>
+        <Typography variant="body1" sx={{ pt: 1 }}>
           {description}
         </Typography>
       </Container>
