@@ -1,53 +1,23 @@
 // MUI Imports
 import BannerBox from '../shared/BannerBox'
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Divider, Typography } from '@mui/material'
+import { Box, Container, Divider } from '@mui/material'
 // Global Imports
 import Link from 'next/link'
 // MUI Icons
-import ArrowForwardIcon from '@mui/icons-material/ArrowDownward'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import LoginIcon from '@mui/icons-material/Login'
-import StartIcon from '@mui/icons-material/Start'
-import CheckIcon from '@mui/icons-material/Check'
+import CardWithImage from '@shared/CardWithImage'
 import TrackChangesIcon from '@mui/icons-material/TrackChanges'
+import { ArrowForward } from '@mui/icons-material'
+import cypressKnowledgeBaseImagery from '@public/cqm-qrda/Cypress-Knowledge-Base1.svg'
+import cypressValidatorImagery from '@public/cqm-qrda/Cypress-QRDA-Validator.svg'
 // Styles
 import palette from '@/styles/palette'
 import SectionHeader from '../shared/SectionHeader'
 import VerticalCard from './VerticalCard'
 import CardWithBorder from '../shared/CardWithBorder'
 // Images
-const cypressKnowledgeBaseImagery = '/cqm-qrda/Cypress-Knowledge-Base1.svg'
-const cypressValidatorImagery = '/cqm-qrda/Cypress-QRDA-Validator.svg'
-
-// * Will bring in at a different time
-// const hoverGrow = {
-//   transition: 'transform 0.15s ease-in-out',
-//   '&:hover': {
-//     transform: 'scale3d(1.05, 1.05, 1)',
-//     boxShadow: '0px 0px 16px 8px rgba(0,0,0,0.1)',
-//   },
-// }
-
-const cypressCardWithImage = {
-  width: '50% ',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-}
-
-const cypressContentWithImage = {
-  display: 'flex',
-  flexDirection: 'column',
-  flex: '1 auto',
-  alignItems: 'flex-start',
-  justifyContent: 'flex-start',
-  textAlign: 'left',
-}
-
-const cypressCardImage = {
-  minWidth: '-webkit-fill-available',
-  height: '175px',
-}
+const maxWidth: number = 320
 
 const CqmHome = () => {
   return (
@@ -82,76 +52,38 @@ const CqmHome = () => {
           flexDirection={'row'}
           width={'100%'}
           justifyContent={'space-between'}
-          alignItems={'stretch'}
           gap={4}
+          alignItems={'flex-start'}
         >
           {/* Cypress Card With Images */}
-          <Box display={'flex'} flexDirection={'row'} width={'60%'} gap={4}>
-            <Card
-              sx={{
-                ...cypressCardWithImage,
-              }}
-              id=""
-            >
-              <CardMedia sx={{ ...cypressCardImage }} component="div" image={cypressKnowledgeBaseImagery} />
-              <CardContent
-                sx={{
-                  ...cypressContentWithImage,
-                }}
-              >
-                <Typography variant="h6" component="h3" color="default">
-                  <strong>Cypress Knowledge Base</strong>
-                </Typography>
-                <Typography variant="body2" color="default">
-                  The Cypress Knowledge Base is a starting point for vendors and Authorized Testing Labs responsible for
-                  testing EHR technologies. The Knowledge Base has Frequently Asked Questions, as well as links to
-                  additional eCQM resources.
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button
-                  disableRipple
-                  href="http://www.projectcypress.org/"
-                  size="small"
-                  variant="text"
-                  color="secondary"
-                  endIcon={<StartIcon />}
-                >
-                  START HERE
-                </Button>
-              </CardActions>
-            </Card>
-            <Card sx={{ ...cypressCardWithImage }} id="">
-              <CardMedia sx={{ ...cypressCardImage }} component="div" image={cypressValidatorImagery} />
-              <CardContent
-                sx={{
-                  ...cypressContentWithImage,
-                }}
-              >
-                <Typography variant="h6" component="h3" color="default">
-                  <strong>Cypress QRDA Validator</strong>
-                </Typography>
-                <Typography variant="body2" color="default">
-                  The CYPRESS QRDA Validator provides implementers with the ability to validate the conformance of QRDA
-                  Category I and Category III documents to the published CMS and HL7 implementation guides.
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button
-                  disableRipple
-                  href="https://cypressvalidator.healthit.gov/"
-                  size="small"
-                  variant="text"
-                  color="secondary"
-                  endIcon={<CheckIcon />}
-                >
-                  VALIDATE
-                </Button>
-              </CardActions>
-            </Card>
+          <Box display={'flex'} width={'100%'} gap={4} justifyContent={'space-between'} alignItems={'flex-start'}>
+            <CardWithImage
+              title={'Cypress Knowledge Base'}
+              cardImage={cypressKnowledgeBaseImagery}
+              cardHeader={'Cypress Knowledge Base'}
+              description={
+                'The Cypress Knowledge Base is a starting point for vendors and Authorized Testing Lab responsible for testing EHR technologies. The Knowledge Base has Frequently Asked Questions, as well as eCQM resources.'
+              }
+              pathname={'http://www.projectcypress.org/'}
+              maxWidth={maxWidth}
+              imageWidth={maxWidth + 'px'}
+              buttonTitle="Access"
+            />
+            <CardWithImage
+              title={'Cypress QRDA Validator'}
+              cardImage={cypressValidatorImagery}
+              cardHeader={'Cypress QRDA Validator'}
+              description={
+                'The CYPRESS QRDA Validator provides implementers with the ability to validate the conformance of QRDA Category I and Category III documents to the published CMS and HL7 implementation guides.'
+              }
+              pathname={'https://cypressvalidator.healthit.gov/'}
+              maxWidth={maxWidth}
+              imageWidth={maxWidth + 'px'}
+              buttonTitle="Validate"
+            />
           </Box>
           {/* Vertical Cypress Resources */}
-          <Box display={'flex'} flexDirection={'column'} width={'40%'} justifyContent={'space-between'} gap={2}>
+          <Box display={'flex'} flexDirection={'column'} width={'100%'} justifyContent={'space-between'} gap={2}>
             <VerticalCard
               title={'Demo Cypress'}
               description={
@@ -195,7 +127,7 @@ const CqmHome = () => {
             }
             buttonTitle={'ACCESS'}
             buttonLink={''}
-            buttonIcon={<ArrowForwardIcon />}
+            buttonIcon={<ArrowForward />}
           />
 
           {/* eCQI Resource CenterCard */}
@@ -206,7 +138,7 @@ const CqmHome = () => {
             }
             buttonTitle={'Go to center'}
             buttonLink={''}
-            buttonIcon={<ArrowForwardIcon />}
+            buttonIcon={<ArrowForward />}
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />

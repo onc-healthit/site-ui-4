@@ -2,7 +2,7 @@ import * as React from 'react'
 import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import { Button, Box, CardActionArea } from '@mui/material'
+import { Box, CardActionArea } from '@mui/material'
 import Image from 'next/image'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import Link from 'next/link'
@@ -19,13 +19,6 @@ export interface CriteriaCardProps {
   buttonTitle?: string // optional as has default
 }
 
-const hoverGrow = {
-  transition: 'transform 0.15s ease-in-out',
-  '&:hover': {
-    transform: 'scale3d(1.05, 1.05, 1)',
-    boxShadow: '0px 0px 16px 8px rgba(0,0,0,0.1)',
-  },
-}
 const CardHome = ({
   title,
   cardImage,
