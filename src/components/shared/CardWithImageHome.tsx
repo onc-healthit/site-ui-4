@@ -19,13 +19,6 @@ export interface CriteriaCardProps {
   buttonTitle?: string // optional as has default
 }
 
-const hoverGrow = {
-  transition: 'transform 0.15s ease-in-out',
-  '&:hover': {
-    transform: 'scale3d(1.05, 1.05, 1)',
-    boxShadow: '0px 0px 16px 8px rgba(0,0,0,0.1)',
-  },
-}
 const CardHome = ({
   title,
   cardImage,
