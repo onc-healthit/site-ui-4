@@ -58,7 +58,7 @@ const CCDAHome = () => {
             description={
               'Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
             }
-            pathname={'/c-cda/uscdi-v2'}
+            pathname={'/c-cda/uscdi-v1'}
             maxWidth={maxWidth}
             imageWidth={maxWidth + 'px'}
           />

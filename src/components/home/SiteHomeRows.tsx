@@ -35,11 +35,9 @@ export default function SiteHomeRows() {
   return (
     <>
       {/* TODO:
-      -@Matt: "Take A Tour" button location matches design but would it look better aligned with main header vs subHeader?
       -#Matt: Fix card overlap (in 3rd row only now) on lower res screens
       -Externalize links (external and routes) here and in nav to constants since there is reuse now
-      -Make full cards grabbable for scroll and clickable for links vs portions of them
-      -Could further modularize this into SiteHomeRow and then map them here if time (or separte row components if less time) */}
+      */}
       <Box
         bgcolor={palette.primary}
         sx={{
