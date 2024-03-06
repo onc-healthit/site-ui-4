@@ -1,9 +1,8 @@
 import * as React from 'react'
 import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import { Button, CardActionArea, CardActions } from '@mui/material'
+import { Box, CardActionArea } from '@mui/material'
 import Image from 'next/image'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import Link from 'next/link'
@@ -35,38 +34,52 @@ const CriteriaCard = ({
   const defaultButtonTitle: string = buttonTitle ?? 'Go'
 
   return (
-    <Card
-      sx={{ maxWidth: maxWidth, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
-      id="criteria"
+    <Box
+      sx={{
+        transition: 'transform 0.15s ease-in-out',
+        '&:hover': {
+          transform: 'scale3d(1.05, 1.05, 1)',
+          boxShadow: '0px 0px 16px 8px rgba(0,0,0,0.1)',
+        },
+      }}
     >
-      <CardActionArea>
-        <CardMedia title={title}>
-          <Image style={{ width: imageWidth, height: 'auto' }} src={cardImage} alt={title} />
-        </CardMedia>
-        <CardContent sx={{ p: 3 }}>
-          <Typography variant="h6" component="h3" color="default">
-            <strong>{cardHeader}</strong>
-          </Typography>
-          <Typography variant="body2" color="default">
-            {cardSubheader}
-          </Typography>
-          <Typography variant="body1" color="default" sx={{ paddingTop: 2 }}>
-            {description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Link
-          href={pathname}
-          target={isExternalLink ? '_blank' : undefined}
-          rel={isExternalLink ? 'noopener noreferrer' : undefined}
+      <CardActionArea aria-label="button">
+        <Card
+          sx={{ maxWidth: maxWidth, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+          id="criteria"
         >
-          <Button size="small" variant="text" color="secondary" endIcon={<ArrowForwardIcon />}>
-            {defaultButtonTitle}
-          </Button>
-        </Link>
-      </CardActions>
-    </Card>
+          <Link
+            href={pathname}
+            target={isExternalLink ? '_blank' : undefined}
+            rel={isExternalLink ? 'noopener noreferrer' : undefined}
+            style={{ color: 'black', textDecoration: 'none' }}
+          >
+            <Box>
+              <CardMedia title={title}>
+                <Image style={{ width: imageWidth, height: 'auto' }} src={cardImage} alt={title} />
+              </CardMedia>
+              <Box minHeight={'150px'} sx={{ paddingX: 2, pt: 2 }}>
+                <Typography variant="h4" component="h2" color="default">
+                  <strong>{cardHeader}</strong>
+                </Typography>
+                <Typography variant="body2" color="default">
+                  {cardSubheader}
+                </Typography>
+                <Typography variant="body1" color="default" sx={{ paddingTop: 2 }}>
+                  {description}
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingX: 2, paddingY: 2 }}>
+                <Typography sx={{ marginRight: 1 }} color="secondary">
+                  {defaultButtonTitle}
+                </Typography>
+                <ArrowForwardIcon fontSize="small" color="secondary" />
+              </Box>
+            </Box>
+          </Link>
+        </Card>
+      </CardActionArea>
+    </Box>
   )
 }
 
