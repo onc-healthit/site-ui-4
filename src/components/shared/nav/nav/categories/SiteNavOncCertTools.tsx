@@ -68,7 +68,7 @@ export default function SiteNavOncCertTools() {
   ]
 
   return (
-    <>
+    <div id="site-nav-onc-cert-tools">
       <NavListHeadItem
         text="ONC Certification Tools"
         handleClickCategoryList={handleClickCertList}
@@ -76,6 +76,6 @@ export default function SiteNavOncCertTools() {
         openCategoryList={openCertList}
       />
       <NavListSubItems items={items} openCategoryList={openCertList} />
-    </>
+    </div>
   )
 }
