@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button, Box } from '@mui/material'
 import dynamic from 'next/dynamic' // Import dynamic from next/dynamic
 import palette from '@/styles/palette'
+import { CallBackProps } from 'react-joyride'
 
 const Joyride = dynamic(() => import('react-joyride'), { ssr: false }) // Dynamically import Joyride
 
@@ -11,7 +12,13 @@ const TourButton: React.FC = () => {
   const handleClickStart = () => {
     setRun(true)
   }
+  const handleJoyrideCallback = (data: CallBackProps) => {
+    const { status } = data
 
+    if (status === 'finished' || status === 'skipped') {
+      setRun(false) // Reset the run state
+    }
+  }
   const steps = [
     {
       target: '#site-nav-onc-cert-tools',
@@ -26,6 +33,7 @@ const TourButton: React.FC = () => {
           backgroundColor: palette.secondary, // customize the next button color
         },
       },
+      disableBeacon: true,
     },
     {
       target: '#site-nav-general-tools',
@@ -40,6 +48,7 @@ const TourButton: React.FC = () => {
           backgroundColor: palette.secondary, // customize the next button color
         },
       },
+      disableBeacon: true,
     },
     {
       target: '#site-nav-industry-testing',
@@ -54,6 +63,7 @@ const TourButton: React.FC = () => {
           backgroundColor: palette.secondary, // customize the next button color
         },
       },
+      disableBeacon: true,
     },
     {
       target: '#communication-Fab',
@@ -75,6 +85,7 @@ const TourButton: React.FC = () => {
           backgroundColor: palette.secondary, // customize the skip button color
         },
       },
+      disableBeacon: true,
     },
   ]
 
@@ -86,6 +97,7 @@ const TourButton: React.FC = () => {
         continuous
         showProgress
         showSkipButton
+        callback={handleJoyrideCallback}
         styles={{
           options: {
             primaryColor: palette.secondary,
