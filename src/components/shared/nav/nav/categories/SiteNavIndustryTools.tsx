@@ -47,7 +47,7 @@ export default function SiteNavIndustryTools() {
   ]
 
   return (
-    <>
+    <div id="site-nav-industry-testing">
       <NavListHeadItem
         text="Industry Testing Resources"
         handleClickCategoryList={handleClickIndustryTestingList}
@@ -55,6 +55,6 @@ export default function SiteNavIndustryTools() {
         openCategoryList={openIndustryTestingList}
       />
       <NavListSubItems items={items} openCategoryList={openIndustryTestingList} />
-    </>
+    </div>
   )
 }

@@ -47,7 +47,7 @@ export default function SiteNavGeneralTools() {
   ]
 
   return (
-    <>
+    <div id="site-nav-general-tools">
       <NavListHeadItem
         text="General Testing Tools"
         handleClickCategoryList={handleClickGeneralTestingList}
@@ -55,6 +55,6 @@ export default function SiteNavGeneralTools() {
         openCategoryList={openGeneralTestingList}
       />
       <NavListSubItems items={items} openCategoryList={openGeneralTestingList} />
-    </>
+    </div>
   )
 }

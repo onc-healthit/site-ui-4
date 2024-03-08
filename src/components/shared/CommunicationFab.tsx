@@ -104,7 +104,7 @@ const CommunicationFab: React.FC = () => {
         style={{ position: 'fixed', bottom: '20px', right: '20px' }}
         onClick={handleDrawerOpen}
       >
-        <InfoIcon fontSize="small" htmlColor={palette.white} />
+        <InfoIcon id="communication-Fab" fontSize="small" htmlColor={palette.white} />
       </Fab>
     </div>
   )
