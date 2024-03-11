@@ -1,6 +1,5 @@
 import React from 'react'
-import { Box, Grid, Button, Divider, Typography, Toolbar, IconButton, Card, Avatar } from '@mui/material'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import { Box, Button, Divider, Typography, Toolbar, Card, Avatar } from '@mui/material'
 
 interface DocsCardProps {
   smtpAddress: string
@@ -11,7 +10,6 @@ const ProfilesCard: React.FC<DocsCardProps> = ({ smtpAddress, emailAddress, head
   return (
     <Card
       sx={{
-        width: 419,
         height: 225,
         boxShadow: '-8px 0px 32px 0px rgba(0, 0, 0, 0.17)',
       }}
@@ -23,19 +21,19 @@ const ProfilesCard: React.FC<DocsCardProps> = ({ smtpAddress, emailAddress, head
         <Avatar></Avatar>
       </Toolbar>
       <Divider />
-      <Box sx={{ margin: 2 }}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1">SUTE SMTP Address:</Typography>
-            <Typography variant="body1">{smtpAddress}</Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1">SUTE Email Address:</Typography>
-            <Typography variant="body1">{emailAddress}</Typography>
-          </Grid>
-        </Grid>
+      <Box display={'flex'} sx={{ flexDirection: 'column', margin: 2 }}>
+        <Box display={'flex'} sx={{ justifyContent: 'space-between', marginBottom: 2 }}>
+          <Box display={'flex'} sx={{ flexDirection: 'column', mr: 2 }}>
+            <Typography variant="subtitle2">SUTE SMTP Address:</Typography>
+            <Typography variant="body2">{smtpAddress}</Typography>
+          </Box>
+          <Box display={'flex'} sx={{ flexDirection: 'column' }}>
+            <Typography variant="subtitle2">SUTE Email Address:</Typography>
+            <Typography variant="body2">{emailAddress}</Typography>
+          </Box>
+        </Box>
         <Divider sx={{ marginY: 2 }} />
-        <Button variant="outlined" color="primary">
+        <Button variant="outlined" color="primary" sx={{ alignSelf: 'start' }}>
           Show Report
         </Button>
       </Box>
