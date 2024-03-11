@@ -8,7 +8,6 @@ const ValidationResults = () => {
       <Box
         sx={{
           padding: '32px',
-          width: '1391px',
           minHeight: 'auto',
         }}
       >
