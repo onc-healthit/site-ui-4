@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Grid, Button, Divider, Typography, Toolbar, IconButton, Card } from '@mui/material'
+import { Box, Grid, Button, Divider, Typography, Toolbar, IconButton, Card, Avatar } from '@mui/material'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
 interface DocsCardProps {
@@ -14,16 +14,13 @@ const ProfilesCard: React.FC<DocsCardProps> = ({ smtpAddress, emailAddress, head
         width: 419,
         height: 225,
         boxShadow: '-8px 0px 32px 0px rgba(0, 0, 0, 0.17)',
-        mb: 4,
       }}
     >
       <Toolbar>
         <Typography variant="h4" sx={{ flexGrow: 1, fontWeight: 'bold', color: '#001439' }}>
           {header}
         </Typography>
-        <IconButton color="inherit">
-          <AccountCircleIcon />
-        </IconButton>
+        <Avatar></Avatar>
       </Toolbar>
       <Divider />
       <Box sx={{ margin: 2 }}>
@@ -38,7 +35,14 @@ const ProfilesCard: React.FC<DocsCardProps> = ({ smtpAddress, emailAddress, head
           </Grid>
         </Grid>
         <Divider sx={{ marginY: 2 }} />
-        <Button variant="contained" color="primary">
+        <Button
+          variant="outlined"
+          color="primary"
+          sx={{
+            boxShadow:
+              '0px 1px 5px 0px rgba(0, 0, 0, 0.12), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.2)',
+          }}
+        >
           Show Report
         </Button>
       </Box>
