@@ -16,7 +16,7 @@ import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
 export interface TestCardProps {
   cardHeader: string
   cardContent: string
-  cardInput: string
+  cardInput: string | null
   links?: { label: string; href: string }[] | null
   directFromInput: string | null
   endpointInput: string | null
