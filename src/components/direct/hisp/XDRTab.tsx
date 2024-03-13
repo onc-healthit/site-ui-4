@@ -30,8 +30,8 @@ const XDR = () => {
       label: 'Sender',
     },
     {
-      value: 'Reciever',
-      label: 'Reciever',
+      value: 'Receiver',
+      label: 'Receiver',
     },
   ]
   return (
@@ -46,12 +46,12 @@ const XDR = () => {
           <Card elevation={4}>
             <CardContent>
               <FormControl fullWidth>
-                <InputLabel id="select-label">Choose a sender or reciever to see the test </InputLabel>
+                <InputLabel id="select-label">Choose a sender or Receiver to see the test </InputLabel>
                 <Select
                   labelId="select-label"
                   id="select"
                   value={option}
-                  label="Choose a sender or reciever to see the test"
+                  label="Choose a sender or Receiver to see the test"
                   onChange={handleChange}
                 >
                   {dropdown.map((option) => (
@@ -91,6 +91,9 @@ const XDR = () => {
               endpointInput={null}
               timeoutInput={null}
               outgoingInput={null}
+              helperOutgoingText={null}
+              helperTimeoutText={null}
+              helperEndpointText={null}
             />
           )}
           {option === 'Sender' && (
@@ -109,6 +112,9 @@ const XDR = () => {
               endpointInput={null}
               timeoutInput={null}
               outgoingInput={null}
+              helperOutgoingText={null}
+              helperTimeoutText={null}
+              helperEndpointText={null}
             />
           )}
           {option === 'Sender' && (
@@ -127,6 +133,9 @@ const XDR = () => {
               endpointInput={null}
               timeoutInput={null}
               outgoingInput={null}
+              helperOutgoingText={null}
+              helperTimeoutText={null}
+              helperEndpointText={null}
             />
           )}
           {option === 'Sender' && (
@@ -145,6 +154,9 @@ const XDR = () => {
               endpointInput={null}
               timeoutInput={null}
               outgoingInput={null}
+              helperOutgoingText={null}
+              helperTimeoutText={null}
+              helperEndpointText={null}
             />
           )}
           {option === 'Sender' && (
@@ -160,6 +172,9 @@ const XDR = () => {
               endpointInput={null}
               timeoutInput={null}
               outgoingInput={null}
+              helperOutgoingText={null}
+              helperTimeoutText={null}
+              helperEndpointText={null}
             />
           )}
           {option === 'Sender' && (
@@ -175,27 +190,33 @@ const XDR = () => {
               endpointInput={null}
               timeoutInput={null}
               outgoingInput={null}
+              helperOutgoingText={null}
+              helperTimeoutText={null}
+              helperEndpointText={null}
             />
           )}
 
-          {/* Reciever Test */}
+          {/* Receiver Test */}
 
-          {option === 'Reciever' && (
+          {option === 'Receiver' && (
             <XDRTestCard
-              cardHeader={'XDR Test 17'}
+              cardHeader={'XDR Test 13'}
               cardContent={
-                'Verify that HISP disconnects when the Server provided certificate is invalid. Only the IP address of the SUT shall be entered below. As this is a socket based test, the full endpoint is not required. Only the IP Address and port are needed and provided. Provide your IP Address. Hit Run to generate your endpoint'
+                'Before this test is run, the vendor must register a Direct Address / Contact address pairing using the Direct portion of the ETT tool. Test Tool sends an XDR Message with Limited metadata to the SUT (HISP). The SUT must then translate the message into Direct and send it back to the ETT which is acting as the Destination HISP. The Direct Address it passes the message along to must match the Direct Address that has been pre-registered. A validation report will be sent to the Contact address. Verify that an HISP system can receive a properly formatted XDR message and translate to Direct Message. Provide your Endpoint, and Outgoing (ETT --> SUT) Direct From Address. Hit Run to send a XDR message.'
               }
               links={null}
               cardInput="IP Address:"
-              helperText="IP Address (eg: 202.255.24.62)"
+              helperText={null}
               directFromInput={null}
-              endpointInput={null}
+              endpointInput="Endpoint URL"
               timeoutInput={null}
-              outgoingInput={null}
+              outgoingInput="Outgoing (ETT --> SUT) Direct From Address:"
+              helperOutgoingText="SUT (HISP) outgoing SMTP address."
+              helperTimeoutText={null}
+              helperEndpointText="Receiving endpoint of the SUT for XDR SOAP messages."
             />
           )}
-          {option === 'Reciever' && (
+          {option === 'Receiver' && (
             <XDRTestCard
               cardHeader={'XDR Test 17'}
               cardContent={
@@ -208,9 +229,12 @@ const XDR = () => {
               endpointInput={null}
               timeoutInput={null}
               outgoingInput={null}
+              helperOutgoingText={null}
+              helperTimeoutText={null}
+              helperEndpointText={null}
             />
           )}
-          {option === 'Reciever' && (
+          {option === 'Receiver' && (
             <XDRTestCard
               cardHeader={'XDR Test 17'}
               cardContent={
@@ -223,9 +247,12 @@ const XDR = () => {
               endpointInput={null}
               timeoutInput={null}
               outgoingInput={null}
+              helperOutgoingText={null}
+              helperTimeoutText={null}
+              helperEndpointText={null}
             />
           )}
-          {option === 'Reciever' && (
+          {option === 'Receiver' && (
             <XDRTestCard
               cardHeader={'XDR Test 17'}
               cardContent={
@@ -238,9 +265,12 @@ const XDR = () => {
               endpointInput={null}
               timeoutInput={null}
               outgoingInput={null}
+              helperOutgoingText={null}
+              helperTimeoutText={null}
+              helperEndpointText={null}
             />
           )}
-          {option === 'Reciever' && (
+          {option === 'Receiver' && (
             <XDRTestCard
               cardHeader={'XDR Test 17'}
               cardContent={
@@ -253,9 +283,12 @@ const XDR = () => {
               endpointInput={null}
               timeoutInput={null}
               outgoingInput={null}
+              helperOutgoingText={null}
+              helperTimeoutText={null}
+              helperEndpointText={null}
             />
           )}
-          {option === 'Reciever' && (
+          {option === 'Receiver' && (
             <XDRTestCard
               cardHeader={'XDR Test 17'}
               cardContent={
@@ -268,6 +301,9 @@ const XDR = () => {
               endpointInput={null}
               timeoutInput={null}
               outgoingInput={null}
+              helperOutgoingText={null}
+              helperTimeoutText={null}
+              helperEndpointText={null}
             />
           )}
         </Box>

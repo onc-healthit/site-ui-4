@@ -18,11 +18,14 @@ export interface TestCardProps {
   cardContent: string
   cardInput: string
   links?: { label: string; href: string }[] | null
-  helperText: string
   directFromInput: string | null
   endpointInput: string | null
   timeoutInput: string | null
   outgoingInput: string | null
+  helperText: string | null
+  helperOutgoingText: string | null
+  helperTimeoutText: string | null
+  helperEndpointText: string | null
 }
 const handleClick = (link: string) => {
   navigator.clipboard
@@ -35,6 +38,12 @@ const handleClick = (link: string) => {
       alert('Failed to copy link. Please try again.')
     })
 }
+const flexColumnStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  pt: 2,
+}
 
 const TestCard = ({
   cardHeader,
@@ -45,6 +54,9 @@ const TestCard = ({
   outgoingInput,
   links,
   helperText,
+  helperEndpointText,
+  helperOutgoingText,
+  helperTimeoutText,
 }: TestCardProps) => {
   return (
     <Card>
@@ -53,14 +65,7 @@ const TestCard = ({
       <CardContent>
         <Typography variant="body2">{cardContent}</Typography>
         {directFromInput !== null && (
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: '100%',
-              pt: 2,
-            }}
-          >
+          <Box sx={flexColumnStyle}>
             <FormControl fullWidth>
               <TextField fullWidth id="card-input" label={directFromInput} variant="outlined" />
               <FormHelperText>{helperText}</FormHelperText>
@@ -68,47 +73,26 @@ const TestCard = ({
           </Box>
         )}
         {endpointInput !== null && (
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: '100%',
-              pt: 2,
-            }}
-          >
+          <Box sx={flexColumnStyle}>
             <FormControl fullWidth>
               <TextField fullWidth id="card-input" label={endpointInput} variant="outlined" />
-              <FormHelperText>{helperText}</FormHelperText>
+              <FormHelperText>{helperEndpointText}</FormHelperText>
             </FormControl>
           </Box>
         )}
         {timeoutInput !== null && (
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: '100%',
-              pt: 2,
-            }}
-          >
+          <Box sx={flexColumnStyle}>
             <FormControl fullWidth>
               <TextField fullWidth id="card-input" label={timeoutInput} variant="outlined" />
-              <FormHelperText>{helperText}</FormHelperText>
+              <FormHelperText>{helperTimeoutText}</FormHelperText>
             </FormControl>
           </Box>
         )}
         {outgoingInput !== null && (
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              width: '100%',
-              pt: 2,
-            }}
-          >
+          <Box sx={flexColumnStyle}>
             <FormControl fullWidth>
               <TextField fullWidth id="card-input" label={outgoingInput} variant="outlined" />
-              <FormHelperText>{helperText}</FormHelperText>
+              <FormHelperText>{helperOutgoingText}</FormHelperText>
             </FormControl>
           </Box>
         )}
