@@ -22,6 +22,8 @@ export interface TestCardProps {
   endpointInput: string | null
   timeoutInput: string | null
   outgoingInput: string | null
+  portInput: string | null
+  ipInput: string | null
   helperText: string | null
   helperOutgoingText: string | null
   helperTimeoutText: string | null
@@ -57,6 +59,8 @@ const TestCard = ({
   helperEndpointText,
   helperOutgoingText,
   helperTimeoutText,
+  portInput,
+  ipInput,
 }: TestCardProps) => {
   return (
     <Card>
@@ -93,6 +97,22 @@ const TestCard = ({
             <FormControl fullWidth>
               <TextField fullWidth id="card-input" label={outgoingInput} variant="outlined" />
               <FormHelperText>{helperOutgoingText}</FormHelperText>
+            </FormControl>
+          </Box>
+        )}
+        {portInput !== null && (
+          <Box sx={flexColumnStyle}>
+            <FormControl fullWidth>
+              <TextField fullWidth id="card-input" label={portInput} variant="outlined" />
+              <FormHelperText>{helperText}</FormHelperText>
+            </FormControl>
+          </Box>
+        )}
+        {ipInput !== null && (
+          <Box sx={flexColumnStyle}>
+            <FormControl fullWidth>
+              <TextField fullWidth id="card-input" label={ipInput} variant="outlined" />
+              <FormHelperText>{helperTimeoutText}</FormHelperText>
             </FormControl>
           </Box>
         )}

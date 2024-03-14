@@ -98,6 +98,8 @@ const XDR = () => {
               helperOutgoingText={null}
               helperTimeoutText={null}
               helperEndpointText={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
           {option === 'Sender' && (
@@ -119,6 +121,8 @@ const XDR = () => {
               helperOutgoingText={null}
               helperTimeoutText={null}
               helperEndpointText={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
           {option === 'Sender' && (
@@ -140,6 +144,8 @@ const XDR = () => {
               helperOutgoingText={null}
               helperTimeoutText={null}
               helperEndpointText={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
           {option === 'Sender' && (
@@ -161,6 +167,8 @@ const XDR = () => {
               helperOutgoingText={null}
               helperTimeoutText={null}
               helperEndpointText={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
           {option === 'Sender' && (
@@ -179,6 +187,8 @@ const XDR = () => {
               helperOutgoingText={null}
               helperTimeoutText={null}
               helperEndpointText={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
           {option === 'Sender' && (
@@ -197,6 +207,8 @@ const XDR = () => {
               helperOutgoingText={null}
               helperTimeoutText={null}
               helperEndpointText={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
 
@@ -212,6 +224,8 @@ const XDR = () => {
               cardInput={null}
               helperText={null}
               directFromInput={null}
+              portInput={null}
+              ipInput={null}
               endpointInput="Endpoint URL"
               timeoutInput={null}
               outgoingInput="Outgoing (ETT --> SUT) Direct From Address:"
@@ -236,6 +250,8 @@ const XDR = () => {
               cardInput={null}
               helperText={null}
               directFromInput={null}
+              portInput={null}
+              ipInput={null}
               endpointInput="Endpoint URL"
               timeoutInput={null}
               outgoingInput="Outgoing (ETT --> SUT) Direct From Address:"
@@ -260,6 +276,8 @@ const XDR = () => {
               helperOutgoingText={null}
               helperTimeoutText={null}
               helperEndpointText={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
           {option === 'Receiver' && (
@@ -278,6 +296,8 @@ const XDR = () => {
               helperOutgoingText={null}
               helperTimeoutText={null}
               helperEndpointText={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
           {option === 'Receiver' && (
@@ -295,6 +315,8 @@ const XDR = () => {
               outgoingInput={null}
               helperOutgoingText={null}
               helperTimeoutText={null}
+              portInput={null}
+              ipInput={null}
               helperEndpointText="Receiving endpoint of the SUT for XDR SOAP messages"
             />
           )}
@@ -313,6 +335,8 @@ const XDR = () => {
               outgoingInput={null}
               helperOutgoingText={null}
               helperTimeoutText={null}
+              portInput={null}
+              ipInput={null}
               helperEndpointText="Receiving endpoint of the SUT for XDR SOAP messages"
             />
           )}
@@ -329,6 +353,8 @@ const XDR = () => {
               endpointInput="Endpoint"
               timeoutInput={null}
               outgoingInput={null}
+              portInput={null}
+              ipInput={null}
               helperOutgoingText="Outgoing (ETT --> SUT) Direct From Address:"
               helperTimeoutText={null}
               helperEndpointText="Receiving endpoint of the SUT for XDR SOAP messages."
@@ -342,14 +368,16 @@ const XDR = () => {
               }
               links={null}
               cardInput={null}
-              helperText={null}
+              helperText="Port"
               directFromInput={null}
               endpointInput={null}
               timeoutInput={null}
               outgoingInput={null}
               helperOutgoingText={null}
-              helperTimeoutText={null}
+              helperTimeoutText="IP Address (eg: 202.255.24.62)"
               helperEndpointText={null}
+              portInput="Port Number"
+              ipInput="IP Address"
             />
           )}
           {option === 'Receiver' && (
@@ -360,14 +388,16 @@ const XDR = () => {
               }
               links={null}
               cardInput={null}
-              helperText={null}
+              helperText="Port"
               directFromInput={null}
               endpointInput={null}
               timeoutInput={null}
               outgoingInput={null}
               helperOutgoingText={null}
-              helperTimeoutText={null}
+              helperTimeoutText="IP Address (eg: 202.255.24.62)"
               helperEndpointText={null}
+              portInput="Port Number"
+              ipInput="IP Address"
             />
           )}
           {option === 'Receiver' && (
@@ -386,6 +416,8 @@ const XDR = () => {
               helperOutgoingText="Outgoing (ETT --> SUT) Direct From Address"
               helperTimeoutText={null}
               helperEndpointText="Receiving endpoint of the SUT for XDR SOAP messages."
+              portInput={null}
+              ipInput={null}
             />
           )}
           {option === 'Receiver' && (
@@ -398,6 +430,8 @@ const XDR = () => {
               cardInput={null}
               helperText={null}
               directFromInput={null}
+              portInput={null}
+              ipInput={null}
               endpointInput="Endpoint"
               timeoutInput={null}
               outgoingInput="Outgoing (ETT --> SUT) Direct From Address"
@@ -420,6 +454,8 @@ const XDR = () => {
                 },
               ]}
               cardInput={null}
+              portInput={null}
+              ipInput={null}
               helperText="SUT (HISP) outgoing SMTP address."
               directFromInput="Direct To Address"
               endpointInput="Endpoint"
@@ -452,6 +488,8 @@ const XDR = () => {
               cardInput={null}
               timeoutInput={null}
               helperTimeoutText={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
           {option === 'Receiver' && (
@@ -476,6 +514,8 @@ const XDR = () => {
               timeoutInput={null}
               cardInput={null}
               helperTimeoutText={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
           {option === 'Receiver' && (
@@ -500,6 +540,8 @@ const XDR = () => {
               cardInput={null}
               timeoutInput={null}
               helperTimeoutText={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
           {option === 'Receiver' && (
@@ -524,6 +566,8 @@ const XDR = () => {
               cardInput={null}
               timeoutInput={null}
               helperTimeoutText={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
           {option === 'Receiver' && (
@@ -548,6 +592,8 @@ const XDR = () => {
               cardInput={null}
               timeoutInput={null}
               helperTimeoutText={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
           {option === 'Receiver' && (
@@ -572,6 +618,8 @@ const XDR = () => {
               cardInput={null}
               timeoutInput={null}
               helperTimeoutText={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
           {option === 'Receiver' && (
@@ -596,6 +644,8 @@ const XDR = () => {
               timeoutInput={null}
               helperTimeoutText={null}
               cardInput={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
           {option === 'Receiver' && (
@@ -620,6 +670,8 @@ const XDR = () => {
               helperTimeoutText="Timeout"
               helperEndpointText="Receiving endpoint of the SUT for XDR SOAP messages."
               cardInput={null}
+              portInput={null}
+              ipInput={null}
             />
           )}
         </Box>
