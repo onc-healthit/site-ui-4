@@ -1,5 +1,5 @@
 import palette from '@/styles/palette'
-import { Box, TextField, Button, MenuItem } from '@mui/material'
+import { Box, TextField, Button, MenuItem, FormGroup, FormControlLabel, Switch } from '@mui/material'
 
 const dropdown = [
   {
@@ -61,6 +61,13 @@ const Profile = () => {
             required
           />
         </Box>
+        <FormGroup sx={{ width: '50%' }}>
+          <FormControlLabel
+            control={<Switch color="secondary" defaultChecked />}
+            label="TLS REQUIRED"
+            name="tlsRequired"
+          />
+        </FormGroup>
       </Box>
       <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} p={2}>
         <Box display={'flex'} flexDirection={'row'} gap={1}>

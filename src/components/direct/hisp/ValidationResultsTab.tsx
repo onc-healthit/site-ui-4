@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Box, Grid, Typography, Container } from '@mui/material'
+import { Box, Typography, Container } from '@mui/material'
 import ProfilesCard from './ProfilesCard'
 
 const ValidationResults = () => {

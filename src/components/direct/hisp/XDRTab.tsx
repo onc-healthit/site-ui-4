@@ -15,6 +15,7 @@ import {
 } from '@mui/material'
 import XDRTestCard from '@components/direct/hisp/XDRTestCard'
 import { Download } from '@mui/icons-material'
+import TestFilter from './TestFilter'
 
 const XDR = () => {
   const [option, setOption] = useState('')
@@ -50,12 +51,12 @@ const XDR = () => {
           <Card elevation={4}>
             <CardContent>
               <FormControl fullWidth>
-                <InputLabel id="select-label">Choose a sender or Receiver to see the test </InputLabel>
+                <InputLabel id="select-label">Choose your system as Sender or Receiver</InputLabel>
                 <Select
                   labelId="select-label"
                   id="select"
                   value={option}
-                  label="Choose a sender or Receiver to see the test"
+                  label="Choose your system as Sender or Receiver"
                   onChange={handleChange}
                 >
                   {dropdown.map((option) => (
@@ -79,6 +80,11 @@ const XDR = () => {
           </Card>
         </Box>
         <Box display={'flex'} flexDirection={'column'} width={'60%'} gap={4}>
+          {option !== '' && (
+            <Box>
+              <TestFilter />
+            </Box>
+          )}
           {option === 'Sender' && (
             <XDRTestCard
               cardHeader={'XDR Test 10'}
