@@ -149,7 +149,7 @@ const TestCard = ({
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 1 }}>
-          <Button variant="contained" color="primary" disabled>
+          <Button variant="contained" color="primary">
             RUN
           </Button>
           <Button variant="contained" color="inherit">
