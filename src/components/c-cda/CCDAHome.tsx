@@ -5,10 +5,10 @@ import styles from '@shared/styles.module.css'
 import CardWithImage from '@shared/CardWithImage'
 import uscdiv3 from '@public/c-cda/uscdi-v3.svg'
 import uscdiv1 from '@public/c-cda/uscdi-v1.svg'
+import scorecard from '@public/c-cda/scorecard.svg'
+import oneclick from '@public/c-cda/oneclick.svg'
 import placeholder from '@public/c-cda/placeholder.svg'
-import CardWithBorder from '@shared/CardWithBorder'
 import SectionHeader from '../shared/SectionHeader'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
 const CCDAHome = () => {
   const maxWidth = 550
@@ -70,23 +70,27 @@ const CCDAHome = () => {
         />
 
         <Box sx={{ ...flexibleBox }}>
-          <CardWithBorder
-            cardHeader="C-CDA Scorecard"
+          <CardWithImage
+            title={'C-CDA Score Card'}
+            cardImage={scorecard}
+            cardHeader={'C-CDA Score Card'}
             description={
               'The SITE C-CDA Scorecard provides an enhanced level of interoperability for C-CDA documents by using a comprehensive scoring system, which allows implementers to improve the data quality and representation of their C-CDA documents.'
             }
-            buttonTitle={'GO'}
-            buttonLink={''}
-            buttonIcon={<ArrowForwardIcon />}
+            pathname={'/c-cda/'}
+            maxWidth={maxWidth}
+            imageWidth={maxWidth + 'px'}
           />
-          <CardWithBorder
-            cardHeader="One Click Scorecard"
+          <CardWithImage
+            title={'One Click Scorecard'}
+            cardImage={oneclick}
+            cardHeader={'One Click Scorecard'}
             description={
               'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 2-US Realm, Oct 2021 (with errata)'
             }
-            buttonTitle={'GO'}
-            buttonLink={''}
-            buttonIcon={<ArrowForwardIcon />}
+            pathname={'/c-cda/'}
+            maxWidth={maxWidth}
+            imageWidth={maxWidth + 'px'}
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
