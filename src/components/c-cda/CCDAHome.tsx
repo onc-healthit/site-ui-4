@@ -71,9 +71,9 @@ const CCDAHome = () => {
 
         <Box sx={{ ...flexibleBox }}>
           <CardWithImage
-            title={'C-CDA Score Card'}
+            title={'C-CDA Scorecard'}
             cardImage={scorecard}
-            cardHeader={'C-CDA Score Card'}
+            cardHeader={'C-CDA Scorecard'}
             description={
               'The SITE C-CDA Scorecard provides an enhanced level of interoperability for C-CDA documents by using a comprehensive scoring system, which allows implementers to improve the data quality and representation of their C-CDA documents.'
             }
