@@ -22,8 +22,8 @@ export default function SiteNavIndustryTools() {
   const items: NavListItemType[] = [
     {
       text: 'HL7 Tools',
-      isExternalLink: false,
-      href: '/hl7-tools',
+      isExternalLink: true,
+      href: 'https://confluence.hl7.org/display/FHIR/FHIR+Tooling+Ecosystem',
       icon: <MonitorHeartOutlined />,
     },
     {
