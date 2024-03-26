@@ -25,7 +25,7 @@ const SubMenu = ({ menuItems }: SubMenuProps) => {
         boxShadow: '8px 0px 32px 0px rgba(0, 0, 0, 0.16)',
       }}
     >
-      <List component="nav">
+      <List sx={{}} component="nav">
         {menuItems.map((item, index) => (
           <Link href={item.href} key={index} passHref style={{ textDecoration: 'none' }}>
             <ListItemButton
@@ -34,6 +34,9 @@ const SubMenu = ({ menuItems }: SubMenuProps) => {
                 height: 'auto',
                 minHeight: '36px',
                 padding: '8px 16px',
+                '&:focus': {
+                  color: 'transparent',
+                },
               }}
             >
               <ListItemText primaryTypographyProps={{ color: palette.primary }} primary={item.heading} />
