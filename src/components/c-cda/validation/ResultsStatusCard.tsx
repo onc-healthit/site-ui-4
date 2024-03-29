@@ -47,7 +47,7 @@ const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, count, mess
           flexDirection: 'column',
         }}
       >
-        <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 2 }}>
           {`${count} ${type.charAt(0).toUpperCase() + type.slice(1)}`}
         </Typography>
         {messages.map((message, index) => (
