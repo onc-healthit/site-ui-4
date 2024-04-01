@@ -16,6 +16,7 @@ import {
   Typography,
 } from '@mui/material'
 import { useState } from 'react'
+import ValidationComponent from '../ValidatorLoadingCard'
 
 // TODO: Create a generic version of this to Support unique functionality
 // (API calls, select data, etc.) of different C-CDA validators without duplication
@@ -145,7 +146,7 @@ export default function V3FullTab() {
 
         {/* Buttons */}
         <Box display="flex" flexDirection="row" justifyContent="space-between" sx={{ pt: 4 }}>
-          <Button variant="contained">VALIDATE</Button>
+          <ValidationComponent></ValidationComponent>
           <Box>
             <Button variant="outlined">DOWNLOAD SELECTED SCENARIO FILE</Button>
             <Button sx={{ ml: 2 }} variant="outlined">
