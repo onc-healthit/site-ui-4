@@ -2,31 +2,62 @@ import * as React from 'react'
 import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
+import { CardHeader, CardContent, List, ListItem, ListItemText, Box } from '@mui/material'
+export interface QAItem {
+  question: string
+  answer: string
+}
 
 interface FAQCardProps {
   header: string
-  content: React.ReactNode
+  items: QAItem[]
 }
 
-const FAQCard: React.FC<FAQCardProps> = ({ header, content }) => {
+const FAQCard = ({ header, items }: FAQCardProps) => {
   return (
     <Card
       sx={{
-        maxWidth: 1075,
-        bgcolor: 'background.paper',
-        p: 2,
-        borderRadius: '4px',
-        border: 1,
-        borderColor: 'grey.300',
-        boxShadow: '-8px 0px 32px 0px rgba(0, 0, 0, 0.16)',
-        overflow: 'auto',
+        width: '100%',
+        borderRadius: '8px',
       }}
     >
-      <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', mb: 2 }}>
-        {header}
-      </Typography>
-      <Divider sx={{ mb: 2 }} />
-      {content}
+      <CardHeader titleTypographyProps={{ fontWeight: 700 }} title={header} />
+      <Divider />
+      <CardContent>
+        <List disablePadding>
+          {items.map((item, index) => (
+            <React.Fragment key={index}>
+              <ListItem alignItems="flex-start" sx={{ pb: 1, px: 0 }}>
+                <ListItemText>
+                  <Box display={'flex'} gap={1} flexDirection={'row'}>
+                    <Typography fontWeight={'600'} variant="h6" gutterBottom>
+                      Q:
+                    </Typography>
+                    <Typography fontWeight={'600'} variant="h6" gutterBottom>
+                      {item.question}
+                    </Typography>
+                  </Box>
+                  <Box display={'flex'} gap={1} flexDirection={'row'}>
+                    <Typography variant="body2" gutterBottom>
+                      A:
+                    </Typography>
+                    <Typography variant="body2">
+                      {item.answer.split('\n').map((i, key) => {
+                        return (
+                          <span key={key}>
+                            {i}
+                            <br />
+                          </span>
+                        )
+                      })}
+                    </Typography>
+                  </Box>
+                </ListItemText>
+              </ListItem>
+            </React.Fragment>
+          ))}
+        </List>
+      </CardContent>
     </Card>
   )
 }
