@@ -1,48 +1,21 @@
-import { Typography, Container } from '@mui/material'
+'use client'
+import { Card, CardContent, CardHeader, Container, Typography } from '@mui/material'
 import Box from '@mui/material/Box'
-import Overview, { QAItem } from '@/components/resources/OverviewCard'
-import FAQCard from '@/components/resources/FAQCard'
 import BannerBox from '@shared/BannerBox'
 import SubMenu, { menuProps } from '@/components/shared/SubMenu'
+import FAQCard from './FAQCard'
+import faq from './data/FAQ.json'
 
 export default function FAQHome() {
-  const faqItems: QAItem[] = [
-    {
-      question: 'What is SITE?',
-      answer: 'Discover the core concept and purpose behind SITE, and how it can benefit you or your organization.',
-    },
-    {
-      question: 'How do I get started with SITE?',
-      answer:
-        "Step-by-step guidance on creating an account, setting up your profile, and navigating through SITE's user-friendly interface.",
-    },
-    {
-      question: 'What are the key features of SITE?',
-      answer: 'Explore the various tools, functions, and capabilities that SITE offers to help you achieve your goals.',
-    },
-    {
-      question: 'How can I connect with other users on SITE?',
-      answer: 'Learn how to build connections, join communities, and engage with fellow SITE users.',
-    },
-    {
-      question: 'Is SITE compatible with mobile devices?',
-      answer:
-        'Find out if SITE is accessible on smartphones and tablets, and how to make the most of the mobile experience.',
-    },
-    {
-      question: 'How can I report issues or seek assistance on SITE?',
-      answer: 'Get information on how to report bugs, seek technical support, or contact our customer service team.',
-    },
-  ]
-
   const menuItems: menuProps[] = [
-    { heading: 'Overview', href: '' },
-    { heading: 'C-CDA', href: '' },
-    { heading: 'Direct', href: '' },
-    { heading: 'Edge', href: '' },
-    { heading: 'XDM', href: '' },
-    { heading: 'Other', href: '' },
-    { heading: 'Contact Us', href: '' },
+    { heading: 'Overview', href: '#overview' },
+    { heading: 'C-CDA', href: '#ccda' },
+    { heading: 'Direct', href: '#direct' },
+    { heading: 'XDM', href: '#xdm' },
+    { heading: 'XDR', href: '#xdr' },
+    { heading: 'SMTP', href: '#smtp' },
+    { heading: 'Other', href: '#other' },
+    { heading: 'Contact Us', href: '#contact' },
   ]
 
   return (
@@ -59,143 +32,87 @@ export default function FAQHome() {
       <Container>
         <Box pt={4} pb={4} gap={4} display={'flex'} flexDirection={'row'}>
           <SubMenu menuItems={menuItems} />
-          <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
-            <Overview header="Overview" items={faqItems}></Overview>
-            <FAQCard
-              header="Frequently Asked Questions"
-              content={
-                <div>
-                  <Typography sx={{ mb: 5 }}>
-                    <Typography variant="body1" sx={{ mb: 1.5 }}>
-                      <strong>Q: How do you use the C-CDA 2.1 Validator?</strong>
+          <Box gap={4} display={'flex'} flexDirection={'column'}>
+            <Box id="overview">
+              <FAQCard header={'SITE Overview'} items={faq.Overview} />
+            </Box>
+            <Box id="ccda">
+              <FAQCard header={'Consolidated Clinical Document Architecture (C-CDA) FAQs'} items={faq['C-CDA']} />
+            </Box>
+            <Box id="direct">
+              <FAQCard header={'Direct Project Tooling FAQs'} items={faq.Direct} />
+            </Box>
+            <Box id="xdm">
+              <FAQCard header={'XDM FAQs'} items={faq.XDM} />
+            </Box>
+            <Box id="xdr">
+              <FAQCard header={'XDR FAQs'} items={faq.XDR} />
+            </Box>
+            <Box id="smtp">
+              <FAQCard header={'SMTP/POP/IMAP FAQs'} items={faq.SMTP} />
+            </Box>
+            <Box id="other">
+              <FAQCard header={'Other FAQs & Helpful Items'} items={faq.Other} />
+              <Box sx={{ pt: 4 }}>
+                <Card>
+                  <CardHeader titleTypographyProps={{ fontWeight: 700 }} title="Helpful Links" />
+                  <CardContent>
+                    <Typography gutterBottom variant="body2">
+                      A good cheat-sheet resource for XD* metadata is available at:
+                      <a href="http://ihewiki.wustl.edu/wiki/index.php/Notes_on_XDS_Profile.">
+                        http://ihewiki.wustl.edu/wiki/index.php/Notes_on_XDS_Profile.
+                      </a>
                     </Typography>
-                    <Typography variant="body2" sx={{ mb: 1.5 }}>
-                      A: 1. Using the C-CDA Validator 2.1, Step 1 is to select whether you are performing a Sender
-                      specific test or Receiver Specific test (Select Sender / Receiver). a. The above choice will make
-                      what appears when you click the “Select Document “ to change based on the SUT role. b. In your
-                      case you would select “Sender”
+                    <Typography gutterBottom variant="body2">
+                      A helpful guide for navigating the XDR metadata. There are also example files in this directory:
+                      <a href="ftp://ftp.ihe.net/%20TFImplementationMaterial/ITI/examples/XDS.b/">
+                        ftp://ftp.ihe.net/%20TFImplementationMaterial/ITI/examples/XDS.b/ (see
+                        ProvideAndRegisterDocument*)
+                      </a>
                     </Typography>
-                    <Typography variant="body2" sx={{ mb: 1 }}>
-                      1. Then you would select the criteria first and for each criteria that you select you may have one
-                      or more PDF files.
+                    <Typography gutterBottom variant="body2">
+                      Here are some examples for XDR:
+                      <a href="http://wiki.ihe.net/index.php/XDS.bImplementation#ExampleProvideandRegisterDocumentSet-btransaction.28withfullmetadata.29">
+                        http://wiki.ihe.net/index.php/XDS.bImplementation#ExampleProvideandRegisterDocumentSet-btransaction.28withfullmetadata.29
+                      </a>
                     </Typography>
-                    <Typography variant="body2" sx={{ mb: 1 }}>
-                      2. You would download the PDF file,
+                    <Typography gutterBottom variant="body2">
+                      Provide and register examples. Some examples for XDM:
+                      <a href="ftp://ftp.ihe.net/TFImplementationMaterial/ITI/examples/XDS.b/">
+                        {' '}
+                        ftp://ftp.ihe.net/Connectathon/samples/XDM_samples/
+                      </a>
                     </Typography>
-                    <Typography variant="body2" sx={{ mb: 1 }}>
-                      3. Enter the test data provided into your SUT instance.
+                    <Typography gutterBottom variant="body2">
+                      A table showing the difference in optionality between the different XD* metadata is available in
+                      Vol 3 of IHE ITI:
+                      <a href="http://www.ihe.net/uploadedFiles/Documents/ITI/IHE_ITI_TF_Vol3.pdf">
+                        http://www.ihe.net/uploadedFiles/Documents/ITI/IHE_ITI_TF_Vol3.pdf
+                      </a>
+                      . See table 4.3.1-3: Sending Actor Metadata Attribute Optionality starting on page 109.
                     </Typography>
-                    <Typography variant="body2" sx={{ mb: 1 }}>
-                      4. Generate a C-CDA document. (This is C-CDA Validator Step 2)
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1 }}>
-                      5. Then in the C-CDA Validator Step 3, you have to select the Criteria and the PDF file which you
-                      used to generate the C-CDA.
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1.5 }}>
-                      6. Then upload the C-CDA file that you generated in C-CDA Validator Step 4 and then validate.
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1.5 }}>
-                      The above sequence is what you would use to validate the C-CDA files you generated using the test
-                      data.
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1.5 }}>
-                      If you want to validate files generated by your system without using the test data provided then
-                      you can proceed to Step 3 and select “CCDAIGOnly” or “CCDAIGPlus_Vocab” options and then upload
-                      and validate. This is to help vendors prepare their systems however certification procedures
-                      require the use of the provided test data unless you work with the ATLs to file for deviations to
-                      the test data.
-                    </Typography>
-                    <Typography variant="body1" sx={{ mb: 1.5 }}>
-                      <strong>
-                        Q: Can multiple organizations be included as information recipients within the{' '}
-                        {'<informationRecipient>'} element?
-                      </strong>
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1.5 }}>
-                      A: CDA allows for 0..* information Recipients. You should include more than one
-                      informationRecipient if you’d like to send information to multiple organizations.
-                    </Typography>
-                    <Typography variant="body1" sx={{ mb: 1.5 }}>
-                      <strong>
-                        Q: How can CCDA xml files for interoperability modules be created to include multiple races and
-                        ethnicities?
-                      </strong>
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1.5 }}>
-                      A: There is an extension package that may be used. sdtc:raceCode sdtc:ethnicGroupCode See the
-                      C-CDA companion guide for additional details:
-                      http://www.hl7.org/implement/standards/productbrief.cfm?productid=447
-                    </Typography>
-                    <Typography variant="body1" sx={{ mb: 1.5 }}>
-                      <strong>
-                        {
-                          "Q: I'm now trying to increase the debugging output from the validator, hopefully to see where my issues exist with the vocabulary. I've tried using a global DEBUG level in the logging.properties file and setting to ALL, but it appears that the validator doesn't look at the properties file to set it's level of logging."
-                        }
-                      </strong>
-                    </Typography>
-                    <Typography variant="body1" sx={{ mb: 1.5 }}>
-                      <strong>
-                        {'Does anyone know where I can change that info level for the validator classes?'}
-                      </strong>
-                    </Typography>
-                    <Typography variant="body1" sx={{ mb: 1.5 }}>
-                      <strong>
-                        {
-                          'The logging that I do get appears to show the vocab/valuesystems loading just too quickly. 08:27:14,748 INFO [VocabularyLoadRunner:92] Loading vocabularies at: /var/tomcat2/ValidatorConfig/CodeSystems... 08:27:14,748 INFO [VocabularyLoadRunner:94] Vocabularies loaded... 08:27:14,748 INFO [VocabularyLoadRunner:99] Loading value sets at: /var/tomcat2/ValidatorConfig/ValueSets... 08:27:14,749 INFO [VocabularyLoadRunner:101] Value Sets loaded... 08:27:14,749 INFO [VocabularyLoadRunner:105] !!!!* VOCABULARY DATABASE HAS FINISHED LOADING - SERVER WILL CONTINUE AND SHOULD BE DONE SHORTLY. *!!!!'
-                        }
-                      </strong>
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1.5 }}>
-                      {
-                        '* A: 15:02:46,635 INFO  [VocabularyLoadRunner:92] Loading vocabularies at: C:CCDAValidatorcode_repository... 15:02:46,636 INFO [VocabularyLoadRunner:44] Loading files in : CDT... 15:02:47,758 INFO [VocabularyLoadRunner:44] Loading files in : ICD10CM... 15:02:51,412 INFO [VocabularyLoadRunner:44] Loading files in : ICD10PCS... 15:02:53,378 INFO [VocabularyLoadRunner:44] Loading files in : ICD9CMDX... .... C:CCDAValidator\valuesetrepository... 15:04:37,554 INFO [VocabularyLoadRunner:44] Loading files in : VSAC... 15:04:37,555 INFO [VsacLoader:30] Loading Value Set File: Ability.xlsx 15:04:37,662 INFO [VsacLoader:30] Loading Value Set File: ActPriority.xlsx 15:04:37,708 INFO [VsacLoader:30] Loading Value Set File: ActStatus.xlsx ... Here are my config settings for the the codes set and value set files:'
-                      }
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1.5 }}>
-                      {
-                        '<Parameter name="vocabulary.localCodeRepositoryDir" value="C:CCDAValidatorcoderepository" override="true"/> <Parameter name="vocabulary.localValueSetRepositoryDir" value="C:CCDAValidator\valuesetrepository" override="true"/>The localCodeRepositoryDir is the path to the folders (e.g. ICD9CMDX, ICD9CMSG, ICD10CM, etc...) that contain the code set files. The localValueSetRepositoryDir is the path to the VSAC folder that contains all of the value set files. I believe the application is hard-coded to look for those particular folders in order to process the files within. That may be case-sensitive...'
-                      }
-                    </Typography>
-                    <Typography variant="body1" sx={{ mb: 1.5 }}>
-                      <strong>
-                        {
-                          'Q: Hello, were there any updates made to the tool? I\'m getting this same error with problem codes for "no known problems".'
-                        }
-                      </strong>
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1.5 }}>
-                      {
-                        'A: No specific updates were made to the tool to remove the validation for the “No Known Problems”. Are you following the HL7 example at http://hl7-c-cda-examples.herokuapp.com/examples/view/7353a215efda8dfe3fbacb19abbb90756ce14bab'
-                      }
-                    </Typography>
-                    <Typography variant="body1" sx={{ mb: 1.5 }}>
-                      <strong>
-                        {
-                          'Q: Hoping to obtain some clarity around representing NDC codes for administered immunizations in the C-CDA. NDC is published as a standard for immunizations as a CCDS element and the ONC\'s CCDS companion guide cites that it\'s supported as a translational element accompanying the CVX code in CDA R2.1. Looking at the 2.1 IG, NDC is referenced within the Immunization Medication Information entry-level template with the Vaccine Clinical Drug value set stating: "Value set intensionally defined from RXNORM (OID: 2.16.840.1.113883.6.88), comprised of those codes whose ingredients map to NDC codes that the CDC associates with CVX codes." Reading this and viewing the provided examples it appears as though the IG expects only RxNorm codes (not NDC) to be used as translational element entries mapping between an NDC and a CVX.'
-                        }
-                      </strong>
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1.5 }}>
-                      {
-                        "NDC's are not actually included anywhere in the certification test data/validation for immunizations (only CVX), and I'm struggling to find any examples of their use for immunizations in C-CDA. Is there a specific expectation of how NDC codes are to be represented in C-CDA docs (if at all) to satisfy the ONC's CCDS standard?"
-                      }
-                    </Typography>
-                    <Typography variant="body1" sx={{ mb: 1.5 }}>
-                      <strong>
-                        {
-                          "NDC's are not actually included anywhere in the certification test data/validation for immunizations (only CVX), and I'm struggling to find any examples of their use for immunizations in C-CDA. Is there a specific expectation of how NDC codes are to be represented in C-CDA docs (if at all) to satisfy the ONC's CCDS standard?"
-                        }
-                      </strong>
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1.5 }}>
-                      {
-                        'A: The test data contains CVX because that is accompanied with a SHALL requirement in the C-CDA IG. Since the translation elements are having a conformance statement of “MAY” and not a “SHALL”, you could choose to use the NDC codes mapped to the CVX codes in the translation element as specified by the CCG'
-                      }
-                    </Typography>
+                  </CardContent>
+                </Card>
+              </Box>
+            </Box>
+            <Box>
+              <Card>
+                <CardHeader titleTypographyProps={{ fontWeight: 700 }} title="Still need help?" />
+                <CardContent>
+                  <Typography gutterBottom>
+                    Contact us at <a href="mailto:edge-test-tool@googlegroups.com">edge-test-tool@googlegroups.com </a>
+                    or <a href="https://groups.google.com/g/edge-test-tool">access our forum</a> for the lastest
+                    questions & answers.
                   </Typography>
-                </div>
-              }
-            />
+                  <Typography variant="body2">
+                    Questions about the applicability of the initial set of standards, implementation specifications,
+                    and certification criteria should be directed to ONC at{' '}
+                    <a href="mailto:ONC.Certification@hhs.gov">ONC.Certification@hhs.gov</a>. Questions about functions
+                    and activities of the ATCBs should be directed to ONC at ONC.Certification@hhs.gov.
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Box>
           </Box>
         </Box>
       </Container>

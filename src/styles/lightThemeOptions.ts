@@ -149,8 +149,8 @@ export const lightThemeOptions: ThemeOptions = {
           '&:focus': {
             backgroundColor: palette.secondaryLight,
           },
-          '&.Mui-selected': {
-            backgroundColor: 'rgba(0, 0, 0, 0.12)', // Example selected background color
+          '&:selected': {
+            backgroundColor: palette.secondaryDark,
           },
         },
       },
@@ -177,6 +177,16 @@ export const lightThemeOptions: ThemeOptions = {
       styleOverrides: {
         asterisk: {
           color: palette.error,
+        },
+      },
+    },
+    MuiTouchRipple: {
+      styleOverrides: {
+        ripple: {
+          backgroundColor: palette.secondary,
+        },
+        rippleVisible: {
+          backgroundColor: palette.secondary,
         },
       },
     },
