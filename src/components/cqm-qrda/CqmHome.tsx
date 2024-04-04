@@ -29,7 +29,7 @@ const CqmHome = () => {
             CQM-QRDA
           </Link>
         }
-        heading={'CQM QDRA Testing'}
+        heading={'CQM QRDA Testing'}
         description={
           <>
             {
