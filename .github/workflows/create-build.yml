@@ -37,8 +37,14 @@ jobs:
         run: npm ci
       - name: Run Build
         run: npm run build
+      - name: Create Build Artifact
+        run: |
+          mkdir ./build
+          cp ./node_modules -pR ./build/node_modules
+          cp ./next.config.js ./build/next.config.js
+          cp ./package.json ./build/package.json
       - name: Upload build folder
         uses: actions/upload-artifact@v4
         with:
           name: BuildArtifact
-          path: ./.next
+          path: ./build
