@@ -40,6 +40,7 @@ jobs:
       - name: Create Build Artifact
         run: |
           mkdir ./build
+          cp ./.next -pR ./build/.next
           cp ./node_modules -pR ./build/node_modules
           cp ./next.config.js ./build/next.config.js
           cp ./package.json ./build/package.json
@@ -48,3 +49,4 @@ jobs:
         with:
           name: BuildArtifact
           path: ./build
+          retention_days: 7
