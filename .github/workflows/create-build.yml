@@ -49,4 +49,4 @@ jobs:
         with:
           name: BuildArtifact
           path: ./build
-          retention_days: 7
+          retention-days: 7
