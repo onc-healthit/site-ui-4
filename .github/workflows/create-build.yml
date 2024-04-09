@@ -34,16 +34,18 @@ jobs:
         with:
           node-version: '20.x'
       - name: Install Dependencies
-        run: npm ci
+        run: npm ci --force
       - name: Run Build
         run: npm run build
       - name: Create Build Artifact
         run: |
           mkdir ./build
+          ls -lath
           cp ./.next -pR ./build/.next
           cp ./node_modules -pR ./build/node_modules
           cp ./next.config.js ./build/next.config.js
           cp ./package.json ./build/package.json
+          cp ./package-lock.json ./build/package-lock.json
       - name: Upload build folder
         uses: actions/upload-artifact@v4
         with:
