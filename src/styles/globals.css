@@ -18,3 +18,6 @@ a {
   color: inherit;
   text-decoration: none;
 }
+.react-multi-carousel-item {
+  min-width: 200px; /* Change this value to your desired width */
+}

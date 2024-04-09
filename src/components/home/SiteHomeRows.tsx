@@ -36,12 +36,8 @@ export default function SiteHomeRows() {
     paddingBottom: `${rowPaddingBottom}px`,
   }
   const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
     desktop: {
-      breakpoint: { max: 3000, min: 1045 },
+      breakpoint: { max: 9000, min: 1045 },
       items: 3,
     },
     tablet: {
@@ -74,15 +70,15 @@ export default function SiteHomeRows() {
           />
           <Carousel
             swipeable={true}
-            draggable={false}
             keyBoardControl={true}
             showDots={true}
             infinite={false}
+            draggable={false}
             responsive={responsive}
-            autoPlaySpeed={1000}
-            containerClass={'carousel-container'}
-            removeArrowOnDeviceType={['tablet', 'mobile']}
+            removeArrowOnDeviceType={['mobile']}
             dotListClass="custom-dot-list-style"
+            customTransition="all .5"
+            transitionDuration={500}
           >
             <Box p={1}>
               <CardWithImageHome
