@@ -40,9 +40,7 @@ jobs:
       - name: Create Build Artifact
         run: |
           mkdir ./build
-          ls -lath
           cp ./.next -pR ./build/.next
-          cp ./node_modules -pR ./build/node_modules
           cp ./next.config.js ./build/next.config.js
           cp ./package.json ./build/package.json
           cp ./package-lock.json ./build/package-lock.json
