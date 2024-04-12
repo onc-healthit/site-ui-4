@@ -37,7 +37,7 @@ export default function SiteHomeRows() {
   }
   const responsive = {
     desktop: {
-      breakpoint: { max: 9000, min: 1045 },
+      breakpoint: { max: Infinity, min: 1045 },
       items: 3,
     },
     tablet: {
