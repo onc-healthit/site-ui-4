@@ -8,7 +8,7 @@ import GitHubIcon from '@mui/icons-material/GitHub'
 import LoginIcon from '@mui/icons-material/Login'
 import CardWithImage from '@shared/CardWithImage'
 import TrackChangesIcon from '@mui/icons-material/TrackChanges'
-import { AnnouncementOutlined, ArrowForward, TipsAndUpdatesOutlined } from '@mui/icons-material'
+import { ArrowForward, TipsAndUpdatesOutlined } from '@mui/icons-material'
 // import cypressKnowledgeBaseImagery from '@public/cqm-qrda/Cypress-Knowledge-Base1.svg'
 import cypressImagery from '@public/cqm-qrda/Cypress.svg'
 // Styles
@@ -17,7 +17,7 @@ import SectionHeader from '../shared/SectionHeader'
 import VerticalCard from './VerticalCard'
 import CardWithBorder from '../shared/CardWithBorder'
 // Images
-const maxWidth: number = 320
+// const maxWidth: number = 320
 
 const CqmHome = () => {
   return (
