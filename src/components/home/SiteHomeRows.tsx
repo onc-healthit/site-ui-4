@@ -4,7 +4,7 @@ import { Box, Container } from '@mui/material'
 import atmSvg from '@public/home/alternative.svg'
 import cCdaSvg from '@public/home/c-cda.svg'
 import cpoeSvg from '@public/home/cpoe.svg'
-import cqmQrdaSvg from '@public/home/cqm-qrda.svg'
+import cqmtsvg from '@public/home/CQMT.svg'
 import eRxSvg from '@public/home/erx.svg'
 import phrSvg from '@public/home/phr.svg'
 import directSvg from '@public/home/direct.svg'
@@ -123,13 +123,13 @@ export default function SiteHomeRows() {
             </Box>
             <Box p={1}>
               <CardWithImageHome
-                title={'CQM QRDA Testing'}
-                cardImage={cqmQrdaSvg}
-                cardHeader={'CQM QRDA Testing'}
+                title={'Clinical Quality Measure Testing'}
+                cardImage={cqmtsvg}
+                cardHeader={'Clinical Quality Measure Testing'}
                 description={
                   'Sponsored by the ONC and developed by The MITRE Corporation, facilitates rigorous and repeatable testing for accurate calculation of CQMs for Eligible Providers & Hospitals.'
                 }
-                pathname={'/cqm-qrda'}
+                pathname={'/cqmt'}
                 maxWidth={maxWidth}
                 imageWidth={maxWidth + 'px'}
                 buttonTitle="Start"

@@ -66,7 +66,7 @@ const CCDAHome = () => {
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
         <SectionHeader
           header={'C-CDA Additional Tools'}
-          subHeader={'Help with quantitative assessment of the data quality using the Scorecard.'}
+          subHeader={'Help with quantitative assessment of the data quality using the Scorecard'}
         />
 
         <Box sx={{ ...flexibleBox }}>
@@ -86,7 +86,7 @@ const CCDAHome = () => {
             cardImage={oneclick}
             cardHeader={'One Click Scorecard'}
             description={
-              'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 2-US Realm, Oct 2021 (with errata)'
+              'Providers can use the One Click Scorecard to evaluate the quality of clinical summary documents (C-CDAs) received, or created, by their system.'
             }
             pathname={'/c-cda/'}
             maxWidth={maxWidth}
@@ -97,7 +97,7 @@ const CCDAHome = () => {
         <SectionHeader
           header={'Certification Criteria Version'}
           subHeader={
-            'This area provides tools for testing conformance of artifacts to industry standards and specific criteria.'
+            'This area provides tools for testing conformance of artifacts to industry standards and specific criteria'
           }
         />
         <Box paddingBottom={4} display={'flex'} width={'100%'} justifyContent={'space-between'}>

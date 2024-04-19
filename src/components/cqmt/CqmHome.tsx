@@ -1,6 +1,6 @@
 // MUI Imports
 import BannerBox from '../shared/BannerBox'
-import { Box, Container, Divider } from '@mui/material'
+import { Box, Container, Divider, Typography } from '@mui/material'
 // Global Imports
 import Link from 'next/link'
 // MUI Icons
@@ -8,9 +8,9 @@ import GitHubIcon from '@mui/icons-material/GitHub'
 import LoginIcon from '@mui/icons-material/Login'
 import CardWithImage from '@shared/CardWithImage'
 import TrackChangesIcon from '@mui/icons-material/TrackChanges'
-import { ArrowForward } from '@mui/icons-material'
-import cypressKnowledgeBaseImagery from '@public/cqm-qrda/Cypress-Knowledge-Base1.svg'
-import cypressValidatorImagery from '@public/cqm-qrda/Cypress-QRDA-Validator.svg'
+import { AnnouncementOutlined, ArrowForward, TipsAndUpdatesOutlined } from '@mui/icons-material'
+// import cypressKnowledgeBaseImagery from '@public/cqm-qrda/Cypress-Knowledge-Base1.svg'
+import cypressImagery from '@public/cqm-qrda/Cypress.svg'
 // Styles
 import palette from '@/styles/palette'
 import SectionHeader from '../shared/SectionHeader'
@@ -25,11 +25,11 @@ const CqmHome = () => {
       {/* Global Header */}
       <BannerBox
         breadcrumbs={
-          <Link color={palette.secondary} href={'/cqm-qrda'}>
-            CQM-QRDA
+          <Link color={palette.secondary} href={'/cqmt'}>
+            Clinical Quality Measure Testing
           </Link>
         }
-        heading={'CQM QRDA Testing'}
+        heading={'Clinical Quality Measure Testing'}
         description={
           <>
             {
@@ -43,7 +43,7 @@ const CqmHome = () => {
         {/* Cypress Header*/}
         <SectionHeader
           header={'Cypress'}
-          subHeader={'Elevating EHR Testing for CMS Quality Reporting – Open Source Excellence.'}
+          subHeader={'Elevating EHR Testing for CMS Quality Reporting – Open Source Excellence'}
         />
 
         {/* Cypress Content*/}
@@ -56,8 +56,8 @@ const CqmHome = () => {
           alignItems={'flex-start'}
         >
           {/* Cypress Card With Images */}
-          <Box display={'flex'} width={'100%'} gap={4} justifyContent={'space-between'} alignItems={'flex-start'}>
-            <CardWithImage
+          <Box display={'flex'} gap={4} justifyContent={'space-between'} alignItems={'flex-start'}>
+            {/* <CardWithImage
               title={'Cypress Knowledge Base'}
               cardImage={cypressKnowledgeBaseImagery}
               cardHeader={'Cypress Knowledge Base'}
@@ -68,17 +68,17 @@ const CqmHome = () => {
               maxWidth={maxWidth}
               imageWidth={maxWidth + 'px'}
               buttonTitle="Access"
-            />
+            /> */}
             <CardWithImage
-              title={'Cypress QRDA Validator'}
-              cardImage={cypressValidatorImagery}
-              cardHeader={'Cypress QRDA Validator'}
+              title={'Cypress'}
+              cardImage={cypressImagery}
+              cardHeader={'Rigorous & repeatable testing of Electronic Health Records'}
               description={
-                'The CYPRESS QRDA Validator provides implementers with the ability to validate the conformance of QRDA Category I and Category III documents to the published CMS and HL7 implementation guides.'
+                'Cypress is the rigorous and repeatable testing tool of Electronic Health Records (EHR) and EHR modules in calculating eCQMs used by CMS’s Quality Reporting Programs. The Cypress tool is open source and freely available for use or adoption by the health IT community including EHR vendors and testing labs. Cypress serves as the official testing tool for the EHR Certification program supported by the Office of the National Coordinator for Health IT (ONC).'
               }
-              pathname={'https://cypressvalidator.healthit.gov/'}
-              maxWidth={maxWidth}
-              imageWidth={maxWidth + 'px'}
+              pathname={'https://www.healthit.gov/cypress/'}
+              maxWidth={900}
+              imageWidth={'100%'}
               buttonTitle="Validate"
             />
           </Box>
@@ -87,7 +87,7 @@ const CqmHome = () => {
             <VerticalCard
               title={'Demo Cypress'}
               description={
-                'Experiment with the current Cypress Baseline (Note: You will be prompted to log in with your NLM UMLS credentials)'
+                'Experiment with the current Cypress Baseline (Note: You will be prompted to log in with your NLM UMLS credentials).'
               }
               buttonTitle={'ACCESS LOGIN'}
               buttonIcon={<LoginIcon />}
@@ -104,7 +104,7 @@ const CqmHome = () => {
             />
             <VerticalCard
               title={'Cypress Issue Tracker'}
-              description={'Track questions and issue that Cypress supports'}
+              description={'Track questions and issue that Cypress supports.'}
               buttonTitle={'TRACK your question'}
               buttonIcon={<TrackChangesIcon />}
               buttonHref={'https://jira.oncprojectracking.org/browse/CYPRESSef'}
@@ -115,21 +115,10 @@ const CqmHome = () => {
         {/* Other Tools & Resources Header */}
         <SectionHeader
           header={'Other CQM Tools & Resources'}
-          subHeader={'Expanding Your Toolkit: Explore a Range of CQM Tools and Resources Beyond the Basics.'}
+          subHeader={'Expanding Your Toolkit: Explore a Range of CQM Tools and Resources Beyond the Basics'}
         />
         {/* Other Tools & Resources Content */}
-        <Box gap={4} display={'flex'} justifyContent={'space-between'} flexDirection={'row'} width={'100%'}>
-          {/* Bonnie Card */}
-          <CardWithBorder
-            cardHeader={'BONNIE'}
-            description={
-              'Bonnie is a tool for testing electronic clinical quality measures (eCQMs) designed to support streamlined and efficient pre-testing of eCQMs, particularly those used in the CMS Quality Reporting Programs.'
-            }
-            buttonTitle={'ACCESS'}
-            buttonLink={''}
-            buttonIcon={<ArrowForward />}
-          />
-
+        <Box gap={4} display={'flex'} flexDirection={'row'} width={'100%'} mb={4}>
           {/* eCQI Resource CenterCard */}
           <CardWithBorder
             cardHeader={'eCQI Resource Center'}
@@ -137,11 +126,27 @@ const CqmHome = () => {
               'The one-stop shop for the most current resources to support electronic clinical quality improvement.'
             }
             buttonTitle={'Go to center'}
-            buttonLink={''}
+            buttonLink={'https://ecqi.healthit.gov/'}
             buttonIcon={<ArrowForward />}
           />
+          <Box
+            border={`1px solid ${palette.grey}`}
+            borderRadius={2}
+            padding={8}
+            display={'flex'}
+            alignItems={'center'}
+            justifyContent={'space-between'}
+            flexDirection={'row'}
+            width={'50%'}
+          >
+            <Typography align="center" variant="body2" color={palette.greyDark}>
+              <TipsAndUpdatesOutlined color="primary" />
+              <br />
+              Stay tuned for future releases where additional resources for Clinical Quality Measure Testing Tools may
+              be available on this page.
+            </Typography>
+          </Box>
         </Box>
-        <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
       </Container>
     </Box>
   )

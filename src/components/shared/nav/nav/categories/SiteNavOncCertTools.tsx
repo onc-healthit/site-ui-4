@@ -42,9 +42,9 @@ export default function SiteNavOncCertTools() {
       icon: <CompareArrows />,
     },
     {
-      text: 'CQM QRDA Testing',
+      text: 'Clinical Quality Measure Testing',
       isExternalLink: false,
-      href: '/cqm-qrda',
+      href: '/cqmt',
       icon: <AddchartOutlined />,
     },
     {
