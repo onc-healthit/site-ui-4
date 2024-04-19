@@ -126,7 +126,7 @@ const CqmHome = () => {
               'The one-stop shop for the most current resources to support electronic clinical quality improvement.'
             }
             buttonTitle={'Go to center'}
-            buttonLink={''}
+            buttonLink={'https://ecqi.healthit.gov/'}
             buttonIcon={<ArrowForward />}
           />
           <Box
