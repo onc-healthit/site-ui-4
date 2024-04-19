@@ -43,7 +43,7 @@ const CqmHome = () => {
         {/* Cypress Header*/}
         <SectionHeader
           header={'Cypress'}
-          subHeader={'Elevating EHR Testing for CMS Quality Reporting – Open Source Excellence.'}
+          subHeader={'Elevating EHR Testing for CMS Quality Reporting – Open Source Excellence'}
         />
 
         {/* Cypress Content*/}
@@ -87,7 +87,7 @@ const CqmHome = () => {
             <VerticalCard
               title={'Demo Cypress'}
               description={
-                'Experiment with the current Cypress Baseline (Note: You will be prompted to log in with your NLM UMLS credentials)'
+                'Experiment with the current Cypress Baseline (Note: You will be prompted to log in with your NLM UMLS credentials).'
               }
               buttonTitle={'ACCESS LOGIN'}
               buttonIcon={<LoginIcon />}
@@ -104,7 +104,7 @@ const CqmHome = () => {
             />
             <VerticalCard
               title={'Cypress Issue Tracker'}
-              description={'Track questions and issue that Cypress supports'}
+              description={'Track questions and issue that Cypress supports.'}
               buttonTitle={'TRACK your question'}
               buttonIcon={<TrackChangesIcon />}
               buttonHref={'https://jira.oncprojectracking.org/browse/CYPRESSef'}
@@ -115,7 +115,7 @@ const CqmHome = () => {
         {/* Other Tools & Resources Header */}
         <SectionHeader
           header={'Other CQM Tools & Resources'}
-          subHeader={'Expanding Your Toolkit: Explore a Range of CQM Tools and Resources Beyond the Basics.'}
+          subHeader={'Expanding Your Toolkit: Explore a Range of CQM Tools and Resources Beyond the Basics'}
         />
         {/* Other Tools & Resources Content */}
         <Box gap={4} display={'flex'} flexDirection={'row'} width={'100%'} mb={4}>
