@@ -86,7 +86,7 @@ const CCDAHome = () => {
             cardImage={oneclick}
             cardHeader={'One Click Scorecard'}
             description={
-              'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 2-US Realm, Oct 2021 (with errata).'
+              'Providers can use the One Click Scorecard to evaluate the quality of clinical summary documents (C-CDAs) received, or created, by their system.'
             }
             pathname={'/c-cda/'}
             maxWidth={maxWidth}
