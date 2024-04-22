@@ -1,5 +1,5 @@
 ---
-name: Create Build
+name: Create Build Test
 on:
   push:
     branches:
