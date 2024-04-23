@@ -38,12 +38,6 @@ export default function SiteNavGeneralTools() {
       href: 'https://lantern.healthit.gov/?tab=dashboard_tab',
       icon: <FireplaceOutlined />,
     },
-    {
-      text: 'NIST Conformance Test',
-      isExternalLink: false,
-      href: '/nist-conformance-test',
-      icon: <SquareFootOutlined />,
-    },
   ]
 
   return (

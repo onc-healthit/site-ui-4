@@ -62,7 +62,7 @@ export default function SiteNavOncCertTools() {
     {
       text: 'Alternative Test Methods',
       isExternalLink: false,
-      href: '/alternative-test-methods',
+      href: 'https://hl7v2-iz-cdc-testing.nist.gov/iztool/#/home',
       icon: <AltRouteOutlined />,
     },
   ]
