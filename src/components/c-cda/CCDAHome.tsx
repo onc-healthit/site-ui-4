@@ -44,9 +44,7 @@ const CCDAHome = () => {
             title={'C-CDA Validator: USCDI v3'}
             cardImage={uscdiv3}
             cardHeader={'C-CDA Validator: USCDI v3'}
-            description={
-              'Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
-            }
+            description={`This area provides tools for testing conformance of artifacts to industry standards and specific criteria. There are both context-free validators for general testing and validators for the ONC Health IT Certification Program's certification criteria.`}
             pathname={'/c-cda/uscdi-v3'}
             maxWidth={maxWidth}
             imageWidth={maxWidth + 'px'}
@@ -55,9 +53,7 @@ const CCDAHome = () => {
             title={'C-CDA Validator: USCDI v1'}
             cardImage={uscdiv1}
             cardHeader={'C-CDA Validator: USCDI v1'}
-            description={
-              'Vorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.'
-            }
+            description={`This area provides tools for testing conformance of artifacts to industry standards and specific criteria. There are both context-free validators for general testing and validators for the ONC Health IT Certification Program's certification criteria.`}
             pathname={'/c-cda/uscdi-v1'}
             maxWidth={maxWidth}
             imageWidth={maxWidth + 'px'}
