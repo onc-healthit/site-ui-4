@@ -35,7 +35,7 @@ export default function SiteNavIndustryTools() {
     {
       text: 'Implementation Guide Authoring Tools',
       isExternalLink: false,
-      href: '/implementation-guide-authoring-tools',
+      href: 'https://confluence.hl7.org/display/FHIR/Authoring+FHIR+Implementation+Guides+-+Introduction',
       icon: <MenuBookOutlined />,
     },
     {

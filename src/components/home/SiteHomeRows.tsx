@@ -184,19 +184,7 @@ export default function SiteHomeRows() {
             subHeader={'All tools not required for certification, but a benefit for your software!'}
             isHeaderAlternateColor={true}
           />
-          <Carousel
-            swipeable={true}
-            draggable={false}
-            keyBoardControl={true}
-            showDots={true}
-            infinite={false}
-            responsive={responsive}
-            autoPlaySpeed={1000}
-            containerClass="carousel-container"
-            removeArrowOnDeviceType={['tablet', 'mobile']}
-            dotListClass="custom-dot-list-style"
-            itemClass="carousel-item-padding-0-px"
-          >
+          <Box sx={containerNoDragStyles}>
             <Box p={1}>
               <CardWithImageHome
                 title={'CPOE Evaluation Tool'}
@@ -227,20 +215,6 @@ export default function SiteHomeRows() {
             </Box>
             <Box p={1}>
               <CardWithImageHome
-                title={'NIST Conformance Testing'}
-                cardImage={nistSvg}
-                cardHeader={'NIST Conformance Testing'}
-                description={
-                  'NIST Conformance Tests are especially important for ensuring interoperability and compliance with industry standards.'
-                }
-                pathname={'/nist-conformance-test'}
-                maxWidth={maxWidth}
-                imageWidth={maxWidth + 'px'}
-                buttonTitle="Learn"
-              />
-            </Box>
-            <Box p={1}>
-              <CardWithImageHome
                 title={'Lantern Project'}
                 cardImage={lanternSvg}
                 cardHeader={'Lantern Project'}
@@ -253,7 +227,7 @@ export default function SiteHomeRows() {
                 buttonTitle="Start"
               />
             </Box>
-          </Carousel>
+          </Box>
           {/* Row 3: Fixed: Industry Testing Resources */}
           <SectionHeader
             header={'Industry Testing Resources'}
@@ -269,7 +243,7 @@ export default function SiteHomeRows() {
                 description={
                   'Assess the conformance, interoperability, and functionality of healthcare information systems implementing HL7 standards.'
                 }
-                pathname={'/hl7-tools'}
+                pathname={'https://confluence.hl7.org/display/FHIR/FHIR+Tooling+Ecosystem'}
                 maxWidth={industryTestingResourceRow}
                 imageWidth={industryTestingResourceRow + 'px'}
                 buttonTitle="Access"
@@ -296,7 +270,7 @@ export default function SiteHomeRows() {
                 description={
                   'Implementation guides in healthcare serve as comprehensive documents outlining the specific rules, standards, and protocols for implementing interoperable health information systems.'
                 }
-                pathname={'/implementation-guide-authoring-tools'}
+                pathname={'https://confluence.hl7.org/display/FHIR/Authoring+FHIR+Implementation+Guides+-+Introduction'}
                 maxWidth={industryTestingResourceRow}
                 imageWidth={industryTestingResourceRow + 'px'}
                 buttonTitle="Learn"
