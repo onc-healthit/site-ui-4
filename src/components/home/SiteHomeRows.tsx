@@ -13,7 +13,8 @@ import igSvg from '@public/home/ig.svg'
 import iheSvg from '@public/home/ihe.svg'
 import infernoSvg from '@public/home/inferno.svg'
 import lanternSvg from '@public/home/lantern.svg'
-import nistSvg from '@public/home/nist.svg'
+import ONCLogo from '@public/shared/ONCLogo-backgroundImage.png'
+import Image from 'next/image'
 
 import referenceDataSvg from '@public/home/reference-data.svg'
 import CardWithImageHome from '@shared/CardWithImageHome'
@@ -26,7 +27,6 @@ export default function SiteHomeRows() {
   const maxWidth: number = 350
   const rowPaddingBottom: number = 20
   const industryTestingResourceRow: number = 350
-  const imageURL: string = '../shared/ONCLogo-backgroundImage.png'
 
   const containerNoDragStyles = {
     display: 'flex',
@@ -50,17 +50,27 @@ export default function SiteHomeRows() {
     },
   }
   return (
-    <>
-      <Box
-        bgcolor={palette.primary}
-        sx={{
-          backgroundImage: `url(${imageURL})`,
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundColor: palette.primary,
-        }}
-      >
+    <Box sx={{ position: 'relative' }}>
+      <Box>
+        <Image
+          style={{
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: palette.primary,
+            top: 0,
+            left: 0,
+            position: 'absolute',
+            zIndex: -1,
+            overflowX: 'clip',
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+          }}
+          src={ONCLogo}
+          alt="ONC Logo"
+        />
+      </Box>
+      <Box>
         <Container>
           {/* Row 1: Scrollable: ONC Certification Tools*/}
           <SectionHeader
@@ -279,6 +289,6 @@ export default function SiteHomeRows() {
           </Box>
         </Container>
       </Box>
-    </>
+    </Box>
   )
 }
