@@ -5,6 +5,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 
 import Image from 'next/image'
+import SITELogo from '@public/shared/site-nav-logo.svg'
 import { NAV_THICKER_DIVIDER } from '@/constants/navConstants'
 
 // const DrawerHeader = styled('div')(({ theme }) => ({
@@ -34,7 +35,7 @@ export default function NavHeader({ handleDrawerClose, theme }: SiteNavHeaderPro
       >
         <a href="/">
           <Image
-            src="/shared/site-nav-logo.svg"
+            src={SITELogo}
             width={250}
             height={42}
             alt="SITE logo with text: The hub for testing tools & resources"
