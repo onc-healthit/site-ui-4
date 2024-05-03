@@ -73,10 +73,11 @@ const CCDAHome = () => {
             description={
               'The SITE C-CDA Scorecard provides an enhanced level of interoperability for C-CDA documents by using a comprehensive scoring system, which allows implementers to improve the data quality and representation of their C-CDA documents.'
             }
-            pathname={'/c-cda/'}
+            pathname={'/c-cda/scorecard/'}
             maxWidth={maxWidth}
             imageWidth={maxWidth + 'px'}
           />
+          {/* TODO: Are we going to make a landing page for the one click scorecard or just link to the ONC page? */}
           <CardWithImage
             title={'One Click Scorecard'}
             cardImage={oneclick}
@@ -96,6 +97,7 @@ const CCDAHome = () => {
             'This area provides tools for testing conformance of artifacts to industry standards and specific criteria'
           }
         />
+        {/* TODO: Below should probably only lilst USCDI v3 and v1, nothing else... */}
         <Box paddingBottom={4} display={'flex'} width={'100%'} justifyContent={'space-between'}>
           <CardWithImage
             title={'2015 Edition'}

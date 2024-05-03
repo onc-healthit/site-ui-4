@@ -7,8 +7,9 @@ export interface BannerProps {
   subHeading?: string
   isTourButton?: boolean
   description: React.ReactNode
+  description2?: React.ReactNode
 }
-const BannerBox = ({ breadcrumbs, heading, subHeading, description, isTourButton }: BannerProps) => {
+const BannerBox = ({ breadcrumbs, heading, subHeading, description, isTourButton, description2 }: BannerProps) => {
   const subHeadingAndTourButtonBoxStyle = {
     display: 'flex',
     justifyContent: 'space-between',
@@ -33,6 +34,9 @@ const BannerBox = ({ breadcrumbs, heading, subHeading, description, isTourButton
         )}
         <Typography variant="body1" sx={{ pt: 1 }}>
           {description}
+        </Typography>
+        <Typography variant="body1" sx={{ pt: 1 }}>
+          {description2}
         </Typography>
       </Container>
     </Box>
