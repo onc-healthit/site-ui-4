@@ -88,9 +88,8 @@ export default function ScorecardHome() {
           <Box width="70%">
             <Card>
               <CardHeader
-                title=" Score your document!"
-                subheader=" Please select a C-CDA file
-                "
+                title="Score your document!"
+                subheader="Please select a C-CDA file"
                 titleTypographyProps={{ fontWeight: 'bold' }}
                 subheaderTypographyProps={{ color: palette.primary }}
               />
