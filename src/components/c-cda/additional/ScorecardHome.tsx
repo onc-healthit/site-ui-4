@@ -8,6 +8,7 @@ import {
   Button,
   Card,
   CardContent,
+  CardHeader,
   Container,
   Divider,
   FormControl,
@@ -86,15 +87,16 @@ export default function ScorecardHome() {
         <Box display="flex" gap={4} alignContent="stretch">
           <Box width="70%">
             <Card>
+              <CardHeader
+                title=" Score your document!"
+                subheader=" Please select a C-CDA file
+                "
+                titleTypographyProps={{ fontWeight: 'bold' }}
+                subheaderTypographyProps={{ color: palette.primary }}
+              />
               <CardContent>
                 <Box component="form" width="100%" noValidate onSubmit={handleSubmitScorecardStart}>
-                  <Typography variant="h5" component="h3" sx={{ fontWeight: 'bold', pt: 2 }}>
-                    Score your document!
-                  </Typography>
-                  <Typography variant="h6" component="h4" sx={{ color: palette.primary }}>
-                    Please select a C-CDA file
-                  </Typography>
-                  <Typography variant="h6" component="h5" sx={{ pt: 2 }}>
+                  <Typography variant="body1">
                     <>
                       <b>PHI Note:</b> The C-CDA Scorecard does not retain your submitted C-CDA file as the file is
                       deleted from the server immediately after processing. However, we strongly suggest that you do not
@@ -127,22 +129,22 @@ export default function ScorecardHome() {
           </Box>
 
           {/* Demo */}
-          <Box width="30%" height="100%" alignItems="stretch" flexBasis="auto">
-            <Card>
+          <Box width="30%">
+            <Card sx={{ height: '100%' }}>
+              <CardHeader
+                title="Demo"
+                subheader="We've built some examples for you"
+                titleTypographyProps={{ fontWeight: 'bold' }}
+                subheaderTypographyProps={{ color: palette.primary }}
+              />
               <CardContent>
                 <Box component="form" width="100%" noValidate onSubmit={handleSubmitDemoStart}>
-                  <Typography variant="h5" component="h3" sx={{ fontWeight: 'bold', pt: 2 }}>
-                    Demo
-                  </Typography>
-                  <Typography variant="h6" component="h4" sx={{ color: palette.primary }}>
-                    We&apos;ve built some examples for you
-                  </Typography>
-                  <Typography variant="h6" component="h5" sx={{ pt: 2 }}>
+                  <Typography variant="body1">
                     Please select which sample you would like to use from the dropdown to demo. Enjoy!
                   </Typography>
 
                   {/* Demo Sample Selection Dropdown */}
-                  <Box sx={{ pt: 3 }}>
+                  <Box sx={{ pt: 6 }}>
                     <FormControl fullWidth>
                       <Select id="sc-demo-sample-select" value={demoSampleOption} onChange={handleDemoSampleChange}>
                         {demoSampleOptions.map((option) => (
@@ -153,17 +155,13 @@ export default function ScorecardHome() {
                       </Select>
                     </FormControl>
                   </Box>
+                </Box>
 
-                  {/* Demo Submit  */}
-                  <Box sx={{ pt: 4 }}>
-                    <Button
-                      type="submit"
-                      variant="outlined"
-                      sx={{ outline: `1px solid ${palette.primary}`, color: palette.primary }}
-                    >
-                      TRY ME
-                    </Button>
-                  </Box>
+                {/* Demo Submit  */}
+                <Box sx={{ pt: 7 }}>
+                  <Button type="submit" variant="outlined" color="primary">
+                    TRY ME
+                  </Button>
                 </Box>
               </CardContent>
             </Card>
