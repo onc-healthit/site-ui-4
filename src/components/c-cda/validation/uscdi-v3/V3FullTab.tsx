@@ -21,10 +21,22 @@ import ValidationComponent from '../ValidatorLoadingCard'
 // TODO: Create a generic version of this to Support unique functionality
 // (API calls, select data, etc.) of different C-CDA validators without duplication
 export default function V3FullTab() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [systemOption, setSystemOption] = useState('')
+
+  const handleSystemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('handleSystemChange(e), event: ', e)
+    const systemSelected = e.target.value
+    console.log(`Selected ${systemSelected}`)
+    setSystemOption(e.target.value)
+  }
+
   const [criteriaOption, setCriteriaOption] = useState('')
 
   const handleCriteriaChange = (e: SelectChangeEvent) => {
-    console.log('handleCriteriaChange(e), event: ' + e)
+    console.log('handleCriteriaChange(e), event: ', e)
+    const criteriaSelected = e.target.value
+    console.log(`Selected ${criteriaSelected}`)
     setCriteriaOption(e.target.value)
   }
 
@@ -42,7 +54,9 @@ export default function V3FullTab() {
   const [scenarioOption, setScenarioOption] = useState('')
 
   const handleScenarioChange = (e: SelectChangeEvent) => {
-    console.log('handleScenarioChange(e), event: ' + e)
+    console.log('handleScenarioChange(e), event: ', e)
+    const scenarioSelected = e.target.value
+    console.log(`Selected ${scenarioSelected}`)
     setScenarioOption(e.target.value)
   }
 
@@ -62,11 +76,8 @@ export default function V3FullTab() {
   ]
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log('handleSubmit(e), event: ' + e)
-  }
-
-  const handleSystemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('handleSystemChange(e), event: ' + e)
+    e.preventDefault()
+    console.log('handleSubmit(e), event: ', e)
   }
 
   return (
