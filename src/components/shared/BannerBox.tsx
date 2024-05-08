@@ -1,6 +1,6 @@
 'use client'
-import { Box, Breadcrumbs, Container, Typography } from '@mui/material'
 import TourButton from '@components/shared/tour/TourButton'
+import { Box, Breadcrumbs, Container, Typography } from '@mui/material'
 export interface BannerProps {
   breadcrumbs?: React.ReactNode
   heading: string
@@ -9,7 +9,7 @@ export interface BannerProps {
   description: React.ReactNode
   description2?: React.ReactNode
 }
-const BannerBox = ({ breadcrumbs, heading, subHeading, description, isTourButton, description2 }: BannerProps) => {
+const BannerBox = ({ breadcrumbs, heading, subHeading, isTourButton, description, description2 }: BannerProps) => {
   const subHeadingAndTourButtonBoxStyle = {
     display: 'flex',
     justifyContent: 'space-between',

@@ -1,10 +1,62 @@
-import SectionHeader from '@shared/SectionHeader'
-import { Container } from '@mui/material'
+'use client'
+import CardWithBorder from '@/components/shared/CardWithBorder'
+import DragDropFileUpload from '@/components/shared/DragandDropFile'
+import palette from '@/styles/palette'
+import { ArrowForward } from '@mui/icons-material'
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  Divider,
+  FormControl,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
+} from '@mui/material'
 import BannerBox from '@shared/BannerBox'
+import SectionHeader from '@shared/SectionHeader'
 import styles from '@shared/styles.module.css'
 import Link from 'next/link'
+import { useState } from 'react'
 
 export default function ScorecardHome() {
+  const demoSampleOptions = [
+    {
+      label: 'High Scoring Sample',
+      value: 'highScoringSample.xml',
+    },
+    {
+      label: 'Low Scoring Sample',
+      value: 'lowScoringSample.xml',
+    },
+    {
+      label: 'Sample With Errors',
+      value: 'sampleWithErrors.xml',
+    },
+  ]
+  const [demoSampleOption, setDemoSampleOption] = useState(demoSampleOptions[0].value)
+
+  const handleDemoSampleChange = (e: SelectChangeEvent) => {
+    console.log('handleDemoSampleChange(e), event:', e)
+    const demoSampleSelected = e.target.value
+    console.log(`Selected ${demoSampleSelected}`)
+    setDemoSampleOption(demoSampleSelected)
+  }
+
+  const handleSubmitScorecardStart = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log('handleSubmitScorecardStart(e), event: ', e)
+  }
+
+  const handleSubmitDemoStart = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log('handleSubmitDemoStart(e), event: ', e)
+    console.log('Starting demo with sample: ' + demoSampleOption)
+  }
+
   return (
     <>
       {/* Global Header */}
@@ -25,25 +77,147 @@ export default function ScorecardHome() {
             their C-CDA documents.
           </>
         }
-        description2={
-          <>
-            <b>PHI Note:</b> The C-CDA Scorecard does not retain your submitted C-CDA file as the file is deleted from
-            the server immediately after processing. However, we strongly suggest that you do not include any Protected
-            Health Information (PHI) or Personally Identifiable Information (PII) in your C-CDA file submissions to the
-            Scorecard. Click{' '}
-            <a
-              href="http://www.hhs.gov/hipaa/for-professionals/privacy/special-topics/de-identification/index.html"
-              target="_blank"
-            >
-              here
-            </a>{' '}
-            for more information on how to de-identify PHI.
-          </>
-        }
       />
       {/* Main Content */}
       <Container>
         <SectionHeader header={'Run the Scorecard'} subHeader={'Upload your file or try the demo'} />
+
+        {/* Actual Scorecard Validation */}
+        <Box display="flex" gap={4} alignContent="stretch">
+          <Box width="70%">
+            <Card>
+              <CardContent>
+                <Box component="form" width="100%" noValidate onSubmit={handleSubmitScorecardStart}>
+                  <Typography variant="h5" component="h3" sx={{ fontWeight: 'bold', pt: 2 }}>
+                    Score your document!
+                  </Typography>
+                  <Typography variant="h6" component="h4" sx={{ color: palette.primary }}>
+                    Please select a C-CDA file
+                  </Typography>
+                  <Typography variant="h6" component="h5" sx={{ pt: 2 }}>
+                    <>
+                      <b>PHI Note:</b> The C-CDA Scorecard does not retain your submitted C-CDA file as the file is
+                      deleted from the server immediately after processing. However, we strongly suggest that you do not
+                      include any Protected Health Information (PHI) or Personally Identifiable Information (PII) in
+                      your C-CDA file submissions to the Scorecard. Click{' '}
+                      <a
+                        href="http://www.hhs.gov/hipaa/for-professionals/privacy/special-topics/de-identification/index.html"
+                        target="_blank"
+                      >
+                        here
+                      </a>{' '}
+                      for more information on how to de-identify PHI.
+                    </>
+                  </Typography>
+
+                  {/* Scorecard User File Upload */}
+                  <Box sx={{ pt: 3 }}>
+                    <DragDropFileUpload />
+                  </Box>
+
+                  {/* Scorecard Validation Submit */}
+                  <Box sx={{ pt: 4 }}>
+                    <Button type="submit" variant="contained">
+                      START
+                    </Button>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Box>
+
+          {/* Demo */}
+          <Box width="30%" height="100%" alignItems="stretch" flexBasis="auto">
+            <Card>
+              <CardContent>
+                <Box component="form" width="100%" noValidate onSubmit={handleSubmitDemoStart}>
+                  <Typography variant="h5" component="h3" sx={{ fontWeight: 'bold', pt: 2 }}>
+                    Demo
+                  </Typography>
+                  <Typography variant="h6" component="h4" sx={{ color: palette.primary }}>
+                    We&apos;ve built some examples for you
+                  </Typography>
+                  <Typography variant="h6" component="h5" sx={{ pt: 2 }}>
+                    Please select which sample you would like to use from the dropdown to demo. Enjoy!
+                  </Typography>
+
+                  {/* Demo Sample Selection Dropdown */}
+                  <Box sx={{ pt: 3 }}>
+                    <FormControl fullWidth>
+                      <Select id="sc-demo-sample-select" value={demoSampleOption} onChange={handleDemoSampleChange}>
+                        {demoSampleOptions.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Box>
+
+                  {/* Demo Submit  */}
+                  <Box sx={{ pt: 4 }}>
+                    <Button
+                      type="submit"
+                      variant="outlined"
+                      sx={{ outline: `1px solid ${palette.primary}`, color: palette.primary }}
+                    >
+                      TRY ME
+                    </Button>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Box>
+        </Box>
+
+        <Divider sx={{ pt: 2, pb: 2 }} />
+
+        <SectionHeader
+          header={'Learn & Implement'}
+          subHeader={'Review the information below for a deeper understanding of the Scorecard'}
+        />
+
+        <Box display="flex" gap={4} alignItems="stretch">
+          <Box display="flex" flexDirection="column" gap={3} width="50%" sx={{ pb: 4 }}>
+            <CardWithBorder
+              cardHeader={'Scorecard Introduction and Release Notes'}
+              buttonTitle={'VIEW'}
+              buttonIcon={<ArrowForward />}
+              useModal={true}
+              cardWidthPercent={100}
+            />
+            <CardWithBorder
+              cardHeader={'How to Interpret the Scorecard Results'}
+              buttonTitle={'VIEW'}
+              buttonIcon={<ArrowForward />}
+              useModal={true}
+              cardWidthPercent={100}
+            />
+            <CardWithBorder
+              cardHeader={'One Click Scorecard using Direct'}
+              buttonTitle={'ACCESS VIDEO'}
+              buttonIcon={<ArrowForward />}
+              useModal={true}
+              cardWidthPercent={100}
+            />
+          </Box>
+          <Box display="flex" flexDirection="column" gap={3} width="50%" sx={{ pb: 4 }}>
+            <CardWithBorder
+              cardHeader={'Scorecard API and External Tool Instructions'}
+              buttonTitle={'VIEW'}
+              buttonIcon={<ArrowForward />}
+              useModal={true}
+              cardWidthPercent={100}
+            />
+            <CardWithBorder
+              cardHeader={'Download the Scorecard for Local Instantiation'}
+              buttonTitle={'GO TO GITHUB'}
+              buttonIcon={<ArrowForward />}
+              useModal={true}
+              cardWidthPercent={100}
+            />
+          </Box>
+        </Box>
       </Container>
     </>
   )
