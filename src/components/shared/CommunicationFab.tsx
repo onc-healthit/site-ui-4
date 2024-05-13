@@ -21,12 +21,13 @@ import CloseIcon from '@mui/icons-material/Close'
 import LinkButton from './LinkButton'
 
 import palette from '@/styles/palette'
+import placeholder from '@public/shared/PlaceHolderImageSITE.png'
+import Image from 'next/image'
 
 const drawerWidth = 300
 
 const CommunicationFab: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const placeholder = '../shared/PlaceHolderImageSITE.png'
   const handleDrawerOpen = () => {
     setDrawerOpen(true)
   }
@@ -50,7 +51,9 @@ const CommunicationFab: React.FC = () => {
       >
         <Box p={2} display={'flex'} flexDirection={'column'} gap={4}>
           <Card>
-            <CardMedia style={{ height: '200px' }} component="div" image={placeholder} />
+            <CardMedia sx={{ width: 'auto' }}>
+              <Image style={{ width: 'auto', height: 'auto' }} src={placeholder} alt="Placeholder" />
+            </CardMedia>
             <CardHeader title="New release of UI, gets great feedback from users" />
             <CardContent>
               <Typography>

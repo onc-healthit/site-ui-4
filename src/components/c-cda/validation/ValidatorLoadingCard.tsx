@@ -1,7 +1,7 @@
 'use client'
-import React, { useState, useEffect, FC } from 'react'
-import { Card, CardContent, Typography, IconButton, LinearProgress, Backdrop, Button } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
+import { Backdrop, Button, Card, CardContent, IconButton, LinearProgress, Typography } from '@mui/material'
+import { FC, useEffect, useState } from 'react'
 import ValidatorResultsCard from './ValidatorResultsCard'
 
 interface ValidatorLoadingCardProps {
@@ -78,7 +78,7 @@ const ValidationComponent = () => {
 
   return (
     <>
-      <Button variant="contained" type="submit" onClick={() => setValidationOpen(true)}>
+      <Button type="submit" variant="contained" onClick={() => setValidationOpen(true)}>
         VALIDATE
       </Button>
       <ValidatorLoadingCard
