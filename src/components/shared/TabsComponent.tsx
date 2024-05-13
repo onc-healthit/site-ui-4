@@ -1,3 +1,4 @@
+'use client'
 import palette from '@/styles/palette'
 import { Box, Container, Tabs, Tab } from '@mui/material'
 import * as React from 'react'

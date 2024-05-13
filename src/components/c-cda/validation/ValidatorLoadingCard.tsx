@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useEffect, FC } from 'react'
 import { Card, CardContent, Typography, IconButton, LinearProgress, Backdrop, Button } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
@@ -77,7 +78,7 @@ const ValidationComponent = () => {
 
   return (
     <>
-      <Button variant="contained" onClick={() => setValidationOpen(true)}>
+      <Button variant="contained" type="submit" onClick={() => setValidationOpen(true)}>
         VALIDATE
       </Button>
       <ValidatorLoadingCard
