@@ -124,7 +124,7 @@ export default function SiteHomeRows() {
                 cardImage={directSvg}
                 cardHeader={'Direct Project Tooling'}
                 description={
-                  'ONC Direct Tool utilizes Direct Standard® to provide a mechanism for developers and implementers to test the capabilities of securely transporting sensitive health care information over the open internet.'
+                  'The ONC Direct Tool utilizes the Direct Standard® to provide a mechanism for developers and implementers to test the capabilities of securely transporting sensitive health care information over the open internet.'
                 }
                 pathname={'/direct'}
                 maxWidth={maxWidth}
@@ -151,7 +151,7 @@ export default function SiteHomeRows() {
                 cardImage={eRxSvg}
                 cardHeader={'Electronic Prescribing (eRX) Tool'}
                 description={
-                  'ePrescribing Test Suite supports a broad range of testing in support of the ePrescribing Community, including transport, messaging (content), and functional.'
+                  'The ePrescribing Test Suite supports a broad range of testing in support of the ePrescribing Community, including transport, messaging (content), and functional.'
                 }
                 pathname={'https://tools.ncpdp.org/erx/#/home'}
                 maxWidth={maxWidth}
