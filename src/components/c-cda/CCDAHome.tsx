@@ -83,9 +83,9 @@ const CCDAHome = () => {
             cardImage={oneclick}
             cardHeader={'One Click Scorecard'}
             description={
-              'Providers can use the One Click Scorecard to evaluate the quality of clinical summary documents (C-CDAs) received, or created, by their system.'
+              'Providers can use the One Click Scorecard with Direct to evaluate the quality of clinical summary documents (C-CDAs) received, or created, by their system.'
             }
-            pathname={'/c-cda/'}
+            pathname={'https://oncprojectracking.healthit.gov/wiki/display/TechLabTU/ONC+One+Click+Scorecard'}
             maxWidth={maxWidth}
             imageWidth={maxWidth + 'px'}
           />
