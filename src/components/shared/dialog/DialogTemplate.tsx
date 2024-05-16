@@ -6,11 +6,32 @@ import palette from '@/styles/palette'
 interface DialogTemplateProps {
   open: boolean
   handleClose: () => void
-  title: string | ReactNode
+  title: ReactNode
   menuContent: ReactNode
   resultsContent: ReactNode
   actionsContent: ReactNode
 }
+
+interface DialogTitleProps {
+  children: ReactNode
+  handleClose: () => void
+}
+
+const CustomDialogTitle: FC<DialogTitleProps> = ({ children, handleClose }) => (
+  <DialogTitle sx={{ borderBottom: `1px solid ${palette.divider}` }} fontWeight={600}>
+    {children}
+    <IconButton
+      aria-label="Close Dialog"
+      sx={{ position: 'absolute', right: 8, top: 8 }}
+      onClick={(e) => {
+        e.stopPropagation()
+        handleClose()
+      }}
+    >
+      <CloseIcon />
+    </IconButton>
+  </DialogTitle>
+)
 
 const DialogTemplate: FC<DialogTemplateProps> = ({
   open,
@@ -21,14 +42,8 @@ const DialogTemplate: FC<DialogTemplateProps> = ({
   actionsContent,
 }) => {
   return (
-    <Dialog maxWidth="xl" open={open} onClick={handleClose}>
-      {/* Title */}
-      <DialogTitle sx={{ borderBottom: `1px solid ${palette.divider}` }} fontWeight={600}>
-        {title}
-        <IconButton aria-label="Close Dialog" sx={{ position: 'absolute', right: 8, top: 8 }} onClick={handleClose}>
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
+    <Dialog disableScrollLock maxWidth="xl" open={open}>
+      <CustomDialogTitle handleClose={handleClose}>{title}</CustomDialogTitle>
       <DialogContent
         sx={{ display: 'flex', borderColor: palette.divider, alignItems: 'stretch', flexDirection: 'row' }}
         onClick={(e) => e.stopPropagation()}
