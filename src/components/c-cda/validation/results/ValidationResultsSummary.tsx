@@ -2,15 +2,15 @@ import React, { forwardRef } from 'react'
 import { Typography, Box, Divider } from '@mui/material'
 
 import ResultsStatusCard from './ValidationResultsStatusCard'
-import ValidationStatusIndicator from '../ValidationStatusIndicator'
-import ValidatorResultsCCDAMDHTConformance from './ValidationResultsCCDAMDHTConformance'
-import ValidatorResultsSCCReferenceCCDAValidation from './ValidationResultsSCCReferenceCCDAValidation'
-import ValidationResultsSCCVocabularyValidationConformance from './ValidationResultsSCCVocabularyValidationConformance'
+import ValidationStatusIndicator from './ValidationResultsStatusIndicator'
+import ValidatorResultsCCDAMDHTConformance from '../results/details/ValidationResultsCCDAMDHTConformance'
+import ValidatorResultsSCCReferenceCCDAValidation from '../results/details/ValidationResultsSCCReferenceCCDAValidation'
+import ValidationResultsSCCVocabularyValidationConformance from '../results/details/ValidationResultsSCCVocabularyValidationConformance'
 
 const ValidatorResultsSummary = forwardRef<HTMLDivElement>((props, ref) => {
   const errors = ['2 Error in C-CDA MDHT Conformance']
   const warnings = ['1 Error in C-CDA MDHT Conformance']
-  const infos = ['1 Error in C-CDA MDHT Conformance', '1 S & CC Vocabulary Validation Conformance']
+  const infos = ['1 Error in C-CDA MDHT Conformance', '1 S & CC Vocabulary Valisdation Conformance']
   ValidatorResultsSummary.displayName = 'ValidatorResultsSummary' // Assigning displayName
   return (
     <Box display={'flex'} flexDirection={'column'} gap={4} mt={2} px={4} pb={4} sx={{ overflowY: 'auto' }} ref={ref}>
