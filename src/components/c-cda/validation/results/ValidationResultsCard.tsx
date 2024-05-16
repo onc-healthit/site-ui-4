@@ -1,9 +1,9 @@
 import React, { useRef } from 'react'
 import { Typography, Button, DialogActions, IconButton } from '@mui/material'
 import palette from '@/styles/palette'
-import DialogTemplate from '../../shared/dialog/DialogTemplate'
+import DialogTemplate from '../../../shared/dialog/DialogTemplate'
 import ValidatorResultsSummary from './ValidationResultsSummary'
-import ValidatorMenu from './ValidationMenu'
+import ValidatorMenu from '../ValidationMenu'
 import CloseIcon from '@mui/icons-material/Close'
 
 // Define props interface for ScrollableDialog

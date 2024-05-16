@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FC } from 'react'
 import { Typography, IconButton, LinearProgress, Button, Dialog, DialogContent, DialogTitle } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import ValidatorResultsCard from './ValidatorResultsCard'
+import ValidatorResultsCard from './results/ValidatorResultsCard'
 import palette from '@/styles/palette'
 
 interface ValidatorLoadingCardProps {

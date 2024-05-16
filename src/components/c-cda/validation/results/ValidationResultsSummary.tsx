@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react'
 import { Typography, Box, Divider } from '@mui/material'
 
-import ResultsStatusCard from './ResultsStatusCard'
-import ValidationStatusIndicator from './ValidationStatusIndicator'
+import ResultsStatusCard from './ValidationResultsStatusCard'
+import ValidationStatusIndicator from '../ValidationStatusIndicator'
 import ValidatorResultsCCDAMDHTConformance from './ValidationResultsCCDAMDHTConformance'
 import ValidatorResultsSCCReferenceCCDAValidation from './ValidationResultsSCCReferenceCCDAValidation'
 import ValidationResultsSCCVocabularyValidationConformance from './ValidationResultsSCCVocabularyValidationConformance'
