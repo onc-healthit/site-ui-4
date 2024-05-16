@@ -32,7 +32,10 @@ const DirectHome = () => {
         heading={'Direct Project Tooling'}
         description={
           <>
-            This area provides capabilities to validate your Direct implementation to applicable
+            A cornerstone of facilitating interoperability between disparate health technologies and organizations. The
+            ONC Direct Tool utilizes the foundation of the Direct Standard® to provide a mechanism for developers and
+            implementers to test the capabilities of securely transporting sensitive health care information over the
+            open internet. This area provides capabilities to validate your Direct implementation to applicable
             standards-specifications. To verify basic Direct send capabilities of your system send a message to:
             <span>
               <Link color="#42A5F5" href="mailto:testing@ett.healthit.gov">

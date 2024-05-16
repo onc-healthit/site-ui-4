@@ -124,7 +124,7 @@ export default function SiteHomeRows() {
                 cardImage={directSvg}
                 cardHeader={'Direct Project Tooling'}
                 description={
-                  'A collection of testing utilities created to validate the requirements of the ONC Health IT Certification Program.'
+                  'The ONC Direct Tool utilizes the Direct Standard® to provide a mechanism for developers and implementers to test the capabilities of securely transporting sensitive health care information over the open internet.'
                 }
                 pathname={'/direct'}
                 maxWidth={maxWidth}
@@ -137,7 +137,7 @@ export default function SiteHomeRows() {
                 cardImage={cqmtsvg}
                 cardHeader={'Clinical Quality Measure Testing'}
                 description={
-                  'Sponsored by the ONC and developed by The MITRE Corporation, facilitates rigorous and repeatable testing for accurate calculation of CQMs for Eligible Providers & Hospitals.'
+                  'Resources that facilitates rigorous and repeatable testing for accurate calculation of CQMs for Eligible Providers & Hospitals.'
                 }
                 pathname={'/cqmt'}
                 maxWidth={maxWidth}
@@ -151,7 +151,7 @@ export default function SiteHomeRows() {
                 cardImage={eRxSvg}
                 cardHeader={'Electronic Prescribing (eRX) Tool'}
                 description={
-                  'ePrescribing Test Suite supports a broad range of testing in support of the ePrescribing Community, including transport, messaging (content), and functional.'
+                  'The ePrescribing Test Suite supports a broad range of testing in support of the ePrescribing Community, including transport, messaging (content), and functional.'
                 }
                 pathname={'https://tools.ncpdp.org/erx/#/home'}
                 maxWidth={maxWidth}

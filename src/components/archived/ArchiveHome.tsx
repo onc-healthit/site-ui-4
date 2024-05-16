@@ -1,13 +1,12 @@
 // MUI Imports
+import { Box, Container, Link } from '@mui/material'
 import BannerBox from '../shared/BannerBox'
-import { Box, Link, Container } from '@mui/material'
 // Global Imports
-import React from 'react'
 // Styles
+import SubMenu, { menuProps } from '@/components/shared/SubMenu'
 import palette from '@/styles/palette'
 import ArchiveCard from './ArchiveCard'
 import ArchiveFilter from './ArchiveFilter'
-import SubMenu, { menuProps } from '@/components/shared/SubMenu'
 // Images
 
 const ArchiveHome = () => {
@@ -33,7 +32,7 @@ const ArchiveHome = () => {
         heading={'Archived tools, files and other additional content'}
         description={
           <>
-            Unearth a treasure trove of archived resources including tools files and more! Please be aware that these
+            Unearth a treasure trove of archived resources including tools, files, and more! Please be aware that these
             materials are no longer actively maintained. Despite this, they offer valuable insights and historical
             context. Dive into our curated collection to explore and discover valuable resources for your projects and
             endeavors!
