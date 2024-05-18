@@ -15,6 +15,7 @@ import {
   Select,
   SelectChangeEvent,
   Typography,
+  duration,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import ValidationComponent from '../ValidatorLoadingCard'
@@ -22,6 +23,7 @@ import _ from 'lodash'
 import { getScenarioOptions, submitForm } from './actions'
 import palette from '@/styles/palette'
 import Link from 'next/link'
+import { useFormState, useFormStatus } from 'react-dom'
 
 interface V3ValidatorFormProps {
   senderCriteriaOptions: []
@@ -38,6 +40,7 @@ type Scenario = {
   url: string
   download_url: string
 }
+
 export default function V3ValidatorForm({ senderCriteriaOptions, receiverCriteriaOptions }: V3ValidatorFormProps) {
   const [system, setSystem] = useState('')
   const [criteriaOption, setCriteriaOption] = useState('')
@@ -47,6 +50,9 @@ export default function V3ValidatorForm({ senderCriteriaOptions, receiverCriteri
   const [downloadScenario, setDownloadScenario] = useState('')
   const [disableDownloadSceario, setDisableDownloadScenario] = useState(true)
   const [disableValidate, setDisableValidate] = useState(true)
+  const [data, submitAction] = useFormState(submitForm, { response: {} })
+  const [estimatedValidationTime, setEstimatedValidationTime] = useState(50)
+
   useEffect(() => {
     if (_.isEqual(system, 'Sender')) {
       setCriteriaOptions(senderCriteriaOptions)
@@ -56,6 +62,13 @@ export default function V3ValidatorForm({ senderCriteriaOptions, receiverCriteri
     }
     if (!_.isEmpty(system) && !_.isEmpty(criteriaOption) && !_.isEmpty(scenarioOption)) {
       setDisableValidate(false)
+    }
+    if (criteriaOption.includes('IG_Only')) {
+      setEstimatedValidationTime(5)
+    } else if (criteriaOption.includes('IG_Plus_Vocab')) {
+      setEstimatedValidationTime(15)
+    } else {
+      setEstimatedValidationTime(60)
     }
   }, [criteriaOption, receiverCriteriaOptions, scenarioOption, senderCriteriaOptions, system])
 
@@ -81,7 +94,7 @@ export default function V3ValidatorForm({ senderCriteriaOptions, receiverCriteri
   return (
     <Container>
       {/* Header */}
-      <form action={submitForm}>
+      <form action={submitAction}>
         <Box pb={8} width="100%">
           <Typography variant="h5" component="h3" sx={{ fontWeight: 'bold', pt: 4 }}>
             To validate your C-CDA document for USCDI V3:
@@ -160,10 +173,13 @@ export default function V3ValidatorForm({ senderCriteriaOptions, receiverCriteri
 
           {/* Buttons */}
           <Box display="flex" flexDirection="row" justifyContent="space-between" sx={{ pt: 4 }}>
-            {/*<ValidationComponent></ValidationComponent>*/}
-            <Button variant="contained" type="submit" disabled={disableValidate}>
+            <ValidationComponent
+              response={data.response}
+              estimatedValidationTime={estimatedValidationTime}
+            ></ValidationComponent>
+            {/* <Button variant="contained" type="submit" disabled={pending}>
               VALIDATE
-            </Button>
+            </Button> */}
             <Box>
               <Link href={downloadScenario} passHref style={{ textDecoration: 'none' }} target="_blank">
                 <Button variant="outlined" sx={{ color: palette.primary }} disabled={disableDownloadSceario}>

@@ -20,8 +20,10 @@ import {
 import BannerBox from '@shared/BannerBox'
 import SectionHeader from '@shared/SectionHeader'
 import styles from '@shared/styles.module.css'
+import DOMPurify from 'dompurify'
+import { marked } from 'marked'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function ScorecardHome() {
   const demoSampleOptions = [
@@ -38,7 +40,7 @@ export default function ScorecardHome() {
       value: 'sampleWithErrors.xml',
     },
   ]
-  const [demoSampleOption, setDemoSampleOption] = useState(demoSampleOptions[0].value)
+  const [demoSampleOption, setDemoSampleOption] = useState<string>(demoSampleOptions[0].value)
 
   const handleDemoSampleChange = (e: SelectChangeEvent) => {
     console.log('handleDemoSampleChange(e), event:', e)
@@ -56,6 +58,41 @@ export default function ScorecardHome() {
     e.preventDefault()
     console.log('handleSubmitDemoStart(e), event: ', e)
     console.log('Starting demo with sample: ' + demoSampleOption)
+  }
+
+  const parseAndSanitizeMarkdown = async (markdownContent: string) => {
+    const parsedContent = await marked(markdownContent)
+    const config = {
+      ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'br', 'strong', 'em', 'a', 'ul', 'ol', 'li', 'code'],
+      ALLOWED_ATTRS: {
+        a: ['href', 'target'],
+      },
+    }
+    return DOMPurify.sanitize(parsedContent, config)
+  }
+
+  const modalUrls = [
+    'https://raw.githubusercontent.com/onc-healthit/site-content/master/CCDAScorecardIntroduction.md',
+    'https://raw.githubusercontent.com/onc-healthit/site-content/master/CCDAScorecardResultsInterpretation.md',
+    'https://raw.githubusercontent.com/onc-healthit/site-content/master/CCDAScorecardApiAndExternalTool.md',
+  ]
+  const [modalContent, setModalContent] = useState<string | undefined>()
+  const [modalUrl, setModalUrl] = useState<string | undefined>()
+
+  useEffect(() => {
+    if (modalUrl) {
+      const fetchData = async () => {
+        const githubMarkdownResult: Response = await fetch(modalUrl)
+        const githubMarkdownData: string = await githubMarkdownResult.text()
+        const finalModalContent: string = await parseAndSanitizeMarkdown(githubMarkdownData)
+        setModalContent(finalModalContent)
+      }
+      fetchData()
+    }
+  }, [modalUrl])
+
+  const handleCardWithBorderClick = (index: number) => {
+    setModalUrl(modalUrls[index])
   }
 
   return (
@@ -176,41 +213,50 @@ export default function ScorecardHome() {
 
         <Box display="flex" gap={4} alignItems="stretch">
           <Box display="flex" flexDirection="column" gap={3} width="50%" sx={{ pb: 4 }}>
-            <CardWithBorder
-              cardHeader={'Scorecard Introduction and Release Notes'}
-              buttonTitle={'VIEW'}
-              buttonIcon={<ArrowForward />}
-              useModal={true}
-              cardWidthPercent={100}
-            />
-            <CardWithBorder
-              cardHeader={'How to Interpret the Scorecard Results'}
-              buttonTitle={'VIEW'}
-              buttonIcon={<ArrowForward />}
-              useModal={true}
-              cardWidthPercent={100}
-            />
+            <div onClick={() => handleCardWithBorderClick(0)}>
+              <CardWithBorder
+                cardHeader={'Scorecard Introduction'}
+                buttonTitle={'VIEW'}
+                buttonIcon={<ArrowForward />}
+                useModal={true}
+                cardWidthPercent={100}
+                modalContent={modalContent}
+              />
+            </div>
+            <div onClick={() => handleCardWithBorderClick(1)}>
+              <CardWithBorder
+                cardHeader={'How to Interpret the Scorecard Results'}
+                buttonTitle={'VIEW'}
+                buttonIcon={<ArrowForward />}
+                useModal={true}
+                cardWidthPercent={100}
+                modalContent={modalContent}
+              />
+            </div>
             <CardWithBorder
               cardHeader={'One Click Scorecard using Direct'}
               buttonTitle={'ACCESS VIDEO'}
               buttonIcon={<ArrowForward />}
-              useModal={true}
+              buttonLink="https://oncprojectracking.healthit.gov/wiki/display/TechLabTU/ONC+One+Click+Scorecard"
               cardWidthPercent={100}
             />
           </Box>
           <Box display="flex" flexDirection="column" gap={3} width="50%" sx={{ pb: 4 }}>
-            <CardWithBorder
-              cardHeader={'Scorecard API and External Tool Instructions'}
-              buttonTitle={'VIEW'}
-              buttonIcon={<ArrowForward />}
-              useModal={true}
-              cardWidthPercent={100}
-            />
+            <div onClick={() => handleCardWithBorderClick(2)}>
+              <CardWithBorder
+                cardHeader={'Scorecard API and External Tool Instructions'}
+                buttonTitle={'VIEW'}
+                buttonIcon={<ArrowForward />}
+                useModal={true}
+                cardWidthPercent={100}
+                modalContent={modalContent}
+              />
+            </div>
             <CardWithBorder
               cardHeader={'Download the Scorecard for Local Instantiation'}
               buttonTitle={'GO TO GITHUB'}
               buttonIcon={<ArrowForward />}
-              useModal={true}
+              buttonLink="https://github.com/onc-healthit/ccda-scorecard"
               cardWidthPercent={100}
             />
           </Box>

@@ -3,38 +3,58 @@ import CloseIcon from '@mui/icons-material/Close'
 import { Backdrop, Button, Card, CardContent, IconButton, LinearProgress, Typography } from '@mui/material'
 import { FC, useEffect, useState } from 'react'
 import ValidatorResultsCard from './ValidatorResultsCard'
+import { useFormStatus } from 'react-dom'
 
 interface ValidatorLoadingCardProps {
   open: boolean
   handleClose: () => void
   onLoadingComplete: () => void
+  estimatedValidationTime: number
 }
-
-const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({ open, handleClose, onLoadingComplete }) => {
+interface ValidatorComponentProps {
+  estimatedValidationTime: number
+  response: object
+}
+const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({
+  open,
+  handleClose,
+  onLoadingComplete,
+  estimatedValidationTime,
+}) => {
   const [progress, setProgress] = useState(0)
-
+  const totalTime = estimatedValidationTime // total time in seconds
+  const [secondsElapsed, setSecondsElapsed] = useState(0)
+  const [timeRemaining, setTimeRemaining] = useState(0)
   useEffect(() => {
     if (open) {
-      setProgress(0)
+      // console.log(estimatedValidationTime)
       const timer = setInterval(() => {
-        setProgress((prevProgress) => {
-          if (prevProgress >= 100) {
+        setSecondsElapsed((oldSeconds) => {
+          const newSeconds = oldSeconds + 1
+          //   console.log('newseconds', newSeconds)
+          if (newSeconds >= totalTime) {
             clearInterval(timer)
             onLoadingComplete()
-            return 100
+            setSecondsElapsed(0)
           }
-          return prevProgress + 10
+          return newSeconds
         })
-      }, 300)
-
+      }, 1000)
+      //  console.log('timer', timer)
+      setProgress((secondsElapsed / totalTime) * 100)
+      setTimeRemaining(totalTime - secondsElapsed)
       return () => {
         clearInterval(timer)
       }
     } else {
       setProgress(0)
+      setTimeRemaining(0)
     }
-  }, [open, onLoadingComplete])
-
+  }, [open, onLoadingComplete, estimatedValidationTime, secondsElapsed, totalTime])
+  //  const progress = (secondsElapsed / totalTime) * 100
+  // timeRemaining = totalTime - secondsElapsed
+  //  console.log('time remaining', timeRemaining)
+  // console.log('progress', progress)
   return (
     <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open}>
       <Card sx={{ position: 'absolute', width: '30%', minWidth: 300, pl: '18px', pr: '18px' }}>
@@ -45,7 +65,7 @@ const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({ open, handleClose
           <Typography variant="h3" component="div" sx={{ fontWeight: 'bold' }}>
             Your files are validating...
           </Typography>
-          <Typography sx={{ mt: 2, mb: 2 }}>Estimate time: {Math.round((1 - progress / 100) * 3)} seconds</Typography>
+          <Typography sx={{ mt: 2, mb: 2 }}>Estimate time: {timeRemaining} seconds</Typography>
           <LinearProgress
             variant="determinate"
             value={progress}
@@ -67,26 +87,33 @@ const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({ open, handleClose
     </Backdrop>
   )
 }
-const ValidationComponent = () => {
+const ValidationComponent = ({ response, estimatedValidationTime }: ValidatorComponentProps) => {
   const [validationOpen, setValidationOpen] = useState(false)
   const [resultsOpen, setResultsOpen] = useState(false)
+  const { pending } = useFormStatus()
 
   const handleLoadingComplete = () => {
     setValidationOpen(false)
+
     setResultsOpen(true)
   }
-
+  console.log(response)
   return (
     <>
       <Button type="submit" variant="contained" onClick={() => setValidationOpen(true)}>
         VALIDATE
       </Button>
-      <ValidatorLoadingCard
-        open={validationOpen}
-        handleClose={() => setValidationOpen(false)}
-        onLoadingComplete={handleLoadingComplete}
-      />
-      <ValidatorResultsCard open={resultsOpen} handleClose={() => setResultsOpen(false)} />
+
+      {pending && (
+        <ValidatorLoadingCard
+          open={validationOpen}
+          handleClose={() => setValidationOpen(false)}
+          onLoadingComplete={handleLoadingComplete}
+          estimatedValidationTime={estimatedValidationTime}
+        />
+      )}
+
+      {!pending && <ValidatorResultsCard open={resultsOpen} handleClose={() => setResultsOpen(false)} />}
     </>
   )
 }

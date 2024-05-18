@@ -11,10 +11,8 @@ const getCriteriaOptions = async (githubUrl: string) => {
 }
 
 export default async function V3FullTab() {
-  const senderGitHubUrl =
-    'https://api.github.com/repos/onc-healthit/2015-certification-ccda-testdata/contents/Sender SUT Test Data'
-  const receiverGitHubUrl =
-    'https://api.github.com/repos/onc-healthit/2015-certification-ccda-testdata/contents/Receiver SUT Test Data'
+  const senderGitHubUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_CURES_SENDER_URL || ''
+  const receiverGitHubUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_CURES_RECEIVER_URL || ''
   const senderCriteriaOptions = await getCriteriaOptions(senderGitHubUrl)
   const receiverCriteriaOptions = await getCriteriaOptions(receiverGitHubUrl)
 

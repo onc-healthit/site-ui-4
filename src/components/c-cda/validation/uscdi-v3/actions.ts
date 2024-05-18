@@ -32,16 +32,15 @@ async function getToken() {
   }
 }
 
-export async function submitForm(formData: FormData) {
+export async function submitForm(prevState: [], formData: FormData) {
   const ccdaValidatorUrl = process.env.CCDA_VALIDATOR_URL
   const token = await getToken()
-  //const uploadFile = formData.get('ccdaFile')
-  //console.log('uploaded File', uploadFile)
+  const uploadFile = formData.get('ccdaFile')
+  console.log('uploaded File', uploadFile)
   formData.append('curesUpdate', 'false')
   formData.append('svap2022', 'false')
   formData.append('svap2023', 'true')
-  formData.append('severityLevel', 'INFO')
-
+  console.log(formData)
   const config = {
     method: 'post',
     url: ccdaValidatorUrl,
@@ -51,17 +50,14 @@ export async function submitForm(formData: FormData) {
     data: formData,
   }
 
-  const results = await axios
-    .request(config)
-    .then((response) => {
-      console.log(JSON.stringify(response.data))
-      return response.data
-    })
-    .catch((error) => {
-      console.log(error)
-      throw new Error('failed to get validator results')
-    })
-
+  try {
+    const response = await axios.request(config)
+    //  console.log(JSON.stringify(response.data))
+    //
+    return { response: response.data }
+  } catch (error) {
+    console.error(error)
+    throw new Error('failed to get validator results')
+  }
   revalidatePath('/c-cda/uscdi-v3')
-  return results
 }

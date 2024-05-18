@@ -13,6 +13,7 @@ export interface CardWithBorderProps {
   buttonLink?: string // include a link or a modal
   buttonIcon: React.ReactNode
   useModal?: boolean // include a modal or a link
+  modalContent?: string // sanitized HTML
   cardWidthPercent?: number | undefined // change the width of the card to any % vs default
 }
 const genericCardBlueBorder = {
@@ -37,8 +38,11 @@ const CardWithBorder = ({
   buttonTitle,
   useModal,
   cardWidthPercent,
+  modalContent,
 }: CardWithBorderProps) => {
   const [openModal, setOpenModal] = React.useState(false)
+
+  const isExternalLink: boolean = buttonLink ? buttonLink.startsWith('http') : false
 
   const handleClickModal = () => {
     if (useModal) {
@@ -51,17 +55,6 @@ const CardWithBorder = ({
       setOpenModal(false)
     }
   }
-
-  const modalContent = (
-    <Box>
-      <Typography variant="h6" component="h2">
-        TODO:
-      </Typography>
-      <Typography sx={{ mt: 2 }}>
-        Convert this to read markdown from https://github.com/onc-healthit/site-content
-      </Typography>
-    </Box>
-  )
 
   const dynamicCardStyle = React.useMemo(() => {
     return {
@@ -82,7 +75,11 @@ const CardWithBorder = ({
               {description}
             </Typography>
           )}
-          <Link href={useModal ? '' : buttonLink ?? '/'}>
+          <Link
+            href={useModal ? '' : buttonLink ?? '/'}
+            target={isExternalLink ? '_blank' : undefined}
+            rel={isExternalLink ? 'noopener noreferrer' : undefined}
+          >
             <Button size="small" variant="text" color="secondary" endIcon={buttonIcon} onClick={handleClickModal}>
               {buttonTitle}
             </Button>
@@ -90,9 +87,13 @@ const CardWithBorder = ({
         </CardContent>
       </Card>
 
-      <Dialog open={openModal} onClose={handleClickCloseModal}>
-        <DialogTitle>{cardHeader}</DialogTitle>
-        <DialogContent>{modalContent}</DialogContent>
+      <Dialog open={openModal} onClose={handleClickCloseModal} fullWidth={true} maxWidth="lg">
+        <DialogTitle>
+          <strong>{cardHeader}</strong>
+        </DialogTitle>
+        <DialogContent>
+          <Box>{modalContent && <div dangerouslySetInnerHTML={{ __html: modalContent }} />}</Box>
+        </DialogContent>
       </Dialog>
     </>
   )
