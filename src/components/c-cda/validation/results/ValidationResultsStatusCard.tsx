@@ -1,5 +1,6 @@
 import React from 'react'
-import { Card, Typography, Box } from '@mui/material'
+import { Card, Typography, CardContent } from '@mui/material'
+import palette from '@/styles/palette'
 
 type CardType = 'error' | 'warning' | 'info'
 
@@ -11,42 +12,20 @@ interface ResultsStatusCardProps {
 
 const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, count, messages }) => {
   const colorMap = {
-    error: '#FF5252',
-    warning: '#83380E',
-    info: '#122953',
+    error: palette.error,
+    warning: palette.warning,
+    info: palette.primary,
   }
 
   return (
     <Card
       sx={{
-        width: 334,
+        minWidth: '30%',
         borderRadius: '0px 0px 8px 8px',
-        boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-        opacity: 1,
-        display: 'flex',
-        flexDirection: 'column',
+        borderTop: `8px solid ${colorMap[type]}`,
       }}
     >
-      <Box
-        sx={{
-          bgcolor: colorMap[type],
-          height: 16,
-          display: 'flex',
-          alignItems: 'center',
-          paddingX: 1,
-        }}
-      ></Box>
-
-      <Box
-        sx={{
-          padding: '14px',
-          bgcolor: 'white',
-          borderBottomLeftRadius: '8px',
-          borderBottomRightRadius: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
+      <CardContent>
         <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 2 }}>
           {`${count} ${type.charAt(0).toUpperCase() + type.slice(1)}`}
         </Typography>
@@ -55,7 +34,7 @@ const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, count, mess
             {message}
           </Typography>
         ))}
-      </Box>
+      </CardContent>
     </Card>
   )
 }
