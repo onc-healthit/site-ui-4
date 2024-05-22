@@ -72,12 +72,17 @@ export default function ScorecardHome() {
   }
 
   const modalUrls = [
-    'https://raw.githubusercontent.com/onc-healthit/site-content/master/CCDAScorecardIntroduction.md',
-    'https://raw.githubusercontent.com/onc-healthit/site-content/master/CCDAScorecardResultsInterpretation.md',
-    'https://raw.githubusercontent.com/onc-healthit/site-content/master/CCDAScorecardApiAndExternalTool.md',
+    process.env.NEXT_PUBLIC_MARKDOWN_CCDA_SCORECARD_INTRODUCTION,
+    process.env.NEXT_PUBLIC_MARKDOWN_CCDA_SCORECARD_RESULTS_INTERPRETATION,
+    process.env.NEXT_PUBLIC_MARKDOWN_CCDA_SCORECARD_API_AND_EXTERNAL_TOOL,
   ]
   const [modalContent, setModalContent] = useState<string | undefined>()
   const [modalUrl, setModalUrl] = useState<string | undefined>()
+
+  // callback
+  const resetModalContent = () => {
+    setModalContent(undefined)
+  }
 
   useEffect(() => {
     if (modalUrl) {
@@ -92,6 +97,7 @@ export default function ScorecardHome() {
   }, [modalUrl])
 
   const handleCardWithBorderClick = (index: number) => {
+    event?.preventDefault()
     setModalUrl(modalUrls[index])
   }
 
@@ -220,7 +226,8 @@ export default function ScorecardHome() {
                 buttonIcon={<ArrowForward />}
                 useModal={true}
                 cardWidthPercent={100}
-                modalContent={modalContent}
+                modalContent={modalContent ? modalContent : 'Loading content...'}
+                resetModalContent={resetModalContent}
               />
             </div>
             <div onClick={() => handleCardWithBorderClick(1)}>
@@ -230,7 +237,7 @@ export default function ScorecardHome() {
                 buttonIcon={<ArrowForward />}
                 useModal={true}
                 cardWidthPercent={100}
-                modalContent={modalContent}
+                modalContent={modalContent ? modalContent : 'Loading content...'}
               />
             </div>
             <CardWithBorder
@@ -249,7 +256,7 @@ export default function ScorecardHome() {
                 buttonIcon={<ArrowForward />}
                 useModal={true}
                 cardWidthPercent={100}
-                modalContent={modalContent}
+                modalContent={modalContent ? modalContent : 'Loading content...'}
               />
             </div>
             <CardWithBorder

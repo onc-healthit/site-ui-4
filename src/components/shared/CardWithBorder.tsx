@@ -15,6 +15,7 @@ export interface CardWithBorderProps {
   useModal?: boolean // include a modal or a link
   modalContent?: string // sanitized HTML
   cardWidthPercent?: number | undefined // change the width of the card to any % vs default
+  resetModalContent?: () => void // callback function so that we can start fresh for each modal and not load prior version first
 }
 const genericCardBlueBorder = {
   display: 'flex',
@@ -39,20 +40,23 @@ const CardWithBorder = ({
   useModal,
   cardWidthPercent,
   modalContent,
+  resetModalContent,
 }: CardWithBorderProps) => {
   const [openModal, setOpenModal] = React.useState(false)
 
   const isExternalLink: boolean = buttonLink ? buttonLink.startsWith('http') : false
 
-  const handleClickModal = () => {
+  const handlekModalOpen = (e: React.MouseEvent<HTMLElement>) => {
     if (useModal) {
+      e.preventDefault()
       setOpenModal(true)
     }
   }
 
-  const handleClickCloseModal = () => {
+  const handleModalClose = () => {
     if (useModal) {
       setOpenModal(false)
+      resetModalContent && resetModalContent()
     }
   }
 
@@ -75,24 +79,35 @@ const CardWithBorder = ({
               {description}
             </Typography>
           )}
-          <Link
-            href={useModal ? '' : buttonLink ?? '/'}
-            target={isExternalLink ? '_blank' : undefined}
-            rel={isExternalLink ? 'noopener noreferrer' : undefined}
-          >
-            <Button size="small" variant="text" color="secondary" endIcon={buttonIcon} onClick={handleClickModal}>
+
+          {useModal ? (
+            <Button size="small" variant="text" color="secondary" endIcon={buttonIcon} onClick={handlekModalOpen}>
               {buttonTitle}
             </Button>
-          </Link>
+          ) : (
+            <Link
+              href={useModal ? '' : buttonLink ?? '/'}
+              target={isExternalLink ? '_blank' : undefined}
+              rel={isExternalLink ? 'noopener noreferrer' : undefined}
+            >
+              <Button size="small" variant="text" color="secondary" endIcon={buttonIcon} onClick={handlekModalOpen}>
+                {buttonTitle}
+              </Button>
+            </Link>
+          )}
         </CardContent>
       </Card>
 
-      <Dialog open={openModal} onClose={handleClickCloseModal} fullWidth={true} maxWidth="lg">
+      <Dialog open={openModal} onClose={handleModalClose} fullWidth={true} maxWidth="lg">
         <DialogTitle>
           <strong>{cardHeader}</strong>
         </DialogTitle>
-        <DialogContent>
+        {/* <DialogContent>
           <Box>{modalContent && <div dangerouslySetInnerHTML={{ __html: modalContent }} />}</Box>
+        </DialogContent> */}
+        <DialogContent>
+          {modalContent && <Box dangerouslySetInnerHTML={{ __html: modalContent }} />}
+          {!modalContent && <Typography variant="body2">Loading content CardWithBorder...</Typography>}
         </DialogContent>
       </Dialog>
     </>
