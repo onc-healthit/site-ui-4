@@ -28,13 +28,13 @@ export default function SiteNavIndustryTools() {
     },
     {
       text: 'Reference Data',
-      isExternalLink: false,
+      isExternalLink: true,
       href: '/reference-data',
       icon: <FolderSpecialOutlined />,
     },
     {
       text: 'Implementation Guide Authoring Tools',
-      isExternalLink: false,
+      isExternalLink: true,
       href: 'https://confluence.hl7.org/display/FHIR/Authoring+FHIR+Implementation+Guides+-+Introduction',
       icon: <MenuBookOutlined />,
     },
