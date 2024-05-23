@@ -1,6 +1,7 @@
 'use client'
 import CardWithBorder from '@/components/shared/CardWithBorder'
 import DragDropFileUpload from '@/components/shared/DragandDropFile'
+import { fetchSanitizedMarkdownData } from '@/services/markdownToHTMLService'
 import palette from '@/styles/palette'
 import { ArrowForward } from '@mui/icons-material'
 import {
@@ -20,8 +21,6 @@ import {
 import BannerBox from '@shared/BannerBox'
 import SectionHeader from '@shared/SectionHeader'
 import styles from '@shared/styles.module.css'
-import DOMPurify from 'dompurify'
-import { marked } from 'marked'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
@@ -60,17 +59,6 @@ export default function ScorecardHome() {
     console.log('Starting demo with sample: ' + demoSampleOption)
   }
 
-  const parseAndSanitizeMarkdown = async (markdownContent: string) => {
-    const parsedContent = await marked(markdownContent)
-    const config = {
-      ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'br', 'strong', 'em', 'a', 'ul', 'ol', 'li', 'code'],
-      ALLOWED_ATTRS: {
-        a: ['href', 'target'],
-      },
-    }
-    return DOMPurify.sanitize(parsedContent, config)
-  }
-
   const modalUrls = [
     'https://raw.githubusercontent.com/onc-healthit/site-content/master/CCDAScorecardIntroduction.md',
     'https://raw.githubusercontent.com/onc-healthit/site-content/master/CCDAScorecardResultsInterpretation.md',
@@ -81,13 +69,15 @@ export default function ScorecardHome() {
 
   useEffect(() => {
     if (modalUrl) {
-      const fetchData = async () => {
-        const githubMarkdownResult: Response = await fetch(modalUrl)
-        const githubMarkdownData: string = await githubMarkdownResult.text()
-        const finalModalContent: string = await parseAndSanitizeMarkdown(githubMarkdownData)
-        setModalContent(finalModalContent)
-      }
-      fetchData()
+      ;(async () => {
+        let sanitizedMarkdown: string | undefined
+        try {
+          sanitizedMarkdown = await fetchSanitizedMarkdownData(modalUrl)
+          setModalContent(sanitizedMarkdown)
+        } catch (e) {
+          console.error(e)
+        }
+      })()
     }
   }, [modalUrl])
 
