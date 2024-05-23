@@ -1,26 +1,23 @@
 'use client'
-import CloseIcon from '@mui/icons-material/Close'
-import { Backdrop, Button, Card, CardContent, IconButton, LinearProgress, Typography } from '@mui/material'
-import { FC, useEffect, useState } from 'react'
-import ValidatorResultsCard from './ValidatorResultsCard'
 import { useFormStatus } from 'react-dom'
+import React, { useState, useEffect, FC } from 'react'
+import { Typography, IconButton, LinearProgress, Button, Dialog, DialogContent, DialogTitle } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
+import ValidatorResultsCard from './results/ValidationResultsCard'
+import palette from '@/styles/palette'
+import _ from 'lodash'
 
 interface ValidatorLoadingCardProps {
   open: boolean
   handleClose: () => void
-  onLoadingComplete: () => void
+  // onLoadingComplete: () => void
   estimatedValidationTime: number
 }
 interface ValidatorComponentProps {
   estimatedValidationTime: number
   response: object
 }
-const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({
-  open,
-  handleClose,
-  onLoadingComplete,
-  estimatedValidationTime,
-}) => {
+const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({ open, handleClose, estimatedValidationTime }) => {
   const [progress, setProgress] = useState(0)
   const totalTime = estimatedValidationTime // total time in seconds
   const [secondsElapsed, setSecondsElapsed] = useState(0)
@@ -34,7 +31,6 @@ const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({
           //   console.log('newseconds', newSeconds)
           if (newSeconds >= totalTime) {
             clearInterval(timer)
-            onLoadingComplete()
             setSecondsElapsed(0)
           }
           return newSeconds
@@ -50,70 +46,82 @@ const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({
       setProgress(0)
       setTimeRemaining(0)
     }
-  }, [open, onLoadingComplete, estimatedValidationTime, secondsElapsed, totalTime])
+  }, [open, estimatedValidationTime, secondsElapsed, totalTime])
   //  const progress = (secondsElapsed / totalTime) * 100
   // timeRemaining = totalTime - secondsElapsed
   //  console.log('time remaining', timeRemaining)
   // console.log('progress', progress)
   return (
-    <Backdrop sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open}>
-      <Card sx={{ position: 'absolute', width: '30%', minWidth: 300, pl: '18px', pr: '18px' }}>
-        <CardContent>
-          <IconButton sx={{ position: 'absolute', right: 18, top: 8 }} onClick={handleClose}>
-            <CloseIcon />
-          </IconButton>
-          <Typography variant="h3" component="div" sx={{ fontWeight: 'bold' }}>
-            Your files are validating...
-          </Typography>
-          <Typography sx={{ mt: 2, mb: 2 }}>Estimate time: {timeRemaining} seconds</Typography>
-          <LinearProgress
-            variant="determinate"
-            value={progress}
-            sx={{
-              height: 4,
-              borderRadius: 5,
-              mt: 2,
-              backgroundColor: 'lightblue',
-              '& .MuiLinearProgress-bar': {
-                backgroundColor: 'blue',
-              },
-            }}
-          />
-          <Typography sx={{ mt: 2 }}>
-            Don&apos;t close out this given tab or refresh the screen, if you do the validation will stop.
-          </Typography>
-        </CardContent>
-      </Card>
-    </Backdrop>
+    <Dialog open={open} maxWidth="sm">
+      <DialogTitle typography={'h3'} sx={{ fontWeight: '600', pb: 0 }} id="validating-dialog-title">
+        {'Your files are validating...'}
+      </DialogTitle>
+      <IconButton aria-label="Close Dialog" sx={{ position: 'absolute', right: 8, top: 8 }} onClick={handleClose}>
+        <CloseIcon />
+      </IconButton>
+      <DialogContent>
+        <Typography>Estimate time: {timeRemaining} seconds</Typography>
+        <LinearProgress
+          variant="determinate"
+          value={progress}
+          sx={{
+            height: 4,
+            borderRadius: 5,
+            mt: 2,
+            backgroundColor: palette.secondaryLight,
+            '& .MuiLinearProgress-bar': {
+              backgroundColor: palette.secondary,
+            },
+          }}
+        />
+        <Typography sx={{ mt: 2 }}>
+          Don&apos;t close out this given tab or refresh the screen, if you do the validation will stop.
+        </Typography>
+      </DialogContent>
+    </Dialog>
   )
 }
 const ValidationComponent = ({ response, estimatedValidationTime }: ValidatorComponentProps) => {
-  const [validationOpen, setValidationOpen] = useState(false)
+  const [loadingOpen, setLoadingOpen] = useState(false)
   const [resultsOpen, setResultsOpen] = useState(false)
   const { pending } = useFormStatus()
 
   const handleLoadingComplete = () => {
-    setValidationOpen(false)
+    //   setValidationOpen(false)
 
     setResultsOpen(true)
   }
-  console.log(response)
+  const handleLoadingOpen = () => {
+    setLoadingOpen(true)
+  }
+
+  const handleLoadingClose = () => {
+    setLoadingOpen(false)
+  }
+
+  useEffect(() => {
+    if (!pending && !_.isEmpty(response)) {
+      setResultsOpen(true)
+    }
+  }, [pending, response])
+
   return (
     <>
-      <Button type="submit" variant="contained" onClick={() => setValidationOpen(true)}>
+      <Button type="submit" variant="contained" onClick={handleLoadingOpen}>
         VALIDATE
       </Button>
 
       {pending && (
         <ValidatorLoadingCard
-          open={validationOpen}
-          handleClose={() => setValidationOpen(false)}
-          onLoadingComplete={handleLoadingComplete}
+          open={loadingOpen}
+          handleClose={handleLoadingClose}
           estimatedValidationTime={estimatedValidationTime}
         />
       )}
 
-      {!pending && <ValidatorResultsCard open={resultsOpen} handleClose={() => setResultsOpen(false)} />}
+      {!pending && (
+        <ValidatorResultsCard results={response} open={resultsOpen} handleClose={() => setResultsOpen(false)} />
+      )}
     </>
   )
 }

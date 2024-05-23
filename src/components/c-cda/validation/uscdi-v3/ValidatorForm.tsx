@@ -51,7 +51,7 @@ export default function V3ValidatorForm({ senderCriteriaOptions, receiverCriteri
   const [disableDownloadSceario, setDisableDownloadScenario] = useState(true)
   const [disableValidate, setDisableValidate] = useState(true)
   const [data, submitAction] = useFormState(submitForm, { response: {} })
-  const [estimatedValidationTime, setEstimatedValidationTime] = useState(50)
+  const [estimatedValidationTime, setEstimatedValidationTime] = useState(5)
 
   useEffect(() => {
     if (_.isEqual(system, 'Sender')) {

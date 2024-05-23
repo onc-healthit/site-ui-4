@@ -32,7 +32,7 @@ async function getToken() {
   }
 }
 
-export async function submitForm(prevState: [], formData: FormData) {
+export async function submitForm(prevState: object, formData: FormData) {
   const ccdaValidatorUrl = process.env.CCDA_VALIDATOR_URL
   const token = await getToken()
   const uploadFile = formData.get('ccdaFile')
@@ -52,7 +52,7 @@ export async function submitForm(prevState: [], formData: FormData) {
 
   try {
     const response = await axios.request(config)
-    //  console.log(JSON.stringify(response.data))
+    //console.log(JSON.stringify(response.data))
     //
     return { response: response.data }
   } catch (error) {
