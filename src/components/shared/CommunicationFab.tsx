@@ -1,25 +1,26 @@
 'use client'
-import React, { useState } from 'react'
 import {
-  Drawer,
-  Fab,
   Box,
   Button,
   Card,
-  CardMedia,
-  CardHeader,
-  CardContent,
-  Typography,
   CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Drawer,
+  Fab,
+  Typography,
 } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 
-import SecurityIcon from '@mui/icons-material/Security'
-import ExitToAppIcon from '@mui/icons-material/ExitToApp'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import InfoIcon from '@mui/icons-material/Info'
 import CloseIcon from '@mui/icons-material/Close'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
+import InfoIcon from '@mui/icons-material/Info'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import SecurityIcon from '@mui/icons-material/Security'
 import LinkButton from './LinkButton'
 
+import { fetchSanitizedMarkdownData } from '@/services/markdownToHTMLService'
 import palette from '@/styles/palette'
 import placeholder from '@public/shared/PlaceHolderImageSITE.png'
 import Image from 'next/image'
@@ -35,6 +36,23 @@ const CommunicationFab: React.FC = () => {
   const handleDrawerClose = () => {
     setDrawerOpen(false)
   }
+
+  const [releaseVersionHTML, setReleaseVersionHTML] = useState<string | undefined>()
+  const [releaseDateHTML, setReleaseDateHTML] = useState<string | undefined>()
+
+  const releaseVersionURL = 'https://raw.githubusercontent.com/onc-healthit/site-content/master/site-ui-4/version.md'
+  const releaseDateURL = 'https://raw.githubusercontent.com/onc-healthit/site-content/master/site-ui-4/release-date.md'
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        setReleaseVersionHTML(await fetchSanitizedMarkdownData(releaseVersionURL))
+        setReleaseDateHTML(await fetchSanitizedMarkdownData(releaseDateURL))
+      } catch (e) {
+        console.error(e)
+      }
+    })()
+  }, [])
 
   return (
     <div style={{ display: 'flex' }}>
@@ -93,11 +111,12 @@ const CommunicationFab: React.FC = () => {
           <CloseIcon fontSize="small" htmlColor={palette.error} />
         </Fab>
         <Typography
-          sx={{ position: 'fixed', bottom: '12px', padding: '0 16px 8px 16px', fontSize: '10px' }}
+          sx={{ position: 'fixed', bottom: '12px', padding: '0 16px 8px 16px', fontSize: '12px' }}
           variant="caption"
           color={palette.greyDark}
         >
-          Version 4 <br /> Release March 21,2024
+          {releaseVersionHTML && <div dangerouslySetInnerHTML={{ __html: releaseVersionHTML }} />}
+          {releaseDateHTML && <div dangerouslySetInnerHTML={{ __html: releaseDateHTML }} />}
         </Typography>
       </Drawer>
       <Fab

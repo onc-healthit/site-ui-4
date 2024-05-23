@@ -69,7 +69,7 @@ export default function ScorecardHome() {
 
   useEffect(() => {
     if (modalUrl) {
-      const fetchAndSetMarkdown = async () => {
+      ;(async () => {
         let sanitizedMarkdown: string | undefined
         try {
           sanitizedMarkdown = await fetchSanitizedMarkdownData(modalUrl)
@@ -77,8 +77,7 @@ export default function ScorecardHome() {
         } catch (e) {
           console.error(e)
         }
-      }
-      fetchAndSetMarkdown()
+      })()
     }
   }, [modalUrl])
 
