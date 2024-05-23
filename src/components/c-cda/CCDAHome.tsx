@@ -38,7 +38,6 @@ const CCDAHome = () => {
       {/* Main Content */}
       <Container>
         <SectionHeader header={'C-CDA Validators'} subHeader={'The latest C-CDA validators from ONC'} />
-
         <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
           <CardWithImage
             title={'C-CDA Validator: USCDI v3'}
@@ -60,12 +59,12 @@ const CCDAHome = () => {
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
+
         <SectionHeader
           header={'C-CDA Additional Tools'}
           subHeader={'Help with quantitative assessment of the data quality using the Scorecard'}
         />
-
-        <Box sx={{ ...flexibleBox }}>
+        <Box sx={{ ...flexibleBox }} paddingBottom={4}>
           <CardWithImage
             title={'C-CDA Scorecard'}
             cardImage={scorecard}
@@ -88,50 +87,6 @@ const CCDAHome = () => {
             pathname={'https://oncprojectracking.healthit.gov/wiki/display/TechLabTU/ONC+One+Click+Scorecard'}
             maxWidth={maxWidth}
             imageWidth={maxWidth + 'px'}
-          />
-        </Box>
-        <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
-        <SectionHeader
-          header={'Certification Criteria Version'}
-          subHeader={
-            'This area provides tools for testing conformance of artifacts to industry standards and specific criteria'
-          }
-        />
-        {/* TODO: Below should probably only lilst USCDI v3 and v1, nothing else... */}
-        <Box paddingBottom={4} display={'flex'} width={'100%'} justifyContent={'space-between'}>
-          <CardWithImage
-            title={'2015 Edition'}
-            cardImage={placeholder}
-            cardHeader={'2015 Edition'}
-            description={
-              'HL7® Implementation Guide for CDA® Release 2: Consolidated CDA Templates for Clinical Notes (US Realm), Draft Standard for Trial Use Release 2.1, August 2015'
-            }
-            pathname={''}
-            maxWidth={certCardMaxWidth}
-            imageWidth={certCardMaxWidth + 'px'}
-          />
-
-          <CardWithImage
-            title={'Cures Update'}
-            cardImage={placeholder}
-            cardHeader={'Cures Update'}
-            description={
-              'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 2-US Realm, Oct 2021 (with errata)'
-            }
-            pathname={''}
-            maxWidth={certCardMaxWidth}
-            imageWidth={certCardMaxWidth + 'px'}
-          />
-          <CardWithImage
-            title={'USCDI v2'}
-            cardImage={placeholder}
-            cardHeader={'USCDI v2'}
-            description={
-              'HL7® CDA R2 Implementation Guide: C-CDA Templates for Clinical Notes R2.1 Companion Guide, Release 3-US Realm, May 2022'
-            }
-            pathname={''}
-            maxWidth={certCardMaxWidth}
-            imageWidth={certCardMaxWidth + 'px'}
           />
         </Box>
       </Container>
