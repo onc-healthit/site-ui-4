@@ -1,18 +1,16 @@
 import { Box, Container, Divider } from '@mui/material'
-import Link from 'next/link'
-import BannerBox from '@shared/BannerBox'
-import styles from '@shared/styles.module.css'
-import CardWithImage from '@shared/CardWithImage'
-import uscdiv3 from '@public/c-cda/uscdi-v3.svg'
-import uscdiv1 from '@public/c-cda/uscdi-v1.svg'
-import scorecard from '@public/c-cda/scorecard.svg'
 import oneclick from '@public/c-cda/oneclick.svg'
-import placeholder from '@public/c-cda/placeholder.svg'
+import scorecard from '@public/c-cda/scorecard.svg'
+import uscdiv1 from '@public/c-cda/uscdi-v1.svg'
+import uscdiv3 from '@public/c-cda/uscdi-v3.svg'
+import BannerBox from '@shared/BannerBox'
+import CardWithImage from '@shared/CardWithImage'
+import styles from '@shared/styles.module.css'
+import Link from 'next/link'
 import SectionHeader from '../shared/SectionHeader'
 
 const CCDAHome = () => {
   const maxWidth = 550
-  const certCardMaxWidth = 350
   const flexibleBox = { display: 'flex', gap: 4, flexDirection: 'row', width: '100%', justifyContent: 'space-between' }
   return (
     <>
