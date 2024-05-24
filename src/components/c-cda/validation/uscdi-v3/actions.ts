@@ -52,12 +52,13 @@ export async function submitForm(prevState: object, formData: FormData) {
 
   try {
     const response = await axios.request(config)
-    //console.log(JSON.stringify(response.data))
     //
+
+    console.log(JSON.stringify(response.data))
     return { response: response.data }
+    revalidatePath('/c-cda/uscdi-v3')
   } catch (error) {
     console.error(error)
     throw new Error('failed to get validator results')
   }
-  revalidatePath('/c-cda/uscdi-v3')
 }

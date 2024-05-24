@@ -1,6 +1,6 @@
 import palette from '@/styles/palette'
 import { Accordion, AccordionSummary, Typography, AccordionDetails, List, MenuItem, Avatar } from '@mui/material'
-import { ResultMetaData, ResultMetaDataProps } from './ValidationMenu'
+import { ResultMetaData } from './ValidationMenu'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useEffect, useState } from 'react'
 import _ from 'lodash'

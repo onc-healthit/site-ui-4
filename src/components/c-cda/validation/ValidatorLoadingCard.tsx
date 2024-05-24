@@ -86,11 +86,6 @@ const ValidationComponent = ({ response, estimatedValidationTime }: ValidatorCom
   const [resultsOpen, setResultsOpen] = useState(false)
   const { pending } = useFormStatus()
 
-  const handleLoadingComplete = () => {
-    //   setValidationOpen(false)
-
-    setResultsOpen(true)
-  }
   const handleLoadingOpen = () => {
     setLoadingOpen(true)
   }

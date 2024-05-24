@@ -86,7 +86,7 @@ const ValidationResults = ({ ccdaValidationResults }: CCDAValidationResultProps)
       </Typography>
       <ValidatorResultsDetails results={sccVocabularyValidationResults} />
       <Divider />
-      <Typography id="C-CDAMDHT-Conformance" variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
+      <Typography id="SCC-Reference-CCDA-Validation" variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
         S&CC Reference CCDA Validation
       </Typography>
       <ValidatorResultsDetails results={sccReferenceCCDAValidationResults} />

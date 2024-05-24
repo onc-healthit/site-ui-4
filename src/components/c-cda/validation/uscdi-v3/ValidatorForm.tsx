@@ -28,6 +28,7 @@ import { useFormState, useFormStatus } from 'react-dom'
 interface V3ValidatorFormProps {
   senderCriteriaOptions: []
   receiverCriteriaOptions: []
+  downloadAllScenariosUrl: string
 }
 
 type Criteria = {
@@ -41,7 +42,11 @@ type Scenario = {
   download_url: string
 }
 
-export default function V3ValidatorForm({ senderCriteriaOptions, receiverCriteriaOptions }: V3ValidatorFormProps) {
+export default function V3ValidatorForm({
+  senderCriteriaOptions,
+  receiverCriteriaOptions,
+  downloadAllScenariosUrl,
+}: V3ValidatorFormProps) {
   const [system, setSystem] = useState('')
   const [criteriaOption, setCriteriaOption] = useState('')
   const [scenarioOption, setScenarioOption] = useState('')
@@ -89,6 +94,8 @@ export default function V3ValidatorForm({ senderCriteriaOptions, receiverCriteri
 
   const handleSystemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSystem(e.target.value)
+    setCriteriaOption('')
+    setScenarioOption('')
   }
 
   return (
@@ -186,11 +193,7 @@ export default function V3ValidatorForm({ senderCriteriaOptions, receiverCriteri
                   DOWNLOAD SELECTED SCENARIO FILE
                 </Button>
               </Link>
-              <Link
-                href="https://codeload.github.com/onc-healthit/2015-edition-cures-update-uscdi-v3-testdata/zip/master"
-                passHref
-                style={{ textDecoration: 'none' }}
-              >
+              <Link href={downloadAllScenariosUrl} passHref style={{ textDecoration: 'none' }}>
                 <Button variant="outlined" sx={{ color: palette.primary, ml: 2 }}>
                   DOWNLOAD ALL SCENARIO FILES
                 </Button>
