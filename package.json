@@ -24,8 +24,7 @@
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",
     "react-joyride": "^2.7.4",
-    "react-multi-carousel": "^2.8.5",
-    "react-xml-viewer": "^2.0.1"
+    "react-multi-carousel": "^2.8.5"
   },
   "devDependencies": {
     "@types/dompurify": "^3.0.5",

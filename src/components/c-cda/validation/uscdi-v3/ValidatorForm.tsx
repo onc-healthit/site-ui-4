@@ -15,7 +15,6 @@ import {
   Select,
   SelectChangeEvent,
   Typography,
-  duration,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import ValidationComponent from '../ValidatorLoadingCard'
@@ -23,7 +22,7 @@ import _ from 'lodash'
 import { getScenarioOptions, submitForm } from './actions'
 import palette from '@/styles/palette'
 import Link from 'next/link'
-import { useFormState, useFormStatus } from 'react-dom'
+import { useFormState } from 'react-dom'
 
 interface V3ValidatorFormProps {
   senderCriteriaOptions: []
@@ -57,7 +56,6 @@ export default function V3ValidatorForm({
   const [disableValidate, setDisableValidate] = useState(true)
   const [data, submitAction] = useFormState(submitForm, { response: {} })
   const [estimatedValidationTime, setEstimatedValidationTime] = useState(5)
-
   useEffect(() => {
     if (_.isEqual(system, 'Sender')) {
       setCriteriaOptions(senderCriteriaOptions)
@@ -96,6 +94,7 @@ export default function V3ValidatorForm({
     setSystem(e.target.value)
     setCriteriaOption('')
     setScenarioOption('')
+    setDisableValidate(true)
   }
 
   return (
@@ -183,6 +182,7 @@ export default function V3ValidatorForm({
             <ValidationComponent
               response={data.response}
               estimatedValidationTime={estimatedValidationTime}
+              disabled={disableValidate}
             ></ValidationComponent>
             {/* <Button variant="contained" type="submit" disabled={pending}>
               VALIDATE

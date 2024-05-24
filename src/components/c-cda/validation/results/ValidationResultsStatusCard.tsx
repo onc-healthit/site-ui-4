@@ -3,7 +3,7 @@ import { Card, Typography, CardContent } from '@mui/material'
 import palette from '@/styles/palette'
 import { ResultMetaData } from './ValidationResultsSummary'
 
-type CardType = 'error' | 'warning' | 'info'
+type CardType = 'errors' | 'warnings' | 'info'
 
 interface ResultsStatusCardProps {
   type: CardType
@@ -12,8 +12,8 @@ interface ResultsStatusCardProps {
 
 const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, messages }) => {
   const colorMap = {
-    error: palette.error,
-    warning: palette.warning,
+    errors: palette.error,
+    warnings: palette.warning,
     info: palette.primary,
   }
 

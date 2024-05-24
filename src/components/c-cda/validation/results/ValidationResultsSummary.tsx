@@ -5,7 +5,7 @@ import ResultsStatusCard from './ValidationResultsStatusCard'
 import ValidationStatusIndicator from './ValidationResultsStatusIndicator'
 import ValidatorResultsDetails from './ValidationResultsDetails'
 import _ from 'lodash'
-import { Analytics } from '@mui/icons-material'
+import OriginalCCDAResult from './OriginalCCDAResult'
 
 interface ValidatorResultsSummaryProps {
   results: object
@@ -42,9 +42,9 @@ const TotalResults = ({ resultMetaData }: ResultMetaDataProps) => {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-      <ResultsStatusCard type="error" messages={errors} />
+      <ResultsStatusCard type="errors" messages={errors} />
 
-      <ResultsStatusCard type="warning" messages={warnings} />
+      <ResultsStatusCard type="warnings" messages={warnings} />
 
       <ResultsStatusCard type="info" messages={infos} />
     </Box>
@@ -58,7 +58,7 @@ const StatusIndicator = ({ resultMetaData }: ResultMetaDataProps) => {
   }).forEach((c) => {
     return (count += c.count ? c.count : 0)
   })
-  console.log(count)
+  //console.log(count)
   return <>{count > 0 ? <ValidationStatusIndicator status="error" /> : <ValidationStatusIndicator status="pass" />}</>
 }
 
@@ -149,6 +149,9 @@ const ValidatorResultsSummary: React.FC<ValidatorResultsSummaryProps> = ({ resul
       ) : (
         <Typography>No Results</Typography>
       )}
+      {/* <Box id="original-ccda">
+        <OriginalCCDAResult xmlData={resultsMetaData.ccdaFileContents} />
+      </Box> */}
     </Box>
   )
 }

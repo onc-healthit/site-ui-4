@@ -16,6 +16,7 @@ interface ValidatorLoadingCardProps {
 interface ValidatorComponentProps {
   estimatedValidationTime: number
   response: object
+  disabled: boolean
 }
 const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({ open, handleClose, estimatedValidationTime }) => {
   const [progress, setProgress] = useState(0)
@@ -81,11 +82,11 @@ const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({ open, handleClose
     </Dialog>
   )
 }
-const ValidationComponent = ({ response, estimatedValidationTime }: ValidatorComponentProps) => {
+const ValidationComponent = ({ response, estimatedValidationTime, disabled }: ValidatorComponentProps) => {
   const [loadingOpen, setLoadingOpen] = useState(false)
   const [resultsOpen, setResultsOpen] = useState(false)
   const { pending } = useFormStatus()
-
+  console.log(disabled)
   const handleLoadingOpen = () => {
     setLoadingOpen(true)
   }
@@ -102,7 +103,7 @@ const ValidationComponent = ({ response, estimatedValidationTime }: ValidatorCom
 
   return (
     <>
-      <Button type="submit" variant="contained" onClick={handleLoadingOpen}>
+      <Button type="submit" variant="contained" onClick={handleLoadingOpen} disabled={disabled}>
         VALIDATE
       </Button>
 

@@ -36,9 +36,7 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
       handleClose={handleClose}
       title={
         <>
-          <Typography variant="h3" sx={{ fontWeight: '600' }}>
-            Validation Results
-          </Typography>
+          <Typography sx={{ fontWeight: '600' }}>Validation Results</Typography>
           <IconButton aria-label="Close Dialog" sx={{ position: 'absolute', right: 8, top: 8 }} onClick={handleClose}>
             <CloseIcon />
           </IconButton>

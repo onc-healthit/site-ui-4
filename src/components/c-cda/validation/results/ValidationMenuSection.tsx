@@ -61,19 +61,19 @@ const ValidatorMenuSection = ({ resultMetaData, title }: MetaDataProps) => {
           <List>
             <MenuItem sx={{ display: 'flex', justifyContent: 'space-between' }} disabled={errorDisabled}>
               Errors{' '}
-              <Avatar variant="circular" sx={{ width: 20, height: 20, bgcolor: palette.error }}>
+              <Avatar variant="circular" sx={{ width: 25, height: 25, bgcolor: palette.error }}>
                 <Typography variant="caption">{errorCount}</Typography>
               </Avatar>
             </MenuItem>
             <MenuItem sx={{ display: 'flex', justifyContent: 'space-between' }} disabled={warningDisabled}>
               Warnings{' '}
-              <Avatar variant="circular" sx={{ width: 20, height: 20, bgcolor: palette.warning }}>
+              <Avatar variant="circular" sx={{ width: 25, height: 25, bgcolor: palette.warning }}>
                 <Typography variant="caption">{warningCount}</Typography>
               </Avatar>
             </MenuItem>
             <MenuItem sx={{ display: 'flex', justifyContent: 'space-between' }} disabled={infoDisabled}>
               Info{' '}
-              <Avatar variant="circular" sx={{ width: 20, height: 20, bgcolor: palette.primary }}>
+              <Avatar variant="circular" sx={{ width: 25, height: 25, bgcolor: palette.primary }}>
                 <Typography variant="caption">{infoCount}</Typography>
               </Avatar>
             </MenuItem>

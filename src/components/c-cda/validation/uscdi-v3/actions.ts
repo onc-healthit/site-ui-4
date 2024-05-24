@@ -40,7 +40,7 @@ export async function submitForm(prevState: object, formData: FormData) {
   formData.append('curesUpdate', 'false')
   formData.append('svap2022', 'false')
   formData.append('svap2023', 'true')
-  console.log(formData)
+  console.log('submitted data', formData)
   const config = {
     method: 'post',
     url: ccdaValidatorUrl,
@@ -52,11 +52,9 @@ export async function submitForm(prevState: object, formData: FormData) {
 
   try {
     const response = await axios.request(config)
-    //
-
-    console.log(JSON.stringify(response.data))
+    //console.log(JSON.stringify(response.data))
     return { response: response.data }
-    revalidatePath('/c-cda/uscdi-v3')
+    // revalidatePath('/c-cda/uscdi-v3')
   } catch (error) {
     console.error(error)
     throw new Error('failed to get validator results')

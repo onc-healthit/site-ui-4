@@ -1,8 +1,5 @@
 import React from 'react'
-import { Typography, Accordion, AccordionSummary, AccordionDetails, MenuItem, List, Avatar } from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-// Assuming palette is imported correctly from '@/styles/palette'
-import palette from '@/styles/palette'
+import { MenuItem, List } from '@mui/material'
 import _ from 'lodash'
 import ValidatorMenuSection from './ValidationMenuSection'
 interface ValidatorMenuProps {
