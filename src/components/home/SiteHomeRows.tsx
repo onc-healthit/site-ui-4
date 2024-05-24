@@ -240,8 +240,8 @@ export default function SiteHomeRows() {
           </Box>
           {/* Row 3: Fixed: Industry Testing Resources */}
           <SectionHeader
-            header={'Industry Testing Resources'}
-            subHeader={'Outside tools may help you!'}
+            header={'Industry Resources'}
+            subHeader={'Empowering Your Success with Top-Tier Industry Resources'}
             isHeaderAlternateColor={true}
           />
           <Box sx={containerNoDragStyles}>

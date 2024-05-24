@@ -1,60 +1,27 @@
-import {
-  Biotech,
-  CloudOutlined,
-  FolderSpecialOutlined,
-  MenuBookOutlined,
-  MonitorHeartOutlined,
-} from '@mui/icons-material'
-import { useState } from 'react'
+import { CloudOutlined } from '@mui/icons-material'
+import { Divider, ListItemButton, ListItemIcon, ListItemText } from '@mui/material/'
+import Link from 'next/link'
 
 /* Custom Imports */
-import { NavListItemType } from '@/types/NavListItemType'
-import NavListHeadItem from '../NavListHeadItem'
-import NavListSubItems from '../NavListSubItems'
+import { NAV_PADDING_LEFT_SINGLE_HEADER, NAV_THICKER_DIVIDER } from '@/constants/navConstants'
+import palette from '@/styles/palette'
 
-export default function SiteNavIndustryTools() {
-  const [openIndustryTestingList, setOpenIndustryTestingList] = useState(false)
-
-  const handleClickIndustryTestingList = () => {
-    setOpenIndustryTestingList(!openIndustryTestingList)
-  }
-
-  const items: NavListItemType[] = [
-    {
-      text: 'HL7 Tools',
-      isExternalLink: true,
-      href: 'https://confluence.hl7.org/display/FHIR/FHIR+Tooling+Ecosystem',
-      icon: <MonitorHeartOutlined />,
-    },
-    {
-      text: 'Reference Data',
-      isExternalLink: false,
-      href: '/reference-data',
-      icon: <FolderSpecialOutlined />,
-    },
-    {
-      text: 'Implementation Guide Authoring Tools',
-      isExternalLink: false,
-      href: 'https://confluence.hl7.org/display/FHIR/Authoring+FHIR+Implementation+Guides+-+Introduction',
-      icon: <MenuBookOutlined />,
-    },
-    {
-      text: 'MITRE Github',
-      isExternalLink: true,
-      href: 'https://github.com/orgs/mitre',
-      icon: <Biotech />,
-    },
-  ]
-
+export default function SiteNavIndustryResources() {
   return (
-    <div id="site-nav-industry-testing">
-      <NavListHeadItem
-        text="Industry Testing Resources"
-        handleClickCategoryList={handleClickIndustryTestingList}
-        icon={<CloudOutlined />}
-        openCategoryList={openIndustryTestingList}
-      />
-      <NavListSubItems items={items} openCategoryList={openIndustryTestingList} />
-    </div>
+    <>
+      <Link href="/industry-resources" passHref>
+        <ListItemButton>
+          <ListItemIcon>
+            <CloudOutlined sx={{ strokeWidth: 0.5, stroke: `${palette.primary}` }} color="primary" />
+            <ListItemText
+              primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }}
+              primary="Industry Resources"
+              sx={{ pl: NAV_PADDING_LEFT_SINGLE_HEADER, color: 'inherit' }}
+            />
+          </ListItemIcon>
+        </ListItemButton>
+      </Link>
+      <Divider sx={{ borderWidth: NAV_THICKER_DIVIDER }} />
+    </>
   )
 }
