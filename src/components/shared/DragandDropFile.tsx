@@ -1,6 +1,6 @@
 'use client'
 import { Button, Typography } from '@mui/material'
-import React, { useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import palette from '@/styles/palette'
@@ -36,13 +36,36 @@ const acceptStyle = {
 const rejectStyle = {
   borderColor: palette.error,
 }
+interface DragDropFileUploadProps {
+  maxFiles?: number
+  name?: string
+}
+export default function DragDropFileUpload({ maxFiles, name }: DragDropFileUploadProps) {
+  const [files, setFiles] = useState<File[]>([])
+  const hiddenInputRef = useRef<HTMLInputElement>(null)
 
-export default function DragDropFileUpload() {
+  const removeFile = (name: string) => {
+    setFiles((files) => files.filter((file) => file.name !== name))
+  }
+
+  const removeAll = () => {
+    setFiles([])
+  }
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject, open } = useDropzone({
     // Disable click and keydown behavior
     noClick: true,
     noKeyboard: true,
-    onDrop: (files) => console.log(files),
+    maxFiles: maxFiles || 1,
+    onDrop: (acceptedFiles) => {
+      setFiles(acceptedFiles)
+      if (hiddenInputRef.current) {
+        const dataTransfer = new DataTransfer()
+        acceptedFiles.map((file) => {
+          dataTransfer.items.add(file)
+        })
+        hiddenInputRef.current.files = dataTransfer.files
+      }
+    },
   })
 
   const style = useMemo(
@@ -57,6 +80,7 @@ export default function DragDropFileUpload() {
   return (
     <div className="container">
       <div {...getRootProps({ style })}>
+        <input type="file" name={name} hidden style={{ opacity: 0 }} ref={hiddenInputRef} />
         <input {...getInputProps()} />
         <FileUploadIcon />
         <Typography>Drag & Drop file here or </Typography>
@@ -64,6 +88,13 @@ export default function DragDropFileUpload() {
           BROWSE
         </Button>
       </div>
+      {files.map((file) => {
+        return (
+          <div key={file.name}>
+            {file.name} - {file.size} bytes
+          </div>
+        )
+      })}
     </div>
   )
 }

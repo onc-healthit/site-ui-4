@@ -18,7 +18,7 @@ interface DialogTitleProps {
 }
 
 const CustomDialogTitle: FC<DialogTitleProps> = ({ children, handleClose }) => (
-  <DialogTitle sx={{ borderBottom: `1px solid ${palette.divider}` }} fontWeight={600}>
+  <DialogTitle sx={{ borderBottom: `1px solid ${palette.divider}` }} fontWeight={600} variant="h2">
     {children}
     <IconButton
       aria-label="Close Dialog"
