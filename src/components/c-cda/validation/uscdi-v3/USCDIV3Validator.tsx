@@ -1,4 +1,3 @@
-'use client'
 import BannerBox from '@/components/shared/BannerBox'
 import styles from '@shared/styles.module.css'
 import Link from 'next/link'
