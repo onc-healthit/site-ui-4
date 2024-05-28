@@ -25,14 +25,14 @@ const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, messages })
   return (
     <Card
       sx={{
-        minWidth: '30%',
+        maxWidth: '30%',
         borderRadius: '0px 0px 8px 8px',
-        borderTop: `8px solid ${colorMap[type]}`,
+        borderTop: `4px solid ${colorMap[type]}`,
       }}
     >
       <CardContent>
         <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 2 }}>
-          {`${count} ${type.charAt(0).toUpperCase() + type.slice(1)}`}
+          {`${count} ${type.charAt(0).toUpperCase() + type.slice(1)}`} Total
         </Typography>
         {messages.map((message, index) => (
           <Typography key={index} variant="body2" sx={{ mt: 1 }}>
