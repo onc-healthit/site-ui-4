@@ -1,8 +1,8 @@
-import { Card, CardHeader, CardContent, Typography, Button } from '@mui/material'
+import { Card, CardHeader, CardContent, Button } from '@mui/material'
 
 export interface VerticalCardProps {
   title: string
-  description: string
+  description: React.ReactNode
   buttonTitle: string
   buttonIcon: React.ReactNode
   buttonHref: string
@@ -15,9 +15,7 @@ const VerticalCard = ({ title, description, buttonTitle, buttonIcon, buttonHref 
         titleTypographyProps={{ fontSize: '1em', fontWeight: '600' }}
         title={title}
       ></CardHeader>
-      <CardContent sx={{ pb: 1 }}>
-        <Typography variant="body2">{description}</Typography>
-      </CardContent>
+      <CardContent sx={{ pb: 1 }}>{description}</CardContent>
       <Button
         disableRipple
         href={buttonHref}
