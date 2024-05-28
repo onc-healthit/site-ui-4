@@ -67,8 +67,7 @@ const IndustryResourcesHome = () => {
               <Typography align="center" variant="body2" color={palette.greyDark}>
                 <TipsAndUpdatesOutlined color="primary" />
                 <br />
-                Stay tuned for future releases where additional resources for Clinical Quality Measure Testing Tools may
-                be available on this page.
+                Stay tuned for future releases where additional resources may be available on this page.
               </Typography>
             </Box>
           </Box>
@@ -99,7 +98,7 @@ const IndustryResourcesHome = () => {
                 }
                 buttonTitle={'ACCESS MORE INFORMATION'}
                 buttonIcon={<ArrowForward />}
-                buttonHref={'https:/'}
+                buttonHref={'https://confluence.hl7.org/display/FHIR/FHIR+Tooling+Ecosystem'}
               />
             </Box>
             <Box id="ig" sx={{ scrollMarginTop: '6em' }}>
@@ -120,7 +119,9 @@ const IndustryResourcesHome = () => {
                 }
                 buttonTitle={'ACCESS GUIDES'}
                 buttonIcon={<ArrowForward />}
-                buttonHref={'https:/'}
+                buttonHref={
+                  'https://confluence.hl7.org/display/FHIR/Authoring+FHIR+Implementation+Guides+-+Introduction'
+                }
               />
             </Box>
             <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
@@ -141,7 +142,7 @@ const IndustryResourcesHome = () => {
                 }
                 buttonTitle={'MITRE GitHub Repositories'}
                 buttonIcon={<ArrowForward />}
-                buttonHref={'https:/'}
+                buttonHref={'https://github.com/mitre'}
               />
             </Box>
             <Box id="rd" sx={{ scrollMarginTop: '6em' }}>
@@ -157,7 +158,7 @@ const IndustryResourcesHome = () => {
                 }
                 buttonTitle={'DOCUMENTATION'}
                 buttonIcon={<ArrowForward />}
-                buttonHref={'https:/'}
+                buttonHref={'#'}
               />
             </Box>
           </Box>
