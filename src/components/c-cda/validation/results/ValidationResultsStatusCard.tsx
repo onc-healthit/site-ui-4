@@ -1,21 +1,26 @@
 import React from 'react'
 import { Card, Typography, CardContent } from '@mui/material'
 import palette from '@/styles/palette'
+import { ResultMetaData } from './ValidationResultsSummary'
 
-type CardType = 'error' | 'warning' | 'info'
+type CardType = 'errors' | 'warnings' | 'info'
 
 interface ResultsStatusCardProps {
   type: CardType
-  count: number
-  messages: string[]
+  messages: ResultMetaData[]
 }
 
-const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, count, messages }) => {
+const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, messages }) => {
   const colorMap = {
-    error: palette.error,
-    warning: palette.warning,
+    errors: palette.error,
+    warnings: palette.warning,
     info: palette.primary,
   }
+
+  let count = 0
+  messages.forEach((c) => {
+    count += c.count ? c.count : 0
+  })
 
   return (
     <Card
@@ -31,7 +36,7 @@ const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, count, mess
         </Typography>
         {messages.map((message, index) => (
           <Typography key={index} variant="body2" sx={{ mt: 1 }}>
-            {message}
+            {message.count} {' in '} {message.type}
           </Typography>
         ))}
       </CardContent>
