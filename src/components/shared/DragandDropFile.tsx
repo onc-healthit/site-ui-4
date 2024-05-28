@@ -1,9 +1,10 @@
 'use client'
-import { Button, Typography } from '@mui/material'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Button, Typography, Chip } from '@mui/material'
+import React, { useMemo, useRef, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import palette from '@/styles/palette'
+import Close from '@mui/icons-material/Close'
 
 {
   /* TO-DO: Handle upload file as per functionality */
@@ -91,7 +92,14 @@ export default function DragDropFileUpload({ maxFiles, name }: DragDropFileUploa
       {files.map((file) => {
         return (
           <div key={file.name}>
-            {file.name} - {file.size} bytes
+            <Chip
+              sx={{ mt: '32px', p: '16px' }}
+              variant="outlined"
+              color="primary"
+              deleteIcon={<Close color="error" fontSize="small" />}
+              onDelete={() => removeFile(file.name)} // Remove the file when the delete icon is clicked
+              label={`${file.name} - ${file.size} bytes`}
+            />
           </div>
         )
       })}

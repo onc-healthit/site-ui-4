@@ -114,28 +114,9 @@ const ValidatorResultsSummary: React.FC<ValidatorResultsSummaryProps> = ({ resul
         </Typography>
         {resultMetaData ? <StatusIndicator resultMetaData={resultMetaData} /> : null}
       </Box>
-      <Box display={'flex'} flexDirection={'column'} gap={2}>
-        <Typography gutterBottom variant="h4" sx={{ fontWeight: 'bold' }}>
-          Detailed Report
-        </Typography>
-        <Typography>
-          <strong>Pass:</strong> Your CCDA document has successfully passed our validation process. Congratulations! It
-          complies with the CCDA standards, ensuring its interoperability and correctness.
-        </Typography>
-        <Typography gutterBottom>
-          <strong>Warning:</strong> Your CCDA document has passed the basic validation, but there are some issues that
-          need your attention. Please review the warnings below and take necessary actions to enhance the quality of
-          your document.
-        </Typography>
-        <Typography gutterBottom>
-          <strong>Fail:</strong> Unfortunately, your CCDA document did not pass the validation. It indicates significant
-          issues that must be resolved. Please review the errors below for detailed information on what needs to be
-          corrected.
-        </Typography>
-      </Box>
       <Box>
-        <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold' }}>
-          Results Total
+        <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
+          Totals
         </Typography>
 
         {resultMetaData ? <TotalResults resultMetaData={resultMetaData} /> : <Typography>No Results</Typography>}

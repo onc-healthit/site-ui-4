@@ -1,5 +1,4 @@
-import palette from '@/styles/palette'
-import { Accordion, AccordionSummary, Typography, AccordionDetails, List, MenuItem, Avatar } from '@mui/material'
+import { Accordion, AccordionSummary, Typography, AccordionDetails, List, MenuItem, Chip } from '@mui/material'
 import { ResultMetaData } from './ValidationMenu'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useEffect, useState } from 'react'
@@ -60,22 +59,14 @@ const ValidatorMenuSection = ({ resultMetaData, title }: MetaDataProps) => {
         <AccordionDetails sx={{ p: 0 }}>
           <List>
             <MenuItem sx={{ display: 'flex', justifyContent: 'space-between' }} disabled={errorDisabled}>
-              Errors{' '}
-              <Avatar variant="circular" sx={{ width: 25, height: 25, bgcolor: palette.error }}>
-                <Typography variant="caption">{errorCount}</Typography>
-              </Avatar>
+              Errors <Chip color="error" label={errorCount} />
             </MenuItem>
             <MenuItem sx={{ display: 'flex', justifyContent: 'space-between' }} disabled={warningDisabled}>
-              Warnings{' '}
-              <Avatar variant="circular" sx={{ width: 25, height: 25, bgcolor: palette.warning }}>
-                <Typography variant="caption">{warningCount}</Typography>
-              </Avatar>
+              Warnings
+              <Chip color="warning" label={warningCount} />
             </MenuItem>
             <MenuItem sx={{ display: 'flex', justifyContent: 'space-between' }} disabled={infoDisabled}>
-              Info{' '}
-              <Avatar variant="circular" sx={{ width: 25, height: 25, bgcolor: palette.primary }}>
-                <Typography variant="caption">{infoCount}</Typography>
-              </Avatar>
+              Info <Chip color="primary" label={infoCount} />
             </MenuItem>
           </List>
         </AccordionDetails>
