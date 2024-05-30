@@ -48,8 +48,10 @@ const PHRHome = () => {
         {/* Other Tools & Resources Content */}
         <Box gap={4} display={'flex'} justifyContent={'space-between'} flexDirection={'row'} width={'100%'}>
           {/* HL7® CDA® Cancer Registry Reporting Validation Tool*/}
+
           <CardWithBorder
             cardHeader={'HL7® CDA® Cancer Registry Reporting Validation Tool'}
+            subHeader="170.315(f)(4)"
             description={
               'The Cancer Report  (CRV) is an interactive tool for validating the content of electronic submissions of cancer-related medical information prior to a systems communication with a cancer registry.'
             }
@@ -57,25 +59,26 @@ const PHRHome = () => {
             buttonLink={'https://cda-validation.nist.gov/cda-validation/muCRV.html'}
             buttonIcon={<ArrowForwardIcon />}
           />
-
-          {/* HL7® CDA® National Health Care Surveys Validator */}
-          <CardWithBorder
-            cardHeader={'HL7® CDA® National Health Care Surveys Validator'}
-            description={
-              'Facilitate testing of National Health Care Surveys CDA XML documents conformant to HL7 Implementation Guide for CDA® Release 2: National Health Care Surveys (NHCS)'
-            }
-            buttonTitle={'Go to validator'}
-            buttonLink={'https://cda-validation.nist.gov/cda-validation/muNHCS.html'}
-            buttonIcon={<ArrowForwardIcon />}
-          />
           {/* Antimicrobial use and resistance HL7® CDA® validato*/}
           <CardWithBorder
             cardHeader={'Antimicrobial use and resistance HL7® CDA® validator'}
+            subHeader="170.315(f)(6)"
             description={
               'This validator is not intended for use with PHI/PII. Only use this validator with test/sample data that contains no PHI/PII.'
             }
             buttonTitle={'Go to validator'}
             buttonLink={'https://validator-legacy.lantanagroup.com/validator/'}
+            buttonIcon={<ArrowForwardIcon />}
+          />
+          {/* HL7® CDA® National Health Care Surveys Validator */}
+          <CardWithBorder
+            cardHeader={'HL7® CDA® National Health Care Surveys Validator'}
+            subHeader="170.315(f)(7)"
+            description={
+              'Facilitate testing of National Health Care Surveys CDA XML documents conformant to HL7 Implementation Guide for CDA® Release 2: National Health Care Surveys (NHCS)'
+            }
+            buttonTitle={'Go to validator'}
+            buttonLink={'https://cda-validation.nist.gov/cda-validation/muNHCS.html'}
             buttonIcon={<ArrowForwardIcon />}
           />
         </Box>
@@ -90,6 +93,7 @@ const PHRHome = () => {
           {/* NIST HL7® v2 Immunization Test Suite Card */}
           <CardWithBorder
             cardHeader={'NIST HL7® v2 Immunization Test Suite'}
+            subHeader="170.315(f)(1)"
             description={
               'The NIST Immunization Test Suite supports a broad range of testing in support of the Immunization Community, including transport, messaging (content), and functional.'
             }
@@ -100,6 +104,7 @@ const PHRHome = () => {
           {/* NIST HL7® v2 Syndromic Surveillance Test Suite */}
           <CardWithBorder
             cardHeader={'NIST HL7® v2 Syndromic Surveillance Test Suite'}
+            subHeader="170.315(f)(2) "
             description={
               'The NIST Syndromic Surveillance Test Suite supports the testing of HL7 v2.5.1 messages in support of the Syndromic Surveillance Community.'
             }
@@ -109,6 +114,7 @@ const PHRHome = () => {
           />
           <CardWithBorder
             cardHeader={'NIST Electronic Laboratory Reporting (ELR) Validation Suite'}
+            subHeader="170.315(f)(3)"
             description={
               'The NIST Electronic Lab Reporting (ELR) Validation Suite is intended to be used for Health IT ONC 2014 and 2015 Edition certification testing. The validation suite provides functionality to test HIT senders.'
             }
