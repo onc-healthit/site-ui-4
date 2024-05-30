@@ -7,8 +7,11 @@ import _ from 'lodash'
 
 interface ResultsProps {
   results: CCDAValidationResult[]
+  errorRef: React.RefObject<HTMLDivElement>
+  warningRef: React.RefObject<HTMLDivElement>
+  infoRef: React.RefObject<HTMLDivElement>
 }
-export default function ValidatorResultsCCDAMDHTConformance({ results }: ResultsProps) {
+export default function ValidatorResultsCCDAMDHTConformance({ results, errorRef, warningRef, infoRef }: ResultsProps) {
   const [errorDisabled, setErrorDisabled] = useState(false)
   const [warningDisabled, setWarningDisabled] = useState(false)
   const [infoDisabled, setInfoDisabled] = useState(false)
@@ -36,6 +39,8 @@ export default function ValidatorResultsCCDAMDHTConformance({ results }: Results
         disableGutters
         elevation={1}
         disabled={errorDisabled}
+        ref={errorRef}
+        defaultExpanded
       >
         <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
           <Typography sx={{ fontWeight: 'bold', border: `` }}>Errors</Typography>
@@ -69,6 +74,7 @@ export default function ValidatorResultsCCDAMDHTConformance({ results }: Results
         disableGutters
         elevation={1}
         disabled={warningDisabled}
+        ref={warningRef}
       >
         <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
           <Typography sx={{ fontWeight: 'bold', border: `` }}>Warnings</Typography>
@@ -103,6 +109,7 @@ export default function ValidatorResultsCCDAMDHTConformance({ results }: Results
         disableGutters
         elevation={1}
         disabled={infoDisabled}
+        ref={infoRef}
       >
         <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
           <Typography sx={{ fontWeight: 'bold', border: `` }}>Info</Typography>

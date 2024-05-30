@@ -18,6 +18,12 @@ interface ValidatorComponentProps {
   response: object
   disabled: boolean
 }
+
+interface ErrorDisplayCardProps {
+  open: boolean
+  handleClose: () => void
+  response: { error?: string; errorStatus?: number }
+}
 const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({ open, handleClose, estimatedValidationTime }) => {
   const [progress, setProgress] = useState(0)
   const totalTime = estimatedValidationTime // total time in seconds
@@ -48,10 +54,6 @@ const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({ open, handleClose
       setTimeRemaining(0)
     }
   }, [open, estimatedValidationTime, secondsElapsed, totalTime])
-  //  const progress = (secondsElapsed / totalTime) * 100
-  // timeRemaining = totalTime - secondsElapsed
-  //  console.log('time remaining', timeRemaining)
-  // console.log('progress', progress)
   return (
     <Dialog open={open} maxWidth="sm">
       <DialogTitle typography={'h3'} sx={{ fontWeight: '600', pb: 0 }} id="validating-dialog-title">
@@ -82,11 +84,32 @@ const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({ open, handleClose
     </Dialog>
   )
 }
+
+const ErrorDisplayCard = ({ open, handleClose, response }: ErrorDisplayCardProps) => {
+  return (
+    <>
+      {response ? (
+        <Dialog open={open} maxWidth="sm">
+          <DialogTitle typography={'h3'} sx={{ fontWeight: '600', pb: 0 }} id="validating-dialog-title">
+            {'Error Status '} {response.errorStatus!}
+          </DialogTitle>
+          <IconButton aria-label="Close Dialog" sx={{ position: 'absolute', right: 8, top: 8 }} onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+          <DialogContent>
+            <Typography>{response.error}</Typography>
+          </DialogContent>
+        </Dialog>
+      ) : null}
+    </>
+  )
+}
 const ValidationComponent = ({ response, estimatedValidationTime, disabled }: ValidatorComponentProps) => {
   const [loadingOpen, setLoadingOpen] = useState(false)
   const [resultsOpen, setResultsOpen] = useState(false)
+  const [errorOpen, setErrorOpen] = useState(false)
   const { pending } = useFormStatus()
-  console.log(disabled)
+  //console.log(response)
   const handleLoadingOpen = () => {
     setLoadingOpen(true)
   }
@@ -94,10 +117,16 @@ const ValidationComponent = ({ response, estimatedValidationTime, disabled }: Va
   const handleLoadingClose = () => {
     setLoadingOpen(false)
   }
+  const handleErrorClose = () => {
+    setErrorOpen(false)
+  }
 
   useEffect(() => {
-    if (!pending && !_.isEmpty(response)) {
+    if (!pending && !_.isEmpty(response) && !_.has(response, 'error')) {
       setResultsOpen(true)
+    }
+    if (!pending && _.has(response, 'error')) {
+      setErrorOpen(true)
     }
   }, [pending, response])
 
@@ -114,8 +143,10 @@ const ValidationComponent = ({ response, estimatedValidationTime, disabled }: Va
           estimatedValidationTime={estimatedValidationTime}
         />
       )}
-
-      {!pending && (
+      {!pending && _.has(response, 'error') && (
+        <ErrorDisplayCard open={errorOpen} handleClose={handleErrorClose} response={response} />
+      )}
+      {!pending && !_.has(response, 'error') && (
         <ValidatorResultsCard results={response} open={resultsOpen} handleClose={() => setResultsOpen(false)} />
       )}
     </>

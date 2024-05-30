@@ -9,6 +9,18 @@ import OriginalCCDAResult from './OriginalCCDAResult'
 
 interface ValidatorResultsSummaryProps {
   results: object
+  scrollRef: React.RefObject<HTMLDivElement>
+  summaryRef: React.RefObject<HTMLDivElement>
+  mdhtErrorRef: React.RefObject<HTMLDivElement>
+  mdhtWarningRef: React.RefObject<HTMLDivElement>
+  mdhtInfoRef: React.RefObject<HTMLDivElement>
+  vocabularyErrorRef: React.RefObject<HTMLDivElement>
+  vocabularyWarningRef: React.RefObject<HTMLDivElement>
+  vocabularyInfoRef: React.RefObject<HTMLDivElement>
+  referenceErrorRef: React.RefObject<HTMLDivElement>
+  referenceWarningRef: React.RefObject<HTMLDivElement>
+  referenceInfoRef: React.RefObject<HTMLDivElement>
+  originalCCDARef: React.RefObject<HTMLDivElement>
 }
 
 export type ResultMetaData = {
@@ -24,6 +36,15 @@ export type CCDAValidationResult = {
 
 interface CCDAValidationResultProps {
   ccdaValidationResults: CCDAValidationResult[]
+  mdhtErrorRef: React.RefObject<HTMLDivElement>
+  mdhtWarningRef: React.RefObject<HTMLDivElement>
+  mdhtInfoRef: React.RefObject<HTMLDivElement>
+  vocabularyErrorRef: React.RefObject<HTMLDivElement>
+  vocabularyWarningRef: React.RefObject<HTMLDivElement>
+  vocabularyInfoRef: React.RefObject<HTMLDivElement>
+  referenceErrorRef: React.RefObject<HTMLDivElement>
+  referenceWarningRef: React.RefObject<HTMLDivElement>
+  referenceInfoRef: React.RefObject<HTMLDivElement>
 }
 
 interface ResultMetaDataProps {
@@ -62,7 +83,18 @@ const StatusIndicator = ({ resultMetaData }: ResultMetaDataProps) => {
   return <>{count > 0 ? <ValidationStatusIndicator status="error" /> : <ValidationStatusIndicator status="pass" />}</>
 }
 
-const ValidationResults = ({ ccdaValidationResults }: CCDAValidationResultProps) => {
+const ValidationResults = ({
+  ccdaValidationResults,
+  mdhtErrorRef,
+  mdhtWarningRef,
+  mdhtInfoRef,
+  vocabularyErrorRef,
+  vocabularyInfoRef,
+  vocabularyWarningRef,
+  referenceErrorRef,
+  referenceInfoRef,
+  referenceWarningRef,
+}: CCDAValidationResultProps) => {
   const ccdaMDHTConformanceValidationResults = ccdaValidationResults.filter((result) =>
     result?.type.includes('C-CDA MDHT Conformance')
   )
@@ -79,32 +111,67 @@ const ValidationResults = ({ ccdaValidationResults }: CCDAValidationResultProps)
       <Typography id="C-CDA-MDHT-Conformance" variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
         C-CDA MDHT Conformance
       </Typography>
-      <ValidatorResultsDetails results={ccdaMDHTConformanceValidationResults} />
+      <ValidatorResultsDetails
+        results={ccdaMDHTConformanceValidationResults}
+        errorRef={mdhtErrorRef}
+        warningRef={mdhtWarningRef}
+        infoRef={mdhtInfoRef}
+      />
       <Divider />
       <Typography id="SCC-Vocabulary-Validation-Conformance" variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
         S&CC Vocabulary Validation Conformance
       </Typography>
-      <ValidatorResultsDetails results={sccVocabularyValidationResults} />
+      <ValidatorResultsDetails
+        results={sccVocabularyValidationResults}
+        errorRef={vocabularyErrorRef}
+        warningRef={vocabularyWarningRef}
+        infoRef={vocabularyInfoRef}
+      />
       <Divider />
       <Typography id="SCC-Reference-CCDA-Validation" variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
         S&CC Reference CCDA Validation
       </Typography>
-      <ValidatorResultsDetails results={sccReferenceCCDAValidationResults} />
+      <ValidatorResultsDetails
+        results={sccReferenceCCDAValidationResults}
+        errorRef={referenceErrorRef}
+        warningRef={referenceWarningRef}
+        infoRef={referenceInfoRef}
+      />
     </>
   )
 }
-const ValidatorResultsSummary: React.FC<ValidatorResultsSummaryProps> = ({ results }) => {
+const ValidatorResultsSummary: React.FC<ValidatorResultsSummaryProps> = ({
+  results,
+  scrollRef,
+  summaryRef,
+  mdhtErrorRef,
+  mdhtInfoRef,
+  mdhtWarningRef,
+  vocabularyErrorRef,
+  vocabularyInfoRef,
+  vocabularyWarningRef,
+  referenceErrorRef,
+  referenceInfoRef,
+  referenceWarningRef,
+  originalCCDARef,
+}) => {
   const resultsMetaData = _.get(results, 'resultsMetaData')
   const ccdaValidationResults = _.get(results, 'ccdaValidationResults')
-
-  //console.log(resultsMetaData)
-  //console.log(ccdaValidationResults)
   const resultMetaData = _.get(resultsMetaData, 'resultMetaData')
 
   ValidatorResultsSummary.displayName = 'ValidatorResultsSummary' // Assigning displayName
   return (
-    <Box display={'flex'} flexDirection={'column'} gap={4} mt={2} px={4} pb={4} sx={{ overflowY: 'auto' }}>
-      <Box id="summary">
+    <Box
+      display={'flex'}
+      flexDirection={'column'}
+      gap={4}
+      mt={2}
+      px={4}
+      pb={4}
+      sx={{ overflowY: 'auto' }}
+      ref={scrollRef}
+    >
+      <Box id="summary" ref={summaryRef}>
         <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
           Summary
         </Typography>
@@ -126,13 +193,29 @@ const ValidatorResultsSummary: React.FC<ValidatorResultsSummaryProps> = ({ resul
         Details
       </Typography>
       {ccdaValidationResults ? (
-        <ValidationResults ccdaValidationResults={ccdaValidationResults} />
+        <ValidationResults
+          ccdaValidationResults={ccdaValidationResults}
+          mdhtErrorRef={mdhtErrorRef}
+          mdhtWarningRef={mdhtWarningRef}
+          mdhtInfoRef={mdhtInfoRef}
+          vocabularyErrorRef={vocabularyErrorRef}
+          vocabularyWarningRef={vocabularyWarningRef}
+          vocabularyInfoRef={vocabularyInfoRef}
+          referenceErrorRef={referenceErrorRef}
+          referenceWarningRef={referenceWarningRef}
+          referenceInfoRef={referenceInfoRef}
+        />
       ) : (
         <Typography>No Results</Typography>
       )}
-      {/* <Box id="original-ccda">
-        <OriginalCCDAResult xmlData={resultsMetaData.ccdaFileContents} />
-      </Box> */}
+      <Divider />
+
+      <Box id="original-ccda" ref={originalCCDARef}>
+        <Typography variant="h4" sx={{ fontWeight: 'bold', pb: 4 }}>
+          Original CCDA
+        </Typography>
+        {resultsMetaData ? <OriginalCCDAResult xmlData={resultsMetaData} /> : <Typography>No Results</Typography>}
+      </Box>
     </Box>
   )
 }

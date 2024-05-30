@@ -6,8 +6,11 @@ import _ from 'lodash'
 export interface MetaDataProps {
   resultMetaData: ResultMetaData[]
   title: string
+  errorRef: React.RefObject<HTMLDivElement>
+  warningRef: React.RefObject<HTMLDivElement>
+  infoRef: React.RefObject<HTMLDivElement>
 }
-const ValidatorMenuSection = ({ resultMetaData, title }: MetaDataProps) => {
+const ValidatorMenuSection = ({ resultMetaData, title, errorRef, warningRef, infoRef }: MetaDataProps) => {
   const [errorDisabled, setErrorDisabled] = useState(false)
   const [warningDisabled, setWarningDisabled] = useState(false)
   const [infoDisabled, setInfoDisabled] = useState(false)
@@ -40,6 +43,10 @@ const ValidatorMenuSection = ({ resultMetaData, title }: MetaDataProps) => {
       setAccordionDisabled(true)
     }
   }, [errorCount, infoCount, warningCount])
+
+  const onScroll = (ref: React.RefObject<HTMLDivElement>) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' })
+  }
   return (
     <>
       <Accordion
@@ -58,14 +65,26 @@ const ValidatorMenuSection = ({ resultMetaData, title }: MetaDataProps) => {
         </AccordionSummary>
         <AccordionDetails sx={{ p: 0 }}>
           <List>
-            <MenuItem sx={{ display: 'flex', justifyContent: 'space-between' }} disabled={errorDisabled}>
+            <MenuItem
+              sx={{ display: 'flex', justifyContent: 'space-between' }}
+              disabled={errorDisabled}
+              onClick={() => onScroll(errorRef)}
+            >
               Errors <Chip color="error" label={errorCount} />
             </MenuItem>
-            <MenuItem sx={{ display: 'flex', justifyContent: 'space-between' }} disabled={warningDisabled}>
+            <MenuItem
+              sx={{ display: 'flex', justifyContent: 'space-between' }}
+              disabled={warningDisabled}
+              onClick={() => onScroll(warningRef)}
+            >
               Warnings
               <Chip color="warning" label={warningCount} />
             </MenuItem>
-            <MenuItem sx={{ display: 'flex', justifyContent: 'space-between' }} disabled={infoDisabled}>
+            <MenuItem
+              sx={{ display: 'flex', justifyContent: 'space-between' }}
+              disabled={infoDisabled}
+              onClick={() => onScroll(infoRef)}
+            >
               Info <Chip color="primary" label={infoCount} />
             </MenuItem>
           </List>

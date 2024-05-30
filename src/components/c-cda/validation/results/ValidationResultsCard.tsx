@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Typography, Button, DialogActions, IconButton } from '@mui/material'
 import palette from '@/styles/palette'
 import DialogTemplate from '../../../shared/dialog/DialogTemplate'
@@ -16,20 +16,23 @@ interface ScrollableDialogProps {
 // Define ScrollableDialog component
 const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, results }) => {
   const contentRef = useRef<HTMLDivElement>(null)
+  const summaryRef = useRef<HTMLDivElement>(null)
+  const mdhtErrorRef = useRef<HTMLDivElement>(null)
+  const mdhtWarningRef = useRef<HTMLDivElement>(null)
+  const mdhtInfoRef = useRef<HTMLDivElement>(null)
+  const vocabularyErrorRef = useRef<HTMLDivElement>(null)
+  const vocabularyWarningRef = useRef<HTMLDivElement>(null)
+  const vocabularyInfoRef = useRef<HTMLDivElement>(null)
+  const referenceErrorRef = useRef<HTMLDivElement>(null)
+  const referenceWarningRef = useRef<HTMLDivElement>(null)
+  const referenceInfoRef = useRef<HTMLDivElement>(null)
+  const originalCCDARef = useRef<HTMLDivElement>(null)
 
   const scrollToTop = () => {
     if (contentRef.current) {
       contentRef.current.scrollTop = 0
     }
   }
-  /*  useEffect(() => {
-    const scrollToTop = () => {
-      if (contentRef.current) {
-        contentRef.current.scrollTop = 0
-      }
-    }
-  }, []) */
-  // console.log(JSON.stringify(results))
   return (
     <DialogTemplate
       open={open}
@@ -42,8 +45,39 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
           </IconButton>
         </>
       }
-      menuContent={<ValidatorMenu results={results} />}
-      resultsContent={<ValidatorResultsSummary results={results} />} // Pass ref to ValidatorResultsSummary
+      menuContent={
+        <ValidatorMenu
+          results={results}
+          summaryRef={summaryRef}
+          mdhtErrorRef={mdhtErrorRef}
+          mdhtWarningRef={mdhtWarningRef}
+          mdhtInfoRef={mdhtInfoRef}
+          vocabularyErrorRef={vocabularyErrorRef}
+          vocabularyWarningRef={vocabularyWarningRef}
+          vocabularyInfoRef={vocabularyInfoRef}
+          referenceErrorRef={referenceErrorRef}
+          referenceWarningRef={referenceWarningRef}
+          referenceInfoRef={referenceInfoRef}
+          originalCCDARef={originalCCDARef}
+        />
+      }
+      resultsContent={
+        <ValidatorResultsSummary
+          results={results}
+          scrollRef={contentRef}
+          summaryRef={summaryRef}
+          mdhtErrorRef={mdhtErrorRef}
+          mdhtWarningRef={mdhtWarningRef}
+          mdhtInfoRef={mdhtInfoRef}
+          vocabularyErrorRef={vocabularyErrorRef}
+          vocabularyWarningRef={vocabularyWarningRef}
+          vocabularyInfoRef={vocabularyInfoRef}
+          referenceErrorRef={referenceErrorRef}
+          referenceWarningRef={referenceWarningRef}
+          referenceInfoRef={referenceInfoRef}
+          originalCCDARef={originalCCDARef}
+        />
+      } // Pass ref to ValidatorResultsSummary
       actionsContent={
         <DialogActions
           sx={{
@@ -54,7 +88,7 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
             borderTop: `1px solid ${palette.divider}`,
           }}
         >
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={() => window.print()}>
             Save Results
           </Button>
           <Button variant="outlined" onClick={scrollToTop}>

@@ -180,7 +180,7 @@ export default function V3ValidatorForm({
           {/* Buttons */}
           <Box display="flex" flexDirection="row" justifyContent="space-between" sx={{ pt: 4 }}>
             <ValidationComponent
-              response={data.response}
+              response={data?.response}
               estimatedValidationTime={estimatedValidationTime}
               disabled={disableValidate}
             ></ValidationComponent>

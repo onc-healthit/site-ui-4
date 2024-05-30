@@ -27,12 +27,16 @@ async function getToken() {
     })
     return response.data
   } catch (error) {
-    console.log(error)
-    throw new Error('failed to fetch token from keycloak')
+    if (axios.isAxiosError(error)) {
+      console.error(error.response?.data)
+      return { response: { error: 'Failed to fetch token from keycloak', errorStatus: error.response?.status } }
+    } else {
+      console.error(error)
+    }
   }
 }
 
-export async function submitForm(prevState: object, formData: FormData) {
+export async function submitForm(prevState: object | undefined, formData: FormData) {
   const ccdaValidatorUrl = process.env.CCDA_VALIDATOR_URL
   const token = await getToken()
   const uploadFile = formData.get('ccdaFile')
@@ -56,7 +60,16 @@ export async function submitForm(prevState: object, formData: FormData) {
     return { response: response.data }
     // revalidatePath('/c-cda/uscdi-v3')
   } catch (error) {
-    console.error(error)
-    throw new Error('failed to get validator results')
+    if (axios.isAxiosError(error)) {
+      console.error(error.response?.data)
+      return {
+        response: {
+          error: 'Validator Service had an issue, Please try again later!',
+          errorStatus: error.response?.status,
+        },
+      }
+    } else {
+      console.error(error)
+    }
   }
 }
