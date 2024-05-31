@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Typography, Button, DialogActions, IconButton } from '@mui/material'
 import palette from '@/styles/palette'
 import DialogTemplate from '../../../shared/dialog/DialogTemplate'

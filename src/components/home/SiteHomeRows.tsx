@@ -240,8 +240,8 @@ export default function SiteHomeRows() {
           </Box>
           {/* Row 3: Fixed: Industry Testing Resources */}
           <SectionHeader
-            header={'Industry Testing Resources'}
-            subHeader={'Outside tools may help you!'}
+            header={'Industry Resources'}
+            subHeader={'Empowering Your Success with Top-Tier Industry Resources'}
             isHeaderAlternateColor={true}
           />
           <Box sx={containerNoDragStyles}>
@@ -253,23 +253,10 @@ export default function SiteHomeRows() {
                 description={
                   'Assess the conformance, interoperability, and functionality of healthcare information systems implementing HL7 standards.'
                 }
-                pathname={'https://confluence.hl7.org/display/FHIR/FHIR+Tooling+Ecosystem'}
+                pathname={'/industry-resources#hl7'}
                 maxWidth={industryTestingResourceRow}
                 imageWidth={industryTestingResourceRow + 'px'}
                 buttonTitle="Access"
-              />
-            </Box>
-            <Box p={1}>
-              <CardWithImageHome
-                title={'Reference Data'}
-                cardImage={referenceDataSvg}
-                cardHeader={'Reference Data'}
-                description={
-                  'Values used to standardize and categorize data elements within a system, making it easier to understand and compare data across different applications or processes.'
-                }
-                pathname={'/reference-data'}
-                maxWidth={industryTestingResourceRow}
-                imageWidth={industryTestingResourceRow + 'px'}
               />
             </Box>
             <Box p={1}>
@@ -280,10 +267,23 @@ export default function SiteHomeRows() {
                 description={
                   'Implementation guides in healthcare serve as comprehensive documents outlining the specific rules, standards, and protocols for implementing interoperable health information systems.'
                 }
-                pathname={'https://confluence.hl7.org/display/FHIR/Authoring+FHIR+Implementation+Guides+-+Introduction'}
+                pathname={'/industry-resources#ig'}
                 maxWidth={industryTestingResourceRow}
                 imageWidth={industryTestingResourceRow + 'px'}
                 buttonTitle="Learn"
+              />
+            </Box>
+            <Box p={1}>
+              <CardWithImageHome
+                title={'/industry-resources#rd'}
+                cardImage={referenceDataSvg}
+                cardHeader={'Reference Data'}
+                description={
+                  'Values used to standardize and categorize data elements within a system, making it easier to understand and compare data across different applications or processes.'
+                }
+                pathname={'/industry-resources#rd'}
+                maxWidth={industryTestingResourceRow}
+                imageWidth={industryTestingResourceRow + 'px'}
               />
             </Box>
           </Box>

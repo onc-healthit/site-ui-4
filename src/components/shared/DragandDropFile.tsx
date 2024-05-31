@@ -41,6 +41,7 @@ interface DragDropFileUploadProps {
   maxFiles?: number
   name?: string
 }
+
 export default function DragDropFileUpload({ maxFiles, name }: DragDropFileUploadProps) {
   const [files, setFiles] = useState<File[]>([])
   const hiddenInputRef = useRef<HTMLInputElement>(null)
