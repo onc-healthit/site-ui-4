@@ -5,6 +5,7 @@ import DialogTemplate from '../../../shared/dialog/DialogTemplate'
 import ValidatorResultsSummary from './ValidationResultsSummary'
 import ValidatorMenu from './ValidationMenu'
 import CloseIcon from '@mui/icons-material/Close'
+import { useReactToPrint } from 'react-to-print'
 
 // Define props interface for ScrollableDialog
 interface ScrollableDialogProps {
@@ -33,6 +34,9 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
       contentRef.current.scrollTop = 0
     }
   }
+  const handlePrint = useReactToPrint({
+    content: () => contentRef.current,
+  })
   return (
     <DialogTemplate
       open={open}
@@ -88,7 +92,7 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
             borderTop: `1px solid ${palette.divider}`,
           }}
         >
-          <Button variant="contained" color="primary" onClick={() => window.print()}>
+          <Button variant="contained" color="primary" onClick={handlePrint}>
             Save Results
           </Button>
           <Button variant="outlined" onClick={scrollToTop}>

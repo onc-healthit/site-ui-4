@@ -24,7 +24,8 @@
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",
     "react-joyride": "^2.7.4",
-    "react-multi-carousel": "^2.8.5"
+    "react-multi-carousel": "^2.8.5",
+    "react-to-print": "^2.15.1"
   },
   "devDependencies": {
     "@types/dompurify": "^3.0.5",

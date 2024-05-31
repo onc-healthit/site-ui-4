@@ -17,7 +17,7 @@ import {
   Typography,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
-import ValidationComponent from '../results/ValidatorLoadingCard'
+import ValidationComponent from '../results/ValidationResultsComponent'
 import _ from 'lodash'
 import { getScenarioOptions, submitForm } from './actions'
 import palette from '@/styles/palette'
@@ -184,9 +184,6 @@ export default function V3ValidatorForm({
               estimatedValidationTime={estimatedValidationTime}
               disabled={disableValidate}
             ></ValidationComponent>
-            {/* <Button variant="contained" type="submit" disabled={pending}>
-              VALIDATE
-            </Button> */}
             <Box>
               <Link href={downloadScenario} passHref style={{ textDecoration: 'none' }} target="_blank">
                 <Button variant="outlined" sx={{ color: palette.primary }} disabled={disableDownloadSceario}>
