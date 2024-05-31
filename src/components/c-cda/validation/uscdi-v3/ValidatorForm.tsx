@@ -17,7 +17,7 @@ import {
   Typography,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
-import ValidationComponent from '../ValidatorLoadingCard'
+import ValidationComponent from '../results/ValidatorLoadingCard'
 import _ from 'lodash'
 import { getScenarioOptions, submitForm } from './actions'
 import palette from '@/styles/palette'

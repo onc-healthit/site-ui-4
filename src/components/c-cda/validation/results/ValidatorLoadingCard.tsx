@@ -3,7 +3,7 @@ import { useFormStatus } from 'react-dom'
 import React, { useState, useEffect, FC } from 'react'
 import { Typography, IconButton, LinearProgress, Button, Dialog, DialogContent, DialogTitle } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import ValidatorResultsCard from './results/ValidationResultsCard'
+import ValidatorResultsCard from './ValidationResultsCard'
 import palette from '@/styles/palette'
 import _ from 'lodash'
 

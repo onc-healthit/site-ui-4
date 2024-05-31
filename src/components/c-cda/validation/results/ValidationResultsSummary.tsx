@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React from 'react'
 import { Typography, Box, Divider } from '@mui/material'
 
 import ResultsStatusCard from './ValidationResultsStatusCard'

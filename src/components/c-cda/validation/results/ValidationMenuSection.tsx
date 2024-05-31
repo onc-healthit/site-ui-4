@@ -2,7 +2,6 @@ import { Accordion, AccordionSummary, Typography, AccordionDetails, List, MenuIt
 import { ResultMetaData } from './ValidationMenu'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useEffect, useState } from 'react'
-import _ from 'lodash'
 export interface MetaDataProps {
   resultMetaData: ResultMetaData[]
   title: string
