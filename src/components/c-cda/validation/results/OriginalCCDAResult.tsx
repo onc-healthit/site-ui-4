@@ -23,8 +23,8 @@ const OriginalCCDAResult = ({ xmlData }: OriginalCCDAResultProps) => {
       </AccordionSummary>
 
       <AccordionDetails sx={{ p: 2 }}>
-        <Box sx={{ marginBottom: 1 }} p={2}>
-          <pre>{xmlData.ccdaFileContents}</pre>
+        <Box sx={{ marginBottom: 1, width: '100%', overflow: 'auto' }} p={2}>
+          <pre style={{ whiteSpace: 'pre-line', wordWrap: 'break-word' }}>{xmlData.ccdaFileContents}</pre>
         </Box>
       </AccordionDetails>
     </Accordion>

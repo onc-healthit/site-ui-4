@@ -48,14 +48,14 @@ export default function ValidatorResultsCCDAMDHTConformance({ results, errorRef,
 
         <AccordionDetails sx={{ p: 2 }}>
           {errors.map((error, i) => (
-            <Box sx={{ marginBottom: 1 }} p={2} bgcolor={palette.errorLight} key={i}>
-              <Typography>
+            <Box sx={{ marginBottom: 1 }} p={2} bgcolor={'#FFBDBD64'} key={i}>
+              <Typography gutterBottom>
                 <b>Result Description</b>:{error.description}
               </Typography>
-              <Typography>
-                <b>XPath</b>:{error.xPath}
+              <Typography gutterBottom>
+                <b>XPath</b>:<span style={{ lineBreak: 'anywhere', textDecoration: 'underline' }}>{error.xPath}</span>
               </Typography>
-              <Typography>
+              <Typography sx={{ fontFamily: 'monospace', fontSize: '1.3em' }} gutterBottom>
                 <b>Line Number</b>:{error.documentLineNumber}
               </Typography>
             </Box>
@@ -81,15 +81,16 @@ export default function ValidatorResultsCCDAMDHTConformance({ results, errorRef,
         </AccordionSummary>
         <AccordionDetails sx={{ p: 2 }}>
           {warnings.map((warning, i) => (
-            <Box sx={{ marginBottom: 1 }} p={2} bgcolor={palette.warningLight} key={i}>
-              <Typography>
-                <b>Result Description</b>:{warning.description}
+            <Box sx={{ marginBottom: 1 }} p={2} bgcolor={'#F2D0A764'} key={i}>
+              <Typography gutterBottom>
+                <b>Result Description</b>: {warning.description}
               </Typography>
-              <Typography>
-                <b>XPath</b>:{warning.xPath}
+              <Typography gutterBottom>
+                <b>XPath</b>:{' '}
+                <span style={{ lineBreak: 'anywhere', textDecoration: 'underline' }}>{warning.xPath}</span>
               </Typography>
-              <Typography>
-                <b>Line Number</b>:{warning.documentLineNumber}
+              <Typography sx={{ fontFamily: 'monospace', fontSize: '1.3em' }} gutterBottom>
+                <b>Line Number</b>: <span>{warning.documentLineNumber}</span>
               </Typography>
             </Box>
           ))}
@@ -116,15 +117,15 @@ export default function ValidatorResultsCCDAMDHTConformance({ results, errorRef,
         </AccordionSummary>
         <AccordionDetails sx={{ p: 2 }}>
           {infos.map((info, i) => (
-            <Box sx={{ marginBottom: 1 }} p={2} bgcolor={palette.secondaryLight} key={i}>
-              <Typography>
-                <b>Result Description</b>:{info.description}
+            <Box sx={{ marginBottom: 1 }} p={2} bgcolor={'#E3F2FD64'} key={i}>
+              <Typography gutterBottom>
+                <b>Result Description</b>: {info.description}
               </Typography>
-              <Typography>
-                <b>XPath</b>:{info.xPath}
+              <Typography gutterBottom>
+                <b>XPath</b>: <span style={{ lineBreak: 'anywhere', textDecoration: 'underline' }}>{info.xPath}</span>
               </Typography>
-              <Typography>
-                <b>Line Number</b>:{info.documentLineNumber}
+              <Typography sx={{ fontFamily: 'monospace', fontSize: '1.3em' }} gutterBottom>
+                <b>Line Number</b>: {info.documentLineNumber}
               </Typography>
             </Box>
           ))}
