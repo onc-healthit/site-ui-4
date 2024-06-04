@@ -1,4 +1,5 @@
 'use client'
+
 import { Box, Button, Dialog, DialogContent, DialogTitle } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -8,6 +9,7 @@ import * as React from 'react'
 
 export interface CardWithBorderProps {
   cardHeader: string
+  subHeader?: string // fixed type definition for subHeader
   description?: string
   buttonTitle: string
   buttonLink?: string // include a link or a modal
@@ -16,6 +18,7 @@ export interface CardWithBorderProps {
   modalContent?: string // sanitized HTML
   cardWidthPercent?: number | undefined // change the width of the card to any % vs default
 }
+
 const genericCardBlueBorder = {
   display: 'flex',
   width: '50%', // default width
@@ -30,8 +33,10 @@ const flexibleContent = {
   gap: 2,
   p: 2,
 }
+
 const CardWithBorder = ({
   cardHeader,
+  subHeader, // added subHeader prop
   description,
   buttonIcon,
   buttonLink,
@@ -44,8 +49,9 @@ const CardWithBorder = ({
 
   const isExternalLink: boolean = buttonLink ? buttonLink.startsWith('http') : false
 
-  const handleClickModal = () => {
+  const handleClickModal = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (useModal) {
+      event.preventDefault() // prevent link navigation
       setOpenModal(true)
     }
   }
@@ -69,21 +75,28 @@ const CardWithBorder = ({
         <CardContent sx={{ ...flexibleContent }}>
           <Typography variant="h6" component="h3" color="default">
             <strong>{cardHeader}</strong>
+            {subHeader && <Typography variant="body2">{subHeader}</Typography>}
           </Typography>
           {description && (
             <Typography variant="body2" color="default">
               {description}
             </Typography>
           )}
-          <Link
-            href={useModal ? '' : buttonLink ?? '/'}
-            target={isExternalLink ? '_blank' : undefined}
-            rel={isExternalLink ? 'noopener noreferrer' : undefined}
-          >
+          {useModal ? (
             <Button size="small" variant="text" color="secondary" endIcon={buttonIcon} onClick={handleClickModal}>
               {buttonTitle}
             </Button>
-          </Link>
+          ) : (
+            <Link
+              href={buttonLink ?? '/'}
+              target={isExternalLink ? '_blank' : undefined}
+              rel={isExternalLink ? 'noopener noreferrer' : undefined}
+            >
+              <Button size="small" variant="text" color="secondary" endIcon={buttonIcon}>
+                {buttonTitle}
+              </Button>
+            </Link>
+          )}
         </CardContent>
       </Card>
 
