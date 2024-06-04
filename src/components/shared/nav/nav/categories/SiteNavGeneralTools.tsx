@@ -3,7 +3,7 @@ import {
   HandymanOutlined,
   HealingOutlined,
   ImportantDevicesOutlined,
-  SquareFootOutlined,
+  WhatshotOutlined,
 } from '@mui/icons-material'
 import { useState } from 'react'
 
@@ -37,6 +37,12 @@ export default function SiteNavGeneralTools() {
       isExternalLink: true,
       href: 'https://lantern.healthit.gov/?tab=dashboard_tab',
       icon: <FireplaceOutlined />,
+    },
+    {
+      text: 'Inferno HL7 FHIR Validator',
+      isExternalLink: true,
+      href: 'https://inferno.healthit.gov/validator/',
+      icon: <WhatshotOutlined />,
     },
   ]
 
