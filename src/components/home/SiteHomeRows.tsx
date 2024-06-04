@@ -12,6 +12,7 @@ import hl7Svg from '@public/home/hl7.svg'
 import igSvg from '@public/home/ig.svg'
 import iheSvg from '@public/home/ihe.svg'
 import infernoSvg from '@public/home/inferno.svg'
+import infernoValidatorSvg from '@public/home/InfernoValidator.svg'
 import lanternSvg from '@public/home/lantern.svg'
 import ONCLogo from '@public/shared/ONCLogo-backgroundImage.png'
 import Image from 'next/image'
@@ -194,7 +195,18 @@ export default function SiteHomeRows() {
             subHeader={'All tools not required for certification, but a benefit for your software!'}
             isHeaderAlternateColor={true}
           />
-          <Box sx={containerNoDragStyles}>
+          <Carousel
+            swipeable={true}
+            keyBoardControl={true}
+            showDots={true}
+            infinite={false}
+            draggable={false}
+            responsive={responsive}
+            removeArrowOnDeviceType={['mobile']}
+            dotListClass="custom-dot-list-style"
+            customTransition="all .5"
+            transitionDuration={500}
+          >
             <Box p={1}>
               <CardWithImageHome
                 title={'CPOE Evaluation Tool'}
@@ -237,7 +249,21 @@ export default function SiteHomeRows() {
                 buttonTitle="Start"
               />
             </Box>
-          </Box>
+            <Box p={1}>
+              <CardWithImageHome
+                title={'Inferno Resource Validator'}
+                cardImage={infernoValidatorSvg}
+                cardHeader={'Inferno Resource Validator'}
+                description={
+                  'FHIR Validator validates your resources using the profile URLs found in the "meta.profile" field of your resource (or the Base FHIR profiles if no profile URLs are present).'
+                }
+                pathname={'https://inferno.healthit.gov/validator/'}
+                maxWidth={maxWidth}
+                imageWidth={maxWidth + 'px'}
+                buttonTitle="Validate"
+              />
+            </Box>
+          </Carousel>
           {/* Row 3: Fixed: Industry Testing Resources */}
           <SectionHeader
             header={'Industry Resources'}
