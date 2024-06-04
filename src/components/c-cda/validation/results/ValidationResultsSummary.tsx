@@ -1,7 +1,7 @@
 import React from 'react'
 import { Typography, Box, Divider } from '@mui/material'
 
-import ResultsStatusCard from './ValidationResultsStatusCard'
+import ResultsStatusCard from './ValidationTotalResults'
 import ValidationStatusIndicator from './ValidationResultsStatusIndicator'
 import ValidatorResultsDetails from './ValidationResultsDetails'
 import _ from 'lodash'
@@ -80,7 +80,7 @@ const StatusIndicator = ({ resultMetaData }: ResultMetaDataProps) => {
     return (count += c.count ? c.count : 0)
   })
   //console.log(count)
-  return <>{count > 0 ? <ValidationStatusIndicator status="error" /> : <ValidationStatusIndicator status="pass" />}</>
+  return <>{count > 0 ? <ValidationStatusIndicator status="fail" /> : <ValidationStatusIndicator status="pass" />}</>
 }
 
 const ValidationResults = ({
@@ -109,7 +109,7 @@ const ValidationResults = ({
   return (
     <>
       <Typography id="C-CDA-MDHT-Conformance" variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
-        C-CDA MDHT Conformance
+        C-CDA IG Conformance
       </Typography>
       <ValidatorResultsDetails
         results={ccdaMDHTConformanceValidationResults}
@@ -212,7 +212,7 @@ const ValidatorResultsSummary: React.FC<ValidatorResultsSummaryProps> = ({
 
       <Box id="original-ccda" ref={originalCCDARef}>
         <Typography variant="h4" sx={{ fontWeight: 'bold', pb: 4 }}>
-          Original CCDA
+          Original C-CDA
         </Typography>
         {resultsMetaData ? <OriginalCCDAResult xmlData={resultsMetaData} /> : <Typography>No Results</Typography>}
       </Box>

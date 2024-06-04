@@ -11,9 +11,10 @@ interface ValidatorComponentProps {
   estimatedValidationTime: number
   response: object
   disabled: boolean
+  fileName: string
 }
 
-const ValidatorComponent = ({ response, estimatedValidationTime, disabled }: ValidatorComponentProps) => {
+const ValidatorComponent = ({ response, estimatedValidationTime, disabled, fileName }: ValidatorComponentProps) => {
   const [loadingOpen, setLoadingOpen] = useState(false)
   const [resultsOpen, setResultsOpen] = useState(false)
   const [errorOpen, setErrorOpen] = useState(false)
@@ -50,13 +51,19 @@ const ValidatorComponent = ({ response, estimatedValidationTime, disabled }: Val
           open={loadingOpen}
           handleClose={handleLoadingClose}
           estimatedValidationTime={estimatedValidationTime}
+          fileName={fileName}
         />
       )}
       {!pending && _.has(response, 'error') && (
         <ErrorDisplayCard open={errorOpen} handleClose={handleErrorClose} response={response} />
       )}
       {!pending && !_.has(response, 'error') && (
-        <ValidatorResultsCard results={response} open={resultsOpen} handleClose={() => setResultsOpen(false)} />
+        <ValidatorResultsCard
+          results={response}
+          open={resultsOpen}
+          fileName={fileName}
+          handleClose={() => setResultsOpen(false)}
+        />
       )}
     </>
   )

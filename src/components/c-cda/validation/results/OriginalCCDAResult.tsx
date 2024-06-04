@@ -19,7 +19,7 @@ const OriginalCCDAResult = ({ xmlData }: OriginalCCDAResultProps) => {
       elevation={1}
     >
       <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
-        <Typography sx={{ fontWeight: 'bold', border: `` }}>CCDA</Typography>
+        <Typography sx={{ fontWeight: 'bold', border: `` }}>C-CDA</Typography>
       </AccordionSummary>
 
       <AccordionDetails sx={{ p: 2 }}>

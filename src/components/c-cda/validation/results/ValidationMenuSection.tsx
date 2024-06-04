@@ -58,6 +58,7 @@ const ValidatorMenuSection = ({ resultMetaData, title, errorRef, warningRef, inf
         disableGutters
         elevation={0}
         disabled={accordionDisabled}
+        defaultExpanded
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography sx={{ fontWeight: 'bold' }}>{title}</Typography>

@@ -57,7 +57,7 @@ const ResultsSection = ({
     <>
       <ValidatorMenuSection
         resultMetaData={ccdaMDHTConformanceMetaData}
-        title={'C-CDA MDHT Conformance'}
+        title={'C-CDA IG Conformance'}
         errorRef={mdhtErrorRef}
         warningRef={mdhtWarningRef}
         infoRef={mdhtInfoRef}

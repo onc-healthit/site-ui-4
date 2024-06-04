@@ -11,6 +11,63 @@ interface ResultsProps {
   warningRef: React.RefObject<HTMLDivElement>
   infoRef: React.RefObject<HTMLDivElement>
 }
+
+interface DetailsProps {
+  disabled: boolean
+  ref: React.RefObject<HTMLDivElement>
+  details: CCDAValidationResult[]
+  expanded: boolean
+  title: string
+  accordionTitleColor: string
+  accordionDetailsColor: string
+}
+const DetailsAccordion = ({
+  disabled,
+  ref,
+  details,
+  expanded,
+  title,
+  accordionTitleColor,
+  accordionDetailsColor,
+}: DetailsProps) => {
+  return (
+    <Accordion
+      sx={{
+        py: 0,
+        '&:before': {
+          display: 'none',
+        },
+        borderLeft: `4px solid ${accordionTitleColor}`,
+      }}
+      disableGutters
+      elevation={1}
+      disabled={disabled}
+      ref={ref}
+      expanded={expanded}
+    >
+      <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
+        <Typography sx={{ fontWeight: 'bold', border: `` }}>{title}</Typography>
+      </AccordionSummary>
+
+      <AccordionDetails sx={{ p: 2 }}>
+        {details.map((detail, i) => (
+          <Box sx={{ marginBottom: 1 }} p={2} bgcolor={accordionDetailsColor} key={i}>
+            <Typography>
+              <b>{'Result Description: '}</b> {detail.description}
+            </Typography>
+            <Typography>
+              <b>{'XPath: '}</b>
+              {detail.xPath}
+            </Typography>
+            <Typography>
+              <b>{'Line Number: '}</b> {detail.documentLineNumber}
+            </Typography>
+          </Box>
+        ))}
+      </AccordionDetails>
+    </Accordion>
+  )
+}
 export default function ValidatorResultsCCDAMDHTConformance({ results, errorRef, warningRef, infoRef }: ResultsProps) {
   const [errorDisabled, setErrorDisabled] = useState(false)
   const [warningDisabled, setWarningDisabled] = useState(false)
@@ -50,13 +107,13 @@ export default function ValidatorResultsCCDAMDHTConformance({ results, errorRef,
           {errors.map((error, i) => (
             <Box sx={{ marginBottom: 1 }} p={2} bgcolor={palette.errorLight} key={i}>
               <Typography>
-                <b>Result Description</b>:{error.description}
+                <b>Result Description</b>: {error.description}
               </Typography>
               <Typography>
-                <b>XPath</b>:{error.xPath}
+                <b>XPath</b>: {error.xPath}
               </Typography>
               <Typography>
-                <b>Line Number</b>:{error.documentLineNumber}
+                <b>Line Number</b>: {error.documentLineNumber}
               </Typography>
             </Box>
           ))}
@@ -83,13 +140,13 @@ export default function ValidatorResultsCCDAMDHTConformance({ results, errorRef,
           {warnings.map((warning, i) => (
             <Box sx={{ marginBottom: 1 }} p={2} bgcolor={palette.warningLight} key={i}>
               <Typography>
-                <b>Result Description</b>:{warning.description}
+                <b>Result Description</b>: {warning.description}
               </Typography>
               <Typography>
-                <b>XPath</b>:{warning.xPath}
+                <b>XPath</b>: {warning.xPath}
               </Typography>
               <Typography>
-                <b>Line Number</b>:{warning.documentLineNumber}
+                <b>Line Number</b>: {warning.documentLineNumber}
               </Typography>
             </Box>
           ))}
@@ -118,13 +175,13 @@ export default function ValidatorResultsCCDAMDHTConformance({ results, errorRef,
           {infos.map((info, i) => (
             <Box sx={{ marginBottom: 1 }} p={2} bgcolor={palette.secondaryLight} key={i}>
               <Typography>
-                <b>Result Description</b>:{info.description}
+                <b>Result Description</b>: {info.description}
               </Typography>
               <Typography>
-                <b>XPath</b>:{info.xPath}
+                <b>XPath</b>: {info.xPath}
               </Typography>
               <Typography>
-                <b>Line Number</b>:{info.documentLineNumber}
+                <b>Line Number</b>: {info.documentLineNumber}
               </Typography>
             </Box>
           ))}

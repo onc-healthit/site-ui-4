@@ -1,6 +1,6 @@
 'use client'
 import { Button, Typography, Chip } from '@mui/material'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import palette from '@/styles/palette'
@@ -40,9 +40,10 @@ const rejectStyle = {
 interface DragDropFileUploadProps {
   maxFiles?: number
   name?: string
+  fileName: ([]) => void
 }
 
-export default function DragDropFileUpload({ maxFiles, name }: DragDropFileUploadProps) {
+export default function DragDropFileUpload({ maxFiles, name, fileName }: DragDropFileUploadProps) {
   const [files, setFiles] = useState<File[]>([])
   const hiddenInputRef = useRef<HTMLInputElement>(null)
 
@@ -59,6 +60,7 @@ export default function DragDropFileUpload({ maxFiles, name }: DragDropFileUploa
     noKeyboard: true,
     maxFiles: maxFiles || 1,
     onDrop: (acceptedFiles) => {
+      fileName(acceptedFiles)
       setFiles(acceptedFiles)
       if (hiddenInputRef.current) {
         const dataTransfer = new DataTransfer()

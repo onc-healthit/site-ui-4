@@ -12,10 +12,11 @@ interface ScrollableDialogProps {
   open: boolean
   handleClose: () => void
   results: object
+  fileName: string
 }
 
 // Define ScrollableDialog component
-const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, results }) => {
+const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, results, fileName }) => {
   const contentRef = useRef<HTMLDivElement>(null)
   const summaryRef = useRef<HTMLDivElement>(null)
   const mdhtErrorRef = useRef<HTMLDivElement>(null)
@@ -43,7 +44,10 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
       handleClose={handleClose}
       title={
         <>
-          <Typography sx={{ fontWeight: '600' }}>Validation Results</Typography>
+          <Typography sx={{ fontWeight: '600' }}>
+            {'Validation Results for '}
+            {fileName}
+          </Typography>
           <IconButton aria-label="Close Dialog" sx={{ position: 'absolute', right: 8, top: 8 }} onClick={handleClose}>
             <CloseIcon />
           </IconButton>
@@ -109,11 +113,12 @@ interface ValidatorResultsCardProps {
   open: boolean
   handleClose: () => void
   results: object
+  fileName: string
 }
 
 // Define ValidatorResultsCard component
-const ValidatorResultsCard: React.FC<ValidatorResultsCardProps> = ({ open, handleClose, results }) => {
-  return <ScrollableDialog open={open} handleClose={handleClose} results={results} />
+const ValidatorResultsCard: React.FC<ValidatorResultsCardProps> = ({ open, handleClose, results, fileName }) => {
+  return <ScrollableDialog open={open} handleClose={handleClose} results={results} fileName={fileName} />
 }
 
 export default ValidatorResultsCard

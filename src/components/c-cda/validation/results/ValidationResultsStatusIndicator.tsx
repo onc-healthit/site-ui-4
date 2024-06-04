@@ -3,7 +3,7 @@ import { Box, Typography, LinearProgress, Grow, Divider } from '@mui/material'
 import palette from '@/styles/palette'
 import { Check } from '@mui/icons-material'
 import ErrorIcon from '@mui/icons-material/Error'
-type ValidationStatus = 'error' | 'pass'
+type ValidationStatus = 'fail' | 'pass'
 
 interface ValidationStatusIndicatorProps {
   status: ValidationStatus
@@ -14,7 +14,7 @@ const ValidationStatusIndicator: React.FC<ValidationStatusIndicatorProps> = ({ s
   const [isComplete, setIsComplete] = useState(false)
 
   const statusMap: { [key in ValidationStatus]: { color: string; value: number } } = {
-    error: { color: palette.error, value: 30 },
+    fail: { color: palette.error, value: 100 },
     pass: { color: palette.success, value: 100 },
   }
 
@@ -38,12 +38,11 @@ const ValidationStatusIndicator: React.FC<ValidationStatusIndicatorProps> = ({ s
   }, [progressValue])
 
   const getHelperText = () => {
-    if (status === 'error') {
+    if (status === 'fail') {
       return (
         <Typography gutterBottom>
-          <strong>Fail:</strong> Unfortunately, your CCDA document did not pass the validation. It indicates significant
-          issues that must be resolved. Please review the errors below for detailed information on what needs to be
-          corrected.
+          Unfortunately, your CCDA document did not pass the validation. It indicates significant issues that must be
+          resolved. Please review the errors below for detailed information on what needs to be corrected.
         </Typography>
       )
     } else if (status === 'pass') {
@@ -59,8 +58,9 @@ const ValidationStatusIndicator: React.FC<ValidationStatusIndicatorProps> = ({ s
 
   return (
     <>
-      <Typography sx={{ mt: 2 }} fontWeight={600}>
-        Validation Status:
+      <Divider sx={{ my: 2 }} />
+      <Typography variant="h3" fontWeight={700}>
+        Results
       </Typography>
       <Box sx={{ width: '100%', flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
         <Typography fontWeight={400}> {status.charAt(0).toUpperCase() + status.slice(1)}</Typography>
@@ -82,7 +82,7 @@ const ValidationStatusIndicator: React.FC<ValidationStatusIndicatorProps> = ({ s
         {isComplete && (
           <Grow in={isComplete}>
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center' }}>
-              {status === 'error' ? (
+              {status === 'fail' ? (
                 <ErrorIcon
                   fontSize="large"
                   sx={{
@@ -111,10 +111,6 @@ const ValidationStatusIndicator: React.FC<ValidationStatusIndicatorProps> = ({ s
           </Grow>
         )}
       </Box>
-      <Divider sx={{ my: 2 }} />
-      <Typography variant="h3" fontWeight={700}>
-        Results
-      </Typography>
       <Box sx={{ mt: 2, width: '100%' }}>{getHelperText()}</Box>
     </>
   )

@@ -1,13 +1,19 @@
 import palette from '@/styles/palette'
-import { Dialog, DialogTitle, IconButton, DialogContent, Typography, LinearProgress } from '@mui/material'
+import { Dialog, DialogTitle, IconButton, DialogContent, Typography, LinearProgress, Divider } from '@mui/material'
 import { FC, useState, useEffect } from 'react'
 
 interface ValidatorLoadingCardProps {
   open: boolean
   handleClose: () => void
   estimatedValidationTime: number
+  fileName: string
 }
-const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({ open, handleClose, estimatedValidationTime }) => {
+const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({
+  open,
+  handleClose,
+  estimatedValidationTime,
+  fileName,
+}) => {
   const [progress, setProgress] = useState(0)
   const totalTime = estimatedValidationTime // total time in seconds
   const [secondsElapsed, setSecondsElapsed] = useState(0)
@@ -38,10 +44,12 @@ const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({ open, handleClose
     }
   }, [open, estimatedValidationTime, secondsElapsed, totalTime])
   return (
-    <Dialog open={open} maxWidth="sm">
+    <Dialog open={open} maxWidth="lg">
       <DialogTitle typography={'h3'} sx={{ fontWeight: '600', pb: 0 }} id="validating-dialog-title">
-        {'Your files are validating...'}
+        {'Validating your file: '}
+        {fileName}
       </DialogTitle>
+      <Divider />
       <DialogContent>
         <Typography>Estimated time: {timeRemaining} seconds</Typography>
         <LinearProgress
