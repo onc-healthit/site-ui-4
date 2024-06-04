@@ -62,7 +62,7 @@ const TotalResults = ({ resultMetaData }: ResultMetaDataProps) => {
   })
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+    <Box>
       <ResultsStatusCard type="errors" messages={errors} />
 
       <ResultsStatusCard type="warnings" messages={warnings} />

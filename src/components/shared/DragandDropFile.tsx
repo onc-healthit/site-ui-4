@@ -40,7 +40,7 @@ const rejectStyle = {
 interface DragDropFileUploadProps {
   maxFiles?: number
   name?: string
-  fileName: ([]) => void
+  fileName?: ([]) => void
 }
 
 export default function DragDropFileUpload({ maxFiles, name, fileName }: DragDropFileUploadProps) {
@@ -60,7 +60,7 @@ export default function DragDropFileUpload({ maxFiles, name, fileName }: DragDro
     noKeyboard: true,
     maxFiles: maxFiles || 1,
     onDrop: (acceptedFiles) => {
-      fileName(acceptedFiles)
+      fileName?.(acceptedFiles)
       setFiles(acceptedFiles)
       if (hiddenInputRef.current) {
         const dataTransfer = new DataTransfer()
