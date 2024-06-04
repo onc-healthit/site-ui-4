@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography, Box, Divider } from '@mui/material'
+import { Typography, Box, Divider, Grid } from '@mui/material'
 
 import ResultsStatusCard from './ValidationTotalResults'
 import ValidationStatusIndicator from './ValidationResultsStatusIndicator'
@@ -62,13 +62,17 @@ const TotalResults = ({ resultMetaData }: ResultMetaDataProps) => {
   })
 
   return (
-    <Box>
-      <ResultsStatusCard type="errors" messages={errors} />
-
-      <ResultsStatusCard type="warnings" messages={warnings} />
-
-      <ResultsStatusCard type="info" messages={infos} />
-    </Box>
+    <Grid flexWrap={'nowrap'} container spacing={2}>
+      <Grid item>
+        <ResultsStatusCard type="errors" messages={errors} />
+      </Grid>
+      <Grid item>
+        <ResultsStatusCard type="warnings" messages={warnings} />
+      </Grid>
+      <Grid item>
+        <ResultsStatusCard type="info" messages={infos} />
+      </Grid>
+    </Grid>
   )
 }
 
@@ -172,7 +176,7 @@ const ValidatorResultsSummary: React.FC<ValidatorResultsSummaryProps> = ({
       ref={scrollRef}
     >
       <Box id="summary" ref={summaryRef}>
-        <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
+        <Typography variant="h3" sx={{ pb: 2, fontWeight: 'bold' }}>
           Summary
         </Typography>
         <Typography sx={{ mt: 1 }}>
@@ -182,7 +186,7 @@ const ValidatorResultsSummary: React.FC<ValidatorResultsSummaryProps> = ({
         {resultMetaData ? <StatusIndicator resultMetaData={resultMetaData} /> : null}
       </Box>
       <Box>
-        <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
+        <Typography variant="h5" gutterBottom sx={{ pb: 2, fontWeight: 'bold' }}>
           Totals
         </Typography>
 

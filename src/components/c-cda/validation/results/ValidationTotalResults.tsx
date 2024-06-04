@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Typography, CardContent, Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
+import { Box, Card, Typography, CardContent, Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
 import palette from '@/styles/palette'
 import { ResultMetaData } from './ValidationResultsSummary'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -24,34 +24,36 @@ const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, messages })
   })
 
   return (
-    <Accordion
-      sx={{
-        py: 0,
-        '&:before': {
-          display: 'none',
-        },
-        borderTop: `4px solid ${colorMap[type]}`,
-        maxWidth: '30%',
-      }}
-      disableGutters
-      elevation={1}
-      id={type}
-    >
-      <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
-        <Typography sx={{ fontWeight: 'bold', border: `` }}>
-          {' '}
-          {`${count} ${type.charAt(0).toUpperCase() + type.slice(1)}`} Total
-        </Typography>
-      </AccordionSummary>
-
-      <AccordionDetails sx={{ p: 2 }}>
-        {messages.map((message, index) => (
-          <Typography key={index} variant="body2" sx={{ mt: 1 }}>
-            {message.count} {' in '} {message.type}
+    <Box display={'flex'} flexDirection={'row'}>
+      <Accordion
+        sx={{
+          py: 0,
+          '&:before': {
+            display: 'none',
+          },
+          borderTop: `4px solid ${colorMap[type]}`,
+          maxWidth: '90%',
+        }}
+        disableGutters
+        elevation={1}
+        id={type}
+      >
+        <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
+          <Typography sx={{ fontWeight: 'bold', border: `` }}>
+            {' '}
+            {`${count} ${type.charAt(0).toUpperCase() + type.slice(1)}`} Total
           </Typography>
-        ))}
-      </AccordionDetails>
-    </Accordion>
+        </AccordionSummary>
+
+        <AccordionDetails sx={{ p: 2 }}>
+          {messages.map((message, index) => (
+            <Typography key={index} variant="body2" sx={{ mt: 1 }}>
+              {message.count} {' in '} {message.type}
+            </Typography>
+          ))}
+        </AccordionDetails>
+      </Accordion>
+    </Box>
     /*     <Card
       sx={{
         maxWidth: '30%',
