@@ -1,4 +1,6 @@
 import DynamicTable from './DynamicTable'
+import InfoIcon from '@mui/icons-material/Info'
+import _ from 'lodash'
 import React, { useState } from 'react'
 import {
   Box,
@@ -16,7 +18,15 @@ import {
 export type TestCaseFields = {
   name: string
   id: number
+  protocol?: string
   desc?: string
+  longDesc?: string
+  sutRole?: string
+  sutHisp?: boolean
+  criteria?: string
+  sutEdge?: boolean
+  ccdaFileRequired?: boolean
+  fields?: ExtraFields[]
   moreInfo?: {
     subHeader?: string
     subDesc?: string
@@ -79,6 +89,7 @@ const TestCard = ({ test }: TestCardProps) => {
     <Card>
       <CardHeader title={test.name} />
       <Divider />
+
       {showDetail ? (
         <>
           <CardContent>
@@ -155,11 +166,57 @@ const TestCard = ({ test }: TestCardProps) => {
         </>
       ) : (
         <CardContent>
-          <Typography variant="body2">{test.desc}</Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-            <Button variant="contained" onClick={handleToggleDetail}>
-              MORE INFO
-            </Button>
+          <Typography variant="body2" sx={{ mb: 2 }}>
+            {test.desc}
+          </Typography>
+          <Divider sx={{ mb: 0 }} />
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'end',
+              width: '100%',
+              p: 1,
+            }}
+          >
+            {test.ccdaFileRequired && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 1,
+                  alignItems: 'flex-start',
+                  justifyContent: 'flex-end', // Aligns children to the bottom of the container
+                }}
+              >
+                <Typography>
+                  CCDA Document Type <InfoIcon color="primary" fontSize="small" />
+                </Typography>
+                <Button variant="outlined" color="primary">
+                  SELECT A DOCUMENT
+                </Button>
+              </Box>
+            )}
+
+            {_.has(test, 'fields') &&
+              test.fields !== undefined &&
+              test.fields[0]?.name === 'sutCommandTimeoutInSeconds' && (
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <TextField name={test.fields[0].name} label={test.fields[0].label} />
+                </Box>
+              )}
+            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+              <Button variant="contained" color="primary">
+                RUN
+              </Button>
+              <Button variant="contained" onClick={handleToggleDetail}>
+                MORE INFO
+              </Button>
+              <Button variant="contained" color="inherit">
+                LOGS
+              </Button>
+            </Box>
           </Box>
         </CardContent>
       )}

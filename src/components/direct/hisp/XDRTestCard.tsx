@@ -19,7 +19,7 @@ import DynamicTable from './DynamicTable'
 export type TestCaseFields = {
   name?: string
   id?: string | number
-  ID?: string
+  protocol?: string
   desc?: string
   sutEdge?: boolean
   sutHisp?: boolean
@@ -253,7 +253,7 @@ const TestCard = ({ test }: TestCardProps) => {
             >
               {_.includes(
                 ['10', '11', '12', '32mu2', '33mu2', '34mu2', '35mu2', '36mu2', '37mu2', '38mu2', '43mu2', '44mu2'],
-                test.ID
+                test.id
               ) && (
                 <Box width={'50%'}>
                   <Box>
@@ -261,7 +261,7 @@ const TestCard = ({ test }: TestCardProps) => {
                       sx={{ ml: 2 }}
                       color="secondary"
                       endIcon={<ContentPasteGoIcon color="secondary" />}
-                      onClick={() => handleClick(endpoint + 'edge-ttp__' + test.ID + '/rep/xdrpr')}
+                      onClick={() => handleClick(endpoint + 'edge-ttp__' + test.id + '/rep/xdrpr')}
                     >
                       Endpoint
                     </Button>
@@ -269,7 +269,7 @@ const TestCard = ({ test }: TestCardProps) => {
                       sx={{ ml: 2 }}
                       color="secondary"
                       endIcon={<ContentPasteGoIcon color="secondary" />}
-                      onClick={() => handleClick(endpointTLS + 'edge-ttp__' + test.ID + '/rep/xdrpr')}
+                      onClick={() => handleClick(endpointTLS + 'edge-ttp__' + test.id + '/rep/xdrpr')}
                     >
                       Endpoint TLS
                     </Button>

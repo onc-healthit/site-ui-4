@@ -1,7 +1,3 @@
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import CancelIcon from '@mui/icons-material/Cancel'
-import { FieldValue } from '../TestCard'
-
 const testCases = {
   testingMode: false,
   tests: [
@@ -119,7 +115,6 @@ const testCases = {
             ],
           },
         ],
-
         optionalTextField: {
           label: 'Command timeout in seconds',
           helperText: 'Amount of seconds you want to elapse before timeout',
