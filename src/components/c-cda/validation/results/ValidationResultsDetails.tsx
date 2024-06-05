@@ -14,16 +14,16 @@ interface ResultsProps {
 
 interface DetailsProps {
   disabled: boolean
-  ref: React.RefObject<HTMLDivElement>
+  refLink: React.RefObject<HTMLDivElement>
   details: CCDAValidationResult[]
-  expanded: boolean
+  expanded?: boolean
   title: string
   accordionTitleColor: string
   accordionDetailsColor: string
 }
 const DetailsAccordion = ({
   disabled,
-  ref,
+  refLink,
   details,
   expanded,
   title,
@@ -42,7 +42,7 @@ const DetailsAccordion = ({
       disableGutters
       elevation={1}
       disabled={disabled}
-      ref={ref}
+      ref={refLink}
       expanded={expanded}
     >
       <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
@@ -68,7 +68,7 @@ const DetailsAccordion = ({
     </Accordion>
   )
 }
-export default function ValidatorResultsCCDAMDHTConformance({ results, errorRef, warningRef, infoRef }: ResultsProps) {
+export default function ValidatorResultsDetails({ results, errorRef, warningRef, infoRef }: ResultsProps) {
   const [errorDisabled, setErrorDisabled] = useState(false)
   const [warningDisabled, setWarningDisabled] = useState(false)
   const [infoDisabled, setInfoDisabled] = useState(false)
@@ -85,6 +85,14 @@ export default function ValidatorResultsCCDAMDHTConformance({ results, errorRef,
   }, [errors, infos, warnings])
   return (
     <>
+      {/*   <DetailsAccordion
+        disabled={errorDisabled}
+        refLink={errorRef}
+        details={errors}
+        title={'Errors'}
+        accordionTitleColor={'palette.error'}
+        accordionDetailsColor={'#FFBDBD64'}
+      /> */}
       <Accordion
         sx={{
           py: 0,
