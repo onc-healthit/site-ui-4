@@ -172,7 +172,7 @@ const ValidatorResultsSummary: React.FC<ValidatorResultsSummaryProps> = ({
       mt={2}
       px={4}
       pb={4}
-      sx={{ overflowY: 'auto' }}
+      sx={{ overflowY: 'none' }}
       ref={scrollRef}
     >
       <Box id="summary" ref={summaryRef}>
