@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { Box, Typography, Button, DialogActions, IconButton } from '@mui/material'
+import { Typography, Button, DialogActions, IconButton, Tooltip } from '@mui/material'
 import palette from '@/styles/palette'
 import DialogTemplate from '../../../shared/dialog/DialogTemplate'
 import ValidatorResultsSummary from './ValidationResultsSummary'
@@ -96,15 +96,20 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
             borderTop: `1px solid ${palette.divider}`,
           }}
         >
-          <Box display={'flex'} flexDirection={'row'} gap={2} alignItems={'center'}>
+          <Tooltip
+            placement="right"
+            arrow
+            title={
+              <span>
+                <span style={{ color: palette.error }}>*</span>
+                Saving is limited to expanded sections.
+              </span>
+            }
+          >
             <Button variant="contained" color="primary" onClick={handlePrint}>
               Save Results
             </Button>
-            <Box display={'flex'} flexDirection={'row'} alignItems={'center'}>
-              <Typography color={palette.error}>*</Typography>
-              <Typography variant="subtitle1">Saving is limited to expanded sections.</Typography>
-            </Box>
-          </Box>
+          </Tooltip>
           <Button variant="outlined" onClick={scrollToTop}>
             Back to Top
           </Button>
