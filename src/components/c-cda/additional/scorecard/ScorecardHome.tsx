@@ -22,6 +22,7 @@ import BannerBox from '@shared/BannerBox'
 import SectionHeader from '@shared/SectionHeader'
 import styles from '@shared/styles.module.css'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function ScorecardHome() {
@@ -51,12 +52,20 @@ export default function ScorecardHome() {
   const handleSubmitScorecardStart = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log('handleSubmitScorecardStart(e), event: ', e)
+    tempLoadResults()
   }
 
   const handleSubmitDemoStart = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log('handleSubmitDemoStart(e), event: ', e)
     console.log('Starting demo with sample: ' + demoSampleOption)
+    tempLoadResults()
+  }
+
+  // TODO: rReplace with shared/dialog/DialogTemplate.tsx modal once generilzation is done in C-CDA Validation
+  const router = useRouter()
+  const tempLoadResults = async () => {
+    router.push('temp-sc-results')
   }
 
   const modalUrls = [
