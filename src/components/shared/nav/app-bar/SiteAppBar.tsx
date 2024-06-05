@@ -58,10 +58,10 @@ export default function SiteAppBar({ open, handleDrawerOpen, auth }: SiteAppBarP
         >
           <MenuIcon />
         </IconButton>
-
-        {/* Search UI */}
-        <Search />
-
+        <div>
+          {/* Will turn search on in later versions */}
+          {/* <Search /> */}
+        </div>
         {/* Login */}
         <Auth auth={auth} />
       </Toolbar>
