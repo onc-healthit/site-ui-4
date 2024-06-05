@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles'
 /* Custom Imports */
 import Auth from '@/components/shared/nav/app-bar/Auth'
 import { DRAWER_WIDTH } from '@/constants/navConstants'
-import Search from '@/components/shared/nav/app-bar/Search'
+// import Search from '@/components/shared/nav/app-bar/Search'
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean
@@ -58,10 +58,10 @@ export default function SiteAppBar({ open, handleDrawerOpen, auth }: SiteAppBarP
         >
           <MenuIcon />
         </IconButton>
-
-        {/* Search UI */}
-        <Search />
-
+        <div>
+          {/* Will turn search on in later versions */}
+          {/* <Search /> */}
+        </div>
         {/* Login */}
         <Auth auth={auth} />
       </Toolbar>
