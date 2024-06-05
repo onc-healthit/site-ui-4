@@ -58,7 +58,7 @@ const ValidationStatusIndicator: React.FC<ValidationStatusIndicatorProps> = ({ s
   return (
     <>
       <Divider sx={{ my: 2 }} />
-      <Typography variant="h3" fontWeight={700}>
+      <Typography sx={{ pb: 2 }} variant="h3" fontWeight={700}>
         Results
       </Typography>
       <Box sx={{ width: '100%', flexDirection: 'row', display: 'flex', alignItems: 'center' }}>

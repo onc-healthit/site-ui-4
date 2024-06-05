@@ -16,7 +16,11 @@ const ErrorDisplayCard = ({ open, handleClose, response }: ErrorDisplayCardProps
     <>
       {response ? (
         <Dialog open={open} maxWidth="sm" onClose={handleClose}>
-          <IconButton aria-label="Close Dialog" sx={{ position: 'absolute', right: 8, top: 8 }} onClick={handleClose}>
+          <IconButton
+            aria-label="Close Dialog"
+            sx={{ zIndex: '1000', position: 'absolute', right: 8, top: 8 }}
+            onClick={handleClose}
+          >
             <CloseIcon htmlColor={palette.white} />
           </IconButton>
           <Box px={4} py={3} alignItems={'flex-start'} display={'flex'} flexDirection={'row'} bgcolor={palette.warning}>
