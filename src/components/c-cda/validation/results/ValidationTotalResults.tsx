@@ -8,10 +8,10 @@ type CardType = 'errors' | 'warnings' | 'info'
 
 interface ResultsStatusCardProps {
   type: CardType
-  messages: ResultMetaData[]
+  results: ResultMetaData[]
 }
 
-const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, messages }) => {
+const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, results }) => {
   const colorMap = {
     errors: palette.error,
     warnings: palette.warning,
@@ -19,8 +19,11 @@ const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, messages })
   }
 
   let count = 0
-  messages.forEach((c) => {
+  results.forEach((c) => {
     count += c.count ? c.count : 0
+  })
+  const modifiedResults = results.map((result) => {
+    return { ...result, type: result.type.replace('MDHT', 'IG').replace('ONC 2015 ', '') }
   })
 
   return (
@@ -45,9 +48,9 @@ const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, messages })
       </AccordionSummary>
 
       <AccordionDetails sx={{ p: 2 }}>
-        {messages.map((message, index) => (
+        {modifiedResults.map((result, index) => (
           <Typography key={index} variant="body2" sx={{ mt: 1 }}>
-            {message.count} {' in '} {message.type}
+            {result.count} {' in '} {result.type}
           </Typography>
         ))}
       </AccordionDetails>

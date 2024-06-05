@@ -63,11 +63,11 @@ const TotalResults = ({ resultMetaData }: ResultMetaDataProps) => {
 
   return (
     <Box>
-      <ResultsStatusCard type="errors" messages={errors} />
+      <ResultsStatusCard type="errors" results={errors} />
 
-      <ResultsStatusCard type="warnings" messages={warnings} />
+      <ResultsStatusCard type="warnings" results={warnings} />
 
-      <ResultsStatusCard type="info" messages={infos} />
+      <ResultsStatusCard type="info" results={infos} />
     </Box>
   )
 }
@@ -129,7 +129,7 @@ const ValidationResults = ({
       />
       <Divider />
       <Typography id="SCC-Reference-CCDA-Validation" variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
-        S&CC Reference CCDA Validation
+        S&CC Reference C-CDA Validation
       </Typography>
       <ValidatorResultsDetails
         results={sccReferenceCCDAValidationResults}
@@ -176,8 +176,8 @@ const ValidatorResultsSummary: React.FC<ValidatorResultsSummaryProps> = ({
           Summary
         </Typography>
         <Typography sx={{ mt: 1 }}>
-          Thank you for using our CCDA (Consolidated Clinical Document Architecture) Validator. We have processed your
-          CCDA file and here is a summary of the validation results:
+          Thank you for using our C-CDA (Consolidated Clinical Document Architecture) Validator. We have processed your
+          C-CDA file and here is a summary of the validation results:
         </Typography>
         {resultMetaData ? <StatusIndicator resultMetaData={resultMetaData} /> : null}
       </Box>
