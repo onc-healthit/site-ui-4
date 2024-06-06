@@ -41,14 +41,19 @@ const DetailsAccordion = ({
           display: 'none',
         },
         borderLeft: `4px solid ${accordionTitleColor}`,
+        borderRadius: '4px',
       }}
       disableGutters
+      square={false}
       elevation={1}
       disabled={disabled}
       ref={refLink}
       defaultExpanded={defaultExpanded}
     >
-      <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
+      <AccordionSummary
+        sx={{ borderBottom: `1px solid ${palette.divider}`, minHeight: '40px' }}
+        expandIcon={<ExpandMoreIcon />}
+      >
         <Typography sx={{ fontWeight: 'bold', border: `` }}>{title}</Typography>
       </AccordionSummary>
 
