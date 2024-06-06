@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { Typography, Button, DialogActions, IconButton } from '@mui/material'
+import { Typography, Button, DialogActions, IconButton, Tooltip } from '@mui/material'
 import palette from '@/styles/palette'
 import DialogTemplate from '../../../shared/dialog/DialogTemplate'
 import ValidatorResultsSummary from './ValidationResultsSummary'
@@ -96,9 +96,20 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
             borderTop: `1px solid ${palette.divider}`,
           }}
         >
-          <Button variant="contained" color="primary" onClick={handlePrint}>
-            Save Results
-          </Button>
+          <Tooltip
+            placement="right"
+            arrow
+            title={
+              <span>
+                <span style={{ color: palette.error }}>*</span>
+                Saving is limited to expanded sections.
+              </span>
+            }
+          >
+            <Button variant="contained" color="primary" onClick={handlePrint}>
+              Save Results
+            </Button>
+          </Tooltip>
           <Button variant="outlined" onClick={scrollToTop}>
             Back to Top
           </Button>
