@@ -9,6 +9,15 @@ const InterSite = Inter({
 })
 
 export const lightThemeOptions: ThemeOptions = {
+  breakpoints: {
+    values: {
+      xs: 0, // Extra small devices (portrait phones)
+      sm: 600, // Small devices (landscape phones)
+      md: 960, // Medium devices (tablets)
+      lg: 1280, // Large devices (desktops)
+      xl: 1920, // Extra large devices (large desktops)
+    },
+  },
   palette: {
     mode: 'light',
     background: {
