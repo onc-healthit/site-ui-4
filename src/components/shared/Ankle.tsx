@@ -1,3 +1,4 @@
+import palette from '@/styles/palette'
 import { Box, Container, Typography } from '@mui/material'
 import Link from 'next/link'
 
@@ -10,16 +11,19 @@ export default function Ankle() {
         </Typography>
         <Typography variant="body1" color="#fff">
           Please checkout our{' '}
-          <Link color="secondary" href="/faqs" passHref>
+          <Link style={{ color: palette.white }} href="/faqs" passHref>
             FAQs
-          </Link>{', '}
-          <Link color="secondary" href="/docs-and-vids" passHref>
+          </Link>
+          {', '}
+          <Link style={{ color: palette.white }} href="/docs-and-vids" passHref>
             Documentation &amp; Videos
-          </Link>{', '}
+          </Link>
+          {', '}
           or{' '}
-          <Link color="secondary" href="/archived" passHref>
+          <Link style={{ color: palette.white }} href="/archived" passHref>
             Archived
-          </Link>{' section '}
+          </Link>
+          {' section '}
           for more details.
         </Typography>
       </Container>
