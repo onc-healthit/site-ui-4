@@ -215,7 +215,7 @@ const ValidatorResultsSummary: React.FC<ValidatorResultsSummaryProps> = ({
       )}
       <Divider />
 
-      <Box id="original-ccda" ref={originalCCDARef}>
+      <Box pb={4} id="original-ccda" ref={originalCCDARef}>
         <Typography variant="h4" sx={{ fontWeight: 'bold', pb: 4 }}>
           Original C-CDA
         </Typography>
