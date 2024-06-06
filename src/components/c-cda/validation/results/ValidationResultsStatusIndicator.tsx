@@ -23,10 +23,10 @@ const ValidationStatusIndicator: React.FC<ValidationStatusIndicatorProps> = ({ s
   useEffect(() => {
     const interval = setInterval(() => {
       setProgressValue((prevProgress) => {
-        const newProgress = prevProgress + 2
+        const newProgress = prevProgress + 50
         return newProgress > statusInfo.value ? statusInfo.value : newProgress
       })
-    }, 50)
+    }, 100)
 
     return () => clearInterval(interval)
   }, [statusInfo.value])
