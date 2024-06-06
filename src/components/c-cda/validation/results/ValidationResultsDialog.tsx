@@ -30,11 +30,6 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
   const referenceInfoRef = useRef<HTMLDivElement>(null)
   const originalCCDARef = useRef<HTMLDivElement>(null)
 
-  const scrollToTop = () => {
-    if (contentRef.current) {
-      contentRef.current.scrollTop = 0
-    }
-  }
   const handlePrint = useReactToPrint({
     content: () => contentRef.current,
   })
@@ -110,7 +105,7 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
               Save Results
             </Button>
           </Tooltip>
-          <Button variant="outlined" onClick={scrollToTop}>
+          <Button variant="outlined" href="#summary">
             Back to Top
           </Button>
         </DialogActions>
