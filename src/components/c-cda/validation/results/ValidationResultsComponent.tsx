@@ -13,6 +13,10 @@ interface ValidatorComponentProps {
   disabled: boolean
   fileName: string
 }
+interface ResultsMetaData {
+  serviceError?: boolean
+  serviceErrorMessage?: string | null
+}
 
 const ValidatorComponent = ({ response, estimatedValidationTime, disabled, fileName }: ValidatorComponentProps) => {
   const [loadingOpen, setLoadingOpen] = useState(false)
@@ -30,6 +34,10 @@ const ValidatorComponent = ({ response, estimatedValidationTime, disabled, fileN
   const handleErrorClose = () => {
     setErrorOpen(false)
   }
+  //if there is service error from the response
+  const resultsMetaData: ResultsMetaData = _.get(response, 'resultsMetaData')!
+  const isServiceError = _.has(resultsMetaData, 'serviceError') ? resultsMetaData?.serviceError : false
+  const serviceErrorMessage = isServiceError ? resultsMetaData?.serviceErrorMessage : ''
 
   useEffect(() => {
     if (!pending && !_.isEmpty(response) && !_.has(response, 'error')) {
@@ -38,7 +46,10 @@ const ValidatorComponent = ({ response, estimatedValidationTime, disabled, fileN
     if (!pending && _.has(response, 'error')) {
       setErrorOpen(true)
     }
-  }, [pending, response])
+    if (!pending && isServiceError) {
+      setErrorOpen(true)
+    }
+  }, [isServiceError, pending, response])
 
   return (
     <>
@@ -57,7 +68,10 @@ const ValidatorComponent = ({ response, estimatedValidationTime, disabled, fileN
       {!pending && _.has(response, 'error') && (
         <ErrorDisplayCard open={errorOpen} handleClose={handleErrorClose} response={response} />
       )}
-      {!pending && !_.has(response, 'error') && (
+      {!pending && !_.has(response, 'error') && isServiceError && (
+        <ErrorDisplayCard open={errorOpen} handleClose={handleErrorClose} response={{ error: serviceErrorMessage }} />
+      )}
+      {!pending && !_.has(response, 'error') && !isServiceError && (
         <ValidatorResultsCard
           results={response}
           open={resultsOpen}

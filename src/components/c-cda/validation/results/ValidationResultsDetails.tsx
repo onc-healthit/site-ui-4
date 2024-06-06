@@ -10,25 +10,28 @@ interface ResultsProps {
   errorRef: React.RefObject<HTMLDivElement>
   warningRef: React.RefObject<HTMLDivElement>
   infoRef: React.RefObject<HTMLDivElement>
+  referenceCCDAResults?: boolean
 }
 
 interface DetailsProps {
   disabled: boolean
   refLink: React.RefObject<HTMLDivElement>
   details: CCDAValidationResult[]
-  expanded?: boolean
+  defaultExpanded?: boolean
   title: string
   accordionTitleColor: string
   accordionDetailsColor: string
+  referenceCCDAResults?: boolean
 }
 const DetailsAccordion = ({
   disabled,
   refLink,
   details,
-  expanded,
   title,
   accordionTitleColor,
   accordionDetailsColor,
+  defaultExpanded,
+  referenceCCDAResults,
 }: DetailsProps) => {
   return (
     <Accordion
@@ -43,7 +46,7 @@ const DetailsAccordion = ({
       elevation={1}
       disabled={disabled}
       ref={refLink}
-      expanded={expanded}
+      defaultExpanded={defaultExpanded}
     >
       <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
         <Typography sx={{ fontWeight: 'bold', border: `` }}>{title}</Typography>
@@ -52,23 +55,32 @@ const DetailsAccordion = ({
       <AccordionDetails sx={{ p: 2 }}>
         {details.map((detail, i) => (
           <Box sx={{ marginBottom: 1 }} p={2} bgcolor={accordionDetailsColor} key={i}>
-            <Typography>
-              <b>{'Result Description: '}</b> {detail.description}
+            <Typography gutterBottom>
+              <b>Result Description</b>: {detail.description}
             </Typography>
-            <Typography>
-              <b>{'XPath: '}</b>
-              {detail.xPath}
-            </Typography>
-            <Typography>
-              <b>{'Line Number: '}</b> {detail.documentLineNumber}
-            </Typography>
+            {!referenceCCDAResults && (
+              <Typography gutterBottom>
+                <b>XPath</b>:<span style={{ lineBreak: 'anywhere', textDecoration: 'underline' }}> {detail.xPath}</span>
+              </Typography>
+            )}
+            {!referenceCCDAResults && (
+              <Typography sx={{ fontFamily: 'monospace', fontSize: '1.3em' }} gutterBottom>
+                <b>Line Number</b>: {detail.documentLineNumber}
+              </Typography>
+            )}
           </Box>
         ))}
       </AccordionDetails>
     </Accordion>
   )
 }
-export default function ValidatorResultsDetails({ results, errorRef, warningRef, infoRef }: ResultsProps) {
+export default function ValidatorResultsDetails({
+  results,
+  errorRef,
+  warningRef,
+  infoRef,
+  referenceCCDAResults,
+}: ResultsProps) {
   const [errorDisabled, setErrorDisabled] = useState(false)
   const [warningDisabled, setWarningDisabled] = useState(false)
   const [infoDisabled, setInfoDisabled] = useState(false)
@@ -85,117 +97,36 @@ export default function ValidatorResultsDetails({ results, errorRef, warningRef,
   }, [errors, infos, warnings])
   return (
     <>
-      {/*   <DetailsAccordion
+      <DetailsAccordion
         disabled={errorDisabled}
         refLink={errorRef}
         details={errors}
         title={'Errors'}
-        accordionTitleColor={'palette.error'}
+        accordionTitleColor={palette.error}
         accordionDetailsColor={'#FFBDBD64'}
-      /> */}
-      <Accordion
-        sx={{
-          py: 0,
-          '&:before': {
-            display: 'none',
-          },
-          borderLeft: `4px solid ${palette.error}`,
-        }}
-        disableGutters
-        elevation={1}
-        disabled={errorDisabled}
-        ref={errorRef}
-        defaultExpanded
-      >
-        <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
-          <Typography sx={{ fontWeight: 'bold', border: `` }}>Errors</Typography>
-        </AccordionSummary>
-
-        <AccordionDetails sx={{ p: 2 }}>
-          {errors.map((error, i) => (
-            <Box sx={{ marginBottom: 1 }} p={2} bgcolor={'#FFBDBD64'} key={i}>
-              <Typography gutterBottom>
-                <b>Result Description</b>: {error.description}
-              </Typography>
-              <Typography gutterBottom>
-                <b>XPath</b>:<span style={{ lineBreak: 'anywhere', textDecoration: 'underline' }}> {error.xPath}</span>
-              </Typography>
-              <Typography sx={{ fontFamily: 'monospace', fontSize: '1.3em' }} gutterBottom>
-                <b>Line Number</b>: {error.documentLineNumber}
-              </Typography>
-            </Box>
-          ))}
-        </AccordionDetails>
-      </Accordion>
-
-      <Accordion
-        sx={{
-          py: 0,
-          '&:before': {
-            display: 'none',
-          },
-          borderLeft: `4px solid ${palette.warning}`,
-        }}
-        disableGutters
-        elevation={1}
+        defaultExpanded={true}
+        referenceCCDAResults={referenceCCDAResults}
+      />
+      <DetailsAccordion
         disabled={warningDisabled}
-        ref={warningRef}
-      >
-        <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
-          <Typography sx={{ fontWeight: 'bold', border: `` }}>Warnings</Typography>
-        </AccordionSummary>
-        <AccordionDetails sx={{ p: 2 }}>
-          {warnings.map((warning, i) => (
-            <Box sx={{ marginBottom: 1 }} p={2} bgcolor={'#F2D0A764'} key={i}>
-              <Typography gutterBottom>
-                <b>Result Description</b>: {warning.description}
-              </Typography>
-              <Typography gutterBottom>
-                <b>XPath</b>:{' '}
-                <span style={{ lineBreak: 'anywhere', textDecoration: 'underline' }}>{warning.xPath}</span>
-              </Typography>
-              <Typography sx={{ fontFamily: 'monospace', fontSize: '1.3em' }} gutterBottom>
-                <b>Line Number</b>: <span> {warning.documentLineNumber}</span>
-              </Typography>
-            </Box>
-          ))}
-        </AccordionDetails>
-      </Accordion>
-
-      {/* Info Template Accordion */}
-
-      <Accordion
-        sx={{
-          py: 0,
-          '&:before': {
-            display: 'none',
-          },
-          borderLeft: `4px solid ${palette.primary}`,
-        }}
-        disableGutters
-        elevation={1}
+        refLink={warningRef}
+        details={warnings}
+        title={'Warnings'}
+        accordionTitleColor={palette.warning}
+        accordionDetailsColor={'#F2D0A764'}
+        defaultExpanded={false}
+        referenceCCDAResults={referenceCCDAResults}
+      />
+      <DetailsAccordion
         disabled={infoDisabled}
-        ref={infoRef}
-      >
-        <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
-          <Typography sx={{ fontWeight: 'bold', border: `` }}>Info</Typography>
-        </AccordionSummary>
-        <AccordionDetails sx={{ p: 2 }}>
-          {infos.map((info, i) => (
-            <Box sx={{ marginBottom: 1 }} p={2} bgcolor={'#E3F2FD64'} key={i}>
-              <Typography gutterBottom>
-                <b>Result Description</b>: {info.description}
-              </Typography>
-              <Typography gutterBottom>
-                <b>XPath</b>: <span style={{ lineBreak: 'anywhere', textDecoration: 'underline' }}> {info.xPath}</span>
-              </Typography>
-              <Typography sx={{ fontFamily: 'monospace', fontSize: '1.3em' }} gutterBottom>
-                <b>Line Number</b>: {info.documentLineNumber}
-              </Typography>
-            </Box>
-          ))}
-        </AccordionDetails>
-      </Accordion>
+        refLink={infoRef}
+        details={infos}
+        title={'Info'}
+        accordionTitleColor={palette.primary}
+        accordionDetailsColor={'#E3F2FD64'}
+        defaultExpanded={false}
+        referenceCCDAResults={referenceCCDAResults}
+      />
     </>
   )
 }

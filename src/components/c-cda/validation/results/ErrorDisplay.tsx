@@ -9,7 +9,7 @@ import Image from 'next/image'
 interface ErrorDisplayCardProps {
   open: boolean
   handleClose: () => void
-  response: { error?: string; errorStatus?: number }
+  response: { error?: string | null; errorStatus?: number }
 }
 const ErrorDisplayCard = ({ open, handleClose, response }: ErrorDisplayCardProps) => {
   return (
@@ -52,9 +52,11 @@ const ErrorDisplayCard = ({ open, handleClose, response }: ErrorDisplayCardProps
                 <br />
                 Looks like there was an error.
               </DialogTitle>
-              <Typography sx={{ px: 2 }} textAlign={'left'} color={palette.white}>
-                Error Type: {response.errorStatus!}
-              </Typography>
+              {response.errorStatus ? (
+                <Typography sx={{ px: 2 }} textAlign={'left'} color={palette.white}>
+                  Error Type: {response.errorStatus!}
+                </Typography>
+              ) : null}
             </Box>
           </Box>
           <DialogContent sx={{ padding: '32px' }}>

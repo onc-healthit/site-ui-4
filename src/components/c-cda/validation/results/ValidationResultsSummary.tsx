@@ -140,6 +140,7 @@ const ValidationResults = ({
         errorRef={referenceErrorRef}
         warningRef={referenceWarningRef}
         infoRef={referenceInfoRef}
+        referenceCCDAResults={true}
       />
     </>
   )
