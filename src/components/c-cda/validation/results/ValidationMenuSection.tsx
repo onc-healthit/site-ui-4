@@ -70,7 +70,7 @@ const ValidatorMenuSection = ({ resultMetaData, title, errorRef, warningRef, inf
               disabled={errorDisabled}
               onClick={() => onScroll(errorRef)}
             >
-              Errors <Chip color="error" label={errorCount} />
+              Errors <Chip size="small" color="error" label={errorCount} />
             </MenuItem>
             <MenuItem
               sx={{ display: 'flex', justifyContent: 'space-between' }}
@@ -78,14 +78,14 @@ const ValidatorMenuSection = ({ resultMetaData, title, errorRef, warningRef, inf
               onClick={() => onScroll(warningRef)}
             >
               Warnings
-              <Chip color="warning" label={warningCount} />
+              <Chip size="small" color="warning" label={warningCount} />
             </MenuItem>
             <MenuItem
               sx={{ display: 'flex', justifyContent: 'space-between' }}
               disabled={infoDisabled}
               onClick={() => onScroll(infoRef)}
             >
-              Info <Chip color="primary" label={infoCount} />
+              Info <Chip size="small" color="primary" label={infoCount} />
             </MenuItem>
           </List>
         </AccordionDetails>
