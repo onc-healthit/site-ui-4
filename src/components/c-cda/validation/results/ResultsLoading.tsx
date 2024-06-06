@@ -45,7 +45,7 @@ const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({
   }, [open, estimatedValidationTime, secondsElapsed, totalTime])
   return (
     <Dialog open={open} maxWidth="lg">
-      <DialogTitle typography={'h3'} sx={{ fontWeight: '600', pb: 0 }} id="validating-dialog-title">
+      <DialogTitle typography={'h3'} sx={{ fontWeight: '600', pb: 2 }} id="validating-dialog-title">
         {'Validating your file: '}
         {fileName}
       </DialogTitle>
