@@ -1,0 +1,17 @@
+name: Create Build
+on:
+  push:
+    branches:
+      - deploy-github-action
+
+jobs:
+  deploy:
+    name: Deploy to Dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Variables
+        env:
+          SSH_PORT: ${{secrets.SSH_PORT}}
+        run: |
+          ls -la
+          echo test port "$SSH_PORT"
