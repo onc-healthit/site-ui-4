@@ -101,20 +101,31 @@ const testCases = {
       desc: "Verifies the ability of the receiving system to correctly timeout for various SMTP commands. The tool will keep the transaction open until a timeout is noted. As there are no required time limits in RFC 2821 section 4.5.3.2, this test is configurable. Hitting 'Run' will begin the ETT's timer based on the value in seconds entered below. The default entry, 0, allows a maximum time-out (no limit). Enter a value greater than your systems time-out period to perform this test.",
       longDesc:
         "The objective of this test sequence is to determine if an Edge System (e.g., SUT), acting as the receiver, can successfully establish an active session with a HISP (e.g., ETT), acting as the sender, and conform to the specific timeout requirements within the RFC and SMTP command.\n The details for conformance testing flow are as follows: The ETT will initiate a connected session with the SUT. The SUT will attempt to keep a transaction open with the ETT for beyond the specified time constraints found within RFC 2821, Section 4.5.3.2. \nThis is required test and maintains compliance with the secure health data transport messaging formats, processing requirements, and communication standards for Direct Edge message exchanges. See Section 1.2.1 and 1.2.2 of the 'Implementation Guide for Direct Edge Protocols' document. ",
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc:
+          "Run this series collectively from one action: Test 9 and 16 verifies the ability of the receiving system to accept a STARTTLS connection with PLAIN SASL authentication. Hitting 'Run' will cause ETT to send an email (Test 20). Verify the receipt of email with subject 'STARTTLS & PLAIN SASL AUTHENTICATION'. If TLS Required is unchecked in the profile-STARTTLS validation will be ignored.",
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        optionalTextField: {
+          label: 'Command timeout in seconds',
+          helperText: 'Amount of seconds you want to elapse before timeout',
+          defaultValue: '0',
+        },
+        actionLabel: 'RUN',
+      },
       sutRole: 'receiver',
       sutHisp: true,
       criteria: "['h2-8']",
       sutEdge: true,
-      fields: [
-        {
-          label: 'Command timeout in seconds',
-          name: 'sutCommandTimeoutInSeconds',
-          datatype: 'String',
-          value: 'sutCommandTimeoutInSeconds',
-          readOnly: false,
-          display: true,
-        },
-      ],
     },
     {
       name: 'SMTP MT Test 17 - Generate Unique Message-ID (Processed MDN suite)',

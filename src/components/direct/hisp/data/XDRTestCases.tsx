@@ -464,6 +464,31 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `Test Tool sends an XDR Message to the HSIP which then translates the message to Direct and sends to the other HISP.`,
+      subDesc2: `Verify that an HISP system can receive a properly formatted XDR message and translate to Direct Message.
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `HISP receives an XDR message and converts to a Direct + XDM Message.`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver', type: 'text' },
+            { content: 'Limited Metadata', type: 'text' },
+          ],
+        },
+      ],
+
+      optionalTextField: {
+        label: 'Command timeout in seconds',
+        helperText: 'Amount of seconds you want to elapse before timeout',
+        defaultValue: '0',
+      },
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge',
     'Metadata Included': 'Limited Metadata',
