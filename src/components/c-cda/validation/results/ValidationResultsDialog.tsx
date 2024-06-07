@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { Typography, Button, DialogActions, IconButton, Tooltip } from '@mui/material'
 import palette from '@/styles/palette'
 import DialogTemplate from '../../../shared/dialog/DialogTemplate'
@@ -6,11 +6,6 @@ import ValidatorResultsSummary from './ValidationResultsSummary'
 import ValidatorMenu from './ValidationMenu'
 import CloseIcon from '@mui/icons-material/Close'
 import { useReactToPrint } from 'react-to-print'
-
-const backToTopStyles = {
-  color: palette.primary,
-  backgroundColor: 'yellow',
-}
 
 // Define props interface for ScrollableDialog
 interface ScrollableDialogProps {
