@@ -17,7 +17,7 @@ import {
   Typography,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
-import ValidationComponent from '../ValidatorLoadingCard'
+import ValidationComponent from './results/ValidationResultsComponent'
 import _ from 'lodash'
 import { getScenarioOptions, submitForm } from './actions'
 import palette from '@/styles/palette'
@@ -56,6 +56,7 @@ export default function V3ValidatorForm({
   const [disableValidate, setDisableValidate] = useState(true)
   const [data, submitAction] = useFormState(submitForm, { response: {} })
   const [estimatedValidationTime, setEstimatedValidationTime] = useState(5)
+  const [fileName, setFileName] = useState('')
   useEffect(() => {
     if (_.isEqual(system, 'Sender')) {
       setCriteriaOptions(senderCriteriaOptions)
@@ -65,6 +66,9 @@ export default function V3ValidatorForm({
     }
     if (!_.isEmpty(system) && !_.isEmpty(criteriaOption) && !_.isEmpty(scenarioOption)) {
       setDisableValidate(false)
+    }
+    if (_.isEqual(criteriaOption, 'C-CDA_IG_Only') || _.isEqual(criteriaOption, 'C-CDA_IG_Plus_Vocab')) {
+      setScenarioOption('Readme.txt')
     }
     if (criteriaOption.includes('IG_Only')) {
       setEstimatedValidationTime(5)
@@ -95,6 +99,12 @@ export default function V3ValidatorForm({
     setCriteriaOption('')
     setScenarioOption('')
     setDisableValidate(true)
+  }
+  const getFileName = (data: File[]) => {
+    //console.log(data[0]?.name)
+    if (data !== undefined) {
+      setFileName(data[0]?.name)
+    }
   }
 
   return (
@@ -172,7 +182,7 @@ export default function V3ValidatorForm({
           <Box sx={{ pt: 3 }}>
             <FormControl fullWidth>
               <FormLabel sx={{ pb: 1 }}>Upload your generated C-CDA file and submit for validation</FormLabel>
-              <DragDropFileUpload maxFiles={1} name="ccdaFile" />
+              <DragDropFileUpload maxFiles={1} name="ccdaFile" fileName={getFileName} />
               {/** <input type="file" name="ccdaFile" />*/}
             </FormControl>
           </Box>
@@ -180,13 +190,11 @@ export default function V3ValidatorForm({
           {/* Buttons */}
           <Box display="flex" flexDirection="row" justifyContent="space-between" sx={{ pt: 4 }}>
             <ValidationComponent
-              response={data.response}
+              response={data?.response}
               estimatedValidationTime={estimatedValidationTime}
               disabled={disableValidate}
+              fileName={fileName}
             ></ValidationComponent>
-            {/* <Button variant="contained" type="submit" disabled={pending}>
-              VALIDATE
-            </Button> */}
             <Box>
               <Link href={downloadScenario} passHref style={{ textDecoration: 'none' }} target="_blank">
                 <Button variant="outlined" sx={{ color: palette.primary }} disabled={disableDownloadSceario}>

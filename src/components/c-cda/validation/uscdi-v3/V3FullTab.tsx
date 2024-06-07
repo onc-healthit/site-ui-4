@@ -1,6 +1,6 @@
 import { Container } from '@mui/material'
 import _ from 'lodash'
-import V3ValidatorForm from './ValidatorForm'
+import V3ValidatorForm from '../ValidatorForm'
 
 const getCriteriaOptions = async (githubUrl: string) => {
   const res = await fetch(githubUrl, { next: { revalidate: 3600 } })

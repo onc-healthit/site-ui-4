@@ -1,14 +1,15 @@
-import palette from '@/styles/palette'
-import { Accordion, AccordionSummary, Typography, AccordionDetails, List, MenuItem, Avatar } from '@mui/material'
+import { Accordion, AccordionSummary, Typography, AccordionDetails, List, MenuItem, Chip } from '@mui/material'
 import { ResultMetaData } from './ValidationMenu'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useEffect, useState } from 'react'
-import _ from 'lodash'
 export interface MetaDataProps {
   resultMetaData: ResultMetaData[]
   title: string
+  errorRef: React.RefObject<HTMLDivElement>
+  warningRef: React.RefObject<HTMLDivElement>
+  infoRef: React.RefObject<HTMLDivElement>
 }
-const ValidatorMenuSection = ({ resultMetaData, title }: MetaDataProps) => {
+const ValidatorMenuSection = ({ resultMetaData, title, errorRef, warningRef, infoRef }: MetaDataProps) => {
   const [errorDisabled, setErrorDisabled] = useState(false)
   const [warningDisabled, setWarningDisabled] = useState(false)
   const [infoDisabled, setInfoDisabled] = useState(false)
@@ -41,6 +42,10 @@ const ValidatorMenuSection = ({ resultMetaData, title }: MetaDataProps) => {
       setAccordionDisabled(true)
     }
   }, [errorCount, infoCount, warningCount])
+
+  const onScroll = (ref: React.RefObject<HTMLDivElement>) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' })
+  }
   return (
     <>
       <Accordion
@@ -53,29 +58,34 @@ const ValidatorMenuSection = ({ resultMetaData, title }: MetaDataProps) => {
         disableGutters
         elevation={0}
         disabled={accordionDisabled}
+        defaultExpanded
       >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography sx={{ fontWeight: 'bold' }}>{title}</Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ p: 0 }}>
           <List>
-            <MenuItem sx={{ display: 'flex', justifyContent: 'space-between' }} disabled={errorDisabled}>
-              Errors{' '}
-              <Avatar variant="circular" sx={{ width: 25, height: 25, bgcolor: palette.error }}>
-                <Typography variant="caption">{errorCount}</Typography>
-              </Avatar>
+            <MenuItem
+              sx={{ display: 'flex', justifyContent: 'space-between' }}
+              disabled={errorDisabled}
+              onClick={() => onScroll(errorRef)}
+            >
+              Errors <Chip size="small" color="error" label={errorCount} />
             </MenuItem>
-            <MenuItem sx={{ display: 'flex', justifyContent: 'space-between' }} disabled={warningDisabled}>
-              Warnings{' '}
-              <Avatar variant="circular" sx={{ width: 25, height: 25, bgcolor: palette.warning }}>
-                <Typography variant="caption">{warningCount}</Typography>
-              </Avatar>
+            <MenuItem
+              sx={{ display: 'flex', justifyContent: 'space-between' }}
+              disabled={warningDisabled}
+              onClick={() => onScroll(warningRef)}
+            >
+              Warnings
+              <Chip size="small" color="warning" label={warningCount} />
             </MenuItem>
-            <MenuItem sx={{ display: 'flex', justifyContent: 'space-between' }} disabled={infoDisabled}>
-              Info{' '}
-              <Avatar variant="circular" sx={{ width: 25, height: 25, bgcolor: palette.primary }}>
-                <Typography variant="caption">{infoCount}</Typography>
-              </Avatar>
+            <MenuItem
+              sx={{ display: 'flex', justifyContent: 'space-between' }}
+              disabled={infoDisabled}
+              onClick={() => onScroll(infoRef)}
+            >
+              Info <Chip size="small" color="primary" label={infoCount} />
             </MenuItem>
           </List>
         </AccordionDetails>
