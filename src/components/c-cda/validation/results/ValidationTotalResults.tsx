@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Card, Typography, CardContent, Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
+import { Box, Typography, Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
 import palette from '@/styles/palette'
 import { ResultMetaData } from './ValidationResultsSummary'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'

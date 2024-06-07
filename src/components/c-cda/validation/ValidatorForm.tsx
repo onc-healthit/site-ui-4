@@ -17,7 +17,7 @@ import {
   Typography,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
-import ValidationComponent from '../results/ValidationResultsComponent'
+import ValidationComponent from './results/ValidationResultsComponent'
 import _ from 'lodash'
 import { getScenarioOptions, submitForm } from './actions'
 import palette from '@/styles/palette'
@@ -66,6 +66,9 @@ export default function V3ValidatorForm({
     }
     if (!_.isEmpty(system) && !_.isEmpty(criteriaOption) && !_.isEmpty(scenarioOption)) {
       setDisableValidate(false)
+    }
+    if (_.isEqual(criteriaOption, 'C-CDA_IG_Only') || _.isEqual(criteriaOption, 'C-CDA_IG_Plus_Vocab')) {
+      setScenarioOption('Readme.txt')
     }
     if (criteriaOption.includes('IG_Only')) {
       setEstimatedValidationTime(5)

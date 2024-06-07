@@ -1,7 +1,6 @@
 'use server'
 import https from 'https'
 import axios from 'axios'
-import { revalidatePath } from 'next/cache'
 export async function getScenarioOptions(criteriaUrl: string) {
   const res = await fetch(criteriaUrl)
   if (!res.ok) {
@@ -57,8 +56,8 @@ export async function submitForm(prevState: object | undefined, formData: FormDa
   try {
     const response = await axios.request(config)
     //console.log(JSON.stringify(response.data))
+    console.log('Response status', response.status)
     return { response: response.data }
-    // revalidatePath('/c-cda/uscdi-v3')
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error(error.response?.data)

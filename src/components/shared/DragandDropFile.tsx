@@ -99,8 +99,8 @@ export default function DragDropFileUpload({ maxFiles, name, fileName }: DragDro
               sx={{ mt: '32px', p: '16px' }}
               variant="outlined"
               color="primary"
-              deleteIcon={<Close color="error" fontSize="small" />}
-              onDelete={() => removeFile(file.name)} // Remove the file when the delete icon is clicked
+              //deleteIcon={<Close color="error" fontSize="small" />}
+              //onDelete={() => removeFile(file.name)} // Remove the file when the delete icon is clicked
               label={`${file.name} - ${file.size} bytes`}
             />
           </div>

@@ -1,6 +1,6 @@
 'use client'
 import { useFormStatus } from 'react-dom'
-import React, { useState, useEffect, FC } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from '@mui/material'
 import ValidatorResultsCard from './ValidationResultsDialog'
 import _ from 'lodash'
