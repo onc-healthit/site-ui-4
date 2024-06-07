@@ -70,7 +70,7 @@ export type TableRowData = {
 
 export type TableCellData = {
   content: string | JSX.Element
-  type: 'text' | 'checkbox' | 'icon'
+  type: 'text' | 'checkbox' | 'icon' | string
   isChecked?: boolean
 }
 

@@ -48,7 +48,7 @@ export type TableRowData = {
 
 export type TableCellData = {
   content: string | JSX.Element
-  type: 'text' | 'checkbox' | 'icon'
+  type: 'text' | 'checkbox' | 'icon' | string
   isChecked?: boolean
 }
 
@@ -57,9 +57,11 @@ export type FieldValue = boolean | string | number
 export type ExtraFields = {
   label: string
   name: string
-  datatype: 'checkbox' | 'text' | 'number'
+  datatype: 'checkbox' | 'text' | 'number' | string
   placeholder?: string
   value: FieldValue
+  readonly?: boolean
+  display?: boolean
   render?: (value: FieldValue) => JSX.Element
 }
 

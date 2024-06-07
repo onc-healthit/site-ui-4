@@ -1,12 +1,12 @@
 import React from 'react'
-import { Table, TableBody, TableCell, TableHead, TableRow, Checkbox } from '@mui/material'
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 
 // Type for each cell in the table
 type TableCellData = {
   content: string | JSX.Element
-  type: 'text' | 'checkbox' | 'icon'
+  type: 'text' | 'checkbox' | 'icon' | string
   isChecked?: boolean
 }
 
