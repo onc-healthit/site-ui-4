@@ -1,3 +1,4 @@
+import React from 'react'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -9,13 +10,8 @@ interface CircularProgressWithLabelAndBackgroundProps {
   labelValue: string
   labelAndProgressColor: string
 }
-export default function CircularProgressWithLabelAndBackground(props: CircularProgressWithLabelAndBackgroundProps) {
-  const baseCheckHeaderStyle = {
-    fontWeight: 'bold',
-    fontSize: 60,
-    color: props.labelAndProgressColor,
-  }
-  const colorTransition = keyframes`
+
+const colorTransition = keyframes`
   0% {
     stroke: transparent;
   }
@@ -23,13 +19,26 @@ export default function CircularProgressWithLabelAndBackground(props: CircularPr
     stroke: currentColor;
   }
 `
-  const CustomCircularProgress = styled(CircularProgress)(() => ({
-    '& .MuiCircularProgress-circleDeterminate': {
-      animation: `${colorTransition} 1.5s forwards`, // Adjust duration as needed
-    },
-  }))
 
-  const circularProgressLabelStyle = {
+const CustomCircularProgress = styled(CircularProgress)(({ theme }) => ({
+  '& .MuiCircularProgress-circleDeterminate': {
+    animation: `${colorTransition} 1.5s forwards`, // Adjust duration as needed
+  },
+  color: theme.palette.primary.main,
+}))
+
+const CircularProgressWithLabelAndBackground: React.FC<CircularProgressWithLabelAndBackgroundProps> = ({
+  progressValue,
+  labelValue,
+  labelAndProgressColor,
+}) => {
+  const baseCheckHeaderStyle: React.CSSProperties = {
+    fontWeight: 'bold',
+    fontSize: 60,
+    color: labelAndProgressColor,
+  }
+
+  const circularProgressLabelStyle: React.CSSProperties = {
     top: 0,
     left: 0,
     bottom: 0,
@@ -44,10 +53,10 @@ export default function CircularProgressWithLabelAndBackground(props: CircularPr
     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
       <CustomCircularProgress
         variant="determinate"
-        value={props.progressValue}
+        value={progressValue}
         thickness={4.3}
-        style={{
-          color: props.labelAndProgressColor,
+        sx={{
+          color: labelAndProgressColor,
           width: '168px',
           height: '168px',
           borderRadius: '100%',
@@ -56,9 +65,11 @@ export default function CircularProgressWithLabelAndBackground(props: CircularPr
       />
       <Box sx={circularProgressLabelStyle}>
         <Typography variant="caption" sx={baseCheckHeaderStyle}>
-          {props.labelValue}
+          {labelValue}
         </Typography>
       </Box>
     </Box>
   )
 }
+
+export default CircularProgressWithLabelAndBackground
