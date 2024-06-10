@@ -6,7 +6,7 @@ import palette from '@/styles/palette'
 
 interface CircularProgressWithLabelAndBackgroundProps {
   progressValue: number
-  labelValue: number
+  labelValue: string
   labelAndProgressColor: string
 }
 export default function CircularProgressWithLabelAndBackground(props: CircularProgressWithLabelAndBackgroundProps) {

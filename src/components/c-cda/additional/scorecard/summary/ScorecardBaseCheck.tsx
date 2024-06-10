@@ -17,7 +17,7 @@ export default function ScorecardBaseCheck() {
         <Box width="50%">
           <Box pb={4} display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
             <CircularProgressWithLabelAndBackground
-              labelValue={igErrorCount}
+              labelValue={igErrorCount.toString()}
               progressValue={igErrorCount * progressMultiple}
               labelAndProgressColor={labelAndProgressColor}
             ></CircularProgressWithLabelAndBackground>
@@ -33,7 +33,7 @@ export default function ScorecardBaseCheck() {
         <Box width="50%">
           <Box pb={4} display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
             <CircularProgressWithLabelAndBackground
-              labelValue={vocabErrorCount}
+              labelValue={vocabErrorCount.toString()}
               progressValue={vocabErrorCount * progressMultiple}
               labelAndProgressColor={labelAndProgressColor}
             ></CircularProgressWithLabelAndBackground>
