@@ -4,7 +4,12 @@ import Typography from '@mui/material/Typography'
 import { styled, keyframes } from '@mui/material/styles'
 import palette from '@/styles/palette'
 
-export default function CircularProgressWithLabelAndBackground(props) {
+interface CircularProgressWithLabelAndBackgroundProps {
+  progressValue: number
+  labelValue: string
+  labelAndProgressColor: string
+}
+export default function CircularProgressWithLabelAndBackground(props: CircularProgressWithLabelAndBackgroundProps) {
   const baseCheckHeaderStyle = {
     fontWeight: 'bold',
     fontSize: 60,
