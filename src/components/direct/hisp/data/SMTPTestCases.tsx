@@ -5,6 +5,25 @@ const testCases = {
       name: 'SMTP Test 8, 14, 18 (Send)',
       id: 1,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        optionalTextField: {
+          label: 'ccdaReferenceFilename',
+          helperText: 'C-CDA Document Type',
+          defaultValue: '',
+        },
+        actionLabel: 'RUN',
+      },
       desc: 'Verifies the ability of the sending system to send an email to ETT using the SMTP protocol with STARTTLS and PLAIN SASL Authentication (if enabled). The SUT will send an email to wellformed1@ttpedge.sitenv.org. Hitting Run will cause ETT to search for an email sent to wellformed1@ttpedge.sitenv.org from the email address entered in Profile window. Note that the C-CDA Document Type selected will not affect the test result.',
       longDesc:
         'Run this series collectively from one action: Test 8 validates basic commands (HELO, MAIL FROM, RCPT TO) and STARTTLS. Test 14 validates SASL AUTH. For Test 18 the SUT needs to connect to the ETT SMTP server using the credentials vendoraccount@ttpds.sitenv.org / vendortesting123 and send an email to wellformed1@ttpedge.sitenv.org. \n The validator is designed to use an XML attachment, sending a PDF is permitted for transport; however, it will not validate.',
@@ -28,6 +47,25 @@ const testCases = {
       name: 'SMTP Test 8, 14 (Send)',
       id: 2,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        optionalTextField: {
+          label: 'ccdaReferenceFilename',
+          helperText: 'C-CDA Document Type',
+          defaultValue: '',
+        },
+        actionLabel: 'RUN',
+      },
       desc: "Verifies the ability of the sending system to send an email to ETT using the SMTP protocol with STARTTLS. The SUT will send an email to edge-receiver@ttpds.sitenv.org. Hitting 'Run' will cause ETT to search for an email sent to edge-receiver@ttpds.sitenv.org from the email address entered in Profile window. Note that the C-CDA Document Type selected will not affect the test result.",
       longDesc:
         'Run this series collectively from one action: Test 8 validates basic commands (HELO, MAIL FROM, RCPT TO) and STARTTLS, and Test 14, sending an email to edge-receiver@ttpds.sitenv.org. \n The validator is designed to use an XML attachment, sending a PDF is permitted for transport; however, it will not validate.',
@@ -51,6 +89,25 @@ const testCases = {
       name: 'SMTP Test 9, 16, 20 (Receive)',
       id: 16,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        optionalTextField: {
+          label: 'ccdaReferenceFilename',
+          helperText: 'C-CDA Document Type',
+          defaultValue: '',
+        },
+        actionLabel: 'RUN',
+      },
       desc: "Verifies the ability of the receiving system to accept a STARTTLS connection with PLAIN SASL authentication(if enabled). Hitting 'Run' will cause ETT to send an email. Verify the receipt of email with subject 'STARTTLS & PLAIN SASL AUTHENTICATION'.",
       longDesc:
         "Run this series collectively from one action: Test 9 and 16 verifies the ability of the receiving system to accept a STARTTLS connection with PLAIN SASL authentication. Hitting 'Run' will cause ETT to send an email (Test 20). Verify the receipt of email with subject 'STARTTLS & PLAIN SASL AUTHENTICATION'. If TLS Required is unchecked in the profile--STARTTLS validation will be ignored. ",
@@ -74,6 +131,20 @@ const testCases = {
       name: 'SMTP Test 10 (Reject Invalid DATA)',
       id: 10,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: "Negative Test: Verifies the ability of the receiving system to REJECT invalid data as part of DATA command. Hitting 'Run' will cause ETT to begin an SMTP transaction to the Vendor SMTP Hostname/IP entered into Profile window. A correct REJECTION will cause the SMTP session to end before the email is delivered.",
       longDesc:
         "The objective of this test sequence is to determine if an Edge System (e.g., SUT), acting as the receiver, rejects data sent from a HISP (e.g., ETT), acting as the sender, as a component of a successfully established and active session. Successful establishment of an end-point to end-point connection between the SUT and ETT is a necessary function for SMTP Test Case 10 execution.\n The details for conformance testing flow are as follows: The ETT will initiate a connected session with the SUT and attempt to send an invalid data via the DATA command (e.g., bad line feeds).\n This is required test and maintains compliance with the secure health data transport messaging formats, processing requirements, and communication standards for Direct Edge message exchanges. See Section 1.2.1 and 1.2.2 of the 'Implementation Guide for Direct Edge Protocols' document. \n The test correlates to Test ID 10 of the SMTP Test Cases (tab) within the 'DirectEdgeProtocols' spreadsheet.",
@@ -86,6 +157,20 @@ const testCases = {
       name: 'SMTP Test 11 (Reject Bad Commands)',
       id: 11,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: "Negative Tests: Verifies the ability of the receiving system to REJECT bad SMTP commands. ETT will send invalid SMTP commands following exception paths identified in Section 4.1.1 and 4.1.4 of RFC 2821. Hitting 'Run' will cause ETT to begin the invalid transactions to the Vendor SMTP Hostname/IP entered into Profile window.",
       longDesc:
         "The objective of this test sequence is to determine if an Edge System (e.g., SUT), acting as the receiver, rejects as invalid the commands sent from a HISP (e.g., ETT), acting as the sender./n The details for conformance testing flow are as follows: The ETT attempts to initiate a session with the SUT by sending an invalid SMTP command following identified exception paths. The test attempts to determine if the SUT rejects the command sent by the Edge Testing Tool as invalid and responds using the appropriate mechanisms. This is conducted in accordance with RFC 2811, Section 4.1.1 and 4.1.4 (e.g., closing the session abruptly).\n This is required test and maintains compliance with the secure health data transport messaging formats, processing requirements, and communication standards for Direct Edge message exchanges. See Section 1.2.1 and 1.2.2 of the 'Implementation Guide for Direct Edge Protocols' document. \nThe test correlates to Test ID 11 of the SMTP Test Cases (tab) within the 'DirectEdgeProtocols' spreadsheet. ",
@@ -173,6 +258,20 @@ const testCases = {
       name: 'SMTP Test 22 (Reject invalid username/password)',
       id: 22,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: "Verifies the ability of the receiving to reject a PLAIN SASL connection. Hitting 'Run' will cause ETT to use an invalid username/password to authenticate to the system entered into Vendor SMTP Hostname/IP in the profile window.",
       longDesc:
         "The objective of this test sequence is to determine if an Edge System (e.g., SUT), acting as the receiver, will reject and fail to authenticate an invalid PLAIN SASL request sent from a HISP (e.g., ETT), acting as the sender.\nThe details for conformance testing flow are as follows: The ETT will send an invalid PLAIN SASL username/password authentication scheme to the SUT. The SUT will receive the invalid PLAIN SASL username/password, reject the credentials, and fail to established authentication to the ETT. The PLAIN SASL connection mechanisms will conform to the specified requirements within RFC 4616, Section 2.\n This is conditional test and maintains compliance with the secure health data transport messaging formats, processing requirements, and communication standards for Direct Edge message exchanges. See Section 1.2.4 of the 'Implementation Guide for Direct Edge Protocols' document.\n The test correlates to Test ID 22 of the SMTP Test Cases (tab) within the 'DirectEdgeProtocols' spreadsheet. ",
@@ -185,7 +284,22 @@ const testCases = {
       name: 'SMTP Test 25(a) (Receive Text and CCDA)',
       id: 91,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: ' Verifies the ability of SUT to receive text and CCDA attachments',
+      longDesc: 'Verifies the ability of SUT to receive text and CCDA attachments',
       sutRole: 'receiver',
       sutHisp: true,
       criteria: "['b1-4','su1-4']",
@@ -195,7 +309,22 @@ const testCases = {
       name: 'SMTP Test 25(b) (Receive PDF and CCDA)',
       id: 92,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: ' Verifies the ability of SUT to receive PDF and CCDA attachments',
+      longDesc: 'Verifies the ability of SUT to receive text and CCDA attachments',
       sutRole: 'receiver',
       sutHisp: true,
       criteria: "['b1-4','su1-4']",
@@ -205,7 +334,22 @@ const testCases = {
       name: 'SMTP Test 25(c) (Receive Text and XDM)',
       id: 93,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: ' Verifies the ability of SUT to receive text and XDM attachments',
+      longDesc: 'Verifies the ability of SUT to receive text and CCDA attachments',
       sutRole: 'receiver',
       sutHisp: true,
       criteria: "['b1-4','su1-4']",
@@ -215,7 +359,22 @@ const testCases = {
       name: 'SMTP Test 25(d) (Receive CCDA and Text)',
       id: 94,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: ' Verifies the ability of SUT to receive CCDA and text attachments',
+      longDesc: 'Verifies the ability of SUT to receive text and CCDA attachments',
       sutRole: 'receiver',
       sutHisp: true,
       criteria: "['b1-4','su1-4']",
@@ -225,7 +384,22 @@ const testCases = {
       name: 'SMTP Test 25(e) (Receive CCDA and Pdf)',
       id: 95,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: ' Verifies the ability of SUT to receive CCDA and PDF attachments',
+      longDesc: 'Verifies the ability of SUT to receive text and CCDA attachments',
       sutRole: 'receiver',
       sutHisp: true,
       criteria: "['b1-4','su1-4']",
@@ -235,7 +409,22 @@ const testCases = {
       name: 'SMTP Test 25(f) (Receive XDM and Text)',
       id: 96,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: ' Verifies the ability of SUT to receive XDM and text attachments',
+      longDesc: 'Verifies the ability of SUT to receive text and CCDA attachments',
       sutRole: 'receiver',
       sutHisp: true,
       criteria: "['b1-4','su1-4']",
@@ -245,6 +434,20 @@ const testCases = {
       name: 'SMTP Test 26(a) (Receive bad CCDA)',
       id: 97,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: ' Verifies the ability of SUT to receive a CCDA document that includes a broken reference to a style-sheet.',
       longDesc:
         ' Verifies the ability of SUT to receive a CCDA document that includes a broken reference to a style-sheet. \n Expected outcome: SUT will accept the C-CDA despite the problems.',
@@ -257,6 +460,20 @@ const testCases = {
       name: 'SMTP Test 26(b) (Receive bad CCDA)',
       id: 98,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: ' Verifies the ability of SUT to receive a CCDA document with good reference to an invalid style-sheet',
       longDesc:
         ' Verifies the ability of SUT to receive a CCDA document with good reference to an invalid style-sheet. \n Expected outcome: SUT will accept the C-CDA despite the problems.',
@@ -269,7 +486,22 @@ const testCases = {
       name: 'SMTP Test 27 (Receive XDM with bad XHTML)',
       id: 99,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: ' Verifies the ability of SUT to receive an XDM package containing a bad XHTML file',
+      longDesc: 'Verifies the ability of SUT to receive an XDM package containing a bad XHTML file',
       sutRole: 'receiver',
       sutHisp: true,
       criteria: "['b1-4']",
@@ -279,7 +511,22 @@ const testCases = {
       name: "SMTP Test 28 (Receive XDM with MIME type 'application/octet-stream')",
       id: 100,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: " Verifies the ability of SUT to receive an XDM package with MIME-type 'application/octet-stream' at the SMTP layer",
+      longDesc: `Verifies the ability of SUT to receive an XDM package with MIME-type 'application/octet-stream' at the SMTP layer`,
       sutRole: 'receiver',
       sutHisp: true,
       criteria: "['b1-4','su1-4']",
@@ -289,7 +536,22 @@ const testCases = {
       name: "SMTP Test 29 (Receive XDM with MIME type 'application/xml')",
       id: 90,
       protocol: 'smtp',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: " Verifies the ability of Vendor to receive an XDM package with MIME-type 'application/xml' at the XDM layer (in METADATA.XML)",
+      longDesc: `Verifies the ability of Vendor to receive an XDM package with MIME-type 'application/xml' at the XDM layer (in METADATA.XML)`,
       sutRole: 'receiver',
       sutHisp: true,
       criteria: "['b1-4','su1-4']",
@@ -301,6 +563,21 @@ const testCases = {
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to an invalid address. Hitting 'Run' will cause  ETT to send a message with a final destination that is not valid. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the negative delivery status notification message. The expectation is that an appropriate delivery failure message will be returned.",
       longDesc: 'The email is sent to badaddresst@ttpds2.sitenv.org',
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to badaddresst@direct.ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-4','sc2-4']",
@@ -312,6 +589,21 @@ const testCases = {
       desc: "Verify the ability of the system to provide a delivery failure message when a message is sent to an untrusted address). Hitting 'Run' will cause ETT  to send a message to an untrusted final address. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the negative delivery status notification message. The expectation is that an appropriate delivery failure message will be returned.",
       longDesc: 'The email is sent to direct2.sitenv.org',
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to provider1@direct2.sitenv.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-4','sc2-4']",
@@ -323,6 +615,21 @@ const testCases = {
       longDesc: 'The email is sent to failure15@ttpds.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message when a message is sent to a destination that does not have a published  certificate. Hitting 'Run' will cause ETT to send a message with a  final destination that does not have a published certificate. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the negative delivery status notification message. The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to failure15@james.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-4','sc2-4']",
@@ -334,6 +641,21 @@ const testCases = {
       longDesc: 'The email is sent to nomdn8@ttpedge.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a processed  MDN. Hitting 'Run' will cause ETT to send a message with a final  destination that will not provide a processed MDN. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the negative delivery status notification message. The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to nomdn8@ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-4','sc2-4']",
@@ -345,6 +667,21 @@ const testCases = {
       longDesc: 'The email is sent to badaddresst@ttpds2.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to an invalid address. Hitting 'Run' will cause  ETT to send a message with a final destination that is not valid. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to badaddresst@direct.ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-4','sc2-4']",
@@ -356,6 +693,21 @@ const testCases = {
       longDesc: 'The email is sent to direct2.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to an untrusted address. Hitting 'Run' will  cause ETT to send a message with a final destination that is not a  trusted HISP. The expectation is that if the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to provider1@direct2.sitenv.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-4','sc2-4']",
@@ -367,6 +719,21 @@ const testCases = {
       longDesc: 'The email is sent to failure15@ttpds.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not have a published  certificate. Hitting 'Run' will cause ETT to send a message with a  final destination that does not have a published certificate. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to failure15@james.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-4','sc2-4']",
@@ -378,6 +745,21 @@ const testCases = {
       longDesc: 'The email is sent to nomdn8@ttpedge.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a processed  MDN. Hitting 'Run' will cause ETT to send a message with a final  destination that will not provide a processed MDN. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to nomdn8@ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-4','sc2-4']",
@@ -389,6 +771,21 @@ const testCases = {
       longDesc: 'The email is sent to badaddresst@ttpds2.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to an invalid address. Hitting 'Run' will cause  ETT to send a message with a final destination that is not valid.  The expectation is that if the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to badaddresst@direct.ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-4','sc2-4']",
@@ -400,6 +797,21 @@ const testCases = {
       longDesc: 'The email is sent to direct2.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to an untrusted address. Hitting 'Run' will  cause ETT to send a message with a final destination that is not a  trusted HISP. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to provider1@direct2.sitenv.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-4','sc2-4']",
@@ -411,6 +823,21 @@ const testCases = {
       longDesc: 'The email is sent to failure15@ttpds.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not have a published  certificate. Hitting 'Run' will cause ETT to send a message with a  final destination that does not have a published certificate. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to failure15@james.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-4','sc2-4']",
@@ -422,6 +849,21 @@ const testCases = {
       longDesc: 'The email is sent to nomdn8@ttpedge.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a processed  MDN. Hitting 'Run' will cause ETT to send a message with a final  destination that will not provide a processed MDN. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to nomdn8@ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-4','sc2-4']",
@@ -433,6 +875,21 @@ const testCases = {
       longDesc: 'The email is sent to processeddispatched6@ttpedge.sitenv.org',
       desc: "Verify the ability of the system to properly process the  Disposition-Notifications-Options Header. Hitting 'Run' will cause ETT  to send a message with an appropriate Disposition-Notifications-Options  Header. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the positive delivery status notification message.The expectation is that the Vendor will handle the header appropriately and provide a processed MDN.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to processeddispatched6@ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -444,6 +901,21 @@ const testCases = {
       longDesc: 'The email is sent to processeddispatched6@ttpedge.sitenv.org',
       desc: "Verify the ability of the system to properly process the  Disposition-Notifications-Options Header. Hitting 'Run' will cause ETT  to send a message with an appropriate Disposition-Notifications-Options  Header. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag).The expectation is that the Vendor will handle the header appropriately and provide a processed MDN.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to processeddispatched6@ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -455,6 +927,21 @@ const testCases = {
       longDesc: 'The email is sent to processeddispatched6@ttpedge.sitenv.org',
       desc: "Verify the ability of the system to properly process the  Disposition-Notifications-Options Header. Hitting 'Run' will cause ETT  to send a message with an appropriate Disposition-Notifications-Options  Header. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that the Vendor will handle the header appropriately and provide a processed MDN.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to processeddispatched6@ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -466,6 +953,21 @@ const testCases = {
       longDesc: 'The email is sent to badaddresst@ttpds2.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to an invalid address. Hitting 'Run' will cause  ETT to send a message with a final destination that is not valid. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the negative delivery status notification message. The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to nomdn8@ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -477,6 +979,21 @@ const testCases = {
       longDesc: 'The email is sent to badaddresst@ttpds2.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to an invalid address. Hitting 'Run' will cause  ETT to send a message with a final destination that is not valid. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to nomdn8@ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -488,6 +1005,21 @@ const testCases = {
       longDesc: 'The email is sent to badaddresst@ttpds2.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to an invalid address. Hitting 'Run' will cause  ETT to send a message with a final destination that is not valid. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to nomdn8@ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -499,6 +1031,21 @@ const testCases = {
       longDesc: 'The email is sent to badaddresst@ttpds2.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to an untrusted HISP. Hitting 'Run' will  cause ETT to send a message with a final destination that is not a  trusted HISP. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the negative delivery status notification message. The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'badaddresst@direct.ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -510,6 +1057,21 @@ const testCases = {
       longDesc: 'The email is sent to direct2.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to an untrusted HISP(direct2.sitenv.org). Hitting 'Run' will  cause ETT to send a message with a final destination that is not a  trusted HISP. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to provider1@direct2.sitenv.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -521,6 +1083,21 @@ const testCases = {
       longDesc: 'The email is sent to direct2.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to an untrusted HISP. Hitting 'Run' will  cause ETT to send a message with a final destination that is not a  trusted HISP. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to provider1@direct2.sitenv.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -532,6 +1109,21 @@ const testCases = {
       longDesc: 'The email is sent to failure15@ttpds.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not have a published  certificate. Hitting 'Run' will cause ETT to send a message with a  final destination that does not have a published certificate. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the negative delivery status notification message. The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to failure15@james.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -543,6 +1135,21 @@ const testCases = {
       longDesc: 'The email is sent to failure15@ttpds.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not have a published  certificate. Hitting 'Run' will cause ETT to send a message with a  final destination that does not have a published certificate. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to failure15@james.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -554,6 +1161,21 @@ const testCases = {
       longDesc: 'The email is sent to failure15@ttpds.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not have a published  certificate. Hitting 'Run' will cause ETT to send a message with a  final destination that does not have a published certificate. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to failure15@james.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -565,6 +1187,21 @@ const testCases = {
       longDesc: 'The email is sent to nomdn8@ttpedge.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a processed  MDN due to an exceeded wait time. Hitting 'Run' will cause ETT to send a message with a final  destination that will not provide a processed MDN. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the negative delivery status notification message. The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to nomdn8@ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -576,6 +1213,21 @@ const testCases = {
       longDesc: 'The email is sent to nomdn8@ttpedge.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a processed  MDN due to an exceeded wait time. Hitting 'Run' will cause ETT to send a message with a final  destination that will not provide a processed MDN. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to nomdn8@ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -587,6 +1239,21 @@ const testCases = {
       longDesc: 'The email is sent to nomdn8@ttpedge.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a processed  MDN due to an exceeded wait time. Hitting 'Run' will cause ETT to send a message with a final  destination that will not provide a processed MDN. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to nomdn8@ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -598,6 +1265,21 @@ const testCases = {
       longDesc: 'The email is sent to processedonly5@ttpedge.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a  dispatched MDN. Hitting 'Run' will cause ETT to send a message with a  final destination that will not provide a dispatched MDN. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the negative delivery status notification message. The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to processedonly5@ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -609,6 +1291,21 @@ const testCases = {
       longDesc: 'The email is sent to processedonly5@ttpedge.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a  dispatched MDN. Hitting 'Run' will cause ETT to send a message with a  final destination that will not provide a dispatched MDN. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        subDesc: 'The email is sent to processedonly5@ett.healthit.gov',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -620,6 +1317,20 @@ const testCases = {
       longDesc: 'The email is sent to processedonly5@ttpedge.sitenv.org',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a  dispatched MDN. Hitting 'Run' will cause ETT to send a message with a  final destination that will not provide a dispatched MDN. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -632,6 +1343,25 @@ const testCases = {
         'This test is setup to allow a (N) + 5 minute timeout for the failure MDN, where N is the value entered to run the test. To run this test, enter the value (N) that the SUT will wait before generating a failure MDN. If the SUT sends an MDN prior to its default timeout (N), the test will fail. Sending a message between (N) and (N) + 5 min, no failure or success will be recorded. The test is setup to allow a buffer for the delivery of Dispatched MDN from the ETT as a Receiving HISP. Steps to run the test: 1) Enter the SUT timeout value (N) into the test input parameter box, 2) Select Run, 3) wait for (N) + 5 min, then select Check MDN. A PASS will result only if a FAILURE Notification and NO Success Notification is sent (Which means if no Failure Notification found or both found will generate failure). If the ETT receives a Dispatch MDN, the test will result in a Failure.',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a  dispatched MDN after the expected wait time is exceeded. Hitting 'Run' will  cause ETT to send a message with a final destination that will not  provide a dispatched MDN. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the negative delivery status notification message. The expectation is that an appropriate delivery failure message indicating a timeout will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        optionalTextField: {
+          label: 'Command timeout in seconds',
+          helperText: 'Amount of seconds you want to elapse before timeout',
+          defaultValue: '0',
+        },
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -655,6 +1385,25 @@ const testCases = {
         'This test is setup to allow a (N) + 5 minute timeout for the failure MDN, where N is the value entered to run the test. To run this test, enter the value (N) that the SUT will wait before generating a failure MDN. If the SUT sends an MDN prior to its default timeout (N), the test will fail. Sending a message between (N) and (N) + 5 min, no failure or success will be recorded. The test is setup to allow a buffer for the delivery of Dispatched MDN from the ETT as a Receiving HISP. Steps to run the test: 1) Enter the SUT timeout value (N) into the test input parameter box, 2) Select Run, 3) wait for (N) + 5 min, then select Check MDN. A PASS will result only if a FAILURE Notification and NO Success Notification is sent (Which means if no Failure Notification found or both found will generate failure). If the ETT receives a Dispatch MDN, the test will result in a Failure.',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a  dispatched MDN after the expected wait time is exceeded. Hitting 'Run' will  cause ETT to send a message with a final destination that will not  provide a dispatched MDN. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message indicating a timeout will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        optionalTextField: {
+          label: 'Command timeout in seconds',
+          helperText: 'Amount of seconds you want to elapse before timeout',
+          defaultValue: '0',
+        },
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -678,6 +1427,25 @@ const testCases = {
         'This test is setup to allow a (N) + 5 minute timeout for the failure MDN, where N is the value entered to run the test. To run this test, enter the value (N) that the SUT will wait before generating a failure MDN. If the SUT sends an MDN prior to its default timeout (N), the test will fail. Sending a message between (N) and (N) + 5 min, no failure or success will be recorded. The test is setup to allow a buffer for the delivery of Dispatched MDN from the ETT as a Receiving HISP. Steps to run the test: 1) Enter the SUT timeout value (N) into the test input parameter box, 2) Select Run, 3) wait for (N) + 5 min, then select Check MDN. A PASS will result only if a FAILURE Notification and NO Success Notification is sent (Which means if no Failure Notification found or both found will generate failure). If the ETT receives a Dispatch MDN, the test will result in a Failure.',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a  dispatched MDN after the expected wait time is exceeded. Hitting 'Run' will  cause ETT to send a message with a final destination that will not  provide a dispatched MDN. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message indicating a timeout will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        optionalTextField: {
+          label: 'Command timeout in seconds',
+          helperText: 'Amount of seconds you want to elapse before timeout',
+          defaultValue: '0',
+        },
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9']",
@@ -700,6 +1468,20 @@ const testCases = {
       longDesc: 'The email is sent to processeddispatched6@ttpedge.sitenv.org',
       desc: 'Verify the ability of the system to provide a final positive delivery  notification when a message is sent to a destination that has responding  appropriately. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the positive delivery status notification message. The expectation is that an appropriate final positive delivery notification will be returned.',
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9','sc2-9']",
@@ -711,6 +1493,20 @@ const testCases = {
       longDesc: 'The email is sent to processeddispatched6@ttpedge.sitenv.org',
       desc: "Verify the ability of the system to provide a final positive delivery  notification when a message is sent to a destination that has responding  appropriately. Hitting 'Run' will cause ETT to send a message with a  final destination that will respond appropriately. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate final positive delivery notification will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9','sc2-9']",
@@ -722,6 +1518,20 @@ const testCases = {
       longDesc: 'The email is sent to processeddispatched6@ttpedge.sitenv.org',
       desc: "Verify the ability of the system to provide a final positive delivery  notification when a message is sent to a destination that has responding  appropriately. Hitting 'Run' will cause ETT to send a message with a  final destination that will respond appropriately. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate final positive delivery notification will be returned.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-9','sc2-9']",
@@ -732,6 +1542,25 @@ const testCases = {
       id: 139,
       desc: "Verify the ability of the system to properly process the Disposition-Notifications-Options Header. Hitting 'Run' will cause ETT to send a message with a well-formed Disposition-Notifications-Options Header. If the message is sent successfully 'Check MDN' will appear. Clicking that will check for the expected Processed and Dispatched MDN (Note that you may have to click multiple times due to lag.) The expected result is a Processed and Dispatched MDN. The selection of a file is optional, if the system requires clinical information with the message.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        optionalTextField: {
+          label: 'ccdaReferenceFilename',
+          helperText: 'C-CDA Document Type',
+          defaultValue: '',
+        },
+        actionLabel: 'RUN',
+      },
       longDesc:
         'If you are acting as a Receiving HISP and need to load your trust anchor and certificates to properly to receive MDNs, please request this service on the mailing list.  ',
       sutRole: 'receiver',
@@ -754,6 +1583,25 @@ const testCases = {
       id: 140,
       desc: "Verify the ability of the system to process an invalid Disposition-Notifications-Options Header. Hitting 'Run' will cause ETT to send a message with an incorrect Disposition-Notifications-Options Header. If the message is sent successfully 'Check MDN' will appear. Clicking that will check for the expected Processed MDN (Note that you may have to click multiple times due to lag.) The expected result is that the Vendor will be able to process the invalid Disposition-Notifications-Options Header and respond with a Processed MDN. Optionally, the test will accommodate systems that also respond with a Dispatched MDN--however the Dispatched MDN must NOT contain the X-DIRECT-FINAL-DESTINATION-DELIVERY header to pass. The selection of a file is optional, if the system requires clinical information with the message.",
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        optionalTextField: {
+          label: 'ccdaReferenceFilename',
+          helperText: 'C-CDA Document Type',
+          defaultValue: '',
+        },
+        actionLabel: 'RUN',
+      },
       longDesc:
         'If you are acting as a Receiving HISP and need to load your trust anchor and certificates to properly to receive MDNs, please request this service on the mailing list.  ',
       sutRole: 'receiver',
@@ -776,6 +1624,25 @@ const testCases = {
       id: 142,
       desc: 'Verifies that when the system successfully validates security and trust, but cannot deliver the message to its final destination, the system generates an MDN failed or a failure DSN. ETT (as Sending HISP) sends a well-formed message to a destination address.  The system decrypts and trust validates the message, returning a Processed MDN. The system is unable to deliver the message (mail box full, unavailable, mailbox does not exist)  and returns either an MDN failed or a failure Delivery Status Notification. The selection of a file is optional, if the system requires clinical information with the message.',
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Receiver', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        optionalTextField: {
+          label: 'ccdaReferenceFilename',
+          helperText: 'C-CDA Document Type',
+          defaultValue: '',
+        },
+        actionLabel: 'RUN',
+      },
       longDesc:
         'If you are acting as a Receiving HISP and need to load your trust anchor and certificates to properly to receive MDNs, please request this service on the mailing list.  ',
       sutRole: 'receiver',
@@ -793,21 +1660,25 @@ const testCases = {
         },
       ],
     },
-    {
-      name: 'IMAP Test 1, 2, 3',
-      id: 201,
-      protocol: 'imap',
-      desc: 'Verifies IMAP4 CAPABILITY, NOOP and LOGOUT commands are implemented.',
-      longDesc: 'The test tool connects to the vendor on the standard IMAP port 143.',
-      sutRole: 'sender',
-      sutHisp: true,
-      criteria: "['h2-5']",
-      sutEdge: false,
-    },
+
     {
       name: 'POP Test 1, 2',
       id: 301,
       protocol: 'pop',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: 'Verifies POP3 CAPA, NOOP and QUIT commands are implemented.',
       longDesc: 'The test tool connects to the vendor on the standard POP3 port 110.',
       sutRole: 'sender',
@@ -819,6 +1690,20 @@ const testCases = {
       name: 'POP Test 5, 11, 15',
       id: 303,
       protocol: 'pop',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: 'Verifies POP3 STAT, STLS, RETR, LIST, RSET and QUIT commands are implemented',
       longDesc:
         'The vendor has to provide the profile information (hostname, username, password) and an account with preloaded email.  ',
@@ -831,6 +1716,20 @@ const testCases = {
       name: 'POP Test 9',
       id: 309,
       protocol: 'pop',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: 'Verifies the ability of the Vendor HISP(POP Server) to reject a command when a command with bad syntax is sent.',
       longDesc: 'The test tool connects to the vendor on the standard POP3 port 110.',
       sutRole: 'sender',
@@ -842,6 +1741,20 @@ const testCases = {
       name: 'POP Test 10',
       id: 310,
       protocol: 'pop',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: 'Verifies the ability of the Vendor HISP(POP Server) to reject a command in bad state.',
       longDesc: 'The test tool connects to the vendor on the standard POP3 port 110.',
       sutRole: 'sender',
@@ -853,6 +1766,20 @@ const testCases = {
       name: 'POP Test 17',
       id: 317,
       protocol: 'pop',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: 'Verifies the ability of the Vendor HISP(POP Server) to reject authentication when bad username/password is used.',
       longDesc: 'The test tool connects to the vendor on the standard POP3 port 110.',
       sutRole: 'sender',
@@ -861,9 +1788,48 @@ const testCases = {
       sutEdge: false,
     },
     {
+      name: 'IMAP Test 1, 2, 3',
+      id: 201,
+      protocol: 'imap',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
+      desc: 'Verifies IMAP4 CAPABILITY, NOOP and LOGOUT commands are implemented.',
+      longDesc: 'The test tool connects to the vendor on the standard IMAP port 143.',
+      sutRole: 'sender',
+      sutHisp: true,
+      criteria: "['h2-5']",
+      sutEdge: false,
+    },
+    {
       name: 'IMAP Test 8, 11, 15',
       id: 205,
       protocol: 'imap',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: 'Verifies the ability of the Vendor HISP to implement imap commands.(AUTHENTICATE, STARTTLS, LOGIN, SELECT, FETCH)',
       longDesc:
         'The vendor has to provide the profile information (hostname, username, password) and an account with preloaded email.  ',
@@ -876,6 +1842,20 @@ const testCases = {
       name: 'IMAP Test 9',
       id: 209,
       protocol: 'imap',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: 'Verifies the ability of the Vendor HISP to reject a command when a command with bad syntax is sent.',
       longDesc: 'The test tool connects to the vendor on the standard IMAP port 143.',
       sutRole: 'sender',
@@ -887,6 +1867,20 @@ const testCases = {
       name: 'IMAP Test 10',
       id: 210,
       protocol: 'imap',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: 'Verifies the ability of the Vendor HISP to reject commands with right syntax based on the specific state of the connection.',
       longDesc: 'The test tool connects to the vendor on the standard IMAP port 143.',
       sutRole: 'sender',
@@ -898,6 +1892,20 @@ const testCases = {
       name: 'IMAP Test 17',
       id: 217,
       protocol: 'imap',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: 'Verifies the ability of the Vendor HISP to reject incorrect username/password.',
       longDesc: 'The test tool connects to the vendor on the standard IMAP port 143.',
       sutRole: 'sender',
@@ -1039,6 +2047,25 @@ const testCases = {
       name: 'IMAP 32 (Receive + Validate)',
       id: 232,
       protocol: 'imap',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        optionalTextField: {
+          label: 'ccdaReferenceFilename',
+          helperText: 'C-CDA Document Type',
+          defaultValue: '',
+        },
+        actionLabel: 'RUN',
+      },
       desc: 'Verifies the ability of the SUT to host attachments and make it available for fetching through IMAP. The CCDA is validated using the MDHT validator.',
       sutRole: 'sender',
       sutHisp: true,
@@ -1166,6 +2193,25 @@ const testCases = {
       name: 'POP 32 (Receive + Validate)',
       id: 332,
       protocol: 'pop',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        optionalTextField: {
+          label: 'ccdaReferenceFilename',
+          helperText: 'C-CDA Document Type',
+          defaultValue: '',
+        },
+        actionLabel: 'RUN',
+      },
       desc: 'Verifies the ability of the SUT to host attachments and make it available for fetching through POP. The CCDA is validated using the MDHT validator.',
       sutRole: 'sender',
       sutHisp: true,
