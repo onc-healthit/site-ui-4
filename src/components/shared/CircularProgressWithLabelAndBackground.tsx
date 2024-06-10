@@ -1,4 +1,3 @@
-import React from 'react'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -10,8 +9,13 @@ interface CircularProgressWithLabelAndBackgroundProps {
   labelValue: string
   labelAndProgressColor: string
 }
-
-const colorTransition = keyframes`
+export default function CircularProgressWithLabelAndBackground(props: CircularProgressWithLabelAndBackgroundProps) {
+  const baseCheckHeaderStyle = {
+    fontWeight: 'bold',
+    fontSize: 60,
+    color: props.labelAndProgressColor,
+  }
+  const colorTransition = keyframes`
   0% {
     stroke: transparent;
   }
@@ -19,26 +23,13 @@ const colorTransition = keyframes`
     stroke: currentColor;
   }
 `
+  const CustomCircularProgress = styled(CircularProgress)(() => ({
+    '& .MuiCircularProgress-circleDeterminate': {
+      animation: `${colorTransition} 1.5s forwards`, // Adjust duration as needed
+    },
+  }))
 
-const CustomCircularProgress = styled(CircularProgress)(({ theme }) => ({
-  '& .MuiCircularProgress-circleDeterminate': {
-    animation: `${colorTransition} 1.5s forwards`, // Adjust duration as needed
-  },
-  color: theme.palette.primary.main,
-}))
-
-const CircularProgressWithLabelAndBackground: React.FC<CircularProgressWithLabelAndBackgroundProps> = ({
-  progressValue,
-  labelValue,
-  labelAndProgressColor,
-}) => {
-  const baseCheckHeaderStyle: React.CSSProperties = {
-    fontWeight: 'bold',
-    fontSize: 60,
-    color: labelAndProgressColor,
-  }
-
-  const circularProgressLabelStyle: React.CSSProperties = {
+  const circularProgressLabelStyle = {
     top: 0,
     left: 0,
     bottom: 0,
@@ -53,10 +44,10 @@ const CircularProgressWithLabelAndBackground: React.FC<CircularProgressWithLabel
     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
       <CustomCircularProgress
         variant="determinate"
-        value={progressValue}
+        value={props.progressValue}
         thickness={4.3}
-        sx={{
-          color: labelAndProgressColor,
+        style={{
+          color: props.labelAndProgressColor,
           width: '168px',
           height: '168px',
           borderRadius: '100%',
@@ -65,11 +56,9 @@ const CircularProgressWithLabelAndBackground: React.FC<CircularProgressWithLabel
       />
       <Box sx={circularProgressLabelStyle}>
         <Typography variant="caption" sx={baseCheckHeaderStyle}>
-          {labelValue}
+          {props.labelValue}
         </Typography>
       </Box>
     </Box>
   )
 }
-
-export default CircularProgressWithLabelAndBackground
