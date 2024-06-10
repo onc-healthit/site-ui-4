@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography'
 import { styled, keyframes } from '@mui/material/styles'
 import palette from '@/styles/palette'
 
-export default function CircularProgressWithLabelAndBackground() {
+export default function CircularProgressWithLabelAndBackground(props) {
   const baseCheckHeaderStyle = {
     fontWeight: 'bold',
     fontSize: 60,
