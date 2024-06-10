@@ -1,20 +1,28 @@
-import palette from '@/styles/palette'
-import Box from '@mui/material/Box'
 import CircularProgress from '@mui/material/CircularProgress'
+import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { styled, keyframes } from '@mui/material/styles'
+import palette from '@/styles/palette'
 
-interface CircularProgressWithLabelAndBackgroundProps {
-  labelValue: number
-  progressValue: number
-  labelAndProgressColor: string
-}
-
-export default function CircularProgressWithLabelAndBackground(props: CircularProgressWithLabelAndBackgroundProps) {
+export default function CircularProgressWithLabelAndBackground() {
   const baseCheckHeaderStyle = {
     fontWeight: 'bold',
     fontSize: 60,
     color: props.labelAndProgressColor,
   }
+  const colorTransition = keyframes`
+  0% {
+    stroke: transparent;
+  }
+  100% {
+    stroke: currentColor;
+  }
+`
+  const CustomCircularProgress = styled(CircularProgress)(() => ({
+    '& .MuiCircularProgress-circleDeterminate': {
+      animation: `${colorTransition} 1.5s forwards`, // Adjust duration as needed
+    },
+  }))
 
   const circularProgressLabelStyle = {
     top: 0,
@@ -29,14 +37,14 @@ export default function CircularProgressWithLabelAndBackground(props: CircularPr
 
   return (
     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-      <CircularProgress
+      <CustomCircularProgress
         variant="determinate"
         value={props.progressValue}
-        thickness={6}
+        thickness={4.3}
         style={{
           color: props.labelAndProgressColor,
-          width: '170px',
-          height: '170px',
+          width: '168px',
+          height: '168px',
           borderRadius: '100%',
           boxShadow: `inset 0 0 0px 18px ${palette.greyLight}`,
         }}
