@@ -1,3 +1,4 @@
+import palette from '@/styles/palette'
 import { Box, Container, Typography } from '@mui/material'
 import Link from 'next/link'
 
@@ -7,10 +8,10 @@ export default function Footer() {
       <Container>
         <Box pt={1} display="flex" flexDirection="row" justifyContent="space-between">
           <Box display="flex" flexDirection="row" gap={2}>
-            <Link color="secondary" href={''}>
+            <Link target="_blank" style={{ color: palette.white }} href={'http://www.hhs.gov/Disclaimer.html'}>
               Disclaimer
             </Link>
-            <Link color="secondary" href={''}>
+            <Link target="_blank" style={{ color: palette.white }} href={'http://www.hhs.gov/Privacy.html'}>
               Privacy Policy
             </Link>
           </Box>
