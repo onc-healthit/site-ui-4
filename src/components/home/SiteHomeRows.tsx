@@ -26,14 +26,14 @@ import 'react-multi-carousel/lib/styles.css'
 
 export default function SiteHomeRows() {
   const maxWidth: number = 350
-  const rowPaddingBottom: number = 20
+  const rowPaddingBottom: number = 64
   const industryTestingResourceRow: number = 350
 
   const containerNoDragStyles = {
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
-    gap: '18px',
+    gap: '44px',
     paddingBottom: `${rowPaddingBottom}px`,
   }
   const responsive = {
