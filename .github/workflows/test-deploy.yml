@@ -29,6 +29,7 @@ jobs:
       - name: Test env
         run: |
           echo "test" > trial.txt
-          scp trial.txt  development:/home
+          ls -la
+          scp ./trial.txt development:/
           ssh development 'ls -la'
 
