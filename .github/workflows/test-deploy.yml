@@ -30,6 +30,6 @@ jobs:
         run: |
           echo "test" > trial.txt
           ls -la
-          sudo scp trial.txt development:/trial.txt
+          scp trial.txt development:
           ssh development 'ls -la'
 
