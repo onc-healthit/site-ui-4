@@ -355,6 +355,25 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `Test Tool sends a Direct Message, which is translated to an XDR message and sent to the Edge.
+      Verify that the HISP system can create an XDR message per the specification and forward to Edge. The validation report will be sent to the email address registered with the Direct address enter during setup. Direct To Address: SUT's receiving email endpoint for Direct/XDR translation, ETT to SUT workflow. The SUT will receive a message from testcase10@ett.healthit.gov`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `HISP generates an XDR message with Limited Metadata from a Direct Message and forwards to Edge.`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'Limited Metadata', type: 'text' },
+          ],
+        },
+      ],
+
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Send ',
     'Data Flow in Direct': 'HISP Sends an XDR message to Edge',
     'Metadata Included': 'Limited Metadata',
@@ -390,6 +409,26 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `Test Tool sends a Direct Message + XDM, which is translated to an XDR message with Limited Metadata and sent to the Edge.`,
+      subDesc2: `Verify that the HISP system can create an XDR message per the specification and forward to Edge. The validation report will be sent to the email address registered with the Direct address enter during setup. Direct To Address: SUT's receiving email endpoint for Direct/XDR translation, ETT to SUT workflow. The SUT will receive a message from testcase11@ett.healthit.gov.`,
+
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `HISP generates an XDR message with Limited Metadata from a Direct Message and forwards to Edge.`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'Limited Metadata', type: 'text' },
+          ],
+        },
+      ],
+
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Send',
     'Data Flow in Direct': 'HISP Sends an XDR message to Edge with Limited Metadata',
     'Metadata Included': 'Limited Metadata',
@@ -425,6 +464,26 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `Test Tool sends a Direct Message + XDM, which is translated to an XDR message with Limited Metadata and sent to the Edge.`,
+      subDesc2: `Verify that the HISP system can create an XDR message per the specification and forward to Edge. The validation report will be sent to the email address registered with the Direct address enter during setup. Direct To Address: SUT's receiving email endpoint for Direct/XDR translation, ETT to SUT workflow. The SUT will receive a message from testcase12@ett.healthit.gov.`,
+
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `HISP generates an XDR message with Limited Metadata from a Direct Message and forwards to Edge.`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'Limited Metadata', type: 'text' },
+          ],
+        },
+      ],
+
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Send',
     'Data Flow in Direct': 'HISP Sends an XDR message to Edge along with Full Metadata',
     'Metadata Included': 'Full Metadata',
@@ -481,12 +540,6 @@ const testCases = [
           ],
         },
       ],
-
-      optionalTextField: {
-        label: 'Command timeout in seconds',
-        helperText: 'Amount of seconds you want to elapse before timeout',
-        defaultValue: '0',
-      },
       actionLabel: 'RUN',
     },
     'Test Focus': 'XDR Receive',
@@ -533,6 +586,27 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `The ETT (as Edge) sends a message to the Health IT Module using a bad address, such that the Health IT Module is unable to deliver the message. The Health IT Module delivers a failure message to the ETT (as Edge) using the XDR profile due to a bad address.
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+      subDesc2: `Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).`,
+
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `The message disposition must indicate a failure.`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Client (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge',
     'Metadata Included': 'N/A',
@@ -571,6 +645,25 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `Test Tool sends an XDR Message with Full Metadata to the HSIP which then translates the message to Direct and sends to the other HISP.
+      Verify that an HISP system can receive a properly formatted XDR message and translate to Direct Message.`,
+      subDesc2: `Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `HISP receives an XDR message and converts to a Direct Message.`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'Full Metadata', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge along with Full Metadata',
     'Metadata Included': 'Full Metadata',
@@ -615,6 +708,27 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `The ETT (as Edge) sends a message to the Health IT Module using a bad address, such that the Health IT Module is unable to deliver the message. The Health IT Module delivers a failure message to the ETT (as Edge) using the XDR profile due to a bad address.
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+      subDesc2: `Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).`,
+
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `The message disposition must indicate a failure.`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Client (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct':
       'The ETT (as Edge) sends a message to the Health IT Module using a valid address, but the ETT (as Destination HISP) is not trusted.',
@@ -648,6 +762,23 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `Verify that the HISP system throws an error when an incorrect message is received.`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `HISP should validate the messages per the specification and reject the bad messages`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'Limited Metadata', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an incorrect XDR message from the Edge',
     'Metadata Included': 'Limited Metadata',
@@ -678,6 +809,25 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `Verify the ability of the SUT to appropriately respond to a delivery to a HISP which does not have a published certificate.
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+      subDesc2: `Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `The SUT will respond with a message that conforms to section 1.5.2.1.1 of the Direct Edge Protocol Implementation Guide 1.1`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'Limited Metadata', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an incorrect XDR message from the Edge',
     'Metadata Included': 'Limited Metadata',
@@ -720,6 +870,25 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `Verify the ability of the SUT to appropriately respond to a delivery to a HISP which does not have a published certificate.
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+      subDesc2: `Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `The SUT will respond with a message that conforms to section 1.5.2.1.1 of the Direct Edge Protocol Implementation Guide 1.1`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'Limited Metadata', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge',
     'Metadata Included': 'N/A',
@@ -753,6 +922,24 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `Verify that Mutual TLS session is established between the Sender and the Receiver before transimitting data.`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `HISP should initiate a connection to the Edge using Mutual TLS correctly.`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Client (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'Authentication',
     'Data Flow in Direct': 'HISP uses Mutual TLS to authenticate to the Edge',
     'Metadata Included': 'N/A',
@@ -796,6 +983,26 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `Verify the ability of the SUT to appropriately respond to a delivery to a HISP due to an extended wait period using an XDR profile.
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+      subDesc2: `Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `The SUT will respond with a message that conforms to section 1.5.2.1.1 of the Direct Edge Protocol Implementation Guide 1.1`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'Limited Metadata', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
+
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge',
     'Metadata Included': 'N/A',
@@ -829,6 +1036,24 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `Verify that HISP disconnects when the Server provided certificate is invalid.`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `HISP should disconnect when the certificate from the edge is bad.`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Client (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'Authentication',
     'Data Flow in Direct': 'HISP uses Mutual TLS to authenticate to the Edge exception case',
     'Metadata Included': 'N/A',
@@ -864,6 +1089,23 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `Test Tool authenticates with the HISP using Mutual TLS correctly`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `	HISP should accept a connection from the Edge for Mutual TLS correctly.`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Server (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'Authentication',
     'Data Flow in Direct': 'Edge authenticates to the HISP using Mutual TLS',
     'Metadata Included': 'N/A',
@@ -899,6 +1141,23 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `Test Tool authenticates with the HISP using bad certificates`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `HISP should disconnect when the certificate from the edge is bad.`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Server (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'Authentication',
     'Data Flow in Direct': 'Edge authenticates to the HISP using Mutual TLS exception case',
     'Metadata Included': 'N/A',
@@ -1048,6 +1307,26 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `The Health IT Module is able to successfully process a valid message from the ETT.
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+      subDesc2: `Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).`,
+
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `The Health IT Module is able to successfully process a message from the ETT (as Sending Edge)`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge',
     'Metadata Included': 'N/A',
@@ -1087,6 +1366,25 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `The Health IT Module is able to successfully process an invalid message from the ETT, message contains a valid address block and invalid destination.`,
+      subDesc2: `Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `The Health IT Module is able to process the header handle an invalid delivery notification request`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge',
     'Metadata Included': 'N/A',
@@ -1132,6 +1430,26 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `The Health IT Module is able to successfully process a message from the ETT (as Sending Edge) that includes an invalid (non-existent) address.
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+      subDesc2: `Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).`,
+
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `The Health IT Module sends a negative delivery status notification message to the ETT (as Sending Edge) using XDR profile`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge',
     'Metadata Included': 'N/A',
@@ -1177,6 +1495,26 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `The Health IT Module is able to successfully process a message from the ETT (as Sending Edge) to a valid address. The ETT (as Destination HISP) is not trusted.
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+      subDesc2: `Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).`,
+
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `The Health IT Module sends a negative delivery status notification message to the ETT (as Sending Edge) using XDR profile`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge',
     'Metadata Included': 'N/A',
@@ -1222,6 +1560,26 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `The Health IT Module is able to successfully process a message from the ETT (as Sending Edge) to a valid address. The ETT (as Destination HISP) does not have published certificates, and security and trust processing fails.
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+      subDesc2: `Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).`,
+
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `The Health IT Module sends a negative delivery status notification message to the ETT (as Sending Edge) using XDR profile`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge',
     'Metadata Included': 'N/A',
@@ -1266,6 +1624,25 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `The Health IT Module is able to successfully process a message from the ETT (as Sending Edge) to a valid address. The ETT (as Destination HISP) does not respond with a Processed MDN.
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+      subDesc2: `Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `The Health IT Module sends a negative delivery status notification message to the ETT (as Sending Edge) using XDR profile`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge',
     'Metadata Included': 'N/A',
@@ -1310,6 +1687,25 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `The Health IT Module is able to successfully process a message from the ETT (as Sending Edge) to a valid address. The ETT (as Destination HISP) responds with a Processed MDN, but no Dispatched MDN.
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+      subDesc2: `Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `The Health IT Module sends a negative delivery status notification message to the ETT (as Sending Edge) using XDR profile`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge',
     'Metadata Included': 'N/A',
@@ -1354,6 +1750,25 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `The Health IT Module is able to successfully process a message from the ETT (as Sending Edge) to a valid address. The ETT (as Destination HISP) responds with a Processed MDN, but the Dispatched MDN is received after the expected wait time has exceeded.
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+      subDesc2: `Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `The Health IT Module sends a negative delivery status notification message to the ETT (as Sending Edge) using XDR profile`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge',
     'Metadata Included': 'N/A',
@@ -1398,6 +1813,25 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `The Health IT Module is able to successfully process a message from the ETT (as Sending Edge) to a valid address. The ETT (as Destination HISP) responds with a Processed MDN and Dispatched MDN within the expected time period.
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.`,
+      subDesc2: `Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `The Health IT Module sends a positive delivery status notification message to the ETT (as Sending Edge) using XDR profile`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge',
     'Metadata Included': 'N/A',
@@ -1443,6 +1877,27 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `The Health IT Module receives a message from the ETT (as Sending HISP) and is unable to deliver the message to its final destination (ETT as Destination Edge).
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.
+      
+      Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).`,
+      subDesc2: `Expected outcome: '...Final-Recipient: rfc822; processedfailure@ett.healthit.gov, Original-Recipient: rfc822; processedfailure@ett.healthit.gov, Original-Message-ID: <681247680.299.1498573532567.JavaMail.root@ip-172-31-46-193>, Disposition: automatic-action/MDN-sent-automatically;failure, Failure: Failure MDN'`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `The Health IT Module sends a negative delivery status notification message to the ETT (as Sending Edge) using XDR profile`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge',
     'Metadata Included': 'N/A',
@@ -1489,6 +1944,31 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      subHeader: 'Description',
+      subDesc: `The Health IT Module receives a message from the ETT (as Sending HISP) and is unable to deliver the message to its final destination (ETT as Destination Edge).
+      Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed.
+      
+      Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).`,
+      subDesc2: `The Timeout parameter is amount of time the SUT will wait before sending a Failed MDN, this parameter should be the SUT default plus 5 minutes (N + 5 minutes). If a value is not defined, the test default is 65 minutes`,
+      expTestHeader: `Expected Test Results`,
+      expTestResults: `--uuid:184c5b14-5eb3-4192-b5a4-3ca7e0758305 Content-Type: message/delivery-status; name=status.dat Content-Transfer-Encoding: binary Content-ID: <67bf0371-bf9a-4d39-b2b1-2a0d94ac3b41-24@urn:ihe:iti:xds-b:2007>
+
+      Reporting-MTA: dns;Security Agent X-Original-Message-ID: <985848505.23.1500407627229.JavaMail.root@ip-172-31-46-193>
+      
+      Action: failed Final-Recipient: rfc822;delaydispatched5@ttpedgetest.sitenv.org Status: 5.0.0`,
+
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+      actionLabel: 'RUN',
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'HISP receives an XDR message from the Edge',
     'Metadata Included': 'N/A',
