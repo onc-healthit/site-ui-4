@@ -13,6 +13,7 @@ jobs:
         run: | 
           cd /etc/ssh
           ls -la
+          cat ssh_config.d
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@v1.0.3
         with:
