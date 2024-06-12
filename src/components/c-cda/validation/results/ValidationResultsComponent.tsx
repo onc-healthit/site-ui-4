@@ -10,7 +10,7 @@ import ErrorDisplayCard from './ErrorDisplay'
 interface ValidatorComponentProps {
   estimatedValidationTime: number
   response: object
-  disabled: boolean
+  disabled?: boolean
   fileName: string
 }
 interface ResultsMetaData {

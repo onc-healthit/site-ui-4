@@ -1,6 +1,6 @@
 import { Container } from '@mui/material'
-import _ from 'lodash'
 import V3ValidatorForm from '../ValidatorForm'
+import { postToValidatorV3 } from '../actions'
 
 const getCriteriaOptions = async (githubUrl: string) => {
   const res = await fetch(githubUrl, { next: { revalidate: 3600 } })
@@ -11,18 +11,20 @@ const getCriteriaOptions = async (githubUrl: string) => {
 }
 
 export default async function V3FullTab() {
-  const senderGitHubUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_CURES_SENDER_URL || ''
-  const receiverGitHubUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_CURES_RECEIVER_URL || ''
+  const senderGitHubUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_CURES_USCDIV3_SENDER_URL || ''
+  const receiverGitHubUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_CURES_USCDIV3_RECEIVER_URL || ''
   const senderCriteriaOptions = await getCriteriaOptions(senderGitHubUrl)
   const receiverCriteriaOptions = await getCriteriaOptions(receiverGitHubUrl)
-  const downloadAllScenariosUrl =
-    'https://codeload.github.com/onc-healthit/2015-edition-cures-update-uscdi-v3-testdata/zip/master'
+  const downloadAllScenariosUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_CURES_USCDIV3_DOWNLOAD_URL || ''
+  const validatorVersion = 'V3'
   return (
     <Container>
       <V3ValidatorForm
         senderCriteriaOptions={senderCriteriaOptions}
         receiverCriteriaOptions={receiverCriteriaOptions}
         downloadAllScenariosUrl={downloadAllScenariosUrl}
+        formAction={postToValidatorV3}
+        version={validatorVersion}
       />
     </Container>
   )

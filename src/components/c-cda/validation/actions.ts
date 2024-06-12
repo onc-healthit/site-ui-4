@@ -1,6 +1,7 @@
 'use server'
 import https from 'https'
 import axios from 'axios'
+//Get Scenario file options
 export async function getScenarioOptions(criteriaUrl: string) {
   const res = await fetch(criteriaUrl)
   if (!res.ok) {
@@ -8,14 +9,16 @@ export async function getScenarioOptions(criteriaUrl: string) {
   }
   return res.json()
 }
-const httpsAgentOptions = {
-  rejectUnauthorized: false,
-  keepAlive: true,
-}
+
+//Get token from keycloak
 async function getToken() {
-  const clientSecret = process.env.CCDA_VALIDATOR_V3_CLIENT_SECRET || ''
-  const clientId = process.env.CCDA_VALIDATOR_V3_CLIENT_ID || ''
+  const clientSecret = process.env.CCDA_VALIDATOR_CLIENT_SECRET || ''
+  const clientId = process.env.CCDA_VALIDATOR_CLIENT_ID || ''
   const keycloakUrl = process.env.KEYCLOAK_URL || ''
+  const httpsAgentOptions = {
+    rejectUnauthorized: false,
+    keepAlive: true,
+  }
   const params = new URLSearchParams()
   params.append('client_id', clientId)
   params.append('client_secret', clientSecret)
@@ -35,7 +38,8 @@ async function getToken() {
   }
 }
 
-export async function submitForm(prevState: object | undefined, formData: FormData) {
+//CCDA Validator API Post Call for version V3
+export async function postToValidatorV3(prevState: object | undefined, formData: FormData) {
   const ccdaValidatorUrl = process.env.CCDA_VALIDATOR_URL
   const token = await getToken()
   const uploadFile = formData.get('ccdaFile')
@@ -43,7 +47,11 @@ export async function submitForm(prevState: object | undefined, formData: FormDa
   formData.append('curesUpdate', 'false')
   formData.append('svap2022', 'false')
   formData.append('svap2023', 'true')
-  console.log('submitted data', formData)
+  if (formData.get('version') === 'v3IG') {
+    formData.append('referenceFileName', 'Readme.txt')
+    formData.append('validationObjective', 'C-CDA_IG_Plus_Vocab')
+  }
+  console.log('Submitted data for Validator V3: ', formData)
   const config = {
     method: 'post',
     url: ccdaValidatorUrl,
@@ -56,7 +64,50 @@ export async function submitForm(prevState: object | undefined, formData: FormDa
   try {
     const response = await axios.request(config)
     //console.log(JSON.stringify(response.data))
-    console.log('Response status', response.status)
+    console.log('Validator V3 API response status', response.status)
+    return { response: response.data }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error(error.response?.data)
+      return {
+        response: {
+          error: 'Validator Service had an issue, Please try again later!',
+          errorStatus: error.response?.status,
+        },
+      }
+    } else {
+      console.error(error)
+    }
+  }
+}
+
+//CCDA Validator API Post Call for version V1
+export async function postToValidatorV1(prevState: object | undefined, formData: FormData) {
+  const ccdaValidatorUrl = process.env.CCDA_VALIDATOR_URL
+  const token = await getToken()
+  const uploadFile = formData.get('ccdaFile')
+  console.log('uploaded File', uploadFile)
+  formData.append('curesUpdate', 'true')
+  formData.append('svap2022', 'false')
+  formData.append('svap2023', 'false')
+  if (formData.get('version') === 'v1IG') {
+    formData.append('referenceFileName', 'Readme.txt')
+    formData.append('validationObjective', 'C-CDA_IG_Plus_Vocab')
+  }
+  console.log('Submitted data for Validator V1: ', formData)
+  const config = {
+    method: 'post',
+    url: ccdaValidatorUrl,
+    headers: {
+      Authorization: 'Bearer ' + token.access_token,
+    },
+    data: formData,
+  }
+
+  try {
+    const response = await axios.request(config)
+    //console.log(JSON.stringify(response.data))
+    console.log('Validator V1 response status', response.status)
     return { response: response.data }
   } catch (error) {
     if (axios.isAxiosError(error)) {

@@ -1,5 +1,5 @@
 import palette from '@/styles/palette'
-import { Dialog, DialogTitle, IconButton, DialogContent, Typography, LinearProgress, Divider } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, Typography, LinearProgress, Divider } from '@mui/material'
 import { FC, useState, useEffect } from 'react'
 
 interface ValidatorLoadingCardProps {
