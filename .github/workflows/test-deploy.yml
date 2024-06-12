@@ -28,6 +28,8 @@ jobs:
           SSH_KEY: ${{secrets.SSH_KEY}}
       - name: Test env
         run: |
+          vi trial.txt
+          echo "test" >> trial.txt
+          scp trial.txt  development:/
           ssh development 'ls -la'
-          ssh development 'sudo bash'
 
