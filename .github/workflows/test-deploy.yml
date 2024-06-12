@@ -28,5 +28,6 @@ jobs:
           SSH_KEY: ${{secrets.SSH_KEY}}
       - name: Test env
         run: |
-          ls -la
+          ssh development 'ls -la'
+          ssh development 'sudo bash'
 
