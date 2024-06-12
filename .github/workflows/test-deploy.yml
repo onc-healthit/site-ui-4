@@ -9,6 +9,10 @@ jobs:
     name: Deploy to Dev
     runs-on: ubuntu-latest
     steps:
+      - name: find openssh files
+        run: | 
+          cd /etc/ssh
+          ls -la
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@v1.0.3
         with:
