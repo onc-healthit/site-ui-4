@@ -26,10 +26,14 @@ jobs:
           SSH_HOST: ${{secrets.SSH_HOST}}
           SSH_USERNAME: ${{secrets.SSH_USERNAME}}
           SSH_KEY: ${{secrets.SSH_KEY}}
-      - name: Test env
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: BuildArtifact
+          path: ~/artifacts
+      - name: Copy Artifact to Environment
         run: |
-          echo "test" > trial.txt
-          ls -la
-          scp trial.txt development:
+          ls -la ~
+          ls -la ~/artifacts
+          scp ~/artifacts/BuildArtifact.zip  development:
           ssh development 'ls -la'
-
