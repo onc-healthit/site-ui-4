@@ -1,5 +1,5 @@
 import CircularProgressWithLabelAndBackground from '@shared/CircularProgressWithLabelAndBackground'
-import { Box, Typography } from '@mui/material'
+import { Box, Divider, Typography } from '@mui/material'
 import palette from '@/styles/palette'
 
 export default function ScorecardBaseCheck() {
@@ -17,7 +17,7 @@ export default function ScorecardBaseCheck() {
         <Box width="50%">
           <Box pb={4} display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
             <CircularProgressWithLabelAndBackground
-              labelValue={igErrorCount}
+              labelValue={igErrorCount.toString()}
               progressValue={igErrorCount * progressMultiple}
               labelAndProgressColor={labelAndProgressColor}
             ></CircularProgressWithLabelAndBackground>
@@ -29,10 +29,11 @@ export default function ScorecardBaseCheck() {
             <b>2</b> out of <b>4,777</b> Checks
           </Typography>
         </Box>
+        <Divider orientation="vertical" variant="middle" flexItem />
         <Box width="50%">
           <Box pb={4} display="flex" sx={{ justifyContent: 'center', alignItems: 'center' }}>
             <CircularProgressWithLabelAndBackground
-              labelValue={vocabErrorCount}
+              labelValue={vocabErrorCount.toString()}
               progressValue={vocabErrorCount * progressMultiple}
               labelAndProgressColor={labelAndProgressColor}
             ></CircularProgressWithLabelAndBackground>
