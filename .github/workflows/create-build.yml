@@ -74,9 +74,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: BuildArtifact
-          path: ./artifacts
+          path: ~/artifacts
       - name: Copy Artifact to Environment
         run: |
           ls -la
-          scp ./artifacts/BuildArtifact.zip  development:
+          scp ~/artifacts/BuildArtifact.zip  development:
           ssh development 'ls -la'
