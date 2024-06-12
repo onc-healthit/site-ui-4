@@ -1,6 +1,6 @@
 'use client'
 import { Button, Typography, Chip } from '@mui/material'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import palette from '@/styles/palette'
