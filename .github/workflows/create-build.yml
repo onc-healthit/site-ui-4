@@ -77,6 +77,7 @@ jobs:
           path: ~/artifacts
       - name: Copy Artifact to Environment
         run: |
-          ls -la
-          scp ~/artifacts/BuildArtifact.zip  development:
-          ssh development 'ls -la'
+          ls -la ~
+          ls -la ~/artifacts
+      #     scp ~/artifacts/BuildArtifact.zip  development:
+      #     ssh development 'ls -la'
