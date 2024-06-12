@@ -83,7 +83,7 @@ export const lightThemeOptions: ThemeOptions = {
       fontSize: '1em',
     },
     body1: {
-      fontSize: '1em',
+      fontSize: '.95em',
       lineHeight: '1.4em',
     },
     body2: {
@@ -114,8 +114,8 @@ export const lightThemeOptions: ThemeOptions = {
           scrollbarColor: '#00000020',
           '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
             backgroundColor: '#00000020',
-            width: '16px',
-            borderRadius: 8,
+            width: '6px',
+            borderRadius: 32,
           },
           '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
             borderRadius: 16,

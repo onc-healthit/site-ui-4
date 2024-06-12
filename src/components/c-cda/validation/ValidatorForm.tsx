@@ -19,15 +19,18 @@ import {
 import { useEffect, useState } from 'react'
 import ValidationComponent from './results/ValidationResultsComponent'
 import _ from 'lodash'
-import { getScenarioOptions, submitForm } from './actions'
+import { getScenarioOptions } from './actions'
 import palette from '@/styles/palette'
 import Link from 'next/link'
 import { useFormState } from 'react-dom'
 
-interface V3ValidatorFormProps {
+interface ValidatorFormProps {
   senderCriteriaOptions: []
   receiverCriteriaOptions: []
   downloadAllScenariosUrl: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  formAction: (prevState: object | undefined, formData: FormData) => Promise<{ response: any } | undefined>
+  version: string
 }
 
 type Criteria = {
@@ -41,11 +44,13 @@ type Scenario = {
   download_url: string
 }
 
-export default function V3ValidatorForm({
+export default function ValidatorForm({
   senderCriteriaOptions,
   receiverCriteriaOptions,
   downloadAllScenariosUrl,
-}: V3ValidatorFormProps) {
+  formAction,
+  version,
+}: ValidatorFormProps) {
   const [system, setSystem] = useState('')
   const [criteriaOption, setCriteriaOption] = useState('')
   const [scenarioOption, setScenarioOption] = useState('')
@@ -54,7 +59,7 @@ export default function V3ValidatorForm({
   const [downloadScenario, setDownloadScenario] = useState('')
   const [disableDownloadSceario, setDisableDownloadScenario] = useState(true)
   const [disableValidate, setDisableValidate] = useState(true)
-  const [data, submitAction] = useFormState(submitForm, { response: {} })
+  const [data, submitAction] = useFormState(formAction, { response: {} })
   const [estimatedValidationTime, setEstimatedValidationTime] = useState(5)
   const [fileName, setFileName] = useState('')
   useEffect(() => {
@@ -113,7 +118,7 @@ export default function V3ValidatorForm({
       <form action={submitAction}>
         <Box pb={8} width="100%">
           <Typography variant="h5" component="h3" sx={{ fontWeight: 'bold', pt: 4 }}>
-            To validate your C-CDA document for USCDI V3:
+            To validate your C-CDA document for USCDI {version}:
           </Typography>
 
           {/* Sender or Receiver Selection */}
@@ -183,7 +188,6 @@ export default function V3ValidatorForm({
             <FormControl fullWidth>
               <FormLabel sx={{ pb: 1 }}>Upload your generated C-CDA file and submit for validation</FormLabel>
               <DragDropFileUpload maxFiles={1} name="ccdaFile" fileName={getFileName} />
-              {/** <input type="file" name="ccdaFile" />*/}
             </FormControl>
           </Box>
 
