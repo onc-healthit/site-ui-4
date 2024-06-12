@@ -14,7 +14,7 @@ import cypressImagery from '@public/cqm-qrda/Cypress.svg'
 // Styles
 import palette from '@/styles/palette'
 import SectionHeader from '../shared/SectionHeader'
-import VerticalCard from './VerticalCard'
+import VerticalCard from '../shared/VerticalCard'
 import CardWithBorder from '../shared/CardWithBorder'
 // Images
 // const maxWidth: number = 320

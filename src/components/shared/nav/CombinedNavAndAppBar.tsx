@@ -13,6 +13,7 @@ export default function CombinedNavAndAppBar() {
     setAuth(event.target.checked)
   }
 
+  // TODO: default to false based on DEV_MODE env var
   const [open, setOpen] = React.useState(true)
   const handleDrawerOpen = () => {
     setOpen(true)

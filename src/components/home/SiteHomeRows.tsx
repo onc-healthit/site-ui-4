@@ -12,6 +12,7 @@ import hl7Svg from '@public/home/hl7.svg'
 import igSvg from '@public/home/ig.svg'
 import iheSvg from '@public/home/ihe.svg'
 import infernoSvg from '@public/home/inferno.svg'
+import infernoValidatorSvg from '@public/home/InfernoValidator.svg'
 import lanternSvg from '@public/home/lantern.svg'
 import ONCLogo from '@public/shared/ONCLogo-backgroundImage.png'
 import Image from 'next/image'
@@ -25,14 +26,14 @@ import 'react-multi-carousel/lib/styles.css'
 
 export default function SiteHomeRows() {
   const maxWidth: number = 350
-  const rowPaddingBottom: number = 20
+  const rowPaddingBottom: number = 64
   const industryTestingResourceRow: number = 350
 
   const containerNoDragStyles = {
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
-    gap: '18px',
+    gap: '44px',
     paddingBottom: `${rowPaddingBottom}px`,
   }
   const responsive = {
@@ -124,7 +125,7 @@ export default function SiteHomeRows() {
                 cardImage={directSvg}
                 cardHeader={'Direct Project Tooling'}
                 description={
-                  'A collection of testing utilities created to validate the requirements of the ONC Health IT Certification Program.'
+                  'The ONC Direct Tool utilizes the Direct Standard® to provide a mechanism for developers and implementers to test the capabilities of securely transporting sensitive health care information over the open internet.'
                 }
                 pathname={'/direct'}
                 maxWidth={maxWidth}
@@ -137,7 +138,7 @@ export default function SiteHomeRows() {
                 cardImage={cqmtsvg}
                 cardHeader={'Clinical Quality Measure Testing'}
                 description={
-                  'Sponsored by the ONC and developed by The MITRE Corporation, facilitates rigorous and repeatable testing for accurate calculation of CQMs for Eligible Providers & Hospitals.'
+                  'Resources that facilitates rigorous and repeatable testing for accurate calculation of CQMs for Eligible Providers & Hospitals.'
                 }
                 pathname={'/cqmt'}
                 maxWidth={maxWidth}
@@ -151,7 +152,7 @@ export default function SiteHomeRows() {
                 cardImage={eRxSvg}
                 cardHeader={'Electronic Prescribing (eRX) Tool'}
                 description={
-                  'ePrescribing Test Suite supports a broad range of testing in support of the ePrescribing Community, including transport, messaging (content), and functional.'
+                  'The ePrescribing Test Suite supports a broad range of testing in support of the ePrescribing Community, including transport, messaging (content), and functional.'
                 }
                 pathname={'https://tools.ncpdp.org/erx/#/home'}
                 maxWidth={maxWidth}
@@ -181,7 +182,7 @@ export default function SiteHomeRows() {
                 description={
                   'Innovative approaches deviating from conventional techniques, aiming to enhance accuracy, efficiency, or ethical considerations in assessing health-related data, systems, or software solutions.'
                 }
-                pathname={'/alternative-test-methods'}
+                pathname={'https://hl7v2-iz-cdc-testing.nist.gov/iztool/#/home'}
                 maxWidth={maxWidth}
                 imageWidth={maxWidth + 'px'}
                 buttonTitle="Start"
@@ -194,7 +195,18 @@ export default function SiteHomeRows() {
             subHeader={'All tools not required for certification, but a benefit for your software!'}
             isHeaderAlternateColor={true}
           />
-          <Box sx={containerNoDragStyles}>
+          <Carousel
+            swipeable={true}
+            keyBoardControl={true}
+            showDots={true}
+            infinite={false}
+            draggable={false}
+            responsive={responsive}
+            removeArrowOnDeviceType={['mobile']}
+            dotListClass="custom-dot-list-style"
+            customTransition="all .5"
+            transitionDuration={500}
+          >
             <Box p={1}>
               <CardWithImageHome
                 title={'CPOE Evaluation Tool'}
@@ -237,11 +249,25 @@ export default function SiteHomeRows() {
                 buttonTitle="Start"
               />
             </Box>
-          </Box>
+            <Box p={1}>
+              <CardWithImageHome
+                title={'Inferno Resource Validator'}
+                cardImage={infernoValidatorSvg}
+                cardHeader={'Inferno Resource Validator'}
+                description={
+                  'FHIR Validator validates your resources using the profile URLs found in the "meta.profile" field of your resource (or the Base FHIR profiles if no profile URLs are present).'
+                }
+                pathname={'https://inferno.healthit.gov/validator/'}
+                maxWidth={maxWidth}
+                imageWidth={maxWidth + 'px'}
+                buttonTitle="Validate"
+              />
+            </Box>
+          </Carousel>
           {/* Row 3: Fixed: Industry Testing Resources */}
           <SectionHeader
-            header={'Industry Testing Resources'}
-            subHeader={'Outside tools may help you!'}
+            header={'Industry Resources'}
+            subHeader={'Empowering Your Success with Top-Tier Industry Resources'}
             isHeaderAlternateColor={true}
           />
           <Box sx={containerNoDragStyles}>
@@ -253,23 +279,10 @@ export default function SiteHomeRows() {
                 description={
                   'Assess the conformance, interoperability, and functionality of healthcare information systems implementing HL7 standards.'
                 }
-                pathname={'https://confluence.hl7.org/display/FHIR/FHIR+Tooling+Ecosystem'}
+                pathname={'/industry-resources#hl7'}
                 maxWidth={industryTestingResourceRow}
                 imageWidth={industryTestingResourceRow + 'px'}
                 buttonTitle="Access"
-              />
-            </Box>
-            <Box p={1}>
-              <CardWithImageHome
-                title={'Reference Data'}
-                cardImage={referenceDataSvg}
-                cardHeader={'Reference Data'}
-                description={
-                  'Values used to standardize and categorize data elements within a system, making it easier to understand and compare data across different applications or processes.'
-                }
-                pathname={'/reference-data'}
-                maxWidth={industryTestingResourceRow}
-                imageWidth={industryTestingResourceRow + 'px'}
               />
             </Box>
             <Box p={1}>
@@ -280,10 +293,23 @@ export default function SiteHomeRows() {
                 description={
                   'Implementation guides in healthcare serve as comprehensive documents outlining the specific rules, standards, and protocols for implementing interoperable health information systems.'
                 }
-                pathname={'https://confluence.hl7.org/display/FHIR/Authoring+FHIR+Implementation+Guides+-+Introduction'}
+                pathname={'/industry-resources#ig'}
                 maxWidth={industryTestingResourceRow}
                 imageWidth={industryTestingResourceRow + 'px'}
                 buttonTitle="Learn"
+              />
+            </Box>
+            <Box p={1}>
+              <CardWithImageHome
+                title={'/industry-resources#rd'}
+                cardImage={referenceDataSvg}
+                cardHeader={'Reference Data'}
+                description={
+                  'Values used to standardize and categorize data elements within a system, making it easier to understand and compare data across different applications or processes.'
+                }
+                pathname={'/industry-resources#rd'}
+                maxWidth={industryTestingResourceRow}
+                imageWidth={industryTestingResourceRow + 'px'}
               />
             </Box>
           </Box>
