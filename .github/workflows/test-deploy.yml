@@ -9,28 +9,24 @@ jobs:
     name: Deploy to Dev
     runs-on: ubuntu-latest
     steps:
-      - name: find openssh files
-        run: | 
-          cd /etc/ssh
-          ls -la
-          echo "CASignatureAlgorithms +ssh-rsa" >> sshd_config
-          cat sshd_config
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{secrets.SSH_HOST}}
-          username: ${{secrets.SSH_USERNAME}}
-          key: ${{secrets.SSH_KEY}}
-          port: ${{secrets.SSH_PORT}}
-          script: |
-            whoami
-            ls -la
-      - name: Get Variables
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/development.key
+          chmod 600 ~/.ssh/development.key
+          cat >>~/.ssh/config <<END
+          Host development
+            HostName $SSH_HOST
+            User $SSH_USERNAME
+            IdentityFile ~/.ssh/development.key
+            StrictHostKeyChecking no
+          END
         env:
           SSH_PORT: ${{secrets.SSH_PORT}}
           SSH_HOST: ${{secrets.SSH_HOST}}
           SSH_USERNAME: ${{secrets.SSH_USERNAME}}
           SSH_KEY: ${{secrets.SSH_KEY}}
+      - name: Test env
         run: |
           ls -la
-          echo test port "$SSH_PORT"
+
