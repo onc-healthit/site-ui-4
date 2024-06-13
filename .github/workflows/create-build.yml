@@ -80,9 +80,10 @@ jobs:
           zip -r -o BuildArtifact.zip ~/artifact
           scp BuildArtifact.zip  development:
           ssh development 'ls -la'
+      - name: Stop application
+        run: ssh development 'sudo pm2 stop site-ui-4'
       - name: Update site-ui-4
         run: |
-          ssh development 'sudo bash'
-          ssh development 'unzip -o BuildArtifact.zip -d /opt/site-ui-4'
+          ssh development 'sudo unzip -o BuildArtifact.zip -d /opt/site-ui-4'
       - name: Restart application
-        run: ssh development 'pm2 startOrRestart ecosystem.config.js --env production  && pm2 save'
+        run: ssh development 'sudo pm2 startOrRestart ecosystem.config.js --env production  && pm2 save'
