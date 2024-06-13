@@ -80,5 +80,5 @@ jobs:
           ls -la ~
           ls -la ~/artifact
           zip -r -o Build.zip ~/artifact
-          scp ~/artifacts/Build.zip  development:
+          scp Build.zip  development:
           ssh development 'ls -la'
