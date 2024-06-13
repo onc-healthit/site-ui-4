@@ -77,8 +77,12 @@ jobs:
           path: ~/artifact
       - name: Copy Artifact to Environment
         run: |
-          ls -la ~
-          ls -la ~/artifact
-          zip -r -o Build.zip ~/artifact
-          scp Build.zip  development:
+          zip -r -o BuildArtifact.zip ~/artifact
+          scp BuildArtifact.zip  development:
           ssh development 'ls -la'
+      - name: Update site-ui-4
+        run: |
+          ssh development 'sudo bash'
+          ssh development 'unzip -o BuildArtifact.zip -d /opt/site-ui-4'
+      - name: Restart application
+        run: ssh development 'pm2 startOrRestart ecosystem.config.js --env production  && pm2 save'
