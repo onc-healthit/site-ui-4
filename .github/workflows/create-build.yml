@@ -84,7 +84,7 @@ jobs:
         run: |
           ssh development /bin/bash << EOF
           sudo bash
-          whoami
+          pm2 list
           EOF
 
       #- name: Update site-ui-4
