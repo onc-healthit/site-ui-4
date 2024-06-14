@@ -83,7 +83,7 @@ jobs:
       - name: Stop application
         run: ssh development <<EOF
           sudo bash
-          pm2 list
+          whoami
           EOF
 
       #- name: Update site-ui-4
