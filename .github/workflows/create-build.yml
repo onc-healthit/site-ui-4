@@ -81,7 +81,8 @@ jobs:
       #     scp BuildArtifact.zip  development:
       #     ssh development 'ls -la'
       - name: Stop application
-        run: ssh development <<EOF
+        run: |
+          ssh development /bin/bash << EOF
           sudo bash
           whoami
           EOF
