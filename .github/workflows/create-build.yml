@@ -84,10 +84,12 @@ jobs:
         run: |
           ssh development /bin/bash << EOF
           sudo bash
+          whoami
           ls -la
           cd /opt/site-ui-4
           ls -la
-          pm2 list
+          whoami
+          sudo pm2 list
           EOF
 
       #- name: Update site-ui-4
