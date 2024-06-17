@@ -82,14 +82,14 @@ jobs:
       #     ssh development 'ls -la'
       - name: Stop application
         run: |
-          ssh -t development /bin/bash << EOF
+          ssh development /bin/bash << EOF
           sudo bash
           whoami
           ls -la
           cd /opt/site-ui-4
           ls -la
           whoami
-          pm2 list
+          sudo bash -c pm2 list
           EOF
 
       #- name: Update site-ui-4
