@@ -83,7 +83,7 @@ jobs:
       - name: Stop application
         run: |
           ssh development << EOF
-          sudo -- bash -c 'pm2 list'
+          sudo bash -c "pm2 list"
           whoami
           ls -la
           cd /opt/site-ui-4
