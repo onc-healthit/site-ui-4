@@ -1,6 +1,8 @@
 'use client'
 import palette from '@/styles/palette'
 import { Box, Container } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+
 import atmSvg from '@public/home/alternative.svg'
 import cCdaSvg from '@public/home/c-cda.svg'
 import cpoeSvg from '@public/home/cpoe.svg'
@@ -25,16 +27,23 @@ import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
 
 export default function SiteHomeRows() {
+  const theme = useTheme()
   const maxWidth: number = 350
   const rowPaddingBottom: number = 64
   const industryTestingResourceRow: number = 350
 
   const containerNoDragStyles = {
+    flexWrap: 'wrap',
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
     gap: '44px',
     paddingBottom: `${rowPaddingBottom}px`,
+    [theme.breakpoints.down('md')]: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '32px',
+    },
   }
   const responsive = {
     desktop: {
