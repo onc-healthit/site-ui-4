@@ -33,6 +33,30 @@ const DetailsAccordion = ({
   defaultExpanded,
   referenceCCDAResults,
 }: DetailsProps) => {
+  const [expanded, setExpanded] = useState(false)
+  const [content, setContent] = useState<CCDAValidationResult[]>([])
+  const [contentLoaded, setContentLoaded] = useState(false)
+
+  const handleAccordionChange = () => {
+    setExpanded((prevExpanded) => !prevExpanded)
+    if (!expanded) {
+      setTimeout(() => {
+        setContent(details)
+        setContentLoaded(true)
+        executeScroll()
+      }, 500)
+    }
+  }
+
+  const executeScroll = () => {
+    if (refLink.current) {
+      refLink.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }
+  }
+
   return (
     <Accordion
       sx={{
@@ -49,32 +73,45 @@ const DetailsAccordion = ({
       disabled={disabled}
       ref={refLink}
       defaultExpanded={defaultExpanded}
+      expanded={expanded}
+      onChange={handleAccordionChange}
     >
       <AccordionSummary
-        sx={{ borderBottom: `1px solid ${palette.divider}`, minHeight: '40px' }}
+        sx={{
+          borderBottom: `1px solid ${palette.divider}`,
+          bgcolor: palette.white,
+          position: 'sticky',
+          top: '0',
+          minHeight: '40px',
+        }}
         expandIcon={<ExpandMoreIcon />}
       >
         <Typography sx={{ fontWeight: 'bold', border: `` }}>{title}</Typography>
       </AccordionSummary>
 
       <AccordionDetails sx={{ p: 2 }}>
-        {details.map((detail, i) => (
-          <Box sx={{ marginBottom: 1 }} p={2} bgcolor={accordionDetailsColor} key={i}>
-            <Typography gutterBottom>
-              <b>Result Description</b>: {detail.description}
-            </Typography>
-            {!referenceCCDAResults && (
+        {!contentLoaded ? (
+          <Typography>Loading content...</Typography>
+        ) : (
+          content.map((detail, i) => (
+            <Box sx={{ marginBottom: 1 }} p={2} bgcolor={accordionDetailsColor} key={i}>
               <Typography gutterBottom>
-                <b>XPath</b>:<span style={{ lineBreak: 'anywhere', textDecoration: 'underline' }}> {detail.xPath}</span>
+                <b>Result Description</b>: {detail.description}
               </Typography>
-            )}
-            {!referenceCCDAResults && (
-              <Typography sx={{ fontFamily: 'monospace', fontSize: '1.3em' }} gutterBottom>
-                <b>Line Number</b>: {detail.documentLineNumber}
-              </Typography>
-            )}
-          </Box>
-        ))}
+              {!referenceCCDAResults && (
+                <Typography gutterBottom>
+                  <b>XPath</b>:
+                  <span style={{ lineBreak: 'anywhere', textDecoration: 'underline' }}> {detail.xPath}</span>
+                </Typography>
+              )}
+              {!referenceCCDAResults && (
+                <Typography sx={{ fontFamily: 'monospace', fontSize: '1.3em' }} gutterBottom>
+                  <b>Line Number</b>: {detail.documentLineNumber}
+                </Typography>
+              )}
+            </Box>
+          ))
+        )}
       </AccordionDetails>
     </Accordion>
   )
