@@ -85,12 +85,8 @@ jobs:
           ssh development /bin/bash<< EOF
           sudo bash
           export PATH=$PATH:/root/.nvm/versions/node/v20.12.1/bin
-          whoami
-          ls -la
-          cd /opt/site-ui-4
-          ls -la
-          whoami
-          pm2 status
+          pm2 list
+          pm2 stop site-ui-4
           EOF
 
       #- name: Update site-ui-4
