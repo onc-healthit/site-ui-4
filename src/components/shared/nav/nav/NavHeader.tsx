@@ -29,21 +29,20 @@ export default function NavHeader({ handleDrawerClose, theme }: SiteNavHeaderPro
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
-          paddingX: '8px',
-          paddingY: '8px',
+          paddingX: '16px',
         }}
       >
         <a href="/">
           <Image
             src={SITELogo}
-            width={250}
-            height={42}
+            width={193}
+            height={50}
             alt="SITE logo with text: The hub for testing tools & resources"
             priority
           />
         </a>
-        <IconButton onClick={handleDrawerClose}>
-          {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+        <IconButton size="small" onClick={handleDrawerClose}>
+          {theme.direction === 'rtl' ? <ChevronRightIcon fontSize="small" /> : <ChevronLeftIcon fontSize="small" />}
         </IconButton>
       </Box>
       <Divider sx={{ borderWidth: NAV_THICKER_DIVIDER }} />

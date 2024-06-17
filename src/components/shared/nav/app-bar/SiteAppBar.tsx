@@ -52,7 +52,7 @@ export default function SiteAppBar({ open, handleDrawerOpen, auth }: SiteAppBarP
           onClick={handleDrawerOpen}
           edge="start"
           sx={{
-            marginRight: 5,
+            marginLeft: -2,
             ...(open && { display: 'none' }),
           }}
         >

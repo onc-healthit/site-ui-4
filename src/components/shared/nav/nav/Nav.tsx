@@ -29,31 +29,35 @@ const closedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
+  textWrap: 'nowrap',
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(6.4)} + 4px)`,
-    overflowX: 'hidden',
+    overflowX: 'hidden!important',
   },
 })
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
-  a: {
+  '& a': {
     textDecoration: 'none',
     color: 'inherit',
   },
   width: DRAWER_WIDTH,
   flexShrink: 0,
-  whiteSpace: 'nowrap',
   boxSizing: 'border-box',
   ...(open && {
     ...openedMixin(theme),
-    '& .MuiDrawer-paper': openedMixin(theme),
+    '& .MuiDrawer-paper': {
+      ...openedMixin(theme),
+    },
   }),
   ...(!open && {
     ...closedMixin(theme),
-    '& .MuiDrawer-paper': closedMixin(theme),
+    '& .MuiDrawer-paper': {
+      ...closedMixin(theme),
+    },
   }),
 }))
 
@@ -73,8 +77,24 @@ export default function SiteNav({ open, handleDrawerClose, auth, handleAuthChang
 
       {/* Expandable Nav List Categories:
         TODO: Consider matching FIGMA design exactly, or, allowing home to still be selected on drawer close */}
-      <Box sx={{ display: 'flex', height: '100vh', flexDirection: 'column', justifyContent: 'space-between' }}>
-        <List disablePadding sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }} component="nav">
+      <Box
+        sx={{
+          display: 'flex',
+          height: '100vh',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
+        <List
+          disablePadding
+          sx={{
+            fontSize: '.8rem',
+            width: '100%',
+            maxWidth: 250,
+            bgcolor: 'background.paper',
+          }}
+          component="nav"
+        >
           <SiteNavOncCertTools />
           <SiteNavGeneralTools />
           <SiteNavIndustryTools />

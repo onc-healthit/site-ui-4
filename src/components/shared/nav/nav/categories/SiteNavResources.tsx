@@ -18,13 +18,13 @@ export default function SiteNavResources() {
       text: 'FAQs',
       isExternalLink: false,
       href: '/faqs',
-      icon: <QuestionAnswerOutlined />,
+      icon: <QuestionAnswerOutlined fontSize="small" />,
     },
     {
       text: 'Documentation & Videos',
       isExternalLink: false,
       href: '/docs-and-vids',
-      icon: <IntegrationInstructionsOutlined />,
+      icon: <IntegrationInstructionsOutlined fontSize="small" />,
     },
   ]
 

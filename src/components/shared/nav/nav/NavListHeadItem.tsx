@@ -27,7 +27,7 @@ export default function NavListHeadItem({
           {icon}
         </ListItemIcon>
         <ListItemText primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }} primary={text} />
-        {openCategoryList ? <ExpandLess /> : <ExpandMore />}
+        {openCategoryList ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />}
       </ListItemButton>
       {/* As the Nav drawer is closed, remove the divider below the header
       so we don't have double dividers (which looks too thick) */}
