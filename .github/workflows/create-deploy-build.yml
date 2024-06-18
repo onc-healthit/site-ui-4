@@ -85,7 +85,6 @@ jobs:
           ssh development /bin/bash<< EOF
           sudo bash
           export PATH=$PATH:/root/.nvm/versions/node/v20.12.1/bin
-          pm2 list
           pm2 stop site-ui-4
           EOF
       - name: Update site-ui-4 files
@@ -100,6 +99,5 @@ jobs:
           ssh development /bin/bash<< EOF
           sudo bash 
           export PATH=$PATH:/root/.nvm/versions/node/v20.12.1/bin
-          cd /opt/site-ui-4
           pm2 startOrRestart /opt/site-ui-4/ecosystem.config.js --env production  && pm2 save
           EOF
