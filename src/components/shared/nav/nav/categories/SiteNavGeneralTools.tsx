@@ -24,25 +24,25 @@ export default function SiteNavGeneralTools() {
       text: 'CPOE Evaluation Tool',
       isExternalLink: true,
       href: 'https://www.leapfroggroup.org/survey-materials/prepare-cpoe-tool',
-      icon: <ImportantDevicesOutlined />,
+      icon: <ImportantDevicesOutlined fontSize="small" />,
     },
     {
       text: 'IHE Testing Tools',
       isExternalLink: true,
       href: 'https://www.ihe.net/testing/testing_tools/',
-      icon: <HealingOutlined />,
+      icon: <HealingOutlined fontSize="small" />,
     },
     {
       text: 'Lantern Project',
       isExternalLink: true,
       href: 'https://lantern.healthit.gov/?tab=dashboard_tab',
-      icon: <FireplaceOutlined />,
+      icon: <FireplaceOutlined fontSize="small" />,
     },
     {
       text: 'Inferno HL7 FHIR Validator',
       isExternalLink: true,
       href: 'https://inferno.healthit.gov/validator/',
-      icon: <WhatshotOutlined />,
+      icon: <WhatshotOutlined fontSize="small" />,
     },
   ]
 

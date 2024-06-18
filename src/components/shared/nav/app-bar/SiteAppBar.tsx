@@ -40,6 +40,7 @@ export default function SiteAppBar({ open, handleDrawerOpen, auth }: SiteAppBarP
     <StyledAppBar sx={{ top: 0, height: 'fit-content' }} open={open}>
       <Toolbar
         sx={{
+          minHeight: '58px!important',
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
@@ -52,7 +53,7 @@ export default function SiteAppBar({ open, handleDrawerOpen, auth }: SiteAppBarP
           onClick={handleDrawerOpen}
           edge="start"
           sx={{
-            marginRight: 5,
+            marginLeft: -2,
             ...(open && { display: 'none' }),
           }}
         >

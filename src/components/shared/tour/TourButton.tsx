@@ -101,7 +101,7 @@ const TourButton: React.FC = () => {
         styles={{
           options: {
             primaryColor: palette.secondary,
-            zIndex: 1000,
+            zIndex: 1003,
           },
           tooltipContainer: {
             lineHeight: 1.4,

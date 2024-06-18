@@ -8,7 +8,7 @@ import palette from '@/styles/palette'
 
 export default function SiteNavIndustryResources() {
   return (
-    <>
+    <div id="site-nav-industry-testing">
       <Link href="/industry-resources" passHref>
         <ListItemButton>
           <ListItemIcon>
@@ -22,6 +22,6 @@ export default function SiteNavIndustryResources() {
         </ListItemButton>
       </Link>
       <Divider sx={{ borderWidth: NAV_THICKER_DIVIDER }} />
-    </>
+    </div>
   )
 }
