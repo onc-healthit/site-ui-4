@@ -3,7 +3,13 @@ name: Create Build
 on:
   push:
     branches:
-      - deploy-github-action
+      - dev
+      - main
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - dev
+      - main
 
 jobs:
   code-quality-check:
@@ -51,6 +57,7 @@ jobs:
   deploy:
     name: Deploy to Dev
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/main'
     needs: build
     steps:
       - name: Configure SSH
