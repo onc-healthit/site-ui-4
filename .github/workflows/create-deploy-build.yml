@@ -57,7 +57,6 @@ jobs:
   deploy:
     name: Deploy to Dev
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/main'
     needs: build
     steps:
       - name: Configure SSH
