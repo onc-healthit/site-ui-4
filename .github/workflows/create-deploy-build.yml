@@ -81,10 +81,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: BuildArtifact
-          path: ~/artifact
+          path: ./
       - name: Copy Artifact to Environment
         run: |
-          zip -r -o BuildArtifact.zip ~/artifact
+          zip -r -o BuildArtifact.zip ./
           scp BuildArtifact.zip  development:
           ssh development 'ls -la'
       - name: Stop application
@@ -98,13 +98,13 @@ jobs:
         run: |
           ssh development /bin/bash<< EOF
           sudo bash
-          ls -la 
+          ls -la
           unzip -o BuildArtifact.zip -d /opt/site-ui-4
           EOF
       - name: Restart application
         run: |
           ssh development /bin/bash<< EOF
-          sudo bash 
+          sudo bash
           export PATH=$PATH:/root/.nvm/versions/node/v20.12.1/bin
           pm2 startOrRestart /opt/site-ui-4/ecosystem.config.js --env production  && pm2 save
           EOF
