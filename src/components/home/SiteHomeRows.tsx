@@ -310,7 +310,7 @@ export default function SiteHomeRows() {
             </Box>
             <Box p={1}>
               <CardWithImageHome
-                title={'/industry-resources#rd'}
+                title={'Reference Data'}
                 cardImage={referenceDataSvg}
                 cardHeader={'Reference Data'}
                 description={
