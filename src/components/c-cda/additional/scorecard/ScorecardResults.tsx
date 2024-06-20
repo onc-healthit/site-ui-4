@@ -20,29 +20,33 @@ import ScorecardCompare from './summary/ScorecardCompare'
 import DialogTemplate from '@/components/shared/dialog/DialogTemplate' // Adjust the path if needed
 import palette from '@/styles/palette'
 
-export default function ScorecardResults() {
-  const [dialogOpen, setDialogOpen] = useState(false)
+interface ScorecardResultsProps {
+  dialogState: boolean
+  handleCloseDialog: () => void
+  isShowSampleDownloadButton: boolean
+}
 
-  const handleOpenDialog = () => {
-    setDialogOpen(true)
-  }
-
-  const handleCloseDialog = () => {
-    setDialogOpen(false)
-  }
-
+export default function ScorecardResults({
+  dialogState,
+  handleCloseDialog,
+  isShowSampleDownloadButton,
+}: ScorecardResultsProps) {
   const dividerPaddingStyle = {
     paddingTop: 2,
   }
 
+  const handleSaveReport = () => {
+    console.log('Enter handleSaveReport()')
+  }
+
+  const handleDownloadSampleDocument = () => {
+    console.log('Enter handleDownloadSampleDocument()')
+  }
+
   return (
     <Container>
-      <Button variant="contained" color="primary" onClick={handleOpenDialog}>
-        Open Scorecard Results
-      </Button>
-
       <DialogTemplate
-        open={dialogOpen}
+        open={dialogState}
         handleClose={handleCloseDialog}
         title="Scorecard Results"
         menuContent={
@@ -97,12 +101,14 @@ export default function ScorecardResults() {
             }}
           >
             <Box display={'flex'} gap={4}>
-              <Button onClick={handleCloseDialog} color="primary" variant="contained">
+              <Button onClick={handleSaveReport} color="primary" variant="contained">
                 Save Report
               </Button>
-              <Button onClick={handleCloseDialog} color="primary" variant="contained">
-                Download Report
-              </Button>
+              {isShowSampleDownloadButton && (
+                <Button onClick={handleDownloadSampleDocument} color="primary" variant="contained">
+                  Download Sample Document
+                </Button>
+              )}
             </Box>
             <Button
               sx={{
