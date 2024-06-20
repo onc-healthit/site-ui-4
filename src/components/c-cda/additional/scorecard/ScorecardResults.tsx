@@ -1,24 +1,23 @@
 'use client'
-import React, { useState } from 'react'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
+  Button,
   Container,
   Divider,
-  Button,
-  MenuItem,
   List,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
+  MenuItem,
 } from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
+import DialogTemplate from '@/components/shared/dialog/DialogTemplate' // Adjust the path if needed
+import palette from '@/styles/palette'
 import ScorecardNextSteps from './next-steps/ScorecardNextSteps'
 import ScorecardBaseCheck from './summary/ScorecardBaseCheck'
 import ScorecardBestPractice from './summary/ScorecardBestPractice'
 import ScorecardCompare from './summary/ScorecardCompare'
-import DialogTemplate from '@/components/shared/dialog/DialogTemplate' // Adjust the path if needed
-import palette from '@/styles/palette'
 
 interface ScorecardResultsProps {
   dialogState: boolean
