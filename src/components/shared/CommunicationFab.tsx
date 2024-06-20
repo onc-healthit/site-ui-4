@@ -9,6 +9,7 @@ import {
   CardMedia,
   Drawer,
   Fab,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
@@ -101,15 +102,17 @@ const CommunicationFab: React.FC = () => {
             icon={<MoreVertIcon fontSize="small" htmlColor={palette.primaryDark} />}
           />
         </Box>
-        <Fab
-          onClick={handleDrawerClose}
-          size="small"
-          color="inherit"
-          aria-label="Close Info"
-          style={{ position: 'fixed', bottom: '20px', right: '20px' }}
-        >
-          <CloseIcon fontSize="small" htmlColor={palette.error} />
-        </Fab>
+        <Tooltip arrow placement="left" title="Open Information Panel">
+          <Fab
+            onClick={handleDrawerClose}
+            size="small"
+            color="inherit"
+            aria-label="Close Info"
+            style={{ position: 'fixed', bottom: '20px', right: '20px' }}
+          >
+            <CloseIcon fontSize="small" htmlColor={palette.error} />
+          </Fab>
+        </Tooltip>
         <Typography
           sx={{ position: 'fixed', bottom: '12px', padding: '0 16px 8px 16px', fontSize: '12px' }}
           variant="caption"
@@ -119,15 +122,17 @@ const CommunicationFab: React.FC = () => {
           {releaseDateHTML && <div dangerouslySetInnerHTML={{ __html: releaseDateHTML }} />}
         </Typography>
       </Drawer>
-      <Fab
-        color="secondary"
-        aria-label="Open Info"
-        size="small"
-        style={{ position: 'fixed', bottom: '20px', right: '20px' }}
-        onClick={handleDrawerOpen}
-      >
-        <InfoIcon id="communication-Fab" fontSize="small" htmlColor={palette.white} />
-      </Fab>
+      <Tooltip arrow placement="left" title="Close Information Panel">
+        <Fab
+          color="secondary"
+          aria-label="Open Info"
+          size="small"
+          style={{ position: 'fixed', bottom: '20px', right: '20px' }}
+          onClick={handleDrawerOpen}
+        >
+          <InfoIcon id="communication-Fab" fontSize="small" htmlColor={palette.white} />
+        </Fab>
+      </Tooltip>
     </div>
   )
 }
