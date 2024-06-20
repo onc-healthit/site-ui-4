@@ -17,12 +17,13 @@ import styles from '@shared/styles.module.css'
 import SectionHeader from '../shared/SectionHeader'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { useTheme } from '@mui/material/styles'
+import { SxProps, Theme } from '@mui/system'
 
 const DirectHome = () => {
   const cardMaxWidth = 345
   const cardImageWidth = '345px'
   const theme = useTheme()
-  const flexibleBox = {
+  const flexibleBox: SxProps<Theme> = {
     display: 'flex',
     justifyContent: 'space-between',
     gap: '32px',
@@ -141,7 +142,7 @@ const DirectHome = () => {
           header={'Select a category to start your direct project tooling.'}
           subHeader={'Jumpstart Your Direct Project Journey: Select a Testing Category'}
         />
-        <Box sx={{ ...flexibleBox }} paddingBottom={4}>
+        <Box sx={flexibleBox}>
           <CategoryCard
             cardHeader="Register for Direct Email"
             description={
@@ -169,7 +170,7 @@ const DirectHome = () => {
             cardWidthPercent={100}
           />
         </Box>
-        <Box sx={{ ...flexibleBox }}>
+        <Box sx={flexibleBox}>
           <CategoryCard
             cardHeader="Discovery Test Tool"
             description={`Test your systems compliance with the Direct Project's Certificate Discovery and Provider Directory Implementation Guide. Validate your implementation's ability to correctly discover, host, and validate certificates, ensuring secure and interoperable exchange of health information.`}
