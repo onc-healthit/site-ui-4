@@ -102,7 +102,7 @@ const CommunicationFab: React.FC = () => {
             icon={<MoreVertIcon fontSize="small" htmlColor={palette.primaryDark} />}
           />
         </Box>
-        <Tooltip arrow placement="left" title="Open Information Panel">
+        <Tooltip arrow placement="left" title="Close Information Panel">
           <Fab
             onClick={handleDrawerClose}
             size="small"
@@ -122,7 +122,7 @@ const CommunicationFab: React.FC = () => {
           {releaseDateHTML && <div dangerouslySetInnerHTML={{ __html: releaseDateHTML }} />}
         </Typography>
       </Drawer>
-      <Tooltip arrow placement="left" title="Close Information Panel">
+      <Tooltip arrow placement="left" title="Open Information Panel">
         <Fab
           color="secondary"
           aria-label="Open Info"
