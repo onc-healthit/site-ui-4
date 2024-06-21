@@ -1,4 +1,4 @@
-import { Box, Divider, IconButton } from '@mui/material'
+import { Box, Divider, IconButton, Tooltip } from '@mui/material'
 import { Theme } from '@mui/material/styles'
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
@@ -41,9 +41,15 @@ export default function NavHeader({ handleDrawerClose, theme }: SiteNavHeaderPro
             priority
           />
         </a>
-        <IconButton size="small" onClick={handleDrawerClose}>
-          {theme.direction === 'rtl' ? <ChevronRightIcon fontSize="small" /> : <ChevronLeftIcon fontSize="small" />}
-        </IconButton>
+        <Tooltip arrow placement="right" title="Close Navigation">
+          <IconButton size="small" aria-label="Toggle Navigation" onClick={handleDrawerClose}>
+            {theme.direction === 'rtl' ? (
+              <ChevronRightIcon aria-label="Open Navigation" />
+            ) : (
+              <ChevronLeftIcon aria-label="Close Navigation" />
+            )}
+          </IconButton>
+        </Tooltip>
       </Box>
       <Divider sx={{ borderWidth: NAV_THICKER_DIVIDER }} />
     </>

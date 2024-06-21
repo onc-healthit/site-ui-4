@@ -7,6 +7,7 @@ import { styled } from '@mui/material/styles'
 /* Custom Imports */
 import Auth from '@/components/shared/nav/app-bar/Auth'
 import { DRAWER_WIDTH } from '@/constants/navConstants'
+import { Tooltip } from '@mui/material'
 // import Search from '@/components/shared/nav/app-bar/Search'
 
 interface AppBarProps extends MuiAppBarProps {
@@ -47,18 +48,20 @@ export default function SiteAppBar({ open, handleDrawerOpen, auth }: SiteAppBarP
         }}
       >
         {/* Toggle Drawer Elipses Menu Button */}
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-          edge="start"
-          sx={{
-            marginLeft: -2,
-            ...(open && { display: 'none' }),
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
+        <Tooltip arrow placement="right" title="Open navigation">
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{
+              marginLeft: -2,
+              ...(open && { display: 'none' }),
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Tooltip>
         <div>
           {/* Will turn search on in later versions */}
           {/* <Search /> */}

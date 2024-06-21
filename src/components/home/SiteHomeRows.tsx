@@ -87,6 +87,7 @@ export default function SiteHomeRows() {
             header={'ONC Certification Tools'}
             subHeader={'All tools required for certification.'}
             isHeaderAlternateColor={true}
+            isSubHeaderAlternateColor={palette.secondaryLight}
           />
           <Carousel
             swipeable={true}
@@ -203,6 +204,7 @@ export default function SiteHomeRows() {
             header={'General Testing Tools'}
             subHeader={'All tools not required for certification, but a benefit for your software!'}
             isHeaderAlternateColor={true}
+            isSubHeaderAlternateColor={palette.secondaryLight}
           />
           <Carousel
             swipeable={true}
@@ -276,8 +278,9 @@ export default function SiteHomeRows() {
           {/* Row 3: Fixed: Industry Testing Resources */}
           <SectionHeader
             header={'Industry Resources'}
-            subHeader={'Empowering Your Success with Top-Tier Industry Resources'}
+            subHeader={'Empowering Your Success with Top-Tier Industry Resources.'}
             isHeaderAlternateColor={true}
+            isSubHeaderAlternateColor={palette.secondaryLight}
           />
           <Box sx={containerNoDragStyles}>
             <Box p={1}>

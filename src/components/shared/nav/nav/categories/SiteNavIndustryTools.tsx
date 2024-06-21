@@ -12,7 +12,11 @@ export default function SiteNavIndustryResources() {
       <Link href="/industry-resources" passHref>
         <ListItemButton>
           <ListItemIcon>
-            <CloudOutlined sx={{ strokeWidth: 0.5, stroke: `${palette.primary}` }} color="primary" />
+            <CloudOutlined
+              aria-label="Go to Industry Resources"
+              sx={{ strokeWidth: 0.5, stroke: `${palette.primary}` }}
+              color="primary"
+            />
             <ListItemText
               primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }}
               primary="Industry Resources"
