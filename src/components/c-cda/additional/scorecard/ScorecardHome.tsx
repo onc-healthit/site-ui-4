@@ -22,10 +22,16 @@ import BannerBox from '@shared/BannerBox'
 import SectionHeader from '@shared/SectionHeader'
 import styles from '@shared/styles.module.css'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import ScorecardResults from './ScorecardResults'
 
 export default function ScorecardHome() {
+  const [resultsDialogState, setResultsDialogState] = useState(false)
+  const handleCloseResultsDialog = () => {
+    setResultsDialogState(false)
+  }
+  const [isShowSampleDownloadButton, setIsShowSampleDownloadButton] = useState(false)
+
   const demoSampleOptions = [
     {
       label: 'High Scoring Sample',
@@ -52,20 +58,17 @@ export default function ScorecardHome() {
   const handleSubmitScorecardStart = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log('handleSubmitScorecardStart(e), event: ', e)
-    tempLoadResults()
+    setIsShowSampleDownloadButton(false)
+    setResultsDialogState(true)
   }
 
   const handleSubmitDemoStart = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log('handleSubmitDemoStart(e), event: ', e)
     console.log('Starting demo with sample: ' + demoSampleOption)
-    tempLoadResults()
-  }
-
-  // TODO: rReplace with shared/dialog/DialogTemplate.tsx modal once generilzation is done in C-CDA Validation
-  const router = useRouter()
-  const tempLoadResults = async () => {
-    router.push('temp-sc-results')
+    // We only need this download button for try me as user will have their own file already in actual validation
+    setIsShowSampleDownloadButton(true)
+    setResultsDialogState(true)
   }
 
   const modalUrls = [
@@ -118,10 +121,9 @@ export default function ScorecardHome() {
       {/* Main Content */}
       <Container>
         <SectionHeader header={'Run the Scorecard'} subHeader={'Upload your file or try the demo'} />
-
         {/* Actual Scorecard Validation */}
         <Box display="flex" gap={4} alignContent="stretch">
-          <Box width="70%">
+          <Box width="70%" component="form" noValidate onSubmit={handleSubmitScorecardStart}>
             <Card>
               <CardHeader
                 title="Score your document!"
@@ -130,7 +132,7 @@ export default function ScorecardHome() {
                 subheaderTypographyProps={{ color: palette.primary }}
               />
               <CardContent>
-                <Box component="form" width="100%" noValidate onSubmit={handleSubmitScorecardStart}>
+                <Box width="100%">
                   <Typography variant="body1">
                     <>
                       <b>PHI Note:</b> The C-CDA Scorecard does not retain your submitted C-CDA file as the file is
@@ -164,7 +166,7 @@ export default function ScorecardHome() {
           </Box>
 
           {/* Demo */}
-          <Box width="30%">
+          <Box width="30%" component="form" noValidate onSubmit={handleSubmitDemoStart}>
             <Card sx={{ height: '100%' }}>
               <CardHeader
                 title="Demo"
@@ -173,7 +175,7 @@ export default function ScorecardHome() {
                 subheaderTypographyProps={{ color: palette.primary }}
               />
               <CardContent>
-                <Box component="form" width="100%" noValidate onSubmit={handleSubmitDemoStart}>
+                <Box width="100%">
                   <Typography variant="body1">
                     Please select which sample you would like to use from the dropdown to demo. Enjoy!
                   </Typography>
@@ -202,14 +204,11 @@ export default function ScorecardHome() {
             </Card>
           </Box>
         </Box>
-
         <Divider sx={{ pt: 2, pb: 2 }} />
-
         <SectionHeader
           header={'Learn & Implement'}
           subHeader={'Review the information below for a deeper understanding of the Scorecard'}
         />
-
         <Box display="flex" gap={4} alignItems="stretch">
           <Box display="flex" flexDirection="column" gap={3} width="50%" sx={{ pb: 4 }}>
             <div onClick={() => handleCardWithBorderClick(0)}>
@@ -260,6 +259,12 @@ export default function ScorecardHome() {
             />
           </Box>
         </Box>
+
+        <ScorecardResults
+          dialogState={resultsDialogState}
+          handleCloseDialog={handleCloseResultsDialog}
+          isShowSampleDownloadButton={isShowSampleDownloadButton}
+        ></ScorecardResults>
       </Container>
     </>
   )

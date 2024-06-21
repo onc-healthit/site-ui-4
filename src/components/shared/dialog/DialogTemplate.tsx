@@ -43,7 +43,7 @@ const DialogTemplate: FC<DialogTemplateProps> = ({
   actionsContent,
 }) => {
   return (
-    <Dialog disableScrollLock maxWidth="xl" open={open}>
+    <Dialog disableScrollLock maxWidth="xl" open={open} onClose={handleClose}>
       <CustomDialogTitle handleClose={handleClose}>{title}</CustomDialogTitle>
       <DialogContent
         sx={{ display: 'flex', borderColor: palette.divider, alignItems: 'stretch', flexDirection: 'row' }}

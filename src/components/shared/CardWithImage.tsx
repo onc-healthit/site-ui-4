@@ -31,11 +31,12 @@ const CriteriaCard = ({
   buttonTitle,
 }: CriteriaCardProps) => {
   const isExternalLink: boolean = pathname.startsWith('http')
-  const defaultButtonTitle: string = buttonTitle ?? 'Go'
+  const defaultButtonTitle: string = buttonTitle ?? 'GO'
 
   return (
     <Box
       sx={{
+        display: 'flex',
         transition: 'transform 0.15s ease-in-out',
         '&:hover': {
           transform: 'scale3d(1.05, 1.05, 1)',
@@ -45,7 +46,13 @@ const CriteriaCard = ({
     >
       <CardActionArea aria-label="button">
         <Card
-          sx={{ maxWidth: maxWidth, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+          sx={{
+            height: '100%',
+            maxWidth: maxWidth,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
           id="criteria"
         >
           <Link
