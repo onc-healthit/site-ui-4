@@ -41,8 +41,12 @@ export default function NavHeader({ handleDrawerClose, theme }: SiteNavHeaderPro
             priority
           />
         </a>
-        <IconButton size="small" onClick={handleDrawerClose}>
-          {theme.direction === 'rtl' ? <ChevronRightIcon fontSize="small" /> : <ChevronLeftIcon fontSize="small" />}
+        <IconButton size="small" aria-label="Toggle Navigation" onClick={handleDrawerClose}>
+          {theme.direction === 'rtl' ? (
+            <ChevronRightIcon aria-label="Open Navigation" />
+          ) : (
+            <ChevronLeftIcon aria-label="Close Navigation" />
+          )}
         </IconButton>
       </Box>
       <Divider sx={{ borderWidth: NAV_THICKER_DIVIDER }} />

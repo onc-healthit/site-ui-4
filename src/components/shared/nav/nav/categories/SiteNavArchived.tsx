@@ -11,7 +11,7 @@ export default function SiteNavArchived() {
     <>
       <Link href="/archived" passHref>
         <ListItemButton>
-          <ListItemIcon>
+          <ListItemIcon aria-label="Go to archieved page">
             <ArchiveOutlined sx={{ strokeWidth: 0.5, stroke: `${palette.primary}` }} color="primary" />
             <ListItemText
               primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }}
