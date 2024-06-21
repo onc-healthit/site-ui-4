@@ -4,8 +4,14 @@ export interface SectionHeaderProps {
   header: string
   subHeader: string
   isHeaderAlternateColor?: boolean
+  isSubHeaderAlternateColor?: string
 }
-const SectionHeader = ({ header, subHeader, isHeaderAlternateColor }: SectionHeaderProps) => {
+const SectionHeader = ({
+  header,
+  subHeader,
+  isHeaderAlternateColor,
+  isSubHeaderAlternateColor,
+}: SectionHeaderProps) => {
   return (
     <Box paddingTop={4} paddingBottom={4}>
       <Typography
@@ -20,8 +26,11 @@ const SectionHeader = ({ header, subHeader, isHeaderAlternateColor }: SectionHea
       <Typography
         fontWeight={'bold'}
         variant="body1"
-        color={palette.secondaryLight}
-        sx={{ pt: '7px', backgroundColor: 'transparent' }}
+        sx={{
+          color: isSubHeaderAlternateColor || palette.secondary, // Use subHeaderColor if provided, otherwise default
+          pt: '7px',
+          backgroundColor: 'transparent',
+        }}
       >
         {subHeader}
       </Typography>

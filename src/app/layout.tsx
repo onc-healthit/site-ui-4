@@ -24,7 +24,7 @@ const pageContainer = {
   minHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',
-  pt: 8,
+  pt: '58px',
 }
 
 const footer = {

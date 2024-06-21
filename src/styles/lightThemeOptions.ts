@@ -156,7 +156,7 @@ export const lightThemeOptions: ThemeOptions = {
             backgroundColor: palette.greyLight,
           },
           '&:focus': {
-            backgroundColor: palette.secondaryLight,
+            backgroundColor: '#e4f1fe',
           },
           '&:selected': {
             backgroundColor: palette.secondaryDark,
