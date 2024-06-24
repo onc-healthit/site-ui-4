@@ -6,16 +6,40 @@ import { CallBackProps } from 'react-joyride'
 
 const Joyride = dynamic(() => import('react-joyride'), { ssr: false }) // Dynamically import Joyride
 
+interface GtagOptions {
+  event_category: string
+  event_label: string
+  // Add more properties if needed
+}
+
+declare global {
+  interface Window {
+    gtag?: (key: string, type: string, options: GtagOptions) => void
+  }
+}
 const TourButton: React.FC = () => {
   const [run, setRun] = useState(false)
 
   const handleClickStart = () => {
-    setRun(true)
+    // Google Analytics event tracking
+    setRun(true) // Reset the run state
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Start Tour', {
+        event_category: 'Button',
+        event_label: 'Start Tour',
+      })
+    }
   }
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status } = data
 
     if (status === 'finished' || status === 'skipped') {
+      if (window.gtag && typeof window.gtag === 'function') {
+        window.gtag('event', 'End Tour', {
+          event_category: 'Button',
+          event_label: status === 'finished' ? 'Tour Finished' : 'Tour Skipped',
+        })
+      }
       setRun(false) // Reset the run state
     }
   }
