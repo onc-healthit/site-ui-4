@@ -49,7 +49,7 @@ export async function postToValidatorV3(prevState: object | undefined, formData:
   formData.append('svap2023', 'true')
   if (formData.get('version') === 'v3IG') {
     formData.append('referenceFileName', 'Readme.txt')
-    formData.append('validationObjective', 'C-CDA_IG_Plus_Vocab')
+    formData.append('validationObjective', 'C-CDA_IG_Only')
   }
   console.log('Submitted data for Validator V3: ', formData)
   const config = {
@@ -92,7 +92,7 @@ export async function postToValidatorV1(prevState: object | undefined, formData:
   formData.append('svap2023', 'false')
   if (formData.get('version') === 'v1IG') {
     formData.append('referenceFileName', 'Readme.txt')
-    formData.append('validationObjective', 'C-CDA_IG_Plus_Vocab')
+    formData.append('validationObjective', 'C-CDA_IG_Only')
   }
   console.log('Submitted data for Validator V1: ', formData)
   const config = {
