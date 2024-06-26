@@ -42,6 +42,7 @@ const PHRHome = () => {
                 href={
                   'https://www.nist.gov/itl/ssd/systems-interoperability-group/nist-test-tools-onc-health-it-certification-program'
                 }
+                target="_blank"
               >
                 NIST tooling.
               </Link>
