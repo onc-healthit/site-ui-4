@@ -33,11 +33,19 @@ const PHRHome = () => {
         heading={'Public Health Reporting'}
         description={
           <>
-            Explore public health reporting and CDA reporting tools, including HL7® CDA® Cancer Registry Reporting
-            Validation Tool for validating cancer-related medical information. Additionally, ensure compliance with
-            HL7® CDA® National Health Care Surveys Validator for testing CDA XML documents. NIST offers specialized
-            test suites like the HL7® v2 Immunization and Syndromic Surveillance Test Suites, along with the Electronic
-            Laboratory Reporting Validation Suite for HIT certification testing.
+            These tools support the public health criteria in the ONC Certification Program. The public health criteria
+            help promote interoperability to support State, Tribal, Local, and Territorial Health Departments and
+            programs in the Centers for Disease Control and Prevention. Most of the public health tooling for the ONC
+            Certification Program is developed using {''}
+            <span>
+              <Link
+                href={
+                  'https://www.nist.gov/itl/ssd/systems-interoperability-group/nist-test-tools-onc-health-it-certification-program'
+                }
+              >
+                NIST tooling.
+              </Link>
+            </span>
           </>
         }
       />

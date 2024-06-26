@@ -175,9 +175,9 @@ export default function SiteHomeRows() {
                 title={'Public Health Reporting'}
                 cardImage={phrSvg}
                 cardHeader={'Public Health Reporting'}
-                description={
-                  'Explore public health reporting and CDA reporting tools, including HL7® CDA® Cancer Registry Reporting Validation Tool for validating cancer-related medical information. '
-                }
+                description={`These tools support the public health criteria in the ONC Certification Program. The public health criteria
+            help promote interoperability to support State, Tribal, Local, and Territorial Health Departments and
+            programs in the Centers for Disease Control and Prevention.`}
                 pathname={'/public-health-reporting'}
                 maxWidth={maxWidth}
                 imageWidth={maxWidth + 'px'}
