@@ -148,6 +148,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 ## E2E tests
-1. Update cypress/config/cypress.config.dev.ts with credentials
-2. Run npm run test which will open cypress window -> choose E2E testing -> Choose browser to run the tests against -> choose test files to run. This will use dev config file.
-3. Running test through cmd, npm run test:dev. This will use electron headless browser to run the tests.
+1. Run npm install
+2. Update cypress/config/cypress.config.dev.ts with credentials- When login functionality is implemented. Not needed now.
+3. Run npm run test which will open cypress window -> choose E2E testing -> Choose browser to run the tests against -> choose test files to run. This will use dev config file.
+4. Running test through cmd, npm run test:dev. This will use electron headless browser to run the tests.

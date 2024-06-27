@@ -201,12 +201,12 @@ export default function ValidatorForm({
             ></ValidationComponent>
             <Box>
               <Link href={downloadScenario} passHref style={{ textDecoration: 'none' }} target="_blank">
-                <Button variant="outlined" sx={{ color: palette.primary }} disabled={disableDownloadSceario}>
+                <Button id="download-selected-scenario-file" variant="outlined" sx={{ color: palette.primary }} disabled={disableDownloadSceario}>
                   DOWNLOAD SELECTED SCENARIO FILE
                 </Button>
               </Link>
               <Link href={downloadAllScenariosUrl} passHref style={{ textDecoration: 'none' }}>
-                <Button variant="outlined" sx={{ color: palette.primary, ml: 2 }}>
+                <Button id="download-all-scenario-files" variant="outlined" sx={{ color: palette.primary, ml: 2 }}>
                   DOWNLOAD ALL SCENARIO FILES
                 </Button>
               </Link>

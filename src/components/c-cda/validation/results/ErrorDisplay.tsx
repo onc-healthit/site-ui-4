@@ -45,7 +45,7 @@ const ErrorDisplayCard = ({ open, handleClose, response }: ErrorDisplayCardProps
                 textAlign={'left'}
                 color={palette.white}
                 sx={{ fontWeight: '600', px: 2, py: 1 }}
-                id="validating-dialog-title"
+                id="validating-dialog-error-title"
                 variant="h3"
               >
                 Oh no!

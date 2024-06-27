@@ -62,7 +62,7 @@ const ValidationStatusIndicator: React.FC<ValidationStatusIndicatorProps> = ({ s
         Results
       </Typography>
       <Box sx={{ width: '100%', flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
-        <Typography fontWeight={400}> {status.charAt(0).toUpperCase() + status.slice(1)}</Typography>
+        <Typography id='result' fontWeight={400}> {status.charAt(0).toUpperCase() + status.slice(1)}</Typography>
         <Box sx={{ flexGrow: 1, flexDirection: 'row', mx: 4, mb: 2 }}>
           <LinearProgress
             variant="determinate"

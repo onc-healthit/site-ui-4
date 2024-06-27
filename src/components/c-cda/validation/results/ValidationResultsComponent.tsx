@@ -53,7 +53,7 @@ const ValidatorComponent = ({ response, estimatedValidationTime, disabled, fileN
 
   return (
     <>
-      <Button type="submit" variant="contained" onClick={handleLoadingOpen} disabled={disabled}>
+      <Button id="validate" type="submit" variant="contained" onClick={handleLoadingOpen} disabled={disabled}>
         VALIDATE
       </Button>
 

@@ -1,8 +1,3 @@
-const homeElements = {
-  appHeader: 'div[title="Inferno FHIR Testing"]',
-  navigation: '#navigation',
-}
-
 describe('Home Page - ONC Certification Tools', () => {
   before(() => {
     cy.visit('/')
