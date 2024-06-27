@@ -15,36 +15,42 @@ import SMTPTestCard from '../shared/SMTPTestCard'
 import palette from '@/styles/palette'
 import * as React from 'react'
 import { useEffect } from 'react'
+import criteria from '@/assets/Criteria'
+import _ from 'lodash'
 
 const H2Component = () => {
-  const [option, setOption] = React.useState('')
+  const h2CriteriaList = criteria.filter((c) => c.testList === "['h2']")
+  const [firstDropdownSelectedOption, setFirstDropdownSelectedOption] = React.useState('All')
+  const [criteriaOptions, setCriteriaOptions] = React.useState(h2CriteriaList)
+  const [selectedCriteria, setSelectedCriteria] = React.useState('')
   const [showTestCard, setShowTestCard] = React.useState(false)
-  const handleChange = (event: SelectChangeEvent) => {
-    setOption(event.target.value as string)
-  }
-  useEffect(() => {
-    if (option !== '') {
-      setShowTestCard(true)
-    }
-  }, [option])
-  const dropdown = [
-    {
-      value: 'A',
-      label: 'A',
-    },
-    {
-      value: 'B',
-      label: 'B',
-    },
-    {
-      value: 'C',
-      label: 'C',
-    },
-    {
-      value: 'D',
-      label: 'D',
-    },
+
+  const h2FirstDropdown = [
+    { name: 'All', testList: ['h2', 'sc2'], selectOption: 'ALL' },
+    { name: 'Setup', testList: ['h2', 'sc2'], selectOption: 'A' },
+    { name: 'Send', testList: ['h2', 'sc2'], selectOption: 'B' },
+    { name: 'Send - Delivery Notification for Direct', testList: ['h2', 'sc2'], selectOption: '9' },
+    { name: 'Send using Direct+XDM', testList: ['h2', 'sc2'], selectOption: '2' },
+    { name: 'Send conversion XDR', testList: ['h2', 'sc2'], selectOption: '3' },
+    { name: 'Send using Edge Protocol', testList: ['h2', 'sc2'], selectOption: '4' },
+    { name: 'Receive', testList: ['h2', 'sc2'], selectOption: '5' },
+    { name: 'Receive - Delivery Notification in Direct', testList: ['h2', 'sc2'], selectOption: '10' },
+    { name: 'Receive using Direct+XDM', testList: ['h2', 'sc2'], selectOption: '6' },
+    { name: 'Receive conversion XDR', testList: ['h2', 'sc2'], selectOption: '7' },
+    { name: 'Receive using Edge Protocol', testList: ['h2', 'sc2'], selectOption: '8' },
   ]
+
+  const handleFirstDropdownChange = (event: SelectChangeEvent) => {
+    setFirstDropdownSelectedOption(event.target.value as string)
+    const selectedOption = h2FirstDropdown.filter((o) => _.isEqual(o.name, event.target.value))
+    const criteriaList = h2CriteriaList.filter((c) => c.selectOption?.includes(selectedOption[0].selectOption))
+    setCriteriaOptions(criteriaList)
+    setSelectedCriteria('')
+  }
+
+  const handleCriteriaChange = (event: SelectChangeEvent) => {
+    setSelectedCriteria(event.target.value as string)
+  }
   return (
     <Container>
       <Box sx={{ display: 'flex', width: '100%', pt: 4, gap: 4 }}>
@@ -61,13 +67,13 @@ const H2Component = () => {
                     <Select
                       labelId="h2-select-a-label"
                       id="h2-a-select"
-                      value={option}
+                      value={firstDropdownSelectedOption}
                       label="Choose a sub category"
-                      onChange={handleChange}
+                      onChange={handleFirstDropdownChange}
                     >
-                      {dropdown.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
+                      {h2FirstDropdown.map((option) => (
+                        <MenuItem key={option.name} value={option.name}>
+                          {option.name}
                         </MenuItem>
                       ))}
                     </Select>
@@ -88,13 +94,13 @@ const H2Component = () => {
                     <Select
                       labelId="h2-select-b-label"
                       id="h2-b-select"
-                      value={option}
+                      value={selectedCriteria}
                       label="Choose a sub category"
-                      onChange={handleChange}
+                      onChange={handleCriteriaChange}
                     >
-                      {dropdown.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
+                      {criteriaOptions.map((option) => (
+                        <MenuItem key={option.name} value={option.name}>
+                          {option.name}
                         </MenuItem>
                       ))}
                     </Select>

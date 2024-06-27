@@ -15,6 +15,8 @@ import SMTPTestCard from '../shared/SMTPTestCard'
 import palette from '@/styles/palette'
 import * as React from 'react'
 import { useEffect } from 'react'
+import _ from 'lodash'
+import criteria from '@/assets/Criteria'
 
 const B1Component = () => {
   const [option, setOption] = React.useState('')
@@ -22,30 +24,13 @@ const B1Component = () => {
   const handleChange = (event: SelectChangeEvent) => {
     setOption(event.target.value as string)
   }
-
-  useEffect(() => {
+  const b1CriteriaList = criteria.filter((c) => c.testList === "['b1']")
+  /*   useEffect(() => {
     if (option !== '') {
       setShowTestCard(true)
     }
-  }, [option])
-  const dropdown = [
-    {
-      value: 'A',
-      label: 'A',
-    },
-    {
-      value: 'B',
-      label: 'B',
-    },
-    {
-      value: 'C',
-      label: 'C',
-    },
-    {
-      value: 'D',
-      label: 'D',
-    },
-  ]
+  }, [option]) */
+
   return (
     <Container>
       <Box sx={{ display: 'flex', width: '100%', pt: 4, gap: 4 }}>
@@ -66,9 +51,9 @@ const B1Component = () => {
                       label="Choose a sub category"
                       onChange={handleChange}
                     >
-                      {dropdown.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
+                      {b1CriteriaList.map((option) => (
+                        <MenuItem key={option.name} value={option.name}>
+                          {option.name}
                         </MenuItem>
                       ))}
                     </Select>

@@ -16,7 +16,7 @@ import {
 import XDRTestCard from '@components/direct/hisp/XDRTestCard'
 import { Download } from '@mui/icons-material'
 import TestFilter from './TestFilter'
-import testCases from './data/XDRTestCases'
+import testCases from '@/assets/XDRTestCases'
 
 const XDR = () => {
   const [option, setOption] = useState('')
