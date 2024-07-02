@@ -20,6 +20,14 @@ const ArchiveHome = () => {
     { heading: 'Contact Us', href: '' },
   ]
 
+  function trackMenuItemClick(heading: string) {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Click archive sub menu', {
+        event_category: 'Navigation',
+        event_label: heading,
+      })
+    }
+  }
   return (
     <Box>
       {/* Global Header */}
@@ -42,7 +50,7 @@ const ArchiveHome = () => {
       <Container>
         <Box pt={4} pb={4} display={'flex'} flexDirection={'row'} gap={4}>
           <Box display={'flex'} flexDirection={'column'} gap={4}>
-            <SubMenu menuItems={menuItems} />
+            <SubMenu onClick={trackMenuItemClick} menuItems={menuItems} />
             <ArchiveFilter />
           </Box>
           <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
