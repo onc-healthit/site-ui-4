@@ -12,40 +12,49 @@ import {
 } from '@mui/material'
 import Profile from '../shared/Profile'
 import SMTPTestCard from '../shared/SMTPTestCard'
+import TestCard from '../hisp/TestCard'
 import palette from '@/styles/palette'
-import * as React from 'react'
-import { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import testCases from '../hisp/data/SMTPTestCases'
 
 const B1Component = () => {
-  const [option, setOption] = React.useState('')
-  const [showTestCard, setShowTestCard] = React.useState(false)
+  const [option, setOption] = useState('')
+  const [showTestCard, setShowTestCard] = useState(false)
+
+  // Pre-filtered lists for different criteria
+  const criteriaA = testCases.tests.filter((test) => test.criteria?.includes('A'))
+  const criteriaB = testCases.tests.filter((test) => test.criteria?.includes('B'))
+  const criteriaC = testCases.tests.filter((test) => test.criteria?.includes('C'))
+  const criteriaD = testCases.tests.filter((test) => test.criteria?.includes('b1-8'))
+
   const handleChange = (event: SelectChangeEvent) => {
     setOption(event.target.value as string)
+    setShowTestCard(true)
   }
 
-  useEffect(() => {
-    if (option !== '') {
-      setShowTestCard(true)
-    }
-  }, [option])
   const dropdown = [
-    {
-      value: 'A',
-      label: 'A',
-    },
-    {
-      value: 'B',
-      label: 'B',
-    },
-    {
-      value: 'C',
-      label: 'C',
-    },
-    {
-      value: 'D',
-      label: 'D',
-    },
+    { value: 'A', label: 'Criteria (i)(A) Send using Edge Protocol - XDR' },
+    { value: 'B', label: 'Criteria (i)(A) Send using Edge Protocol - SMTP' },
+    { value: 'C', label: 'Criteria C' },
+    { value: 'D', label: 'Criteria D' },
   ]
+
+  // Select the right list based on the option
+  const selectedTestCases = () => {
+    switch (option) {
+      case 'A':
+        return criteriaA
+      case 'B':
+        return criteriaB
+      case 'C':
+        return criteriaC
+      case 'D':
+        return criteriaD
+      default:
+        return []
+    }
+  }
+
   return (
     <Container>
       <Box sx={{ display: 'flex', width: '100%', pt: 4, gap: 4 }}>
@@ -66,9 +75,9 @@ const B1Component = () => {
                       label="Choose a sub category"
                       onChange={handleChange}
                     >
-                      {dropdown.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
+                      {dropdown.map((item) => (
+                        <MenuItem key={item.value} value={item.value}>
+                          {item.label}
                         </MenuItem>
                       ))}
                     </Select>
@@ -82,17 +91,11 @@ const B1Component = () => {
           </Card>
         </Box>
         <Box sx={{ flexGrow: 1 }}>
-          {showTestCard && (
-            <SMTPTestCard
-              cardHeader={'SMTP Test 8,14 (Send)'}
-              cardContent={
-                'Verifies the ability of the sending system to send an email to ETT using the SMTP protocol with STARTTLS. The SUT will send an email to edge-receiver@james.healthit.gov. Hitting "Run" will cause ETT to search for an email sent to edge-receiver@james.healthit.gov from the email address entered in Profile window. Note that the C-CDA Document Type selected will not affect the test result.'
-              }
-            />
-          )}
+          {showTestCard && selectedTestCases().map((test, i) => <TestCard key={i} test={test} />)}
         </Box>
       </Box>
     </Container>
   )
 }
+
 export default B1Component
