@@ -12,8 +12,9 @@ export type menuProps = {
 
 export interface SubMenuProps {
   menuItems: menuProps[]
+  onClick: (heading: string) => void
 }
-const SubMenu = ({ menuItems }: SubMenuProps) => {
+const SubMenu = ({ menuItems, onClick }: SubMenuProps) => {
   const theme = useTheme()
   return (
     <Box
@@ -31,7 +32,13 @@ const SubMenu = ({ menuItems }: SubMenuProps) => {
     >
       <List sx={{}} component="nav">
         {menuItems.map((item, index) => (
-          <Link href={item.href} key={index} passHref style={{ textDecoration: 'none' }}>
+          <Link
+            href={item.href}
+            key={index}
+            passHref
+            style={{ textDecoration: 'none' }}
+            onClick={() => onClick(item.heading)}
+          >
             <ListItemButton
               sx={{
                 justifyContent: 'flex-start',

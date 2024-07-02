@@ -25,6 +25,14 @@ const menuItems: menuProps[] = [
   { heading: "Discover DCDT's Certificates", href: '#certificates' },
   { heading: 'Resources', href: '#resources' },
 ]
+function trackMenuItemClick(heading: string) {
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', 'Click discovery tool sub menu', {
+      event_category: 'Navigation',
+      event_label: heading,
+    })
+  }
+}
 
 type LinkButtonProps = {
   href: string
@@ -66,7 +74,7 @@ const DiscoveryTool = () => {
       {/* Main Content */}
       <Container>
         <Box pt={4} pb={4} gap={4} display={'flex'} flexDirection={'row'}>
-          <SubMenu menuItems={menuItems} />
+          <SubMenu onClick={trackMenuItemClick} menuItems={menuItems} />
           <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
             {/* Overview */}
             <Card id="overview">

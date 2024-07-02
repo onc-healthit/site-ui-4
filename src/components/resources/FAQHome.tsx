@@ -17,6 +17,14 @@ export default function FAQHome() {
     { heading: 'Other', href: '#other' },
     { heading: 'Contact Us', href: '#contact' },
   ]
+  function trackMenuItemClick(heading: string) {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Click FAQs sub menu', {
+        event_category: 'Navigation',
+        event_label: heading,
+      })
+    }
+  }
 
   return (
     <div>
@@ -31,7 +39,7 @@ export default function FAQHome() {
       />
       <Container>
         <Box pt={4} pb={4} gap={4} display={'flex'} flexDirection={'row'}>
-          <SubMenu menuItems={menuItems} />
+          <SubMenu onClick={trackMenuItemClick} menuItems={menuItems} />
           <Box gap={4} display={'flex'} flexDirection={'column'}>
             <Box id="overview">
               <FAQCard header={'SITE Overview'} items={faq.Overview} />

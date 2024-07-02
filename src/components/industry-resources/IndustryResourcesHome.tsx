@@ -1,3 +1,4 @@
+'use client'
 // MUI Imports
 import BannerBox from '../shared/BannerBox'
 import { Box, Container, Typography } from '@mui/material'
@@ -16,6 +17,16 @@ const menuItems: menuProps[] = [
   { heading: 'MITRE Github', href: '#mg' },
   { heading: 'Referenece Data', href: '#rd' },
 ]
+
+function trackMenuItemClick(heading: string) {
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', 'Click industry resources sub menu', {
+      event_category: 'Navigation',
+      event_label: heading,
+    })
+  }
+}
+
 const IndustryResourcesHome = () => {
   return (
     <Box>
@@ -53,7 +64,7 @@ const IndustryResourcesHome = () => {
             display={'flex'}
             flexDirection={'column'}
           >
-            <SubMenu menuItems={menuItems} />
+            <SubMenu onClick={trackMenuItemClick} menuItems={menuItems} />
             <Box
               border={`1px solid ${palette.grey}`}
               borderRadius={2}

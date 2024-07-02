@@ -28,14 +28,12 @@ const VideoItem: React.FC<VideoItemProps> = ({ fileName, fileDate, fileUrl, show
 
   return (
     <div>
-      <Typography sx={{ lineHeight: '.25' }}>
-        <p>{getFileAge(fileDate)}</p>
-        <p>
-          <a href={fileUrl} download={fileName}>
-            {fileName}
-          </a>{' '}
-          {showFileType && <span> (File)</span>}
-        </p>
+      <Typography>{getFileAge(fileDate)}</Typography>
+      <Typography>
+        <a href={fileUrl} download={fileName}>
+          {fileName}
+        </a>{' '}
+        {showFileType && <span> (File)</span>}
       </Typography>
     </div>
   )

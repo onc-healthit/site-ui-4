@@ -32,10 +32,22 @@ const CommunicationFab: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const handleDrawerOpen = () => {
     setDrawerOpen(true)
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Open Info FAB', {
+        event_category: 'Button',
+        event_label: 'Communication Panel',
+      })
+    }
   }
 
   const handleDrawerClose = () => {
     setDrawerOpen(false)
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Close Info FAB', {
+        event_category: 'Button',
+        event_label: 'Communication Panel',
+      })
+    }
   }
 
   const [releaseVersionHTML, setReleaseVersionHTML] = useState<string | undefined>()

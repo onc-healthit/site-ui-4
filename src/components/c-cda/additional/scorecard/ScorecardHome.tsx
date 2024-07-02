@@ -53,6 +53,12 @@ export default function ScorecardHome() {
     const demoSampleSelected = e.target.value
     console.log(`Selected ${demoSampleSelected}`)
     setDemoSampleOption(demoSampleSelected)
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Select demo dropdown', {
+        event_category: 'dropdown',
+        event_label: `Selected ${demoSampleSelected}`,
+      })
+    }
   }
 
   const handleSubmitScorecardStart = (e: React.FormEvent<HTMLFormElement>) => {
@@ -69,6 +75,12 @@ export default function ScorecardHome() {
     // We only need this download button for try me as user will have their own file already in actual validation
     setIsShowSampleDownloadButton(true)
     setResultsDialogState(true)
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Try Me', {
+        event_category: 'Button',
+        event_label: 'Score card try me demo',
+      })
+    }
   }
 
   const modalUrls = [
