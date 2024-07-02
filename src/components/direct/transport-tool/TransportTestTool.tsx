@@ -16,6 +16,14 @@ const menuItems: menuProps[] = [
   { heading: 'Send Direct Message using Direct Trust Production Bundle', href: '#sendMessageDirect' },
   { heading: 'Receive Direct Message from SITE', href: '#receiveMessageSITE' },
 ]
+function trackMenuItemClick(heading: string) {
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', 'Click transport test tool sub menu', {
+      event_category: 'Navigation',
+      event_label: heading,
+    })
+  }
+}
 const TransportTestTool = () => {
   return (
     <>
@@ -45,7 +53,7 @@ const TransportTestTool = () => {
           Prepare to exchange Direct messages with the Sandbox
         </Typography>
         <Box pt={4} pb={4} gap={4} display={'flex'} flexDirection={'row'}>
-          <SubMenu menuItems={menuItems} />
+          <SubMenu onClick={trackMenuItemClick} menuItems={menuItems} />
           <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
             {/* Overview */}
             <Card id="overview">
