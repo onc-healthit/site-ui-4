@@ -2,7 +2,7 @@ import palette from '@/styles/palette'
 import { Avatar, Box, Chip, Grid, Typography } from '@mui/material'
 
 export default function ScorecardHeatMap() {
-  // const chipFontSize: string = '100.5%'
+  const chipFontSize: string = '115%'
 
   return (
     <Box display={'flex'} flexDirection={'column'} gap={2} sx={{ mb: 4 }}>
@@ -18,28 +18,22 @@ export default function ScorecardHeatMap() {
               color: palette.white,
               backgroundColor: palette.successLight,
               '&:hover': {
-                backgroundColor: palette.success,
-                textDecoration: 'underline',
+                cursor: 'not-allowed',
               },
-              '&:visited': {
-                color: palette.white,
-              },
+              fontSize: chipFontSize,
             }}
           />
         </Grid>
         <Grid item>
           <Chip
-            label="Patient A+"
+            label="Patient Demographics A+"
             sx={{
               color: palette.white,
               backgroundColor: palette.successLight,
               '&:hover': {
-                backgroundColor: palette.success,
-                textDecoration: 'underline',
+                cursor: 'not-allowed',
               },
-              '&:visited': {
-                color: palette.white,
-              },
+              fontSize: chipFontSize,
             }}
           />
         </Grid>
@@ -48,15 +42,13 @@ export default function ScorecardHeatMap() {
             label="Procedures A-"
             avatar={<Avatar sx={{ bgcolor: palette.white }}>2</Avatar>}
             sx={{
-              color: palette.black,
+              color: palette.white,
               backgroundColor: palette.success,
               '&:hover': {
                 backgroundColor: palette.successDark,
                 textDecoration: 'underline',
               },
-              '&:visited': {
-                color: palette.white,
-              },
+              fontSize: chipFontSize,
             }}
             component="a"
             href="#Procedures"
@@ -68,15 +60,13 @@ export default function ScorecardHeatMap() {
             label="Social History A-"
             avatar={<Avatar sx={{ bgcolor: palette.white }}>3</Avatar>}
             sx={{
-              color: palette.black,
+              color: palette.white,
               backgroundColor: palette.success,
               '&:hover': {
                 backgroundColor: palette.successDark,
                 textDecoration: 'underline',
               },
-              '&:visited': {
-                color: palette.white,
-              },
+              fontSize: chipFontSize,
             }}
             component="a"
             href="#SocialHistory"
@@ -94,9 +84,7 @@ export default function ScorecardHeatMap() {
                 backgroundColor: '#FFB65D',
                 textDecoration: 'underline',
               },
-              '&:visited': {
-                color: palette.black,
-              },
+              fontSize: chipFontSize,
             }}
             component="a"
             href="#VitalSigns"
@@ -115,9 +103,7 @@ export default function ScorecardHeatMap() {
                 backgroundColor: '#FFB65D',
                 textDecoration: 'underline',
               },
-              '&:visited': {
-                color: palette.black,
-              },
+              fontSize: chipFontSize,
             }}
             component="a"
             href="#Immunizations"
@@ -129,15 +115,13 @@ export default function ScorecardHeatMap() {
             label="Medications C"
             avatar={<Avatar sx={{ bgcolor: palette.white }}>9</Avatar>}
             sx={{
-              color: palette.white,
+              color: palette.black,
               backgroundColor: '#C66D0065',
               '&:hover': {
                 backgroundColor: '#C66D0090',
                 textDecoration: 'underline',
               },
-              '&:visited': {
-                color: palette.black,
-              },
+              fontSize: chipFontSize,
             }}
             component="a"
             href="#Medications"
@@ -154,11 +138,8 @@ export default function ScorecardHeatMap() {
               '&:hover': {
                 backgroundColor: '#510808',
                 textDecoration: 'underline',
-                color: palette.errorDark,
               },
-              '&:visited': {
-                color: palette.white,
-              },
+              fontSize: chipFontSize,
             }}
             component="a"
             href="#Problems"
@@ -173,8 +154,15 @@ export default function ScorecardHeatMap() {
         <Grid item>
           <Chip
             variant="outlined"
-            label="Miscellaneous: No information for this section"
-            sx={{ color: palette.black, backgroundColor: palette.greyLight }}
+            label="Miscellaneous: No data in submitted document"
+            sx={{
+              color: palette.black,
+              backgroundColor: palette.greyLight,
+              '&:hover': {
+                cursor: 'not-allowed',
+              },
+              fontSize: chipFontSize,
+            }}
           />
         </Grid>
         <Grid item>
@@ -189,9 +177,7 @@ export default function ScorecardHeatMap() {
                 textDecoration: 'underline',
                 color: palette.white,
               },
-              '&:visited': {
-                color: palette.white,
-              },
+              fontSize: chipFontSize,
             }}
             component="a"
             href="#ConformanceErrors"
@@ -200,7 +186,7 @@ export default function ScorecardHeatMap() {
         </Grid>
         <Grid item>
           <Chip
-            label="Lab Result: Vocabulary Errors"
+            label="Laboratory Tests and Results: Vocabulary Errors"
             avatar={<Avatar sx={{ bgcolor: palette.white }}>1</Avatar>}
             sx={{
               color: palette.white,
@@ -210,9 +196,7 @@ export default function ScorecardHeatMap() {
                 textDecoration: 'underline',
                 color: palette.white,
               },
-              '&:visited': {
-                color: palette.white,
-              },
+              fontSize: chipFontSize,
             }}
             component="a"
             href="#VocabularyErrors"
