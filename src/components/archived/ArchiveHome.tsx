@@ -1,3 +1,4 @@
+'use client'
 // MUI Imports
 import { Box, Container, Link } from '@mui/material'
 import BannerBox from '../shared/BannerBox'

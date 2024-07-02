@@ -1,3 +1,4 @@
+'use client'
 import BannerBox from '@/components/shared/BannerBox'
 import SubMenu, { menuProps } from '@/components/shared/SubMenu'
 import styles from '@/components/shared/styles.module.css'
