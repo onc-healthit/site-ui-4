@@ -1,6 +1,6 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Divider, Typography } from '@mui/material'
 import ScorecardHeatMap from './ScorecardHeatMap'
-import ScorecardDetailedResults from './ScorecardDetailedResults'
+import ScorecardResultsSummary from './ScorecardResultsSummary'
 
 export default function ScorecardNextSteps() {
   return (
@@ -17,7 +17,8 @@ export default function ScorecardNextSteps() {
         </Typography>
       </Box>
       <ScorecardHeatMap></ScorecardHeatMap>
-      <ScorecardDetailedResults></ScorecardDetailedResults>
+      <ScorecardResultsSummary />
+      <Divider />
     </Box>
   )
 }

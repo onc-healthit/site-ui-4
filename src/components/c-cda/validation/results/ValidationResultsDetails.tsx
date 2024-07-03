@@ -100,8 +100,8 @@ const DetailsAccordion = ({
               </Typography>
               {!referenceCCDAResults && (
                 <Typography gutterBottom>
-                  <b>XPath</b>:
-                  <span style={{ lineBreak: 'anywhere', textDecoration: 'underline' }}> {detail.xPath}</span>
+                  <b>XPath</b>:&nbsp;
+                  <span style={{ lineBreak: 'anywhere', textDecoration: 'underline' }}>{detail.xPath}</span>
                 </Typography>
               )}
               {!referenceCCDAResults && (

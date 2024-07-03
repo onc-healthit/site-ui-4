@@ -32,6 +32,7 @@ export type CCDAValidationResult = {
   documentLineNumber: string
   description: string
   xPath: string
+  relatedSection?: string
 }
 
 interface CCDAValidationResultProps {
@@ -78,7 +79,7 @@ const TotalResults = ({ resultMetaData }: ResultMetaDataProps) => {
 
 const StatusIndicator = ({ resultMetaData }: ResultMetaDataProps) => {
   let count: number = 0
-  const errors = _.filter(resultMetaData, function (o) {
+  _.filter(resultMetaData, function (o) {
     return o?.type?.includes('Error')
   }).forEach((c) => {
     return (count += c.count ? c.count : 0)

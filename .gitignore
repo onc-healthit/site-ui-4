@@ -37,3 +37,7 @@ next-env.d.ts
 
 #node
 .node-version
+
+# Cypress file
+cypress/screenshots/
+cypress/videos/
