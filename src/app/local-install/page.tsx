@@ -18,11 +18,7 @@ const LocalInstallMarkdown: React.FC = () => {
 }
 
 const LocalInstallHome: React.FC = () => {
-  return (
-    <>
-      <LocalInstallMarkdown />
-    </>
-  )
+  return <LocalInstallMarkdown />
 }
 
 export default LocalInstallHome

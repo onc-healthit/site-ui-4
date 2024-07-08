@@ -1,4 +1,3 @@
-'use client'
 import React, { useState, useEffect } from 'react'
 import { GetStaticProps } from 'next'
 import { Container, Box, Fab } from '@mui/material'
@@ -10,6 +9,9 @@ import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import remarkGfm from 'remark-gfm'
 import palette from '@/styles/palette'
+import fs from 'fs'
+import path from 'path'
+;('use client')
 
 interface Props {
   content: string
@@ -57,7 +59,6 @@ const MarkdownPage: React.FC<Props> = ({ content }) => {
     const handleScroll = () => {
       const scrollTop = window.scrollY
       const windowHeight = window.innerHeight
-      const documentHeight = document.body.scrollHeight
 
       if (scrollTop > windowHeight / 2) {
         setShowScrollButton(true)
