@@ -1,8 +1,7 @@
-import { Typography, Container, Link } from '@mui/material'
+import { Typography, Container, List, ListItemButton } from '@mui/material'
 import Box from '@mui/material/Box'
 import DocsCard from './DocsCard'
 import BannerBox from '@shared/BannerBox'
-import Divider from '@mui/material/Divider'
 import DocsSubMenu from './DocsSubMenu'
 import VideoItem from './VideoItem'
 
@@ -26,46 +25,23 @@ export default function DocsHome() {
               header="Documents & Videos"
               content={
                 <div>
-                  <Typography sx={{ mb: 5 }}>
-                    <Typography variant="body1" sx={{ mb: 1.5 }}>
-                      <strong>
-                        {
-                          "Our document library is a comprehensive repository of whitepapers, research reports, guidelines, and informative articles related to ONC SITE. Whether you're looking to stay up-to-date with the latest regulatory changes, delve into technical specifications, or gain insights into the broader landscape of health IT, you'll find a wealth of knowledge at your fingertips."
-                        }
-                      </strong>
-                    </Typography>
-                    <ul>
-                      <li>
-                        <strong>
-                          {'2015 Test Procedures and Companion Guides '}
-                          <Link href="https://www.healthit.gov/topic/certification-ehrs/2015-edition-cures-update-test-method">
-                            External Link
-                          </Link>
-                        </strong>
-                      </li>
-                      <li>
-                        <strong>
-                          <Link href="https://ett.healthit.gov/ett/#/edge/localinstall">Local Installation Guide</Link>
-                        </strong>
-                      </li>
-                      <li>
-                        <strong>
-                          {'Installing using the AMI (Amazon Machine Image) '}
-                          <Link href="https://www.healthit.gov/topic/certification-ehrs/2015-edition-cures-update-test-method">
-                            Download
-                          </Link>
-                        </strong>
-                      </li>
-                      <li>
-                        <strong>
-                          {'2015 Test Procedures and Companion Guides '}
-                          <Link href="https://www.figma.com/file/PIVBcpFNsNOcWdmuRw66IQ/SITE-Design-System?type=design&node-id=1184-48443&mode=design&t=p6NeMDXKYiJY3Aor-4">
-                            Download
-                          </Link>
-                        </strong>
-                      </li>
-                    </ul>
+                  <Typography id="docs" variant="body1" sx={{ mb: 1.5 }}>
+                    {
+                      "Our document library is a comprehensive repository of whitepapers, research reports, guidelines, and informative articles related to ONC SITE. Whether you're looking to stay up-to-date with the latest regulatory changes, delve into technical specifications, or gain insights into the broader landscape of health IT, you'll find a wealth of knowledge at your fingertips."
+                    }
                   </Typography>
+                  <List>
+                    <ListItemButton href="https://www.healthit.gov/topic/certification-ehrs/onc-health-it-certification-program-test-method">
+                      Access Testing Procedures and Companion Guides
+                    </ListItemButton>
+                    <ListItemButton href="/local-install">Local Installation Guide</ListItemButton>
+                    <ListItemButton href="https://www.healthit.gov/topic/certification-ehrs/2015-edition-cures-update-test-method">
+                      Installing using the AMI (Amazon Machine Image)
+                    </ListItemButton>
+                    <ListItemButton href="https://github.com/onc-healthit/ett/raw/resources/documentation/guides/ETT%20Endpoints.docx">
+                      Endpoints for ETT.HealthIT.Gov testing
+                    </ListItemButton>
+                  </List>
                 </div>
               }
             />
@@ -73,13 +49,9 @@ export default function DocsHome() {
               header="Videos"
               content={
                 <div>
-                  <Typography variant="body1" sx={{ mb: 1 }}>
-                    <strong>
-                      {
-                        'For those who prefer visual learning, our video collection offers an engaging way to absorb information '
-                      }
-                    </strong>
-                    <Divider sx={{ mb: 1, mt: 2 }} />
+                  <Typography id="vids" variant="body1" sx={{ mb: 4 }}>
+                    For those who prefer visual learning, our video collection offers an engaging way to absorb
+                    information
                   </Typography>
                   <div
                     style={{
