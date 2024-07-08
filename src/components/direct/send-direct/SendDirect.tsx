@@ -5,11 +5,13 @@ import styles from '@shared/styles.module.css'
 import TabsComponent, { TabInputs } from '@/components/shared/TabsComponent'
 import Version13 from './Version13Tab'
 import Version12 from './Version12Tab'
+import MessageStatus from './MessageStatus'
 
 const SendDirect = () => {
   const sendDirectTabs: TabInputs[] = [
     { tabName: 'VERSION V1.3', tabIndex: 0, tabPanel: <Version13 /> },
     { tabName: 'VERSION V1.2', tabIndex: 1, tabPanel: <Version12 /> },
+    { tabName: 'Message Status', tabIndex: 2, tabPanel: <MessageStatus /> },
   ]
   return (
     <>
