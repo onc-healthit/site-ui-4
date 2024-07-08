@@ -1,6 +1,7 @@
 import DynamicTable from './DynamicTable'
 import InfoIcon from '@mui/icons-material/Info'
 import _ from 'lodash'
+import DocumentSelector from './DocumentSelector'
 import React, { useState } from 'react'
 import {
   Box,
@@ -81,6 +82,12 @@ const TestCard = ({ test }: TestCardProps) => {
 
   const handleChange = (name: string, value: FieldValue) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const [showDocumentSelector, setShowDocumentSelector] = useState(false)
+
+  const toggleDocumentSelector = () => {
+    setShowDocumentSelector(!showDocumentSelector)
   }
 
   const handleToggleDetail = () => {
@@ -195,11 +202,13 @@ const TestCard = ({ test }: TestCardProps) => {
                 <Typography>
                   CCDA Document Type <InfoIcon color="primary" fontSize="small" />
                 </Typography>
-                <Button variant="outlined" color="primary">
+                <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
                   SELECT A DOCUMENT
                 </Button>
               </Box>
             )}
+
+            {showDocumentSelector && <DocumentSelector />}
 
             {_.has(test, 'fields') &&
               test.fields !== undefined &&
