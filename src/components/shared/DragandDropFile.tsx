@@ -54,6 +54,14 @@ export default function DragDropFileUpload({ maxFiles, name, fileName }: DragDro
   const removeAll = () => {
     setFiles([])
   }
+  const UploadFile = () => {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Click Upload File', {
+        event_category: 'Button',
+        event_label: 'Drag & Drop File Upload',
+      })
+    }
+  }
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject, open } = useDropzone({
     // Disable click and keydown behavior
     noClick: true,
@@ -88,7 +96,14 @@ export default function DragDropFileUpload({ maxFiles, name, fileName }: DragDro
         <input {...getInputProps()} />
         <FileUploadIcon />
         <Typography>Drag & Drop file here or </Typography>
-        <Button component="label" size="large" variant="text" color="primary" onClick={open}>
+        <Button
+          component="label"
+          size="large"
+          variant="text"
+          color="primary"
+          onClickCapture={UploadFile}
+          onClick={open}
+        >
           BROWSE
         </Button>
       </div>

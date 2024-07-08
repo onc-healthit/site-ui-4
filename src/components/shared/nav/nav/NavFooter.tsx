@@ -7,10 +7,22 @@ export default function NavFooter() {
 
   const handleOpenDialog = () => {
     setOpenDialog(true)
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Open Release Notes', {
+        event_category: 'Button',
+        event_label: 'Open Release Notes thru Nav',
+      })
+    }
   }
 
   const handleCloseDialog = () => {
     setOpenDialog(false)
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Close Release Notes', {
+        event_category: 'Button',
+        event_label: 'Close Release Notes',
+      })
+    }
   }
 
   // const [releaseVersionHTML, setReleaseVersionHTML] = useState<string | undefined>()

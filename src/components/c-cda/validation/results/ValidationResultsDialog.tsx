@@ -33,6 +33,14 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
   const handlePrint = useReactToPrint({
     content: () => contentRef.current,
   })
+  const trackSaveButtonClick = () => {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Save Results', {
+        event_category: 'Button',
+        event_label: 'Print/Save Validator Results',
+      })
+    }
+  }
   return (
     <DialogTemplate
       open={open}
@@ -101,7 +109,7 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
               </span>
             }
           >
-            <Button variant="contained" color="primary" onClick={handlePrint}>
+            <Button variant="contained" color="primary" onClickCapture={trackSaveButtonClick} onClick={handlePrint}>
               Save Results
             </Button>
           </Tooltip>
