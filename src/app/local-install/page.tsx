@@ -1,4 +1,3 @@
-// Add 'use client' at the top if using Next.js 13
 'use client'
 
 import React, { useState, useEffect } from 'react'

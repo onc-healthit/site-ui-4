@@ -1,17 +1,12 @@
+'use client'
 import React, { useState, useEffect } from 'react'
-import { GetStaticProps } from 'next'
 import { Container, Box, Fab } from '@mui/material'
-// MUI Imports
 import BannerBox from '@/components/shared/BannerBox'
-// Global Imports
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import remarkGfm from 'remark-gfm'
 import palette from '@/styles/palette'
-import fs from 'fs'
-import path from 'path'
-;('use client')
 
 interface Props {
   content: string
@@ -53,8 +48,8 @@ const MarkdownPage: React.FC<Props> = ({ content }) => {
       color: 'blue',
       textDecoration: 'underline',
     },
-    // Add more styles as needed
   }
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY
@@ -80,9 +75,9 @@ const MarkdownPage: React.FC<Props> = ({ content }) => {
       behavior: 'smooth',
     })
   }
+
   return (
     <Box>
-      {/* Global Header */}
       <BannerBox
         breadcrumbs={
           <Link color={palette.secondary} href={'/local-install'}>
@@ -108,7 +103,6 @@ const MarkdownPage: React.FC<Props> = ({ content }) => {
             </ReactMarkdown>
           </Box>
         </Box>
-        {/* Back to Top Button */}
         {showScrollButton && (
           <Fab
             variant="extended"
@@ -133,17 +127,6 @@ const MarkdownPage: React.FC<Props> = ({ content }) => {
       </Container>
     </Box>
   )
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-  const filePath = path.join(process.cwd(), '/markdown/local-installation-dev.md')
-  const markdown = fs.readFileSync(filePath, 'utf-8')
-
-  return {
-    props: {
-      content: markdown,
-    },
-  }
 }
 
 export default MarkdownPage
