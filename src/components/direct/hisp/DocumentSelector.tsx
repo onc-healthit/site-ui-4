@@ -16,9 +16,7 @@ import { SelectChangeEvent } from '@mui/material/Select'
 const DocumentSelector = () => {
   const [open, setOpen] = useState(true)
   const [documents, setDocuments] = useState<Documents>({})
-  const [selectedType, setSelectedType] = useState('cures')
-  const [selectedObjective, setSelectedObjective] = useState('')
-
+  const [selectedType, setSelectedType] = useState('Cures Update Receiver SUT Test Data') // Set to a default value that matches a key in the data
   const [selectedDirectory, setSelectedDirectory] = useState('')
   const [selectedFile, setSelectedFile] = useState('')
 
@@ -26,10 +24,11 @@ const DocumentSelector = () => {
     axios
       .get('https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType=')
       .then((response) => {
-        console.log('API Response:', response.data)
         setDocuments(response.data)
       })
-      .catch((error) => console.error('Error fetching documents:', error))
+      .catch((error) => {
+        console.error('Error fetching documents:', error)
+      })
   }, [])
 
   interface FileDetail {
@@ -42,7 +41,7 @@ const DocumentSelector = () => {
 
   interface Directory {
     name: string
-    dirs: Directory[] // Recursive type for nested directories
+    dirs: Directory[]
     files: FileDetail[]
   }
 
@@ -54,31 +53,31 @@ const DocumentSelector = () => {
   }
 
   const handleTypeChange = (event: SelectChangeEvent<string>) => {
-    setSelectedType(event.target.value)
-  }
-
-  const handleObjectiveChange = (event: SelectChangeEvent<string>) => {
-    setSelectedObjective(event.target.value)
-    setSelectedFile('') // Reset selected file on objective change
+    setSelectedType(event.target.value as string)
+    setSelectedDirectory('')
+    setSelectedFile('')
   }
 
   const handleDirectoryChange = (event: SelectChangeEvent<string>) => {
-    setSelectedDirectory(event.target.value)
-    setSelectedFile('') // Reset file selection when directory changes
+    setSelectedDirectory(event.target.value as string)
+    setSelectedFile('')
   }
 
-  const handleFileChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    setSelectedFile(event.target.value)
+  const handleFileChange = (event: ChangeEvent<{ value: unknown }>) => {
+    setSelectedFile(event.target.value as string)
   }
 
   const handleConfirm = () => {
     console.log('Confirmed with:', selectedFile)
-    // placeholder for sending API call
   }
 
   const handleClose = () => {
     setOpen(false)
   }
+
+  const directories = documents[selectedType]?.dirs || []
+
+  const files = directories.find((dir) => dir.name === selectedDirectory)?.files || []
 
   interface DocumentFiles {
     dirs: Array<{ name: string; dirs: Directory[]; files: FileDetail[] }>
@@ -109,12 +108,11 @@ const DocumentSelector = () => {
           )}
         </Select>
         <TextField fullWidth select label="Reference Filename" value={selectedFile} onChange={handleFileChange}>
-          {selectedDirectory &&
-            documents[selectedDirectory]?.files.map((file) => (
-              <MenuItem key={file.name} value={file.link}>
-                {file.name}
-              </MenuItem>
-            ))}
+          {files.map((file) => (
+            <MenuItem key={file.name} value={file.link}>
+              {file.name}
+            </MenuItem>
+          ))}
         </TextField>
       </DialogContent>
       <DialogActions>
