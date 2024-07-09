@@ -5,7 +5,7 @@ import styles from '@shared/styles.module.css'
 import TabsComponent, { TabInputs } from '@/components/shared/TabsComponent'
 import Version13 from './Version13Tab'
 import Version12 from './Version12Tab'
-import MessageStatus from './MessageStatus'
+import MessageStatus from './message-status/MessageStatus'
 
 const SendDirect = () => {
   const sendDirectTabs: TabInputs[] = [
