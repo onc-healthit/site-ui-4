@@ -16,7 +16,7 @@ import { SelectChangeEvent } from '@mui/material/Select'
 const DocumentSelector = () => {
   const [open, setOpen] = useState(true)
   const [documents, setDocuments] = useState<Documents>({})
-  const [selectedType, setSelectedType] = useState('Cures Update Receiver SUT Test Data') // Set to a default value that matches a key in the data
+  const [selectedType, setSelectedType] = useState('Cures Update Receiver SUT Test Data')
   const [selectedDirectory, setSelectedDirectory] = useState('')
   const [selectedFile, setSelectedFile] = useState('')
 
