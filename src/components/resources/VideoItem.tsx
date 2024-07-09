@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import React from 'react'
 
 interface VideoItemProps {
@@ -28,13 +28,14 @@ const VideoItem: React.FC<VideoItemProps> = ({ fileName, fileDate, fileUrl, show
 
   return (
     <div>
-      <Typography>{getFileAge(fileDate)}</Typography>
-      <Typography>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px', lineHeight: '1.3' }}>
+        {getFileAge(fileDate)}
+        <br />
         <a href={fileUrl} download={fileName}>
           {fileName}
         </a>{' '}
         {showFileType && <span> (File)</span>}
-      </Typography>
+      </Box>
     </div>
   )
 }
