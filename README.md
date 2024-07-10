@@ -152,3 +152,21 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 2. Update cypress/config/cypress.config.dev.ts with credentials- When login functionality is implemented. Not needed now.
 3. Run npm run test which will open cypress window -> choose E2E testing -> Choose browser to run the tests against -> choose test files to run. This will use dev config file.
 4. Running test through cmd, npm run test:dev. This will use electron headless browser to run the tests.
+
+## Unit tests
+[Jest](https://jestjs.io/) is used to write unit tests
+
+- Run npm install
+
+- Run all tests:
+
+  `jest`
+
+  `# or`
+
+  `npm run test:jest`
+ 
+
+- Run the tests in a single file:
+
+  `jest path/to/my-test.js` 
