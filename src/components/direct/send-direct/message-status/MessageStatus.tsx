@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import {
-  Card,
-  CardContent,
   Container,
   Box,
   Button,
@@ -21,6 +19,16 @@ import {
   Chip,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+
+interface Message {
+  from: string
+  messageId: string
+  time: string
+  status: string
+  contentType: string
+  contentDisposition: string
+  contentTransfer: string
+}
 const MessageStatusDashboard = () => {
   const [showOutgoing, setShowOutgoing] = useState(true)
   const [selectedLabel, setSelectedLabel] = useState('hisp@direct.net')
@@ -29,12 +37,13 @@ const MessageStatusDashboard = () => {
     setShowOutgoing((prev) => !prev)
   }
 
-  const handleLabelChange = (label) => {
+  const handleLabelChange = (label: string) => {
     setSelectedLabel(label)
   }
-
-  // Define messageData with TypeScript-like typing (optional if using TypeScript)
-  const messageData /*: { [key: string]: { from: string; messageId: string; time: string; status: string }[] } */ = {
+  interface MessageData {
+    [key: string]: Message[]
+  }
+  const messageData: MessageData = {
     'hisp@direct.net': [
       {
         from: 'Alice',
@@ -77,7 +86,7 @@ const MessageStatusDashboard = () => {
     ],
   }
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case 'MDN RECEIVED':
         return 'success'
