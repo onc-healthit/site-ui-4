@@ -16,7 +16,7 @@ import { SelectChangeEvent } from '@mui/material/Select'
 const DocumentSelector = () => {
   const [open, setOpen] = useState(true)
   const [documents, setDocuments] = useState<Documents>({})
-  const [selectedType, setSelectedType] = useState('Cures Update Receiver SUT Test Data')
+  const [selectedType, setSelectedType] = useState('Cures Update Sender SUT Test Data')
   const [selectedDirectory, setSelectedDirectory] = useState('')
   const [selectedFile, setSelectedFile] = useState('')
 
@@ -75,7 +75,7 @@ const DocumentSelector = () => {
     setOpen(false)
   }
 
-  const directories = documents[selectedType]?.dirs || []
+  const directories = documents['Cures Update Sender SUT Test Data']?.dirs || []
 
   const files = directories.find((dir) => dir.name === selectedDirectory)?.files || []
 
@@ -99,13 +99,11 @@ const DocumentSelector = () => {
           displayEmpty
           inputProps={{ 'aria-label': 'Select directory' }}
         >
-          {Object.entries(documents).flatMap(([key, value]) =>
-            value.dirs.map((dir) => (
-              <MenuItem key={dir.name} value={dir.name}>
-                {dir.name}
-              </MenuItem>
-            ))
-          )}
+          {directories.map((dir) => (
+            <MenuItem key={dir.name} value={dir.name}>
+              {dir.name}
+            </MenuItem>
+          ))}
         </Select>
         <TextField fullWidth select label="Reference Filename" value={selectedFile} onChange={handleFileChange}>
           {files.map((file) => (
