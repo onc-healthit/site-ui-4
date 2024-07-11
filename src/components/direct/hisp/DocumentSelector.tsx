@@ -16,7 +16,7 @@ import { SelectChangeEvent } from '@mui/material/Select'
 const DocumentSelector = () => {
   const [open, setOpen] = useState(true)
   const [documents, setDocuments] = useState<Documents>({})
-  const [selectedType, setSelectedType] = useState('Cures Update Sender SUT Test Data')
+  const [selectedType, setSelectedType] = useState('cures')
   const [selectedDirectory, setSelectedDirectory] = useState('')
   const [selectedFile, setSelectedFile] = useState('')
 
@@ -75,8 +75,9 @@ const DocumentSelector = () => {
     setOpen(false)
   }
 
-  const directories = documents['Cures Update Sender SUT Test Data']?.dirs || []
-
+  const documentType =
+    selectedType === 'cures' ? 'Cures Update Sender SUT Test Data' : 'Cures Update Svap Uscdiv3 Sender SUT Test Data'
+  const directories = documents[documentType]?.dirs || []
   const files = directories.find((dir) => dir.name === selectedDirectory)?.files || []
 
   interface DocumentFiles {
