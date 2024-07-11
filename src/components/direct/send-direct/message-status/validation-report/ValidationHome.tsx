@@ -6,10 +6,10 @@ import styles from '@shared/styles.module.css'
 import { Container, Box, Button, Card, Typography, Tabs, Tab } from '@mui/material'
 import { menuProps } from '@/components/shared/SubMenu'
 import palette from '@/styles/palette'
-import TreeMenu from './TreeMenu'
 import ValidationTable from './ValidationTable'
-import ValidationSolutions from './ValidationSolutions'
+import ValidationSolutions from './ValidationSelectedPartsTemplate'
 import MessageTemplate from './MessageTemplate'
+import ValidationSubMenuTemplate from './ValidationSubMenuTemplate'
 
 type MenuItemWithLayout = menuProps & { layout: () => JSX.Element }
 
@@ -66,7 +66,7 @@ const Layout1 = () => (
   <Container>
     <Box flexDirection={'column'} gap={4} justifyContent={'space-between'} display={'flex'} pb={2}>
       <Box flexDirection={'row'} gap={4} justifyContent={'space-between'} display={'flex'} pb={2}>
-        <TreeMenu />
+        <ValidationSubMenuTemplate />
         <ValidationSolutions />
       </Box>
       <ValidationTable />
