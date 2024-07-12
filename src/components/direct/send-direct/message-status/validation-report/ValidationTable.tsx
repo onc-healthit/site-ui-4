@@ -1,6 +1,7 @@
 import React from 'react'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip } from '@mui/material'
 import { styled } from '@mui/material/styles'
+import palette from '@/styles/palette'
 
 interface DataItem {
   name: string
@@ -25,12 +26,14 @@ interface StyledChipProps {
 
 const StyledChip = styled(Chip)<StyledChipProps>(({ status }) => ({
   fontWeight: 'bold',
-  textTransform: 'uppercase',
-  fontSize: '0.75rem',
-  borderRadius: '4px',
-  padding: '6px 8px',
-  backgroundColor: status === 'success' ? '#4caf50' : status === 'warning' ? '#ff9800' : '#2196f3',
-  color: '#fff',
+  textTransform: 'capitalize',
+  fontSize: '.65rem',
+  borderRadius: '32px',
+  border: '1px solid',
+  padding: '4px',
+  color: status === 'success' ? palette.successLight : status === 'warning' ? palette.warning : palette.secondary,
+  borderColor: status === 'success' ? palette.successLight : status === 'warning' ? palette.warning : palette.secondary,
+  backgroundColor: 'transparent',
 }))
 
 const ValidationTable: React.FC = () => {
