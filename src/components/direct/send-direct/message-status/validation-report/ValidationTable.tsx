@@ -1,17 +1,29 @@
 import React from 'react'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import Chip from '@mui/material/Chip'
 
-const data = [
+interface DataItem {
+  name: string
+  dts: string
+  found: number
+  expected: number
+  rfc: string
+  status: string
+}
+
+const data: DataItem[] = [
   { name: 'Item 1', dts: '2024-07-09', found: 10, expected: 10, rfc: 'https://example.com/rfc1', status: 'success' },
   { name: 'Item 2', dts: '2024-07-09', found: 8, expected: 10, rfc: 'https://example.com/rfc2', status: 'warning' },
   { name: 'Item 3', dts: '2024-07-09', found: 12, expected: 10, rfc: 'https://example.com/rfc3', status: 'info' },
 ]
 
-const headers = ['name', 'dts', 'found', 'expected', 'rfc', 'status']
+const headers: (keyof DataItem)[] = ['name', 'dts', 'found', 'expected', 'rfc', 'status']
 
-const StyledChip = styled(Chip)(({ theme, status }) => ({
+interface StyledChipProps {
+  status: 'success' | 'warning' | 'info'
+}
+
+const StyledChip = styled(Chip)<StyledChipProps>(({ status }) => ({
   fontWeight: 'bold',
   textTransform: 'uppercase',
   fontSize: '0.75rem',
@@ -21,7 +33,7 @@ const StyledChip = styled(Chip)(({ theme, status }) => ({
   color: '#fff',
 }))
 
-const ValidationTable = () => {
+const ValidationTable: React.FC = () => {
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -35,14 +47,14 @@ const ValidationTable = () => {
         <TableBody>
           {data.map((row, index) => (
             <TableRow key={index}>
-              {Object.keys(row).map((key) => (
+              {headers.map((key) => (
                 <TableCell key={key}>
                   {key === 'rfc' ? (
                     <a href={row[key]} target="_blank" rel="noopener noreferrer">
                       {row[key]}
                     </a>
                   ) : key === 'status' ? (
-                    <StyledChip label={row[key]} status={row[key]} />
+                    <StyledChip label={row[key]} status={row[key] as 'success' | 'warning' | 'info'} />
                   ) : (
                     row[key]
                   )}
