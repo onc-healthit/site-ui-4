@@ -1,13 +1,16 @@
 import MenuIcon from '@mui/icons-material/Menu'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
+import Image from 'next/image'
 import IconButton from '@mui/material/IconButton'
 import Toolbar from '@mui/material/Toolbar'
 import { styled } from '@mui/material/styles'
+import SITELogo from '@public/shared/SITEWhiteLogo.svg'
+import Grow from '@mui/material/Grow'
 
 /* Custom Imports */
 import Auth from '@/components/shared/nav/app-bar/Auth'
 import { DRAWER_WIDTH } from '@/constants/navConstants'
-import { Tooltip } from '@mui/material'
+import { Container, Box, Tooltip } from '@mui/material'
 // import Search from '@/components/shared/nav/app-bar/Search'
 
 interface AppBarProps extends MuiAppBarProps {
@@ -48,26 +51,50 @@ export default function SiteAppBar({ open, handleDrawerOpen, auth }: SiteAppBarP
         }}
       >
         {/* Toggle Drawer Elipses Menu Button */}
-        <Tooltip arrow placement="right" title="Open navigation">
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginLeft: -2,
-              ...(open && { display: 'none' }),
-            }}
+        <Box display={'flex'} width={'100%'} flexDirection={'row'}>
+          <Tooltip arrow placement="right" title="Open navigation">
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginLeft: -2,
+                ...(open && { display: 'none' }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Tooltip>
+          <Container
+            maxWidth={'lg'}
+            disableGutters
+            sx={{ pr: 0, pl: 4, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
           >
-            <MenuIcon />
-          </IconButton>
-        </Tooltip>
-        <div>
-          {/* Will turn search on in later versions */}
-          {/* <Search /> */}
-        </div>
-        {/* Login */}
-        <Auth auth={auth} />
+            <div>
+              {/* Will turn search on in later versions */}
+              <Grow timeout={500} in={!open}>
+                <a href="/">
+                  <Image
+                    style={{
+                      backgroundSize: 'contain',
+                      overflowX: 'clip',
+                      width: 'auto',
+                      paddingTop: '4px',
+                      marginLeft: '12px',
+                      height: '42px',
+                      objectFit: 'contain',
+                    }}
+                    src={SITELogo}
+                    alt="ONC Logo"
+                  />
+                </a>
+              </Grow>
+            </div>
+            {/* Login */}
+            <Auth auth={auth} />
+          </Container>
+        </Box>
       </Toolbar>
     </StyledAppBar>
   )
