@@ -22,16 +22,18 @@ const BannerBox = ({ breadcrumbs, heading, subHeading, isTourButton, description
       <Container>
         {breadcrumbs && <Breadcrumbs aria-label="breadcrumb">{breadcrumbs}</Breadcrumbs>}
         <Box sx={subHeadingAndTourButtonBoxStyle}>
-          <Typography variant="h3" component={'h1'} sx={{ pt: 1 }}>
-            <strong>{heading}</strong>
-          </Typography>
+          <Box>
+            <Typography variant="h3" component={'h1'} sx={{ pt: 1 }}>
+              <strong>{heading}</strong>
+            </Typography>
+            {subHeading && (
+              <Typography gutterBottom variant="h4" component={'h2'}>
+                {subHeading}
+              </Typography>
+            )}
+          </Box>
           {isTourButton && <TourButton />}
         </Box>
-        {subHeading && (
-          <Typography gutterBottom variant="h4" component={'h2'}>
-            {subHeading}
-          </Typography>
-        )}
         <Typography variant="body1" sx={{ pt: 1 }}>
           {description}
         </Typography>

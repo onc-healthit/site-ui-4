@@ -133,7 +133,7 @@ const TourButton: React.FC = () => {
           },
         }}
       />
-      <Button color="secondary" variant="contained" onClick={handleClickStart}>
+      <Button size="small" color="secondary" variant="contained" onClick={handleClickStart}>
         Start Tour
       </Button>
     </Box>
