@@ -24,7 +24,7 @@ const CustomDialogTitle: FC<DialogTitleProps> = ({ children, handleClose }) => (
     <IconButton
       aria-label="Close Dialog"
       sx={{ position: 'absolute', right: 8, top: 8 }}
-      onClick={(e) => {
+      onClick={(e: { stopPropagation: () => void }) => {
         e.stopPropagation()
         handleClose()
       }}

@@ -33,6 +33,14 @@
       "@shared/*": ["./src/components/shared/*"],
     },
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "cypress/support/commands.ts"],
-  "exclude": ["node_modules", "cypress"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "cypress/support/commands.ts",
+    "src",
+    "cypress",
+  ],
+  "exclude": ["node_modules"],
 }
