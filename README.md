@@ -157,3 +157,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 ## Component tests
 
 1. Run npx cypress open which will open cypress window -> choose Component Testing -> Choose browser to run the tests against -> choose test files to run.
+2. Running test through cmd, npx cypress run --component. This will run all specs.
