@@ -78,6 +78,10 @@ export default function ScorecardResultsSummary() {
 
   const mdhtErrorRef = useRef<HTMLDivElement>(null)
 
+  // TODO: For the best functionality, maybe these results will eventually be hidden/only show one category at a time,
+  // based on what category is clicked via heat map or side nav. Maybe all is shown to start,
+  // but a click causes isolation. That way, it works for either workflow depending on the user's needs
+
   return (
     <Box sx={{ pb: 3 }}>
       <Typography variant="h4" sx={{ fontWeight: 'bold', pb: 2, pt: 2 }}>

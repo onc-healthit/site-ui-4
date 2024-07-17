@@ -18,17 +18,30 @@ import ScorecardNextSteps from './next-steps/ScorecardNextSteps'
 import ScorecardBaseCheck from './summary/ScorecardBaseCheck'
 import ScorecardBestPractice from './summary/ScorecardBestPractice'
 import ScorecardCompare from './summary/ScorecardCompare'
+import {
+  ScorecardReferenceResultType,
+  ScorecardJsonResponseType,
+  ScorecardResultsType,
+} from '@/types/ScorecardJsonResponseType'
 
 interface ScorecardResultsProps {
   dialogState: boolean
   handleCloseDialog: () => void
-  isShowSampleDownloadButton: boolean
+  isTryMeDemo: boolean
+  json: ScorecardJsonResponseType | undefined
+  results: ScorecardResultsType | undefined
+  igResults: ScorecardReferenceResultType
+  vocabResults: ScorecardReferenceResultType
 }
 
 export default function ScorecardResults({
   dialogState,
   handleCloseDialog,
-  isShowSampleDownloadButton,
+  isTryMeDemo,
+  json,
+  results,
+  igResults,
+  vocabResults,
 }: ScorecardResultsProps) {
   const dividerPaddingStyle = {
     paddingTop: 2,
@@ -41,6 +54,8 @@ export default function ScorecardResults({
   const handleDownloadSampleDocument = () => {
     console.log('Enter handleDownloadSampleDocument()')
   }
+
+  const isShowSampleDownloadButton: boolean = isTryMeDemo
 
   return (
     <Container>
@@ -73,11 +88,11 @@ export default function ScorecardResults({
         resultsContent={
           <Box display={'flex'} flexDirection={'column'} gap={4} mt={2} px={4} pb={4} sx={{ overflowY: 'none' }}>
             <Box id="baseCheck">
-              <ScorecardBaseCheck />
+              <ScorecardBaseCheck json={json} igResults={igResults} vocabResults={vocabResults} />
             </Box>
             <Divider sx={dividerPaddingStyle} />
             <Box id="bestPractice">
-              <ScorecardBestPractice />
+              <ScorecardBestPractice results={results} />
             </Box>
             <Divider sx={dividerPaddingStyle} />
             <Box id="compare">

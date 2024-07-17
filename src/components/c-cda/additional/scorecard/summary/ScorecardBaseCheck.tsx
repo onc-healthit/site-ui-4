@@ -1,10 +1,21 @@
 import CircularProgressWithLabelAndBackground from '@shared/CircularProgressWithLabelAndBackground'
 import { Box, Divider, Typography } from '@mui/material'
 import palette from '@/styles/palette'
+import { ScorecardReferenceResultType, ScorecardJsonResponseType } from '@/types/ScorecardJsonResponseType'
 
-export default function ScorecardBaseCheck() {
-  const igErrorCount: number = 7
-  const vocabErrorCount: number = 3
+interface ScorecardBaseCheckInterface {
+  json: ScorecardJsonResponseType | undefined
+  igResults: ScorecardReferenceResultType
+  vocabResults: ScorecardReferenceResultType
+}
+
+export default function ScorecardBaseCheck({ json, igResults, vocabResults }: ScorecardBaseCheckInterface) {
+  const igErrorCount: number = igResults.totalErrorCount
+  const igChecksCount: number | undefined = json?.results?.totalConformanceErrorChecks
+
+  const vocabErrorCount: number = vocabResults.totalErrorCount
+  const vocabChecksCount: number | undefined = json?.results?.totalCertificationErrorChecks
+
   const progressMultiple: number = 10
   const labelAndProgressColor: string = palette.errorDark
 
@@ -26,7 +37,7 @@ export default function ScorecardBaseCheck() {
             C-CDA IG Conformance Errors
           </Typography>
           <Typography align="center" variant="h6">
-            <b>2</b> out of <b>4,777</b> Checks
+            <b>{igErrorCount}</b> out of <b>{igChecksCount ? igChecksCount : '?'}</b> Checks
           </Typography>
         </Box>
         <Divider orientation="vertical" variant="middle" flexItem />
@@ -42,7 +53,7 @@ export default function ScorecardBaseCheck() {
             Vocabulary Errors
           </Typography>
           <Typography align="center" variant="h6">
-            <b>1</b> out of <b>121</b> Checks
+            <b>{vocabErrorCount}</b> out of <b>{vocabChecksCount ? vocabChecksCount : '?'}</b> Checks
           </Typography>
         </Box>
       </Box>

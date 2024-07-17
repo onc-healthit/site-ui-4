@@ -1,8 +1,22 @@
 import palette from '@/styles/palette'
+import { ScorecardResultsType } from '@/types/ScorecardJsonResponseType'
 import { Box, Divider, Typography } from '@mui/material'
 import CountUp from 'react-countup'
 
-export default function ScorecardBestPractice() {
+interface ScorecardBestPracticeResultInterface {
+  results: ScorecardResultsType | undefined
+}
+
+export default function ScorecardBestPractice({ results }: ScorecardBestPracticeResultInterface) {
+  const totalIssuesCount: number = results?.numberOfIssues ? results.numberOfIssues : -1
+  const totalIssuesChecks: number | string = results?.totalElementsChecked ? results.totalElementsChecked : '?'
+
+  const uniqueIssuesCount: number = results?.numberOfFailedRules ? results.numberOfFailedRules : -1
+  const uniqueIssuesChecks: number | string = results?.numberOfRules ? results.numberOfRules : '?'
+
+  const grade: string = results?.finalGrade ? results.finalGrade : '?'
+  const numericalGrade: number = results?.finalNumericalGrade ? results.finalNumericalGrade : -1
+
   const bestPracticeHeaderStyle = {
     fontWeight: 'bold',
     fontSize: 90,
@@ -17,30 +31,30 @@ export default function ScorecardBestPractice() {
       <Box display="flex" flexDirection={'row'} justifyContent={'center'} py={2}>
         <Box width="33%">
           <Typography align="center" variant="h1" sx={bestPracticeHeaderStyle}>
-            <CountUp end={13} duration={2} />
+            <CountUp end={totalIssuesCount} duration={2} />
           </Typography>
           <Typography align="center" variant="h6">
-            <b>Total Issues out of 407</b> Checks
+            <b>Total Issues out of {totalIssuesChecks}</b> Checks
           </Typography>
         </Box>
         <Divider orientation="vertical" variant="middle" flexItem />
         <Box width="33%">
           <Typography align="center" variant="h1" sx={bestPracticeHeaderStyle}>
-            <CountUp end={5} duration={2} />
+            <CountUp end={uniqueIssuesCount} duration={2} />
           </Typography>
           <Typography align="center" variant="h6">
-            <b>Unique Issues out of 54</b> Rules
+            <b>Unique Issues out of {uniqueIssuesChecks}</b> Rules
           </Typography>
         </Box>
         <Divider orientation="vertical" variant="middle" flexItem />
         <Box width="33%">
           <Typography align="center" variant="h1" sx={{ ...bestPracticeHeaderStyle, color: palette.success }}>
-            A-
+            {grade}
           </Typography>
           <Typography align="center" variant="h6">
             Grade{' '}
             <b>
-              <CountUp end={94} duration={2} /> out of 100
+              <CountUp end={numericalGrade} duration={2} /> out of 100
             </b>
           </Typography>
         </Box>

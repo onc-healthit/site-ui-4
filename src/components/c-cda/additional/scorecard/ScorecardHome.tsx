@@ -3,6 +3,11 @@ import CardWithBorder from '@/components/shared/CardWithBorder'
 import DragDropFileUpload from '@/components/shared/DragandDropFile'
 import { fetchSanitizedMarkdownData } from '@/services/markdownToHTMLService'
 import palette from '@/styles/palette'
+import {
+  ScorecardReferenceResultType,
+  ScorecardJsonResponseType,
+  ScorecardResultsType,
+} from '@/types/ScorecardJsonResponseType'
 import { ArrowForward } from '@mui/icons-material'
 import {
   Box,
@@ -24,35 +29,78 @@ import styles from '@shared/styles.module.css'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import ScorecardResults from './ScorecardResults'
+import { getDemoSample } from './serverside/demoSampleService'
+import {
+  getDefaultReferenceResult,
+  getReferenceResultViaType,
+  ReferenceInstanceTypeEnum,
+} from './serverside/scorecardHelperService'
 
 export default function ScorecardHome() {
   const [resultsDialogState, setResultsDialogState] = useState(false)
   const handleCloseResultsDialog = () => {
     setResultsDialogState(false)
   }
-  const [isShowSampleDownloadButton, setIsShowSampleDownloadButton] = useState(false)
+  const [isTryMeDemo, setIsTryMeDemo] = useState(false)
 
-  const demoSampleOptions = [
+  const demoSampleOptions: { label: string; value: string }[] = [
     {
       label: 'High Scoring Sample',
-      value: 'highScoringSample.xml',
+      value: 'highScoringSample.json',
     },
     {
       label: 'Low Scoring Sample',
-      value: 'lowScoringSample.xml',
+      value: 'lowScoringSample.json',
     },
     {
       label: 'Sample With Errors',
-      value: 'sampleWithErrors.xml',
+      value: 'sampleWithErrors.json',
     },
   ]
+  const debugSampleOptions: { label: string; value: string }[] = [
+    {
+      label: 'Schema Errors',
+      value: 'sampleWithSchemaErrors.json',
+    },
+    {
+      label: 'No Content',
+      value: 'sampleWithoutAnyContent.json',
+    },
+  ]
+  // TODO: Tie this to a debug mode env var (if true, push, otherwise, don't, as we don't need these in production)
+  demoSampleOptions.push(...debugSampleOptions)
+
   const [demoSampleOption, setDemoSampleOption] = useState<string>(demoSampleOptions[0].value)
+  const [scorecardResponseJson, setScorecardResponseJson] = useState<ScorecardJsonResponseType>()
+  const [scResults, setScResults] = useState<ScorecardResultsType>()
+  const [igResults, setIgResults] = useState<ScorecardReferenceResultType>(
+    getDefaultReferenceResult(ReferenceInstanceTypeEnum.IG_CONFORMANCE)
+  )
+  const [vocabResults, setVocabResults] = useState<ScorecardReferenceResultType>(
+    getDefaultReferenceResult(ReferenceInstanceTypeEnum.VOCAB)
+  )
+
+  useEffect(() => {
+    if (scorecardResponseJson) {
+      console.log('Updated scorecardResponseJson:', scorecardResponseJson)
+    }
+    if (scResults) {
+      console.log('Updated scResults:', scResults)
+    }
+    if (igResults) {
+      console.log('Updated igResults', igResults)
+    }
+    if (vocabResults) {
+      console.log('Updated vocabResults', vocabResults)
+    }
+  }, [scorecardResponseJson, scResults, igResults, vocabResults])
 
   const handleDemoSampleChange = (e: SelectChangeEvent) => {
     console.log('handleDemoSampleChange(e), event:', e)
     const demoSampleSelected = e.target.value
     console.log(`Selected ${demoSampleSelected}`)
     setDemoSampleOption(demoSampleSelected)
+
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'Select demo dropdown', {
         event_category: 'dropdown',
@@ -61,25 +109,110 @@ export default function ScorecardHome() {
     }
   }
 
-  const handleSubmitScorecardStart = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    console.log('handleSubmitScorecardStart(e), event: ', e)
-    setIsShowSampleDownloadButton(false)
-    setResultsDialogState(true)
-  }
-
   const handleSubmitDemoStart = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log('handleSubmitDemoStart(e), event: ', e)
     console.log('Starting demo with sample: ' + demoSampleOption)
-    // We only need this download button for try me as user will have their own file already in actual validation
-    setIsShowSampleDownloadButton(true)
-    setResultsDialogState(true)
+
+    try {
+      const newScorecardResponseJson: ScorecardJsonResponseType = getDemoSample(demoSampleOption)
+      setScorecardResponseJson(newScorecardResponseJson)
+
+      const [isValidResults, errorMessage]: [boolean, string | null] = processResults(newScorecardResponseJson)
+      displayResults(isValidResults, errorMessage, true)
+    } catch (error) {
+      // TODO: In the extremely unlikely case this happens, we should produce a dialog error
+      console.error('Failed to run Try Me Demo in handleSubmitDemoStart(), unable to get demo sample: ', error)
+    }
+
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'Try Me', {
         event_category: 'Button',
         event_label: 'Score card try me demo',
       })
+    }
+  }
+
+  const handleSubmitScorecardStart = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log('handleSubmitScorecardStart(e), event: ', e)
+
+    // TODO:
+    // const newScorecardResponseJson: ScorecardJsonResponseType = POST response from API
+    // setScorecardResponseJson(newScorecardResponseJson)
+    //
+    // const [isValidResults, errorMessage]: [boolean, string | null] = processResults(newScorecardResponseJson)
+    // displayResults(isValidResults, errorMessage, false)
+  }
+
+  const processResults = (newJson: ScorecardJsonResponseType): [boolean, string | null] => {
+    if (newJson) {
+      if (newJson.success == false) {
+        // Handle valid JSON but with an error returned from the server
+        const error = newJson.errorMessage
+        const file = newJson.filename
+        const validJsonWithErrorMessage = `Error returned within JSON for filename:
+        ${file ? file : 'unknown filename'}: ${error ? error : 'unknown error'}`
+        return [false, validJsonWithErrorMessage]
+      } else {
+        // Handle valid JSON without an error returned from the server
+        if (newJson.results) {
+          processScorecardResults(newJson)
+          processIgAndVocabResults(newJson)
+          return [true, null]
+        } else {
+          const invalidScorecardSpecificResults = 'Scorcard specific results within the response are invalid'
+          return [false, invalidScorecardSpecificResults]
+        }
+      }
+    }
+
+    // Default: Handle invalid/no JSON returned from the server
+    const jsonUntruthyMessage = 'Scorecard JSON response is untruthy!!!'
+    return [false, jsonUntruthyMessage]
+  }
+
+  const processScorecardResults = (newJson: ScorecardJsonResponseType) => {
+    if (newJson.results) {
+      setScResults(newJson.results)
+    }
+  }
+
+  const processIgAndVocabResults = (newJson: ScorecardJsonResponseType) => {
+    if (newJson.referenceResults) {
+      const extractedIgResults: ScorecardReferenceResultType | null = getReferenceResultViaType(
+        newJson.referenceResults,
+        ReferenceInstanceTypeEnum.IG_CONFORMANCE
+      )
+      if (extractedIgResults) {
+        setIgResults(extractedIgResults)
+      } else {
+        setIgResults(getDefaultReferenceResult(ReferenceInstanceTypeEnum.IG_CONFORMANCE))
+      }
+
+      const extractedVocabResults: ScorecardReferenceResultType | null = getReferenceResultViaType(
+        newJson.referenceResults,
+        ReferenceInstanceTypeEnum.VOCAB
+      )
+      if (extractedVocabResults) {
+        setVocabResults(extractedVocabResults)
+      } else {
+        setVocabResults(getDefaultReferenceResult(ReferenceInstanceTypeEnum.VOCAB))
+      }
+    } else {
+      console.log('newScorecardResponseJson.referenceResults is untruthy')
+    }
+  }
+
+  const displayResults = (isValidResults: boolean, errorMessage: string | null, isTryMeButtonClick: boolean) => {
+    if (isValidResults) {
+      setIsTryMeDemo(isTryMeButtonClick)
+      setResultsDialogState(true)
+    } else {
+      const finalErrorMessage = `Error: ${errorMessage ? errorMessage : 'Unknown error message'} `
+      console.error(finalErrorMessage)
+      // TODO: Replace wuth error dialog used in C-CDA Validator
+      alert(finalErrorMessage)
     }
   }
 
@@ -275,7 +408,11 @@ export default function ScorecardHome() {
         <ScorecardResults
           dialogState={resultsDialogState}
           handleCloseDialog={handleCloseResultsDialog}
-          isShowSampleDownloadButton={isShowSampleDownloadButton}
+          isTryMeDemo={isTryMeDemo}
+          json={scorecardResponseJson}
+          results={scResults}
+          igResults={igResults}
+          vocabResults={vocabResults}
         ></ScorecardResults>
       </Container>
     </>
