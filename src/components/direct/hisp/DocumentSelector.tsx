@@ -13,12 +13,16 @@ import Button from '@mui/material/Button'
 import DialogActions from '@mui/material/DialogActions'
 import { SelectChangeEvent } from '@mui/material/Select'
 
-const DocumentSelector = () => {
+interface DocumentSelectorProps {
+  onConfirm: (selectedData: { directory: string; fileName: string; fileLink: string }) => void
+}
+
+const DocumentSelector = ({ onConfirm }: DocumentSelectorProps) => {
   const [open, setOpen] = useState(true)
   const [documents, setDocuments] = useState<Documents>({})
   const [selectedType, setSelectedType] = useState('cures')
   const [selectedDirectory, setSelectedDirectory] = useState('')
-  const [selectedFile, setSelectedFile] = useState('')
+  const [selectedFile, setSelectedFile] = useState<string>('')
 
   useEffect(() => {
     axios
@@ -68,7 +72,15 @@ const DocumentSelector = () => {
   }
 
   const handleConfirm = () => {
-    console.log('Confirmed with:', selectedFile)
+    const file = files.find((file) => file.link === selectedFile)
+    if (file) {
+      onConfirm({
+        directory: selectedDirectory,
+        fileName: file.name,
+        fileLink: file.link,
+      })
+    }
+    handleClose()
   }
 
   const handleClose = () => {
