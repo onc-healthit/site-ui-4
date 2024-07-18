@@ -1,8 +1,10 @@
 import DynamicTable from './DynamicTable'
 import InfoIcon from '@mui/icons-material/Info'
 import _ from 'lodash'
-import DocumentSelector from './DocumentSelector'
 import React, { useState } from 'react'
+import axios from 'axios'
+import DocumentSelector from './DocumentSelector'
+
 import {
   Box,
   Button,
@@ -70,8 +72,23 @@ interface TestCardProps {
   test: TestCaseFields
 }
 
+interface SelectedDocument {
+  directory: string
+  fileName: string
+  fileLink: string
+}
+
 const TestCard = ({ test }: TestCardProps) => {
   const [showDetail, setShowDetail] = useState(false)
+  const handleDocumentConfirm = (selectedData: SelectedDocument) => {
+    console.log('Confirmed Document', selectedData)
+    setDocumentDetails(selectedData)
+  }
+  const [documentDetails, setDocumentDetails] = useState<{
+    directory: string
+    fileName: string
+    fileLink: string
+  } | null>(null)
   const [formData, setFormData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
     test.moreInfo?.fields?.forEach((field) => {
@@ -80,11 +97,57 @@ const TestCard = ({ test }: TestCardProps) => {
     return initialData
   })
 
+  const [showDocumentSelector, setShowDocumentSelector] = useState(false)
+
   const handleChange = (name: string, value: FieldValue) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const [showDocumentSelector, setShowDocumentSelector] = useState(false)
+  const handleRunTest = async () => {
+    if (documentDetails) {
+      const apiUrl = 'https://ett.healthit.gov/ett/api/smtpTestCases'
+      console.log('API URL:', apiUrl)
+      const payload = {
+        '@type': 'hostingTestcaseSubmission',
+        testCaseNumber: 16,
+        sutSmtpAddress: '',
+        sutEmailAddress: '',
+        useTLS: true,
+        sutCommandTimeoutInSeconds: 0,
+        sutUserName: '',
+        sutPassword: '',
+        tttUserName: '',
+        tttPassword: '',
+        startTlsPort: 0,
+        status: '',
+        ccdaReferenceFilename: documentDetails.fileName,
+        ccdaValidationObjective: documentDetails.directory,
+        ccdaFileLink: documentDetails.fileLink,
+        previousResult: {
+          /* temp */
+        },
+        cures: true,
+        year: '2021',
+        hostingcase: 'YES',
+      }
+
+      const config = {
+        method: 'post',
+        url: apiUrl,
+        headers: { 'Content-Type': 'application/json' },
+        data: JSON.stringify(payload),
+      }
+
+      try {
+        const response = await axios(config)
+        console.log('API Response:', response.data)
+      } catch (error) {
+        console.error('API Request Failed:')
+      }
+    } else {
+      console.error('No document selected.')
+    }
+  }
 
   const toggleDocumentSelector = () => {
     setShowDocumentSelector(!showDocumentSelector)
@@ -208,7 +271,7 @@ const TestCard = ({ test }: TestCardProps) => {
               </Box>
             )}
 
-            {showDocumentSelector && <DocumentSelector />}
+            {showDocumentSelector && <DocumentSelector onConfirm={handleDocumentConfirm} />}
 
             {_.has(test, 'fields') &&
               test.fields !== undefined &&
@@ -218,7 +281,7 @@ const TestCard = ({ test }: TestCardProps) => {
                 </Box>
               )}
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
-              <Button variant="contained" color="primary">
+              <Button variant="contained" color="primary" onClick={handleRunTest}>
                 RUN
               </Button>
               <Button variant="contained" onClick={handleToggleDetail}>
