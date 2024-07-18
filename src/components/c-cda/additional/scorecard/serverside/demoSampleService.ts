@@ -1,5 +1,5 @@
 // import custom type for the complex JSON response
-import { ScorecardJsonResponseType } from '@/types/ScorecardJsonResponseType'
+import { ScorecardJsonResponseType } from '@/components/c-cda/additional/scorecard/types/ScorecardJsonResponseType'
 // importing samples directly, and prior to logic, so they are loaded as fast as possible/loaded during build time
 // Note: This requires a rebuild if we want to update the files data
 import highScoringSampleJsonData from './samples/json/highScoringSample.json'

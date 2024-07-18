@@ -1,13 +1,13 @@
 import palette from '@/styles/palette'
-import { ScorecardResultsType } from '@/types/ScorecardJsonResponseType'
+import { ScorecardResultsType } from '@/components/c-cda/additional/scorecard/types/ScorecardJsonResponseType'
 import { Box, Divider, Typography } from '@mui/material'
 import CountUp from 'react-countup'
 
-interface ScorecardBestPracticeResultInterface {
+interface ScorecardBestPracticeSummaryProps {
   results: ScorecardResultsType | undefined
 }
 
-export default function ScorecardBestPractice({ results }: ScorecardBestPracticeResultInterface) {
+export default function ScorecardBestPracticeSummary({ results }: ScorecardBestPracticeSummaryProps) {
   const totalIssuesCount: number = results?.numberOfIssues ? results.numberOfIssues : -1
   const totalIssuesChecks: number | string = results?.totalElementsChecked ? results.totalElementsChecked : '?'
 

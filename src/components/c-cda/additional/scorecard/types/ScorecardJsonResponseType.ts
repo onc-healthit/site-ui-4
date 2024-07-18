@@ -4,7 +4,7 @@ export interface ScorecardJsonResponseType {
   ccdaDocumentType: string | null
   results: ScorecardResultsType | null
   referenceResults: ScorecardReferenceResultType[] | []
-  // referenceResults: ReferenceResult[]
+  // referenceResults: ScorecardReferenceResultType[]
   schemaErrorList: SchemaErrorList[] | null
   schemaErrors: boolean
   success: boolean
@@ -71,10 +71,10 @@ interface TotalGradesGiven {
 export interface ScorecardReferenceResultType {
   type: string
   totalErrorCount: number
-  referenceErrors: ReferenceError[]
+  referenceErrors: ScorecardReferenceErrorType[]
 }
 
-interface ReferenceError {
+export interface ScorecardReferenceErrorType {
   description: string
   type: string
   xPath: string

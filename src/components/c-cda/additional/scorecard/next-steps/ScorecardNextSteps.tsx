@@ -1,8 +1,20 @@
 import { Box, Divider, Typography } from '@mui/material'
 import ScorecardHeatMap from './ScorecardHeatMap'
 import ScorecardResultsSummary from './ScorecardResultsSummary'
+import {
+  ScorecardJsonResponseType,
+  ScorecardReferenceResultType,
+  ScorecardResultsType,
+} from '@/components/c-cda/additional/scorecard/types/ScorecardJsonResponseType'
 
-export default function ScorecardNextSteps() {
+interface ScorecardNextStepsProps {
+  json: ScorecardJsonResponseType | undefined
+  results: ScorecardResultsType | undefined
+  igResults: ScorecardReferenceResultType
+  vocabResults: ScorecardReferenceResultType
+}
+
+export default function ScorecardNextSteps({ json, results, igResults, vocabResults }: ScorecardNextStepsProps) {
   return (
     <Box>
       <Box sx={{ pb: 3 }}>
@@ -17,7 +29,7 @@ export default function ScorecardNextSteps() {
         </Typography>
       </Box>
       <ScorecardHeatMap></ScorecardHeatMap>
-      <ScorecardResultsSummary />
+      <ScorecardResultsSummary json={json} results={results} igResults={igResults} vocabResults={vocabResults} />
       <Divider />
     </Box>
   )

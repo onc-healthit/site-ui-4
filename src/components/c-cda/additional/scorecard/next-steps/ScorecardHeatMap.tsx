@@ -1,5 +1,6 @@
 import palette from '@/styles/palette'
 import { Avatar, Box, Chip, Grid, Typography } from '@mui/material'
+import { SectionNameEnum } from '../types/ScorecardConstants'
 
 export default function ScorecardHeatMap() {
   const chipFontSize: string = '115%'
@@ -13,7 +14,7 @@ export default function ScorecardHeatMap() {
       <Grid container spacing={3}>
         <Grid item>
           <Chip
-            label="Allergies A+"
+            label={`${SectionNameEnum.ALLERGIES} A+`}
             sx={{
               color: palette.white,
               backgroundColor: palette.successLight,
@@ -26,7 +27,7 @@ export default function ScorecardHeatMap() {
         </Grid>
         <Grid item>
           <Chip
-            label="Patient Demographics A+"
+            label={`${SectionNameEnum.PATIENT_DEMOGRAPHICS} A+`}
             sx={{
               color: palette.white,
               backgroundColor: palette.successLight,
@@ -39,7 +40,7 @@ export default function ScorecardHeatMap() {
         </Grid>
         <Grid item>
           <Chip
-            label="Procedures A-"
+            label={`${SectionNameEnum.PROCEDURES} A-`}
             avatar={<Avatar sx={{ bgcolor: palette.white }}>2</Avatar>}
             sx={{
               color: palette.white,
@@ -57,7 +58,7 @@ export default function ScorecardHeatMap() {
         </Grid>
         <Grid item>
           <Chip
-            label="Social History A-"
+            label={`${SectionNameEnum.SOCIAL_HISTORY} A-`}
             avatar={<Avatar sx={{ bgcolor: palette.white }}>3</Avatar>}
             sx={{
               color: palette.white,
@@ -75,7 +76,7 @@ export default function ScorecardHeatMap() {
         </Grid>
         <Grid item>
           <Chip
-            label="Vital Signs B+"
+            label={`${SectionNameEnum.VITAL_SIGNS} B+`}
             avatar={<Avatar sx={{ bgcolor: palette.white }}>4</Avatar>}
             sx={{
               color: palette.black,
@@ -94,7 +95,7 @@ export default function ScorecardHeatMap() {
         <Grid item>
           <Chip
             variant="filled"
-            label="Immunizations B+"
+            label={`${SectionNameEnum.IMMUNIZATIONS} B+`}
             avatar={<Avatar sx={{ bgcolor: palette.white }}>6</Avatar>}
             sx={{
               color: palette.black,
@@ -112,7 +113,7 @@ export default function ScorecardHeatMap() {
         </Grid>
         <Grid item>
           <Chip
-            label="Medications C"
+            label={`${SectionNameEnum.MEDICATIONS} C`}
             avatar={<Avatar sx={{ bgcolor: palette.white }}>9</Avatar>}
             sx={{
               color: palette.black,
@@ -130,7 +131,7 @@ export default function ScorecardHeatMap() {
         </Grid>
         <Grid item>
           <Chip
-            label="Problems D"
+            label={`${SectionNameEnum.PROBLEMS} D`}
             avatar={<Avatar sx={{ bgcolor: palette.white }}>22</Avatar>}
             sx={{
               color: palette.white,
@@ -154,7 +155,7 @@ export default function ScorecardHeatMap() {
         <Grid item>
           <Chip
             variant="outlined"
-            label="Miscellaneous: No data in submitted document"
+            label={`${SectionNameEnum.MISCELLANEOUS}: No data in submitted document`}
             sx={{
               color: palette.black,
               backgroundColor: palette.greyLight,
@@ -167,7 +168,7 @@ export default function ScorecardHeatMap() {
         </Grid>
         <Grid item>
           <Chip
-            label="Encounters: Conformance Errors"
+            label={`${SectionNameEnum.ENCOUNTERS}: Conformance Errors`}
             avatar={<Avatar sx={{ bgcolor: palette.white }}>2</Avatar>}
             sx={{
               color: palette.white,
@@ -186,7 +187,7 @@ export default function ScorecardHeatMap() {
         </Grid>
         <Grid item>
           <Chip
-            label="Laboratory Tests and Results: Vocabulary Errors"
+            label={`${SectionNameEnum.LABORATORY_TESTS_AND_RESULTS}: Vocabulary Errors`}
             avatar={<Avatar sx={{ bgcolor: palette.white }}>1</Avatar>}
             sx={{
               color: palette.white,

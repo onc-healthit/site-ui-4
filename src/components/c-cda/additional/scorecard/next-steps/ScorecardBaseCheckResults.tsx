@@ -1,20 +1,19 @@
 import palette from '@/styles/palette'
+import { ScorecardReferenceErrorType } from '@/components/c-cda/additional/scorecard/types/ScorecardJsonResponseType'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
-import { CCDAValidationResult } from '@/components/c-cda/validation/results/ValidationResultsSummary'
 
 interface DetailsAccordionProps {
   disabled: boolean
   refLink: React.RefObject<HTMLDivElement>
-  details: CCDAValidationResult[]
+  details: ScorecardReferenceErrorType[]
   defaultExpanded?: boolean
   leftBorderColor: string
   backgroundColor: string
   textColor: string
   referenceCCDAResults?: boolean
-  relatedSection: string
   validationCategory: string
   issueCount: number
 }
@@ -40,7 +39,8 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
       <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
         {/* TODO: Issue count should probably be an avatar/badge just like in heatmap */}
         <Typography sx={{ fontWeight: 'bold', border: `` }}>
-          {props.relatedSection}: {props.validationCategory} ({props.issueCount})
+          {/* Note: If converting to have conf and vocab errors in each section, then display sectionName here */}
+          {props.validationCategory} ({props.issueCount})
         </Typography>
       </AccordionSummary>
 
@@ -56,9 +56,8 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
             <Typography gutterBottom>
               <b>Error</b>: {detail.description}
             </Typography>
-            {/* Don't really need relatedSetion as mentioned in header accordian now?  */}
             <Typography gutterBottom>
-              <b>Related Section</b>: {detail.relatedSection}
+              <b>Related Section</b>: {detail.sectionName}
             </Typography>
             <Typography gutterBottom>
               <b>XPath</b>:&nbsp;
@@ -75,18 +74,17 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
 }
 interface CategoricalResultsProps {
   category: string
-  results: CCDAValidationResult[]
+  results: ScorecardReferenceErrorType[]
   errorRef: React.RefObject<HTMLDivElement>
   referenceCCDAResults?: boolean
-  relatedSection: string
 }
 
 export default function ScorecardBaseCheckResults(props: CategoricalResultsProps) {
   const refValErrorBackgroundColor = '#FFBDBD64'
   // const refValErrorBackgroundColor = '#FFBDBD15'
   const [errorDisabled, setErrorDisabled] = useState(false)
+  // A bit overkill, we could just check results directly as we should only have errors from service, but, can't hurt.
   const errors = props.results.filter((result) => result?.type.includes('Error'))
-  console.log(errors)
   useEffect(() => {
     _.isEmpty(errors) && setErrorDisabled(true)
   }, [errors])
@@ -106,7 +104,6 @@ export default function ScorecardBaseCheckResults(props: CategoricalResultsProps
         textColor={palette.black}
         defaultExpanded={true}
         referenceCCDAResults={props.referenceCCDAResults}
-        relatedSection={props.relatedSection}
         validationCategory={props.category}
         issueCount={errors.length}
       />

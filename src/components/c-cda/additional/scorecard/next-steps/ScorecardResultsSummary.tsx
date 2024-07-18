@@ -1,51 +1,29 @@
-import { CCDAValidationResult } from '@/components/c-cda/validation/results/ValidationResultsSummary'
-import { ScorecardBestPracticeResultType } from '@/types/ScorecardBestPracticeResultType'
+import { ScorecardBestPracticeResultType } from '@/components/c-cda/additional/scorecard/types/ScorecardBestPracticeResultType'
+import {
+  ScorecardJsonResponseType,
+  ScorecardReferenceResultType,
+  ScorecardResultsType,
+} from '@/components/c-cda/additional/scorecard/types/ScorecardJsonResponseType'
 import { Box, Typography } from '@mui/material'
 import { useRef } from 'react'
 import ScorecardBaseCheckResults from './ScorecardBaseCheckResults'
 import ScorecardBestPracticeResults from './ScorecardBestPracticeResults'
 
-export default function ScorecardResultsSummary() {
-  const tempIgResults: CCDAValidationResult[] = [
-    {
-      type: 'Error',
-      documentLineNumber: '10',
-      description: '1 description of some issue',
-      xPath: 'blah/blah/blah',
-      relatedSection: 'Medications',
-    },
-    {
-      type: 'Error',
-      documentLineNumber: '15',
-      description: '2 description of some other issue',
-      xPath: 'blah/blah/blah/blah',
-      relatedSection: 'Vital Signs',
-    },
-    {
-      type: 'Error',
-      documentLineNumber: '20',
-      description: '3 description of some other other issue',
-      xPath: 'blah/blah/blah/blah/blah',
-      relatedSection: 'Allergies',
-    },
-  ]
+interface ScorecardResultsSummaryProps {
+  json: ScorecardJsonResponseType | undefined
+  results: ScorecardResultsType | undefined
+  igResults: ScorecardReferenceResultType
+  vocabResults: ScorecardReferenceResultType
+}
 
-  const tempVocabResults: CCDAValidationResult[] = [
-    {
-      type: 'Error',
-      documentLineNumber: '40',
-      description: '1 description of some issue',
-      xPath: 'blah/blah/blah',
-      relatedSection: 'Medications',
-    },
-    {
-      type: 'Error',
-      documentLineNumber: '86',
-      description: '2 description of some other issue',
-      xPath: 'blah/blah/blah/blah',
-      relatedSection: 'Vital Signs',
-    },
-  ]
+export default function ScorecardResultsSummary({
+  json,
+  results,
+  igResults,
+  vocabResults,
+}: ScorecardResultsSummaryProps) {
+  // const igResults: CCDAValidationResult[] = igResults.referenceErrors
+  // const vocabResults: CCDAValidationResult[] = vocabResults.referenceErrors
 
   const tempBestPracticeResults: ScorecardBestPracticeResultType[] = [
     {
@@ -89,15 +67,13 @@ export default function ScorecardResultsSummary() {
       </Typography>
       <ScorecardBaseCheckResults
         category={'Conformance Errors'}
-        relatedSection={'Medications'}
-        results={tempIgResults}
+        results={igResults.referenceErrors}
         errorRef={mdhtErrorRef}
       />
       <br />
       <ScorecardBaseCheckResults
         category={'Vocabulary Errors'}
-        relatedSection={'Allergies'}
-        results={tempVocabResults}
+        results={vocabResults.referenceErrors}
         errorRef={mdhtErrorRef}
       />
       <br />

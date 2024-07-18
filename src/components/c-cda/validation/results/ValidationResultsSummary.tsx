@@ -32,7 +32,7 @@ export type CCDAValidationResult = {
   documentLineNumber: string
   description: string
   xPath: string
-  relatedSection?: string
+  sectionName?: string | null
 }
 
 interface CCDAValidationResultProps {

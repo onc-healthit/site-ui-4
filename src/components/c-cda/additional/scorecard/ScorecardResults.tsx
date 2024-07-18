@@ -15,14 +15,14 @@ import {
 import DialogTemplate from '@/components/shared/dialog/DialogTemplate' // Adjust the path if needed
 import palette from '@/styles/palette'
 import ScorecardNextSteps from './next-steps/ScorecardNextSteps'
-import ScorecardBaseCheck from './summary/ScorecardBaseCheck'
-import ScorecardBestPractice from './summary/ScorecardBestPractice'
-import ScorecardCompare from './summary/ScorecardCompare'
+import ScorecardBaseCheckSummary from './summary/ScorecardBaseCheckSummary'
+import ScorecardBestPracticeSummary from './summary/ScorecardBestPracticeSummary'
+import ScorecardCompareChartSummary from './summary/ScorecardCompareChartSummary'
 import {
   ScorecardReferenceResultType,
   ScorecardJsonResponseType,
   ScorecardResultsType,
-} from '@/types/ScorecardJsonResponseType'
+} from '@/components/c-cda/additional/scorecard/types/ScorecardJsonResponseType'
 
 interface ScorecardResultsProps {
   dialogState: boolean
@@ -88,19 +88,19 @@ export default function ScorecardResults({
         resultsContent={
           <Box display={'flex'} flexDirection={'column'} gap={4} mt={2} px={4} pb={4} sx={{ overflowY: 'none' }}>
             <Box id="baseCheck">
-              <ScorecardBaseCheck json={json} igResults={igResults} vocabResults={vocabResults} />
+              <ScorecardBaseCheckSummary json={json} igResults={igResults} vocabResults={vocabResults} />
             </Box>
             <Divider sx={dividerPaddingStyle} />
             <Box id="bestPractice">
-              <ScorecardBestPractice results={results} />
+              <ScorecardBestPracticeSummary results={results} />
             </Box>
             <Divider sx={dividerPaddingStyle} />
             <Box id="compare">
-              <ScorecardCompare />
+              <ScorecardCompareChartSummary />
             </Box>
             <Divider sx={dividerPaddingStyle} />
             <Box id="nextSteps">
-              <ScorecardNextSteps />
+              <ScorecardNextSteps json={json} results={results} igResults={igResults} vocabResults={vocabResults} />
             </Box>
           </Box>
         }

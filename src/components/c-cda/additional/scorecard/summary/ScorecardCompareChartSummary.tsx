@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
 
-export default function ScorecardCompare() {
+export default function ScorecardCompareChartSummary() {
   return (
     <Box>
       <Typography variant="h3" sx={{ fontWeight: 'bold', pt: 2, pb: 2 }}>

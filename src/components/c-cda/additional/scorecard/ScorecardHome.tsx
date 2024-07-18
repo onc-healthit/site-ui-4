@@ -1,13 +1,13 @@
 'use client'
+import {
+  ScorecardJsonResponseType,
+  ScorecardReferenceResultType,
+  ScorecardResultsType,
+} from '@/components/c-cda/additional/scorecard/types/ScorecardJsonResponseType'
 import CardWithBorder from '@/components/shared/CardWithBorder'
 import DragDropFileUpload from '@/components/shared/DragandDropFile'
 import { fetchSanitizedMarkdownData } from '@/services/markdownToHTMLService'
 import palette from '@/styles/palette'
-import {
-  ScorecardReferenceResultType,
-  ScorecardJsonResponseType,
-  ScorecardResultsType,
-} from '@/types/ScorecardJsonResponseType'
 import { ArrowForward } from '@mui/icons-material'
 import {
   Box,
@@ -33,8 +33,9 @@ import { getDemoSample } from './serverside/demoSampleService'
 import {
   getDefaultReferenceResult,
   getReferenceResultViaType,
-  ReferenceInstanceTypeEnum,
+  getRefResultWithMissingSectionsUpdatedWithGivenSection,
 } from './serverside/scorecardHelperService'
+import { ErrorMessage, ReferenceInstanceEnum, SectionNameEnum } from './types/ScorecardConstants'
 
 export default function ScorecardHome() {
   const [resultsDialogState, setResultsDialogState] = useState(false)
@@ -74,10 +75,10 @@ export default function ScorecardHome() {
   const [scorecardResponseJson, setScorecardResponseJson] = useState<ScorecardJsonResponseType>()
   const [scResults, setScResults] = useState<ScorecardResultsType>()
   const [igResults, setIgResults] = useState<ScorecardReferenceResultType>(
-    getDefaultReferenceResult(ReferenceInstanceTypeEnum.IG_CONFORMANCE)
+    getDefaultReferenceResult(ReferenceInstanceEnum.IG_CONFORMANCE)
   )
   const [vocabResults, setVocabResults] = useState<ScorecardReferenceResultType>(
-    getDefaultReferenceResult(ReferenceInstanceTypeEnum.VOCAB)
+    getDefaultReferenceResult(ReferenceInstanceEnum.VOCAB)
   )
 
   useEffect(() => {
@@ -151,7 +152,7 @@ export default function ScorecardHome() {
         // Handle valid JSON but with an error returned from the server
         const error = newJson.errorMessage
         const file = newJson.filename
-        const validJsonWithErrorMessage = `Error returned within JSON for filename:
+        const validJsonWithErrorMessage = `${ErrorMessage.VALID_JSON_WITH_ERROR}
         ${file ? file : 'unknown filename'}: ${error ? error : 'unknown error'}`
         return [false, validJsonWithErrorMessage]
       } else {
@@ -161,8 +162,7 @@ export default function ScorecardHome() {
           processIgAndVocabResults(newJson)
           return [true, null]
         } else {
-          const invalidScorecardSpecificResults = 'Scorcard specific results within the response are invalid'
-          return [false, invalidScorecardSpecificResults]
+          return [false, ErrorMessage.INVALID_SCORECARD_SPECIFIC_RESULTS]
         }
       }
     }
@@ -182,22 +182,30 @@ export default function ScorecardHome() {
     if (newJson.referenceResults) {
       const extractedIgResults: ScorecardReferenceResultType | null = getReferenceResultViaType(
         newJson.referenceResults,
-        ReferenceInstanceTypeEnum.IG_CONFORMANCE
+        ReferenceInstanceEnum.IG_CONFORMANCE
       )
       if (extractedIgResults) {
-        setIgResults(extractedIgResults)
+        const updatedIgResults = getRefResultWithMissingSectionsUpdatedWithGivenSection(
+          extractedIgResults,
+          SectionNameEnum.UNKNOWN
+        )
+        setIgResults(updatedIgResults)
       } else {
-        setIgResults(getDefaultReferenceResult(ReferenceInstanceTypeEnum.IG_CONFORMANCE))
+        setIgResults(getDefaultReferenceResult(ReferenceInstanceEnum.IG_CONFORMANCE))
       }
 
       const extractedVocabResults: ScorecardReferenceResultType | null = getReferenceResultViaType(
         newJson.referenceResults,
-        ReferenceInstanceTypeEnum.VOCAB
+        ReferenceInstanceEnum.VOCAB
       )
       if (extractedVocabResults) {
-        setVocabResults(extractedVocabResults)
+        const updatedVocabResults = getRefResultWithMissingSectionsUpdatedWithGivenSection(
+          extractedVocabResults,
+          SectionNameEnum.UNKNOWN
+        )
+        setVocabResults(updatedVocabResults)
       } else {
-        setVocabResults(getDefaultReferenceResult(ReferenceInstanceTypeEnum.VOCAB))
+        setVocabResults(getDefaultReferenceResult(ReferenceInstanceEnum.VOCAB))
       }
     } else {
       console.log('newScorecardResponseJson.referenceResults is untruthy')

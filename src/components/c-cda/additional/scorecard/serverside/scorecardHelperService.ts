@@ -1,13 +1,9 @@
-import { ScorecardReferenceResultType } from '@/types/ScorecardJsonResponseType'
-
-export enum ReferenceInstanceTypeEnum {
-  IG_CONFORMANCE = 'C-CDA IG Conformance Errors',
-  VOCAB = '2015 Edition Certification Feedback',
-}
+import { ScorecardReferenceResultType } from '@/components/c-cda/additional/scorecard/types/ScorecardJsonResponseType'
+import { ReferenceInstanceEnum, SectionNameEnum } from '../types/ScorecardConstants'
 
 export const getReferenceResultViaType = (
   referenceResults: ScorecardReferenceResultType[],
-  referenceInstanceTypeEnum: ReferenceInstanceTypeEnum
+  referenceInstanceTypeEnum: ReferenceInstanceEnum
 ): ScorecardReferenceResultType | null => {
   const matchedResults = referenceResults.find((refInstance) => refInstance.type === referenceInstanceTypeEnum)
   if (!matchedResults) {
@@ -18,7 +14,7 @@ export const getReferenceResultViaType = (
 }
 
 export const getDefaultReferenceResult = (
-  referenceInstanceTypeEnum: ReferenceInstanceTypeEnum
+  referenceInstanceTypeEnum: ReferenceInstanceEnum
 ): ScorecardReferenceResultType => {
   const defaultReferenceResult: ScorecardReferenceResultType = {
     type: referenceInstanceTypeEnum,
@@ -26,4 +22,19 @@ export const getDefaultReferenceResult = (
     referenceErrors: [],
   }
   return defaultReferenceResult
+}
+
+// If we decide to place IG and vocab errors in sections, we can defualt to Miscellaneous,
+// or, Unknown(requires extra accordian)
+export const getRefResultWithMissingSectionsUpdatedWithGivenSection = (
+  scRefResult: ScorecardReferenceResultType,
+  newSectionName: SectionNameEnum
+): ScorecardReferenceResultType => {
+  return {
+    ...scRefResult,
+    referenceErrors: scRefResult.referenceErrors.map((error) => ({
+      ...error,
+      sectionName: !error.sectionName ? newSectionName : error.sectionName,
+    })),
+  }
 }
