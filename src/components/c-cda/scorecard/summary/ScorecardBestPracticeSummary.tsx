@@ -1,5 +1,5 @@
 import palette from '@/styles/palette'
-import { ScorecardResultsType } from '@/components/c-cda/additional/scorecard/types/ScorecardJsonResponseType'
+import { ScorecardResultsType } from '@/components/c-cda/scorecard/types/ScorecardJsonResponseType'
 import { Box, Divider, Typography } from '@mui/material'
 import CountUp from 'react-countup'
 

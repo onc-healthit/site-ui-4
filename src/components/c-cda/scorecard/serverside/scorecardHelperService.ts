@@ -1,4 +1,4 @@
-import { ScorecardReferenceResultType } from '@/components/c-cda/additional/scorecard/types/ScorecardJsonResponseType'
+import { ScorecardReferenceResultType } from '@/components/c-cda/scorecard/types/ScorecardJsonResponseType'
 import { ReferenceInstanceEnum, SectionNameEnum } from '../types/ScorecardConstants'
 
 export const getReferenceResultViaType = (

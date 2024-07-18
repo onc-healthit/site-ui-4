@@ -4,7 +4,7 @@ import palette from '@/styles/palette'
 import {
   ScorecardReferenceResultType,
   ScorecardJsonResponseType,
-} from '@/components/c-cda/additional/scorecard/types/ScorecardJsonResponseType'
+} from '@/components/c-cda/scorecard/types/ScorecardJsonResponseType'
 
 interface ScorecardBaseCheckSummaryProps {
   json: ScorecardJsonResponseType | undefined

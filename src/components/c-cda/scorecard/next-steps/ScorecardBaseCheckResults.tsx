@@ -1,5 +1,5 @@
 import palette from '@/styles/palette'
-import { ScorecardReferenceErrorType } from '@/components/c-cda/additional/scorecard/types/ScorecardJsonResponseType'
+import { ScorecardReferenceErrorType } from '@/components/c-cda/scorecard/types/ScorecardJsonResponseType'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
 import _ from 'lodash'

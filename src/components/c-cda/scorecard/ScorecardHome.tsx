@@ -3,7 +3,7 @@ import {
   ScorecardJsonResponseType,
   ScorecardReferenceResultType,
   ScorecardResultsType,
-} from '@/components/c-cda/additional/scorecard/types/ScorecardJsonResponseType'
+} from '@/components/c-cda/scorecard/types/ScorecardJsonResponseType'
 import CardWithBorder from '@/components/shared/CardWithBorder'
 import DragDropFileUpload from '@/components/shared/DragandDropFile'
 import { fetchSanitizedMarkdownData } from '@/services/markdownToHTMLService'

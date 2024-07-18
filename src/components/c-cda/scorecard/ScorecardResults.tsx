@@ -22,7 +22,7 @@ import {
   ScorecardReferenceResultType,
   ScorecardJsonResponseType,
   ScorecardResultsType,
-} from '@/components/c-cda/additional/scorecard/types/ScorecardJsonResponseType'
+} from '@/components/c-cda/scorecard/types/ScorecardJsonResponseType'
 
 interface ScorecardResultsProps {
   dialogState: boolean

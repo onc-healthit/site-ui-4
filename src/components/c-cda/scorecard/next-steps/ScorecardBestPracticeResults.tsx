@@ -1,5 +1,5 @@
 import palette from '@/styles/palette'
-import { ScorecardBestPracticeResultType } from '@/components/c-cda/additional/scorecard/types/ScorecardBestPracticeResultType'
+import { ScorecardBestPracticeResultType } from '@/components/c-cda/scorecard/types/ScorecardBestPracticeResultType'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Typography } from '@mui/material'
 import React, { useState } from 'react'

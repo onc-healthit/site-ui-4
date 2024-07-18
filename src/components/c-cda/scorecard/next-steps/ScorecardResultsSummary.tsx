@@ -1,9 +1,9 @@
-import { ScorecardBestPracticeResultType } from '@/components/c-cda/additional/scorecard/types/ScorecardBestPracticeResultType'
+import { ScorecardBestPracticeResultType } from '@/components/c-cda/scorecard/types/ScorecardBestPracticeResultType'
 import {
   ScorecardJsonResponseType,
   ScorecardReferenceResultType,
   ScorecardResultsType,
-} from '@/components/c-cda/additional/scorecard/types/ScorecardJsonResponseType'
+} from '@/components/c-cda/scorecard/types/ScorecardJsonResponseType'
 import { Box, Typography } from '@mui/material'
 import { useRef } from 'react'
 import ScorecardBaseCheckResults from './ScorecardBaseCheckResults'
