@@ -69,6 +69,7 @@ jobs:
           Host development
           HostName $SSH_HOST
           User $SSH_USERNAME
+          Port $SSH_PORT
           IdentityFile ~/.ssh/development.key
           StrictHostKeyChecking no
           END
