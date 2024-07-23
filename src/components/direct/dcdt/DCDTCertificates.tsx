@@ -16,7 +16,7 @@ const DCDTCertificates = () => {
 
   const [openDiscoverCase, setOpenDiscoverCase] = React.useState(false)
   const [directAddress, setDirectAddress] = useState('')
-  const [returnAddress, setReturnAddress] = useState('')
+  const [resultsAddress, setResultsAddress] = useState('')
   const [data, handleSubmit] = useFormState(handleSubmitDiscover, { response: {} })
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const DCDTCertificates = () => {
   const handleReset = () => {
     setDiscoverCase(discoverTestCases.filter((c) => c.code === ' '))
     setDirectAddress('')
-    setReturnAddress('')
+    setResultsAddress('')
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,8 +43,8 @@ const DCDTCertificates = () => {
     if (_.isEqual(name, 'step2DirectAddress')) {
       setDirectAddress(value)
     }
-    if (_.isEqual(name, 'returnAddr')) {
-      setReturnAddress(value)
+    if (_.isEqual(name, 'resultsAddr')) {
+      setResultsAddress(value)
     }
   }
 
@@ -89,12 +89,12 @@ const DCDTCertificates = () => {
             />
             <TextField
               fullWidth
-              id="returnAddr"
-              name="returnAddr"
+              id="resultsAddr"
+              name="resultsAddr"
               label="Enter your Email Address"
               helperText="For Results"
               required
-              value={returnAddress}
+              value={resultsAddress}
               InputProps={{ type: 'email' }}
               onChange={handleChange}
             />

@@ -1,11 +1,11 @@
 import palette from '@/styles/palette'
-import { Dialog, DialogTitle, Divider, DialogContent, Typography, IconButton, Button, Box } from '@mui/material'
-import { FC, useState } from 'react'
-import CloseIcon from '@mui/icons-material/Close'
+import { Dialog, Divider, DialogContent, Typography, Button, Box } from '@mui/material'
+import { FC, useEffect, useState } from 'react'
 import { useFormStatus } from 'react-dom'
 import { Check } from '@mui/icons-material'
 import ErrorIcon from '@mui/icons-material/Error'
 import _ from 'lodash'
+import ErrorDisplayCard from '@/components/c-cda/validation/results/ErrorDisplay'
 
 interface DiscoverResultsDialogProps {
   open: boolean
@@ -42,24 +42,24 @@ type Testcase = {
   expandResult: boolean
 }
 
-export interface Errors {
+type Errors = {
   '@type': string
   global: null
   fields: Fields
 }
 
-export interface Fields {
+interface Fields {
   'items[0].directAddress': DirectAddress[]
   'items[0].resultsAddress': ResultsAddress[]
 }
 
-export interface DirectAddress {
+type DirectAddress = {
   '@type': string
   messages: string[]
   stackTrace: null
 }
 
-export interface ResultsAddress {
+type ResultsAddress = {
   '@type': string
   messages: string[]
   stackTrace: null
@@ -70,7 +70,7 @@ const Results = ({ response }: ResultsProps) => {
 
   return (
     <Box>
-      {_.isEqual(success, 'success') ? (
+      {_.isEqual(success, 'success') && (
         <Box sx={{ width: '100%', flexDirection: 'row', gap: '16px', display: 'flex', alignItems: 'center' }}>
           <Check
             fontSize="large"
@@ -85,14 +85,15 @@ const Results = ({ response }: ResultsProps) => {
           />
           <Box>
             <Typography>
-              <strong>Discovery mail mapping modified</strong>
+              <strong>Discovery mail mapping modified:</strong>
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: '56px', alignItems: 'center' }}>
               <Typography>{response.items !== undefined ? response.items[0].msg : ''}</Typography>
             </Box>
           </Box>
         </Box>
-      ) : (
+      )}
+      {_.isEqual(success, 'error') && (
         <Box sx={{ width: '100%', flexDirection: 'row', gap: '16px', display: 'flex', alignItems: 'center' }}>
           <ErrorIcon
             fontSize="large"
@@ -106,11 +107,20 @@ const Results = ({ response }: ResultsProps) => {
             }}
           />
           <Box>
-            <Typography>
-              <strong>Failed</strong>
+            <Typography pb={2}>
+              <strong>Error:</strong>
             </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center' }}>
-              <Typography>{response.errors?.['@type']}</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {response.errors?.fields['items[0].directAddress'] && (
+                <Typography>
+                  Direct Address: {response.errors?.fields['items[0].directAddress'][0].messages[0]}
+                </Typography>
+              )}
+              {response.errors?.fields['items[0].resultsAddress'] && (
+                <Typography>
+                  Results Address: {response.errors?.fields['items[0].resultsAddress'][0].messages[0]}
+                </Typography>
+              )}
             </Box>
           </Box>
         </Box>
@@ -119,17 +129,8 @@ const Results = ({ response }: ResultsProps) => {
   )
 }
 const DiscoverResultsDialog: FC<DiscoverResultsDialogProps> = ({ open, handleClose, response }) => {
-  //console.log(JSON.stringify(response))
-
   return (
     <Dialog open={open} maxWidth="lg">
-      <DialogTitle typography={'h3'} sx={{ fontWeight: '600', pb: 2 }}>
-        Test Results
-      </DialogTitle>
-      <IconButton aria-label="Close Dialog" sx={{ position: 'absolute', right: 8, top: 8 }} onClick={handleClose}>
-        <CloseIcon />
-      </IconButton>
-      <Divider />
       <DialogContent>
         <Results response={response} />
       </DialogContent>
@@ -146,12 +147,24 @@ const DiscoverResultsDialog: FC<DiscoverResultsDialogProps> = ({ open, handleClo
 const DiscoverResultsComponent = ({ response }: DiscoverResultsComponentProps) => {
   const [openDialog, setOpenDialog] = useState(false)
   const { pending } = useFormStatus()
+  const [errorOpen, setErrorOpen] = useState(false)
   const handleOpenDialog = () => {
     setOpenDialog(true)
   }
   const handleCloseDialog = () => {
     setOpenDialog(false)
   }
+  const handleErrorClose = () => {
+    setErrorOpen(false)
+  }
+  useEffect(() => {
+    if (!pending && !_.isEmpty(response) && !_.has(response, 'error')) {
+      setOpenDialog(true)
+    }
+    if (!pending && _.has(response, 'error')) {
+      setErrorOpen(true)
+    }
+  }, [pending, response])
   return (
     <>
       <Button
@@ -163,7 +176,12 @@ const DiscoverResultsComponent = ({ response }: DiscoverResultsComponentProps) =
       >
         SUBMIT
       </Button>
-      {!pending && <DiscoverResultsDialog open={openDialog} handleClose={handleCloseDialog} response={response} />}
+      {!pending && _.has(response, 'error') && (
+        <ErrorDisplayCard open={errorOpen} handleClose={handleErrorClose} response={response} />
+      )}
+      {!pending && !_.isEmpty(response) && !_.has(response, 'error') && (
+        <DiscoverResultsDialog open={openDialog} handleClose={handleCloseDialog} response={response} />
+      )}
     </>
   )
 }

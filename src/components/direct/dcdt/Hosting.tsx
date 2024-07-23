@@ -5,17 +5,22 @@ import React, { useEffect, useState } from 'react'
 import hostingTestCases from './HostingTestCases'
 import bulletedList from '../shared/BulletList'
 import { useFormState } from 'react-dom'
-import { handleSubmitHosting } from './actions'
 import HostingResultsComponent from './HostingResults'
-
-const Hosting = () => {
-  const [hostingCase, setHostingCase] = useState(hostingTestCases.filter((c) => c.code === ' '))
+interface HostingProps {
+  formAction: (
+    prevState: object | undefined,
+    formData: FormData
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ) => Promise<{ response?: any } | undefined>
+}
+const Hosting = ({ formAction }: HostingProps) => {
+  const [hostingCase, setHostingCase] = useState(hostingTestCases.filter((c) => c.code === ''))
   const [openHostingCase, setOpenHostingCase] = useState(false)
   const [hostingDirectAddress, setHostingDirectAddress] = useState('')
-  const [data, handleSubmit] = useFormState(handleSubmitHosting, { response: {} })
+  const [data, handleSubmit] = useFormState(formAction, { response: {} })
 
   useEffect(() => {
-    if (hostingCase[0].code !== ' ') {
+    if (hostingCase[0].code !== '') {
       setOpenHostingCase(true)
     } else {
       setOpenHostingCase(false)
@@ -28,7 +33,7 @@ const Hosting = () => {
   }
 
   const handleReset = () => {
-    setHostingCase(hostingTestCases.filter((c) => c.code === ' '))
+    setHostingCase(hostingTestCases.filter((c) => c.code === ''))
     setHostingDirectAddress('')
   }
 
@@ -71,9 +76,10 @@ const Hosting = () => {
             value={hostingCase[0].code}
             sx={{ pb: 2 }}
             onChange={handleHostingCaseSelect}
+            required
           >
-            {hostingTestCases.map((option) => (
-              <MenuItem key={option.code} value={option.code}>
+            {hostingTestCases.map((option, i) => (
+              <MenuItem key={i} value={option.code}>
                 {option.name}
               </MenuItem>
             ))}
@@ -86,8 +92,8 @@ const Hosting = () => {
             value={hostingDirectAddress}
             InputProps={{ type: 'email' }}
             onChange={handleChange}
+            required
           />
-
           <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} pt={2}>
             <Box display={'flex'} flexDirection={'row'} gap={1}>
               <HostingResultsComponent response={data?.response} />

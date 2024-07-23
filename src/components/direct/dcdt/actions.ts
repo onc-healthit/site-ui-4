@@ -20,8 +20,7 @@ export async function handleSubmitHosting(prevState: object | undefined, formDat
 
   try {
     const response = await axios.request(config)
-    //console.log(JSON.stringify(response.data))
-    console.log('response', response.data)
+    // console.log(JSON.stringify(response.data))
     return { response: response.data }
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -58,8 +57,8 @@ export async function handleSubmitDiscover(prevState: object | undefined, formDa
 
   try {
     const response = await axios.request(config)
-    //console.log(JSON.stringify(response.data))
-    console.log('response', response.data)
+    // console.log(JSON.stringify(response.data))
+
     return { response: response.data }
   } catch (error) {
     if (axios.isAxiosError(error)) {

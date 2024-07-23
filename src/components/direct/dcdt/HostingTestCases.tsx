@@ -1,7 +1,7 @@
 import { TestCaseFields } from './TestCasePanel'
 
 const hostingTestCases: TestCaseFields[] = [
-  { code: ' ', name: '--No testcase selected--' },
+  { code: '', name: '--No testcase selected--' },
   {
     code: 'H1_DNS_AB_Normal',
     name: 'H1 - Normal address-bound certificate search in DNS',

@@ -11,7 +11,7 @@ import {
   List,
   ListItem,
 } from '@mui/material'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import { useFormStatus } from 'react-dom'
 import { Check } from '@mui/icons-material'
@@ -19,6 +19,7 @@ import ErrorIcon from '@mui/icons-material/Error'
 import _ from 'lodash'
 import bulletedList from '../shared/BulletList'
 import { CustomListItem } from './TestCasePanel'
+import ErrorDisplayCard from '@/components/c-cda/validation/results/ErrorDisplay'
 interface HostingResultsDialogProps {
   open: boolean
   handleClose: () => void
@@ -80,11 +81,10 @@ type Cert = {
 }
 
 const Results = ({ response }: ResultsProps) => {
-  const success = response.items ? response.items[0].success : false
   return (
     <Box>
-      {success ? (
-        <Box sx={{ width: '100%', flexDirection: 'row', gap: '16px', display: 'flex', alignItems: 'center' }}>
+      {response.status === 'success' && response.items !== undefined && response.items[0].success && (
+        <Box sx={{ width: '100%', flexDirection: 'row', gap: '16px', display: 'flex', alignItems: 'center', pb: 2 }}>
           <Check
             fontSize="large"
             sx={{
@@ -110,8 +110,9 @@ const Results = ({ response }: ResultsProps) => {
             </Box>
           </Box>
         </Box>
-      ) : (
-        <Box sx={{ width: '100%', flexDirection: 'row', gap: '16px', display: 'flex', alignItems: 'center' }}>
+      )}
+      {response.status === 'success' && response.items !== undefined && !response.items[0].success && (
+        <Box sx={{ width: '100%', flexDirection: 'row', gap: '16px', display: 'flex', alignItems: 'center', pb: 2 }}>
           <ErrorIcon
             fontSize="large"
             sx={{
@@ -138,35 +139,36 @@ const Results = ({ response }: ResultsProps) => {
           </Box>
         </Box>
       )}
-      <Box p={2} bgcolor={palette.secondaryLight} borderRadius={1} border={`1px solid ${palette.secondary}`} mb={2}>
-        {response.items?.map((item, i) => {
-          return (
-            <Box key={i}>
-              <Typography>
-                <strong>Success: </strong>
-                {item.success ? 'true' : 'false'}
-              </Typography>
-              <Typography>
-                <strong>Processing Messages:</strong>
-                {item.procMsgs ? item.procMsgs : 'None'}
-              </Typography>
-              <Typography>
-                <strong>Processing Steps:</strong>
-              </Typography>
-              <List disablePadding sx={bulletedList('number')}>
-                {' '}
-                {item.procSteps.map((step, i) => {
-                  return (
-                    <>
-                      <CustomListItem key={i} name={step.desc.text} value={''} />
-                      <List sx={bulletedList('circle')}>
-                        <CustomListItem name={'Success'} value={step.success ? 'true' : 'false'} />
-                        <CustomListItem name={'Messages'} value={''} />
+      {response.status === 'success' && response.items !== undefined && (
+        <Box p={2} bgcolor={palette.secondaryLight} borderRadius={1} border={`1px solid ${palette.secondary}`} mb={2}>
+          {response.items?.map((item, i) => {
+            return (
+              <Box key={i}>
+                <Typography>
+                  <strong>Success: </strong>
+                  {item.success ? 'true' : 'false'}
+                </Typography>
+                <Typography>
+                  <strong>Processing Messages:</strong>
+                  {item.procMsgs ? item.procMsgs : 'None'}
+                </Typography>
+                <Typography>
+                  <strong>Processing Steps:</strong>
+                </Typography>
+                <List disablePadding sx={bulletedList('number')}>
+                  {' '}
+                  {item.procSteps.map((step, i) => {
+                    return (
+                      <div key={i}>
+                        <CustomListItem name={step.desc.text} value={''} />
                         <List sx={bulletedList('circle')}>
-                          {step.msgs.map((msg, i) => {
-                            return (
-                              <>
+                          <CustomListItem name={'Success'} value={step.success ? 'true' : 'false'} />
+                          <CustomListItem name={'Messages'} value={''} />
+                          <List sx={bulletedList('circle')}>
+                            {step.msgs.map((msg, i) => {
+                              return (
                                 <ListItem
+                                  key={i}
                                   sx={{
                                     display: 'list-item',
                                     py: 0,
@@ -174,33 +176,33 @@ const Results = ({ response }: ResultsProps) => {
                                 >
                                   <pre style={{ whiteSpace: 'pre-line', wordWrap: 'break-word' }}>{msg.text}</pre>
                                 </ListItem>
-                              </>
-                            )
-                          })}
+                              )
+                            })}
+                          </List>
+                          <CustomListItem name={'Binding Type'} value={step.bindingType} />
+                          <CustomListItem name={'Location Type'} value={step.locType} />
                         </List>
-                        <CustomListItem name={'Binding Type'} value={step.bindingType} />
-                        <CustomListItem name={'Location Type'} value={step.locType} />
-                      </List>
-                    </>
-                  )
-                })}{' '}
-              </List>
-              <Typography>
-                <strong>Discovered Valid Certificate:</strong>
-              </Typography>
-              <pre style={{ whiteSpace: 'pre-line', wordWrap: 'break-word' }}>
-                {item.discoveredCertInfo ? item.discoveredCertInfo.cert : 'None'}
-              </pre>
-              <Typography>
-                <strong>Discovered InValid Certificate:</strong>
-              </Typography>
-              <pre style={{ whiteSpace: 'pre-line', wordWrap: 'break-word' }}>
-                {!_.isEmpty(item.invalidDiscoveredCertInfos) ? item.invalidDiscoveredCertInfos[0].cert : 'None'}
-              </pre>
-            </Box>
-          )
-        })}
-      </Box>
+                      </div>
+                    )
+                  })}{' '}
+                </List>
+                <Typography>
+                  <strong>Discovered Valid Certificate:</strong>
+                </Typography>
+                <pre style={{ whiteSpace: 'pre-line', wordWrap: 'break-word' }}>
+                  {item.discoveredCertInfo ? item.discoveredCertInfo.cert : 'None'}
+                </pre>
+                <Typography>
+                  <strong>Discovered InValid Certificate:</strong>
+                </Typography>
+                <pre style={{ whiteSpace: 'pre-line', wordWrap: 'break-word' }}>
+                  {!_.isEmpty(item.invalidDiscoveredCertInfos) ? item.invalidDiscoveredCertInfos[0].cert : 'None'}
+                </pre>
+              </Box>
+            )
+          })}
+        </Box>
+      )}
     </Box>
   )
 }
@@ -232,12 +234,25 @@ const HostingResultsDialog: FC<HostingResultsDialogProps> = ({ open, handleClose
 const HostingResultsComponent = ({ response }: HostingResultsComponentProps) => {
   const [openDialog, setOpenDialog] = useState(false)
   const { pending } = useFormStatus()
+  const [errorOpen, setErrorOpen] = useState(false)
   const handleOpenDialog = () => {
     setOpenDialog(true)
   }
   const handleCloseDialog = () => {
     setOpenDialog(false)
   }
+  const handleErrorClose = () => {
+    setErrorOpen(false)
+  }
+  useEffect(() => {
+    if (!pending && !_.isEmpty(response) && !_.has(response, 'error')) {
+      setOpenDialog(true)
+    }
+    if (!pending && _.has(response, 'error')) {
+      setErrorOpen(true)
+    }
+  }, [pending, response])
+
   return (
     <>
       <Button
@@ -249,7 +264,12 @@ const HostingResultsComponent = ({ response }: HostingResultsComponentProps) => 
       >
         SUBMIT
       </Button>
-      {!pending && <HostingResultsDialog open={openDialog} handleClose={handleCloseDialog} response={response} />}
+      {!pending && _.has(response, 'error') && (
+        <ErrorDisplayCard open={errorOpen} handleClose={handleErrorClose} response={response} />
+      )}
+      {!pending && !_.has(response, 'error') && !_.isEmpty(response) && (
+        <HostingResultsDialog open={openDialog} handleClose={handleCloseDialog} response={response} />
+      )}
     </>
   )
 }
