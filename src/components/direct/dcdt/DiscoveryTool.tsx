@@ -19,7 +19,7 @@ import palette from '@/styles/palette'
 import Hosting from './Hosting'
 import DCDTCertificates from './DCDTCertificates'
 import bulletedList from '../shared/BulletList'
-
+import { handleSubmitHosting } from './actions'
 const menuItems: menuProps[] = [
   { heading: 'Overview', href: '#overview' },
   { heading: 'Hosting', href: '#hosting' },
@@ -117,7 +117,7 @@ const DiscoveryTool = () => {
               />
               <Divider />
               <CardContent>
-                <Hosting />
+                <Hosting formAction={handleSubmitHosting} />
               </CardContent>
             </Card>
             {/* Discover DCDT's Certificates */}
