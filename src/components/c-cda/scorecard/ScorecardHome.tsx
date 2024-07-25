@@ -50,8 +50,8 @@ export default function ScorecardHome() {
       value: 'highScoringSample.json',
     },
     {
-      label: 'Low Scoring Sample',
-      value: 'lowScoringSample.json',
+      label: 'Low Scoring Sample - r11',
+      value: 'lowScoringSample_r11.json',
     },
     {
       label: 'Sample With Errors',
