@@ -24,13 +24,13 @@ import CardWithImageHome from '@shared/CardWithImageHome'
 import SectionHeader from '../shared/SectionHeader'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
-import { useMemo, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function SiteHomeRows() {
   const theme = useTheme()
-  const maxWidth = useMemo(() => 350, [])
-  const rowPaddingBottom = useMemo(() => 64, [])
-  const industryTestingResourceRow = useMemo(() => 350, [])
+  const maxWidth = 350
+  const rowPaddingBottom = 64
+  const industryTestingResourceRow = 350
 
   // Loading state
   const [loading, setLoading] = useState(true)
@@ -41,40 +41,33 @@ export default function SiteHomeRows() {
     return () => clearTimeout(timer)
   }, [])
 
-  const containerNoDragStyles = useMemo(
-    () => ({
-      flexWrap: 'wrap',
-      display: 'flex',
-      flexDirection: 'row',
-      width: '100%',
-      gap: '44px',
-      paddingBottom: `${rowPaddingBottom}px`,
-      [theme.breakpoints.down('md')]: {
-        flexDirection: 'column',
-        gap: '32px',
-      },
-    }),
-    [theme.breakpoints, rowPaddingBottom]
-  )
+  const containerNoDragStyles = {
+    flexWrap: 'wrap',
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    gap: '44px',
+    paddingBottom: `${rowPaddingBottom}px`,
+    [theme.breakpoints.down('md')]: {
+      flexDirection: 'column',
+      gap: '32px',
+    },
+  }
 
-  const responsive = useMemo(
-    () => ({
-      desktop: {
-        breakpoint: { max: Infinity, min: 1045 },
-        items: 3,
-      },
-      tablet: {
-        breakpoint: { max: 1024, min: 464 },
-        items: 2,
-      },
-      mobile: {
-        breakpoint: { max: 464, min: 0 },
-        items: 1,
-      },
-    }),
-    []
-  )
-
+  const responsive = {
+    desktop: {
+      breakpoint: { max: Infinity, min: 1045 },
+      items: 3,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+    },
+  }
   const skeleton = (
     <Box display={'flex'} gap={4} p={1}>
       <Box>
