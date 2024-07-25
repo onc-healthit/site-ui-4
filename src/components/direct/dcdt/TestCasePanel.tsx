@@ -64,14 +64,15 @@ interface CertificateListProps {
 }
 interface ListFields {
   name: string
-  value: string
+  value: string | boolean
 }
-const CustomListItem = ({ name, value }: ListFields) => {
+export const CustomListItem = ({ name, value }: ListFields) => {
   return (
     <>
       <ListItem
         sx={{
           display: 'list-item',
+          py: 0,
         }}
       >
         <Typography variant="body2">

@@ -7,13 +7,17 @@ import _ from 'lodash'
 import Link from 'next/link'
 import discoverTestCases from './DiscoverTestCases'
 import bulletedList from '../shared/BulletList'
+import { useFormState } from 'react-dom'
+import { handleSubmitDiscover } from './actions'
+import DiscoverResultsComponent from './DiscoverResults'
 
 const DCDTCertificates = () => {
   const [discoverCase, setDiscoverCase] = React.useState(discoverTestCases.filter((c) => c.code === ' '))
 
   const [openDiscoverCase, setOpenDiscoverCase] = React.useState(false)
   const [directAddress, setDirectAddress] = useState('')
-  const [emailAddress, setEmailAddress] = useState('')
+  const [resultsAddress, setResultsAddress] = useState('')
+  const [data, handleSubmit] = useFormState(handleSubmitDiscover, { response: {} })
 
   useEffect(() => {
     if (discoverCase[0].code !== ' ') {
@@ -31,11 +35,7 @@ const DCDTCertificates = () => {
   const handleReset = () => {
     setDiscoverCase(discoverTestCases.filter((c) => c.code === ' '))
     setDirectAddress('')
-    setEmailAddress('')
-  }
-
-  const handleSubmit = () => {
-    //TO-DO
+    setResultsAddress('')
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,20 +43,21 @@ const DCDTCertificates = () => {
     if (_.isEqual(name, 'step2DirectAddress')) {
       setDirectAddress(value)
     }
-    if (_.isEqual(name, 'emailAddress')) {
-      setEmailAddress(value)
+    if (_.isEqual(name, 'resultsAddr')) {
+      setResultsAddress(value)
     }
   }
 
   return (
-    <Box component={'form'} onSubmit={handleSubmit}>
+    <Box>
       <Typography variant="body1">
         <strong>Directions</strong>
       </Typography>
       <List sx={bulletedList('number')}>
         <ListItem sx={{ display: 'list-item' }}>
           <Typography variant="body2">
-            {"Download the Testing Tool's trust anchor."} <Link href={''}>Download Trust Anchor</Link>
+            {"Download the Testing Tool's trust anchor."}{' '}
+            <Link href={'http://dcdt31.healthit.gov/dcdt/discovery/anchor'}>Download Trust Anchor</Link>
           </Typography>
         </ListItem>
         <ListItem sx={{ display: 'list-item' }}>
@@ -72,31 +73,41 @@ const DCDTCertificates = () => {
             the receipt of the messages.
           </Typography>
         </ListItem>
-        <Box p={2}>
-          <TextField
-            fullWidth
-            id="step2DirectAddress"
-            name="step2DirectAddress"
-            label="Enter your Direct Address"
-            helperText=""
-            required
-            value={directAddress}
-            InputProps={{ type: 'email' }}
-            sx={{ pb: 2 }}
-            onChange={handleChange}
-          />
-          <TextField
-            fullWidth
-            id="emailAddress"
-            name="emailAddress"
-            label="Enter your Email Address"
-            helperText="For Results"
-            required
-            value={emailAddress}
-            InputProps={{ type: 'email' }}
-            onChange={handleChange}
-          />
-        </Box>
+        <form action={handleSubmit}>
+          <Box p={2}>
+            <TextField
+              fullWidth
+              id="step2DirectAddress"
+              name="step2DirectAddress"
+              label="Enter your Direct Address"
+              helperText=""
+              required
+              value={directAddress}
+              InputProps={{ type: 'email' }}
+              sx={{ pb: 2 }}
+              onChange={handleChange}
+            />
+            <TextField
+              fullWidth
+              id="resultsAddr"
+              name="resultsAddr"
+              label="Enter your Email Address"
+              helperText="For Results"
+              required
+              value={resultsAddress}
+              InputProps={{ type: 'email' }}
+              onChange={handleChange}
+            />
+            <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
+              <Box display={'flex'} flexDirection={'row'} gap={1}>
+                <DiscoverResultsComponent response={data?.response} />
+              </Box>
+              <Button variant="outlined" sx={{ color: palette.primary }} onClick={handleReset}>
+                RESET FIELDS
+              </Button>
+            </Box>
+          </Box>
+        </form>
         <ListItem sx={{ display: 'list-item' }}>
           <Typography variant="body2">
             {
@@ -139,17 +150,6 @@ const DCDTCertificates = () => {
           )}
         </Box>
       </List>
-
-      <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} p={2}>
-        <Box display={'flex'} flexDirection={'row'} gap={1}>
-          <Button variant="contained" sx={{ color: palette.white }}>
-            SUBMIT
-          </Button>
-        </Box>
-        <Button variant="outlined" sx={{ color: palette.primary }} onClick={handleReset}>
-          RESET FIELDS
-        </Button>
-      </Box>
     </Box>
   )
 }
