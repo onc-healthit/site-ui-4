@@ -3,6 +3,7 @@ import { ScorecardJsonResponseType } from '@/components/c-cda/scorecard/types/Sc
 // importing samples directly, and prior to logic, so they are loaded as fast as possible/loaded during build time
 // Note: This requires a rebuild if we want to update the files data
 import highScoringSampleJsonData from './samples/json/highScoringSample.json'
+import lowScoringSample_r21JsonData from './samples/json/lowScoringSample_r21.json'
 import lowScoringSample_r11JsonData from './samples/json/lowScoringSample_r11.json'
 import sampleWithErrorsJsonData from './samples/json/sampleWithErrors.json'
 import sampleWithSchemaErrorsJsonData from './samples/json/sampleWithSchemaErrors.json'
@@ -12,6 +13,7 @@ import sampleWithVocabularyErrorsJsonData from './samples/json/sampleWithVocabul
 
 const demoSampleMap: { [key: string]: ScorecardJsonResponseType } = {
   'highScoringSample.json': highScoringSampleJsonData,
+  'lowScoringSample_r21.json': lowScoringSample_r21JsonData,
   'lowScoringSample_r11.json': lowScoringSample_r11JsonData,
   'sampleWithErrors.json': sampleWithErrorsJsonData,
   'sampleWithSchemaErrors.json': sampleWithSchemaErrorsJsonData,
