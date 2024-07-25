@@ -2,8 +2,8 @@ import DynamicTable from './DynamicTable'
 import InfoIcon from '@mui/icons-material/Info'
 import _ from 'lodash'
 import React, { useState } from 'react'
-import axios from 'axios'
 import DocumentSelector from './DocumentSelector'
+import { handleAPICall } from '../test-by-criteria/ServerActions'
 
 import {
   Box,
@@ -70,6 +70,11 @@ export type ExtraFields = {
 
 interface TestCardProps {
   test: TestCaseFields
+  hostname: string
+  email: string
+  username: string
+  password: string
+  tlsRequired: boolean
 }
 
 interface SelectedDocument {
@@ -78,8 +83,9 @@ interface SelectedDocument {
   fileLink: string
 }
 
-const TestCard = ({ test }: TestCardProps) => {
+const TestCard = ({ test, hostname, email, username, password, tlsRequired }: TestCardProps) => {
   const [showDetail, setShowDetail] = useState(false)
+  const [criteriaMet, setCriteriaMet] = useState<string>('')
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
     console.log('Confirmed Document', selectedData)
     setDocumentDetails(selectedData)
@@ -105,47 +111,31 @@ const TestCard = ({ test }: TestCardProps) => {
 
   const handleRunTest = async () => {
     if (documentDetails) {
-      const apiUrl = 'https://ett.healthit.gov/ett/api/smtpTestCases'
-      console.log('API URL:', apiUrl)
-      const payload = {
-        '@type': 'hostingTestcaseSubmission',
-        testCaseNumber: 16,
-        sutSmtpAddress: '',
-        sutEmailAddress: '',
-        useTLS: true,
-        sutCommandTimeoutInSeconds: 0,
-        sutUserName: '',
-        sutPassword: '',
-        tttUserName: '',
-        tttPassword: '',
-        startTlsPort: 0,
-        status: '',
-        ccdaReferenceFilename: documentDetails.fileName,
-        ccdaValidationObjective: documentDetails.directory,
-        ccdaFileLink: documentDetails.fileLink,
-        previousResult: {
-          /* temp */
-        },
-        cures: true,
-        year: '2021',
-        hostingcase: 'YES',
-      }
-
-      const config = {
-        method: 'post',
-        url: apiUrl,
-        headers: { 'Content-Type': 'application/json' },
-        data: JSON.stringify(payload),
-      }
-
       try {
-        const response = await axios(config)
-        console.log('API Response:', response.data)
+        const criteria = await handleAPICall({
+          testCaseNumber: test.id,
+          sutSmtpAddress: hostname,
+          sutEmailAddress: email,
+          useTLS: tlsRequired,
+          sutCommandTimeoutInSeconds: 0,
+          sutUserName: username,
+          sutPassword: password,
+          tttUserName: '',
+          tttPassword: '',
+          startTlsPort: 0,
+          status: '',
+          ccdaReferenceFilename: documentDetails.fileName,
+          ccdaValidationObjective: documentDetails.directory,
+          ccdaFileLink: documentDetails.fileLink,
+          cures: true,
+          year: '2021',
+          hostingcase: 'YES',
+        })
+        setCriteriaMet(criteria)
+        console.log('Criteria met: ', criteria)
       } catch (error) {
-        console.error('API Request Failed:')
+        console.error('Failed to run test:', error)
       }
-    } else {
-      console.error('No document selected.')
     }
   }
 
@@ -259,7 +249,7 @@ const TestCard = ({ test }: TestCardProps) => {
                   flexDirection: 'column',
                   gap: 1,
                   alignItems: 'flex-start',
-                  justifyContent: 'flex-end', // Aligns children to the bottom of the container
+                  justifyContent: 'flex-end',
                 }}
               >
                 <Typography>

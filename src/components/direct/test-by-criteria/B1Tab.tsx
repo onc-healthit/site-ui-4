@@ -21,6 +21,11 @@ import xdrTestCases from '../hisp/data/XDRTestCases'
 const B1Component = () => {
   const [option, setOption] = useState('')
   const [showTestCard, setShowTestCard] = useState(false)
+  const [hostname, setHostname] = useState('')
+  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [tlsRequired, setTlsRequired] = useState(false)
 
   const criteriaA = xdrTestCases.filter((testXdr) => testXdr.criteria?.includes('b1-1'))
   const criteriaB = testCases.tests.filter((test) => test.criteria?.includes('b1-8'))
@@ -109,7 +114,13 @@ const B1Component = () => {
             </CardContent>
           </Card>
           <Card>
-            <Profile />
+            <Profile
+              setHostname={setHostname}
+              setEmail={setEmail}
+              setUsername={setUsername}
+              setPassword={setPassword}
+              setTls={setTlsRequired}
+            />
           </Card>
         </Box>
         <Box sx={{ flexGrow: 1 }}>
@@ -117,7 +128,14 @@ const B1Component = () => {
             selectedTestCases().map((test, i) => (
               <Box key={i} sx={{ mb: 2 }}>
                 {' '}
-                <TestCard test={test} />
+                <TestCard
+                  test={test}
+                  hostname={hostname}
+                  email={email}
+                  username={username}
+                  password={password}
+                  tlsRequired={tlsRequired}
+                />
               </Box>
             ))}
           {showTestCard &&
