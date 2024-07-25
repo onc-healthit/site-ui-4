@@ -58,6 +58,16 @@ export default function ScorecardHome() {
       value: 'sampleWithErrors.json',
     },
   ]
+  const newDemoSampleOptions: { label: string; value: string }[] = [
+    {
+      label: 'Sample with IG Errors',
+      value: 'sampleWithIGErrors.json',
+    },
+    {
+      label: 'Sample with Vocabulary Errors',
+      value: 'sampleWithVocabularyErrors.json',
+    },
+  ]
   const debugSampleOptions: { label: string; value: string }[] = [
     {
       label: 'Schema Errors',
@@ -69,6 +79,7 @@ export default function ScorecardHome() {
     },
   ]
   // TODO: Tie this to a debug mode env var (if true, push, otherwise, don't, as we don't need these in production)
+  demoSampleOptions.push(...newDemoSampleOptions)
   demoSampleOptions.push(...debugSampleOptions)
 
   const [demoSampleOption, setDemoSampleOption] = useState<string>(demoSampleOptions[0].value)

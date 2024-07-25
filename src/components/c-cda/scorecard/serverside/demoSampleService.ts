@@ -7,6 +7,8 @@ import lowScoringSampleJsonData from './samples/json/lowScoringSample.json'
 import sampleWithErrorsJsonData from './samples/json/sampleWithErrors.json'
 import sampleWithSchemaErrorsJsonData from './samples/json/sampleWithSchemaErrors.json'
 import sampleWithoutAnyContentJsonData from './samples/json/sampleWithoutAnyContent.json'
+import sampleWithIGErrorsJsonData from './samples/json/sampleWithIGErrors.json'
+import sampleWithVocabularyErrorsJsonData from './samples/json/sampleWithVocabularyErrors.json'
 
 const demoSampleMap: { [key: string]: ScorecardJsonResponseType } = {
   'highScoringSample.json': highScoringSampleJsonData,
@@ -14,6 +16,8 @@ const demoSampleMap: { [key: string]: ScorecardJsonResponseType } = {
   'sampleWithErrors.json': sampleWithErrorsJsonData,
   'sampleWithSchemaErrors.json': sampleWithSchemaErrorsJsonData,
   'sampleWithoutAnyContent.json': sampleWithoutAnyContentJsonData,
+  'sampleWithIGErrors.json': sampleWithIGErrorsJsonData,
+  'sampleWithVocabularyErrors.json': sampleWithVocabularyErrorsJsonData,
 }
 
 export const getDemoSample = (optionValue: string): ScorecardJsonResponseType => {
