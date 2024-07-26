@@ -21,7 +21,12 @@ interface APICallData {
   hostingcase: string
 }
 
-export async function handleAPICall(data: APICallData): Promise<string> {
+interface APIResponse {
+  criteriaMet: string
+  testRequestResponses: string
+}
+
+export async function handleAPICall(data: APICallData): Promise<APIResponse> {
   const apiUrl = 'https://ett.healthit.gov/ett/api/smtpTestCases'
   const config = {
     method: 'post',
@@ -32,7 +37,10 @@ export async function handleAPICall(data: APICallData): Promise<string> {
 
   try {
     const response = await axios(config)
-    return response.data[0].criteriaMet
+    return {
+      criteriaMet: response.data[0].criteriaMet,
+      testRequestResponses: response.data[0].testRequestResponses,
+    }
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       console.error('API Error Response:', error.response.data)
