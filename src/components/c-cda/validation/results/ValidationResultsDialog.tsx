@@ -13,10 +13,11 @@ interface ScrollableDialogProps {
   handleClose: () => void
   results: object
   fileName: string
+  criteria: string
 }
 
 // Define ScrollableDialog component
-const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, results, fileName }) => {
+const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, results, fileName, criteria }) => {
   const contentRef = useRef<HTMLDivElement>(null)
   const summaryRef = useRef<HTMLDivElement>(null)
   const mdhtErrorRef = useRef<HTMLDivElement>(null)
@@ -70,6 +71,7 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
           referenceWarningRef={referenceWarningRef}
           referenceInfoRef={referenceInfoRef}
           originalCCDARef={originalCCDARef}
+          criteria={criteria}
         />
       }
       resultsContent={
@@ -87,6 +89,7 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
           referenceWarningRef={referenceWarningRef}
           referenceInfoRef={referenceInfoRef}
           originalCCDARef={originalCCDARef}
+          criteria={criteria}
         />
       } // Pass ref to ValidatorResultsSummary
       actionsContent={
@@ -140,11 +143,20 @@ interface ValidatorResultsCardProps {
   handleClose: () => void
   results: object
   fileName: string
+  criteria: string
 }
 
 // Define ValidatorResultsCard component
-const ValidatorResultsCard: React.FC<ValidatorResultsCardProps> = ({ open, handleClose, results, fileName }) => {
-  return <ScrollableDialog open={open} handleClose={handleClose} results={results} fileName={fileName} />
+const ValidatorResultsCard: React.FC<ValidatorResultsCardProps> = ({
+  open,
+  handleClose,
+  results,
+  fileName,
+  criteria,
+}) => {
+  return (
+    <ScrollableDialog open={open} handleClose={handleClose} results={results} fileName={fileName} criteria={criteria} />
+  )
 }
 
 export default ValidatorResultsCard

@@ -3,15 +3,16 @@ import { Box, Typography, Accordion, AccordionDetails, AccordionSummary } from '
 import palette from '@/styles/palette'
 import { ResultMetaData } from './ValidationResultsSummary'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-
+import _ from 'lodash'
 type CardType = 'errors' | 'warnings' | 'info'
 
 interface ResultsStatusCardProps {
   type: CardType
   results: ResultMetaData[]
+  criteria?: string
 }
 
-const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, results }) => {
+const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, results, criteria }) => {
   const colorMap = {
     errors: palette.error,
     warnings: palette.warning,
@@ -51,7 +52,28 @@ const ResultsStatusCard: React.FC<ResultsStatusCardProps> = ({ type, results }) 
         <AccordionDetails sx={{ p: 2 }}>
           {modifiedResults.map((result, index) => (
             <Typography key={index} variant="body2" sx={{ mt: 1 }}>
-              {result.count} {' in '} {result.type}
+              {result.type.includes('Reference C-CDA Validation') &&
+              !(_.isEqual(criteria, 'C-CDA_IG_Only') || _.isEqual(criteria, 'C-CDA_IG_Plus_Vocab')) ? (
+                <>
+                  {result.count} {' in '} {result.type}
+                </>
+              ) : (
+                ''
+              )}
+              {result.type.includes('IG Conformance') ? (
+                <>
+                  {result.count} {' in '} {result.type}
+                </>
+              ) : (
+                ''
+              )}
+              {result.type.includes('Vocabulary Validation Conformance') && !_.isEqual(criteria, 'C-CDA_IG_Only') ? (
+                <>
+                  {result.count} {' in '} {result.type}
+                </>
+              ) : (
+                ''
+              )}
             </Typography>
           ))}
         </AccordionDetails>

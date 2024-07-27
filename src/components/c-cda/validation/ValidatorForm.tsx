@@ -198,10 +198,16 @@ export default function ValidatorForm({
               estimatedValidationTime={estimatedValidationTime}
               disabled={disableValidate}
               fileName={fileName}
+              criteria={criteriaOption}
             ></ValidationComponent>
             <Box>
               <Link href={downloadScenario} passHref style={{ textDecoration: 'none' }} target="_blank">
-                <Button id="download-selected-scenario-file" variant="outlined" sx={{ color: palette.primary }} disabled={disableDownloadSceario}>
+                <Button
+                  id="download-selected-scenario-file"
+                  variant="outlined"
+                  sx={{ color: palette.primary }}
+                  disabled={disableDownloadSceario}
+                >
                   DOWNLOAD SELECTED SCENARIO FILE
                 </Button>
               </Link>

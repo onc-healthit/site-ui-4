@@ -12,13 +12,20 @@ interface ValidatorComponentProps {
   response: object
   disabled?: boolean
   fileName: string
+  criteria: string
 }
 interface ResultsMetaData {
   serviceError?: boolean
   serviceErrorMessage?: string | null
 }
 
-const ValidatorComponent = ({ response, estimatedValidationTime, disabled, fileName }: ValidatorComponentProps) => {
+const ValidatorComponent = ({
+  response,
+  estimatedValidationTime,
+  disabled,
+  fileName,
+  criteria,
+}: ValidatorComponentProps) => {
   const [loadingOpen, setLoadingOpen] = useState(false)
   const [resultsOpen, setResultsOpen] = useState(false)
   const [errorOpen, setErrorOpen] = useState(false)
@@ -76,6 +83,7 @@ const ValidatorComponent = ({ response, estimatedValidationTime, disabled, fileN
           results={response}
           open={resultsOpen}
           fileName={fileName}
+          criteria={criteria}
           handleClose={() => setResultsOpen(false)}
         />
       )}
