@@ -51,6 +51,12 @@ export async function postToValidatorV3(prevState: object | undefined, formData:
     formData.append('referenceFileName', 'Readme.txt')
     formData.append('validationObjective', 'C-CDA_IG_Only')
   }
+  if (
+    formData.get('validationObjective') === 'C-CDA_IG_Only' ||
+    formData.get('validationObjective') === 'C-CDA_IG_Plus_Vocab'
+  ) {
+    formData.append('referenceFileName', 'Readme.txt')
+  }
   console.log('Submitted data for Validator V3: ', formData)
   const config = {
     method: 'post',
@@ -93,6 +99,12 @@ export async function postToValidatorV1(prevState: object | undefined, formData:
   if (formData.get('version') === 'v1IG') {
     formData.append('referenceFileName', 'Readme.txt')
     formData.append('validationObjective', 'C-CDA_IG_Only')
+  }
+  if (
+    formData.get('validationObjective') === 'C-CDA_IG_Only' ||
+    formData.get('validationObjective') === 'C-CDA_IG_Plus_Vocab'
+  ) {
+    formData.append('referenceFileName', 'Readme.txt')
   }
   console.log('Submitted data for Validator V1: ', formData)
   const config = {
