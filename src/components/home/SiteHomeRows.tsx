@@ -169,7 +169,7 @@ export default function SiteHomeRows() {
                   description:
                     'The ePrescribing Test Suite supports a broad range of testing in support of the ePrescribing Community, including transport, messaging (content), and functional.',
                   cardImage: eRxSvg,
-                  pathname: 'https://tools.ncpdp.org/erx/#/home',
+                  pathname: 'https://erx.healthit.gov/erx/',
                 },
                 {
                   title: 'Public Health Reporting',
