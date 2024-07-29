@@ -50,7 +50,7 @@ export default function SiteNavOncCertTools() {
     {
       text: 'Electronic Prescribing (eRX) Tool',
       isExternalLink: true,
-      href: 'https://tools.ncpdp.org/erx/#/home',
+      href: 'https://erx.healthit.gov/erx/',
       icon: <MedicationOutlined aria-label="Go to Electronic Prescribing (eRX) Tool" fontSize="small" />,
     },
     {

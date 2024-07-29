@@ -7,7 +7,7 @@ describe('Home Page - ONC Certification Tools', () => {
     { text: 'C-CDA Testing', url: '/c-cda' },
     { text: 'Direct Project Tooling', url: `/direct` },
     { text: 'Clinical Quality Measure Testing', url: `/cqmt` },
-    { text: 'Electronic Prescribing (eRX) Tool', url: 'https://tools.ncpdp.org/erx/#/home' },
+    { text: 'Electronic Prescribing (eRX) Tool', url: 'https://erx.healthit.gov/erx/' },
     { text: 'Public Health Reporting', url: `/public-health-reporting` },
     { text: 'Alternative Test Methods', url: `https://hl7v2-iz-cdc-testing.nist.gov/iztool/#/home` },
   ]
