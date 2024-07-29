@@ -96,6 +96,11 @@ const TestCard = ({ test, hostname, email, username, password, tlsRequired }: Te
     setDocumentDetails(selectedData)
     setShowDocumentSelector(false)
   }
+
+  const handleDocumentSelectorClose = () => {
+    setShowDocumentSelector(false)
+  }
+
   const [documentDetails, setDocumentDetails] = useState<{
     directory: string
     fileName: string
@@ -304,7 +309,9 @@ const TestCard = ({ test, hostname, email, username, password, tlsRequired }: Te
               </Box>
             )}
 
-            {showDocumentSelector && <DocumentSelector onConfirm={handleDocumentConfirm} />}
+            {showDocumentSelector && (
+              <DocumentSelector onConfirm={handleDocumentConfirm} onClose={handleDocumentSelectorClose} />
+            )}
 
             {_.has(test, 'fields') &&
               test.fields !== undefined &&
