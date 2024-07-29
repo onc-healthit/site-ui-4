@@ -94,6 +94,7 @@ const TestCard = ({ test, hostname, email, username, password, tlsRequired }: Te
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
     console.log('Confirmed Document', selectedData)
     setDocumentDetails(selectedData)
+    setShowDocumentSelector(false)
   }
   const [documentDetails, setDocumentDetails] = useState<{
     directory: string

@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 interface APICallData {
-  testCaseNumber: number
+  testCaseNumber: number | string
   sutSmtpAddress: string
   sutEmailAddress: string
   useTLS: boolean
