@@ -15,9 +15,10 @@ import { SelectChangeEvent } from '@mui/material/Select'
 
 interface DocumentSelectorProps {
   onConfirm: (selectedData: { directory: string; fileName: string; fileLink: string }) => void
+  onClose: () => void
 }
 
-const DocumentSelector = ({ onConfirm }: DocumentSelectorProps) => {
+const DocumentSelector = ({ onConfirm, onClose }: DocumentSelectorProps) => {
   const [open, setOpen] = useState(true)
   const [documents, setDocuments] = useState<Documents>({})
   const [selectedType, setSelectedType] = useState('cures')
@@ -85,6 +86,7 @@ const DocumentSelector = ({ onConfirm }: DocumentSelectorProps) => {
 
   const handleClose = () => {
     setOpen(false)
+    onClose()
   }
 
   const documentType =
