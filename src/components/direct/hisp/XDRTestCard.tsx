@@ -15,7 +15,6 @@ import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
 import _ from 'lodash'
 import React, { useState } from 'react'
 import DynamicTable from './DynamicTable'
-import DocumentSelector from './DocumentSelector'
 import { handleAPICall } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
@@ -139,32 +138,27 @@ export type ExtraFields = {
 
 interface TestCardProps {
   test: TestCaseFields
-  hostname: string
-  email: string
-  username: string
-  password: string
-  tlsRequired: boolean
+  hostname?: string
+  email?: string
+  username?: string
+  password?: string
+  tlsRequired?: boolean
 }
 
-interface SelectedDocument {
-  directory: string
-  fileName: string
-  fileLink: string
-}
-
-const TestCard = ({ test, hostname, email, username, password, tlsRequired }: TestCardProps) => {
+const TestCard = ({
+  test,
+  hostname = 'defaultHostname',
+  email = 'defaultEmail',
+  username = 'defaultUsername',
+  password = 'defaultPassword',
+  tlsRequired = false,
+}: TestCardProps) => {
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testRequestResponses, setTestRequestResponses] = useState<string>('')
   const [showLogs, setShowLogs] = useState(false)
-  const [showDocumentSelector, setShowDocumentSelector] = useState(false)
 
-  const handleDocumentConfirm = (selectedData: SelectedDocument) => {
-    console.log('Confirmed Document', selectedData)
-    setDocumentDetails(selectedData)
-    setShowDocumentSelector(false)
-  }
-  const [documentDetails, setDocumentDetails] = useState<{
+  const [documentDetails] = useState<{
     directory: string
     fileName: string
     fileLink: string
@@ -222,10 +216,6 @@ const TestCard = ({ test, hostname, email, username, password, tlsRequired }: Te
       return <CancelIcon style={{ color: 'red' }} />
     }
     return null
-  }
-
-  const toggleDocumentSelector = () => {
-    setShowDocumentSelector(!showDocumentSelector)
   }
 
   const handleToggleLogs = () => {

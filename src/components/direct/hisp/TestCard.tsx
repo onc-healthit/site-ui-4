@@ -72,11 +72,11 @@ export type ExtraFields = {
 
 interface TestCardProps {
   test: TestCaseFields
-  hostname: string
-  email: string
-  username: string
-  password: string
-  tlsRequired: boolean
+  hostname?: string
+  email?: string
+  username?: string
+  password?: string
+  tlsRequired?: boolean
 }
 
 interface SelectedDocument {
@@ -85,7 +85,14 @@ interface SelectedDocument {
   fileLink: string
 }
 
-const TestCard = ({ test, hostname, email, username, password, tlsRequired }: TestCardProps) => {
+const TestCard = ({
+  test,
+  hostname = 'defaultHostname',
+  email = 'defaultEmail',
+  username = 'defaultUsername',
+  password = 'defaultPassword',
+  tlsRequired = false,
+}: TestCardProps) => {
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testRequestResponses, setTestRequestResponses] = useState<string>('')
