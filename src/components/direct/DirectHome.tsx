@@ -207,24 +207,34 @@ const DirectHome = () => {
             cardImage={publicCert}
             cardHeader={'ETT Public Cert'}
             description={`The ETT Public Cert is used for signing Direct messages, allowing you to test your system's ability to validate and trust the ETT as a message sender.`}
+            href={
+              'https://github.com/onc-healthit/ett/raw/resources/certificates/ett.healthit.gov/ett.healthit.gov.der'
+            }
           />
           <CertificateCard
             title={'Trust Anchor'}
             cardImage={trustAnchor}
             cardHeader={'Trust Anchor'}
             description={`The Trust Anchor establishes a trusted relationship between your HISP and the ETT by linking the certificate authority's (CA) certificate to the ETT's HISP certificates`}
+            href={
+              'https://github.com/onc-healthit/ett/raw/resources/certificates/ett.healthit.gov/intermediate.healthit.gov.der'
+            }
           />
           <CertificateCard
             title={'Invalid Trust Achor'}
             cardImage={invalidTrustAnchor}
             cardHeader={'Invalid Trust Anchor'}
             description={`The Invalid Trust Anchor simulates an incorrect association between the CA's certificate and the ETT, enabling you to test your system's handling of invalid trust relationships in negative testing scenarios.`}
+            href={
+              'https://github.com/onc-healthit/ett/raw/resources/certificates/common/sitenv.org/invalid_trust_rel.direct.sitenv.org_ca.der'
+            }
           />
           <CertificateCard
             title={'Root CA'}
             cardImage={rootCA}
             cardHeader={'Public Root CA'}
             description={`The ETT Public Root CA is a self-signed certificate that identifies the trusted authority responsible for issuing certificates, allowing you to verify the authenticity of the Trust Anchor and the ETT's HISP certificate.`}
+            href={'https://github.com/onc-healthit/ett/raw/resources/certificates/ett.healthit.gov/healthit.gov.der'}
           />
         </Box>
       </Container>
