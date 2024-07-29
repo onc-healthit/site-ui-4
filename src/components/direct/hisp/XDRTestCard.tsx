@@ -15,10 +15,14 @@ import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
 import _ from 'lodash'
 import React, { useState } from 'react'
 import DynamicTable from './DynamicTable'
+import DocumentSelector from './DocumentSelector'
+import { handleAPICall } from '../test-by-criteria/ServerActions'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import CancelIcon from '@mui/icons-material/Cancel'
 
 export type TestCaseFields = {
   name?: string
-  id?: string | number
+  id: string | number
   protocol?: string
   desc?: string
   sutEdge?: boolean
@@ -26,6 +30,7 @@ export type TestCaseFields = {
   sutRole?: string
   criteria?: string
   status?: string
+  ccdaFileRequired?: boolean
   inputs?: InputFields[]
   moreInfo?: {
     subHeader?: string
@@ -74,9 +79,6 @@ export type TableCellData = {
   isChecked?: boolean
 }
 
-export interface TestCardProps {
-  test: TestCaseFields
-}
 interface StepTextProps {
   inputs: InputFields[]
   role?: string
@@ -135,8 +137,38 @@ export type ExtraFields = {
   render?: (value: FieldValue) => JSX.Element
 }
 
-const TestCard = ({ test }: TestCardProps) => {
+interface TestCardProps {
+  test: TestCaseFields
+  hostname: string
+  email: string
+  username: string
+  password: string
+  tlsRequired: boolean
+}
+
+interface SelectedDocument {
+  directory: string
+  fileName: string
+  fileLink: string
+}
+
+const TestCard = ({ test, hostname, email, username, password, tlsRequired }: TestCardProps) => {
   const [showDetail, setShowDetail] = useState(false)
+  const [criteriaMet, setCriteriaMet] = useState<string>('')
+  const [testRequestResponses, setTestRequestResponses] = useState<string>('')
+  const [showLogs, setShowLogs] = useState(false)
+  const [showDocumentSelector, setShowDocumentSelector] = useState(false)
+
+  const handleDocumentConfirm = (selectedData: SelectedDocument) => {
+    console.log('Confirmed Document', selectedData)
+    setDocumentDetails(selectedData)
+    setShowDocumentSelector(false)
+  }
+  const [documentDetails, setDocumentDetails] = useState<{
+    directory: string
+    fileName: string
+    fileLink: string
+  } | null>(null)
   const [formData, setFormData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
     test.moreInfo?.fields?.forEach((field) => {
@@ -145,12 +177,67 @@ const TestCard = ({ test }: TestCardProps) => {
     return initialData
   })
 
-  const handleToggleDetail = () => {
-    setShowDetail((prev) => !prev)
-  }
-
   const handleChange = (name: string, value: FieldValue) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleRunTest = async () => {
+    if (test.ccdaFileRequired && !documentDetails) {
+      alert('This test requires a CCDA document to be selected. Please select a document before running the test.')
+    } else {
+      try {
+        const response = await handleAPICall({
+          testCaseNumber: test.id,
+          sutSmtpAddress: hostname,
+          sutEmailAddress: email,
+          useTLS: tlsRequired,
+          sutCommandTimeoutInSeconds: 0,
+          sutUserName: username,
+          sutPassword: password,
+          tttUserName: '',
+          tttPassword: '',
+          startTlsPort: 0,
+          status: '',
+          ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
+          ccdaValidationObjective: documentDetails ? documentDetails.directory : '',
+          ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
+          cures: true,
+          year: '2021',
+          hostingcase: 'YES',
+        })
+        setCriteriaMet(response.criteriaMet)
+        setTestRequestResponses(JSON.stringify(response.testRequestResponses, null, 2))
+        console.log('Criteria met: ', response.criteriaMet)
+        console.log('Test Request Responses:', response.testRequestResponses)
+      } catch (error) {
+        console.error('Failed to run test:', error)
+      }
+    }
+  }
+
+  const renderCriteriaMetIcon = () => {
+    if (criteriaMet === 'TRUE') {
+      return <CheckCircleIcon style={{ color: 'green' }} />
+    } else if (criteriaMet === 'FALSE') {
+      return <CancelIcon style={{ color: 'red' }} />
+    }
+    return null
+  }
+
+  const toggleDocumentSelector = () => {
+    setShowDocumentSelector(!showDocumentSelector)
+  }
+
+  const handleToggleLogs = () => {
+    console.log('Current state before toggle:', showLogs)
+    setShowLogs((prev) => !prev)
+    console.log('Toggling logs view.')
+  }
+
+  const handleToggleDetail = () => {
+    console.log('Current state before toggle:', showDetail)
+    setShowDetail((prev) => !prev)
+    console.log('Toggling details view.')
   }
 
   const renderMoreInfo = () => {
@@ -212,6 +299,21 @@ const TestCard = ({ test }: TestCardProps) => {
       <CardContent>
         {showDetail ? (
           renderMoreInfo()
+        ) : showLogs ? (
+          <CardContent>
+            <Typography variant="h6">Test Logs</Typography>
+            {testRequestResponses ? (
+              <Typography variant="body1" style={{ whiteSpace: 'pre-wrap' }}>
+                {testRequestResponses}
+              </Typography>
+            ) : (
+              <Typography variant="body1">No logs to display.</Typography>
+            )}
+            <Divider sx={{ mb: 2, mt: 2 }} />
+            <Button variant="contained" onClick={handleToggleLogs}>
+              Close Logs
+            </Button>
+          </CardContent>
         ) : (
           <>
             <CardContent>
@@ -278,13 +380,14 @@ const TestCard = ({ test }: TestCardProps) => {
               )}
 
               <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 1, pl: 2 }}>
-                <Button variant="contained" color="primary">
+                {renderCriteriaMetIcon()}
+                <Button variant="contained" color="primary" onClick={handleRunTest}>
                   RUN
                 </Button>
                 <Button variant="contained" onClick={handleToggleDetail}>
                   MORE INFO
                 </Button>
-                <Button variant="contained" color="inherit">
+                <Button variant="contained" color="inherit" onClick={handleToggleLogs}>
                   LOGS
                 </Button>
               </Box>
