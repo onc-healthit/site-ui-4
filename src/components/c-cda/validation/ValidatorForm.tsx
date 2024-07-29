@@ -62,6 +62,7 @@ export default function ValidatorForm({
   const [data, submitAction] = useFormState(formAction, { response: {} })
   const [estimatedValidationTime, setEstimatedValidationTime] = useState(5)
   const [fileName, setFileName] = useState('')
+  const [hideScenario, setHideScenario] = useState(false)
   useEffect(() => {
     if (_.isEqual(system, 'Sender')) {
       setCriteriaOptions(senderCriteriaOptions)
@@ -69,11 +70,13 @@ export default function ValidatorForm({
     if (_.isEqual(system, 'Receiver')) {
       setCriteriaOptions(receiverCriteriaOptions)
     }
-    if (!_.isEmpty(system) && !_.isEmpty(criteriaOption) && !_.isEmpty(scenarioOption)) {
-      setDisableValidate(false)
-    }
+
     if (_.isEqual(criteriaOption, 'C-CDA_IG_Only') || _.isEqual(criteriaOption, 'C-CDA_IG_Plus_Vocab')) {
-      setScenarioOption('Readme.txt')
+      setHideScenario(true)
+    }
+
+    if (!_.isEmpty(system) && !_.isEmpty(criteriaOption) && (!_.isEmpty(scenarioOption) || hideScenario)) {
+      setDisableValidate(false)
     }
     if (criteriaOption.includes('IG_Only')) {
       setEstimatedValidationTime(5)
@@ -82,7 +85,7 @@ export default function ValidatorForm({
     } else {
       setEstimatedValidationTime(60)
     }
-  }, [criteriaOption, receiverCriteriaOptions, scenarioOption, senderCriteriaOptions, system])
+  }, [criteriaOption, hideScenario, receiverCriteriaOptions, scenarioOption, senderCriteriaOptions, system])
 
   const handleCriteriaChange = (e: SelectChangeEvent) => {
     setCriteriaOption(e.target.value)
@@ -90,6 +93,9 @@ export default function ValidatorForm({
     getScenarioOptions(selectedCriteria[0].url).then((data) => {
       setScenarioOptions(data)
     })
+    if (!(_.isEqual(e.target.value, 'C-CDA_IG_Only') || _.isEqual(e.target.value, 'C-CDA_IG_Plus_Vocab'))) {
+      setHideScenario(false)
+    }
   }
 
   const handleScenarioChange = (e: SelectChangeEvent) => {
@@ -103,6 +109,7 @@ export default function ValidatorForm({
     setSystem(e.target.value)
     setCriteriaOption('')
     setScenarioOption('')
+    setHideScenario(false)
     setDisableValidate(true)
   }
   const getFileName = (data: File[]) => {
@@ -161,25 +168,27 @@ export default function ValidatorForm({
           </Box>
 
           {/* Scenario Selection */}
-          <Box sx={{ pt: 3 }}>
-            <FormControl fullWidth>
-              <InputLabel id="uscdi-v3-full-criteria-input-label">Select scenario file</InputLabel>
-              <Select
-                id="uscdi-v3-full-scenario-select"
-                label="Select scenario file"
-                labelId="uscdi-v3-full-scenario-input-label"
-                value={scenarioOption}
-                name="referenceFileName"
-                onChange={handleScenarioChange}
-              >
-                {scenarioOptions.map((option) => (
-                  <MenuItem key={option.name} value={option.name}>
-                    {option.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
+          {!hideScenario && (
+            <Box sx={{ pt: 3 }}>
+              <FormControl fullWidth>
+                <InputLabel id="uscdi-v3-full-criteria-input-label">Select scenario file</InputLabel>
+                <Select
+                  id="uscdi-v3-full-scenario-select"
+                  label="Select scenario file"
+                  labelId="uscdi-v3-full-scenario-input-label"
+                  value={scenarioOption}
+                  name="referenceFileName"
+                  onChange={handleScenarioChange}
+                >
+                  {scenarioOptions.map((option) => (
+                    <MenuItem key={option.name} value={option.name}>
+                      {option.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          )}
 
           <Divider sx={{ pt: 4 }} />
 
@@ -198,10 +207,16 @@ export default function ValidatorForm({
               estimatedValidationTime={estimatedValidationTime}
               disabled={disableValidate}
               fileName={fileName}
+              criteria={criteriaOption}
             ></ValidationComponent>
             <Box>
               <Link href={downloadScenario} passHref style={{ textDecoration: 'none' }} target="_blank">
-                <Button id="download-selected-scenario-file" variant="outlined" sx={{ color: palette.primary }} disabled={disableDownloadSceario}>
+                <Button
+                  id="download-selected-scenario-file"
+                  variant="outlined"
+                  sx={{ color: palette.primary }}
+                  disabled={disableDownloadSceario}
+                >
                   DOWNLOAD SELECTED SCENARIO FILE
                 </Button>
               </Link>

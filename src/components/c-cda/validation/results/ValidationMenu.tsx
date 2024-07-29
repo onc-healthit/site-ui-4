@@ -15,6 +15,7 @@ interface ValidatorMenuProps {
   referenceWarningRef: React.RefObject<HTMLDivElement>
   referenceInfoRef: React.RefObject<HTMLDivElement>
   originalCCDARef: React.RefObject<HTMLDivElement>
+  criteria: string
 }
 export type ResultMetaData = {
   type: string
@@ -31,6 +32,7 @@ export interface ResultMetaDataProps {
   referenceErrorRef: React.RefObject<HTMLDivElement>
   referenceWarningRef: React.RefObject<HTMLDivElement>
   referenceInfoRef: React.RefObject<HTMLDivElement>
+  criteria: string
 }
 
 const ResultsSection = ({
@@ -44,6 +46,7 @@ const ResultsSection = ({
   referenceErrorRef,
   referenceInfoRef,
   referenceWarningRef,
+  criteria,
 }: ResultMetaDataProps) => {
   const ccdaMDHTConformanceMetaData = resultMetaData.filter((result) => result?.type.includes('C-CDA MDHT Conformance'))
 
@@ -62,20 +65,28 @@ const ResultsSection = ({
         warningRef={mdhtWarningRef}
         infoRef={mdhtInfoRef}
       />
-      <ValidatorMenuSection
-        resultMetaData={sccVocabularyMetaData}
-        title={'S&CC Vocabulary Validation Conformance'}
-        errorRef={vocabularyErrorRef}
-        warningRef={vocabularyWarningRef}
-        infoRef={vocabularyInfoRef}
-      />
-      <ValidatorMenuSection
-        resultMetaData={sccReferenceCCDAMetaData}
-        title={'S&CC Reference C-CDA Validation'}
-        errorRef={referenceErrorRef}
-        warningRef={referenceWarningRef}
-        infoRef={referenceInfoRef}
-      />
+      {!_.isEqual(criteria, 'C-CDA_IG_Only') && (
+        <>
+          <ValidatorMenuSection
+            resultMetaData={sccVocabularyMetaData}
+            title={'S&CC Vocabulary Validation Conformance'}
+            errorRef={vocabularyErrorRef}
+            warningRef={vocabularyWarningRef}
+            infoRef={vocabularyInfoRef}
+          />
+        </>
+      )}
+      {!(_.isEqual(criteria, 'C-CDA_IG_Only') || _.isEqual(criteria, 'C-CDA_IG_Plus_Vocab')) && (
+        <>
+          <ValidatorMenuSection
+            resultMetaData={sccReferenceCCDAMetaData}
+            title={'S&CC Reference C-CDA Validation'}
+            errorRef={referenceErrorRef}
+            warningRef={referenceWarningRef}
+            infoRef={referenceInfoRef}
+          />
+        </>
+      )}
     </>
   )
 }
@@ -92,6 +103,7 @@ const ValidatorMenu = ({
   referenceInfoRef,
   referenceWarningRef,
   originalCCDARef,
+  criteria,
 }: ValidatorMenuProps) => {
   const resultsMetaData = _.get(results, 'resultsMetaData')
   const resultMetaData = _.get(resultsMetaData, 'resultMetaData')
@@ -117,6 +129,7 @@ const ValidatorMenu = ({
             referenceErrorRef={referenceErrorRef}
             referenceWarningRef={referenceWarningRef}
             referenceInfoRef={referenceInfoRef}
+            criteria={criteria}
           />
         ) : null}
 

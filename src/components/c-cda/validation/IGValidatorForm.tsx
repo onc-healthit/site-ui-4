@@ -41,7 +41,12 @@ export default function IGValidatorForm({ version, formAction }: IGValidatorForm
 
         {/* Validate */}
         <Box sx={{ pt: 4 }}>
-          <ValidationComponent response={data?.response} estimatedValidationTime={15} fileName={fileName} />
+          <ValidationComponent
+            response={data?.response}
+            estimatedValidationTime={5}
+            fileName={fileName}
+            criteria="C-CDA_IG_Only"
+          />
         </Box>
       </form>
     </Container>
