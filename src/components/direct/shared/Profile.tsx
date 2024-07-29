@@ -9,14 +9,22 @@ const dropdown = [
 ]
 
 interface ProfileProps {
-  setHostname: (hostname: string) => void
-  setEmail: (email: string) => void
-  setUsername: (username: string) => void
-  setPassword: (password: string) => void
-  setTls: (tls: boolean) => void
+  setHostname?: (hostname: string) => void
+  setEmail?: (email: string) => void
+  setUsername?: (username: string) => void
+  setPassword?: (password: string) => void
+  setTls?: (tls: boolean) => void
 }
 
-const Profile: React.FC<ProfileProps> = ({ setHostname, setEmail, setUsername, setPassword, setTls }) => {
+const noop = () => {}
+
+const Profile: React.FC<ProfileProps> = ({
+  setHostname = noop,
+  setEmail = noop,
+  setUsername = noop,
+  setPassword = noop,
+  setTls = noop,
+}) => {
   return (
     <Box component="form" sx={{ backgroundColor: palette.white }}>
       <TextField
