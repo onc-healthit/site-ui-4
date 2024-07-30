@@ -26,14 +26,33 @@ interface APICallData {
   targetEndpointTLS?: string
   outgoing_from?: string
 }
+export interface FileDetail {
+  svap: boolean
+  cures: boolean
+  name: string
+  link: string
+  uscdiv3: boolean
+}
 
+export interface Directory {
+  name: string
+  dirs: Directory[]
+  files: FileDetail[]
+}
+
+export interface Documents {
+  [key: string]: {
+    dirs: Directory[]
+    files: FileDetail[]
+  }
+}
 interface APIResponse {
   criteriaMet: string
   testRequestResponses: string
 }
 
 export async function handleAPICall(data: APICallData): Promise<APIResponse> {
-  const apiUrl = 'https://ett.healthit.gov/ett/api/smtpTestCases'
+  const apiUrl = process.env.TEST_BY_CRITERIA_ENDPOINT
   const config = {
     method: 'post',
     url: apiUrl,
@@ -55,6 +74,22 @@ export async function handleAPICall(data: APICallData): Promise<APIResponse> {
     } else {
       console.error('Error Message:')
     }
+    throw error
+  }
+}
+
+export async function fetchCCDADocuments(): Promise<Documents> {
+  const apiUrl = process.env.CCDA_DOCUMENTS
+  const config = {
+    method: 'get',
+    url: apiUrl,
+    headers: { 'Content-Type': 'application/json' },
+  }
+  try {
+    const response = await axios(config)
+    return response.data // Assuming the data is in the format expected by DocumentSelector
+  } catch (error) {
+    console.error('Error fetching CCDA documents:', error)
     throw error
   }
 }

@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useState, useEffect } from 'react'
-import axios from 'axios'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
@@ -14,6 +13,7 @@ import DialogActions from '@mui/material/DialogActions'
 import { SelectChangeEvent } from '@mui/material/Select'
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
+import { fetchCCDADocuments } from '../test-by-criteria/ServerActions'
 
 interface DocumentSelectorProps {
   onConfirm: (selectedData: { directory: string; fileName: string; fileLink: string }) => void
@@ -28,15 +28,10 @@ const DocumentSelector = ({ onConfirm, onClose }: DocumentSelectorProps) => {
   const [selectedFile, setSelectedFile] = useState<string>('')
 
   useEffect(() => {
-    axios
-      .get('https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType=')
-      .then((response) => {
-        setDocuments(response.data)
-      })
-      .catch((error) => {
-        console.error('Error fetching documents:', error)
-      })
-  }, [])
+    if (selectedType) {
+      fetchCCDADocuments().then(setDocuments).catch(console.error)
+    }
+  }, [selectedType])
 
   interface FileDetail {
     svap: boolean
