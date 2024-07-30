@@ -15,8 +15,8 @@ import XDRTestCard from '../hisp/XDRTestCard'
 import TestCard from '../hisp/TestCard'
 import palette from '@/styles/palette'
 import React, { useState } from 'react'
-import testCases from '../hisp/data/SMTPTestCases'
-import xdrTestCases from '../hisp/data/XDRTestCases'
+import testCases from '../../../assets/SMTPTestCases'
+import xdrTestCases from '../../../assets/XDRTestCases'
 
 const B1Component = () => {
   const [option, setOption] = useState('')
