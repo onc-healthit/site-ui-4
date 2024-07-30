@@ -101,7 +101,10 @@ const CertificateList = ({ certificateFields }: CertificateListProps) => {
                       <List key={i} sx={bulletedList('square')}>
                         {_.has(l, 'Type') && <CustomListItem name={'Type'} value={l.Type || ''} />}
                         {_.has(l, 'Mail_Address') && (
-                          <CustomListItem name={'Mail Address'} value={l.Mail_Address || ''} />
+                          <CustomListItem
+                            name={'Mail Address'}
+                            value={l.Mail_Address?.replace('dcdt30prod.sitenv.org', 'dcdt30.healthit.gov') || ''}
+                          />
                         )}
                         {_.has(l, 'Host') && <CustomListItem name={'Host'} value={l.Host || ''} />}
                         {_.has(l, 'Port') && <CustomListItem name={'Port'} value={l.Port || ''} />}
@@ -212,7 +215,7 @@ const TestCasePanel = ({ testCaseFields }: TestCasePanelProps) => {
         {_.has(testCaseFields[0], 'Target_Certificate') && (
           <Box>
             <Typography variant="body2">
-              <strong>Target Certificate(s)</strong>
+              <strong>Target Certificate(s):</strong>
             </Typography>
             <CertificateList certificateFields={testCaseFields[0].Target_Certificate || []} />
           </Box>
@@ -220,7 +223,7 @@ const TestCasePanel = ({ testCaseFields }: TestCasePanelProps) => {
         {_.has(testCaseFields[0], 'Background_Certificate') && (
           <Box>
             <Typography variant="body2">
-              <strong>Background Certificate(s)</strong>
+              <strong>Background Certificate(s):</strong>
             </Typography>
             <CertificateList certificateFields={testCaseFields[0].Background_Certificate || []} />
           </Box>
