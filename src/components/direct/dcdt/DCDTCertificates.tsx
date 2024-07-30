@@ -47,7 +47,7 @@ const DCDTCertificates = () => {
       setResultsAddress(value)
     }
   }
-
+  const dcdtDomain = 'dcdt31.healthit.gov'
   return (
     <Box>
       <Typography variant="body1">
@@ -143,7 +143,7 @@ const DCDTCertificates = () => {
             <>
               <Typography variant="h4" p={2} pl={0}>
                 <strong>Direct Address: </strong>
-                {discoverCase[0].Direct_address_2015}
+                {discoverCase[0].Direct_address_2015?.replace('dcdt31prod.sitenv.org', dcdtDomain)}
               </Typography>
               <TestCasePanel testCaseFields={discoverCase} />
             </>

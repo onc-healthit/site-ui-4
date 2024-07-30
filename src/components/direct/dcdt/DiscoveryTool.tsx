@@ -61,11 +61,11 @@ const DiscoveryTool = () => {
             Discovery Tool
           </Link>,
         ]}
-        heading={'2015 Direct Certificate Discovery Tool'}
+        heading={'Direct Certificate Discovery Tool'}
         description={
           <>
-            The 2015 Direct Certificate Discovery Tool (DCDT) was created to support automated testing of systems that
-            plan to enact the Certificate Discovery and Provider Directory Implementation Guide, approved as normative
+            The Direct Certificate Discovery Tool (DCDT) was created to support automated testing of systems that plan
+            to enact the Certificate Discovery and Provider Directory Implementation Guide, approved as normative
             specification by the Direct community, as of July 9, 2012. It is based on the written test package and
             requirement traceability matrix created by the Modular Specifications project under the direction of the
             Office of the National Coordinator (ONC) and National Institute of Standards and Technology (NIST).
