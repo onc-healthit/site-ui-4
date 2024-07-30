@@ -7,7 +7,24 @@ const dropdown = [
     label: 'Default Profile',
   },
 ]
-const Profile = () => {
+
+interface ProfileProps {
+  setHostname?: (hostname: string) => void
+  setEmail?: (email: string) => void
+  setUsername?: (username: string) => void
+  setPassword?: (password: string) => void
+  setTls?: (tls: boolean) => void
+}
+
+const noop = () => {}
+
+const Profile: React.FC<ProfileProps> = ({
+  setHostname = noop,
+  setEmail = noop,
+  setUsername = noop,
+  setPassword = noop,
+  setTls = noop,
+}) => {
   return (
     <Box component="form" sx={{ backgroundColor: palette.white }}>
       <TextField
@@ -33,6 +50,7 @@ const Profile = () => {
             helperText="helper text"
             defaultValue="test"
             required
+            onChange={(e) => setHostname(e.target.value)}
           />
           <TextField
             fullWidth
@@ -41,6 +59,7 @@ const Profile = () => {
             helperText="helper text"
             defaultValue="test"
             required
+            onChange={(e) => setEmail(e.target.value)}
           />
         </Box>
         <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} gap={2}>
@@ -51,6 +70,7 @@ const Profile = () => {
             helperText="helper text"
             defaultValue="test"
             required
+            onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
             fullWidth
@@ -59,11 +79,12 @@ const Profile = () => {
             helperText="helper text"
             defaultValue="test"
             required
+            onChange={(e) => setPassword(e.target.value)}
           />
         </Box>
         <FormGroup sx={{ width: '50%' }}>
           <FormControlLabel
-            control={<Switch color="secondary" defaultChecked />}
+            control={<Switch color="secondary" defaultChecked onChange={(e) => setTls(e.target.checked)} />}
             label="TLS REQUIRED"
             name="tlsRequired"
           />
