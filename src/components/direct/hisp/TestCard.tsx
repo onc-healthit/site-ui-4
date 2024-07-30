@@ -175,15 +175,11 @@ const TestCard = ({
   }
 
   const handleToggleLogs = () => {
-    console.log('Current state before toggle:', showLogs)
     setShowLogs((prev) => !prev)
-    console.log('Toggling logs view.')
   }
 
   const handleToggleDetail = () => {
-    console.log('Current state before toggle:', showDetail)
     setShowDetail((prev) => !prev)
-    console.log('Toggling details view.')
   }
 
   return (
