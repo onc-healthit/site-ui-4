@@ -157,6 +157,7 @@ const TestCard = ({
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testRequestResponses, setTestRequestResponses] = useState<string>('')
   const [showLogs, setShowLogs] = useState(false)
+  const [fieldValues, setFieldValues] = useState<{ [key: string]: string }>({})
 
   const [documentDetails] = useState<{
     directory: string
@@ -171,14 +172,26 @@ const TestCard = ({
     return initialData
   })
 
-  const handleChange = (name: string, value: FieldValue) => {
-    setFormData((prev) => ({ ...prev, [name]: value }))
+  const handleChange = (key: string | undefined, value: string) => {
+    if (key) {
+      setFieldValues((prev) => ({
+        ...prev,
+        [key]: value,
+      }))
+    }
   }
 
   const handleRunTest = async () => {
     if (test.ccdaFileRequired && !documentDetails) {
       alert('This test requires a CCDA document to be selected. Please select a document before running the test.')
     } else {
+      const ip_address = fieldValues['ip_address'] || ''
+      const port = fieldValues['port'] || ''
+      const direct_to = fieldValues['direct_to'] || ''
+      const direct_from = fieldValues['direct_from'] || ''
+      const targetEndpointTLS = fieldValues['targetEndpointTLS'] || ''
+      const outgoing_from = fieldValues['outgoing_from'] || ''
+      console.log('direct from: ', direct_from)
       try {
         const response = await handleAPICall({
           testCaseNumber: test.id,
@@ -198,6 +211,12 @@ const TestCard = ({
           cures: true,
           year: '2021',
           hostingcase: 'YES',
+          ip_address,
+          port,
+          direct_to,
+          direct_from,
+          targetEndpointTLS,
+          outgoing_from,
         })
         setCriteriaMet(response.criteriaMet)
         setTestRequestResponses(JSON.stringify(response.testRequestResponses, null, 2))
@@ -318,16 +337,20 @@ const TestCard = ({
               )}
               {_.has(test, 'inputs') &&
                 test.inputs !== undefined &&
-                test.inputs.map((input) => {
-                  return (
-                    <Box sx={flexColumnStyle} key={input.key}>
-                      <FormControl fullWidth>
-                        <TextField fullWidth id="card-input" label={input.name} variant="outlined" />
-                        <FormHelperText>{input.hoverlabel}</FormHelperText>
-                      </FormControl>
-                    </Box>
-                  )
-                })}
+                test.inputs?.map((input) => (
+                  <Box key={input.key || 'default-key'}>
+                    <FormControl fullWidth>
+                      <TextField
+                        fullWidth
+                        label={input.name}
+                        variant="outlined"
+                        value={input.key ? fieldValues[input.key] || '' : ''}
+                        onChange={(e) => input.key && handleChange(input.key, e.target.value)}
+                        helperText={input.hoverlabel}
+                      />
+                    </FormControl>
+                  </Box>
+                ))}
             </CardContent>
             <Divider />
 

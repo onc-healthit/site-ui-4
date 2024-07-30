@@ -19,6 +19,12 @@ interface APICallData {
   cures: boolean
   year: string
   hostingcase: string
+  ip_address?: string
+  port?: string
+  direct_to?: string
+  direct_from?: string
+  targetEndpointTLS?: string
+  outgoing_from?: string
 }
 
 interface APIResponse {
