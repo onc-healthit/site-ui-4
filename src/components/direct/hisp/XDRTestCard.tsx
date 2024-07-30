@@ -1,15 +1,4 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  TextField,
-  Typography,
-  FormControl,
-  FormHelperText,
-} from '@mui/material'
+import { Box, Button, Card, CardContent, CardHeader, Divider, TextField, Typography, FormControl } from '@mui/material'
 
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
 import _ from 'lodash'
@@ -93,12 +82,6 @@ const handleClick = (link: string) => {
       alert('Failed to copy link. Please try again.')
     })
 }
-const flexColumnStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-  pt: 2,
-}
 
 const senderText = 'Hit Run to generate your endpoint.'
 const receiverText = 'Hit Run to send a XDR message.'
@@ -164,7 +147,7 @@ const TestCard = ({
     fileName: string
     fileLink: string
   } | null>(null)
-  const [formData, setFormData] = useState<{ [key: string]: FieldValue }>(() => {
+  const [formData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
     test.moreInfo?.fields?.forEach((field) => {
       initialData[field.name] = field.value
