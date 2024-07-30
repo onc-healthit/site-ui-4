@@ -174,7 +174,6 @@ const TestCard = ({
       const direct_from = fieldValues['direct_from'] || ''
       const targetEndpointTLS = fieldValues['targetEndpointTLS'] || ''
       const outgoing_from = fieldValues['outgoing_from'] || ''
-      console.log('direct from: ', direct_from)
       try {
         const response = await handleAPICall({
           testCaseNumber: test.id,
@@ -221,15 +220,11 @@ const TestCard = ({
   }
 
   const handleToggleLogs = () => {
-    console.log('Current state before toggle:', showLogs)
     setShowLogs((prev) => !prev)
-    console.log('Toggling logs view.')
   }
 
   const handleToggleDetail = () => {
-    console.log('Current state before toggle:', showDetail)
     setShowDetail((prev) => !prev)
-    console.log('Toggling details view.')
   }
 
   const renderMoreInfo = () => {
