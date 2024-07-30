@@ -12,6 +12,8 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import DialogActions from '@mui/material/DialogActions'
 import { SelectChangeEvent } from '@mui/material/Select'
+import Divider from '@mui/material/Divider'
+import Typography from '@mui/material/Typography'
 
 interface DocumentSelectorProps {
   onConfirm: (selectedData: { directory: string; fileName: string; fileLink: string }) => void
@@ -94,19 +96,21 @@ const DocumentSelector = ({ onConfirm, onClose }: DocumentSelectorProps) => {
   const directories = documents[documentType]?.dirs || []
   const files = directories.find((dir) => dir.name === selectedDirectory)?.files || []
 
-  interface DocumentFiles {
-    dirs: Array<{ name: string; dirs: Directory[]; files: FileDetail[] }>
-    files: Array<{ svap: boolean; cures: boolean; name: string; link: string; uscdiv3: boolean }>
-  }
-
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Select A C-CDA Document Type</DialogTitle>
+      <DialogTitle sx={{ fontSize: '1.5rem' }}>Select A C-CDA Document Type</DialogTitle>
+      <Divider sx={{ my: 0 }} />
       <DialogContent>
+        <Typography variant="body1" gutterBottom>
+          First select a message format. It can be one or both formats.
+        </Typography>
         <RadioGroup row value={selectedType} onChange={handleTypeChange}>
           <FormControlLabel value="cures" control={<Radio />} label="Cures" />
           <FormControlLabel value="svap" control={<Radio />} label="SVAP" />
         </RadioGroup>
+        <Typography variant="body1" sx={{ mb: 2, mt: 1 }} gutterBottom>
+          Then select a document. You can search within the field below to find your file.
+        </Typography>
         <Select
           fullWidth
           value={selectedDirectory}
@@ -120,7 +124,17 @@ const DocumentSelector = ({ onConfirm, onClose }: DocumentSelectorProps) => {
             </MenuItem>
           ))}
         </Select>
-        <TextField fullWidth select label="Reference Filename" value={selectedFile} onChange={handleFileChange}>
+        <Typography variant="body2" sx={{ fontSize: '.75rem', mb: 2, ml: 2, mt: 0.5, color: 'gray' }} gutterBottom>
+          Then select a document. You can search within the field below to find your file.
+        </Typography>
+        <TextField
+          fullWidth
+          select
+          label="Reference Filename"
+          value={selectedFile}
+          onChange={handleFileChange}
+          helperText="Select validation objective first, then you will be able to select from the given list"
+        >
           {files.map((file) => (
             <MenuItem key={file.name} value={file.link}>
               {file.name}
@@ -128,6 +142,7 @@ const DocumentSelector = ({ onConfirm, onClose }: DocumentSelectorProps) => {
           ))}
         </TextField>
       </DialogContent>
+      <Divider sx={{ my: 0 }} />
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
         <Button onClick={handleConfirm} color="primary">
