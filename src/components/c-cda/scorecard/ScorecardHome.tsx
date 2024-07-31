@@ -62,6 +62,7 @@ export default function ScorecardHome() {
       value: 'sampleWithErrors.json',
     },
   ]
+
   const newDemoSampleOptions: { label: string; value: string }[] = [
     {
       label: 'Sample with IG Errors',
@@ -72,6 +73,8 @@ export default function ScorecardHome() {
       value: 'sampleWithVocabularyErrors.json',
     },
   ]
+  demoSampleOptions.push(...newDemoSampleOptions)
+
   const debugSampleOptions: { label: string; value: string }[] = [
     {
       label: 'Schema Errors',
@@ -81,8 +84,19 @@ export default function ScorecardHome() {
       label: 'No Content',
       value: 'sampleWithoutAnyContent.json',
     },
+    {
+      label: 'SITE 3 High Scoring Sample',
+      value: 'site3-highScoringSample.json',
+    },
+    {
+      label: 'SITE 3 Low Scoring Sample',
+      value: 'site3-lowScoringSample.json',
+    },
+    {
+      label: 'SITE 3 Sample With Errors',
+      value: 'site3-sampleWithErrors.json',
+    },
   ]
-  demoSampleOptions.push(...newDemoSampleOptions)
   // TODO: Tie this to a debug mode env var (if true, push, otherwise, don't, as we don't need these in production)
   demoSampleOptions.push(...debugSampleOptions)
 

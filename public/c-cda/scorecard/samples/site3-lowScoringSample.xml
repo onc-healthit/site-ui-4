@@ -2,22 +2,23 @@
 <?xml-stylesheet type="text/xsl" href="CDA.xsl"?>
 <!--
  Title:        Continuity of Care Document (CCD)
- Filename:     C-CDA_R2_CCD.xml (modified)
+ Filename:     C-CDA_R2_CCD.xml (modified) 
  Created by:   Lantana Consulting Group, LLC
-
- 2024-07 AM: -Validated against Scorecard in SITE 3 & updated it to fit the relevant sample name
- 2018-02-09 DB: -Loosely modified from R2.0 (not R2.1) to R1.1 and removed conformance errors
- 2017-03-24-DB: -Modified (by MN) to get a lower score to be represented as lowScoringSample.xml for the ONC SITE C-CDA Scorecard application
-                -Note: Direct previous filename was C-CDA_R2_CCD-Test-sample-Modified - Medications.xml
-
+ 
+ $LastChangedDate: 2014-11-12 23:25:09 -0500 (Wed, 12 Nov 2014) $
+  
  ********************************************************
- Disclaimer: This sample file contains representative data elements to represent a Continuity of Care Document (CCD).
- The file depicts a fictional character's health data. Any resemblance to a real person is coincidental.
- To illustrate as many data elements as possible, the clinical scenario may not be plausible.
- The data in this sample file is not intended to represent real patients, people or clinical events.
+ Disclaimer: This sample file contains representative data elements to represent a Continuity of Care Document (CCD). 
+ The file depicts a fictional character's health data. Any resemblance to a real person is coincidental. 
+ To illustrate as many data elements as possible, the clinical scenario may not be plausible. 
+ The data in this sample file is not intended to represent real patients, people or clinical events. 
  This sample is designed to be used in conjunction with the C-CDA Clinical Notes Implementation Guide.
  ********************************************************
-
+ 
+ 2017-03-24-DB: -Modified (by MN) to get a lower score to be represented as lowScoringSample.xml for the ONC SITE C-CDA Scorecard application
+                -Note: Direct previous filename was C-CDA_R2_CCD-Test-sample-Modified - Medications.xml
+ 2018-02-09 DB: -Loosely modified from R2.0 (not R2.1) to R1.1 and removed conformance errors
+ 
  -->
 <ClinicalDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="C:\XML\CDA_SDTC_Schema\infrastructure\cda\CDA_SDTC.xsd" xmlns="urn:hl7-org:v3"
   xmlns:voc="urn:hl7-org:v3/voc" xmlns:sdtc="urn:hl7-org:sdtc">
@@ -55,18 +56,18 @@
       </addr>
       <telecom value="tel:+1(555)555-2003" use="HP" />
       <!-- HP is "primary home" from HL7 AddressUse 2.16.840.1.113883.5.1119 -->
-
+      
       <patient>
-
+       
         <name use="L">
           <given>Eve</given>
           <given qualifier="SP">BirthName</given>
           <family qualifier="SP">Betterhalf</family>
         </name>
-
+       
         <name use="SRCH">
           <given>Eve</given>
-
+          
           <family qualifier="BR">Everywoman</family>
         </name>
         <administrativeGenderCode code="F" displayName="Female" codeSystem="2.16.840.1.113883.5.1"
@@ -77,7 +78,7 @@
           codeSystemName="MaritalStatusCode" />
         <religiousAffiliationCode code="1013" displayName="Christian (non-Catholic, non-specific)"
           codeSystem="2.16.840.1.113883.5.1076" codeSystemName="HL7 Religious Affiliation" />
-        <!-- CDC Race and Ethnicity code set contains the five minimum race and ethnicity
+        <!-- CDC Race and Ethnicity code set contains the five minimum race and ethnicity 
 					categories defined by OMB Standards -->
         <raceCode code="2106-3" displayName="White" codeSystem="2.16.840.1.113883.6.238"
           codeSystemName="Race &amp; Ethnicity - CDC" />
@@ -86,7 +87,7 @@
           codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC" />
         <ethnicGroupCode code="2186-5" displayName="Not Hispanic or Latino" codeSystem="2.16.840.1.113883.6.238"
           codeSystemName="Race &amp; Ethnicity - CDC" />
-
+       
         <birthplace>
           <place>
             <addr>
@@ -427,14 +428,14 @@
   </participant>
   <documentationOf>
     <serviceEvent classCode="PCPR">
-      <!-- The effectiveTime reflects the provision of care summarized in the document.
+      <!-- The effectiveTime reflects the provision of care summarized in the document. 
 				In this scenario, the provision of care summarized is the lifetime for the patient -->
       <effectiveTime>
         <low value="19750501" />
-        <!-- The low value represents when the summarized provision of care began.
+        <!-- The low value represents when the summarized provision of care began. 
 					In this scenario, the patient's date of birth -->
         <high value="20130815" />
-        <!-- The high value represents when the summarized provision of care being ended.
+        <!-- The high value represents when the summarized provision of care being ended. 
 					In this scenario, when chart summary was created -->
       </effectiveTime>
       <performer typeCode="PRF">
@@ -729,7 +730,7 @@
                       <entryRelationship typeCode="SUBJ" inversionInd="true">
                         <observation classCode="OBS" moodCode="EVN">
                           <!-- ** Severity observation ** -->
-                          <!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy.
+                          <!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy. 
 														 When the Severity Observation is associated with a Reaction Observation it characterizes a Reaction. -->
                           <templateId root="2.16.840.1.113883.10.20.22.4.8"  />
                           <code code="SEV" displayName="Severity Observation" codeSystem="2.16.840.1.113883.5.4"
@@ -746,7 +747,7 @@
               <entryRelationship typeCode="SUBJ" inversionInd="true">
                 <observation classCode="OBS" moodCode="EVN">
                   <!-- ** Severity observation ** -->
-                  <!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy.
+                  <!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy. 
 										 When the Severity Observation is associated with a Reaction Observation it characterizes a Reaction. -->
                   <templateId root="2.16.840.1.113883.10.20.22.4.8"  />
                   <code code="SEV" displayName="Severity Observation" codeSystem="2.16.840.1.113883.5.4"
@@ -838,7 +839,7 @@
                       <entryRelationship typeCode="SUBJ" inversionInd="true">
                         <observation classCode="OBS" moodCode="EVN">
                           <!-- ** Severity observation ** -->
-                          <!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy.
+                          <!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy. 
 										             When the Severity Observation is associated with a Reaction Observation it characterizes a Reaction. -->
                           <templateId root="2.16.840.1.113883.10.20.22.4.8"  />
                           <code code="SEV" displayName="Severity Observation" codeSystem="2.16.840.1.113883.5.4"
@@ -856,13 +857,13 @@
                   <entryRelationship typeCode="SUBJ" inversionInd="true">
                     <observation classCode="OBS" moodCode="EVN">
                       <!-- ** Severity observation ** -->
-                      <!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy.
+                      <!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy. 
 										          When the Severity Observation is associated with a Reaction Observation it characterizes a Reaction. -->
                       <templateId root="2.16.840.1.113883.10.20.22.4.8"  />
                       <code code="SEV" displayName="Severity Observation" codeSystem="2.16.840.1.113883.5.4"
                         codeSystemName="ActCode" />
                       <text>
-
+                        
                       </text>
                       <statusCode code="completed" />
                       <value xsi:type="CD" code="255604002" displayName="Mi" codeSystem="2.16.840.1.113883.6.96"
@@ -1002,7 +1003,7 @@
                     <translation code="9947008" displayName="Biological father" codeSystemName="SNOMED"
                       codeSystem="2.16.840.1.113883.6.96" />
                   </code>
-
+                  
                 </relatedSubject>
               </subject>
               <component>
@@ -1382,7 +1383,7 @@
             <effectiveTime value="19991101" />
         </act>
               </entryRelationship>
-
+			  
             </substanceAdministration>
           </entry>
           <entry typeCode="DRIV">
@@ -1503,7 +1504,7 @@
                   </representedOrganization>
                 </assignedEntity>
               </performer>
-
+              
             </substanceAdministration>
           </entry>
           <entry typeCode="DRIV">
@@ -1601,9 +1602,9 @@
 									<templateId root="2.16.840.1.113883.10.20.22.4.23" />
 									<templateId root="2.16.840.1.113883.10.20.22.4.23"/>
 									<manufacturedMaterial>
-										<code nullFlavor="OTH" codeSystem="2.16.840.1.113883.6.88">
+										<code nullFlavor="OTH" codeSystem="2.16.840.1.113883.6.88"> 
 											<translation code="410942007" displayName="drug or medication"
-												codeSystem="2.16.840.1.113883.6.96"
+												codeSystem="2.16.840.1.113883.6.96"            
 												codeSystemName="SNOMED-CT"/>
 										</code>
 									</manufacturedMaterial>
@@ -1764,9 +1765,9 @@
                       </entryRelationship>
                     </act>
                   </entryRelationship>
-                  <!-- The above entryRelationship OR the following. <entryRelationship
-										typeCode="REFR"> <act classCode="ACT" moodCode="DEF"> <id root="f4dce790-8328-11db-9fe1-0800200c9a66"/>
-										<code nullFlavor="UNK"/> <text>Health Plan Name<reference value="PntrToHealthPlanNameInSectionText"/>
+                  <!-- The above entryRelationship OR the following. <entryRelationship 
+										typeCode="REFR"> <act classCode="ACT" moodCode="DEF"> <id root="f4dce790-8328-11db-9fe1-0800200c9a66"/> 
+										<code nullFlavor="UNK"/> <text>Health Plan Name<reference value="PntrToHealthPlanNameInSectionText"/> 
 										</text> <statusCode code="active"/> </act> </entryRelationship> -->
                 </act>
               </entryRelationship>
@@ -1830,7 +1831,7 @@
 								Author Participation Template
 								In this case, the author is the same as a participant already
 								described in the header.
-								However, the author could be a different provider - someone else in the
+								However, the author could be a different provider - someone else in the 
 								header, or a new provider not elsewhere specified.
 							-->
               <author typeCode="AUT">
@@ -1853,7 +1854,7 @@
                   <statusCode code="active" />
                   <entryRelationship typeCode="COMP">
                     <act classCode="ACT" moodCode="INT">
-                      <!-- These act/identifiers are unique identifiers
+                      <!-- These act/identifiers are unique identifiers 
 												for the policy or program providing the coverage. -->
                       <id root="4c9a3be1-5f09-46dd-88e7-14c8ec612e4c" />
                       <code code="111" displayName="Medicare HMO" codeSystemName="Source of Payment Typology (PHDSC)"
@@ -1869,9 +1870,9 @@
                 <observation classCode="OBS" moodCode="EVN">
                                     <templateId root="2.16.840.1.113883.10.20.22.4.143" />
                   <id root="9a6d1bac-17d3-4195-89a4-1121bc809b4d" />
-                  <code code="225773000" codeSystemName="SNOMED CT" codeSystem="2.16.840.1.113883.6.96"> </code> valid code, yet to be updated -AM
+                  <code code="225773000" codeSystemName="SNOMED CT" codeSystem="2.16.840.1.113883.6.96"> </code> valid code, yet to be updated -AM 
                   <effectiveTime value="20130615" />
-
+                  
                   <value xsi:type="CD" code="394848005" codeSystem="2.16.840.1.113883.6.96"
                     displayName="Normal priority" />
                   <author typeCode="AUT">
@@ -1952,7 +1953,7 @@
                 <!-- The low value represents when the problem was first recorded in the patient's chart -->
                 <!-- Concern was documented on July 6, 2013 -->
                 <low value="20" />
-				<high value="201307061" />
+				<high value="201307061" /> 
               </effectiveTime>
               <author typeCode="AUT">
                 <templateId root="2.16.840.1.113883.10.20.22.4.119" />
@@ -2175,7 +2176,7 @@
               <statusCode code="completed" />
               <effectiveTime value="20120512" />
               <methodCode nullFlavor="UNK" />
-
+              
               <specimen typeCode="SPC">
                 <specimenRole classCode="SPEC">
                   <id root="c2ee9ee9-ae31-4628-a919-fec1cbb58683" />
@@ -2236,7 +2237,7 @@
                 <originalText>
                   <reference value="#Proc1" />
                 </originalText>
-
+              
               </code>
               <statusCode code="aborted" />
               <effectiveTime value="20110203" />
@@ -2452,7 +2453,7 @@
                         codeSystemName="Healthcare Provider Taxonomy (HIPAA)" />
                     </assignedAuthor>
                   </author>
-
+                  
                 </observation>
               </component>
               <component>
@@ -2478,7 +2479,7 @@
                         codeSystemName="Healthcare Provider Taxonomy (HIPAA)" />
                     </assignedAuthor>
                   </author>
-
+                 
                 </observation>
               </component>
               <component>
@@ -2503,7 +2504,7 @@
                         codeSystemName="Healthcare Provider Taxonomy (HIPAA)" />
                     </assignedAuthor>
                   </author>
-
+                  
                 </observation>
               </component>
               <component>
@@ -2528,7 +2529,7 @@
                         codeSystemName="Healthcare Provider Taxonomy (HIPAA)" />
                     </assignedAuthor>
                   </author>
-
+                  
                 </observation>
               </component>
               <component>
@@ -2551,7 +2552,7 @@
                         codeSystemName="Healthcare Provider Taxonomy (HIPAA)" />
                     </assignedAuthor>
                   </author>
-
+                 
                 </observation>
               </component>
             </organizer>
