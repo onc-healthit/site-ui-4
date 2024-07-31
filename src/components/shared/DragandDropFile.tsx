@@ -1,9 +1,10 @@
 'use client'
-import { Button, Typography } from '@mui/material'
-import React, { useMemo } from 'react'
+import { Button, Typography, Chip } from '@mui/material'
+import React, { useMemo, useRef, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import palette from '@/styles/palette'
+import Close from '@mui/icons-material/Close'
 
 {
   /* TO-DO: Handle upload file as per functionality */
@@ -36,13 +37,47 @@ const acceptStyle = {
 const rejectStyle = {
   borderColor: palette.error,
 }
+interface DragDropFileUploadProps {
+  maxFiles?: number
+  name?: string
+  fileName?: ([]) => void
+}
 
-export default function DragDropFileUpload() {
+export default function DragDropFileUpload({ maxFiles, name, fileName }: DragDropFileUploadProps) {
+  const [files, setFiles] = useState<File[]>([])
+  const hiddenInputRef = useRef<HTMLInputElement>(null)
+
+  const removeFile = (name: string) => {
+    setFiles((files) => files.filter((file) => file.name !== name))
+  }
+
+  const removeAll = () => {
+    setFiles([])
+  }
+  const UploadFile = () => {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Click Upload File', {
+        event_category: 'Button',
+        event_label: 'Drag & Drop File Upload',
+      })
+    }
+  }
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject, open } = useDropzone({
     // Disable click and keydown behavior
     noClick: true,
     noKeyboard: true,
-    onDrop: (files) => console.log(files),
+    maxFiles: maxFiles || 1,
+    onDrop: (acceptedFiles) => {
+      fileName?.(acceptedFiles)
+      setFiles(acceptedFiles)
+      if (hiddenInputRef.current) {
+        const dataTransfer = new DataTransfer()
+        acceptedFiles.map((file) => {
+          dataTransfer.items.add(file)
+        })
+        hiddenInputRef.current.files = dataTransfer.files
+      }
+    },
   })
 
   const style = useMemo(
@@ -57,13 +92,35 @@ export default function DragDropFileUpload() {
   return (
     <div className="container">
       <div {...getRootProps({ style })}>
+        <input type="file" name={name} hidden style={{ opacity: 0 }} ref={hiddenInputRef} />
         <input {...getInputProps()} />
         <FileUploadIcon />
         <Typography>Drag & Drop file here or </Typography>
-        <Button component="label" size="large" variant="text" color="primary" onClick={open}>
+        <Button
+          component="label"
+          size="large"
+          variant="text"
+          color="primary"
+          onClickCapture={UploadFile}
+          onClick={open}
+        >
           BROWSE
         </Button>
       </div>
+      {files.map((file) => {
+        return (
+          <div key={file.name}>
+            <Chip
+              sx={{ mt: '32px', p: '16px' }}
+              variant="outlined"
+              color="primary"
+              //deleteIcon={<Close color="error" fontSize="small" />}
+              //onDelete={() => removeFile(file.name)} // Remove the file when the delete icon is clicked
+              label={`${file.name} - ${file.size} bytes`}
+            />
+          </div>
+        )
+      })}
     </div>
   )
 }

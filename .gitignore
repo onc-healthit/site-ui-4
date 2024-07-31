@@ -19,6 +19,8 @@
 # misc
 .DS_Store
 *.pem
+.project
+.settings/
 
 # debug
 npm-debug.log*
@@ -37,3 +39,7 @@ next-env.d.ts
 
 #node
 .node-version
+
+# Cypress file
+cypress/screenshots/
+cypress/videos/

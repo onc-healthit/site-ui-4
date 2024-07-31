@@ -27,43 +27,43 @@ export default function SiteNavOncCertTools() {
       text: 'FHIR Inferno Framework',
       isExternalLink: true,
       href: 'https://inferno.healthit.gov/',
-      icon: <LocalFireDepartmentOutlined />,
+      icon: <LocalFireDepartmentOutlined aria-label=" Go to FHIR Inferno Framework" fontSize="small" />,
     },
     {
       text: 'C-CDA Testing',
       isExternalLink: false,
       href: '/c-cda',
-      icon: <PublishedWithChanges />,
+      icon: <PublishedWithChanges aria-label="Go to C-CDA Testing" fontSize="small" />,
     },
     {
       text: 'Direct Project Tooling',
       isExternalLink: false,
       href: '/direct',
-      icon: <CompareArrows />,
+      icon: <CompareArrows aria-label="Go to Direct Project Tooling" fontSize="small" />,
     },
     {
-      text: 'CQM QRDA Testing',
+      text: 'Clinical Quality Measure Testing',
       isExternalLink: false,
-      href: '/cqm-qrda',
-      icon: <AddchartOutlined />,
+      href: '/cqmt',
+      icon: <AddchartOutlined aria-label=" Go to Clinical Quality Measure Testing" fontSize="small" />,
     },
     {
       text: 'Electronic Prescribing (eRX) Tool',
       isExternalLink: true,
-      href: 'https://tools.ncpdp.org/erx/#/home',
-      icon: <MedicationOutlined />,
+      href: 'https://erx.healthit.gov/erx/',
+      icon: <MedicationOutlined aria-label="Go to Electronic Prescribing (eRX) Tool" fontSize="small" />,
     },
     {
       text: 'Public Health Reporting',
       isExternalLink: false,
       href: '/public-health-reporting',
-      icon: <GroupsOutlined />,
+      icon: <GroupsOutlined aria-label="Go to Public Health Reporting" fontSize="small" />,
     },
     {
       text: 'Alternative Test Methods',
-      isExternalLink: false,
-      href: '/alternative-test-methods',
-      icon: <AltRouteOutlined />,
+      isExternalLink: true,
+      href: 'https://hl7v2-iz-cdc-testing.nist.gov/iztool/#/home',
+      icon: <AltRouteOutlined aria-label="Go to Alternative Test Methods" fontSize="small" />,
     },
   ]
 
@@ -72,7 +72,7 @@ export default function SiteNavOncCertTools() {
       <NavListHeadItem
         text="ONC Certification Tools"
         handleClickCategoryList={handleClickCertList}
-        icon={<CheckCircleOutline />}
+        icon={<CheckCircleOutline aria-label="Open ONC Certification Tools" />}
         openCategoryList={openCertList}
       />
       <NavListSubItems items={items} openCategoryList={openCertList} />

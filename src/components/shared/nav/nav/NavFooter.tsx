@@ -1,19 +1,54 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
-import { useState } from 'react'
-
-/* Custom Imports */
-import { SITE_VERSION } from '@/constants/navConstants'
+import { fetchSanitizedMarkdownData } from '@/services/markdownToHTMLService'
+import { Box, Button, Dialog, DialogActions, DialogContent } from '@mui/material'
+import { useEffect, useState } from 'react'
 
 export default function NavFooter() {
   const [openDialog, setOpenDialog] = useState(false)
 
   const handleOpenDialog = () => {
     setOpenDialog(true)
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Open Release Notes', {
+        event_category: 'Button',
+        event_label: 'Open Release Notes thru Nav',
+      })
+    }
   }
 
   const handleCloseDialog = () => {
     setOpenDialog(false)
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Close Release Notes', {
+        event_category: 'Button',
+        event_label: 'Close Release Notes',
+      })
+    }
   }
+
+  // const [releaseVersionHTML, setReleaseVersionHTML] = useState<string | undefined>()
+  // const [releaseDateHTML, setReleaseDateHTML] = useState<string | undefined>()
+  const [releaseNotesHTML, setReleaseNotesHTML] = useState<string | undefined>()
+  const [historicalReleaseNotesHTML, setHistoricalReleaseNotesHTML] = useState<string | undefined>()
+
+  // const releaseVersionURL = 'https://raw.githubusercontent.com/onc-healthit/site-content/master/site-ui-4/version.md'
+  // const releaseDateURL = 'https://raw.githubusercontent.com/onc-healthit/site-content/master/site-ui-4/release-date.md'
+  const releaseNotesURL =
+    'https://raw.githubusercontent.com/onc-healthit/site-content/master/site-ui-4/latest-release-notes.md'
+  const historicalReleaseNotesURL =
+    'https://raw.githubusercontent.com/onc-healthit/site-content/master/site-ui-4/historical-release-notes.md'
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        // setReleaseVersionHTML(await fetchSanitizedMarkdownData(releaseVersionURL))
+        // setReleaseDateHTML(await fetchSanitizedMarkdownData(releaseDateURL))
+        setReleaseNotesHTML(await fetchSanitizedMarkdownData(releaseNotesURL))
+        setHistoricalReleaseNotesHTML(await fetchSanitizedMarkdownData(historicalReleaseNotesURL))
+      } catch (e) {
+        console.error(e)
+      }
+    })()
+  }, [])
 
   return (
     <>
@@ -26,31 +61,23 @@ export default function NavFooter() {
         size="small"
         onClick={handleOpenDialog}
       >
-        Release Notes v{SITE_VERSION}
+        Release Notes
+        {/* <Box>{releaseVersionHTML && <div dangerouslySetInnerHTML={{ __html: releaseVersionHTML }} />}</Box>
+        <Box>{releaseDateHTML && <div dangerouslySetInnerHTML={{ __html: releaseDateHTML }} />}</Box> */}
+        {/* TODO: Limit to debug mode only */}
+        {/* <Box>Debug Version: {SITE_DEBUG_VERSION}</Box> */}
       </Button>
 
       {/* Dialog Box */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle typography={'h4'}>
-          <strong>Release Notes v{SITE_VERSION}</strong>
-        </DialogTitle>
+      <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth={true} maxWidth="lg">
+        {/* <DialogTitle typography={'h4'}>
+          <strong>Release Notes</strong>
+        </DialogTitle> */}
         <DialogContent>
-          <Typography gutterBottom>
-            Our commitment to transparency and keeping you informed about the latest updates is at the heart of this
-            section. Whether you&apos;re a developer, an IT professional, or a healthcare stakeholder, our release notes
-            provide valuable insights into the evolution of our platform.
-          </Typography>
-          <Typography variant="body2">
-            <strong>Version v{SITE_VERSION} - March 1, 2024</strong>
-          </Typography>
-          <ol>
-            <li>
-              Reference C-CDA: Removed SHALL constraint for Nonexistent id Requirement in Section Time Range Observation
-            </li>
-            <li>Reference C-CDA: Fixed incorrect error for Informant RelatedEntity </li>
-            <li>SITE Content: Updated SITE/test-tools section to remove non functional links </li>
-            <li>C-CDA: Update scenario files language in word document to match pdf scenarios</li>
-          </ol>
+          <Box>{releaseNotesHTML && <div dangerouslySetInnerHTML={{ __html: releaseNotesHTML }} />}</Box>
+          <Box>
+            {historicalReleaseNotesHTML && <div dangerouslySetInnerHTML={{ __html: historicalReleaseNotesHTML }} />}
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="secondary">

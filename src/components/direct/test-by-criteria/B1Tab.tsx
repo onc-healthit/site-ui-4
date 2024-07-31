@@ -11,41 +11,77 @@ import {
   Typography,
 } from '@mui/material'
 import Profile from '../shared/Profile'
-import SMTPTestCard from '../shared/SMTPTestCard'
+import XDRTestCard from '../hisp/XDRTestCard'
+import TestCard from '../hisp/TestCard'
 import palette from '@/styles/palette'
-import * as React from 'react'
-import { useEffect } from 'react'
+import React, { useState } from 'react'
+import testCases from '../../../assets/SMTPTestCases'
+import xdrTestCases from '../../../assets/XDRTestCases'
 
 const B1Component = () => {
-  const [option, setOption] = React.useState('')
-  const [showTestCard, setShowTestCard] = React.useState(false)
+  const [option, setOption] = useState('')
+  const [showTestCard, setShowTestCard] = useState(false)
+  const [hostname, setHostname] = useState('')
+  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [tlsRequired, setTlsRequired] = useState(false)
+
+  const criteriaA = xdrTestCases.filter((testXdr) => testXdr.criteria?.includes('b1-1'))
+  const criteriaB = testCases.tests.filter((test) => test.criteria?.includes('b1-8'))
+  const criteriaC = testCases.tests.filter((test) => test.criteria?.includes("['b1-2','su1-2']"))
+  const criteriaD = xdrTestCases.filter((testXdr) => testXdr.criteria?.includes('b1-3'))
+  const criteriaE = testCases.tests.filter((test) => test.criteria?.includes('b1-4'))
+  const criteriaF = testCases.tests.filter((test) => test.criteria?.includes('b1-5'))
+  const criteriaG = testCases.tests.filter((test) => test.criteria?.includes('b1-6'))
+  const criteriaH = testCases.tests.filter((test) => test.criteria?.includes('b1-7'))
+
   const handleChange = (event: SelectChangeEvent) => {
     setOption(event.target.value as string)
+    setShowTestCard(true)
   }
 
-  useEffect(() => {
-    if (option !== '') {
-      setShowTestCard(true)
-    }
-  }, [option])
   const dropdown = [
-    {
-      value: 'A',
-      label: 'A',
-    },
-    {
-      value: 'B',
-      label: 'B',
-    },
-    {
-      value: 'C',
-      label: 'C',
-    },
-    {
-      value: 'D',
-      label: 'D',
-    },
+    { value: 'A', label: 'Criteria (i)(A) Send using Edge Protocol - XDR' },
+    { value: 'B', label: 'Criteria (i)(A) Send using Edge Protocol - SMTP' },
+    { value: 'C', label: 'Criteria (i)(A) Send using Edge Protocol - Delivery Notification' },
+    { value: 'D', label: 'Criteria (i)(B) Receive using Edge Protocol - XDR' },
+    { value: 'E', label: 'Criteria (i)(B) Receive using Edge Protocol - SMTP' },
+    { value: 'F', label: 'Criteria (i)(B) Receive using Edge Protocol - IMAP' },
+    { value: 'G', label: 'Criteria (i)(B) Receive using Edge Protocol - POP3' },
+    { value: 'H', label: 'Criteria (i)(C) XDM Processing Received via Edge Protocol' },
   ]
+
+  const selectedTestCases = () => {
+    switch (option) {
+      case 'B':
+        return criteriaB
+      case 'C':
+        return criteriaC
+      case 'E':
+        return criteriaE
+      case 'F':
+        return criteriaF
+      case 'G':
+        return criteriaG
+      case 'H':
+        return criteriaH
+      default:
+        return []
+    }
+  }
+
+  const selectedXDRTestCases = () => {
+    switch (option) {
+      case 'A':
+        return criteriaA
+      case 'D':
+        return criteriaD
+      default:
+        return []
+    }
+  }
+
   return (
     <Container>
       <Box sx={{ display: 'flex', width: '100%', pt: 4, gap: 4 }}>
@@ -66,9 +102,9 @@ const B1Component = () => {
                       label="Choose a sub category"
                       onChange={handleChange}
                     >
-                      {dropdown.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
+                      {dropdown.map((item) => (
+                        <MenuItem key={item.value} value={item.value}>
+                          {item.label}
                         </MenuItem>
                       ))}
                     </Select>
@@ -78,21 +114,41 @@ const B1Component = () => {
             </CardContent>
           </Card>
           <Card>
-            <Profile />
+            <Profile
+              setHostname={setHostname}
+              setEmail={setEmail}
+              setUsername={setUsername}
+              setPassword={setPassword}
+              setTls={setTlsRequired}
+            />
           </Card>
         </Box>
         <Box sx={{ flexGrow: 1 }}>
-          {showTestCard && (
-            <SMTPTestCard
-              cardHeader={'SMTP Test 8,14 (Send)'}
-              cardContent={
-                'Verifies the ability of the sending system to send an email to ETT using the SMTP protocol with STARTTLS. The SUT will send an email to edge-receiver@james.healthit.gov. Hitting "Run" will cause ETT to search for an email sent to edge-receiver@james.healthit.gov from the email address entered in Profile window. Note that the C-CDA Document Type selected will not affect the test result.'
-              }
-            />
-          )}
+          {showTestCard &&
+            selectedTestCases().map((test, i) => (
+              <Box key={i} sx={{ mb: 2 }}>
+                {' '}
+                <TestCard
+                  test={test}
+                  hostname={hostname}
+                  email={email}
+                  username={username}
+                  password={password}
+                  tlsRequired={tlsRequired}
+                />
+              </Box>
+            ))}
+          {showTestCard &&
+            selectedXDRTestCases().map((test, i) => (
+              <Box key={i} sx={{ mb: 2 }}>
+                {' '}
+                <XDRTestCard test={test} />
+              </Box>
+            ))}
         </Box>
       </Box>
     </Container>
   )
 }
+
 export default B1Component

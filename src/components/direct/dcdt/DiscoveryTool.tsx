@@ -1,3 +1,4 @@
+'use client'
 import BannerBox from '@/components/shared/BannerBox'
 import Link from 'next/link'
 import styles from '@/components/shared/styles.module.css'
@@ -18,13 +19,21 @@ import palette from '@/styles/palette'
 import Hosting from './Hosting'
 import DCDTCertificates from './DCDTCertificates'
 import bulletedList from '../shared/BulletList'
-
+import { handleSubmitHosting } from './actions'
 const menuItems: menuProps[] = [
   { heading: 'Overview', href: '#overview' },
   { heading: 'Hosting', href: '#hosting' },
   { heading: "Discover DCDT's Certificates", href: '#certificates' },
   { heading: 'Resources', href: '#resources' },
 ]
+function trackMenuItemClick(heading: string) {
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', 'Click discovery tool sub menu', {
+      event_category: 'Navigation',
+      event_label: heading,
+    })
+  }
+}
 
 type LinkButtonProps = {
   href: string
@@ -52,11 +61,11 @@ const DiscoveryTool = () => {
             Discovery Tool
           </Link>,
         ]}
-        heading={'2015 Direct Certificate Discovery Tool'}
+        heading={'Direct Certificate Discovery Tool'}
         description={
           <>
-            The 2015 Direct Certificate Discovery Tool (DCDT) was created to support automated testing of systems that
-            plan to enact the Certificate Discovery and Provider Directory Implementation Guide, approved as normative
+            The Direct Certificate Discovery Tool (DCDT) was created to support automated testing of systems that plan
+            to enact the Certificate Discovery and Provider Directory Implementation Guide, approved as normative
             specification by the Direct community, as of July 9, 2012. It is based on the written test package and
             requirement traceability matrix created by the Modular Specifications project under the direction of the
             Office of the National Coordinator (ONC) and National Institute of Standards and Technology (NIST).
@@ -66,7 +75,7 @@ const DiscoveryTool = () => {
       {/* Main Content */}
       <Container>
         <Box pt={4} pb={4} gap={4} display={'flex'} flexDirection={'row'}>
-          <SubMenu menuItems={menuItems} />
+          <SubMenu onClick={trackMenuItemClick} menuItems={menuItems} />
           <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
             {/* Overview */}
             <Card id="overview">
@@ -108,7 +117,7 @@ const DiscoveryTool = () => {
               />
               <Divider />
               <CardContent>
-                <Hosting />
+                <Hosting formAction={handleSubmitHosting} />
               </CardContent>
             </Card>
             {/* Discover DCDT's Certificates */}

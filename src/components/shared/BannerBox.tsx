@@ -1,14 +1,15 @@
 'use client'
-import { Box, Breadcrumbs, Container, Typography } from '@mui/material'
 import TourButton from '@components/shared/tour/TourButton'
+import { Box, Breadcrumbs, Container, Typography } from '@mui/material'
 export interface BannerProps {
   breadcrumbs?: React.ReactNode
   heading: string
   subHeading?: string
   isTourButton?: boolean
   description: React.ReactNode
+  description2?: React.ReactNode
 }
-const BannerBox = ({ breadcrumbs, heading, subHeading, description, isTourButton }: BannerProps) => {
+const BannerBox = ({ breadcrumbs, heading, subHeading, isTourButton, description, description2 }: BannerProps) => {
   const subHeadingAndTourButtonBoxStyle = {
     display: 'flex',
     justifyContent: 'space-between',
@@ -21,18 +22,23 @@ const BannerBox = ({ breadcrumbs, heading, subHeading, description, isTourButton
       <Container>
         {breadcrumbs && <Breadcrumbs aria-label="breadcrumb">{breadcrumbs}</Breadcrumbs>}
         <Box sx={subHeadingAndTourButtonBoxStyle}>
-          <Typography variant="h3" component={'h1'} sx={{ pt: 1 }}>
-            <strong>{heading}</strong>
-          </Typography>
+          <Box>
+            <Typography variant="h3" component={'h1'} sx={{ pt: 1 }}>
+              <strong>{heading}</strong>
+            </Typography>
+            {subHeading && (
+              <Typography gutterBottom variant="h4" component={'h2'}>
+                {subHeading}
+              </Typography>
+            )}
+          </Box>
           {isTourButton && <TourButton />}
         </Box>
-        {subHeading && (
-          <Typography gutterBottom variant="h4" component={'h2'}>
-            {subHeading}
-          </Typography>
-        )}
         <Typography variant="body1" sx={{ pt: 1 }}>
           {description}
+        </Typography>
+        <Typography variant="body1" sx={{ pt: 1 }}>
+          {description2}
         </Typography>
       </Container>
     </Box>

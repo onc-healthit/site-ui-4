@@ -14,7 +14,7 @@ import Profile from '../shared/Profile'
 import TestCard from './TestCard'
 import palette from '@/styles/palette'
 import * as React from 'react'
-import testCases from './data/SMTPTestCases'
+import testCases from '@/assets/SMTPTestCases'
 import _ from 'lodash'
 import TestFilter from './TestFilter'
 

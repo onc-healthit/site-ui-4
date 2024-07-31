@@ -18,13 +18,13 @@ export default function SiteNavResources() {
       text: 'FAQs',
       isExternalLink: false,
       href: '/faqs',
-      icon: <QuestionAnswerOutlined />,
+      icon: <QuestionAnswerOutlined aria-label="Go to FAQs" fontSize="small" />,
     },
     {
       text: 'Documentation & Videos',
       isExternalLink: false,
       href: '/docs-and-vids',
-      icon: <IntegrationInstructionsOutlined />,
+      icon: <IntegrationInstructionsOutlined aria-label="Go to Documentation and Videos" fontSize="small" />,
     },
   ]
 
@@ -33,7 +33,7 @@ export default function SiteNavResources() {
       <NavListHeadItem
         text="SITE Resources"
         handleClickCategoryList={handleClickResourcesList}
-        icon={<ContentCopy />}
+        icon={<ContentCopy aria-label="Open SITE Resources" />}
         openCategoryList={openResourcesList}
       />
       <NavListSubItems items={items} openCategoryList={openResourcesList} />

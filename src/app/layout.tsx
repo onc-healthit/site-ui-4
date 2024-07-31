@@ -6,6 +6,7 @@ import { CssBaseline, ThemeProvider, Box } from '@mui/material'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
 import type { Metadata } from 'next'
 import React from 'react'
+import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: 'SITE UI 4.0',
@@ -24,7 +25,7 @@ const pageContainer = {
   minHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',
-  pt: 8,
+  pt: '58px',
 }
 
 const footer = {
@@ -34,6 +35,21 @@ const footer = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <Script async strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-ZSC2EVZSVD" />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-ZSC2EVZSVD');
+            `,
+          }}
+        />
+      </head>
       <body>
         <ThemeProvider theme={lightTheme}>
           <CssBaseline>
@@ -43,9 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Box role="main" sx={pageContainer}>
                   {children}
                   <Box sx={footer}>
-                    {/* Global Ankle */}
                     <Ankle />
-                    {/* Global Footer */}
                     <Footer />
                   </Box>
                 </Box>

@@ -1,13 +1,13 @@
+'use client'
 // MUI Imports
+import { Box, Container, Link } from '@mui/material'
 import BannerBox from '../shared/BannerBox'
-import { Box, Link, Container } from '@mui/material'
 // Global Imports
-import React from 'react'
 // Styles
+import SubMenu, { menuProps } from '@/components/shared/SubMenu'
 import palette from '@/styles/palette'
 import ArchiveCard from './ArchiveCard'
 import ArchiveFilter from './ArchiveFilter'
-import SubMenu, { menuProps } from '@/components/shared/SubMenu'
 // Images
 
 const ArchiveHome = () => {
@@ -21,6 +21,14 @@ const ArchiveHome = () => {
     { heading: 'Contact Us', href: '' },
   ]
 
+  function trackMenuItemClick(heading: string) {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Click archive sub menu', {
+        event_category: 'Navigation',
+        event_label: heading,
+      })
+    }
+  }
   return (
     <Box>
       {/* Global Header */}
@@ -33,7 +41,7 @@ const ArchiveHome = () => {
         heading={'Archived tools, files and other additional content'}
         description={
           <>
-            Unearth a treasure trove of archived resources including tools files and more! Please be aware that these
+            Unearth a treasure trove of archived resources including tools, files, and more! Please be aware that these
             materials are no longer actively maintained. Despite this, they offer valuable insights and historical
             context. Dive into our curated collection to explore and discover valuable resources for your projects and
             endeavors!
@@ -43,7 +51,7 @@ const ArchiveHome = () => {
       <Container>
         <Box pt={4} pb={4} display={'flex'} flexDirection={'row'} gap={4}>
           <Box display={'flex'} flexDirection={'column'} gap={4}>
-            <SubMenu menuItems={menuItems} />
+            <SubMenu onClick={trackMenuItemClick} menuItems={menuItems} />
             <ArchiveFilter />
           </Box>
           <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>

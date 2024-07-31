@@ -3,7 +3,7 @@ import {
   HandymanOutlined,
   HealingOutlined,
   ImportantDevicesOutlined,
-  SquareFootOutlined,
+  WhatshotOutlined,
 } from '@mui/icons-material'
 import { useState } from 'react'
 
@@ -24,25 +24,25 @@ export default function SiteNavGeneralTools() {
       text: 'CPOE Evaluation Tool',
       isExternalLink: true,
       href: 'https://www.leapfroggroup.org/survey-materials/prepare-cpoe-tool',
-      icon: <ImportantDevicesOutlined />,
+      icon: <ImportantDevicesOutlined fontSize="small" aria-label="CPOE Evaluation Tool" />,
     },
     {
       text: 'IHE Testing Tools',
       isExternalLink: true,
       href: 'https://www.ihe.net/testing/testing_tools/',
-      icon: <HealingOutlined />,
+      icon: <HealingOutlined fontSize="small" aria-label="Go to IHE Testing Tool" />,
     },
     {
       text: 'Lantern Project',
       isExternalLink: true,
       href: 'https://lantern.healthit.gov/?tab=dashboard_tab',
-      icon: <FireplaceOutlined />,
+      icon: <FireplaceOutlined fontSize="small" aria-label="Go to Lantern Project" />,
     },
     {
-      text: 'NIST Conformance Test',
-      isExternalLink: false,
-      href: '/nist-conformance-test',
-      icon: <SquareFootOutlined />,
+      text: 'Inferno HL7 FHIR Validator',
+      isExternalLink: true,
+      href: 'https://inferno.healthit.gov/validator/',
+      icon: <WhatshotOutlined fontSize="small" aria-label="Go to Inferno HL7 FHIR Validator" />,
     },
   ]
 
@@ -51,7 +51,7 @@ export default function SiteNavGeneralTools() {
       <NavListHeadItem
         text="General Testing Tools"
         handleClickCategoryList={handleClickGeneralTestingList}
-        icon={<HandymanOutlined />}
+        icon={<HandymanOutlined aria-label="Open general testing tools" />}
         openCategoryList={openGeneralTestingList}
       />
       <NavListSubItems items={items} openCategoryList={openGeneralTestingList} />

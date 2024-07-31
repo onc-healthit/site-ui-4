@@ -7,7 +7,24 @@ const dropdown = [
     label: 'Default Profile',
   },
 ]
-const Profile = () => {
+
+interface ProfileProps {
+  setHostname?: (hostname: string) => void
+  setEmail?: (email: string) => void
+  setUsername?: (username: string) => void
+  setPassword?: (password: string) => void
+  setTls?: (tls: boolean) => void
+}
+
+const noop = () => {}
+
+const Profile: React.FC<ProfileProps> = ({
+  setHostname = noop,
+  setEmail = noop,
+  setUsername = noop,
+  setPassword = noop,
+  setTls = noop,
+}) => {
   return (
     <Box component="form" sx={{ backgroundColor: palette.white }}>
       <TextField
@@ -31,16 +48,18 @@ const Profile = () => {
             id="outlined-vendor-hostname"
             label="Vendor Hostname/IP"
             helperText="helper text"
-            defaultValue="test"
+            defaultValue=""
             required
+            onChange={(e) => setHostname(e.target.value)}
           />
           <TextField
             fullWidth
             id="vendor-email"
             label="Vendor Direct Email Address"
             helperText="helper text"
-            defaultValue="test"
+            defaultValue=""
             required
+            onChange={(e) => setEmail(e.target.value)}
           />
         </Box>
         <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} gap={2}>
@@ -49,21 +68,23 @@ const Profile = () => {
             id="vendor-username"
             label="Vendor Username"
             helperText="helper text"
-            defaultValue="test"
+            defaultValue=""
             required
+            onChange={(e) => setUsername(e.target.value)}
           />
           <TextField
             fullWidth
             id="vendor-password"
             label="Vendor Password"
             helperText="helper text"
-            defaultValue="test"
+            defaultValue=""
             required
+            onChange={(e) => setPassword(e.target.value)}
           />
         </Box>
         <FormGroup sx={{ width: '50%' }}>
           <FormControlLabel
-            control={<Switch color="secondary" defaultChecked />}
+            control={<Switch color="secondary" defaultChecked onChange={(e) => setTls(e.target.checked)} />}
             label="TLS REQUIRED"
             name="tlsRequired"
           />

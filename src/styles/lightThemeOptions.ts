@@ -9,6 +9,15 @@ const InterSite = Inter({
 })
 
 export const lightThemeOptions: ThemeOptions = {
+  breakpoints: {
+    values: {
+      xs: 0, // Extra small devices (portrait phones)
+      sm: 600, // Small devices (landscape phones)
+      md: 960, // Medium devices (tablets)
+      lg: 1280, // Large devices (desktops)
+      xl: 1920, // Extra large devices (large desktops)
+    },
+  },
   palette: {
     mode: 'light',
     background: {
@@ -74,7 +83,7 @@ export const lightThemeOptions: ThemeOptions = {
       fontSize: '1em',
     },
     body1: {
-      fontSize: '1em',
+      fontSize: '.95em',
       lineHeight: '1.4em',
     },
     body2: {
@@ -105,8 +114,8 @@ export const lightThemeOptions: ThemeOptions = {
           scrollbarColor: '#00000020',
           '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
             backgroundColor: '#00000020',
-            width: '16px',
-            borderRadius: 8,
+            width: '6px',
+            borderRadius: 32,
           },
           '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
             borderRadius: 16,
@@ -147,7 +156,7 @@ export const lightThemeOptions: ThemeOptions = {
             backgroundColor: palette.greyLight,
           },
           '&:focus': {
-            backgroundColor: palette.secondaryLight,
+            backgroundColor: '#e4f1fe',
           },
           '&:selected': {
             backgroundColor: palette.secondaryDark,

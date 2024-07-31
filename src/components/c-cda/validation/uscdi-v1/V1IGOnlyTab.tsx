@@ -1,6 +1,12 @@
-import V3IGOnlyTab from '../uscdi-v3/V3IGOnlyTab'
+import { Container } from '@mui/material'
+import IGValidatorForm from '../IGValidatorForm'
+import { postToValidatorV1 } from '../actions'
 
-// TODO: Support unique functionality (API calls, select data, etc.), view should be the same
 export default function V1IGOnlyTab() {
-  return <V3IGOnlyTab />
+  const validatorVersion = 'v1IG'
+  return (
+    <Container>
+      <IGValidatorForm version={validatorVersion} formAction={postToValidatorV1} />
+    </Container>
+  )
 }

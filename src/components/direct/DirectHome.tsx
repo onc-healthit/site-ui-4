@@ -1,3 +1,4 @@
+'use client'
 import Box from '@mui/material/Box'
 import BannerBox from '@shared/BannerBox'
 import CriteriaCard from '@shared/CardWithImage'
@@ -15,11 +16,41 @@ import Link from 'next/link'
 import styles from '@shared/styles.module.css'
 import SectionHeader from '../shared/SectionHeader'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { useTheme } from '@mui/material/styles'
+import { SxProps, Theme } from '@mui/system'
 
 const DirectHome = () => {
   const cardMaxWidth = 345
   const cardImageWidth = '345px'
-  const flexibleBox = { display: 'flex', gap: 4, flexDirection: 'row', width: '100%', justifyContent: 'space-between' }
+  const theme = useTheme()
+  const flexibleBox: SxProps<Theme> = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    gap: '32px',
+    flexDirection: 'row',
+    width: '100%',
+    mb: 4,
+    [theme.breakpoints.only('lg')]: {
+      width: '100%',
+      justifyContent: 'space-between',
+      gap: '32px',
+      flexWrap: 'nowrap',
+      flexDirection: 'row',
+    },
+    [theme.breakpoints.between('lg', 'md')]: {
+      width: '100%',
+      justifyContent: 'space-between',
+      gap: '4px',
+      flexWrap: 'wrap',
+      flexDirection: 'row',
+    },
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: '32px',
+    },
+  }
   return (
     <>
       {/* Global Header */}
@@ -32,8 +63,12 @@ const DirectHome = () => {
         heading={'Direct Project Tooling'}
         description={
           <>
-            This area provides capabilities to validate your Direct implementation to applicable
-            standards-specifications. To verify basic Direct send capabilities of your system send a message to:
+            The ONC Direct Tool, built on the foundation of the Direct Standard®, provides a comprehensive testing
+            platform for developers and implementers to validate their Direct implementations. With a suite of testing
+            capabilities and essential certificates, the ONC Direct Tool empowers organizations to ensure compliance
+            with applicable standards and specifications, facilitating secure, interoperable exchange of sensitive
+            healthcare information over the open internet. Verify your system&apos;s basic Direct send capabilities by
+            sending a message to{' '}
             <span>
               <Link color="#42A5F5" href="mailto:testing@ett.healthit.gov">
                 testing@ett.healthit.gov
@@ -44,17 +79,34 @@ const DirectHome = () => {
       />
       {/* Main Content */}
       <Container>
-        <SectionHeader header={'Test By Criteria'} subHeader={'A deep dive is one click away'} />
-        <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
+        <SectionHeader header={'Test By Criteria'} subHeader={'All-Inclusive Criterion Testing'} />
+        <Box
+          sx={{
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'space-between',
+            alignItems: 'stretch',
+            [theme.breakpoints.down('lg')]: {
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'flex-start',
+              gap: 4,
+              overflowX: 'hidden',
+            },
+          }}
+        >
           <CriteriaCard
             title={'B1'}
             cardImage={b1}
             cardHeader={'Transitions of Care'}
             cardSubheader={'170.315 (b)(1):'}
-            description={'Sender Or Receiver. We have group all the test regarding this... to help user ... do this.'}
+            description={
+              'Ensure your system meets the certification criteria for managing transitions of care. This includes the capability to create and receive transition of care/referral summaries that adhere to the Direct Standard®. By passing this test, you validate that your system can securely transport sensitive healthcare information during patient transitions between different care settings and providers.'
+            }
             pathname={'/direct/testbycriteria/B1'}
             maxWidth={cardMaxWidth}
             imageWidth={cardImageWidth}
+            buttonTitle={'BEGIN B1 TESTING'}
           />
 
           <CriteriaCard
@@ -62,10 +114,13 @@ const DirectHome = () => {
             cardImage={h1}
             cardHeader={'Direct Project'}
             cardSubheader={'§ 170.315(h)(1)'}
-            description={'Sender Or Receiver. We have group all the test regarding this... to help user ... do this.'}
+            description={
+              'Verify your implementation of the Direct Project Transport standard. This criterion focuses on the secure, interoperable exchange of healthcare information using Direct secure messaging. Testing against this criterion ensures that your system can reliably send and receive encrypted healthcare information, maintaining privacy and security over the open internet.'
+            }
             pathname={'/direct/testbycriteria/H1'}
             maxWidth={cardMaxWidth}
             imageWidth={cardImageWidth}
+            buttonTitle={'BEGIN H1 TESTING'}
           />
 
           <CriteriaCard
@@ -73,107 +128,113 @@ const DirectHome = () => {
             cardImage={h2}
             cardHeader={'Direct Project, Edge Protocol, and XDR/XDM'}
             cardSubheader={'§ 170.315(h)(2)'}
-            description={'Sender Or Receiver. We have group all the test regarding this... to help user ... do this.'}
+            description={
+              'Test your system’s ability to support queries using the Direct Project standards.This criterion involves verifying that your implementation can correctly handle query requests and responses, enabling secure, standards-compliant communication between disparate healthcare systems.'
+            }
             pathname={'/direct/testbycriteria/H2'}
             maxWidth={cardMaxWidth}
             imageWidth={cardImageWidth}
+            buttonTitle={'BEGIN H2 TESTING'}
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
         <SectionHeader
           header={'Select a category to start your direct project tooling.'}
-          subHeader={'All Direct in One Place'}
+          subHeader={'Jumpstart Your Direct Project Journey: Select a Testing Category'}
         />
-        <Box sx={{ ...flexibleBox }} paddingBottom={4}>
+        <Box sx={flexibleBox}>
           <CategoryCard
             cardHeader="Register for Direct Email"
             description={
-              'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
+              'Register and link one or more Direct accounts to your regular contact email address for comprehensive reporting.'
             }
-            buttonTitle={'GO'}
+            buttonTitle={'Register'}
             buttonLink={'/direct/register'}
             buttonIcon={<ArrowForwardIcon />}
+            cardWidthPercent={100}
           />
           <CategoryCard
             cardHeader="Send Direct Email"
-            description={
-              'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
-            }
-            buttonTitle={'GO'}
+            description={'Send a Direct message to a HISP of your choosing.'}
+            buttonTitle={'Create Message'}
             buttonLink={'/direct/senddirect'}
             buttonIcon={<ArrowForwardIcon />}
+            cardWidthPercent={100}
           />
           <CategoryCard
             cardHeader="Validate Direct Email"
-            description={
-              'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
-            }
-            buttonTitle={'GO'}
+            description={'Upload your Direct message and its certificate to validate its authenticity.'}
+            buttonTitle={'validate'}
             buttonLink={'/direct/validate'}
             buttonIcon={<ArrowForwardIcon />}
+            cardWidthPercent={100}
           />
         </Box>
-        <Box sx={{ ...flexibleBox }}>
+        <Box sx={flexibleBox}>
           <CategoryCard
             cardHeader="Discovery Test Tool"
-            description={
-              'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
-            }
-            buttonTitle={'GO'}
+            description={`Test your systems compliance with the Direct Project's Certificate Discovery and Provider Directory Implementation Guide. Validate your implementation's ability to correctly discover, host, and validate certificates, ensuring secure and interoperable exchange of health information.`}
+            buttonTitle={'BEGIN DISCOVERY'}
             buttonLink={'/direct/dcdt'}
             buttonIcon={<ArrowForwardIcon />}
+            cardWidthPercent={100}
           />
           <CategoryCard
             cardHeader="Transport Test Tool"
-            description={
-              'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
-            }
-            buttonTitle={'GO'}
+            description={`Test your Direct implementation's ability to send and receive messages securely by exchanging Trust Anchors with SITE or using the Direct Trust production bundle, ensuring reliable and compliant communication within the Direct ecosystem.`}
+            buttonTitle={'TEST TRANSPORT'}
             buttonLink={'/direct/transporttool'}
             buttonIcon={<ArrowForwardIcon />}
+            cardWidthPercent={100}
           />
           <CategoryCard
             cardHeader="HISP Testing Portal"
-            description={
-              'Enter your Direct (From) email address, this will be used to send a validation report to a normal email account. The validation reports are sent back to the email account for review by the user during testing.'
-            }
-            buttonTitle={'GO'}
+            description={`Simulate Health Information Service Provider (HISP) functionality and validate your system's compatibility with SMTP, IMAP, and POP3 protocols through comprehensive test cases and message tracking, ensuring seamless integration with Direct messaging providers.`}
+            buttonTitle={'Simulate HISP'}
             buttonLink={'/direct/hisp'}
             buttonIcon={<ArrowForwardIcon />}
+            cardWidthPercent={100}
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
-        <SectionHeader header={'Certification for Download'} subHeader={'Tagline'} />
-        <Box paddingBottom={4} display={'flex'} width={'100%'} justifyContent={'space-between'}>
+        <SectionHeader
+          header={'Certification for Download'}
+          subHeader={'Empower Your Testing with Essential Certificates'}
+        />
+        <Box sx={{ ...flexibleBox }}>
           <CertificateCard
             title={'Public Cert'}
             cardImage={publicCert}
             cardHeader={'ETT Public Cert'}
-            description={'The ETT Public Cert is used for the signing of Direct messages.'}
+            description={`The ETT Public Cert is used for signing Direct messages, allowing you to test your system's ability to validate and trust the ETT as a message sender.`}
+            href={
+              'https://github.com/onc-healthit/ett/raw/resources/certificates/ett.healthit.gov/ett.healthit.gov.der'
+            }
           />
           <CertificateCard
             title={'Trust Anchor'}
             cardImage={trustAnchor}
             cardHeader={'Trust Anchor'}
-            description={
-              "The Trust Anchor establishes the relationship between the certificate authority's (CA) certificate and the HISP's (in this case, the ETT acting as a HISP) certificate.Invalid Trust Anchor"
+            description={`The Trust Anchor establishes a trusted relationship between your HISP and the ETT by linking the certificate authority's (CA) certificate to the ETT's HISP certificates`}
+            href={
+              'https://github.com/onc-healthit/ett/raw/resources/certificates/ett.healthit.gov/intermediate.healthit.gov.der'
             }
           />
           <CertificateCard
             title={'Invalid Trust Achor'}
             cardImage={invalidTrustAnchor}
             cardHeader={'Invalid Trust Anchor'}
-            description={
-              "The Invalid Trust Anchor is used for negative testing and establishes and invalid relationship between the certificate authority's (CA) certificate and the ETT for negative testing.ETT Public Root CA"
+            description={`The Invalid Trust Anchor simulates an incorrect association between the CA's certificate and the ETT, enabling you to test your system's handling of invalid trust relationships in negative testing scenarios.`}
+            href={
+              'https://github.com/onc-healthit/ett/raw/resources/certificates/common/sitenv.org/invalid_trust_rel.direct.sitenv.org_ca.der'
             }
           />
           <CertificateCard
             title={'Root CA'}
             cardImage={rootCA}
             cardHeader={'Public Root CA'}
-            description={
-              "The public root CA certificate is the self-signed certificate that identifies the root CA, i.e. the trusted authorit y that issues certificates. A HISP will need to download the root certificate to verify that the trust anchor is valid and that it correctly verifies the identity of the HISP's certificate."
-            }
+            description={`The ETT Public Root CA is a self-signed certificate that identifies the trusted authority responsible for issuing certificates, allowing you to verify the authenticity of the Trust Anchor and the ETT's HISP certificate.`}
+            href={'https://github.com/onc-healthit/ett/raw/resources/certificates/ett.healthit.gov/healthit.gov.der'}
           />
         </Box>
       </Container>

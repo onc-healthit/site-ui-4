@@ -1,3 +1,4 @@
+'use client'
 import palette from '@/styles/palette'
 import { Box, Container, Tabs, Tab } from '@mui/material'
 import * as React from 'react'
@@ -49,6 +50,12 @@ const TabsComponent = ({ selectedTab, tabs }: TabsProps) => {
             value={value}
             onChange={handleTabChange}
             indicatorColor="secondary"
+            TabIndicatorProps={{
+              sx: {
+                bgcolor: palette.secondaryLight,
+                height: '8px',
+              },
+            }}
           >
             {tabs.map((tab) => (
               <Tab label={tab.tabName} key={tab.tabIndex} />

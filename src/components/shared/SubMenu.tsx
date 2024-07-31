@@ -1,6 +1,8 @@
+'use client'
 import React from 'react'
 import { Box, List, ListItemButton, ListItemText } from '@mui/material'
 import Link from 'next/link'
+import { useTheme } from '@mui/material/styles'
 import palette from '@/styles/palette'
 
 export type menuProps = {
@@ -10,24 +12,33 @@ export type menuProps = {
 
 export interface SubMenuProps {
   menuItems: menuProps[]
+  onClick: (heading: string) => void
 }
-const SubMenu = ({ menuItems }: SubMenuProps) => {
+const SubMenu = ({ menuItems, onClick }: SubMenuProps) => {
+  const theme = useTheme()
   return (
     <Box
       sx={{
         minWidth: '200px',
         borderRadius: '4px',
-        top: '80px',
-        position: 'sticky',
         height: 'fit-content',
         border: '1px solid #E8E8E8',
         backgroundColor: '#FFFFFF',
         boxShadow: '8px 0px 32px 0px rgba(0, 0, 0, 0.16)',
+        [theme.breakpoints.down('md')]: {
+          minWidth: '100px',
+        },
       }}
     >
       <List sx={{}} component="nav">
         {menuItems.map((item, index) => (
-          <Link href={item.href} key={index} passHref style={{ textDecoration: 'none' }}>
+          <Link
+            href={item.href}
+            key={index}
+            passHref
+            style={{ textDecoration: 'none' }}
+            onClick={() => onClick(item.heading)}
+          >
             <ListItemButton
               sx={{
                 justifyContent: 'flex-start',

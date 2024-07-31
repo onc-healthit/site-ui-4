@@ -17,9 +17,9 @@ const DocsSubMenu = () => {
         boxShadow: '8px 0px 32px 0px rgba(0, 0, 0, 0.16)',
       }}
     >
-      <DocsSubMenuButton heading="Documents" />
-      <DocsSubMenuButton heading="Videos" />
-      <DocsSubMenuButton heading="Contact Us" />
+      <DocsSubMenuButton link="#docs" heading="Documents" />
+      <DocsSubMenuButton link="#vids" heading="Videos" />
+      <DocsSubMenuButton link="mailto:edge-test-tool@googlegroups.com" heading="Contact Us" />
     </Box>
   )
 }
