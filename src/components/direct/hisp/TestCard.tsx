@@ -6,6 +6,7 @@ import DocumentSelector from './DocumentSelector'
 import { handleAPICall } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
+import LoadingButton from '../shared/LoadingButton'
 
 import {
   Box,
@@ -97,6 +98,8 @@ const TestCard = ({
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testRequestResponses, setTestRequestResponses] = useState<string>('')
   const [showLogs, setShowLogs] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isFinished, setIsFinished] = useState(false)
 
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
     console.log('Confirmed Document', selectedData)
@@ -132,6 +135,9 @@ const TestCard = ({
       alert('This test requires a CCDA document to be selected. Please select a document before running the test.')
     } else {
       try {
+        setIsLoading(true)
+        setIsFinished(false)
+        setCriteriaMet('')
         const response = await handleAPICall({
           testCaseNumber: test.id,
           sutSmtpAddress: hostname,
@@ -151,12 +157,18 @@ const TestCard = ({
           year: '2021',
           hostingcase: 'YES',
         })
+        setIsFinished(true)
         setCriteriaMet(response.criteriaMet)
         setTestRequestResponses(JSON.stringify(response.testRequestResponses, null, 2))
         console.log('Criteria met: ', response.criteriaMet)
         console.log('Test Request Responses:', response.testRequestResponses)
       } catch (error) {
         console.error('Failed to run test:', error)
+      } finally {
+        setIsLoading(false)
+        setTimeout(() => {
+          setIsFinished(false)
+        }, 100)
       }
     }
   }
@@ -325,9 +337,15 @@ const TestCard = ({
               )}
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
               {renderCriteriaMetIcon()}
-              <Button variant="contained" color="primary" onClick={handleRunTest}>
+              <LoadingButton
+                loading={isLoading}
+                done={isFinished}
+                onClick={handleRunTest}
+                variant="contained"
+                color="primary"
+              >
                 RUN
-              </Button>
+              </LoadingButton>
               <Button variant="contained" onClick={handleToggleDetail}>
                 MORE INFO
               </Button>

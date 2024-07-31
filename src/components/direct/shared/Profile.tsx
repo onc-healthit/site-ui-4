@@ -48,7 +48,7 @@ const Profile: React.FC<ProfileProps> = ({
             id="outlined-vendor-hostname"
             label="Vendor Hostname/IP"
             helperText="helper text"
-            defaultValue="test"
+            defaultValue=""
             required
             onChange={(e) => setHostname(e.target.value)}
           />
@@ -57,7 +57,7 @@ const Profile: React.FC<ProfileProps> = ({
             id="vendor-email"
             label="Vendor Direct Email Address"
             helperText="helper text"
-            defaultValue="test"
+            defaultValue=""
             required
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -68,7 +68,7 @@ const Profile: React.FC<ProfileProps> = ({
             id="vendor-username"
             label="Vendor Username"
             helperText="helper text"
-            defaultValue="test"
+            defaultValue=""
             required
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -77,7 +77,7 @@ const Profile: React.FC<ProfileProps> = ({
             id="vendor-password"
             label="Vendor Password"
             helperText="helper text"
-            defaultValue="test"
+            defaultValue=""
             required
             onChange={(e) => setPassword(e.target.value)}
           />
