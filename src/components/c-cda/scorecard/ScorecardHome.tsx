@@ -50,11 +50,11 @@ export default function ScorecardHome() {
       value: 'highScoringSample.json',
     },
     {
-      label: 'Low Scoring Sample - r21',
+      label: 'Low Scoring Sample (C-CDA R2.1)',
       value: 'lowScoringSample_r21.json',
     },
     {
-      label: 'Low Scoring Sample - r11',
+      label: 'Low Scoring Sample (C-CDA R1.0)',
       value: 'lowScoringSample_r11.json',
     },
     {
@@ -82,8 +82,8 @@ export default function ScorecardHome() {
       value: 'sampleWithoutAnyContent.json',
     },
   ]
-  // TODO: Tie this to a debug mode env var (if true, push, otherwise, don't, as we don't need these in production)
   demoSampleOptions.push(...newDemoSampleOptions)
+  // TODO: Tie this to a debug mode env var (if true, push, otherwise, don't, as we don't need these in production)
   demoSampleOptions.push(...debugSampleOptions)
 
   const [demoSampleOption, setDemoSampleOption] = useState<string>(demoSampleOptions[0].value)

@@ -5,6 +5,7 @@ export enum ReferenceInstanceEnum {
 }
 
 // old ui: categoryTypes
+// 11 sections plus Unknown
 export enum SectionNameEnum {
   PROBLEMS = 'Problems',
   MEDICATIONS = 'Medications',
@@ -28,6 +29,7 @@ export enum ReferenceErrorTypeEnum {
 }
 
 // old ui: ScorecardConstants
+// Note: This is located in ScorecardResultsType.igReferenceUrl in the JSON response so do we really need it?
 export enum ConstantsEnum {
   IG_URL = 'http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379', // best practice desc link
 }

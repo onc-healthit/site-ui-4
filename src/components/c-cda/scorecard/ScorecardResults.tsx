@@ -62,7 +62,7 @@ export default function ScorecardResults({
       <DialogTemplate
         open={dialogState}
         handleClose={handleCloseDialog}
-        title="Scorecard Results"
+        title={`Scorecard Results: ${json?.filename || 'Unknown Filename'}`}
         menuContent={
           <List>
             <MenuItem sx={{ fontWeight: 'bold', py: 1 }}>Base Check</MenuItem>

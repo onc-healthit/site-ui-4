@@ -1,10 +1,11 @@
 import palette from '@/styles/palette'
-import { Container, List, ListItem, ListItemText } from '@mui/material'
+import { Button, Container, List, ListItem, ListItemText } from '@mui/material'
 import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Link from 'next/link'
 import * as React from 'react'
+import { ScorecardCategoryRubric } from '../types/ScorecardJsonResponseType'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -35,15 +36,34 @@ function a11yProps(index: number) {
   }
 }
 
-export default function ScorecardTabs() {
+interface ScorecardTabsProps {
+  rubric: ScorecardCategoryRubric
+}
+
+export default function ScorecardTabs({ rubric }: ScorecardTabsProps) {
   const [value, setValue] = React.useState(0)
+  const [isShowIssueXml, setIsShowIssueXml] = React.useState(Array(rubric.issuesList.length).fill(false))
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
 
-  const tempXmlData: string =
-    '<value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" code="419511003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Propensity to adverse reaction to drug" xsi:type="CD">\n\t\t\t\t\t\t\t\t\t\t<originalText>\n\t\t\t\t\t\t\t\t\t\t\t<reference value="#reaction1"/>\n\t\t\t\t\t\t\t\t\t\t</originalText>\n\t\t\t\t\t\t\t\t\t</value>'
+  const handleShowIssueXml = (index: number) => {
+    setIsShowIssueXml((prevStates) => {
+      const newStatesWithFlippedStateAtIndex = [...prevStates]
+      newStatesWithFlippedStateAtIndex[index] = !prevStates[index]
+      return newStatesWithFlippedStateAtIndex
+    })
+  }
+
+  const issueXmlStyle = {
+    width: '100%',
+    overflow: 'auto',
+    backgroundColor: palette.white,
+    padding: 2,
+    borderRadius: 5,
+  }
+  const bestPracticeLinkStyle = issueXmlStyle
 
   return (
     <>
@@ -66,7 +86,7 @@ export default function ScorecardTabs() {
               },
             }}
           >
-            <Tab label="ISSUE (#)" {...a11yProps(0)} />
+            <Tab label={`ISSUE INSTANCES (${rubric.numberOfIssues})`} {...a11yProps(0)} />
             <Tab label="BEST PRACTICE" {...a11yProps(1)} />
           </Tabs>
         </Container>
@@ -74,25 +94,46 @@ export default function ScorecardTabs() {
 
       <CustomTabPanel value={value} index={0}>
         <List sx={{ listStyle: 'decimal', pl: 2 }}>
-          <ListItem sx={{ display: 'list-item' }}>
-            <ListItemText primary="XML at Line Number X" style={{ fontStyle: 'bold' }} />
-            {/* TODO: Make this pretty-printed with a library, with syntax highlighting if possible */}
-            <Box sx={{ width: '100%', overflow: 'auto' }} pl={0}>
-              <pre style={{ whiteSpace: 'pre-line', wordWrap: 'break-word', fontFamily: 'monospace' }}>
-                {tempXmlData}
-              </pre>
-            </Box>
-          </ListItem>
+          {rubric.issuesList.map((issue, index) => (
+            <ListItem sx={{ display: 'list-item' }} key={index}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', pb: 2 }}>
+                <ListItemText
+                  primary={`XML at Line Number ${issue.lineNumber}`}
+                  primaryTypographyProps={{ fontWeight: 'bold' }}
+                />
+                <Button variant="outlined" onClick={() => handleShowIssueXml(index)}>
+                  {isShowIssueXml[index] ? 'HIDE XML' : 'SHOW XML'}
+                </Button>
+              </Box>
+              {isShowIssueXml[index] && (
+                <Box sx={issueXmlStyle}>
+                  {/* TODO: Make this pretty-printed with a library, with syntax highlighting if possible
+                  This is a bit more complex than expected as the xmlString in the JSON has tab and new line delimiters
+                  which likely have to be removed for the library to parse it */}
+                  <pre style={{ whiteSpace: 'pre-line', wordWrap: 'break-word', fontFamily: 'monospace' }}>
+                    {issue.xmlString}
+                  </pre>
+                </Box>
+              )}
+            </ListItem>
+          ))}
         </List>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <List sx={{ listStyle: 'decimal', pl: 2 }}>
-          <ListItem sx={{ display: 'list-item' }}>
-            <ListItemText primary="Related HL7 C-CDA Task Force example" style={{ fontStyle: 'bold' }} />
-            <Link href="https://someBestPracticeUrl.com/something/somefileOrRoute">
-              https://someBestPracticeUrl.com/something/somefileOrRoute
-            </Link>
-          </ListItem>
+          {rubric.exampleTaskForceLinks.map((tfLink, index) => (
+            <ListItem sx={{ display: 'list-item' }} key={index}>
+              <ListItemText
+                primary="Related HL7 C-CDA Task Force example"
+                primaryTypographyProps={{ fontWeight: 'bold' }}
+              />
+              <Box sx={bestPracticeLinkStyle}>
+                <Link href={tfLink} target="_blank" rel="noreferrer noopener">
+                  {tfLink}
+                </Link>
+              </Box>
+            </ListItem>
+          ))}
         </List>
       </CustomTabPanel>
     </>

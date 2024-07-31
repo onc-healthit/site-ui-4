@@ -13,7 +13,7 @@ export interface ScorecardJsonResponseType {
 export interface ScorecardResultsType {
   finalGrade: string
   finalNumericalGrade: number
-  categoryList: CategoryList[]
+  categoryList: ScorecardCategoryList[]
   numberOfIssues: number
   igReferenceUrl: string
   industryAverageScore: number
@@ -32,11 +32,11 @@ export interface ScorecardResultsType {
   totalGradesGiven: TotalGradesGiven
 }
 
-interface CategoryList {
+export interface ScorecardCategoryList {
   categoryName: string
   categoryGrade: string | null
   categoryNumericalScore: number
-  categoryRubrics: CategoryRubric[]
+  categoryRubrics: ScorecardCategoryRubric[]
   numberOfIssues: number
   numberOfChecks: number
   numberOfFailedRubrics: number
@@ -45,7 +45,7 @@ interface CategoryList {
   nullFlavorNI: boolean
 }
 
-interface CategoryRubric {
+export interface ScorecardCategoryRubric {
   rule: string
   numberOfIssues: number
   issuesList: IssuesList[]
