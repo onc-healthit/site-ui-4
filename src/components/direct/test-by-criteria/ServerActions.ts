@@ -52,7 +52,7 @@ interface APIResponse {
 }
 
 export async function handleAPICall(data: APICallData): Promise<APIResponse> {
-  const apiUrl = process.env.TEST_BY_CRITERIA_ENDPOINT
+  const apiUrl = process.env.SMTP_TEST_BY_CRITERIA_ENDPOINT
   const config = {
     method: 'post',
     url: apiUrl,
