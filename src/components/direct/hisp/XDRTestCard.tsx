@@ -7,6 +7,7 @@ import DynamicTable from './DynamicTable'
 import { handleAPICall } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
+import LoadingButton from '../shared/LoadingButton'
 
 export type TestCaseFields = {
   name?: string
@@ -141,6 +142,8 @@ const TestCard = ({
   const [testRequestResponses, setTestRequestResponses] = useState<string>('')
   const [showLogs, setShowLogs] = useState(false)
   const [fieldValues, setFieldValues] = useState<{ [key: string]: string }>({})
+  const [isLoading, setIsLoading] = useState(false)
+  const [isFinished, setIsFinished] = useState(false)
 
   const [documentDetails] = useState<{
     directory: string
@@ -175,6 +178,9 @@ const TestCard = ({
       const targetEndpointTLS = fieldValues['targetEndpointTLS'] || ''
       const outgoing_from = fieldValues['outgoing_from'] || ''
       try {
+        setIsLoading(true)
+        setIsFinished(false)
+        setCriteriaMet('')
         const response = await handleAPICall({
           testCaseNumber: test.id,
           sutSmtpAddress: hostname,
@@ -200,12 +206,18 @@ const TestCard = ({
           targetEndpointTLS,
           outgoing_from,
         })
+        setIsFinished(true)
         setCriteriaMet(response.criteriaMet)
         setTestRequestResponses(JSON.stringify(response.testRequestResponses, null, 2))
         console.log('Criteria met: ', response.criteriaMet)
         console.log('Test Request Responses:', response.testRequestResponses)
       } catch (error) {
         console.error('Failed to run test:', error)
+      } finally {
+        setIsLoading(false)
+        setTimeout(() => {
+          setIsFinished(false)
+        }, 100)
       }
     }
   }
@@ -372,9 +384,15 @@ const TestCard = ({
 
               <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 1, pl: 2 }}>
                 {renderCriteriaMetIcon()}
-                <Button variant="contained" color="primary" onClick={handleRunTest}>
+                <LoadingButton
+                  loading={isLoading}
+                  done={isFinished}
+                  onClick={handleRunTest}
+                  variant="contained"
+                  color="primary"
+                >
                   RUN
-                </Button>
+                </LoadingButton>
                 <Button variant="contained" onClick={handleToggleDetail}>
                   MORE INFO
                 </Button>
