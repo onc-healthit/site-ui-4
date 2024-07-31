@@ -1,23 +1,25 @@
 import palette from '@/styles/palette'
-import { ScorecardBestPracticeResultType } from '@/components/c-cda/scorecard/types/ScorecardBestPracticeResultType'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Typography } from '@mui/material'
 import React, { useState } from 'react'
+import { ConstantsEnum, SectionNameEnum } from '../types/ScorecardConstants'
+import { ScorecardCategoryList, ScorecardCategoryRubric } from '../types/ScorecardJsonResponseType'
 import ScorecardTabs from './ScorecardTabs'
+import Link from 'next/link'
 
 interface DetailsAccordionProps {
   disabled: boolean
   refLink: React.RefObject<HTMLDivElement>
-  details: ScorecardBestPracticeResultType[]
+  allSections: ScorecardCategoryList[]
+  currentSection: ScorecardCategoryList
+  currentSectionIndex: number
   defaultExpanded?: boolean
   leftBorderColor: string
   backgroundColor: string
-  section: string
-  issueCount: number
 }
 
 const DetailsAccordion = (props: DetailsAccordionProps) => {
-  const [isShowDetails, setIsShowDetails] = useState(Array(props.details.length).fill(false))
+  const [isShowDetails, setIsShowDetails] = useState(Array(props.allSections.length).fill(false))
 
   const handleShowDetails = (index: number) => {
     console.log('enter clickShowDetails, flipping show/hide state of index: ' + index)
@@ -28,6 +30,16 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
     })
     console.log(`isShowDetails[${index}]: ` + isShowDetails[index])
   }
+
+  const rubrics: ScorecardCategoryRubric[] = props.allSections[props.currentSectionIndex].categoryRubrics
+  const rubricsWithIssues: ScorecardCategoryRubric[] = rubrics.filter((rubric) => rubric.numberOfIssues > 0)
+  const rubricsWithIssuesCount: number = rubricsWithIssues.length
+
+  const IgLink = () => (
+    <Link href={ConstantsEnum.IG_URL} target="_blank" rel="noreferrer noopener">
+      C-CDA Implementation Guide
+    </Link>
+  )
 
   return (
     <Accordion
@@ -47,31 +59,60 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
     >
       <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
         {/* TODO: Issue count should probably be an avatar/badge just like in heatmap */}
-        <Typography sx={{ fontWeight: 'bold', border: `` }}>
+        <Typography sx={{ border: `` }}>
           {/* {props.section} {props.grade} ({props.issueCount}) */}
-          {props.section} someGrade ({props.issueCount})
+          <b>
+            {props.currentSection.categoryName} {props.currentSection.categoryGrade}
+          </b>{' '}
+          (<b>{props.currentSection.numberOfIssues}</b> Total Issues | <b>{rubricsWithIssuesCount}</b> Unique Issue
+          {rubricsWithIssuesCount > 1 && 's'})
         </Typography>
       </AccordionSummary>
 
       <AccordionDetails sx={{ p: 2 }}>
-        {props.details.map((detail, i) => (
-          <Box sx={{ marginBottom: 1, borderRadius: 2 }} p={2} bgcolor={props.backgroundColor} key={i}>
+        {rubricsWithIssues.map((curRubric, i) => (
+          <Box sx={{ marginBottom: 1, borderRadius: 5 }} p={2} bgcolor={props.backgroundColor} key={i}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography gutterBottom sx={{ pb: 2 }}>
-                <b>Rule: {detail.rule}</b>
-              </Typography>
-              <Button variant="outlined" onClick={() => handleShowDetails(i)}>
-                {isShowDetails[i] ? 'HIDE DETAILS' : 'SHOW DETAILS'}
-              </Button>
+              <Box sx={{ width: '80%', textAlign: 'left' }}>
+                <Typography gutterBottom sx={{ pb: 2 }}>
+                  <b>Rule: {curRubric.rule}</b>
+                </Typography>
+              </Box>
+              <Box sx={{ width: '20%', textAlign: 'right' }}>
+                <Button variant="outlined" onClick={() => handleShowDetails(i)}>
+                  {isShowDetails[i] ? 'HIDE DETAILS' : 'SHOW DETAILS'}
+                </Button>
+              </Box>
             </Box>
             {isShowDetails[i] && (
               <>
-                <Typography gutterBottom sx={{ pb: 2 }}>
+                <Typography component="div" gutterBottom sx={{ pb: 2 }}>
                   <b>Description</b>:
                   <br />
-                  {detail.description}
+                  {curRubric?.description ? curRubric.description : SectionNameEnum.UNKNOWN}
+                  <br />
+                  <br />
+                  <Box component="span">
+                    {curRubric.igReferences[0] && curRubric.igReferences[0] === ConstantsEnum.IG_URL && (
+                      <>
+                        Please refer to the&nbsp;<IgLink></IgLink>&nbsp;for help resolving the issue.
+                      </>
+                    )}
+                    {curRubric.igReferences[0] && curRubric.igReferences[0] !== ConstantsEnum.IG_URL && (
+                      <>
+                        Please refer to:&nbsp;
+                        {curRubric.igReferences.map((igRef, index) => (
+                          <Box component="span" key={index}>
+                            {igRef}
+                            {index < curRubric.igReferences.length - 1 ? ',' : ''}
+                          </Box>
+                        ))}
+                        &nbsp;in the <IgLink></IgLink>&nbsp;for help resolving the issue.
+                      </>
+                    )}
+                  </Box>
                 </Typography>
-                <ScorecardTabs></ScorecardTabs>
+                <ScorecardTabs rubric={curRubric}></ScorecardTabs>
               </>
             )}
           </Box>
@@ -82,18 +123,13 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
 }
 
 interface ScorecardBestPracticeResultsProps {
-  section: string
-  results: ScorecardBestPracticeResultType[]
+  allSections: ScorecardCategoryList[]
+  currentSection: ScorecardCategoryList
   errorRef: React.RefObject<HTMLDivElement>
+  currentSectionIndex: number
 }
 
 export default function ScorecardBestPracticeResults(props: ScorecardBestPracticeResultsProps) {
-  // const [errorDisabled, setErrorDisabled] = useState(false)
-  // const errors = props.results.filter((result) => result?.type.includes('Error'))
-  // console.log(errors)
-  // useEffect(() => {
-  //   _.isEmpty(errors) && setErrorDisabled(true)
-  // }, [errors])
   return (
     <Box>
       <Box>
@@ -104,12 +140,12 @@ export default function ScorecardBestPracticeResults(props: ScorecardBestPractic
       <DetailsAccordion
         disabled={false}
         refLink={props.errorRef}
-        details={props.results}
+        allSections={props.allSections}
+        currentSection={props.currentSection}
         leftBorderColor={palette.successLight} //TODO: make dynamic color based on grade
         backgroundColor={'ghostWhite'}
         defaultExpanded={true}
-        section={props.section}
-        issueCount={props.results.length}
+        currentSectionIndex={props.currentSectionIndex}
       />
     </Box>
   )

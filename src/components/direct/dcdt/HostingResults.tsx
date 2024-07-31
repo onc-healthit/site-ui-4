@@ -149,21 +149,21 @@ const Results = ({ response }: ResultsProps) => {
                   {item.success ? 'true' : 'false'}
                 </Typography>
                 <Typography>
-                  <strong>Processing Messages:</strong>
-                  {item.procMsgs ? item.procMsgs : 'None'}
+                  <strong>Processing Message(s): </strong>
+                  {!_.isEmpty(item.procMsgs) ? item.procMsgs : 'None'}
                 </Typography>
                 <Typography>
-                  <strong>Processing Steps:</strong>
+                  <strong>Processed Step(s):</strong>
                 </Typography>
                 <List disablePadding sx={bulletedList('number')}>
                   {' '}
                   {item.procSteps.map((step, i) => {
                     return (
                       <div key={i}>
-                        <CustomListItem name={step.desc.text} value={''} />
+                        <CustomListItem name={step.desc.text.replace('.', '')} value={''} />
                         <List sx={bulletedList('circle')}>
                           <CustomListItem name={'Success'} value={step.success ? 'true' : 'false'} />
-                          <CustomListItem name={'Messages'} value={''} />
+                          <CustomListItem name={'Message(s)'} value={''} />
                           <List sx={bulletedList('circle')}>
                             {step.msgs.map((msg, i) => {
                               return (
@@ -193,7 +193,7 @@ const Results = ({ response }: ResultsProps) => {
                   {item.discoveredCertInfo ? item.discoveredCertInfo.cert : 'None'}
                 </pre>
                 <Typography>
-                  <strong>Discovered InValid Certificate:</strong>
+                  <strong>Discovered Invalid Certificate(s):</strong>
                 </Typography>
                 <pre style={{ whiteSpace: 'pre-line', wordWrap: 'break-word' }}>
                   {!_.isEmpty(item.invalidDiscoveredCertInfos) ? item.invalidDiscoveredCertInfos[0].cert : 'None'}
