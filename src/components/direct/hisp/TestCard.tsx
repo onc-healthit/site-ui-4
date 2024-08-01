@@ -7,7 +7,6 @@ import { handleAPICall } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import LoadingButton from '../shared/LoadingButton'
-
 import {
   Box,
   Button,
@@ -15,10 +14,15 @@ import {
   CardContent,
   CardHeader,
   Divider,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Typography,
   FormControlLabel,
   Checkbox,
   TextField,
-  Typography,
+  SelectChangeEvent,
 } from '@mui/material'
 
 export type TestCaseFields = {
@@ -38,7 +42,7 @@ export type TestCaseFields = {
     subDesc?: string
     fields?: ExtraFields[]
     headers: string[]
-    tableData?: TableRowData[]
+    tableData: TableRowData[]
     actionLabel?: string
     optionalTextField?: {
       label: string
@@ -63,11 +67,11 @@ export type FieldValue = boolean | string | number
 export type ExtraFields = {
   label: string
   name: string
-  datatype: 'checkbox' | 'text' | 'number' | string
-  placeholder?: string
-  value: FieldValue
+  datatype: string
+  value?: FieldValue
+  allowedValues?: string[]
   readonly?: boolean
-  display?: boolean
+  display: boolean
   render?: (value: FieldValue) => JSX.Element
 }
 
@@ -94,12 +98,15 @@ const TestCard = ({
   password = 'defaultPassword',
   tlsRequired = false,
 }: TestCardProps) => {
+  const attachmentTypeTestIDs = [231, 331]
+  const manualValidationCriteria = ['b1-5', 'b1-6']
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testRequestResponses, setTestRequestResponses] = useState<string>('')
   const [showLogs, setShowLogs] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
+  const [attachmentType, setAttachmentType] = useState('')
 
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
     console.log('Confirmed Document', selectedData)
@@ -111,6 +118,22 @@ const TestCard = ({
     setShowDocumentSelector(false)
   }
 
+  const handleAcceptTest = () => {
+    setCriteriaMet('TRUE')
+    setShowLogs(false)
+    setIsFinished(false)
+  }
+
+  const handleRejectTest = () => {
+    setCriteriaMet('FALSE')
+    setShowLogs(false)
+    setIsFinished(false)
+  }
+
+  const handleAttachmentTypeChange = (event: SelectChangeEvent<string>) => {
+    setAttachmentType(event.target.value)
+  }
+
   const [documentDetails, setDocumentDetails] = useState<{
     directory: string
     fileName: string
@@ -119,7 +142,22 @@ const TestCard = ({
   const [formData, setFormData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
     test.moreInfo?.fields?.forEach((field) => {
-      initialData[field.name] = field.value
+      let defaultValue: FieldValue
+      switch (field.datatype) {
+        case 'text':
+        case 'DropdownString':
+          defaultValue = field.value ?? ''
+          break
+        case 'checkbox':
+          defaultValue = field.value ?? false
+          break
+        case 'number':
+          defaultValue = field.value ?? 0
+          break
+        default:
+          defaultValue = field.value ?? ''
+      }
+      initialData[field.name] = defaultValue
     })
     return initialData
   })
@@ -156,6 +194,7 @@ const TestCard = ({
           cures: true,
           year: '2021',
           hostingcase: 'YES',
+          attachmentType: attachmentType,
         })
         setIsFinished(true)
         setCriteriaMet(response.criteriaMet)
@@ -166,9 +205,11 @@ const TestCard = ({
         console.error('Failed to run test:', error)
       } finally {
         setIsLoading(false)
-        setTimeout(() => {
-          setIsFinished(false)
-        }, 100)
+        if (test.criteria && manualValidationCriteria.includes(test.criteria)) {
+          setTimeout(() => {
+            setIsFinished(false)
+          }, 100)
+        }
       }
     }
   }
@@ -192,6 +233,34 @@ const TestCard = ({
 
   const handleToggleDetail = () => {
     setShowDetail((prev) => !prev)
+  }
+
+  const renderAttachmentTypeDropdown = () => {
+    if (test.fields) {
+      // Check if fields are defined
+      const field = test.fields.find((f) => f.name === 'attachmentType')
+      return (
+        field &&
+        field.allowedValues && (
+          <FormControl fullWidth margin="normal">
+            <InputLabel>{field.label}</InputLabel>
+            <Select
+              value={attachmentType}
+              label={field.label}
+              onChange={handleAttachmentTypeChange}
+              disabled={field.readonly}
+            >
+              {field.allowedValues.map((value) => (
+                <MenuItem key={value} value={value}>
+                  {value}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )
+      )
+    }
+    return null
   }
 
   return (
@@ -284,15 +353,28 @@ const TestCard = ({
             <Typography variant="body1">No logs to display.</Typography>
           )}
           <Divider sx={{ mb: 2, mt: 2 }} />
-          <Button variant="contained" onClick={handleToggleLogs}>
-            Close Logs
-          </Button>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
+            {test.criteria && manualValidationCriteria.includes(test.criteria) && (
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <Button variant="contained" color="primary" onClick={handleAcceptTest}>
+                  Accept
+                </Button>
+                <Button variant="outlined" color="primary" onClick={handleRejectTest}>
+                  Reject
+                </Button>
+              </Box>
+            )}
+            <Button variant="contained" onClick={handleToggleLogs}>
+              Close Logs
+            </Button>
+          </Box>
         </CardContent>
       ) : (
         <CardContent>
           <Typography variant="body2" sx={{ mb: 2 }}>
             {test.desc}
           </Typography>
+          {attachmentTypeTestIDs.includes(test.id) && renderAttachmentTypeDropdown()}
           <Divider sx={{ mb: 0 }} />
           <Box
             sx={{
@@ -352,6 +434,9 @@ const TestCard = ({
               <Button variant="contained" color="inherit" onClick={handleToggleLogs}>
                 LOGS
               </Button>
+              {test.criteria && manualValidationCriteria.includes(test.criteria) && isFinished && (
+                <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>
+              )}
             </Box>
           </Box>
         </CardContent>

@@ -25,6 +25,7 @@ interface APICallData {
   direct_from?: string
   targetEndpointTLS?: string
   outgoing_from?: string
+  attachmentType?: string
 }
 export interface FileDetail {
   svap: boolean
