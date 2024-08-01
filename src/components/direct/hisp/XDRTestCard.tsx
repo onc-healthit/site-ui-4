@@ -144,6 +144,22 @@ const TestCard = ({
   const [fieldValues, setFieldValues] = useState<{ [key: string]: string }>({})
   const [isLoading, setIsLoading] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
+  const endpointTestIds = [
+    '10',
+    '11',
+    '12',
+    '20amu2',
+    '20bmu2',
+    '32mu2',
+    '33mu2',
+    '34mu2',
+    '35mu2',
+    '36mu2',
+    '37mu2',
+    '38mu2',
+    '43mu2',
+    '44mu2',
+  ]
 
   const [documentDetails] = useState<{
     directory: string
@@ -356,10 +372,7 @@ const TestCard = ({
                 pr: 2,
               }}
             >
-              {_.includes(
-                ['10', '11', '12', '32mu2', '33mu2', '34mu2', '35mu2', '36mu2', '37mu2', '38mu2', '43mu2', '44mu2'],
-                test.id
-              ) && (
+              {endpointTestIds.includes(test.id.toString()) && (
                 <Box width={'50%'}>
                   <Box>
                     <Button
