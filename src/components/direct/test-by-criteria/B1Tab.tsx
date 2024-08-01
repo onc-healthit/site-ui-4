@@ -37,8 +37,16 @@ const B1Component = () => {
   const criteriaH = testCases.tests.filter((test) => test.criteria?.includes('b1-7'))
 
   const handleChange = (event: SelectChangeEvent) => {
-    setOption(event.target.value as string)
-    setShowTestCard(true)
+    const newOption = event.target.value as string
+
+    // Set showTestCard to false to remove old cards
+    setShowTestCard(false)
+
+    // Delay the re-render of test cards to allow the old cards to be removed completely
+    setTimeout(() => {
+      setOption(newOption)
+      setShowTestCard(true)
+    }, 0)
   }
 
   const dropdown = [

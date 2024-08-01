@@ -99,7 +99,7 @@ const TestCard = ({
   tlsRequired = false,
 }: TestCardProps) => {
   const attachmentTypeTestIDs = [231, 331]
-  const manualValidationCriteria = ['b1-5', 'b1-6']
+  const manualValidationCriteria = ["['b1-5']", "['b1-6']", "['b1-5','su1-5']", "['b1-6','su1-6']"]
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testRequestResponses, setTestRequestResponses] = useState<string>('')
@@ -205,7 +205,7 @@ const TestCard = ({
         console.error('Failed to run test:', error)
       } finally {
         setIsLoading(false)
-        if (test.criteria && manualValidationCriteria.includes(test.criteria)) {
+        if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
           setTimeout(() => {
             setIsFinished(false)
           }, 100)
