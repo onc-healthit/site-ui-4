@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardContent, CardHeader, Divider, TextField, Typography, FormControl } from '@mui/material'
-
+import InfoIcon from '@mui/icons-material/Info'
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
 import _ from 'lodash'
 import React, { useState } from 'react'
@@ -8,6 +8,7 @@ import { handleAPICall } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import LoadingButton from '../shared/LoadingButton'
+import DocumentSelector from './DocumentSelector'
 
 export type TestCaseFields = {
   name?: string
@@ -129,6 +130,12 @@ interface TestCardProps {
   tlsRequired?: boolean
 }
 
+interface SelectedDocument {
+  directory: string
+  fileName: string
+  fileLink: string
+}
+
 const TestCard = ({
   test,
   hostname = 'defaultHostname',
@@ -144,6 +151,15 @@ const TestCard = ({
   const [fieldValues, setFieldValues] = useState<{ [key: string]: string }>({})
   const [isLoading, setIsLoading] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
+
+  const requiresCCDADocument = () => {
+    return test.inputs?.some((input) => input.key === 'payload' && input.type === 'CCDAWidgetXdr')
+  }
+
+  const shouldDisplayInput = (input: InputFields) => {
+    return !(input.key === 'payload' && input.type === 'CCDAWidgetXdr')
+  }
+
   const endpointTestIds = [
     '10',
     '11',
@@ -161,11 +177,6 @@ const TestCard = ({
     '44mu2',
   ]
 
-  const [documentDetails] = useState<{
-    directory: string
-    fileName: string
-    fileLink: string
-  } | null>(null)
   const [formData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
     test.moreInfo?.fields?.forEach((field) => {
@@ -255,6 +266,28 @@ const TestCard = ({
     setShowDetail((prev) => !prev)
   }
 
+  const toggleDocumentSelector = () => {
+    setShowDocumentSelector(!showDocumentSelector)
+  }
+
+  const handleDocumentConfirm = (selectedData: SelectedDocument) => {
+    console.log('Confirmed Document', selectedData)
+    setDocumentDetails(selectedData)
+    setShowDocumentSelector(false)
+  }
+
+  const handleDocumentSelectorClose = () => {
+    setShowDocumentSelector(false)
+  }
+
+  const [documentDetails, setDocumentDetails] = useState<{
+    directory: string
+    fileName: string
+    fileLink: string
+  } | null>(null)
+
+  const [showDocumentSelector, setShowDocumentSelector] = useState(false)
+
   const renderMoreInfo = () => {
     const { moreInfo } = test
     return (
@@ -342,9 +375,9 @@ const TestCard = ({
                 <StepText inputs={test.inputs} role={test.sutRole} />
               )}
               {_.has(test, 'inputs') &&
-                test.inputs !== undefined &&
-                test.inputs?.map((input) => (
-                  <Box key={input.key || 'default-key'}>
+                test.inputs &&
+                test.inputs.filter(shouldDisplayInput).map((input, index) => (
+                  <Box sx={{ pt: 2 }} key={input.key || 'default-key'}>
                     <FormControl fullWidth>
                       <TextField
                         fullWidth
@@ -393,6 +426,30 @@ const TestCard = ({
                     </Button>
                   </Box>
                 </Box>
+              )}
+              {requiresCCDADocument() && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-end',
+                    ml: 1,
+                  }}
+                >
+                  <Typography>
+                    C-CDA Document Type <InfoIcon color="primary" fontSize="small" />
+                  </Typography>
+                  <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
+                    SELECT A DOCUMENT
+                  </Button>
+                  {documentDetails && <Typography sx={{ mt: 1 }}>Selected: {documentDetails.fileName}</Typography>}
+                </Box>
+              )}
+
+              {showDocumentSelector && (
+                <DocumentSelector onConfirm={handleDocumentConfirm} onClose={handleDocumentSelectorClose} />
               )}
 
               <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 1, pl: 2 }}>

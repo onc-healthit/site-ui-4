@@ -117,7 +117,7 @@ const TestCard = ({
   const handleDocumentSelectorClose = () => {
     setShowDocumentSelector(false)
   }
-
+  const [showDocumentSelector, setShowDocumentSelector] = useState(false)
   const handleAcceptTest = () => {
     setCriteriaMet('TRUE')
     setShowLogs(false)
@@ -139,6 +139,7 @@ const TestCard = ({
     fileName: string
     fileLink: string
   } | null>(null)
+
   const [formData, setFormData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
     test.moreInfo?.fields?.forEach((field) => {
@@ -161,8 +162,6 @@ const TestCard = ({
     })
     return initialData
   })
-
-  const [showDocumentSelector, setShowDocumentSelector] = useState(false)
 
   const handleChange = (name: string, value: FieldValue) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
