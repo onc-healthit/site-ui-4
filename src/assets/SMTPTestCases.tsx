@@ -24,9 +24,9 @@ const testCases = {
         },
         actionLabel: 'RUN',
       },
-      desc: 'Verifies the ability of the sending system to send an email to ETT using the SMTP protocol with STARTTLS and PLAIN SASL Authentication (if enabled). The SUT will send an email to wellformed1@ttpedge.sitenv.org. Hitting Run will cause ETT to search for an email sent to wellformed1@ttpedge.sitenv.org from the email address entered in Profile window. Note that the C-CDA Document Type selected will not affect the test result.',
+      desc: 'Verifies the ability of the sending system to send an email to ETT using the SMTP protocol with STARTTLS and PLAIN SASL Authentication (if enabled). The SUT will send an email to wellformed1@ett.healthit.gov. Hitting Run will cause ETT to search for an email sent to wellformed1@ett.healthit.gov from the email address entered in Profile window. Note that the C-CDA Document Type selected will not affect the test result.',
       longDesc:
-        'Run this series collectively from one action: Test 8 validates basic commands (HELO, MAIL FROM, RCPT TO) and STARTTLS. Test 14 validates SASL AUTH. For Test 18 the SUT needs to connect to the ETT SMTP server using the credentials vendoraccount@ttpds.sitenv.org / vendortesting123 and send an email to wellformed1@ttpedge.sitenv.org. \n The validator is designed to use an XML attachment, sending a PDF is permitted for transport; however, it will not validate.',
+        'Run this series collectively from one action: Test 8 validates basic commands (HELO, MAIL FROM, RCPT TO) and STARTTLS. Test 14 validates SASL AUTH. For Test 18 the SUT needs to connect to the ETT SMTP server using the credentials vendoraccount@james.healthit.gov / vendortesting123 and send an email to wellformed1@ett.healthit.gov. \n The validator is designed to use an XML attachment, sending a PDF is permitted for transport; however, it will not validate.',
       sutRole: 'sender',
       sutHisp: false,
       criteria: "['b1-8']",
@@ -66,9 +66,9 @@ const testCases = {
         },
         actionLabel: 'RUN',
       },
-      desc: "Verifies the ability of the sending system to send an email to ETT using the SMTP protocol with STARTTLS. The SUT will send an email to edge-receiver@ttpds.sitenv.org. Hitting 'Run' will cause ETT to search for an email sent to edge-receiver@ttpds.sitenv.org from the email address entered in Profile window. Note that the C-CDA Document Type selected will not affect the test result.",
+      desc: "Verifies the ability of the sending system to send an email to ETT using the SMTP protocol with STARTTLS. The SUT will send an email to edge-receiver@james.healthit.gov. Hitting 'Run' will cause ETT to search for an email sent to edge-receiver@james.healthit.gov from the email address entered in Profile window. Note that the C-CDA Document Type selected will not affect the test result.",
       longDesc:
-        'Run this series collectively from one action: Test 8 validates basic commands (HELO, MAIL FROM, RCPT TO) and STARTTLS, and Test 14, sending an email to edge-receiver@ttpds.sitenv.org. \n The validator is designed to use an XML attachment, sending a PDF is permitted for transport; however, it will not validate.',
+        'Run this series collectively from one action: Test 8 validates basic commands (HELO, MAIL FROM, RCPT TO) and STARTTLS, and Test 14, sending an email to edge-receiver@james.healthit.gov. \n The validator is designed to use an XML attachment, sending a PDF is permitted for transport; however, it will not validate.',
       sutRole: 'sender',
       sutHisp: true,
       criteria: "['h2-13']",
@@ -216,8 +216,8 @@ const testCases = {
       name: 'SMTP MT Test 17 - Generate Unique Message-ID (Processed MDN suite)',
       id: 117,
       protocol: 'mu2',
-      desc: "Verifies the ability of the sending system to send messages with unique message-IDs. The sending system will send multiple messages (at least 3) to wellformed14@ttpds.sitenv.org. Hitting 'Run' will cause ETT to check the message IDs for uniqueness (use this case if you opt for 'Message tracking using Processed MDN').",
-      longDesc: 'The credentials for authentication is vendoraccount@ttpds.sitenv.org / vendortesting123  ',
+      desc: "Verifies the ability of the sending system to send messages with unique message-IDs. The sending system will send multiple messages (at least 3) to wellformed14@james.healthit.gov. Hitting 'Run' will cause ETT to check the message IDs for uniqueness (use this case if you opt for 'Message tracking using Processed MDN').",
+      longDesc: 'The credentials for authentication is vendoraccount@james.healthit.gov / vendortesting123  ',
       sutRole: 'sender',
       sutHisp: false,
       sutEdge: true,
@@ -226,8 +226,8 @@ const testCases = {
       name: 'SMTP MT Test 45 - Generate Unique Message-ID (IG for Delivery Notification Suite)',
       id: 145,
       protocol: 'mu2',
-      desc: "Verifies the ability of the sending system to send messages with unique message-IDs and a properly formed Disposition Notification Options Header. The sending system will send multiple messages (at least 3) to wellformed14@ttpds.sitenv.org. Hitting 'Run' will cause ETT to check the message IDs for uniqueness (2014 Edition Note: use this case if you opt for 'Message tracking using Implementation Guide for Delivery Notification').",
-      longDesc: 'The credentials for authentication is vendoraccount@ttpds.sitenv.org / vendortesting123  ',
+      desc: "Verifies the ability of the sending system to send messages with unique message-IDs and a properly formed Disposition Notification Options Header. The sending system will send multiple messages (at least 3) to wellformed14@james.healthit.gov. Hitting 'Run' will cause ETT to check the message IDs for uniqueness (2014 Edition Note: use this case if you opt for 'Message tracking using Implementation Guide for Delivery Notification').",
+      longDesc: 'The credentials for authentication is vendoraccount@james.healthit.gov / vendortesting123  ',
       sutRole: 'sender',
       sutHisp: false,
       sutEdge: true,
@@ -236,8 +236,8 @@ const testCases = {
       name: 'SMTP MT Test 46 (Generate Disposition Notification Options Header)',
       id: 146,
       protocol: 'mu2',
-      desc: "Verifies the ability of the sending system to send messages with a correct Disposition Notification Options Header. The sending system will send a message to wellformed14@ttpds.sitenv.org with the required header. Hitting 'Run' will cause ETT to check for this header.",
-      longDesc: 'The credentials for authentication is vendoraccount@ttpds.sitenv.org / vendortesting123  ',
+      desc: "Verifies the ability of the sending system to send messages with a correct Disposition Notification Options Header. The sending system will send a message to wellformed14@james.healthit.gov with the required header. Hitting 'Run' will cause ETT to check for this header.",
+      longDesc: 'The credentials for authentication is vendoraccount@james.healthit.gov / vendortesting123  ',
       sutRole: 'sender',
       sutHisp: false,
       criteria: "['b1-2','su1-2']",
@@ -247,9 +247,9 @@ const testCases = {
       name: 'SMTP MT Test 47 - Accept failure message for invalid recipient (IG for Delivery Notification Suite - IMAP/POP Receiver)',
       id: 147,
       protocol: 'mu2',
-      desc: "Verifies the ability of the system to accept failure messages for some of the recipients. The system shall send a single email to multiple recipients: valid one (dispatchedonly-plain@ttpedge.sitenv.org) and an invalid address (noaddressfailure9-plain@dnsops.ttpedge.sitenv.org ). The MDNs are delivered to the 'Mail From' address. The failure MDN for invalid recipient noaddressfailure9-plain@dnsops.ttpedge.sitenv.org  needs to be verified.",
+      desc: "Verifies the ability of the system to accept failure messages for some of the recipients. The system shall send a single email to multiple recipients: valid one (dispatchedonly-plain@ett.healthit.gov) and an invalid address (noaddressfailure9-plain@dnsops.ttpedge.sitenv.org ). The MDNs are delivered to the 'Mail From' address. The failure MDN for invalid recipient noaddressfailure9-plain@dnsops.ttpedge.sitenv.org  needs to be verified.",
       longDesc:
-        'The credentials for authentication is vendoraccount@ttpds.sitenv.org / vendortesting123. This is a test case for systems that receive using SMTP.  ',
+        'The credentials for authentication is vendoraccount@james.healthit.gov / vendortesting123. This is a test case for systems that receive using SMTP.  ',
       sutRole: 'sender',
       sutHisp: false,
       sutEdge: true,
@@ -612,7 +612,7 @@ const testCases = {
     {
       name: "SMTP MT Test 3 (Recipient's Certificate Not Published)",
       id: 103,
-      longDesc: 'The email is sent to failure15@ttpds.sitenv.org',
+      longDesc: 'The email is sent to failure15@james.healthit.gov',
       desc: "Verify the ability of the system to provide a delivery failure message when a message is sent to a destination that does not have a published  certificate. Hitting 'Run' will cause ETT to send a message with a  final destination that does not have a published certificate. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the negative delivery status notification message. The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -638,7 +638,7 @@ const testCases = {
     {
       name: 'SMTP MT Test 4 (No Processed MDN)',
       id: 104,
-      longDesc: 'The email is sent to nomdn8@ttpedge.sitenv.org',
+      longDesc: 'The email is sent to nomdn8@ett.healthit.gov',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a processed  MDN. Hitting 'Run' will cause ETT to send a message with a final  destination that will not provide a processed MDN. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the negative delivery status notification message. The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -716,7 +716,7 @@ const testCases = {
     {
       name: "SMTP/IMAP MT Test 7 (Recipient's Certificate Not Published)",
       id: 107,
-      longDesc: 'The email is sent to failure15@ttpds.sitenv.org',
+      longDesc: 'The email is sent to failure15@james.healthit.gov',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not have a published  certificate. Hitting 'Run' will cause ETT to send a message with a  final destination that does not have a published certificate. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -742,7 +742,7 @@ const testCases = {
     {
       name: 'SMTP/IMAP MT Test 8 (No Processed MDN)',
       id: 108,
-      longDesc: 'The email is sent to nomdn8@ttpedge.sitenv.org',
+      longDesc: 'The email is sent to nomdn8@ett.healthit.gov',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a processed  MDN. Hitting 'Run' will cause ETT to send a message with a final  destination that will not provide a processed MDN. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -820,7 +820,7 @@ const testCases = {
     {
       name: "SMTP/POP MT Test 11 (Recipient's Certificate Not Published)",
       id: 111,
-      longDesc: 'The email is sent to failure15@ttpds.sitenv.org',
+      longDesc: 'The email is sent to failure15@james.healthit.gov',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not have a published  certificate. Hitting 'Run' will cause ETT to send a message with a  final destination that does not have a published certificate. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -846,7 +846,7 @@ const testCases = {
     {
       name: 'SMTP/POP MT Test 12 (No Processed MDN)',
       id: 112,
-      longDesc: 'The email is sent to nomdn8@ttpedge.sitenv.org',
+      longDesc: 'The email is sent to nomdn8@ett.healthit.gov',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a processed  MDN. Hitting 'Run' will cause ETT to send a message with a final  destination that will not provide a processed MDN. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -872,7 +872,7 @@ const testCases = {
     {
       name: 'SMTP MT Test 21(a) (Message with Good Header)',
       id: 521,
-      longDesc: 'The email is sent to processeddispatched6@ttpedge.sitenv.org',
+      longDesc: 'The email is sent to processeddispatched6@ett.healthit.gov',
       desc: "Verify the ability of the system to properly process the  Disposition-Notifications-Options Header. Hitting 'Run' will cause ETT  to send a message with an appropriate Disposition-Notifications-Options  Header. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the positive delivery status notification message.The expectation is that the Vendor will handle the header appropriately and provide a processed MDN.",
       protocol: 'mu2',
       moreInfo: {
@@ -898,7 +898,7 @@ const testCases = {
     {
       name: 'SMTP/IMAP MT Test 21(b) (Message with Good Header)',
       id: 121,
-      longDesc: 'The email is sent to processeddispatched6@ttpedge.sitenv.org',
+      longDesc: 'The email is sent to processeddispatched6@ett.healthit.gov',
       desc: "Verify the ability of the system to properly process the  Disposition-Notifications-Options Header. Hitting 'Run' will cause ETT  to send a message with an appropriate Disposition-Notifications-Options  Header. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag).The expectation is that the Vendor will handle the header appropriately and provide a processed MDN.",
       protocol: 'mu2',
       moreInfo: {
@@ -924,7 +924,7 @@ const testCases = {
     {
       name: 'SMTP/POP MT Test 21(c) (Message with Good Header)',
       id: 151,
-      longDesc: 'The email is sent to processeddispatched6@ttpedge.sitenv.org',
+      longDesc: 'The email is sent to processeddispatched6@ett.healthit.gov',
       desc: "Verify the ability of the system to properly process the  Disposition-Notifications-Options Header. Hitting 'Run' will cause ETT  to send a message with an appropriate Disposition-Notifications-Options  Header. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that the Vendor will handle the header appropriately and provide a processed MDN.",
       protocol: 'mu2',
       moreInfo: {
@@ -1106,7 +1106,7 @@ const testCases = {
     {
       name: "SMTP MT Test 25(a) (Recipient's Certificate Not Published)",
       id: 525,
-      longDesc: 'The email is sent to failure15@ttpds.sitenv.org',
+      longDesc: 'The email is sent to failure15@james.healthit.gov',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not have a published  certificate. Hitting 'Run' will cause ETT to send a message with a  final destination that does not have a published certificate. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the negative delivery status notification message. The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -1132,7 +1132,7 @@ const testCases = {
     {
       name: "SMTP/IMAP MT Test 25(b) (Recipient's Certificate Not Published)",
       id: 125,
-      longDesc: 'The email is sent to failure15@ttpds.sitenv.org',
+      longDesc: 'The email is sent to failure15@james.healthit.gov',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not have a published  certificate. Hitting 'Run' will cause ETT to send a message with a  final destination that does not have a published certificate. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -1158,7 +1158,7 @@ const testCases = {
     {
       name: "SMTP/POP MT Test 25(c) (Recipient's Certificate Not Published)",
       id: 625,
-      longDesc: 'The email is sent to failure15@ttpds.sitenv.org',
+      longDesc: 'The email is sent to failure15@james.healthit.gov',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not have a published  certificate. Hitting 'Run' will cause ETT to send a message with a  final destination that does not have a published certificate. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -1184,7 +1184,7 @@ const testCases = {
     {
       name: 'SMTP MT Test 26(a) (No Processed MDN)',
       id: 526,
-      longDesc: 'The email is sent to nomdn8@ttpedge.sitenv.org',
+      longDesc: 'The email is sent to nomdn8@ett.healthit.gov',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a processed  MDN due to an exceeded wait time. Hitting 'Run' will cause ETT to send a message with a final  destination that will not provide a processed MDN. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the negative delivery status notification message. The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -1210,7 +1210,7 @@ const testCases = {
     {
       name: 'SMTP/IMAP MT Test 26(b) (No Processed MDN)',
       id: 126,
-      longDesc: 'The email is sent to nomdn8@ttpedge.sitenv.org',
+      longDesc: 'The email is sent to nomdn8@ett.healthit.gov',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a processed  MDN due to an exceeded wait time. Hitting 'Run' will cause ETT to send a message with a final  destination that will not provide a processed MDN. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned",
       protocol: 'mu2',
       moreInfo: {
@@ -1236,7 +1236,7 @@ const testCases = {
     {
       name: 'SMTP/POP MT Test 26(c) (No Processed MDN)',
       id: 626,
-      longDesc: 'The email is sent to nomdn8@ttpedge.sitenv.org',
+      longDesc: 'The email is sent to nomdn8@ett.healthit.gov',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a processed  MDN due to an exceeded wait time. Hitting 'Run' will cause ETT to send a message with a final  destination that will not provide a processed MDN. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -1262,7 +1262,7 @@ const testCases = {
     {
       name: 'SMTP MT Test 27(a) (No Dispatched MDN)',
       id: 527,
-      longDesc: 'The email is sent to processedonly5@ttpedge.sitenv.org',
+      longDesc: 'The email is sent to processedonly5@ett.healthit.gov',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a  dispatched MDN. Hitting 'Run' will cause ETT to send a message with a  final destination that will not provide a dispatched MDN. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the negative delivery status notification message. The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -1288,7 +1288,7 @@ const testCases = {
     {
       name: 'SMTP/IMAP MT Test 27(b) (No Dispatched MDN)',
       id: 127,
-      longDesc: 'The email is sent to processedonly5@ttpedge.sitenv.org',
+      longDesc: 'The email is sent to processedonly5@ett.healthit.gov',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a  dispatched MDN. Hitting 'Run' will cause ETT to send a message with a  final destination that will not provide a dispatched MDN. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -1314,7 +1314,7 @@ const testCases = {
     {
       name: 'SMTP/POP MT Test 27(c) (No Dispatched MDN)',
       id: 157,
-      longDesc: 'The email is sent to processedonly5@ttpedge.sitenv.org',
+      longDesc: 'The email is sent to processedonly5@ett.healthit.gov',
       desc: "Verify the ability of the system to provide a delivery failure message  when a message is sent to a destination that does not return a  dispatched MDN. Hitting 'Run' will cause ETT to send a message with a  final destination that will not provide a dispatched MDN. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate delivery failure message will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -1465,7 +1465,7 @@ const testCases = {
     {
       name: 'SMTP MT Test 29(a) (Positive Notification)',
       id: 529,
-      longDesc: 'The email is sent to processeddispatched6@ttpedge.sitenv.org',
+      longDesc: 'The email is sent to processeddispatched6@ett.healthit.gov',
       desc: 'Verify the ability of the system to provide a final positive delivery  notification when a message is sent to a destination that has responding  appropriately. Due to SMTP-SMTP configuration limitations, the proctor is to visually inspect for the receipt of the positive delivery status notification message. The expectation is that an appropriate final positive delivery notification will be returned.',
       protocol: 'mu2',
       moreInfo: {
@@ -1490,7 +1490,7 @@ const testCases = {
     {
       name: 'SMTP/IMAP MT Test 29(b) (Positive Notification)',
       id: 129,
-      longDesc: 'The email is sent to processeddispatched6@ttpedge.sitenv.org',
+      longDesc: 'The email is sent to processeddispatched6@ett.healthit.gov',
       desc: "Verify the ability of the system to provide a final positive delivery  notification when a message is sent to a destination that has responding  appropriately. Hitting 'Run' will cause ETT to send a message with a  final destination that will respond appropriately. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate final positive delivery notification will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -1515,7 +1515,7 @@ const testCases = {
     {
       name: 'SMTP/POP MT Test 29(c) (Positive Notification)',
       id: 159,
-      longDesc: 'The email is sent to processeddispatched6@ttpedge.sitenv.org',
+      longDesc: 'The email is sent to processeddispatched6@ett.healthit.gov',
       desc: "Verify the ability of the system to provide a final positive delivery  notification when a message is sent to a destination that has responding  appropriately. Hitting 'Run' will cause ETT to send a message with a  final destination that will respond appropriately. If the message was sent successfully 'Check MDN' will appear. Clicking that will check for the incoming MDN (may have to click multiple times due to lag). The expectation is that an appropriate final positive delivery notification will be returned.",
       protocol: 'mu2',
       moreInfo: {
@@ -1917,9 +1917,23 @@ const testCases = {
       name: 'IMAP Test 19, 20, 24',
       id: 219,
       protocol: 'imap',
-      desc: "Verifies the ability of the Edge system to initiate a IMAP session with STARTTLS and PLAIN SASL AUTHENTICATION(if enabled). The Vendor should retrieve an email from 'imaptesting@ttpds.sitenv.org'.",
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
+      desc: "Verifies the ability of the Edge system to initiate a IMAP session with STARTTLS and PLAIN SASL AUTHENTICATION(if enabled). The Vendor should retrieve an email from 'imaptesting@james.healthit.gov'.",
       longDesc:
-        'Run this series collectively from one action: Test 19 invokes the STARTTLS validation and Test 20 validates the SASL authentication. Test 24 invokes the retrieve validation. It is necessary to configure an email account on the SUT in order to retrieve messages using these credentials: imaptesting@ttpds.sitenv.org / smtptesting123.',
+        'Run this series collectively from one action: Test 19 invokes the STARTTLS validation and Test 20 validates the SASL authentication. Test 24 invokes the retrieve validation. It is necessary to configure an email account on the SUT in order to retrieve messages using these credentials: imaptesting@james.healthit.gov / smtptesting123.',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-5']",
@@ -1929,9 +1943,23 @@ const testCases = {
       name: 'IMAP Test 21',
       id: 221,
       protocol: 'imap',
-      desc: "Verifies the ability of the Vendor to use either the uppercase, lowercase or mixed case mailbox names and access data. The Vendor should fetch emails from imaptesting@ttpds.sitenv.org within the folders 'FOLDER' and 'folder2'.",
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
+      desc: "Verifies the ability of the Vendor to use either the uppercase, lowercase or mixed case mailbox names and access data. The Vendor should fetch emails from imaptesting@james.healthit.gov within the folders 'FOLDER' and 'folder2'.",
       longDesc:
-        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is imaptesting@ttpds.sitenv.org / smtptesting123 ',
+        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is imaptesting@james.healthit.gov / smtptesting123 ',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-5']",
@@ -1941,6 +1969,20 @@ const testCases = {
       name: 'IMAP Test 25',
       id: 225,
       protocol: 'imap',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
       desc: 'Verifies the ability of the Vendor to receive status and size updates from the IMAP4 server. An email will be sent to the SUT and the SUT will show size and status updates (e.g change in the number of emails in inbox) when new email is received',
       longDesc:
         'The proctor needs to send an email to the Vendor and should verify that the Vendor system is able to show size and status updates (e.g change in the number of emails in inbox) when new email is received ',
@@ -1953,9 +1995,23 @@ const testCases = {
       name: 'IMAP Test 27',
       id: 227,
       protocol: 'imap',
-      desc: "Verifies the ability of the Vendor to accept XDM packages sent using different MIME Types. The SUT should fetch emails from 'xdmmimetypes@ttpds.sitenv.org'.",
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
+      desc: "Verifies the ability of the Vendor to accept XDM packages sent using different MIME Types. The SUT should fetch emails from 'xdmmimetypes@james.healthit.gov'.",
       longDesc:
-        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is xdmmimetypes@ttpds.sitenv.org / smtptesting123 ',
+        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is xdmmimetypes@james.healthit.gov / smtptesting123 ',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-5']",
@@ -1965,9 +2021,23 @@ const testCases = {
       name: 'IMAP Test 28',
       id: 228,
       protocol: 'imap',
-      desc: "Verifies the ability of the Vendor to accept multiple attachments (in varying order). The Vendor should fetch an email from 'multipleattachments@ttpds.sitenv.org'.",
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
+      desc: "Verifies the ability of the Vendor to accept multiple attachments (in varying order). The Vendor should fetch an email from 'multipleattachments@james.healthit.gov'.",
       longDesc:
-        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is multipleattachments@ttpds.sitenv.org / smtptesting123 ',
+        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is multipleattachments@james.healthit.gov / smtptesting123 ',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-5']",
@@ -1977,9 +2047,23 @@ const testCases = {
       name: 'IMAP Test 29(a)',
       id: 2291,
       protocol: 'imap',
-      desc: "Test for the ability of the Vendor to accept C-CDA even when the CCDA document includes a broken reference to a style-sheet. The Vendor should fetch an email from 'brokenrefstylesheet@ttpds.sitenv.org'.",
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
+      desc: "Test for the ability of the Vendor to accept C-CDA even when the CCDA document includes a broken reference to a style-sheet. The Vendor should fetch an email from 'brokenrefstylesheet@james.healthit.gov'.",
       longDesc:
-        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is brokenrefstylesheet@ttpds.sitenv.org / smtptesting123 ',
+        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is brokenrefstylesheet@james.healthit.gov / smtptesting123 ',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-5']",
@@ -1989,9 +2073,23 @@ const testCases = {
       name: 'IMAP Test 29(b)',
       id: 2292,
       protocol: 'imap',
-      desc: "Test for the ability of the Vendor to accept C-CDA even when the CCDA document includes a good reference to an invalid style-sheet.. The Vendor should fetch an email from 'invalidstylesheet@ttpds.sitenv.org'.",
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
+      desc: "Test for the ability of the Vendor to accept C-CDA even when the CCDA document includes a good reference to an invalid style-sheet.. The Vendor should fetch an email from 'invalidstylesheet@james.healthit.gov'.",
       longDesc:
-        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is invalidstylesheet@ttpds.sitenv.org / smtptesting123 ',
+        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is invalidstylesheet@james.healthit.gov / smtptesting123 ',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-5']",
@@ -2001,9 +2099,23 @@ const testCases = {
       name: 'IMAP Test 30',
       id: 230,
       protocol: 'imap',
-      desc: "Verifies the ability of the Vendor to accept XDM package even in the case where the required XHTML is bad. The Vendor should fetch an email from 'xdmbadxhtml@ttpds.sitenv.org'.",
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
+      desc: "Verifies the ability of the Vendor to accept XDM package even in the case where the required XHTML is bad. The Vendor should fetch an email from 'xdmbadxhtml@james.healthit.gov'.",
       longDesc:
-        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is xdmbadxhtml@ttpds.sitenv.org / smtptesting123 ',
+        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is xdmbadxhtml@james.healthit.gov / smtptesting123 ',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-5']",
@@ -2013,9 +2125,28 @@ const testCases = {
       name: 'IMAP Test 31 (Receive)',
       id: 231,
       protocol: 'imap',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        optionalTextField: {
+          label: 'attachmentType',
+          helperText: 'Attachment Type',
+          defaultValue: '',
+        },
+        actionLabel: 'RUN',
+      },
       desc: 'Verifies the ability of the SUT to accept different attachment types.',
       longDesc:
-        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is b1-ambulatory@ttpds.sitenv.org, b1-inpatient@ttpds.sitenv.org, b2-ambulatory@ttpds.sitenv.org, b2-inpatient@ttpds.sitenv.org, b5-ambulatory@ttpds.sitenv.org, b5-inpatient@ttpds.sitenv.org, b9-ambulatory@ttpds.sitenv.org, b9-inpatient@ttpds.sitenv.org, negativetestingccds@ttpds.sitenv.org, negativetestingcareplan@ttpds.sitenv.org. The password is smtptesting123 for all accounts. ',
+        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is b1-ambulatory@james.healthit.gov, b1-inpatient@james.healthit.gov, b2-ambulatory@james.healthit.gov, b2-inpatient@james.healthit.gov, b5-ambulatory@james.healthit.gov, b5-inpatient@james.healthit.gov, b9-ambulatory@james.healthit.gov, b9-inpatient@james.healthit.gov, negativetestingccds@james.healthit.gov, negativetestingcareplan@james.healthit.gov. The password is smtptesting123 for all accounts. ',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-5','su1-5']",
@@ -2087,9 +2218,23 @@ const testCases = {
       name: 'POP Test 19, 20, 24',
       id: 319,
       protocol: 'pop',
-      desc: "Verifies the ability of the SUT to support various POP3 commands. The proctor need to send commands to the ETT and retrieve an email from 'poptesting@ttpds.sitenv.org'.",
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
+      desc: "Verifies the ability of the SUT to support various POP3 commands. The proctor need to send commands to the ETT and retrieve an email from 'poptesting@james.healthit.gov'.",
       longDesc:
-        'Run this series collectively from one action: Test 19 validates the TLS session. Test 20 validates the SASL authentication. Test 24 invokes the retrieve validation. It is necessary to configure an email account on the SUT in order to retrieve messages using these credentials: poptesting@ttpds.sitenv.org / smtptesting123.',
+        'Run this series collectively from one action: Test 19 validates the TLS session. Test 20 validates the SASL authentication. Test 24 invokes the retrieve validation. It is necessary to configure an email account on the SUT in order to retrieve messages using these credentials: poptesting@james.healthit.gov / smtptesting123.',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-6']",
@@ -2099,9 +2244,23 @@ const testCases = {
       name: 'POP Test 27',
       id: 327,
       protocol: 'pop',
-      desc: "Verifies the ability of the SUT to accept XDM packages sent using different MIME Types. The Vendor should fetch emails from 'xdmmimetypes@ttpds.sitenv.org'.",
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
+      desc: "Verifies the ability of the SUT to accept XDM packages sent using different MIME Types. The Vendor should fetch emails from 'xdmmimetypes@james.healthit.gov'.",
       longDesc:
-        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is xdmmimetypes@ttpds.sitenv.org / smtptesting123 ',
+        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is xdmmimetypes@james.healthit.gov / smtptesting123 ',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-6']",
@@ -2111,9 +2270,23 @@ const testCases = {
       name: 'POP Test 28',
       id: 328,
       protocol: 'pop',
-      desc: "Verifies the ability of the SUT to accept multiple attachments (in varying order). The Vendor should fetch emails from 'multipleattachments@ttpds.sitenv.org'.",
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
+      desc: "Verifies the ability of the SUT to accept multiple attachments (in varying order). The Vendor should fetch emails from 'multipleattachments@james.healthit.gov'.",
       longDesc:
-        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is multipleattachments@ttpds.sitenv.org / smtptesting123 ',
+        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is multipleattachments@james.healthit.gov / smtptesting123 ',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-6']",
@@ -2123,9 +2296,23 @@ const testCases = {
       name: 'POP Test 29(a)',
       id: 3291,
       protocol: 'pop',
-      desc: "Test for the ability of the Vendor to accept C-CDA even when the CCDA document includes a broken reference to a style-sheet. The Vendor should fetch an email from 'brokenrefstylesheet@ttpds.sitenv.org'.",
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
+      desc: "Test for the ability of the Vendor to accept C-CDA even when the CCDA document includes a broken reference to a style-sheet. The Vendor should fetch an email from 'brokenrefstylesheet@james.healthit.gov'.",
       longDesc:
-        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is brokenrefstylesheet@ttpds.sitenv.org / smtptesting123 ',
+        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is brokenrefstylesheet@james.healthit.gov / smtptesting123 ',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-6']",
@@ -2135,9 +2322,23 @@ const testCases = {
       name: 'POP Test 29(b)',
       id: 3292,
       protocol: 'pop',
-      desc: "Test for the ability of the Vendor to accept C-CDA even when the CCDA document includes a good reference to an invalid style-sheet.. The Vendor should fetch an email from 'invalidstylesheet@ttpds.sitenv.org'.",
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
+      desc: "Test for the ability of the Vendor to accept C-CDA even when the CCDA document includes a good reference to an invalid style-sheet.. The Vendor should fetch an email from 'invalidstylesheet@james.healthit.gov'.",
       longDesc:
-        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is invalidstylesheet@ttpds.sitenv.org / smtptesting123 ',
+        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is invalidstylesheet@james.healthit.gov / smtptesting123 ',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-6']",
@@ -2147,9 +2348,23 @@ const testCases = {
       name: 'POP Test 30',
       id: 330,
       protocol: 'pop',
-      desc: "Verifies the ability of the SUT to accept XDM package even in the case where the required XHTML is bad. The Vendor should fetch emails from 'xdmbadxhtml@ttpds.sitenv.org'.",
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        actionLabel: 'RUN',
+      },
+      desc: "Verifies the ability of the SUT to accept XDM package even in the case where the required XHTML is bad. The Vendor should fetch emails from 'xdmbadxhtml@james.healthit.gov'.",
       longDesc:
-        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is xdmbadxhtml@ttpds.sitenv.org / smtptesting123 ',
+        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is xdmbadxhtml@james.healthit.gov / smtptesting123 ',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-6']",
@@ -2159,9 +2374,28 @@ const testCases = {
       name: 'POP Test 31 (Receive)',
       id: 331,
       protocol: 'pop',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Reciever', type: 'text' },
+              { content: '', type: 'icon', isChecked: false },
+              { content: '', type: 'icon', isChecked: true },
+            ],
+          },
+        ],
+        optionalTextField: {
+          label: 'attachmentType',
+          helperText: 'Attachment Type',
+          defaultValue: '',
+        },
+        actionLabel: 'RUN',
+      },
       desc: 'Verifies the ability of the SUT to accept different attachment types.',
       longDesc:
-        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is b1-ambulatory@ttpds.sitenv.org, b1-inpatient@ttpds.sitenv.org, b2-ambulatory@ttpds.sitenv.org, b2-inpatient@ttpds.sitenv.org, b5-ambulatory@ttpds.sitenv.org, b5-inpatient@ttpds.sitenv.org, b9-ambulatory@ttpds.sitenv.org, b9-inpatient@ttpds.sitenv.org, negativetestingccds@ttpds.sitenv.org, negativetestingcareplan@ttpds.sitenv.org. The password is smtptesting123 for all accounts. ',
+        'The user is to establish or configure an email account on the SUT in order to retrieve messages using the credentials. The credentials for authentication is b1-ambulatory@james.healthit.gov, b1-inpatient@james.healthit.gov, b2-ambulatory@james.healthit.gov, b2-inpatient@james.healthit.gov, b5-ambulatory@james.healthit.gov, b5-inpatient@james.healthit.gov, b9-ambulatory@james.healthit.gov, b9-inpatient@james.healthit.gov, negativetestingccds@james.healthit.gov, negativetestingcareplan@james.healthit.gov. The password is smtptesting123 for all accounts. ',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-6','su1-6']",
