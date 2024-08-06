@@ -251,7 +251,6 @@ const TestCard = ({
 
   const renderAttachmentTypeDropdown = () => {
     if (test.fields) {
-      // Check if fields are defined
       const field = test.fields.find((f) => f.name === 'attachmentType')
       return (
         field &&
@@ -270,6 +269,9 @@ const TestCard = ({
                 </MenuItem>
               ))}
             </Select>
+            <Tooltip title="Attachment type" placement="bottom">
+              <InfoIcon color="primary" fontSize="small" />
+            </Tooltip>
           </FormControl>
         )
       )
