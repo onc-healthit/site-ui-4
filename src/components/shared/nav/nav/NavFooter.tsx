@@ -1,3 +1,4 @@
+'use client'
 import { fetchSanitizedMarkdownData } from '@/services/markdownToHTMLService'
 import { Box, Button, Dialog, DialogActions, DialogContent } from '@mui/material'
 import { useEffect, useState } from 'react'

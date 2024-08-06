@@ -7,6 +7,8 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
 import type { Metadata } from 'next'
 import React from 'react'
 import Script from 'next/script'
+import SessionProvider from '@/components/SessionProvider'
+import { getServerSession } from 'next-auth'
 
 export const metadata: Metadata = {
   title: 'SITE UI 4.0',
@@ -32,7 +34,8 @@ const footer = {
   marginTop: 'auto',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerSession()
   return (
     <html lang="en">
       <head>
@@ -51,22 +54,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <ThemeProvider theme={lightTheme}>
-          <CssBaseline>
-            <AppRouterCacheProvider>
-              <Box sx={content}>
-                <CombinedNavAndAppBar />
-                <Box role="main" sx={pageContainer}>
-                  {children}
-                  <Box sx={footer}>
-                    <Ankle />
-                    <Footer />
+        <SessionProvider session={session}>
+          <ThemeProvider theme={lightTheme}>
+            <CssBaseline>
+              <AppRouterCacheProvider>
+                <Box sx={content}>
+                  <CombinedNavAndAppBar />
+                  <Box role="main" sx={pageContainer}>
+                    {children}
+                    <Box sx={footer}>
+                      <Ankle />
+                      <Footer />
+                    </Box>
                   </Box>
                 </Box>
-              </Box>
-            </AppRouterCacheProvider>
-          </CssBaseline>
-        </ThemeProvider>
+              </AppRouterCacheProvider>
+            </CssBaseline>
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   )

@@ -2,15 +2,16 @@
 import Box from '@mui/material/Box'
 import CssBaseline from '@mui/material/CssBaseline'
 import React from 'react'
+//import { useSession } from 'next-auth/react'
 
 /* Custom Component Imports */
 import SiteAppBar from '@/components/shared/nav/app-bar/SiteAppBar'
 import Nav from '@/components/shared/nav/nav/Nav'
 
 export default function CombinedNavAndAppBar() {
-  const [auth, setAuth] = React.useState(false)
+  //const { data: session } = useSession()
   const handleAuthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAuth(event.target.checked)
+    //setAuth(event.target.checked)
   }
 
   // TODO: default to false based on DEV_MODE env var
@@ -25,8 +26,8 @@ export default function CombinedNavAndAppBar() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <SiteAppBar open={open} handleDrawerOpen={handleDrawerOpen} auth={auth} />
-      <Nav open={open} handleDrawerClose={handleDrawerClose} auth={auth} handleAuthChange={handleAuthChange} />
+      <SiteAppBar open={open} handleDrawerOpen={handleDrawerOpen} />
+      <Nav open={open} handleDrawerClose={handleDrawerClose} handleAuthChange={handleAuthChange} />
     </Box>
   )
 }

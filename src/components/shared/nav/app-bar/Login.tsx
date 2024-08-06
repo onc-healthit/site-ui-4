@@ -1,0 +1,90 @@
+'use client'
+import Close from '@mui/icons-material/Close'
+import { Grid, TextField, Card, CardHeader, CardContent, IconButton, Button, ButtonGroup, styled } from '@mui/material'
+import { signIn } from 'next-auth/react'
+import React, { useState } from 'react'
+
+const StyledLoginButtonRowWrapper = styled('div')(() => ({
+  paddingTop: 24,
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'space-around',
+}))
+
+const LoginButtonStyle = {
+  width: '100%',
+  margin: 1,
+}
+
+const Login = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleLogin = () => {
+    signIn('credentials', { username: email, password: password })
+  }
+
+  return (
+    <>
+      <Card>
+        <CardHeader
+          title="Login"
+          action={
+            <IconButton aria-label="settings">
+              <Close />
+            </IconButton>
+          }
+          sx={{ typography: 'title', fontWeight: 'bold' }}
+        />
+        <CardContent>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TextField
+                label="Email (Or Username)"
+                variant="outlined"
+                required
+                fullWidth
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Password"
+                placeholder="Enter password"
+                type="password"
+                variant="outlined"
+                required
+                fullWidth
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Grid item xs={12}>
+                <StyledLoginButtonRowWrapper>
+                  <Button style={LoginButtonStyle} variant="contained" size="medium" onClick={handleLogin}>
+                    SIGN IN
+                  </Button>
+                  <Button style={LoginButtonStyle} variant="contained" size="medium" color="secondary">
+                    CREATE ACCOUNT
+                  </Button>
+                </StyledLoginButtonRowWrapper>
+              </Grid>
+            </Grid>
+
+            {/* <FormControlLabel control={<Checkbox name="checkedB" color="primary" />} label="Remember me" />
+          <Button type="submit" color="primary" variant="contained" style={btnstyle} fullWidth>
+            Sign in
+          </Button>
+          <Typography>
+            <Link href="#">Forgot password ?</Link>
+          </Typography>
+          <Typography>
+            {' '}
+            Do you have an account ?<Link href="#">Sign Up</Link>
+          </Typography> */}
+          </Grid>
+        </CardContent>
+      </Card>
+    </>
+  )
+}
+
+export default Login

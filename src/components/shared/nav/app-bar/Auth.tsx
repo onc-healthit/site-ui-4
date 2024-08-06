@@ -1,13 +1,12 @@
 import { AccountCircle } from '@mui/icons-material'
-import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material'
+import { Box, IconButton, Menu, MenuItem, Popover, Typography } from '@mui/material'
 import React from 'react'
+import Login from './Login'
+import { signOut, useSession } from 'next-auth/react'
 
-interface AuthProps {
-  auth: boolean
-}
-export default function Auth({ auth }: AuthProps) {
+export default function Auth(props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-
+  const { data: session } = useSession()
   const handleAuthMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
@@ -19,9 +18,9 @@ export default function Auth({ auth }: AuthProps) {
   return (
     <Box display="flex" flexDirection="row" alignItems="center">
       <Typography variant="h6" component="div">
-        {auth ? 'LOGGED-IN-USER' : 'LOGIN'}
+        {session ? `${session.user?.name}` : 'LOGIN'}
       </Typography>
-      {auth ? (
+      {session ? (
         <div>
           <IconButton
             size="large"
@@ -50,6 +49,7 @@ export default function Auth({ auth }: AuthProps) {
           >
             <MenuItem onClick={handleAuthClose}>Account Info</MenuItem>
             <MenuItem onClick={handleAuthClose}>Change Password</MenuItem>
+            <MenuItem onClick={() => signOut()}>Log Out</MenuItem>
           </Menu>
         </div>
       ) : (
@@ -64,7 +64,7 @@ export default function Auth({ auth }: AuthProps) {
           >
             <AccountCircle />
           </IconButton>
-          <Menu
+          <Popover
             id="menu-appbar"
             anchorEl={anchorEl}
             anchorOrigin={{
@@ -79,10 +79,8 @@ export default function Auth({ auth }: AuthProps) {
             open={Boolean(anchorEl)}
             onClose={handleAuthClose}
           >
-            {/* TODO: This will have its own UI and won't be a basic menu */}
-            <MenuItem onClick={handleAuthClose}>Sign In</MenuItem>
-            <MenuItem onClick={handleAuthClose}>Create Account</MenuItem>
-          </Menu>
+            <Login />
+          </Popover>
         </div>
       )}
     </Box>

@@ -1,3 +1,4 @@
+'use client'
 import MenuIcon from '@mui/icons-material/Menu'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
 import Image from 'next/image'
@@ -37,9 +38,8 @@ const StyledAppBar = styled(MuiAppBar, {
 interface SiteAppBarProps {
   open: boolean
   handleDrawerOpen: () => void
-  auth: boolean
 }
-export default function SiteAppBar({ open, handleDrawerOpen, auth }: SiteAppBarProps) {
+export default function SiteAppBar({ open, handleDrawerOpen }: SiteAppBarProps) {
   return (
     <StyledAppBar sx={{ top: 0, height: 'fit-content' }} open={open}>
       <Toolbar
@@ -91,8 +91,8 @@ export default function SiteAppBar({ open, handleDrawerOpen, auth }: SiteAppBarP
                 </a>
               </Grow>
             </div>
-            {/* Login */}
-            <Auth auth={auth} />
+            Login
+            <Auth />
           </Container>
         </Box>
       </Toolbar>
