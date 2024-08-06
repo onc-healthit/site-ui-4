@@ -23,6 +23,7 @@ import {
   Checkbox,
   TextField,
   SelectChangeEvent,
+  Tooltip,
 } from '@mui/material'
 
 export type TestCaseFields = {
@@ -402,7 +403,10 @@ const TestCard = ({
                 }}
               >
                 <Typography>
-                  CCDA Document Type <InfoIcon color="primary" fontSize="small" />
+                  CCDA Document Type
+                  <Tooltip title="C-CDA Document Type" placement="right">
+                    <InfoIcon color="primary" fontSize="small" />
+                  </Tooltip>
                 </Typography>
                 <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
                   SELECT A DOCUMENT

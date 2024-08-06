@@ -1,4 +1,15 @@
-import { Box, Button, Card, CardContent, CardHeader, Divider, TextField, Typography, FormControl } from '@mui/material'
+import {
+  Tooltip,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  TextField,
+  Typography,
+  FormControl,
+} from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info'
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
 import _ from 'lodash'
@@ -443,8 +454,12 @@ const TestCard = ({
                   }}
                 >
                   <Typography>
-                    C-CDA Document Type <InfoIcon color="primary" fontSize="small" />
+                    CCDA Document Type
+                    <Tooltip title="C-CDA Document Type" placement="right">
+                      <InfoIcon color="primary" fontSize="small" />
+                    </Tooltip>
                   </Typography>
+
                   <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
                     SELECT A DOCUMENT
                   </Button>
