@@ -249,6 +249,12 @@ const TestCard = ({
     }
   }
 
+  const formattedLogs = Object.entries(testRequestResponses).map(([key, value]) => (
+    <Typography key={key} variant="body1" style={{ whiteSpace: 'pre-line' }}>
+      {value}
+    </Typography>
+  ))
+
   const renderCriteriaMetIcon = () => {
     if (criteriaMet === 'TRUE') {
       return <CheckCircleIcon style={{ color: 'green' }} />
@@ -351,9 +357,7 @@ const TestCard = ({
           <CardContent>
             <Typography variant="h6">Test Logs</Typography>
             {testRequestResponses ? (
-              <Typography variant="body1" style={{ whiteSpace: 'pre-wrap' }}>
-                {testRequestResponses}
-              </Typography>
+              <Typography variant="body1">{formattedLogs}</Typography>
             ) : (
               <Typography variant="body1">No logs to display.</Typography>
             )}

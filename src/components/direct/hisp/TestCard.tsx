@@ -140,6 +140,12 @@ const TestCard = ({
     fileLink: string
   } | null>(null)
 
+  const formattedLogs = Object.entries(testRequestResponses).map(([key, value]) => (
+    <Typography key={key} variant="body1" style={{ whiteSpace: 'pre-line' }}>
+      {value}
+    </Typography>
+  ))
+
   const [formData, setFormData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
     test.moreInfo?.fields?.forEach((field) => {
@@ -197,7 +203,7 @@ const TestCard = ({
         })
         setIsFinished(true)
         setCriteriaMet(response.criteriaMet)
-        setTestRequestResponses(JSON.stringify(response.testRequestResponses, null, 2))
+        setTestRequestResponses(response.testRequestResponses)
         console.log('Criteria met: ', response.criteriaMet)
         console.log('Test Request Responses:', response.testRequestResponses)
       } catch (error) {
@@ -345,8 +351,8 @@ const TestCard = ({
         <CardContent>
           <Typography variant="h6">Test Logs</Typography>
           {testRequestResponses ? (
-            <Typography variant="body1" style={{ whiteSpace: 'pre-wrap' }}>
-              {testRequestResponses}
+            <Typography variant="body1" style={{ whiteSpace: 'pre-line' }}>
+              {formattedLogs}
             </Typography>
           ) : (
             <Typography variant="body1">No logs to display.</Typography>
