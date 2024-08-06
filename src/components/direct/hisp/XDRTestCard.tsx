@@ -153,11 +153,11 @@ const TestCard = ({
   const [isFinished, setIsFinished] = useState(false)
 
   const requiresCCDADocument = () => {
-    return test.inputs?.some((input) => input.key === 'payload' && input.type === 'CCDAWidgetXdr')
+    return test.inputs?.some((input) => input.key === 'payload' && input.type?.includes('CCDAWidget'))
   }
 
   const shouldDisplayInput = (input: InputFields) => {
-    return !(input.key === 'payload' && input.type === 'CCDAWidgetXdr')
+    return !(input.key === 'payload' && input.type?.includes('CCDAWidget'))
   }
 
   const endpointTestIds = [
