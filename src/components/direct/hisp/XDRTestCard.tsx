@@ -162,6 +162,7 @@ const TestCard = ({
   const [fieldValues, setFieldValues] = useState<{ [key: string]: string }>({})
   const [isLoading, setIsLoading] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
+  const manualValidationCriteria = ["['b1-3']", "['b1-3','su1-3']"]
 
   const requiresCCDADocument = () => {
     return test.inputs?.some((input) => input.key === 'payload' && input.type?.includes('CCDAWidget'))
@@ -246,7 +247,7 @@ const TestCard = ({
         })
         setIsFinished(true)
         setCriteriaMet(response.criteriaMet)
-        setTestRequestResponses(JSON.stringify(response.testRequestResponses, null, 2))
+        setTestRequestResponses(response.testRequestResponses)
         console.log('Criteria met: ', response.criteriaMet)
         console.log('Test Request Responses:', response.testRequestResponses)
       } catch (error) {
@@ -258,6 +259,18 @@ const TestCard = ({
         }, 100)
       }
     }
+  }
+
+  const handleAcceptTest = () => {
+    setCriteriaMet('TRUE')
+    setShowLogs(false)
+    setIsFinished(false) // reset the finished state if needed
+  }
+
+  const handleRejectTest = () => {
+    setCriteriaMet('FALSE')
+    setShowLogs(false)
+    setIsFinished(false) // reset the finished state if needed
   }
 
   const formattedLogs = Object.entries(testRequestResponses).map(([key, value]) => (
@@ -373,9 +386,21 @@ const TestCard = ({
               <Typography variant="body1">No logs to display.</Typography>
             )}
             <Divider sx={{ mb: 2, mt: 2 }} />
-            <Button variant="contained" onClick={handleToggleLogs}>
-              Close Logs
-            </Button>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
+              {test.criteria && manualValidationCriteria.includes(test.criteria) && formattedLogs.length > 0 && (
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  <Button variant="contained" color="primary" onClick={handleAcceptTest}>
+                    Accept
+                  </Button>
+                  <Button variant="outlined" color="primary" onClick={handleRejectTest}>
+                    Reject
+                  </Button>
+                </Box>
+              )}
+              <Button variant="contained" onClick={handleToggleLogs}>
+                Close Logs
+              </Button>
+            </Box>
           </CardContent>
         ) : (
           <>

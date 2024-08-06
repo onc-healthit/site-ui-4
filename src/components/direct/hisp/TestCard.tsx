@@ -100,7 +100,15 @@ const TestCard = ({
   tlsRequired = false,
 }: TestCardProps) => {
   const attachmentTypeTestIDs = [231, 331]
-  const manualValidationCriteria = ["['b1-5']", "['b1-6']", "['b1-5','su1-5']", "['b1-6','su1-6']"]
+  const manualValidationCriteria = [
+    "['b1-5']",
+    "['b1-6']",
+    "['b1-5','su1-5']",
+    "['b1-6','su1-6']",
+    "['h2-8','b1-4','b1-7','su1-4','su1-7','sc2-8']",
+    "['b1-4','su1-4']",
+    "['b1-4']",
+  ]
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testRequestResponses, setTestRequestResponses] = useState<string>('')
@@ -360,7 +368,7 @@ const TestCard = ({
           )}
           <Divider sx={{ mb: 2, mt: 2 }} />
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-            {test.criteria && manualValidationCriteria.includes(test.criteria) && (
+            {test.criteria && manualValidationCriteria.includes(test.criteria) && formattedLogs.length > 0 && (
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <Button variant="contained" color="primary" onClick={handleAcceptTest}>
                   Accept
