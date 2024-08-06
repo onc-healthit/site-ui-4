@@ -1924,8 +1924,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -1950,8 +1950,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -1976,8 +1976,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -2002,8 +2002,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -2028,8 +2028,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -2054,8 +2054,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -2080,8 +2080,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -2106,8 +2106,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -2132,8 +2132,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -2225,8 +2225,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -2251,8 +2251,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -2277,8 +2277,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -2303,8 +2303,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -2329,8 +2329,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -2355,8 +2355,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -2381,8 +2381,8 @@ const testCases = {
           {
             cells: [
               { content: 'Reciever', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
