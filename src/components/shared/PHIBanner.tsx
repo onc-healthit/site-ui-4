@@ -33,9 +33,7 @@ const PHIBanner: React.FC = () => {
         open={snackbarOpen}
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        sx={{
-          left: '55%!important',
-        }}
+        sx={{ paddingLeft: '225px' }}
       >
         <Alert
           onClose={handleSnackbarClose}
