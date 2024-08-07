@@ -68,7 +68,7 @@ export async function handleAPICall(data: APICallData): Promise<APIResponse> {
     method: 'post',
     url: apiUrl,
     headers: { 'Content-Type': 'application/json' },
-    data: data.targetEndpointTLS,
+    data: data,
   }
 
   try {

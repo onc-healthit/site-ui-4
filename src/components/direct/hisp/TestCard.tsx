@@ -138,6 +138,13 @@ const TestCard = ({
     setIsFinished(false)
   }
 
+  const handleClearTest = () => {
+    setCriteriaMet('')
+    setTestRequestResponses('')
+    setIsFinished(false)
+    setShowLogs(false)
+  }
+
   const handleAttachmentTypeChange = (event: SelectChangeEvent<string>) => {
     setAttachmentType(event.target.value)
   }
@@ -216,6 +223,7 @@ const TestCard = ({
         console.log('Test Request Responses:', response.testRequestResponses)
       } catch (error) {
         console.error('Failed to run test:', error)
+        setCriteriaMet('FALSE')
       } finally {
         setIsLoading(false)
         if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
@@ -366,16 +374,20 @@ const TestCard = ({
           )}
           <Divider sx={{ mb: 2, mt: 2 }} />
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-            {test.criteria && manualValidationCriteria.includes(test.criteria) && formattedLogs.length > 0 && (
-              <Box sx={{ display: 'flex', gap: 1 }}>
-                <Button variant="contained" color="primary" onClick={handleAcceptTest}>
-                  Accept
-                </Button>
-                <Button variant="outlined" color="primary" onClick={handleRejectTest}>
-                  Reject
-                </Button>
-              </Box>
-            )}
+            {test.criteria &&
+              manualValidationCriteria.includes(test.criteria) &&
+              formattedLogs.length > 0 &&
+              !criteriaMet.includes('TRUE') &&
+              !criteriaMet.includes('FALSE') && (
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  <Button variant="contained" color="primary" onClick={handleAcceptTest}>
+                    Accept
+                  </Button>
+                  <Button variant="outlined" color="primary" onClick={handleRejectTest}>
+                    Reject
+                  </Button>
+                </Box>
+              )}
             <Button variant="contained" onClick={handleToggleLogs}>
               Close Logs
             </Button>
@@ -444,6 +456,16 @@ const TestCard = ({
               <Button variant="contained" color="inherit" onClick={handleToggleLogs}>
                 LOGS
               </Button>
+              {test.criteria &&
+                manualValidationCriteria.includes(test.criteria) &&
+                formattedLogs.length > 0 &&
+                (criteriaMet.includes('TRUE') || criteriaMet.includes('FALSE')) && (
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button variant="contained" color="inherit" onClick={handleClearTest}>
+                      Clear
+                    </Button>
+                  </Box>
+                )}
               {test.criteria && manualValidationCriteria.includes(test.criteria) && isFinished && (
                 <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>
               )}

@@ -239,6 +239,14 @@ const TestCard = ({ test }: TestCardProps) => {
     setShowLogs(false)
   }
 
+  const handleClearTest = () => {
+    setCriteriaMet('')
+    setTestRequestResponse('')
+    setTestRequestRequest('')
+    setIsFinished(false)
+    setShowLogs(false)
+  }
+
   const formattedLogs = Object.entries(testRequestResponse).map(([key, value]) => (
     <Typography key={key} variant="body1" style={{ whiteSpace: 'pre-line' }}>
       {value}
@@ -472,6 +480,16 @@ const TestCard = ({ test }: TestCardProps) => {
                 <Button variant="contained" color="inherit" onClick={handleToggleLogs}>
                   LOGS
                 </Button>
+                {test.criteria &&
+                  manualValidationCriteria.includes(test.criteria) &&
+                  formattedLogs.length > 0 &&
+                  (criteriaMet.includes('TRUE') || criteriaMet.includes('FALSE')) && (
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Button variant="contained" color="inherit" onClick={handleClearTest}>
+                        Clear
+                      </Button>
+                    </Box>
+                  )}
               </Box>
             </Box>
           </>
