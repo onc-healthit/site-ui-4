@@ -27,6 +27,10 @@ interface APICallData {
   outgoing_from?: string
   attachmentType?: string
 }
+
+interface XDRAPICallData {
+  targetEndpointTLS?: string
+}
 export interface FileDetail {
   svap: boolean
   cures: boolean
@@ -52,13 +56,19 @@ interface APIResponse {
   testRequestResponses: string
 }
 
+interface XDRAPIResponse {
+  criteriaMet: string
+  testRequestRequest: string
+  testRequestResponse: string
+}
+
 export async function handleAPICall(data: APICallData): Promise<APIResponse> {
   const apiUrl = process.env.SMTP_TEST_BY_CRITERIA_ENDPOINT
   const config = {
     method: 'post',
     url: apiUrl,
     headers: { 'Content-Type': 'application/json' },
-    data: JSON.stringify(data),
+    data: data.targetEndpointTLS,
   }
 
   try {
@@ -74,6 +84,37 @@ export async function handleAPICall(data: APICallData): Promise<APIResponse> {
       console.error('Headers:', error.response.headers)
     } else {
       console.error('Error Message:')
+    }
+    throw error
+  }
+}
+
+export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResponse> {
+  const apiUrl = process.env.XDR_TEST_BY_CRITERIA_ENDPOINT
+  const targetEndPoint = data.targetEndpointTLS
+  const config = {
+    method: 'post',
+    url: 'https://ett.healthit.gov/ett/api/xdr/tc/4b/run',
+    headers: { 'Content-Type': 'application/json' },
+    data: JSON.stringify(data),
+  }
+
+  try {
+    const response = await axios(config)
+    const content = response.data.content.value
+
+    return {
+      criteriaMet: response.data.content.criteriaMet,
+      testRequestRequest: content.request,
+      testRequestResponse: content.response,
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      console.error('API Error Response:', error.response.data)
+      console.error('Status:', error.response.status)
+      console.error('Headers:', error.response.headers)
+    } else {
+      console.error('Error')
     }
     throw error
   }

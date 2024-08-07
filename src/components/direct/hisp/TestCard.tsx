@@ -23,7 +23,6 @@ import {
   Checkbox,
   TextField,
   SelectChangeEvent,
-  Tooltip,
 } from '@mui/material'
 
 export type TestCaseFields = {
@@ -269,9 +268,6 @@ const TestCard = ({
                 </MenuItem>
               ))}
             </Select>
-            <Tooltip title="Attachment type" placement="bottom">
-              <InfoIcon color="primary" fontSize="small" />
-            </Tooltip>
           </FormControl>
         )
       )
@@ -412,12 +408,7 @@ const TestCard = ({
                   justifyContent: 'flex-end',
                 }}
               >
-                <Typography>
-                  CCDA Document Type
-                  <Tooltip title="C-CDA Document Type" placement="right">
-                    <InfoIcon color="primary" fontSize="small" />
-                  </Tooltip>
-                </Typography>
+                <Typography>CCDA Document Type</Typography>
                 <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
                   SELECT A DOCUMENT
                 </Button>

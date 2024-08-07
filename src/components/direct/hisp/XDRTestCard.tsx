@@ -1,21 +1,10 @@
-import {
-  Tooltip,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Divider,
-  TextField,
-  Typography,
-  FormControl,
-} from '@mui/material'
+import { Box, Button, Card, CardContent, CardHeader, Divider, TextField, Typography, FormControl } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info'
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
 import _ from 'lodash'
 import React, { useState } from 'react'
 import DynamicTable from './DynamicTable'
-import { handleAPICall } from '../test-by-criteria/ServerActions'
+import { handleXDRAPICall } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import LoadingButton from '../shared/LoadingButton'
@@ -147,17 +136,11 @@ interface SelectedDocument {
   fileLink: string
 }
 
-const TestCard = ({
-  test,
-  hostname = 'defaultHostname',
-  email = 'defaultEmail',
-  username = 'defaultUsername',
-  password = 'defaultPassword',
-  tlsRequired = false,
-}: TestCardProps) => {
+const TestCard = ({ test }: TestCardProps) => {
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
-  const [testRequestResponses, setTestRequestResponses] = useState<string>('')
+  const [testRequestResponse, setTestRequestResponse] = useState<string>('')
+  const [testRequestRequest, setTestRequestRequest] = useState<string>('')
   const [showLogs, setShowLogs] = useState(false)
   const [fieldValues, setFieldValues] = useState<{ [key: string]: string }>({})
   const [isLoading, setIsLoading] = useState(false)
@@ -207,49 +190,32 @@ const TestCard = ({
   }
 
   const handleRunTest = async () => {
+    console.log('initial')
     if (test.ccdaFileRequired && !documentDetails) {
       alert('This test requires a CCDA document to be selected. Please select a document before running the test.')
     } else {
+      console.log('initial')
       const ip_address = fieldValues['ip_address'] || ''
       const port = fieldValues['port'] || ''
       const direct_to = fieldValues['direct_to'] || ''
       const direct_from = fieldValues['direct_from'] || ''
       const targetEndpointTLS = fieldValues['targetEndpointTLS'] || ''
       const outgoing_from = fieldValues['outgoing_from'] || ''
+      console.log('Sending call')
       try {
         setIsLoading(true)
         setIsFinished(false)
         setCriteriaMet('')
-        const response = await handleAPICall({
-          testCaseNumber: test.id,
-          sutSmtpAddress: hostname,
-          sutEmailAddress: email,
-          useTLS: tlsRequired,
-          sutCommandTimeoutInSeconds: 0,
-          sutUserName: username,
-          sutPassword: password,
-          tttUserName: '',
-          tttPassword: '',
-          startTlsPort: 0,
-          status: '',
-          ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
-          ccdaValidationObjective: documentDetails ? documentDetails.directory : '',
-          ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
-          cures: true,
-          year: '2021',
-          hostingcase: 'YES',
-          ip_address,
-          port,
-          direct_to,
-          direct_from,
+        console.log('TLS: ', targetEndpointTLS)
+        const response = await handleXDRAPICall({
           targetEndpointTLS,
-          outgoing_from,
         })
         setIsFinished(true)
         setCriteriaMet(response.criteriaMet)
-        setTestRequestResponses(response.testRequestResponses)
+        setTestRequestRequest(response.testRequestRequest)
+        setTestRequestResponse(response.testRequestResponse)
         console.log('Criteria met: ', response.criteriaMet)
-        console.log('Test Request Responses:', response.testRequestResponses)
+        console.log('Test Request Responses:', response.testRequestResponse)
       } catch (error) {
         console.error('Failed to run test:', error)
       } finally {
@@ -262,18 +228,18 @@ const TestCard = ({
   }
 
   const handleAcceptTest = () => {
+    setIsFinished(false)
     setCriteriaMet('TRUE')
     setShowLogs(false)
-    setIsFinished(false) // reset the finished state if needed
   }
 
   const handleRejectTest = () => {
+    setIsFinished(false)
     setCriteriaMet('FALSE')
     setShowLogs(false)
-    setIsFinished(false) // reset the finished state if needed
   }
 
-  const formattedLogs = Object.entries(testRequestResponses).map(([key, value]) => (
+  const formattedLogs = Object.entries(testRequestResponse).map(([key, value]) => (
     <Typography key={key} variant="body1" style={{ whiteSpace: 'pre-line' }}>
       {value}
     </Typography>
@@ -380,7 +346,7 @@ const TestCard = ({
         ) : showLogs ? (
           <CardContent>
             <Typography variant="h6">Test Logs</Typography>
-            {testRequestResponses ? (
+            {testRequestResponse ? (
               <Typography variant="body1">{formattedLogs}</Typography>
             ) : (
               <Typography variant="body1">No logs to display.</Typography>
@@ -432,8 +398,6 @@ const TestCard = ({
                 ))}
             </CardContent>
             <Divider />
-
-            {/* Note: This might change with functionality to generate the endpoint*/}
             <Box
               sx={{
                 display: 'flex',
@@ -478,12 +442,7 @@ const TestCard = ({
                     ml: 1,
                   }}
                 >
-                  <Typography>
-                    CCDA Document Type
-                    <Tooltip title="C-CDA Document Type" placement="right">
-                      <InfoIcon color="primary" fontSize="small" />
-                    </Tooltip>
-                  </Typography>
+                  <Typography>CCDA Document Type</Typography>
 
                   <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
                     SELECT A DOCUMENT
