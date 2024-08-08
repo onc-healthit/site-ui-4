@@ -26,7 +26,7 @@ import palette from '@/styles/palette'
 import placeholder from '@public/shared/PlaceHolderImageSITE.png'
 import Image from 'next/image'
 
-const drawerWidth = 300
+const drawerWidth = 500
 
 const CommunicationFab: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -83,18 +83,19 @@ const CommunicationFab: React.FC = () => {
         <Box p={2} display={'flex'} flexDirection={'column'} gap={4}>
           <Card>
             <CardMedia sx={{ width: 'auto' }}>
-              <Image style={{ width: 'auto', height: 'auto' }} src={placeholder} alt="Placeholder" />
+              <Image style={{ width: '500px', height: 'auto' }} src={placeholder} alt="Placeholder" />
             </CardMedia>
-            <CardHeader title="New release of UI, gets great feedback from users" />
+            <CardHeader title="Enhancing Usability and Performance: Comprehensive Updates to the Standards Implementation & Testing Environment (SITE)" />
             <CardContent>
               <Typography>
-                Users love the latest UI release! Improved design, enhanced user experience, and new features are
-                receiving high praise.
+                The Standards Implementation & Testing Environment (SITE) and the Edge Testing Tool (ETT) have undergone
+                comprehensive enhancements to improve usability, functionality, and performance, offering a more
+                intuitive and efficient user experience.
               </Typography>
             </CardContent>
             <CardActions>
               <Button variant="text" color="secondary">
-                Learn More
+                Read More
               </Button>
             </CardActions>
           </Card>
