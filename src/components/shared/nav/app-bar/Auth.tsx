@@ -1,6 +1,6 @@
 import { AccountCircle } from '@mui/icons-material'
 import { Box, IconButton, Menu, MenuItem, Popover, Typography } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import Login from './Login'
 import { signOut, useSession } from 'next-auth/react'
 
@@ -13,7 +13,14 @@ export default function Auth(props) {
 
   const handleAuthClose = () => {
     setAnchorEl(null)
+    setIsCreatingAccount(false)
   }
+
+  const showAccountCreation = (isCreating: boolean) => {
+    setIsCreatingAccount(isCreating)
+  }
+
+  const [isCreatingAccount, setIsCreatingAccount] = useState(false)
 
   return (
     <Box display="flex" flexDirection="row" alignItems="center">
@@ -79,7 +86,11 @@ export default function Auth(props) {
             open={Boolean(anchorEl)}
             onClose={handleAuthClose}
           >
-            <Login />
+            <Login
+              handleAuthClose={handleAuthClose}
+              showAccountCreation={showAccountCreation}
+              isCreatingAccount={isCreatingAccount}
+            />
           </Popover>
         </div>
       )}

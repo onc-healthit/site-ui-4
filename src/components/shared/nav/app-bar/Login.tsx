@@ -16,21 +16,27 @@ const LoginButtonStyle = {
   margin: 1,
 }
 
-const Login = () => {
+const Login = (props: {
+  handleAuthClose: () => void
+  showAccountCreation: (isCreating: boolean) => void
+  isCreatingAccount: boolean
+}) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
   const handleLogin = () => {
     signIn('credentials', { username: email, password: password })
+  }
+  const handleSignUp = () => {
+    console.log(`DEBUG ---> sign up is not implemented yet`)
   }
 
   return (
     <>
       <Card>
         <CardHeader
-          title="Login"
+          title={props.isCreatingAccount ? 'Sign Up' : 'Login'}
           action={
-            <IconButton aria-label="settings">
+            <IconButton aria-label="settings" onClick={() => props.handleAuthClose()}>
               <Close />
             </IconButton>
           }
@@ -57,14 +63,41 @@ const Login = () => {
                 fullWidth
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {props.isCreatingAccount && (
+                <TextField
+                  label="Repeat Password"
+                  placeholder="Repeat password"
+                  type="password"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              )}
               <Grid item xs={12}>
                 <StyledLoginButtonRowWrapper>
-                  <Button style={LoginButtonStyle} variant="contained" size="medium" onClick={handleLogin}>
-                    SIGN IN
-                  </Button>
-                  <Button style={LoginButtonStyle} variant="contained" size="medium" color="secondary">
-                    CREATE ACCOUNT
-                  </Button>
+                  {!props.isCreatingAccount && (
+                    <>
+                      <Button style={LoginButtonStyle} variant="contained" size="medium" onClick={handleLogin}>
+                        SIGN IN
+                      </Button>
+                      <Button
+                        style={LoginButtonStyle}
+                        variant="contained"
+                        size="medium"
+                        color="secondary"
+                        onClick={() => props.showAccountCreation(true)}
+                      >
+                        CREATE ACCOUNT
+                      </Button>
+                    </>
+                  )}
+
+                  {props.isCreatingAccount && (
+                    <Button style={LoginButtonStyle} variant="contained" size="medium" onClick={handleSignUp}>
+                      Sign Up
+                    </Button>
+                  )}
                 </StyledLoginButtonRowWrapper>
               </Grid>
             </Grid>

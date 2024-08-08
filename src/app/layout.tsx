@@ -9,6 +9,7 @@ import React from 'react'
 import Script from 'next/script'
 import SessionProvider from '@/components/SessionProvider'
 import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 
 export const metadata: Metadata = {
   title: 'SITE UI 4.0',
@@ -35,7 +36,7 @@ const footer = {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const session = await getServerSession()
+  const session = await getServerSession(authOptions)
   return (
     <html lang="en">
       <head>
