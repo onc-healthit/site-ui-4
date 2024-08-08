@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react'
 import { Box, Drawer, Fab, Tooltip, Typography, IconButton, Divider, CardHeader, Badge, Button } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import NotificationImportantOutlined from '@mui/icons-material/NotificationImportantOutlined'
-import { fetchNotifications, fetchMarkdownData } from '@/assets/NotificationService'
+import { fetchNotifications, fetchMarkdownData, Announcement } from '@/assets/NotificationService'
 import palette from '@/styles/palette'
 
 const NotificationFab: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
-  const [notifications, setNotifications] = useState<Announcement[]>([])
+  const [notifications, setNotifications] = useState<Announcement[]>([]) // Use the Announcement type
   const [dismissedNotification, setDismissedNotification] = useState<Set<string>>(() => {
     const storedDismissed = localStorage.getItem('dismissedNotification')
     return storedDismissed ? new Set(JSON.parse(storedDismissed)) : new Set()
