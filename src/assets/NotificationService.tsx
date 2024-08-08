@@ -1,4 +1,3 @@
-// services/notificationService.ts
 import { fetchSanitizedMarkdownData } from '@/services/markdownToHTMLService'
 
 export interface Announcement {
@@ -8,7 +7,7 @@ export interface Announcement {
 }
 
 export const fetchNotifications = async (): Promise<Announcement[]> => {
-  // This is a placeholder; replace it with actual fetch logic if needed
+  // Placeholder for actual fetch logic
   return [
     {
       id: '1',
