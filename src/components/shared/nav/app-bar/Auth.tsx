@@ -4,7 +4,7 @@ import Login from './Login'
 import { signOut, useSession } from 'next-auth/react'
 import { useState } from 'react'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
 export default function Auth(props: any) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const { data: session } = useSession()
