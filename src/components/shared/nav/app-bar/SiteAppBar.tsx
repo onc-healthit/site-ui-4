@@ -37,9 +37,8 @@ const StyledAppBar = styled(MuiAppBar, {
 interface SiteAppBarProps {
   open: boolean
   handleDrawerOpen: () => void
-  auth: boolean
 }
-export default function SiteAppBar({ open, handleDrawerOpen, auth }: SiteAppBarProps) {
+export default function SiteAppBar({ open, handleDrawerOpen }: SiteAppBarProps) {
   return (
     <StyledAppBar sx={{ top: 0, height: 'fit-content' }} open={open}>
       <Toolbar
@@ -91,8 +90,7 @@ export default function SiteAppBar({ open, handleDrawerOpen, auth }: SiteAppBarP
                 </a>
               </Grow>
             </div>
-            {/* Login */}
-            <Auth auth={auth} />
+            <Auth />
           </Container>
         </Box>
       </Toolbar>

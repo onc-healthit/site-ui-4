@@ -1,3 +1,4 @@
+//'use client'
 import { Box, List } from '@mui/material/'
 import MuiDrawer from '@mui/material/Drawer'
 import { CSSObject, Theme, styled, useTheme } from '@mui/material/styles'
@@ -64,10 +65,9 @@ const Drawer = styled(MuiDrawer, {
 interface SiteNavProps {
   open: boolean
   handleDrawerClose: () => void
-  auth: boolean
   handleAuthChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
-export default function SiteNav({ open, handleDrawerClose, auth, handleAuthChange }: SiteNavProps) {
+export default function SiteNav({ open, handleDrawerClose, handleAuthChange }: SiteNavProps) {
   const theme = useTheme()
 
   return (
@@ -101,7 +101,7 @@ export default function SiteNav({ open, handleDrawerClose, auth, handleAuthChang
           <SiteNavResources />
           <SiteNavArchived />
         </List>
-        <DevTools auth={auth} handleAuthChange={handleAuthChange} />
+        {/* <DevTools auth={auth} handleAuthChange={handleAuthChange} /> */}
         <NavFooter />
       </Box>
     </Drawer>
