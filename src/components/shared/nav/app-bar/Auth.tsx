@@ -1,26 +1,19 @@
 import { AccountCircle } from '@mui/icons-material'
 import { Box, IconButton, Menu, MenuItem, Popover, Typography } from '@mui/material'
-import React, { useState } from 'react'
 import Login from './Login'
 import { signOut, useSession } from 'next-auth/react'
+import { useState } from 'react'
 
-export default function Auth(props) {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function Auth(props: any) {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const { data: session } = useSession()
   const handleAuthMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
-
   const handleAuthClose = () => {
     setAnchorEl(null)
-    setIsCreatingAccount(false)
   }
-
-  const showAccountCreation = (isCreating: boolean) => {
-    setIsCreatingAccount(isCreating)
-  }
-
-  const [isCreatingAccount, setIsCreatingAccount] = useState(false)
 
   return (
     <Box display="flex" flexDirection="row" alignItems="center">
@@ -54,8 +47,8 @@ export default function Auth(props) {
             open={Boolean(anchorEl)}
             onClose={handleAuthClose}
           >
-            <MenuItem onClick={handleAuthClose}>Account Info</MenuItem>
-            <MenuItem onClick={handleAuthClose}>Change Password</MenuItem>
+            {/* <MenuItem onClick={handleAuthClose}>Account Info</MenuItem>
+            <MenuItem onClick={handleAuthClose}>Change Password</MenuItem> */}
             <MenuItem onClick={() => signOut()}>Log Out</MenuItem>
           </Menu>
         </div>
@@ -86,11 +79,7 @@ export default function Auth(props) {
             open={Boolean(anchorEl)}
             onClose={handleAuthClose}
           >
-            <Login
-              handleAuthClose={handleAuthClose}
-              showAccountCreation={showAccountCreation}
-              isCreatingAccount={isCreatingAccount}
-            />
+            <Login handleAuthClose={handleAuthClose} />
           </Popover>
         </div>
       )}

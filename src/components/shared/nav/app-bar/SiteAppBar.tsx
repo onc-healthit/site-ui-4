@@ -1,4 +1,3 @@
-'use client'
 import MenuIcon from '@mui/icons-material/Menu'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
 import Image from 'next/image'
@@ -91,7 +90,6 @@ export default function SiteAppBar({ open, handleDrawerOpen }: SiteAppBarProps) 
                 </a>
               </Grow>
             </div>
-            Login
             <Auth />
           </Container>
         </Box>

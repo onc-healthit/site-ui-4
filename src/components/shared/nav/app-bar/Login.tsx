@@ -1,6 +1,6 @@
 'use client'
 import Close from '@mui/icons-material/Close'
-import { Grid, TextField, Card, CardHeader, CardContent, IconButton, Button, ButtonGroup, styled } from '@mui/material'
+import { Grid, TextField, Card, CardHeader, CardContent, IconButton, Button, styled } from '@mui/material'
 import { signIn } from 'next-auth/react'
 import React, { useState } from 'react'
 
@@ -16,25 +16,17 @@ const LoginButtonStyle = {
   margin: 1,
 }
 
-const Login = (props: {
-  handleAuthClose: () => void
-  showAccountCreation: (isCreating: boolean) => void
-  isCreatingAccount: boolean
-}) => {
+const Login = (props: { handleAuthClose: () => void }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const handleLogin = () => {
     signIn('credentials', { username: email, password: password })
   }
-  const handleSignUp = () => {
-    console.log(`DEBUG ---> sign up is not implemented yet`)
-  }
-
   return (
     <>
       <Card>
         <CardHeader
-          title={props.isCreatingAccount ? 'Sign Up' : 'Login'}
+          title="Login"
           action={
             <IconButton aria-label="settings" onClick={() => props.handleAuthClose()}>
               <Close />
@@ -63,56 +55,14 @@ const Login = (props: {
                 fullWidth
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {props.isCreatingAccount && (
-                <TextField
-                  label="Repeat Password"
-                  placeholder="Repeat password"
-                  type="password"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              )}
               <Grid item xs={12}>
                 <StyledLoginButtonRowWrapper>
-                  {!props.isCreatingAccount && (
-                    <>
-                      <Button style={LoginButtonStyle} variant="contained" size="medium" onClick={handleLogin}>
-                        SIGN IN
-                      </Button>
-                      <Button
-                        style={LoginButtonStyle}
-                        variant="contained"
-                        size="medium"
-                        color="secondary"
-                        onClick={() => props.showAccountCreation(true)}
-                      >
-                        CREATE ACCOUNT
-                      </Button>
-                    </>
-                  )}
-
-                  {props.isCreatingAccount && (
-                    <Button style={LoginButtonStyle} variant="contained" size="medium" onClick={handleSignUp}>
-                      Sign Up
-                    </Button>
-                  )}
+                  <Button style={LoginButtonStyle} variant="contained" size="medium" onClick={handleLogin}>
+                    SIGN IN
+                  </Button>
                 </StyledLoginButtonRowWrapper>
               </Grid>
             </Grid>
-
-            {/* <FormControlLabel control={<Checkbox name="checkedB" color="primary" />} label="Remember me" />
-          <Button type="submit" color="primary" variant="contained" style={btnstyle} fullWidth>
-            Sign in
-          </Button>
-          <Typography>
-            <Link href="#">Forgot password ?</Link>
-          </Typography>
-          <Typography>
-            {' '}
-            Do you have an account ?<Link href="#">Sign Up</Link>
-          </Typography> */}
           </Grid>
         </CardContent>
       </Card>

@@ -42,24 +42,24 @@ export const authOptions: NextAuthOptions = {
               }
             }
             console.error(`ERROR ---> username or password is invalid`)
-            return false
+            return null
           }
         } catch (error) {
           console.error(`ERROR ---> ${error}`)
-          return false
+          return null
         }
-        return false
-      },
-      session: {
-        maxAge: 30 * 60, // 30 mins
-        jwt: true,
+        return null
       },
     }),
   ],
-
+  session: {
+    maxAge: 30 * 60, // 30 mins
+  },
   callbacks: {
     async session({ session, user, token }) {
-      session.user.jsessionid = token.jsessionid
+      if (session.user) {
+        session.user.jsessionid = token.jsessionid
+      }
       return session
     },
     async jwt({ token, user, account, profile, isNewUser }) {

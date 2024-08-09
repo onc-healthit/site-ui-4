@@ -10,7 +10,8 @@
     "cypress:open:dev": "cypress open --config-file cypress/config/cypress.config.dev.ts",
     "test": "npm run cypress:open:dev",
     "cypress:run:dev": "cypress run --config-file cypress/config/cypress.config.dev.ts",
-    "test:dev": "npm run cypress:run:dev"
+    "test:dev": "npm run cypress:run:dev",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
