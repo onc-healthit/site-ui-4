@@ -12,8 +12,8 @@ const testCases = {
           {
             cells: [
               { content: 'Sender', type: 'text' },
-              { content: '', type: 'icon', isChecked: false },
               { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
             ],
           },
         ],
@@ -236,6 +236,25 @@ const testCases = {
       name: 'SMTP MT Test 46 (Generate Disposition Notification Options Header)',
       id: 146,
       protocol: 'mu2',
+      moreInfo: {
+        subHeader: 'Description',
+        headers: ['Vendor Role', 'Vendor Edge', 'Vendor HISP'],
+        tableData: [
+          {
+            cells: [
+              { content: 'Sender', type: 'text' },
+              { content: '', type: 'icon', isChecked: true },
+              { content: '', type: 'icon', isChecked: false },
+            ],
+          },
+        ],
+        optionalTextField: {
+          label: 'ccdaReferenceFilename',
+          helperText: 'C-CDA Document Type',
+          defaultValue: '',
+        },
+        actionLabel: 'RUN',
+      },
       desc: "Verifies the ability of the sending system to send messages with a correct Disposition Notification Options Header. The sending system will send a message to wellformed14@james.healthit.gov with the required header. Hitting 'Run' will cause ETT to check for this header.",
       longDesc: 'The credentials for authentication is vendoraccount@james.healthit.gov / vendortesting123  ',
       sutRole: 'sender',

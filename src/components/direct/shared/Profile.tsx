@@ -77,6 +77,7 @@ const Profile: React.FC<ProfileProps> = ({
             id="vendor-password"
             label="Vendor Password"
             helperText="helper text"
+            type="password"
             defaultValue=""
             required
             onChange={(e) => setPassword(e.target.value)}
