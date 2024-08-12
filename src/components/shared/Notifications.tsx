@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useEffect, useState } from 'react'
 import { Box, Drawer, Fab, Tooltip, Typography, IconButton, Divider, CardHeader, Badge, Button } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
@@ -10,8 +11,11 @@ const NotificationFab: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [notifications, setNotifications] = useState<Announcement[]>([]) // Use the Announcement type
   const [dismissedNotification, setDismissedNotification] = useState<Set<string>>(() => {
-    const storedDismissed = localStorage.getItem('dismissedNotification')
-    return storedDismissed ? new Set(JSON.parse(storedDismissed)) : new Set()
+    if (typeof window !== 'undefined') {
+      const storedDismissed = localStorage.getItem('dismissedNotification')
+      return storedDismissed ? new Set(JSON.parse(storedDismissed)) : new Set()
+    }
+    return new Set()
   })
   const [releaseVersionHTML, setReleaseVersionHTML] = useState<string | undefined>()
   const [releaseDateHTML, setReleaseDateHTML] = useState<string | undefined>()
@@ -42,7 +46,7 @@ const NotificationFab: React.FC = () => {
   }
 
   const trackEvent = (action: string, category: string, label: string) => {
-    if (typeof window.gtag === 'function') {
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
       window.gtag('event', action, {
         event_category: category,
         event_label: label,
@@ -53,7 +57,9 @@ const NotificationFab: React.FC = () => {
   const handleDismissAnnouncement = (id: string) => {
     setDismissedNotification((prev) => {
       const updatedSet = new Set(prev).add(id)
-      localStorage.setItem('dismissedNotification', JSON.stringify(Array.from(updatedSet)))
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('dismissedNotification', JSON.stringify(Array.from(updatedSet)))
+      }
 
       const remainingUndismissed = notifications.filter((a) => !updatedSet.has(a.id))
       if (remainingUndismissed.length === 0) {

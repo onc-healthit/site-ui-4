@@ -7,7 +7,7 @@ import {
   TimelineContent,
   TimelineDot,
 } from '@mui/lab'
-import { Box, Typography, Paper } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import palette from '@/styles/palette'
 
 // TypeScript types for props
