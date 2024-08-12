@@ -1,5 +1,5 @@
 import { AccountCircle } from '@mui/icons-material'
-import { Box, IconButton, Menu, MenuItem, Popover, Typography } from '@mui/material'
+import { Box, Button, Menu, MenuItem, Popover, Typography } from '@mui/material'
 import Login from './Login'
 import { signOut, useSession } from 'next-auth/react'
 import { useState } from 'react'
@@ -17,12 +17,9 @@ export default function Auth(props: any) {
 
   return (
     <Box display="flex" flexDirection="row" alignItems="center">
-      <Typography variant="h6" component="div">
-        {session ? `${session.user?.name}` : 'LOGIN'}
-      </Typography>
       {session ? (
         <div>
-          <IconButton
+          <Button
             size="large"
             aria-label="account of current user"
             aria-controls="menu-appbar"
@@ -30,18 +27,23 @@ export default function Auth(props: any) {
             onClick={handleAuthMenu}
             color="inherit"
           >
+            <Typography variant="h6" component="div">
+              {session ? `${session.user?.name}` : 'LOGIN'}
+              {''}
+            </Typography>
             <AccountCircle />
-          </IconButton>
+          </Button>
           <Menu
+            sx={{ mt: 5 }}
             id="menu-appbar"
             anchorEl={anchorEl}
             anchorOrigin={{
-              vertical: 'top',
+              vertical: 'bottom',
               horizontal: 'right',
             }}
             keepMounted
             transformOrigin={{
-              vertical: 'top',
+              vertical: 'bottom',
               horizontal: 'right',
             }}
             open={Boolean(anchorEl)}
@@ -54,26 +56,30 @@ export default function Auth(props: any) {
         </div>
       ) : (
         <div>
-          <IconButton
+          <Button
             size="large"
             aria-label="log in to an account"
             aria-controls="menu-appbar"
             aria-haspopup="true"
             onClick={handleAuthMenu}
             color="inherit"
+            endIcon={<AccountCircle />}
           >
-            <AccountCircle />
-          </IconButton>
+            <Typography variant="h6" component="div">
+              LOGIN
+            </Typography>
+          </Button>
           <Popover
             id="menu-appbar"
             anchorEl={anchorEl}
             anchorOrigin={{
-              vertical: 'top',
+              vertical: 'bottom',
               horizontal: 'right',
             }}
+            sx={{ mt: 5 }}
             keepMounted
             transformOrigin={{
-              vertical: 'top',
+              vertical: 'bottom',
               horizontal: 'right',
             }}
             open={Boolean(anchorEl)}
