@@ -144,6 +144,7 @@ const TestCard = ({ test }: TestCardProps) => {
   const [showLogs, setShowLogs] = useState(false)
   const [fieldValues, setFieldValues] = useState<{ [key: string]: string }>({})
   const [isLoading, setIsLoading] = useState(false)
+  const [apiError, setApiError] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
   const manualValidationCriteria = ["['b1-3']", "['b1-3','su1-3']"]
 
@@ -214,10 +215,13 @@ const TestCard = ({ test }: TestCardProps) => {
         setCriteriaMet(response.criteriaMet)
         setTestRequestRequest(response.testRequestRequest)
         setTestRequestResponse(response.testRequestResponse)
+        setApiError(true)
         console.log('Criteria met: ', response.criteriaMet)
         console.log('Test Request Responses:', response.testRequestResponse)
       } catch (error) {
         console.error('Failed to run test:', error)
+        setApiError(true)
+        setCriteriaMet('FALSE')
       } finally {
         setIsLoading(false)
         setTimeout(() => {
@@ -246,6 +250,7 @@ const TestCard = ({ test }: TestCardProps) => {
     setIsFinished(false)
     setShowLogs(false)
     setDocumentDetails(null)
+    setApiError(false)
   }
 
   const formattedLogs = Object.entries(testRequestResponse).map(([key, value]) => (
@@ -362,16 +367,21 @@ const TestCard = ({ test }: TestCardProps) => {
             )}
             <Divider sx={{ mb: 2, mt: 2 }} />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-              {test.criteria && manualValidationCriteria.includes(test.criteria) && formattedLogs.length > 0 && (
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                  <Button variant="contained" color="primary" onClick={handleAcceptTest}>
-                    Accept
-                  </Button>
-                  <Button variant="outlined" color="primary" onClick={handleRejectTest}>
-                    Reject
-                  </Button>
-                </Box>
-              )}
+              {test.criteria &&
+                manualValidationCriteria.includes(test.criteria) &&
+                formattedLogs.length > 0 &&
+                !criteriaMet.includes('TRUE') &&
+                !criteriaMet.includes('FALSE') &&
+                !apiError && (
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button variant="contained" color="primary" onClick={handleAcceptTest}>
+                      Accept
+                    </Button>
+                    <Button variant="outlined" color="primary" onClick={handleRejectTest}>
+                      Reject
+                    </Button>
+                  </Box>
+                )}
               <Button variant="contained" onClick={handleToggleLogs}>
                 Close Logs
               </Button>
@@ -491,6 +501,9 @@ const TestCard = ({ test }: TestCardProps) => {
                       </Button>
                     </Box>
                   )}
+                {test.criteria && manualValidationCriteria.includes(test.criteria) && isFinished && !apiError && (
+                  <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>
+                )}
               </Box>
             </Box>
           </>

@@ -114,6 +114,7 @@ const TestCard = ({
   const [showLogs, setShowLogs] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
+  const [apiError, setApiError] = useState(false)
   const [attachmentType, setAttachmentType] = useState('')
 
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
@@ -144,6 +145,7 @@ const TestCard = ({
     setIsFinished(false)
     setShowLogs(false)
     setDocumentDetails(null)
+    setApiError(false)
   }
 
   const handleAttachmentTypeChange = (event: SelectChangeEvent<string>) => {
@@ -219,11 +221,13 @@ const TestCard = ({
         })
         setIsFinished(true)
         setCriteriaMet(response.criteriaMet)
+        setApiError(true)
         setTestRequestResponses(response.testRequestResponses)
         console.log('Criteria met: ', response.criteriaMet)
         console.log('Test Request Responses:', response.testRequestResponses)
       } catch (error) {
         console.error('Failed to run test:', error)
+        setApiError(true)
         setCriteriaMet('FALSE')
       } finally {
         setIsLoading(false)
@@ -379,7 +383,8 @@ const TestCard = ({
               manualValidationCriteria.includes(test.criteria) &&
               formattedLogs.length > 0 &&
               !criteriaMet.includes('TRUE') &&
-              !criteriaMet.includes('FALSE') && (
+              !criteriaMet.includes('FALSE') &&
+              !apiError && (
                 <Box sx={{ display: 'flex', gap: 1 }}>
                   <Button variant="contained" color="primary" onClick={handleAcceptTest}>
                     Accept
@@ -467,7 +472,7 @@ const TestCard = ({
                     </Button>
                   </Box>
                 )}
-              {test.criteria && manualValidationCriteria.includes(test.criteria) && isFinished && (
+              {test.criteria && manualValidationCriteria.includes(test.criteria) && isFinished && !apiError && (
                 <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>
               )}
             </Box>
