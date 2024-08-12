@@ -245,6 +245,7 @@ const TestCard = ({ test }: TestCardProps) => {
     setTestRequestRequest('')
     setIsFinished(false)
     setShowLogs(false)
+    setDocumentDetails(null)
   }
 
   const formattedLogs = Object.entries(testRequestResponse).map(([key, value]) => (

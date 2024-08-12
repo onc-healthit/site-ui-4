@@ -143,6 +143,7 @@ const TestCard = ({
     setTestRequestResponses('')
     setIsFinished(false)
     setShowLogs(false)
+    setDocumentDetails(null)
   }
 
   const handleAttachmentTypeChange = (event: SelectChangeEvent<string>) => {
