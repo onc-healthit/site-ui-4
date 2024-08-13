@@ -148,6 +148,11 @@ const TestCard = ({ test }: TestCardProps) => {
   const [isFinished, setIsFinished] = useState(false)
   const manualValidationCriteria = ["['b1-3']", "['b1-3','su1-3']"]
 
+  const subHeader = 'Description'
+  const subDesc = test['Purpose/Description']
+  const expTestHeader = 'Expected Test Results'
+  const expTestResults = test['Expected Test Results']
+
   const requiresCCDADocument = () => {
     return test.inputs?.some((input) => input.key === 'payload' && input.type?.includes('CCDAWidget'))
   }
@@ -304,19 +309,16 @@ const TestCard = ({ test }: TestCardProps) => {
       <Box>
         <Box>
           <Typography variant="h6" sx={{ mb: 2 }}>
-            {moreInfo?.subHeader}
+            {subHeader}
           </Typography>
           <Typography variant="body2" sx={{ mb: 2 }}>
-            {moreInfo?.subDesc}
-          </Typography>
-          <Typography variant="body2" sx={{ mb: 2 }}>
-            {moreInfo?.subDesc2}
+            {subDesc}
           </Typography>
           <Typography variant="h6" sx={{ mb: 2 }}>
-            {moreInfo?.expTestHeader}
+            {expTestHeader}
           </Typography>
           <Typography variant="body2" sx={{ mb: 2 }}>
-            {moreInfo?.expTestResults}
+            {expTestResults}
           </Typography>
         </Box>
 

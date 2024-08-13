@@ -21,6 +21,17 @@ const testCases = [
         type: 'CCDAWidgetXdr',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'Limited Metadata', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'XDR Send ',
     'Data Flow in Direct': 'Edge Sends an XDR message to HISP along with Direct Address block',
     'Metadata Included': 'Limited Metadata',
@@ -58,6 +69,17 @@ const testCases = [
         type: 'CCDAWidgetXdr',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'Full Metadata', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'XDR Send',
     'Data Flow in Direct': 'Edge Sends an XDR message to HISP along with Full Metadata',
     'Metadata Included': 'Full Metadata',
@@ -94,6 +116,17 @@ const testCases = [
         type: 'CCDAWidgetReceiverXdr',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'Limited Metadata', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'Edge receives an XDR message from the HISP',
     'Metadata Included': 'Limited Metadata',
@@ -126,6 +159,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'Edge receives an incorrect XDR message from the HISP',
     'Metadata Included': 'N/A',
@@ -157,6 +201,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'Edge receives an incorrect XDR message from the HISP',
     'Metadata Included': 'N/A',
@@ -188,6 +243,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'Full Metadata', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'Edge receives an XDR message from the HISP',
     'Metadata Included': 'Full Metadata',
@@ -220,6 +286,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'Authentication',
     'Data Flow in Direct': 'Edge uses Mutual TLS to authenticate to the HISP',
     'Metadata Included': 'N/A',
@@ -252,6 +329,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'Authentication',
     'Data Flow in Direct': 'Edge uses Mutual TLS to authenticate to the HISP exception case',
     'Metadata Included': 'N/A',
@@ -287,6 +375,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'Authentication',
     'Data Flow in Direct': 'HISP authenticates to the Edge using Mutual TLS',
     'Metadata Included': 'N/A',
@@ -322,6 +421,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'Authentication',
     'Data Flow in Direct': 'HISP authenticates to the Edge using Mutual TLS exception case',
     'Metadata Included': 'N/A',
@@ -1225,6 +1335,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     expectedMDN: true,
     'Test Focus': '',
     'Data Flow in Direct': '',
@@ -1264,6 +1385,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     expectedMDN: true,
     'Test Focus': '',
     'Data Flow in Direct': '',
@@ -2031,6 +2163,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': '',
     'Data Flow in Direct': '',
     'Metadata Included': 'N/A',
