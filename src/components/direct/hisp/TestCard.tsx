@@ -7,7 +7,6 @@ import { handleAPICall } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import LoadingButton from '../shared/LoadingButton'
-
 import {
   Box,
   Button,
@@ -117,7 +116,6 @@ const TestCard = ({
   const [isFinished, setIsFinished] = useState(false)
   const [apiError, setApiError] = useState(false)
   const [attachmentType, setAttachmentType] = useState('')
-
 
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
     console.log('Confirmed Document', selectedData)

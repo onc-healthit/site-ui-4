@@ -1,4 +1,16 @@
-import { Box, Button, Card, CardContent, CardHeader, Divider, TextField, Typography, FormControl } from '@mui/material'
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Snackbar,
+  TextField,
+  Tooltip,
+  Typography,
+  FormControl,
+} from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info'
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
 import _ from 'lodash'
@@ -73,17 +85,6 @@ interface StepTextProps {
   inputs: InputFields[]
   role?: string
 }
-const handleClick = (link: string) => {
-  navigator.clipboard
-    .writeText(link)
-    .then(() => {
-      alert('Link copied to clipboard: ' + link)
-    })
-    .catch((err) => {
-      console.error('Failed to copy link: ', err)
-      alert('Failed to copy link. Please try again.')
-    })
-}
 
 const senderText = 'Hit Run to generate your endpoint.'
 const receiverText = 'Hit Run to send a XDR message.'
@@ -146,6 +147,7 @@ const TestCard = ({ test }: TestCardProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const [apiError, setApiError] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
+  const [openSnackbar, setOpenSnackbar] = useState(false)
   const manualValidationCriteria = ["['b1-3']", "['b1-3','su1-3']"]
 
   const subHeader = 'Description'
@@ -159,6 +161,19 @@ const TestCard = ({ test }: TestCardProps) => {
 
   const shouldDisplayInput = (input: InputFields) => {
     return !(input.key === 'payload' && input.type?.includes('CCDAWidget'))
+  }
+
+  const handleClick = (link: string) => {
+    navigator.clipboard
+      .writeText(link)
+      .then(() => {
+        setOpenSnackbar(true)
+        setTimeout(() => setOpenSnackbar(false), 1500)
+      })
+      .catch((err) => {
+        console.error('Failed to copy link:', err)
+        alert('Failed to copy link. Please try again.')
+      })
   }
 
   const endpointTestIds = [
@@ -432,7 +447,7 @@ const TestCard = ({ test }: TestCardProps) => {
             >
               {endpointTestIds.includes(test.id.toString()) && (
                 <Box width={'50%'}>
-                  <Box>
+                  <Tooltip placement="bottom" title={endpoint + 'edge-ttp__' + test.id + '/rep/xdrpr'} arrow>
                     <Button
                       sx={{ ml: 2 }}
                       color="secondary"
@@ -441,6 +456,8 @@ const TestCard = ({ test }: TestCardProps) => {
                     >
                       Endpoint
                     </Button>
+                  </Tooltip>
+                  <Tooltip placement="bottom" title={endpointTLS + 'edge-ttp__' + test.id + '/rep/xdrpr'} arrow>
                     <Button
                       sx={{ ml: 2 }}
                       color="secondary"
@@ -449,9 +466,14 @@ const TestCard = ({ test }: TestCardProps) => {
                     >
                       Endpoint TLS
                     </Button>
-                  </Box>
+                  </Tooltip>
                 </Box>
               )}
+              <Snackbar
+                open={openSnackbar}
+                message="Copied to clipboard"
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+              />
               {requiresCCDADocument() && (
                 <Box
                   sx={{
