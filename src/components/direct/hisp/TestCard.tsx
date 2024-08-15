@@ -221,7 +221,6 @@ const TestCard = ({
         })
         setIsFinished(true)
         setCriteriaMet(response.criteriaMet)
-        setApiError(true)
         setTestRequestResponses(response.testRequestResponses)
         console.log('Criteria met: ', response.criteriaMet)
         console.log('Test Request Responses:', response.testRequestResponses)
@@ -382,9 +381,7 @@ const TestCard = ({
             {test.criteria &&
               manualValidationCriteria.includes(test.criteria) &&
               formattedLogs.length > 0 &&
-              !criteriaMet.includes('TRUE') &&
-              !criteriaMet.includes('FALSE') &&
-              !apiError && (
+              criteriaMet.includes('MANUAL') && (
                 <Box sx={{ display: 'flex', gap: 1 }}>
                   <Button variant="contained" color="primary" onClick={handleAcceptTest}>
                     Accept
@@ -472,7 +469,7 @@ const TestCard = ({
                     </Button>
                   </Box>
                 )}
-              {test.criteria && manualValidationCriteria.includes(test.criteria) && isFinished && !apiError && (
+              {test.criteria && manualValidationCriteria.includes(test.criteria) && !apiError && isFinished && (
                 <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>
               )}
             </Box>

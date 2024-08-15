@@ -10,6 +10,7 @@ import {
   Tooltip,
   Typography,
   FormControl,
+  Popover,
 } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info'
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
@@ -147,7 +148,8 @@ const TestCard = ({ test }: TestCardProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const [apiError, setApiError] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
-  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
+  const [popoverMessage, setPopoverMessage] = useState('')
   const manualValidationCriteria = ["['b1-3']", "['b1-3','su1-3']"]
 
   const subHeader = 'Description'
@@ -163,18 +165,18 @@ const TestCard = ({ test }: TestCardProps) => {
     return !(input.key === 'payload' && input.type?.includes('CCDAWidget'))
   }
 
-  const handleClick = (link: string) => {
-    navigator.clipboard
-      .writeText(link)
-      .then(() => {
-        setOpenSnackbar(true)
-        setTimeout(() => setOpenSnackbar(false), 1500)
-      })
-      .catch((err) => {
-        console.error('Failed to copy link:', err)
-        alert('Failed to copy link. Please try again.')
-      })
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, link: string) => {
+    navigator.clipboard.writeText(link)
+    setAnchorEl(event.currentTarget)
+    setPopoverMessage('Copied to clipboard!')
   }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const open = Boolean(anchorEl)
+  const id = open ? 'simple-popover' : undefined
 
   const endpointTestIds = [
     '10',
@@ -235,7 +237,6 @@ const TestCard = ({ test }: TestCardProps) => {
         setCriteriaMet(response.criteriaMet)
         setTestRequestRequest(response.testRequestRequest)
         setTestRequestResponse(response.testRequestResponse)
-        setApiError(true)
         console.log('Criteria met: ', response.criteriaMet)
         console.log('Test Request Responses:', response.testRequestResponse)
       } catch (error) {
@@ -451,8 +452,8 @@ const TestCard = ({ test }: TestCardProps) => {
                     <Button
                       sx={{ ml: 2 }}
                       color="secondary"
-                      endIcon={<ContentPasteGoIcon color="secondary" />}
-                      onClick={() => handleClick(endpoint + 'edge-ttp__' + test.id + '/rep/xdrpr')}
+                      endIcon={<ContentPasteGoIcon />}
+                      onClick={(e) => handleClick(e, endpoint + 'edge-ttp__' + test.id + '/rep/xdrpr')}
                     >
                       Endpoint
                     </Button>
@@ -461,19 +462,26 @@ const TestCard = ({ test }: TestCardProps) => {
                     <Button
                       sx={{ ml: 2 }}
                       color="secondary"
-                      endIcon={<ContentPasteGoIcon color="secondary" />}
-                      onClick={() => handleClick(endpointTLS + 'edge-ttp__' + test.id + '/rep/xdrpr')}
+                      endIcon={<ContentPasteGoIcon />}
+                      onClick={(e) => handleClick(e, endpointTLS + 'edge-ttp__' + test.id + '/rep/xdrpr')}
                     >
                       Endpoint TLS
                     </Button>
                   </Tooltip>
+                  <Popover
+                    id={id}
+                    open={open}
+                    anchorEl={anchorEl}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
+                    }}
+                  >
+                    <Typography sx={{ p: 2 }}>{popoverMessage}</Typography>
+                  </Popover>
                 </Box>
               )}
-              <Snackbar
-                open={openSnackbar}
-                message="Copied to clipboard"
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-              />
               {requiresCCDADocument() && (
                 <Box
                   sx={{
