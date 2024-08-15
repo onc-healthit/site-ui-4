@@ -24,6 +24,10 @@ export default function ScorecardSideNav({ results }: ScorecardSideNavProps) {
   const menuItemStyle = {
     fontWeight: 'bold',
     py: 1,
+    '&:visited': {
+      color: 'inherit',
+      textDecoration: 'none',
+    },
   }
 
   return (
