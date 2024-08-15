@@ -13,7 +13,7 @@ export interface ScorecardJsonResponseType {
 export interface ScorecardResultsType {
   finalGrade: string
   finalNumericalGrade: number
-  categoryList: ScorecardCategoryList[]
+  categoryList: ScorecardCategory[]
   numberOfIssues: number
   igReferenceUrl: string
   industryAverageScore: number
@@ -32,7 +32,7 @@ export interface ScorecardResultsType {
   totalGradesGiven: TotalGradesGiven
 }
 
-export interface ScorecardCategoryList {
+export interface ScorecardCategory {
   categoryName: string
   categoryGrade: string | null
   categoryNumericalScore: number
@@ -43,23 +43,25 @@ export interface ScorecardCategoryList {
   certificationFeedback: boolean
   failingConformance: boolean
   nullFlavorNI: boolean
+  conformanceErrorCount?: number // Note: Property was ADDED for this program. It does NOT exist in the server response
+  vocabularyErrorCount?: number // Note: Property was ADDED for this program. It does NOT exist in the server response
 }
 
 export interface ScorecardCategoryRubric {
   rule: string
   numberOfIssues: number
-  issuesList: IssuesList[]
+  issuesList: ScorecardIssueXMLInstance[]
   exampleTaskForceLinks: string[]
   igReferences: string[]
   description: string | null
 }
 
-interface IssuesList {
+export interface ScorecardIssueXMLInstance {
   lineNumber: string
   xmlString: string
 }
 
-interface TotalGradesGiven {
+export interface TotalGradesGiven {
   aPlusGrades: number
   aMinusGrades: number
   bPlusGrades: number
@@ -89,7 +91,7 @@ export interface ScorecardReferenceErrorType {
   sectionName: string | null
 }
 
-interface SchemaErrorList {
+export interface SchemaErrorList {
   description: string
   type: string
   xPath: string

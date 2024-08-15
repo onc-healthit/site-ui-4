@@ -5,7 +5,7 @@ import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Link from 'next/link'
 import * as React from 'react'
-import { ScorecardCategoryRubric } from '../types/ScorecardJsonResponseType'
+import { ScorecardCategoryRubric, ScorecardIssueXMLInstance } from '../types/ScorecardJsonResponseType'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -61,7 +61,7 @@ export default function ScorecardTabs({ rubric }: ScorecardTabsProps) {
     overflow: 'auto',
     backgroundColor: palette.white,
     padding: 2,
-    borderRadius: 5,
+    borderRadius: 0,
   }
   const bestPracticeLinkStyle = issueXmlStyle
 
@@ -94,8 +94,8 @@ export default function ScorecardTabs({ rubric }: ScorecardTabsProps) {
 
       <CustomTabPanel value={value} index={0}>
         <List sx={{ listStyle: 'decimal', pl: 2 }}>
-          {rubric.issuesList.map((issue, index) => (
-            <ListItem sx={{ display: 'list-item' }} key={index}>
+          {rubric.issuesList.map((issue: ScorecardIssueXMLInstance, index) => (
+            <ListItem sx={{ display: 'list-item' }} key={`${issue.lineNumber}-${index}`}>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', pb: 2 }}>
                 <ListItemText
                   primary={`XML at Line Number ${issue.lineNumber}`}
@@ -126,6 +126,7 @@ export default function ScorecardTabs({ rubric }: ScorecardTabsProps) {
               <ListItemText
                 primary="Related HL7 C-CDA Task Force example"
                 primaryTypographyProps={{ fontWeight: 'bold' }}
+                sx={{ pb: 3 }}
               />
               <Box sx={bestPracticeLinkStyle}>
                 <Link href={tfLink} target="_blank" rel="noreferrer noopener">

@@ -1,17 +1,17 @@
 import palette from '@/styles/palette'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import { ConstantsEnum, SectionNameEnum } from '../types/ScorecardConstants'
-import { ScorecardCategoryList, ScorecardCategoryRubric } from '../types/ScorecardJsonResponseType'
-import ScorecardTabs from './ScorecardTabs'
 import Link from 'next/link'
+import React, { useState } from 'react'
+import { getGradeStyleValueByProperty } from '../serverside/scorecardHelperService'
+import { ConstantsEnum, GradeEnum, gradeStyleMap, SectionNameEnum } from '../types/ScorecardConstants'
+import { ScorecardCategory, ScorecardCategoryRubric } from '../types/ScorecardJsonResponseType'
+import ScorecardTabs from './ScorecardTabs'
 
 interface DetailsAccordionProps {
   disabled: boolean
-  refLink: React.RefObject<HTMLDivElement>
-  allSections: ScorecardCategoryList[]
-  currentSection: ScorecardCategoryList
+  allSections: ScorecardCategory[]
+  currentSection: ScorecardCategory
   currentSectionIndex: number
   defaultExpanded?: boolean
   leftBorderColor: string
@@ -54,7 +54,6 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
       disableGutters
       elevation={3}
       disabled={props.disabled}
-      ref={props.refLink}
       defaultExpanded={props.defaultExpanded}
     >
       <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
@@ -70,8 +69,13 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
       </AccordionSummary>
 
       <AccordionDetails sx={{ p: 2 }}>
-        {rubricsWithIssues.map((curRubric, i) => (
-          <Box sx={{ marginBottom: 1, borderRadius: 5 }} p={2} bgcolor={props.backgroundColor} key={i}>
+        {rubricsWithIssues.map((curRubric: ScorecardCategoryRubric, rubricIndex) => (
+          <Box
+            sx={{ marginBottom: 1, borderRadius: 0 }}
+            p={2}
+            bgcolor={props.backgroundColor}
+            key={`${curRubric.rule}-${curRubric.numberOfIssues}-${rubricIndex}`}
+          >
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Box sx={{ width: '80%', textAlign: 'left' }}>
                 <Typography gutterBottom sx={{ pb: 2 }}>
@@ -79,12 +83,12 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
                 </Typography>
               </Box>
               <Box sx={{ width: '20%', textAlign: 'right' }}>
-                <Button variant="outlined" onClick={() => handleShowDetails(i)}>
-                  {isShowDetails[i] ? 'HIDE DETAILS' : 'SHOW DETAILS'}
+                <Button variant="outlined" onClick={() => handleShowDetails(rubricIndex)}>
+                  {isShowDetails[rubricIndex] ? 'HIDE DETAILS' : 'SHOW DETAILS'}
                 </Button>
               </Box>
             </Box>
-            {isShowDetails[i] && (
+            {isShowDetails[rubricIndex] && (
               <>
                 <Typography component="div" gutterBottom sx={{ pb: 2 }}>
                   <b>Description</b>:
@@ -101,10 +105,10 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
                     {curRubric.igReferences[0] && curRubric.igReferences[0] !== ConstantsEnum.IG_URL && (
                       <>
                         Please refer to:&nbsp;
-                        {curRubric.igReferences.map((igRef, index) => (
-                          <Box component="span" key={index}>
+                        {curRubric.igReferences.map((igRef, igRefIndex) => (
+                          <Box component="span" key={igRefIndex}>
                             {igRef}
-                            {index < curRubric.igReferences.length - 1 ? ',' : ''}
+                            {igRefIndex < curRubric.igReferences.length - 1 ? ',' : ''}
                           </Box>
                         ))}
                         &nbsp;in the <IgLink></IgLink>&nbsp;for help resolving the issue.
@@ -123,8 +127,8 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
 }
 
 interface ScorecardBestPracticeResultsProps {
-  allSections: ScorecardCategoryList[]
-  currentSection: ScorecardCategoryList
+  allSections: ScorecardCategory[]
+  currentSection: ScorecardCategory
   errorRef: React.RefObject<HTMLDivElement>
   currentSectionIndex: number
 }
@@ -139,10 +143,13 @@ export default function ScorecardBestPracticeResults(props: ScorecardBestPractic
       </Box>
       <DetailsAccordion
         disabled={false}
-        refLink={props.errorRef}
         allSections={props.allSections}
         currentSection={props.currentSection}
-        leftBorderColor={palette.successLight} //TODO: make dynamic color based on grade
+        // dynamic color based on grade with default if null
+        leftBorderColor={
+          getGradeStyleValueByProperty(props.currentSection, 'backgroundColor') ??
+          gradeStyleMap[GradeEnum.NULL_OR_EMPTY_SECTION].backgroundColor
+        }
         backgroundColor={'ghostWhite'}
         defaultExpanded={true}
         currentSectionIndex={props.currentSectionIndex}
