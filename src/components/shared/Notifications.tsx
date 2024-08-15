@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react'
 import { Box, Drawer, Fab, Tooltip, Typography, IconButton, Divider, CardHeader, Badge, Button } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import NotificationImportantOutlined from '@mui/icons-material/NotificationImportantOutlined'
-import { fetchNotifications, fetchMarkdownData, Announcement } from '@/assets/NotificationService'
+import { fetchNotifications, Announcement } from '@/assets/NotificationService'
 import palette from '@/styles/palette'
+import { fetchReleaseData } from '@/assets/ReleaseService'
 
 const NotificationFab: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -24,7 +25,7 @@ const NotificationFab: React.FC = () => {
     const fetchData = async () => {
       try {
         setNotifications(await fetchNotifications())
-        const { releaseVersionHTML, releaseDateHTML } = await fetchMarkdownData()
+        const { releaseVersionHTML, releaseDateHTML } = await fetchReleaseData()
         setReleaseVersionHTML(releaseVersionHTML)
         setReleaseDateHTML(releaseDateHTML)
       } catch (error) {
@@ -37,12 +38,12 @@ const NotificationFab: React.FC = () => {
 
   const handleDrawerOpen = () => {
     setDrawerOpen(true)
-    trackEvent('Open Info FAB', 'Button', 'Communication Panel')
+    trackEvent('Open Info FAB', 'Button', 'Notification Panel')
   }
 
   const handleDrawerClose = () => {
     setDrawerOpen(false)
-    trackEvent('Close Info FAB', 'Button', 'Communication Panel')
+    trackEvent('Close Info FAB', 'Button', 'Notification Panel')
   }
 
   const trackEvent = (action: string, category: string, label: string) => {
@@ -136,7 +137,7 @@ const NotificationFab: React.FC = () => {
             </Fab>
           </Tooltip>
           <Typography
-            sx={{ position: 'fixed', bottom: 12, padding: '0 16px 8px 16px', fontSize: '12px' }}
+            sx={{ position: 'fixed', bottom: '12px', padding: '0 16px 8px 16px', fontSize: '12px' }}
             variant="caption"
             color={palette.greyDark}
           >

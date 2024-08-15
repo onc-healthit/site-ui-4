@@ -1,3 +1,4 @@
+// src/components/CommunicationFab.tsx
 'use client'
 import {
   Box,
@@ -13,15 +14,13 @@ import {
   Typography,
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-
 import CloseIcon from '@mui/icons-material/Close'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import InfoIcon from '@mui/icons-material/Info'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import SecurityIcon from '@mui/icons-material/Security'
 import LinkButton from './LinkButton'
-
-import { fetchSanitizedMarkdownData } from '@/services/markdownToHTMLService'
+import { fetchReleaseData } from '@/assets/ReleaseService'
 import palette from '@/styles/palette'
 import placeholder from '@public/shared/PlaceHolderImageSITE.png'
 import Image from 'next/image'
@@ -53,14 +52,12 @@ const CommunicationFab: React.FC = () => {
   const [releaseVersionHTML, setReleaseVersionHTML] = useState<string | undefined>()
   const [releaseDateHTML, setReleaseDateHTML] = useState<string | undefined>()
 
-  const releaseVersionURL = 'https://raw.githubusercontent.com/onc-healthit/site-content/master/site-ui-4/version.md'
-  const releaseDateURL = 'https://raw.githubusercontent.com/onc-healthit/site-content/master/site-ui-4/release-date.md'
-
   useEffect(() => {
     ;(async () => {
       try {
-        setReleaseVersionHTML(await fetchSanitizedMarkdownData(releaseVersionURL))
-        setReleaseDateHTML(await fetchSanitizedMarkdownData(releaseDateURL))
+        const { releaseVersionHTML, releaseDateHTML } = await fetchReleaseData()
+        setReleaseVersionHTML(releaseVersionHTML)
+        setReleaseDateHTML(releaseDateHTML)
       } catch (e) {
         console.error(e)
       }
