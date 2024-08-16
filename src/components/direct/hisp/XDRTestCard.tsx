@@ -274,7 +274,7 @@ const TestCard = ({ test }: TestCardProps) => {
     setApiError(false)
   }
 
-  const formattedLogs = Object.entries(testRequestResponse).map(([key, value]) => (
+  const formattedResponse = Object.entries(testRequestResponse).map(([key, value]) => (
     <Typography key={key} variant="body1" style={{ whiteSpace: 'pre-line' }}>
       {value}
     </Typography>
@@ -283,7 +283,7 @@ const TestCard = ({ test }: TestCardProps) => {
   const renderCriteriaMetIcon = () => {
     if (criteriaMet === 'TRUE') {
       return <CheckCircleIcon style={{ color: 'green' }} />
-    } else if (criteriaMet === 'FALSE') {
+    } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR') {
       return <CancelIcon style={{ color: 'red' }} />
     }
     return null
@@ -379,7 +379,7 @@ const TestCard = ({ test }: TestCardProps) => {
           <CardContent>
             <Typography variant="h6">Test Logs</Typography>
             {testRequestResponse ? (
-              <Typography variant="body1">{formattedLogs}</Typography>
+              <Typography variant="body1">{formattedResponse}</Typography>
             ) : (
               <Typography variant="body1">No logs to display.</Typography>
             )}
@@ -387,9 +387,10 @@ const TestCard = ({ test }: TestCardProps) => {
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
               {test.criteria &&
                 manualValidationCriteria.includes(test.criteria) &&
-                formattedLogs.length > 0 &&
+                formattedResponse.length > 0 &&
                 !criteriaMet.includes('TRUE') &&
                 !criteriaMet.includes('FALSE') &&
+                !criteriaMet.includes('ERROR') &&
                 !apiError && (
                   <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button variant="contained" color="primary" onClick={handleAcceptTest}>
@@ -524,9 +525,8 @@ const TestCard = ({ test }: TestCardProps) => {
                   LOGS
                 </Button>
                 {test.criteria &&
-                  manualValidationCriteria.includes(test.criteria) &&
-                  (formattedLogs.length > 0 || criteriaMet.includes('FALSE')) &&
-                  (criteriaMet.includes('TRUE') || criteriaMet.includes('FALSE')) && (
+                  (formattedResponse.length > 0 || criteriaMet.includes('FALSE') || criteriaMet.includes('ERROR')) &&
+                  (criteriaMet.includes('TRUE') || criteriaMet.includes('FALSE') || criteriaMet.includes('ERROR')) && (
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <Button variant="contained" color="inherit" onClick={handleClearTest}>
                         Clear

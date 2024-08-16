@@ -102,12 +102,12 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
   try {
     const response = await axios(config)
     console.log('Raw content:', response.data)
-    const content = response.data.content[0]
+    const content = response.data
 
     return {
-      criteriaMet: response.data.content.criteriaMet,
+      criteriaMet: response.data.status,
       testRequestRequest: content.request,
-      testRequestResponse: content.response,
+      testRequestResponse: content.message,
     }
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
