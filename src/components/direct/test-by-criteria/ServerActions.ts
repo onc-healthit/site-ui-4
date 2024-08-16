@@ -101,7 +101,8 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
 
   try {
     const response = await axios(config)
-    const content = response.data.content.value
+    console.log('Raw content:', response.data)
+    const content = response.data.content[0]
 
     return {
       criteriaMet: response.data.content.criteriaMet,

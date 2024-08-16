@@ -1340,7 +1340,7 @@ const testCases = [
       tableData: [
         {
           cells: [
-            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'Sender (EDGE - SUT)', type: 'text' },
             { content: 'N/A', type: 'text' },
           ],
         },
@@ -1390,7 +1390,7 @@ const testCases = [
       tableData: [
         {
           cells: [
-            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'Sender (EDGE - SUT)', type: 'text' },
             { content: 'N/A', type: 'text' },
           ],
         },
@@ -2168,7 +2168,7 @@ const testCases = [
       tableData: [
         {
           cells: [
-            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'Sender (EDGE - SUT)', type: 'text' },
             { content: 'N/A', type: 'text' },
           ],
         },
