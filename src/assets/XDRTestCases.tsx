@@ -26,7 +26,7 @@ const testCases = [
       tableData: [
         {
           cells: [
-            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'Sender (EDGE - SUT)', type: 'text' },
             { content: 'Limited Metadata', type: 'text' },
           ],
         },
@@ -74,7 +74,7 @@ const testCases = [
       tableData: [
         {
           cells: [
-            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'Sender (EDGE - SUT)', type: 'text' },
             { content: 'Full Metadata', type: 'text' },
           ],
         },
@@ -121,7 +121,7 @@ const testCases = [
       tableData: [
         {
           cells: [
-            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'Receiver (EDGE - SUT)', type: 'text' },
             { content: 'Limited Metadata', type: 'text' },
           ],
         },
@@ -164,7 +164,7 @@ const testCases = [
       tableData: [
         {
           cells: [
-            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'Receiver (EDGE - SUT)', type: 'text' },
             { content: 'N/A', type: 'text' },
           ],
         },
@@ -206,7 +206,7 @@ const testCases = [
       tableData: [
         {
           cells: [
-            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'Receiver (EDGE - SUT)', type: 'text' },
             { content: 'N/A', type: 'text' },
           ],
         },
@@ -248,7 +248,7 @@ const testCases = [
       tableData: [
         {
           cells: [
-            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'Receiver (EDGE - SUT)', type: 'text' },
             { content: 'Full Metadata', type: 'text' },
           ],
         },
@@ -291,7 +291,7 @@ const testCases = [
       tableData: [
         {
           cells: [
-            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'Sender (EDGE - SUT)', type: 'text' },
             { content: 'N/A', type: 'text' },
           ],
         },
@@ -334,7 +334,7 @@ const testCases = [
       tableData: [
         {
           cells: [
-            { content: 'Sender (HISP - SUT)', type: 'text' },
+            { content: 'Sender (EDGE - SUT)', type: 'text' },
             { content: 'N/A', type: 'text' },
           ],
         },
@@ -380,7 +380,7 @@ const testCases = [
       tableData: [
         {
           cells: [
-            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'Receiver (EDGE - SUT)', type: 'text' },
             { content: 'N/A', type: 'text' },
           ],
         },
@@ -426,7 +426,7 @@ const testCases = [
       tableData: [
         {
           cells: [
-            { content: 'Receiver (HISP - SUT)', type: 'text' },
+            { content: 'Receiver (EDGE - SUT)', type: 'text' },
             { content: 'N/A', type: 'text' },
           ],
         },

@@ -248,11 +248,6 @@ const testCases = {
             ],
           },
         ],
-        optionalTextField: {
-          label: 'ccdaReferenceFilename',
-          helperText: 'C-CDA Document Type',
-          defaultValue: '',
-        },
         actionLabel: 'RUN',
       },
       desc: "Verifies the ability of the sending system to send messages with a correct Disposition Notification Options Header. The sending system will send a message to wellformed14@james.healthit.gov with the required header. Hitting 'Run' will cause ETT to check for this header.",

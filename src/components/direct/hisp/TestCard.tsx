@@ -461,7 +461,7 @@ const TestCard = ({
               </Button>
               {test.criteria &&
                 manualValidationCriteria.includes(test.criteria) &&
-                formattedLogs.length > 0 &&
+                (formattedLogs.length > 0 || criteriaMet.includes('FALSE')) &&
                 (criteriaMet.includes('TRUE') || criteriaMet.includes('FALSE')) && (
                   <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button variant="contained" color="inherit" onClick={handleClearTest}>
