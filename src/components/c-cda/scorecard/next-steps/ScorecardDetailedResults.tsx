@@ -85,7 +85,7 @@ export default function ScorecardDetailedResults({
         <Box
           key={`${curSection.categoryName}-${curSection.categoryNumericalScore}-${index}`}
           id={getSectionHrefLinkValueAsAnchor(curSection)}
-          sx={{ pb: 3 }}
+          sx={{ pb: 2 }}
         >
           <ScorecardBestPracticeResults
             allSections={sectionsWithIssues} // we could pass sections here instead to maintain full list if needed
