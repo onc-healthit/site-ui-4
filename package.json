@@ -34,10 +34,12 @@
     "react-joyride": "^2.8.2",
     "react-markdown": "^9.0.1",
     "react-multi-carousel": "^2.8.5",
+    "react-syntax-highlighter": "^15.5.0",
     "react-to-print": "^2.15.1",
     "rehype-raw": "^7.0.0",
     "remark": "^15.0.1",
-    "remark-gfm": "^4.0.0"
+    "remark-gfm": "^4.0.0",
+    "xml-formatter": "^3.6.3"
   },
   "devDependencies": {
     "@types/cypress": "^1.1.3",
