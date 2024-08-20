@@ -1,6 +1,6 @@
 import palette from '@/styles/palette'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Typography } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Chip, Divider, Typography } from '@mui/material'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { getGradeStyleValueByProperty } from '../serverside/scorecardHelperService'
@@ -48,24 +48,29 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
         '&:before': {
           display: 'none',
         },
-        borderLeft: `14px solid ${props.leftBorderColor}`,
-        borderTopLeftRadius: '30px',
+        borderLeft: `8px solid ${props.leftBorderColor}`,
+        borderRadius: '8px',
       }}
       disableGutters
       elevation={3}
       disabled={props.disabled}
       defaultExpanded={props.defaultExpanded}
     >
-      <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
-        {/* TODO: Issue count should probably be an avatar/badge just like in heatmap */}
-        <Typography sx={{ border: `` }}>
-          {/* {props.section} {props.grade} ({props.issueCount}) */}
+      <AccordionSummary
+        sx={{ borderBottom: `1px solid ${palette.divider}`, gap: '16px' }}
+        expandIcon={<ExpandMoreIcon />}
+      >
+        <Box display={'flex'} justifyContent={'space-between'} width={'100%'} flexDirection={'row'} gap={2}>
           <b>
-            {props.currentSection.categoryName} {props.currentSection.categoryGrade}
-          </b>{' '}
-          (<b>{props.currentSection.numberOfIssues}</b> Total Issues | <b>{rubricsWithIssuesCount}</b> Unique Issue
-          {rubricsWithIssuesCount > 1 && 's'})
-        </Typography>
+            {props.currentSection.categoryName}
+            {':'} {props.currentSection.categoryGrade}
+          </b>
+          <Chip
+            variant="outlined"
+            size="small"
+            label={`${props.currentSection.numberOfIssues} Total Issues, ${rubricsWithIssuesCount} Unique Issue${rubricsWithIssuesCount > 1 ? 's' : ''}`}
+          ></Chip>
+        </Box>
       </AccordionSummary>
 
       <AccordionDetails sx={{ p: 2 }}>
@@ -77,8 +82,8 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
             key={`${curRubric.rule}-${curRubric.numberOfIssues}-${rubricIndex}`}
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Box sx={{ width: '80%', textAlign: 'left' }}>
-                <Typography gutterBottom sx={{ pb: 2 }}>
+              <Box sx={{ width: '100%', textAlign: 'left' }}>
+                <Typography gutterBottom>
                   <b>Rule: {curRubric.rule}</b>
                 </Typography>
               </Box>
@@ -87,6 +92,7 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
                   {isShowDetails[rubricIndex] ? 'HIDE DETAILS' : 'SHOW DETAILS'}
                 </Button>
               </Box>
+              <Divider flexItem />
             </Box>
             {isShowDetails[rubricIndex] && (
               <>
@@ -94,8 +100,6 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
                   <b>Description</b>:
                   <br />
                   {curRubric?.description ? curRubric.description : SectionNameEnum.UNKNOWN}
-                  <br />
-                  <br />
                   <Box component="span">
                     {curRubric.igReferences[0] && curRubric.igReferences[0] === ConstantsEnum.IG_URL && (
                       <>
@@ -150,7 +154,7 @@ export default function ScorecardBestPracticeResults(props: ScorecardBestPractic
           getGradeStyleValueByProperty(props.currentSection, 'backgroundColor') ??
           gradeStyleMap[GradeEnum.NULL_OR_EMPTY_SECTION].backgroundColor
         }
-        backgroundColor={'ghostWhite'}
+        backgroundColor={palette.white}
         defaultExpanded={true}
         currentSectionIndex={props.currentSectionIndex}
       />
