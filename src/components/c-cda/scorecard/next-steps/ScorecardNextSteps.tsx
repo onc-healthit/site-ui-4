@@ -8,7 +8,6 @@ import { removeHashtagToUseHrefLinkAsIdForAnchor } from '../serverside/scorecard
 import { HrefLinkValueEnum, SORT_ORDER_STARTING_VALUE, SortOrderEnum } from '../types/ScorecardConstants'
 import ScorecardDetailedResults from './ScorecardDetailedResults'
 import ScorecardHeatMap from './ScorecardHeatMap'
-import palette from '@/styles/palette'
 
 interface ScorecardNextStepsProps {
   results: ScorecardResultsType | undefined
