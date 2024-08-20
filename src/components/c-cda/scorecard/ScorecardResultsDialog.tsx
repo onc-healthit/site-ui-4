@@ -97,7 +97,7 @@ export default function ScorecardResultsDialog({
                 Save Report
               </Button>
               {isShowSampleDownloadButton && (
-                <Button onClick={handleDownloadSampleDocument} color="primary" variant="contained">
+                <Button onClick={handleDownloadSampleDocument} color="primary" variant="outlined">
                   Download Sample Document
                 </Button>
               )}
