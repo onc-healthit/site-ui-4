@@ -8,6 +8,7 @@ import { removeHashtagToUseHrefLinkAsIdForAnchor } from '../serverside/scorecard
 import { HrefLinkValueEnum, SORT_ORDER_STARTING_VALUE, SortOrderEnum } from '../types/ScorecardConstants'
 import ScorecardDetailedResults from './ScorecardDetailedResults'
 import ScorecardHeatMap from './ScorecardHeatMap'
+import palette from '@/styles/palette'
 
 interface ScorecardNextStepsProps {
   results: ScorecardResultsType | undefined
@@ -36,28 +37,16 @@ export default function ScorecardNextSteps({
 
   const StyledFormControlLabelWithLabelOnLeft = styled(FormControlLabel)`
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
   `
 
   return (
     <Box>
       <Box sx={{ pb: 3 }}>
-        <Box display="flex" justifyContent="space-between">
+        <Box display={'flex'} flexDirection={'row'} justifyContent="space-between">
           <Typography variant="h3" sx={{ fontWeight: 'bold', pt: 2, pb: 2 }}>
             Next Steps
           </Typography>
-          <StyledFormControlLabelWithLabelOnLeft
-            control={
-              <Switch
-                checked={isAscendingOrderChecked}
-                onChange={handleSortSwitchChange}
-                color="secondary"
-                // defaultChecked
-              />
-            }
-            label={`Sorted by: ${isAscendingOrderChecked ? SortOrderEnum.ASCENDING : SortOrderEnum.DESCENDING} order`}
-            name="wrapped"
-          />
         </Box>
         <Typography variant="h6">
           The number of issues and grade for each of the sections of information present in your document are shown in
@@ -65,6 +54,20 @@ export default function ScorecardNextSteps({
           most attention. Click on each of the buttons with identified issues to navigate to the relevant detailed
           results. Note: Sections with errors and sections which do not exist in the document do not receive a grade.
         </Typography>
+        <Box display={'flex'} px={1} py={2}>
+          <StyledFormControlLabelWithLabelOnLeft
+            control={
+              <Switch
+                checked={isAscendingOrderChecked}
+                onChange={handleSortSwitchChange}
+                color="secondary"
+                size="small"
+              />
+            }
+            label={`Sorted by: ${isAscendingOrderChecked ? SortOrderEnum.ASCENDING : SortOrderEnum.DESCENDING} order`}
+            name="wrapped"
+          />
+        </Box>
       </Box>
 
       <ScorecardHeatMap results={results}></ScorecardHeatMap>
