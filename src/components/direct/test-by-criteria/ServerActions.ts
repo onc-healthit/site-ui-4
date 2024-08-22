@@ -89,15 +89,20 @@ export async function handleAPICall(data: APICallData): Promise<APIResponse> {
   }
 }
 
-export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResponse> {
+export async function handleXDRAPICall(targetEndpointTLS: string, jsessionId: string): Promise<XDRAPIResponse> {
   const apiUrl = process.env.XDR_TEST_BY_CRITERIA_ENDPOINT
-  const targetEndPoint = data.targetEndpointTLS
+  const data = { targetEndpointTLS }
   const config = {
     method: 'post',
-    url: 'https://ett.healthit.gov/ett/api/xdr/tc/4b/run',
-    headers: { 'Content-Type': 'application/json' },
+    url: apiUrl,
+    headers: {
+      'Content-Type': 'application/json',
+      'Cookie': `JSESSIONID=${jsessionId}`,
+    },
     data: JSON.stringify(data),
   }
+
+  console.log('Sending data:', config)
 
   try {
     const response = await axios(config)

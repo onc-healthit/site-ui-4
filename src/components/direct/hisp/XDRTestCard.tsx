@@ -22,20 +22,22 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import LoadingButton from '../shared/LoadingButton'
 import DocumentSelector from './DocumentSelector'
+import { getSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 
 export type TestCaseFields = {
-  name?: string
-  id: string | number
-  protocol?: string
-  desc?: string
-  sutEdge?: boolean
-  sutHisp?: boolean
-  sutRole?: string
-  criteria?: string
-  status?: string
-  ccdaFileRequired?: boolean
-  inputs?: InputFields[]
-  moreInfo?: {
+  'name'?: string
+  'id': string | number
+  'protocol'?: string
+  'desc'?: string
+  'sutEdge'?: boolean
+  'sutHisp'?: boolean
+  'sutRole'?: string
+  'criteria'?: string
+  'status'?: string
+  'ccdaFileRequired'?: boolean
+  'inputs'?: InputFields[]
+  'moreInfo'?: {
     subHeader?: string
     subDesc?: string
     subDesc2?: string
@@ -151,6 +153,7 @@ const TestCard = ({ test }: TestCardProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
   const [popoverMessage, setPopoverMessage] = useState('')
   const manualValidationCriteria = ["['b1-3']", "['b1-3','su1-3']"]
+  const { data: session } = useSession()
 
   const subHeader = 'Description'
   const subDesc = test['Purpose/Description']
@@ -213,26 +216,24 @@ const TestCard = ({ test }: TestCardProps) => {
   }
 
   const handleRunTest = async () => {
-    console.log('initial')
+    if (!session) {
+      alert('You must be logged in and have a valid session to perform this action.')
+      return
+    }
     if (test.ccdaFileRequired && !documentDetails) {
       alert('This test requires a CCDA document to be selected. Please select a document before running the test.')
     } else {
-      console.log('initial')
       const ip_address = fieldValues['ip_address'] || ''
       const port = fieldValues['port'] || ''
       const direct_to = fieldValues['direct_to'] || ''
       const direct_from = fieldValues['direct_from'] || ''
       const targetEndpointTLS = fieldValues['targetEndpointTLS'] || ''
       const outgoing_from = fieldValues['outgoing_from'] || ''
-      console.log('Sending call')
       try {
         setIsLoading(true)
         setIsFinished(false)
         setCriteriaMet('')
-        console.log('TLS: ', targetEndpointTLS)
-        const response = await handleXDRAPICall({
-          targetEndpointTLS,
-        })
+        const response = await handleXDRAPICall(targetEndpointTLS, session.user.jsessionid)
         setIsFinished(true)
         setCriteriaMet(response.criteriaMet)
         setTestRequestRequest(response.testRequestRequest)
@@ -350,10 +351,10 @@ const TestCard = ({ test }: TestCardProps) => {
           <Button
             variant="outlined"
             sx={{
-              color: 'black',
-              backgroundColor: '#E8E8E8',
-              borderColor: 'transparent',
-              boxShadow: '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
+              'color': 'black',
+              'backgroundColor': '#E8E8E8',
+              'borderColor': 'transparent',
+              'boxShadow': '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
               '&:hover': {
                 backgroundColor: '#E8E8E8',
                 boxShadow: '0px 4px 2px -1px rgba(0, 0, 0, 0.22)',
@@ -379,7 +380,7 @@ const TestCard = ({ test }: TestCardProps) => {
           <CardContent>
             <Typography variant="h6">Test Logs</Typography>
             {testRequestResponse ? (
-              <Typography variant="body1">{formattedResponse}</Typography>
+              <Typography variant="body1">{testRequestResponse}</Typography>
             ) : (
               <Typography variant="body1">No logs to display.</Typography>
             )}
