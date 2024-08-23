@@ -196,7 +196,7 @@ export default function ValidatorForm({
           <Box sx={{ pt: 3 }}>
             <FormControl fullWidth>
               <FormLabel sx={{ pb: 1 }}>Upload your generated C-CDA file and submit for validation</FormLabel>
-              <DragDropFileUpload maxFiles={1} name="ccdaFile" fileName={getFileName} />
+              <DragDropFileUpload maxFiles={1} name="ccdaFile" fileName={getFileName} allowedSize={1048576} />
             </FormControl>
           </Box>
 
