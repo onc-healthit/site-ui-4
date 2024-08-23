@@ -1,0 +1,842 @@
+{
+  "errorMessage": null,
+  "filename": "sampleWithEmptySections.xml",
+  "ccdaDocumentType": "CCD",
+  "results": {
+    "finalGrade": "D",
+    "finalNumericalGrade": 62,
+    "categoryList": [
+      {
+        "categoryName": "Miscellaneous",
+        "categoryGrade": "A+",
+        "categoryNumericalScore": 100,
+        "categoryRubrics": [
+          {
+            "rule": "Generally, the identifiers found within a CDA document should be unique and non-reoccurring within the same document.",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
+        ],
+        "numberOfIssues": 0,
+        "numberOfChecks": 38,
+        "numberOfFailedRubrics": 0,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Patient Demographics",
+        "categoryGrade": "A+",
+        "categoryNumericalScore": 100,
+        "categoryRubrics": [
+          {
+            "rule": "Patient DOB should be valid and properly precisioned",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Patient's Alternative Name Rule",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Patient's Alternative Name Rule",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
+        ],
+        "numberOfIssues": 0,
+        "numberOfChecks": 1,
+        "numberOfFailedRubrics": 0,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Allergies",
+        "categoryGrade": "C",
+        "categoryNumericalScore": 78,
+        "categoryRubrics": [
+          {
+            "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+            "numberOfIssues": 4,
+            "issuesList": [
+              {
+                "lineNumber": "688",
+                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"419199007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Allergy to substance\" xsi:type=\"CD\"/>"
+              },
+              {
+                "lineNumber": "700",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"1370618\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"lauroyl sarcosinate\"/>"
+              },
+              {
+                "lineNumber": "796",
+                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"419199007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Allergy to substance\" xsi:type=\"CD\"/>"
+              },
+              {
+                "lineNumber": "808",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"2670\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Codeine\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
+            ],
+            "igReferences": ["Section 2.4.1: Allergies and Intolerances Section"],
+            "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+          },
+          {
+            "rule": "Allergies Concern observation effective times reflect the appropriate allergy concern status",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "791 - 795",
+                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<low nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t</effectiveTime>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
+            ],
+            "igReferences": ["Section 2.4.1: Allergies and Intolerances Section"],
+            "description": "An Allergy Concern of completed or suspended should have an allergy observation effectiveTime/high value present.Similarly an allergy Concern which is Active shall not have an Allergy observation effectiveTime/high value."
+          },
+          {
+            "rule": "Each entry has to be linked to related narrative text",
+            "numberOfIssues": 2,
+            "issuesList": [
+              {
+                "lineNumber": "646 - 752",
+                "xmlString": "<act xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"ACT\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.30\"/>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.30\"/>\n\t\t\t\t\t\t\t<id root=\"36e3e930-7b14-11db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t<code code=\"CONC\" codeSystem=\"2.16.840.1.113883.5.6\"/>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\n\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<low value=\"199805011145-0800\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<time value=\"199805011145-0800\"/>\n\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t<id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.7\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.7\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"4adc1020-7b14-11db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\n\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#allergytype1\"/>\n\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<low value=\"19980501\"/>\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t<value code=\"419199007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Allergy to substance\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t\t\t<time value=\"199805011145-0800\"/>\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"222223333\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"207KA0200X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Allergy\"/>\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t\t\t\t<participant typeCode=\"CSM\">\n\t\t\t\t\t\t\t\t\t\t<participantRole classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"MMAT\">\n\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"1370618\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"lauroyl sarcosinate\"/>\n\t\t\t\t\t\t\t\t\t\t\t</playingEntity>\n\t\t\t\t\t\t\t\t\t\t</participantRole>\n\t\t\t\t\t\t\t\t\t</participant>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.8\"/>\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.8\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"SEV\" codeSystem=\"2.16.840.1.113883.5.4\" codeSystemName=\"ActCode\" displayName=\"Severity Observation\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#allergyseverity1\"/>\n\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"24484000\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Severe (severity modifier) (qualifier value)\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"MFST\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.9\"/>\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.9\"/>\n\t\t\t\t\t\t\t\t\t\t\t<id root=\"4adc1020-7b14-11db-9fe1-0800200c9a64\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#reaction1\"/>\n\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t\t\t<low value=\"200802260805-0800\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t<high value=\"200802281205-0800\"/>\n\t\t\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"422587007\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Nausea\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.8\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.8\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"SEV\" codeSystem=\"2.16.840.1.113883.5.4\" codeSystemName=\"ActCode\" displayName=\"Severity Observation\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<value code=\"255604002\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Mild\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t</act>"
+              },
+              {
+                "lineNumber": "755 - 861",
+                "xmlString": "<act xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"ACT\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.30\"/>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.30\"/>\n\t\t\t\t\t\t\t<id root=\"b03805bd-2eb6-4ab8-a9ff-473c6653971a\"/>\n\t\t\t\t\t\t\t<code code=\"CONC\" codeSystem=\"2.16.840.1.113883.5.6\"/>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\n\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<low value=\"199805011145-0800\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<time value=\"199805011145-0800\"/>\n\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t<id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.7\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.7\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"901db0f8-9355-4794-81cd-fd951ef07917\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\n\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t<reference value=\"#allergytype2\"/>\n\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<low nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t<value code=\"419199007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Allergy to substance\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t\t\t<time value=\"201010110915-0800\"/>\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"222223333\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"207KA0200X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Allergy\"/>\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t\t\t\t<participant typeCode=\"CSM\">\n\t\t\t\t\t\t\t\t\t\t<participantRole classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"MMAT\">\n\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"2670\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Codeine\"/>\n\t\t\t\t\t\t\t\t\t\t\t</playingEntity>\n\t\t\t\t\t\t\t\t\t\t</participantRole>\n\t\t\t\t\t\t\t\t\t</participant>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"MFST\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.9\"/>\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.9\"/>\n\t\t\t\t\t\t\t\t\t\t\t<id root=\"38c63dea-1a43-4f84-ab71-1ffd04f6a1dd\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#reaction2\"/>\n\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t\t\t<low nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"56018004\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Wheezing\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.8\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.8\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"SEV\" codeSystem=\"2.16.840.1.113883.5.4\" codeSystemName=\"ActCode\" displayName=\"Severity Observation\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#reactionseverity2\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<value code=\"6736007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Moderate\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.8\"/>\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.8\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"SEV\" codeSystem=\"2.16.840.1.113883.5.4\" codeSystemName=\"ActCode\" displayName=\"Severity Observation\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text>\n\t\t\t\t\t\t\t\t\t\t\t\t<reference value=\"#allergyseverity2\"/>\n\t\t\t\t\t\t\t\t\t\t\t</text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t<value code=\"255604002\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Mild\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t</act>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
+            ],
+            "igReferences": ["Section 2.4.1: Allergies and Intolerances Section"],
+            "description": "Each entry has to be linked to related narrative text"
+          },
+          {
+            "rule": "All Template Ids should be Valid with correct extension value",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Reaction Observation in the Allergy template is a SHOULD, this Rubic takes it to a SHALL. Preference is to have a Reaction present and Null the value if the reaction is uknown",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Author entry must include at least a timestamp with information of the last modified date and be present within the Allergies entry, which could be at the concern or observation level.",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Allergies should be structured in UNII, NDF-RT, SNOMED or RxNorm",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
+        ],
+        "numberOfIssues": 7,
+        "numberOfChecks": 24,
+        "numberOfFailedRubrics": 3,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Encounters",
+        "categoryGrade": null,
+        "categoryNumericalScore": 0,
+        "categoryRubrics": [],
+        "numberOfIssues": 0,
+        "numberOfChecks": 0,
+        "numberOfFailedRubrics": 0,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": true
+      },
+      {
+        "categoryName": "Immunizations",
+        "categoryGrade": "D",
+        "categoryNumericalScore": 46,
+        "categoryRubrics": [
+          {
+            "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "1262 - 1262",
+                "xmlString": "<effectiveTime xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" value=\"199911\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
+            ],
+            "igReferences": ["Section 3.41: Immunization Activity"],
+            "description": "EffectiveTime elements in the section are expected to have timeoffsets along with the date and are typically nonzero timeoffsets. In addition they are expected to have the timezone information for proper interpretation.For e.g if the time is being defaulted to 000000 for hours, minutes and seconds for multiple entries it might be worth checking if the data was entered properly. Also if the time offsets are present without a timezone, the time may be interpreted incorrectly, hence timezones should be specified as part of the time element."
+          },
+          {
+            "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "1203",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"11369-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"History of immunizations\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
+            ],
+            "igReferences": ["Section 2.32.1: Immunizations Section"],
+            "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+          },
+          {
+            "rule": "Immunizations coded with CVX codes",
+            "numberOfIssues": 3,
+            "issuesList": [
+              {
+                "lineNumber": "1272",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"88\" codeSystem=\"2.16.840.1.113883.12.292\" codeSystemName=\"CVX\" displayName=\"Influenza virus vaccine\"/>"
+              },
+              {
+                "lineNumber": "1418",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"33\" codeSystem=\"2.16.840.1.113883.12.292\" codeSystemName=\"CVX\" displayName=\"Pneumococcal polysaccharide vaccine\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t</code>"
+              },
+              {
+                "lineNumber": "1549",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"45\" codeSystem=\"2.16.840.1.113883.12.292\" codeSystemName=\"CVX\" displayName=\"Hepatitis B vaccine\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
+            ],
+            "igReferences": ["Section 3.41: Immunization Activity"],
+            "description": "Each Immunization code should be validated aganist CVX Vaccines Administered valueset"
+          },
+          {
+            "rule": "Each entry has to be linked to related narrative text",
+            "numberOfIssues": 5,
+            "issuesList": [
+              {
+                "lineNumber": "1255 - 1322",
+                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\" negationInd=\"false\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.52\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.52\"/>\n\t\t\t\t\t\t\t<id root=\"e6f1ba43-c0ed-4b9b-9f12-f435d8ad8f92\"/>\n\t\t\t\t\t\t\t<text>Influenza, seasonal, IM</text>\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t<effectiveTime value=\"199911\"/>\n\t\t\t\t\t\t\t<routeCode code=\"C28161\" codeSystem=\"2.16.840.1.113883.3.26.1.1\" codeSystemName=\"National Cancer Institute (NCI) Thesaurus\" displayName=\"Intramuscular injection\"/>\n\t\t\t\t\t\t\t<doseQuantity unit=\"ug\" value=\"50\"/>\n\t\t\t\t\t\t\t<consumable>\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.54\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.54\"/>\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t<code code=\"88\" codeSystem=\"2.16.840.1.113883.12.292\" codeSystemName=\"CVX\" displayName=\"Influenza virus vaccine\"/>\n\t\t\t\t\t\t\t\t\t\t<lotNumberText>1</lotNumberText>\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t<manufacturerOrganization>\n\t\t\t\t\t\t\t\t\t\t<name>Health LS - Immuno Inc.</name>\n\t\t\t\t\t\t\t\t\t</manufacturerOrganization>\n\t\t\t\t\t\t\t\t</manufacturedProduct>\n\t\t\t\t\t\t\t</consumable>\n\t\t\t\t\t\t\t<performer>\n\t\t\t\t\t\t\t\t<assignedEntity>\n\t\t\t\t\t\t\t\t\t<id extension=\"2981824\" root=\"2.16.840.1.113883.19.5.9999.456\"/>\n\t\t\t\t\t\t\t\t\t<addr>\n\t\t\t\t\t\t\t\t\t\t<streetAddressLine>1007 Health Drive</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t<city>Portland</city>\n\t\t\t\t\t\t\t\t\t\t<state>OR</state>\n\t\t\t\t\t\t\t\t\t\t<postalCode>99123</postalCode>\n\t\t\t\t\t\t\t\t\t\t<country>US</country>\n\t\t\t\t\t\t\t\t\t</addr>\n\t\t\t\t\t\t\t\t\t<telecom use=\"WP\" value=\"tel: +1(555)555-1030\"/>\n\t\t\t\t\t\t\t\t\t<assignedPerson>\n\t\t\t\t\t\t\t\t\t\t<name>\n\t\t\t\t\t\t\t\t\t\t\t<given>Harold</given>\n\t\t\t\t\t\t\t\t\t\t\t<family>Hippocrates</family>\n\t\t\t\t\t\t\t\t\t\t</name>\n\t\t\t\t\t\t\t\t\t</assignedPerson>\n\t\t\t\t\t\t\t\t\t<representedOrganization>\n\t\t\t\t\t\t\t\t\t\t<id root=\"2.16.840.1.113883.19.5.9999.1394\"/>\n\t\t\t\t\t\t\t\t\t\t<name>Good Health Clinic</name>\n\t\t\t\t\t\t\t\t\t\t<telecom use=\"WP\" value=\"tel: +1(555)555-1030\"/>\n\t\t\t\t\t\t\t\t\t\t<addr>\n\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>1007 Health Drive</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t<city>Portland</city>\n\t\t\t\t\t\t\t\t\t\t\t<state>OR</state>\n\t\t\t\t\t\t\t\t\t\t\t<postalCode>99123</postalCode>\n\t\t\t\t\t\t\t\t\t\t\t<country>US</country>\n\t\t\t\t\t\t\t\t\t\t</addr>\n\t\t\t\t\t\t\t\t\t</representedOrganization>\n\t\t\t\t\t\t\t\t</assignedEntity>\n\t\t\t\t\t\t\t</performer>\n\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"COMP\"> \n\t\t\t\t\t\t\t\t<act classCode=\"ACT\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t            <templateId root=\"2.16.840.1.113883.10.20.22.4.118\"/> \n\t\t\t\t\t\t\t\t\t\t\t\t<id root=\"df8908d0-40f2-11e3-aa6e-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"416118004\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"administration\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t\t\t<effectiveTime value=\"19991101\"/>\n\n\t\t\t\t\t\t\t\t</act>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t</substanceAdministration>"
+              },
+              {
+                "lineNumber": "1331",
+                "xmlString": "<reference value=\"#immun2\"/>"
+              },
+              {
+                "lineNumber": "1406",
+                "xmlString": "<reference value=\"#immun3\"/>"
+              },
+              {
+                "lineNumber": "1472",
+                "xmlString": "<reference value=\"#immun4\"/>"
+              },
+              {
+                "lineNumber": "1535 - 1595",
+                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\" negationInd=\"false\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.52\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.52\"/>\n\t\t\t\t\t\t\t<id root=\"de10790f-1496-4719-8fe6-f1b87b6219f7\"/>\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t<effectiveTime value=\"20130801\"/>\n\t\t\t\t\t\t\t<routeCode code=\"C28161\" codeSystem=\"2.16.840.1.113883.3.26.1.1\" codeSystemName=\"National Cancer Institute (NCI) Thesaurus\" displayName=\"Intramuscular injection\"/>\n\t\t\t\t\t\t\t<consumable>\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.54\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.54\"/>\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t<code code=\"45\" codeSystem=\"2.16.840.1.113883.12.292\" codeSystemName=\"CVX\" displayName=\"Hepatitis B vaccine\"/>\n\t\t\t\t\t\t\t\t\t\t<lotNumberText>1</lotNumberText>\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t</manufacturedProduct>\n\t\t\t\t\t\t\t</consumable>\n\t\t\t\t\t\t\t<performer>\n\t\t\t\t\t\t\t\t<assignedEntity>\n\t\t\t\t\t\t\t\t\t<id extension=\"2981824\" root=\"2.16.840.1.113883.19.5.9999.456\"/>\n\t\t\t\t\t\t\t\t\t<addr>\n\t\t\t\t\t\t\t\t\t\t<streetAddressLine>1007 Health Drive</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t<city>Portland</city>\n\t\t\t\t\t\t\t\t\t\t<state>OR</state>\n\t\t\t\t\t\t\t\t\t\t<postalCode>99123</postalCode>\n\t\t\t\t\t\t\t\t\t\t<country>US</country>\n\t\t\t\t\t\t\t\t\t</addr>\n\t\t\t\t\t\t\t\t\t<telecom use=\"WP\" value=\"tel: +1(555)555-1030\"/>\n\t\t\t\t\t\t\t\t\t<assignedPerson>\n\t\t\t\t\t\t\t\t\t\t<name>\n\t\t\t\t\t\t\t\t\t\t\t<given>Harold</given>\n\t\t\t\t\t\t\t\t\t\t\t<family>Hippocrates</family>\n\t\t\t\t\t\t\t\t\t\t</name>\n\t\t\t\t\t\t\t\t\t</assignedPerson>\n\t\t\t\t\t\t\t\t\t<representedOrganization>\n\t\t\t\t\t\t\t\t\t\t<id root=\"2.16.840.1.113883.19.5.9999.1394\"/>\n\t\t\t\t\t\t\t\t\t\t<name>Good Health Clinic</name>\n\t\t\t\t\t\t\t\t\t\t<telecom use=\"WP\" value=\"tel: +1(555)555-1030\"/>\n\t\t\t\t\t\t\t\t\t\t<addr>\n\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>1007 Health Drive</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t<city>Portland</city>\n\t\t\t\t\t\t\t\t\t\t\t<state>OR</state>\n\t\t\t\t\t\t\t\t\t\t\t<postalCode>99123</postalCode>\n\t\t\t\t\t\t\t\t\t\t\t<country>US</country>\n\t\t\t\t\t\t\t\t\t\t</addr>\n\t\t\t\t\t\t\t\t\t</representedOrganization>\n\t\t\t\t\t\t\t\t</assignedEntity>\n\t\t\t\t\t\t\t</performer>\n\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"COMP\">\n\t\t\t\t\t\t\t\t<sequenceNumber value=\"3\"/>\n\t\t\t\t\t\t\t\t<act classCode=\"ACT\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.118\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"3f998a26-1b8b-4cbf-8e91-16fbb7a7080f\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"416118004\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"administration\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t</act>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t</substanceAdministration>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
+            ],
+            "igReferences": ["Section 2.32.1: Immunizations Section"],
+            "description": "Each entry has to be linked to related narrative text"
+          },
+          {
+            "rule": "All Template Ids should be Valid with correct extension value",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "1201",
+                "xmlString": "<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.2.2.1\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Allergies_Status_with_Author_Timestamp.xml"
+            ],
+            "igReferences": ["Section 2.4.1: Allergies and Intolerances Section"],
+            "description": "All Template Ids should be present with valid extension value"
+          }
+        ],
+        "numberOfIssues": 11,
+        "numberOfChecks": 41,
+        "numberOfFailedRubrics": 5,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Laboratory Tests and Results",
+        "categoryGrade": null,
+        "categoryNumericalScore": 0,
+        "categoryRubrics": [],
+        "numberOfIssues": 0,
+        "numberOfChecks": 0,
+        "numberOfFailedRubrics": 0,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": true
+      },
+      {
+        "categoryName": "Medications",
+        "categoryGrade": "D",
+        "categoryNumericalScore": 43,
+        "categoryRubrics": [
+          {
+            "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "1773",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"10160-0\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"HISTORY OF MEDICATION USE\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
+            ],
+            "igReferences": ["Section 2.39.1: Medications Section"],
+            "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+          },
+          {
+            "rule": "Medications coded with RxNorm SCD, SBD, GPCK, or BPCPK codes",
+            "numberOfIssues": 2,
+            "issuesList": [
+              {
+                "lineNumber": "1835",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"1182471\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Proventil Inhalant Product\"/>"
+              },
+              {
+                "lineNumber": "2037",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"197380\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Atenolol 25 MG Oral Tablet\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
+            ],
+            "igReferences": ["Section 3.48 Medication Activity"],
+            "description": "C-CDA medication lists should contain medications coded as RxNorm Semantic Clinical Drugs, Semantic Branded Drugs, and packs. This means prescribable products on the level of 'loratadine 10mg oral tablet'."
+          },
+          {
+            "rule": "Each entry has to be linked to related narrative text",
+            "numberOfIssues": 2,
+            "issuesList": [
+              {
+                "lineNumber": "1808 - 2009",
+                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.16\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.16\"/>\n\t\t\t\t\t\t\t<id root=\"cdbd33f0-6cde-11db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\n\t\t\t\t\t\t\t<effectiveTime xsi:type=\"IVL_TS\">\n\t\t\t\t\t\t\t\t<low value=\"20110103\"/>\n\t\t\t\t\t\t\t\t<high nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<effectiveTime institutionSpecified=\"true\" operator=\"A\" xsi:type=\"PIVL_TS\">\n\t\t\t\t\t\t\t\t<period unit=\"h\" value=\"6\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<routeCode code=\"C38216\" codeSystem=\"2.16.840.1.113883.3.26.1.1\" codeSystemName=\"NCI Thesaurus\" displayName=\"RESPIRATORY (INHALATION)\"/>\n\t\t\t\t\t\t\t<doseQuantity value=\"2\"/>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<administrationUnitCode code=\"C48537\" codeSystem=\"2.16.840.1.113883.3.26.1.1\" codeSystemName=\"NCI Thesaurus\" displayName=\"Spray Dosing Unit\"/>\n\t\t\t\t\t\t\t<consumable>\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"2a620155-9d11-439e-92b3-5d9815ff4ee8\"/>\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t<code code=\"1182471\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Proventil Inhalant Product\"/>\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t<manufacturerOrganization>\n\t\t\t\t\t\t\t\t\t\t<name>Medication Factory Inc.</name>\n\t\t\t\t\t\t\t\t\t</manufacturerOrganization>\n\t\t\t\t\t\t\t\t</manufacturedProduct>\n\t\t\t\t\t\t\t</consumable>\n\t\t\t\t\t\t\t<performer>\n\t\t\t\t\t\t\t\t<assignedEntity>\n\t\t\t\t\t\t\t\t\t<id extension=\"5555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t<addr nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t\t\t<telecom use=\"WP\" value=\"tel: +1(555)555-1004\"/>\n\t\t\t\t\t\t\t\t\t<representedOrganization>\n\t\t\t\t\t\t\t\t\t\t<id root=\"2.16.840.1.113883.19.5.9999.1393\"/>\n\t\t\t\t\t\t\t\t\t\t<name>Community Health and Hospitals</name>\n\t\t\t\t\t\t\t\t\t\t<telecom use=\"WP\" value=\"tel: +1(555)555-5000\"/>\n\t\t\t\t\t\t\t\t\t\t<addr nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t\t\t</representedOrganization>\n\t\t\t\t\t\t\t\t</assignedEntity>\n\t\t\t\t\t\t\t</performer>\n\t\t\t\t\t\t\t<participant typeCode=\"CSM\">\n\t\t\t\t\t\t\t\t<participantRole classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.24\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"412307009\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"drug vehicle\"/>\n\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"MMAT\">\n\t\t\t\t\t\t\t\t\t\t<code code=\"324049\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Aerosol\"/>\n\t\t\t\t\t\t\t\t\t\t<name>Aerosol</name>\n\t\t\t\t\t\t\t\t\t</playingEntity>\n\t\t\t\t\t\t\t\t</participantRole>\n\t\t\t\t\t\t\t</participant>\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"RSON\">\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.19\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.19\"/>\n\t\t\t\t\t\t\t\t\t<id extension=\"45665\" root=\"db734647-fc99-424c-a864-7e3cda82e703\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"404684003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Finding\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t<low value=\"20110103\"/>\n\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t<value code=\"195967001\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Asthma\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"REFR\">\n\t\t\t\t\t\t\t\t<supply classCode=\"SPLY\" moodCode=\"INT\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.17\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.17\"/>\n\t\t\t\t\t\t\t\t\t<id nullFlavor=\"NI\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime xsi:type=\"IVL_TS\">\n\t\t\t\t\t\t\t\t\t\t<low value=\"20070103\"/>\n\t\t\t\t\t\t\t\t\t\t<high nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t<repeatNumber value=\"1\"/>\n\t\t\t\t\t\t\t\t\t<quantity value=\"75\"/>\n\t\t\t\t\t\t\t\t\t<product>\n\t\t\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t\t\t<id root=\"2a620155-9d11-439e-92b3-5d9815ff4ee8\"/>\n\t\t\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"1182471\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Proventil Inhalant Product\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t\t<manufacturerOrganization>\n\t\t\t\t\t\t\t\t\t\t\t\t<name>Medication Factory Inc.</name>\n\t\t\t\t\t\t\t\t\t\t\t</manufacturerOrganization>\n\t\t\t\t\t\t\t\t\t\t</manufacturedProduct>\n\t\t\t\t\t\t\t\t\t</product>\n\t\t\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t\t\t<time value=\"201208151235-0800\"/>\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"5555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t\t\t\t<addr>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>1004 Healthcare Drive </streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<city>Portland</city>\n\t\t\t\t\t\t\t\t\t\t\t\t<state>OR</state>\n\t\t\t\t\t\t\t\t\t\t\t\t<postalCode>99123</postalCode>\n\t\t\t\t\t\t\t\t\t\t\t\t<country>US</country>\n\t\t\t\t\t\t\t\t\t\t\t</addr>\n\t\t\t\t\t\t\t\t\t\t\t<telecom use=\"WP\" value=\"tel:+1(555)555-1004\"/>\n\t\t\t\t\t\t\t\t\t\t\t<assignedPerson>\n\t\t\t\t\t\t\t\t\t\t\t\t<name>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<given>Patricia</given>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<given qualifier=\"CL\">Patty</given>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<family>Primary</family>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<suffix qualifier=\"AC\">M.D.</suffix>\n\t\t\t\t\t\t\t\t\t\t\t\t</name>\n\t\t\t\t\t\t\t\t\t\t\t</assignedPerson>\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t\t\t<act classCode=\"ACT\" moodCode=\"INT\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.20\"/>\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.20\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"409073007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"instruction\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text> label in spanish </text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t</act>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t</supply>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"REFR\">\n\t\t\t\t\t\t\t\t<supply classCode=\"SPLY\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.18\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.18\"/>\n\t\t\t\t\t\t\t\t\t<id extension=\"cb734647-fc99-424c-a864-7e3cda82e704\" root=\"1.2.3.4.56789.1\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"201208151450-0800\"/>\n\t\t\t\t\t\t\t\t\t<repeatNumber value=\"1\"/>\n\t\t\t\t\t\t\t\t\t<quantity value=\"75\"/>\n\t\t\t\t\t\t\t\t\t<product>\n\t\t\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t\t\t<id root=\"2a620155-9d11-439e-92b3-5d9815ff4ee8\"/>\n\t\t\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"1182471\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Proventil Inhalant Product\"/>\n\t\t\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t\t<manufacturerOrganization>\n\t\t\t\t\t\t\t\t\t\t\t\t<name>Medication Factory Inc.</name>\n\t\t\t\t\t\t\t\t\t\t\t</manufacturerOrganization>\n\t\t\t\t\t\t\t\t\t\t</manufacturedProduct>\n\t\t\t\t\t\t\t\t\t</product>\n\t\t\t\t\t\t\t\t\t<performer>\n\t\t\t\t\t\t\t\t\t\t<assignedEntity>\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"333222222\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<addr>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>1016 Health Drive</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<city>Portland</city>\n\t\t\t\t\t\t\t\t\t\t\t\t<state>OR</state>\n\t\t\t\t\t\t\t\t\t\t\t\t<postalCode>99123</postalCode>\n\t\t\t\t\t\t\t\t\t\t\t\t<country>US</country>\n\t\t\t\t\t\t\t\t\t\t\t</addr>\n\t\t\t\t\t\t\t\t\t\t\t<telecom use=\"WP\" value=\"tel:+1(555)555-1016\"/>\n\t\t\t\t\t\t\t\t\t\t\t<assignedPerson>\n\t\t\t\t\t\t\t\t\t\t\t\t<name>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<given>Susan</given>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<family>Script</family>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<suffix qualifier=\"AC\">Pharm.D.</suffix>\n\t\t\t\t\t\t\t\t\t\t\t\t</name>\n\t\t\t\t\t\t\t\t\t\t\t</assignedPerson>\n\t\t\t\t\t\t\t\t\t\t\t<representedOrganization>\n\t\t\t\t\t\t\t\t\t\t\t\t<name>People's Pharmacy</name>\n\t\t\t\t\t\t\t\t\t\t\t</representedOrganization>\n\t\t\t\t\t\t\t\t\t\t</assignedEntity>\n\t\t\t\t\t\t\t\t\t</performer>\n\t\t\t\t\t\t\t\t</supply>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t<precondition typeCode=\"PRCN\">\n\t\t\t\t\t\t\t\t<criterion>\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.25\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.25\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\n\t\t\t\t\t\t\t\t\t<value code=\"56018004\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Wheezing\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t</criterion>\n\t\t\t\t\t\t\t</precondition>\n\t\t\t\t\t\t</substanceAdministration>"
+              },
+              {
+                "lineNumber": "2012 - 2056",
+                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.16\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.16\"/>\n\t\t\t\t\t\t\t<id root=\"6c844c75-aa34-411c-b7bd-5e4a9f206e29\"/>\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\n\t\t\t\t\t\t\t<effectiveTime xsi:type=\"IVL_TS\">\n\t\t\t\t\t\t\t\t<low value=\"20120318\"/>\n\t\t\t\t\t\t\t\t<high nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<effectiveTime institutionSpecified=\"true\" operator=\"A\" xsi:type=\"PIVL_TS\">\n\t\t\t\t\t\t\t\t<period unit=\"h\" value=\"12\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<routeCode code=\"C38288\" codeSystem=\"2.16.840.1.113883.3.26.1.1\" codeSystemName=\"NCI Thesaurus\" displayName=\"ORAL\">\n\t\t\t\t\t\t\t\t<translation code=\"26643006\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Oral route (qualifier value)\"/>\n\t\t\t\t\t\t\t</routeCode>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<doseQuantity value=\"1\"/>\n\t\t\t\t\t\t\t<consumable>\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"2a620155-9d11-439e-92b3-5d9815ff4ee8\"/>\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t<code code=\"197380\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Atenolol 25 MG Oral Tablet\"/>\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t</manufacturedProduct>\n\t\t\t\t\t\t\t</consumable>\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"RSON\">\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.19\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.19\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"e63166c7-6482-4a44-83a1-37ccdbde725b\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"404684003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Finding\">\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<value code=\"38341003\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Hypertension\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t</substanceAdministration>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
+            ],
+            "igReferences": ["Section 2.39.1: Medications Section"],
+            "description": "Each entry has to be linked to related narrative text"
+          },
+          {
+            "rule": "Each medication needs to have its own Medication Signature Text EntryRelationship and the reference should exist in the same section where you found it",
+            "numberOfIssues": 2,
+            "issuesList": [
+              {
+                "lineNumber": "1808 - 2009",
+                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.16\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.16\"/>\n\t\t\t\t\t\t\t<id root=\"cdbd33f0-6cde-11db-9fe1-0800200c9a66\"/>\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\n\t\t\t\t\t\t\t<effectiveTime xsi:type=\"IVL_TS\">\n\t\t\t\t\t\t\t\t<low value=\"20110103\"/>\n\t\t\t\t\t\t\t\t<high nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<effectiveTime institutionSpecified=\"true\" operator=\"A\" xsi:type=\"PIVL_TS\">\n\t\t\t\t\t\t\t\t<period unit=\"h\" value=\"6\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<routeCode code=\"C38216\" codeSystem=\"2.16.840.1.113883.3.26.1.1\" codeSystemName=\"NCI Thesaurus\" displayName=\"RESPIRATORY (INHALATION)\"/>\n\t\t\t\t\t\t\t<doseQuantity value=\"2\"/>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<administrationUnitCode code=\"C48537\" codeSystem=\"2.16.840.1.113883.3.26.1.1\" codeSystemName=\"NCI Thesaurus\" displayName=\"Spray Dosing Unit\"/>\n\t\t\t\t\t\t\t<consumable>\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"2a620155-9d11-439e-92b3-5d9815ff4ee8\"/>\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t<code code=\"1182471\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Proventil Inhalant Product\"/>\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t<manufacturerOrganization>\n\t\t\t\t\t\t\t\t\t\t<name>Medication Factory Inc.</name>\n\t\t\t\t\t\t\t\t\t</manufacturerOrganization>\n\t\t\t\t\t\t\t\t</manufacturedProduct>\n\t\t\t\t\t\t\t</consumable>\n\t\t\t\t\t\t\t<performer>\n\t\t\t\t\t\t\t\t<assignedEntity>\n\t\t\t\t\t\t\t\t\t<id extension=\"5555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t<addr nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t\t\t<telecom use=\"WP\" value=\"tel: +1(555)555-1004\"/>\n\t\t\t\t\t\t\t\t\t<representedOrganization>\n\t\t\t\t\t\t\t\t\t\t<id root=\"2.16.840.1.113883.19.5.9999.1393\"/>\n\t\t\t\t\t\t\t\t\t\t<name>Community Health and Hospitals</name>\n\t\t\t\t\t\t\t\t\t\t<telecom use=\"WP\" value=\"tel: +1(555)555-5000\"/>\n\t\t\t\t\t\t\t\t\t\t<addr nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t\t\t</representedOrganization>\n\t\t\t\t\t\t\t\t</assignedEntity>\n\t\t\t\t\t\t\t</performer>\n\t\t\t\t\t\t\t<participant typeCode=\"CSM\">\n\t\t\t\t\t\t\t\t<participantRole classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.24\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"412307009\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"drug vehicle\"/>\n\t\t\t\t\t\t\t\t\t<playingEntity classCode=\"MMAT\">\n\t\t\t\t\t\t\t\t\t\t<code code=\"324049\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Aerosol\"/>\n\t\t\t\t\t\t\t\t\t\t<name>Aerosol</name>\n\t\t\t\t\t\t\t\t\t</playingEntity>\n\t\t\t\t\t\t\t\t</participantRole>\n\t\t\t\t\t\t\t</participant>\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"RSON\">\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.19\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.19\"/>\n\t\t\t\t\t\t\t\t\t<id extension=\"45665\" root=\"db734647-fc99-424c-a864-7e3cda82e703\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"404684003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Finding\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\t\t<low value=\"20110103\"/>\n\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t<value code=\"195967001\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Asthma\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"REFR\">\n\t\t\t\t\t\t\t\t<supply classCode=\"SPLY\" moodCode=\"INT\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.17\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.17\"/>\n\t\t\t\t\t\t\t\t\t<id nullFlavor=\"NI\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime xsi:type=\"IVL_TS\">\n\t\t\t\t\t\t\t\t\t\t<low value=\"20070103\"/>\n\t\t\t\t\t\t\t\t\t\t<high nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t\t\t<repeatNumber value=\"1\"/>\n\t\t\t\t\t\t\t\t\t<quantity value=\"75\"/>\n\t\t\t\t\t\t\t\t\t<product>\n\t\t\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t\t\t<id root=\"2a620155-9d11-439e-92b3-5d9815ff4ee8\"/>\n\t\t\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"1182471\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Proventil Inhalant Product\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t\t<manufacturerOrganization>\n\t\t\t\t\t\t\t\t\t\t\t\t<name>Medication Factory Inc.</name>\n\t\t\t\t\t\t\t\t\t\t\t</manufacturerOrganization>\n\t\t\t\t\t\t\t\t\t\t</manufacturedProduct>\n\t\t\t\t\t\t\t\t\t</product>\n\t\t\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t\t\t<time value=\"201208151235-0800\"/>\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"5555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t\t\t\t<addr>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>1004 Healthcare Drive </streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<city>Portland</city>\n\t\t\t\t\t\t\t\t\t\t\t\t<state>OR</state>\n\t\t\t\t\t\t\t\t\t\t\t\t<postalCode>99123</postalCode>\n\t\t\t\t\t\t\t\t\t\t\t\t<country>US</country>\n\t\t\t\t\t\t\t\t\t\t\t</addr>\n\t\t\t\t\t\t\t\t\t\t\t<telecom use=\"WP\" value=\"tel:+1(555)555-1004\"/>\n\t\t\t\t\t\t\t\t\t\t\t<assignedPerson>\n\t\t\t\t\t\t\t\t\t\t\t\t<name>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<given>Patricia</given>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<given qualifier=\"CL\">Patty</given>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<family>Primary</family>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<suffix qualifier=\"AC\">M.D.</suffix>\n\t\t\t\t\t\t\t\t\t\t\t\t</name>\n\t\t\t\t\t\t\t\t\t\t\t</assignedPerson>\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t\t\t\t<entryRelationship inversionInd=\"true\" typeCode=\"SUBJ\">\n\t\t\t\t\t\t\t\t\t\t<act classCode=\"ACT\" moodCode=\"INT\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.20\"/>\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.20\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"409073007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"instruction\"/>\n\t\t\t\t\t\t\t\t\t\t\t<text> label in spanish </text>\n\t\t\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t\t</act>\n\t\t\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t\t</supply>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"REFR\">\n\t\t\t\t\t\t\t\t<supply classCode=\"SPLY\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.18\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.18\"/>\n\t\t\t\t\t\t\t\t\t<id extension=\"cb734647-fc99-424c-a864-7e3cda82e704\" root=\"1.2.3.4.56789.1\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"201208151450-0800\"/>\n\t\t\t\t\t\t\t\t\t<repeatNumber value=\"1\"/>\n\t\t\t\t\t\t\t\t\t<quantity value=\"75\"/>\n\t\t\t\t\t\t\t\t\t<product>\n\t\t\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t\t\t<id root=\"2a620155-9d11-439e-92b3-5d9815ff4ee8\"/>\n\t\t\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t\t\t<code code=\"1182471\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Proventil Inhalant Product\"/>\n\t\t\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t\t<manufacturerOrganization>\n\t\t\t\t\t\t\t\t\t\t\t\t<name>Medication Factory Inc.</name>\n\t\t\t\t\t\t\t\t\t\t\t</manufacturerOrganization>\n\t\t\t\t\t\t\t\t\t\t</manufacturedProduct>\n\t\t\t\t\t\t\t\t\t</product>\n\t\t\t\t\t\t\t\t\t<performer>\n\t\t\t\t\t\t\t\t\t\t<assignedEntity>\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"333222222\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<addr>\n\t\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>1016 Health Drive</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t\t<city>Portland</city>\n\t\t\t\t\t\t\t\t\t\t\t\t<state>OR</state>\n\t\t\t\t\t\t\t\t\t\t\t\t<postalCode>99123</postalCode>\n\t\t\t\t\t\t\t\t\t\t\t\t<country>US</country>\n\t\t\t\t\t\t\t\t\t\t\t</addr>\n\t\t\t\t\t\t\t\t\t\t\t<telecom use=\"WP\" value=\"tel:+1(555)555-1016\"/>\n\t\t\t\t\t\t\t\t\t\t\t<assignedPerson>\n\t\t\t\t\t\t\t\t\t\t\t\t<name>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<given>Susan</given>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<family>Script</family>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<suffix qualifier=\"AC\">Pharm.D.</suffix>\n\t\t\t\t\t\t\t\t\t\t\t\t</name>\n\t\t\t\t\t\t\t\t\t\t\t</assignedPerson>\n\t\t\t\t\t\t\t\t\t\t\t<representedOrganization>\n\t\t\t\t\t\t\t\t\t\t\t\t<name>People's Pharmacy</name>\n\t\t\t\t\t\t\t\t\t\t\t</representedOrganization>\n\t\t\t\t\t\t\t\t\t\t</assignedEntity>\n\t\t\t\t\t\t\t\t\t</performer>\n\t\t\t\t\t\t\t\t</supply>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t\t<precondition typeCode=\"PRCN\">\n\t\t\t\t\t\t\t\t<criterion>\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.25\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.25\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"ASSERTION\" codeSystem=\"2.16.840.1.113883.5.4\"/>\n\t\t\t\t\t\t\t\t\t<value code=\"56018004\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Wheezing\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t</criterion>\n\t\t\t\t\t\t\t</precondition>\n\t\t\t\t\t\t</substanceAdministration>"
+              },
+              {
+                "lineNumber": "2012 - 2056",
+                "xmlString": "<substanceAdministration xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"SBADM\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.16\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.16\"/>\n\t\t\t\t\t\t\t<id root=\"6c844c75-aa34-411c-b7bd-5e4a9f206e29\"/>\n\t\t\t\t\t\t\t<statusCode code=\"active\"/>\n\t\t\t\t\t\t\t<effectiveTime xsi:type=\"IVL_TS\">\n\t\t\t\t\t\t\t\t<low value=\"20120318\"/>\n\t\t\t\t\t\t\t\t<high nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<effectiveTime institutionSpecified=\"true\" operator=\"A\" xsi:type=\"PIVL_TS\">\n\t\t\t\t\t\t\t\t<period unit=\"h\" value=\"12\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<routeCode code=\"C38288\" codeSystem=\"2.16.840.1.113883.3.26.1.1\" codeSystemName=\"NCI Thesaurus\" displayName=\"ORAL\">\n\t\t\t\t\t\t\t\t<translation code=\"26643006\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Oral route (qualifier value)\"/>\n\t\t\t\t\t\t\t</routeCode>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<doseQuantity value=\"1\"/>\n\t\t\t\t\t\t\t<consumable>\n\t\t\t\t\t\t\t\t<manufacturedProduct classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.23\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"2a620155-9d11-439e-92b3-5d9815ff4ee8\"/>\n\t\t\t\t\t\t\t\t\t<manufacturedMaterial>\n\t\t\t\t\t\t\t\t\t\t<code code=\"197380\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Atenolol 25 MG Oral Tablet\"/>\n\t\t\t\t\t\t\t\t\t</manufacturedMaterial>\n\t\t\t\t\t\t\t\t</manufacturedProduct>\n\t\t\t\t\t\t\t</consumable>\n\t\t\t\t\t\t\t<entryRelationship typeCode=\"RSON\">\n\t\t\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.19\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.19\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"e63166c7-6482-4a44-83a1-37ccdbde725b\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"404684003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"Finding\">\n\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<value code=\"38341003\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Hypertension\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t\t</observation>\n\t\t\t\t\t\t\t</entryRelationship>\n\t\t\t\t\t\t</substanceAdministration>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/MED_Oral_Med_QID_with_PRN.xml"
+            ],
+            "igReferences": ["Section 2.39.1: Medications Section"],
+            "description": "Each medication needs to have its own Medication Signature Text EntryRelationship and the reference should exist in the same section where you found it"
+          },
+          {
+            "rule": "All Template Ids should be Valid with correct extension value",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
+        ],
+        "numberOfIssues": 7,
+        "numberOfChecks": 21,
+        "numberOfFailedRubrics": 4,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Problems",
+        "categoryGrade": null,
+        "categoryNumericalScore": 0,
+        "categoryRubrics": [],
+        "numberOfIssues": 0,
+        "numberOfChecks": 0,
+        "numberOfFailedRubrics": 0,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": true
+      },
+      {
+        "categoryName": "Procedures",
+        "categoryGrade": "D",
+        "categoryNumericalScore": 33,
+        "categoryRubrics": [
+          {
+            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+            "numberOfIssues": 2,
+            "issuesList": [
+              {
+                "lineNumber": "2608",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"47519-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"HISTORY OF PROCEDURES\"/>"
+              },
+              {
+                "lineNumber": "2633",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"73761001\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Colonoscopy\">\n\t\t\t\t\t\t\t</code>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/PROCEDURE_Observation_Example.xml"
+            ],
+            "igReferences": ["Section 2.61.1 :Procedures Section"],
+            "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+          },
+          {
+            "rule": "Each entry has to be linked to related narrative text",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "2628 - 2685",
+                "xmlString": "<procedure xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"PROC\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.14\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.14\"/>\n\t\t\t\t\t\t\t<id root=\"d68b7e32-7810-4f5b-9cc2-acd54b0fd85d\"/>\n\t\t\t\t\t\t\t<code code=\"73761001\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Colonoscopy\">\n\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t<effectiveTime value=\"20120512\"/>\n\t\t\t\t\t\t\t<methodCode nullFlavor=\"UNK\"/>\n\t\t\t\t\t\t\t<targetSiteCode code=\"362783006\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"entire medial surface of lower extremity (body structure)\"/> \n\t\t\t\t\t\t\t<specimen typeCode=\"SPC\">\n\t\t\t\t\t\t\t\t<specimenRole classCode=\"SPEC\">\n\t\t\t\t\t\t\t\t\t<id root=\"c2ee9ee9-ae31-4628-a919-fec1cbb58683\"/>\n\t\t\t\t\t\t\t\t\t<specimenPlayingEntity>\n\t\t\t\t\t\t\t\t\t\t<code code=\"309226005\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"colonic polyp sample\"/>\n\t\t\t\t\t\t\t\t\t</specimenPlayingEntity>\n\t\t\t\t\t\t\t\t</specimenRole>\n\t\t\t\t\t\t\t</specimen>\n\t\t\t\t\t\t\t<performer>\n\t\t\t\t\t\t\t\t<assignedEntity>\n\t\t\t\t\t\t\t\t\t<id extension=\"2981823\" root=\"2.16.840.1.113883.19.5.9999.456\"/>\n\t\t\t\t\t\t\t\t\t<addr>\n\t\t\t\t\t\t\t\t\t\t<streetAddressLine>1001 Village Avenue</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t<city>Portland</city>\n\t\t\t\t\t\t\t\t\t\t<state>OR</state>\n\t\t\t\t\t\t\t\t\t\t<postalCode>99123</postalCode>\n\t\t\t\t\t\t\t\t\t\t<country>US</country>\n\t\t\t\t\t\t\t\t\t</addr>\n\t\t\t\t\t\t\t\t\t<telecom use=\"WP\" value=\"+1(555)555-5000\"/>\n\t\t\t\t\t\t\t\t\t<representedOrganization classCode=\"ORG\">\n\t\t\t\t\t\t\t\t\t\t<id root=\"2.16.840.1.113883.19.5.9999.1393\"/>\n\t\t\t\t\t\t\t\t\t\t<name>Community Health and Hospitals</name>\n\t\t\t\t\t\t\t\t\t\t<telecom use=\"WP\" value=\"+1(555)555-5000\"/>\n\t\t\t\t\t\t\t\t\t\t<addr>\n\t\t\t\t\t\t\t\t\t\t\t<streetAddressLine>1001 Village Avenue</streetAddressLine>\n\t\t\t\t\t\t\t\t\t\t\t<city>Portland</city>\n\t\t\t\t\t\t\t\t\t\t\t<state>OR</state>\n\t\t\t\t\t\t\t\t\t\t\t<postalCode>99123</postalCode>\n\t\t\t\t\t\t\t\t\t\t\t<country>US</country>\n\t\t\t\t\t\t\t\t\t\t</addr>\n\t\t\t\t\t\t\t\t\t</representedOrganization>\n\t\t\t\t\t\t\t\t</assignedEntity>\n\t\t\t\t\t\t\t</performer>\n\t\t\t\t\t\t\t<participant typeCode=\"DEV\">\n\t\t\t\t\t\t\t\t<participantRole classCode=\"MANU\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.37\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"742aee30-21c5-11e1-bfc2-0800200c9a66\"/>\n\t\t\t\t\t\t\t\t\t<playingDevice>\n\t\t\t\t\t\t\t\t\t\t<code code=\"90412006\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Colonoscope\"/>\n\t\t\t\t\t\t\t\t\t</playingDevice>\n\t\t\t\t\t\t\t\t\t<scopingEntity>\n\t\t\t\t\t\t\t\t\t\t<id root=\"eb936010-7b17-11db-9fe1-0800200c9b65\"/>\n\t\t\t\t\t\t\t\t\t</scopingEntity>\n\t\t\t\t\t\t\t\t</participantRole>\n\t\t\t\t\t\t\t</participant>\n\t\t\t\t\t\t</procedure>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/PROCEDURE_Observation_Example.xml"
+            ],
+            "igReferences": ["Section 2.61.1 :Procedures Section"],
+            "description": "Each entry has to be linked to related narrative text"
+          },
+          {
+            "rule": "All Template Ids should be Valid with correct extension value",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
+        ],
+        "numberOfIssues": 3,
+        "numberOfChecks": 7,
+        "numberOfFailedRubrics": 2,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Social History",
+        "categoryGrade": "D",
+        "categoryNumericalScore": 63,
+        "categoryRubrics": [
+          {
+            "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+            "numberOfIssues": 3,
+            "issuesList": [
+              {
+                "lineNumber": "3078",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29762-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Social History\"/>"
+              },
+              {
+                "lineNumber": "3119",
+                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8517006\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Former smoker\" xsi:type=\"CD\"/>"
+              },
+              {
+                "lineNumber": "3144",
+                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"160604004\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Moderate cigarette smoker, 10-19/day\" xsi:type=\"CD\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/SMOKING_Former_Smoker.xml"
+            ],
+            "igReferences": ["Section 2.66: Social History Section"],
+            "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+          },
+          {
+            "rule": "Smoking status code value should be valid",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Smoking status observation Template Id should be valid",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Systems should capture birth sex independent of the Administrative Gender and encode them as an observation in the Social History Section",
+            "numberOfIssues": 1,
+            "issuesList": [
+              {
+                "lineNumber": "3074 - 3179",
+                "xmlString": "<section xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n\t\t\t\t\t\n\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.2.17\"/>\n\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.2.17\"/>\n\t\t\t\t\t<code code=\"29762-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Social History\"/>\n\t\t\t\t\t<title>SOCIAL HISTORY</title>\n\t\t\t\t\t<text>\n\t\t\t\t\t\t<table border=\"1\" width=\"100%\">\n\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<th>Social History Observation</th>\n\t\t\t\t\t\t\t\t\t<th>Description</th>\n\t\t\t\t\t\t\t\t\t<th>Dates Observed</th>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t<tbody>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<td>Current Smoking Status</td>\n\t\t\t\t\t\t\t\t\t<td>Former smoker</td>\n\t\t\t\t\t\t\t\t\t<td>September 10, 2012</td>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<td>Tobacco Use</td>\n\t\t\t\t\t\t\t\t\t<td>Moderate cigarette smoker, 10-19/day</td>\n\t\t\t\t\t\t\t\t\t<td>February, 2009 - February, 2011</td>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<td>Alcoholic drinks per day</td>\n\t\t\t\t\t\t\t\t\t<td>12</td>\n\t\t\t\t\t\t\t\t\t<td>Since February, 2012</td>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</tbody>\n\t\t\t\t\t\t</table>\n\t\t\t\t\t</text>\n\t\t\t\t\t<entry typeCode=\"DRIV\">\n\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.78\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.78\"/>\n\t\t\t\t\t\t\t<id extension=\"123456789\" root=\"2.16.840.1.113883.19\"/>\n\t\t\t\t\t\t\t<code code=\"72166-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Tobacco smoking status NHIS\"/>\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<effectiveTime value=\"20120910\"/>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<value code=\"8517006\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Former smoker\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t<time value=\"201209101145-0800\"/>\n\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t<id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t</observation>\n\t\t\t\t\t</entry>\n\t\t\t\t\t<entry typeCode=\"DRIV\">\n\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.85\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.85\"/>\n\t\t\t\t\t\t\t<id root=\"45efb604-7049-4a2e-ad33-d38556c9636c\"/>\n\t\t\t\t\t\t\t<code code=\"11367-0\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"History of tobacco use\"/>\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<low value=\"20090214\"/>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<high value=\"20110215\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<value code=\"160604004\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Moderate cigarette smoker, 10-19/day\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t<time value=\"201209101145-0800\"/>\n\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t<id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t</observation>\n\t\t\t\t\t</entry>\n\t\t\t\t\t<entry typeCode=\"DRIV\">\n\t\t\t\t\t\t<observation classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2015-08-01\" root=\"2.16.840.1.113883.10.20.22.4.38\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.38\"/>\n\t\t\t\t\t\t\t<id root=\"37f76c51-6411-4e1d-8a37-957fd49d2cef\"/>\n\t\t\t\t\t\t\t<code code=\"74013-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Alcoholic drinks per day\">\n\t\t\t\t\t\t\t<translation code=\"160573003\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Alcohol intake\"/> \n\t\t\t\t\t\t\t</code>\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t<low value=\"20120215\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<value unit=\"1\" value=\"12\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t<time value=\"201209101145-0800\"/>\n\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t<id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t</observation>\n\t\t\t\t\t</entry>\n\t\t\t\t</section>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/SMOKING_Former_Smoker.xml"
+            ],
+            "igReferences": ["Section 3.101: Social History Observation"],
+            "description": "Systems should capture birth sex independent of the Administrative Gender and encode them as an observation in the Social History Section."
+          },
+          {
+            "rule": "Each entry has to be linked to related narrative text",
+            "numberOfIssues": 2,
+            "issuesList": [
+              {
+                "lineNumber": "3109 - 3128",
+                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.78\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.78\"/>\n\t\t\t\t\t\t\t<id extension=\"123456789\" root=\"2.16.840.1.113883.19\"/>\n\t\t\t\t\t\t\t<code code=\"72166-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Tobacco smoking status NHIS\"/>\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<effectiveTime value=\"20120910\"/>\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<value code=\"8517006\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Former smoker\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t<time value=\"201209101145-0800\"/>\n\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t<id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t</observation>"
+              },
+              {
+                "lineNumber": "3131 - 3153",
+                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.85\"/>\n\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.85\"/>\n\t\t\t\t\t\t\t<id root=\"45efb604-7049-4a2e-ad33-d38556c9636c\"/>\n\t\t\t\t\t\t\t<code code=\"11367-0\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"History of tobacco use\"/>\n\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t<effectiveTime>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<low value=\"20090214\"/>\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<high value=\"20110215\"/>\n\t\t\t\t\t\t\t</effectiveTime>\n\t\t\t\t\t\t\t<value code=\"160604004\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Moderate cigarette smoker, 10-19/day\" xsi:type=\"CD\"/>\n\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t<time value=\"201209101145-0800\"/>\n\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t<id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t</observation>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/SMOKING_Former_Smoker.xml"
+            ],
+            "igReferences": ["Section 2.66: Social History Section"],
+            "description": "Each entry has to be linked to related narrative text"
+          },
+          {
+            "rule": "All Template Ids should be Valid with correct extension value",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
+        ],
+        "numberOfIssues": 6,
+        "numberOfChecks": 19,
+        "numberOfFailedRubrics": 3,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      },
+      {
+        "categoryName": "Vital Signs",
+        "categoryGrade": "D",
+        "categoryNumericalScore": 63,
+        "categoryRubrics": [
+          {
+            "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "EffectiveDate/Times for all historical activities should be within the lifespan on the patient",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
+            "numberOfIssues": 11,
+            "issuesList": [
+              {
+                "lineNumber": "3187",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8716-3\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"VITAL SIGNS\"/>"
+              },
+              {
+                "lineNumber": "3223",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"46680005\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Vital signs\">\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<translation code=\"74728-7\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Vital signs\"/>\n\t\t\t\t\t\t\t</code>"
+              },
+              {
+                "lineNumber": "3238",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Height\"/>"
+              },
+              {
+                "lineNumber": "3259",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"3141-9\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>"
+              },
+              {
+                "lineNumber": "3280",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8480-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Intravascular Systolic\"/>"
+              },
+              {
+                "lineNumber": "3301",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8462-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Diastolic\"/>"
+              },
+              {
+                "lineNumber": "3324",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"46680005\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Vital signs\">\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t<translation code=\"74728-7\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Vital signs\"/>\n\t\t\t\t\t\t\t</code>"
+              },
+              {
+                "lineNumber": "3339",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Height\"/>"
+              },
+              {
+                "lineNumber": "3360",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"3141-9\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>"
+              },
+              {
+                "lineNumber": "3381",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8480-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Systolic\"/>"
+              },
+              {
+                "lineNumber": "3402",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8462-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Diastolic\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
+            ],
+            "igReferences": ["Section 2.70.1: Vital Signs Section"],
+            "description": "Each of the code systems, value sets specified by the C-CDA IG refers back to standard terminologies like SNOMED-CT, LOINC, RxNorm, ICD9, ICD10. When codes from these codesystems are used to represent structured data the display name corresponding to the code should be used as part of the document"
+          },
+          {
+            "rule": "The Vital Sign Observation entries should use LOINC codes to represent the type of vital sign being captured",
+            "numberOfIssues": 8,
+            "issuesList": [
+              {
+                "lineNumber": "3238",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Height\"/>"
+              },
+              {
+                "lineNumber": "3259",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"3141-9\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>"
+              },
+              {
+                "lineNumber": "3280",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8480-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Intravascular Systolic\"/>"
+              },
+              {
+                "lineNumber": "3301",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8462-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Diastolic\"/>"
+              },
+              {
+                "lineNumber": "3339",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Height\"/>"
+              },
+              {
+                "lineNumber": "3360",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"3141-9\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>"
+              },
+              {
+                "lineNumber": "3381",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8480-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Systolic\"/>"
+              },
+              {
+                "lineNumber": "3402",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8462-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Diastolic\"/>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
+            ],
+            "igReferences": ["Section 3.108: Vital Sign Observation"],
+            "description": "Each of the vital sign observation present in the document should use the recommended LOINC codes to represent the vital sign."
+          },
+          {
+            "rule": "Each of the Vital Sign Observations should use the recommended UCUM units to represent the vital sign measurement result",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "The EffectiveDate/Time elements for the Vital Sign Organizer must encompass the underlying observations",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          },
+          {
+            "rule": "Each entry has to be linked to related narrative text",
+            "numberOfIssues": 8,
+            "issuesList": [
+              {
+                "lineNumber": "3233 - 3251",
+                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"ed9589fd-fda0-41f7-a3d0-dc537554f5c2\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Height\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20120910\"/>\n\t\t\t\t\t\t\t\t\t<value unit=\"cm\" value=\"177\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n\t\t\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t\t\t<time value=\"201209101145-0800\"/>\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t\t\t</observation>"
+              },
+              {
+                "lineNumber": "3254 - 3272",
+                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"f4e729e2-a97f-4a7e-8e23-c92f9b6b55cf\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"3141-9\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20120910\"/>\n\t\t\t\t\t\t\t\t\t<value unit=\"kg\" value=\"86\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n\t\t\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t\t\t<time value=\"201209101145-0800\"/>\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t\t\t</observation>"
+              },
+              {
+                "lineNumber": "3275 - 3293",
+                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"a0e39c70-9674-4b2a-9837-cdf74200d8d5\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"8480-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Intravascular Systolic\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20120910\"/>\n\t\t\t\t\t\t\t\t\t<value unit=\"mm[Hg]\" value=\"132\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n\t\t\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t\t\t<time value=\"201209101145-0800\"/>\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t\t\t</observation>"
+              },
+              {
+                "lineNumber": "3296 - 3314",
+                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"1c2748b7-e440-41ba-bc01-dde97d84a036\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"8462-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Diastolic\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20120910\"/>\n\t\t\t\t\t\t\t\t\t<value unit=\"mm[Hg]\" value=\"88\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n\t\t\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t\t\t<time value=\"201109010915-0800\"/>\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t\t\t</observation>"
+              },
+              {
+                "lineNumber": "3334 - 3352",
+                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"05c047cd-28c3-41cd-be6c-56f8cc0c3f2f\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Height\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20110901\"/>\n\t\t\t\t\t\t\t\t\t<value unit=\"cm\" value=\"177\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n\t\t\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t\t\t<time value=\"201109010915-0800\"/>\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t\t\t</observation>"
+              },
+              {
+                "lineNumber": "3355 - 3373",
+                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"21b0f3d5-7d07-4f4f-ad7e-c33dc2ca3835\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"3141-9\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20110901\"/>\n\t\t\t\t\t\t\t\t\t<value unit=\"kg\" value=\"88\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n\t\t\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t\t\t<time value=\"201109010915-0800\"/>\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t\t\t</observation>"
+              },
+              {
+                "lineNumber": "3376 - 3394",
+                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"b046c35a-59c7-4215-ae09-9a8409a30b21\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"8480-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Systolic\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20110901\"/>\n\t\t\t\t\t\t\t\t\t<value unit=\"mm[Hg]\" value=\"128\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n\t\t\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t\t\t<time value=\"201109010915-0800\"/>\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t\t\t</observation>"
+              },
+              {
+                "lineNumber": "3397 - 3415",
+                "xmlString": "<observation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" classCode=\"OBS\" moodCode=\"EVN\">\n\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t<templateId extension=\"2014-06-09\" root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.27\"/>\n\t\t\t\t\t\t\t\t\t<id root=\"44f54e66-fb4b-4ee5-9ced-9574ef307a23\"/>\n\t\t\t\t\t\t\t\t\t<code code=\"8462-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Diastolic\"/>\n\t\t\t\t\t\t\t\t\t<statusCode code=\"completed\"/>\n\t\t\t\t\t\t\t\t\t<effectiveTime value=\"20110901\"/>\n\t\t\t\t\t\t\t\t\t<value unit=\"mm[Hg]\" value=\"80\" xsi:type=\"PQ\"/>\n\t\t\t\t\t\t\t\t\t<interpretationCode code=\"N\" codeSystem=\"2.16.840.1.113883.5.83\"/>\n\t\t\t\t\t\t\t\t\t<author typeCode=\"AUT\">\n\t\t\t\t\t\t\t\t\t\t<templateId root=\"2.16.840.1.113883.10.20.22.4.119\"/>\n\t\t\t\t\t\t\t\t\t\t<time value=\"201109010915-0800\"/>\n\t\t\t\t\t\t\t\t\t\t<assignedAuthor>\n\t\t\t\t\t\t\t\t\t\t\t<id extension=\"555555555\" root=\"2.16.840.1.113883.4.6\"/>\n\t\t\t\t\t\t\t\t\t\t\t<code code=\"207QA0505X\" codeSystem=\"2.16.840.1.113883.6.101\" codeSystemName=\"Healthcare Provider Taxonomy (HIPAA)\" displayName=\"Adult Medicine\"/>\n\t\t\t\t\t\t\t\t\t\t</assignedAuthor>\n\t\t\t\t\t\t\t\t\t</author>\n\t\t\t\t\t\t\t\t</observation>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/jddamore/HL7-Task-Force-Examples/blob/master/VITALS_Complete_Panel_Metric.xml"
+            ],
+            "igReferences": ["Section 2.70.1: Vital Signs Section"],
+            "description": "Each entry has to be linked to related narrative text"
+          },
+          {
+            "rule": "All Template Ids should be Valid with correct extension value",
+            "numberOfIssues": 0,
+            "issuesList": [],
+            "exampleTaskForceLinks": [],
+            "igReferences": [],
+            "description": null
+          }
+        ],
+        "numberOfIssues": 27,
+        "numberOfChecks": 85,
+        "numberOfFailedRubrics": 3,
+        "certificationFeedback": false,
+        "failingConformance": false,
+        "nullFlavorNI": false
+      }
+    ],
+    "numberOfIssues": 61,
+    "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
+    "industryAverageScore": 76,
+    "industryAverageGrade": "C",
+    "numberOfDocumentsScored": 214800,
+    "ccdaVersion": "R2.1",
+    "passedCertification": null,
+    "numberOfDocsScoredPerCcdaDocumentType": 126212,
+    "industryAverageScoreForCcdaDocumentType": 75,
+    "industryAverageGradeForCcdaDocumentType": "C",
+    "numberOfRules": 45,
+    "totalElementsChecked": 236,
+    "numberOfFailedRules": 20,
+    "totalCertificationErrorChecks": 175,
+    "totalConformanceErrorChecks": 8397,
+    "totalGradesGiven": {
+      "aPlusGrades": 29462,
+      "aMinusGrades": 15273,
+      "bPlusGrades": 9082,
+      "bMinusGrades": 11613,
+      "cGrades": 87687,
+      "dGrades": 62540
+    }
+  },
+  "referenceResults": [],
+  "schemaErrorList": null,
+  "schemaErrors": false,
+  "success": true
+}

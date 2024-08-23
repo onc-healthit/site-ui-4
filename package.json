@@ -10,13 +10,15 @@
     "cypress:open:dev": "cypress open --config-file cypress/config/cypress.config.dev.ts",
     "test": "npm run cypress:open:dev",
     "cypress:run:dev": "cypress run --config-file cypress/config/cypress.config.dev.ts",
-    "test:dev": "npm run cypress:run:dev"
+    "test:dev": "npm run cypress:run:dev",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.5",
+    "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.0",
     "@mui/material-nextjs": "^5.15.5",
     "@mui/x-data-grid": "^7.12.1",
@@ -25,6 +27,8 @@
     "lodash": "^4.17.21",
     "marked": "^12.0.2",
     "next": "14.2.3",
+    "next-auth": "^4.24.7",
+    "nookies": "^2.5.2",
     "react": "^18",
     "react-countup": "^6.5.3",
     "react-dom": "^18",

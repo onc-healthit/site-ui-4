@@ -1,5 +1,5 @@
-import palette from '@/styles/palette'
 import { ScorecardReferenceErrorType } from '@/components/c-cda/scorecard/types/ScorecardJsonResponseType'
+import palette from '@/styles/palette'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
 import _ from 'lodash'
@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react'
 
 interface DetailsAccordionProps {
   disabled: boolean
-  refLink: React.RefObject<HTMLDivElement>
   details: ScorecardReferenceErrorType[]
   defaultExpanded?: boolean
   leftBorderColor: string
@@ -33,7 +32,6 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
       disableGutters
       elevation={3}
       disabled={props.disabled}
-      ref={props.refLink}
       defaultExpanded={props.defaultExpanded}
     >
       <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
@@ -45,13 +43,13 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
       </AccordionSummary>
 
       <AccordionDetails sx={{ p: 2 }}>
-        {props.details.map((detail, i) => (
+        {props.details.map((detail: ScorecardReferenceErrorType, index) => (
           <Box
-            sx={{ marginBottom: 1, borderRadius: 2 }}
+            sx={{ marginBottom: 1, borderRadius: 0 }}
             p={2}
             bgcolor={props.backgroundColor}
             color={props.textColor}
-            key={i}
+            key={`${detail.sectionName}-${detail.documentLineNumber}-${index}`}
           >
             <Typography gutterBottom>
               <b>Error</b>: {detail.description}
@@ -88,25 +86,31 @@ export default function ScorecardBaseCheckResults(props: CategoricalResultsProps
   useEffect(() => {
     _.isEmpty(errors) && setErrorDisabled(true)
   }, [errors])
+  // We don't need or use the disabled feature for now as it's cleaner in this context to only show if there are errors
+  const hasErrors = errors?.length > 0
+  console.log('hasErrors: ' + hasErrors)
   return (
-    <Box>
-      <Box>
-        {/* <Typography id={props.category} variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
+    <>
+      {hasErrors && (
+        <Box sx={{ pb: 3 }}>
+          <Box>
+            {/* <Typography id={props.category} variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
           relatedSection: {props.category}
         </Typography> */}
-      </Box>
-      <DetailsAccordion
-        disabled={errorDisabled}
-        refLink={props.errorRef}
-        details={errors}
-        leftBorderColor={palette.black}
-        backgroundColor={refValErrorBackgroundColor}
-        textColor={palette.black}
-        defaultExpanded={true}
-        referenceCCDAResults={props.referenceCCDAResults}
-        validationCategory={props.category}
-        issueCount={errors.length}
-      />
-    </Box>
+          </Box>
+          <DetailsAccordion
+            disabled={errorDisabled}
+            details={errors}
+            leftBorderColor={palette.black}
+            backgroundColor={refValErrorBackgroundColor}
+            textColor={palette.black}
+            defaultExpanded={true}
+            referenceCCDAResults={props.referenceCCDAResults}
+            validationCategory={props.category}
+            issueCount={errors.length}
+          />
+        </Box>
+      )}
+    </>
   )
 }
