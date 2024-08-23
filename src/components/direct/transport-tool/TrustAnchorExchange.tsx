@@ -20,7 +20,13 @@ const TrustAnchorExchange = ({ trustBundleDownloadUrl }: TrustAnchorExchangeProp
         <ListItem sx={{ display: 'list-item' }}>
           <Typography variant="body2">
             Download the Trust Anchor for the Sandbox{' '}
-            <Link color="#42A5F5" href={'/certificates/public-keys/direct.site.healthit.gov.der'}>
+            <Link
+              color="#42A5F5"
+              href={'/certificates/public-keys/direct.site.healthit.gov.der'}
+              locale={false}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               (direct.site.healthit.gov Certificate){' '}
             </Link>
             and import the trust anchor into your trust store.

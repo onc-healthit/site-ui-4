@@ -120,7 +120,7 @@ const ResultsComponent = ({
 
   return (
     <>
-      <Button id="validate" type="submit" variant="contained" onClick={handleLoadingOpen} disabled={disabled}>
+      <Button type="submit" variant="contained" onClick={handleLoadingOpen} disabled={disabled}>
         {buttonTitle}
       </Button>
 
