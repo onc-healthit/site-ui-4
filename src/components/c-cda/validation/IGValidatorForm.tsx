@@ -36,7 +36,7 @@ export default function IGValidatorForm({ version, formAction }: IGValidatorForm
 
         {/* Upload */}
         <Box sx={{ pt: 3 }}>
-          <DragDropFileUpload maxFiles={1} name="ccdaFile" fileName={getFileName} />
+          <DragDropFileUpload maxFiles={1} name="ccdaFile" fileName={getFileName} allowedSize={1048576} />
         </Box>
 
         {/* Validate */}

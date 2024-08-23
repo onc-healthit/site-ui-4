@@ -1,11 +1,11 @@
 'use client'
-import { Button, Typography, Chip } from '@mui/material'
+import { Button, Typography, Chip, Box } from '@mui/material'
 import React, { useMemo, useRef, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import palette from '@/styles/palette'
 import Close from '@mui/icons-material/Close'
-
+import _ from 'lodash'
 {
   /* TO-DO: Handle upload file as per functionality */
 }
@@ -40,13 +40,14 @@ const rejectStyle = {
 interface DragDropFileUploadProps {
   maxFiles?: number
   name?: string
+  allowedSize?: number
   fileName?: ([]) => void
 }
 
-export default function DragDropFileUpload({ maxFiles, name, fileName }: DragDropFileUploadProps) {
+export default function DragDropFileUpload({ maxFiles, allowedSize, name, fileName }: DragDropFileUploadProps) {
   const [files, setFiles] = useState<File[]>([])
   const hiddenInputRef = useRef<HTMLInputElement>(null)
-
+  const maxSize = allowedSize ? allowedSize : 1048576
   const removeFile = (name: string) => {
     setFiles((files) => files.filter((file) => file.name !== name))
   }
@@ -62,11 +63,14 @@ export default function DragDropFileUpload({ maxFiles, name, fileName }: DragDro
       })
     }
   }
-  const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject, open } = useDropzone({
+
+  const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject, open, fileRejections } = useDropzone({
     // Disable click and keydown behavior
     noClick: true,
     noKeyboard: true,
     maxFiles: maxFiles || 1,
+    minSize: 0,
+    maxSize: maxSize,
     onDrop: (acceptedFiles) => {
       fileName?.(acceptedFiles)
       setFiles(acceptedFiles)
@@ -79,6 +83,22 @@ export default function DragDropFileUpload({ maxFiles, name, fileName }: DragDro
       }
     },
   })
+
+  const fileRejectionErrors = fileRejections.map(({ file, errors }) => (
+    <div key={file.name}>
+      {errors.map((e) => {
+        return (
+          <>
+            {_.isEqual(e.code, 'file-too-large') && (
+              <Typography color={palette.error} key={e.code}>
+                {file.name} can not larger than {maxSize} bytes.
+              </Typography>
+            )}
+          </>
+        )
+      })}
+    </div>
+  ))
 
   const style = useMemo(
     () => ({
@@ -121,6 +141,7 @@ export default function DragDropFileUpload({ maxFiles, name, fileName }: DragDro
           </div>
         )
       })}
+      <Box py={'16px'}>{fileRejectionErrors}</Box>
     </div>
   )
 }
