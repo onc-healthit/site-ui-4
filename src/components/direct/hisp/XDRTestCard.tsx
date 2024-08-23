@@ -143,8 +143,8 @@ interface SelectedDocument {
 const TestCard = ({ test }: TestCardProps) => {
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
-  const [testRequestResponse, setTestRequestResponse] = useState<string>('')
-  const [testRequestRequest, setTestRequestRequest] = useState<string>('')
+  const [testResponse, setTestRequestResponse] = useState<string>('')
+  const [testRequest, setTestRequestRequest] = useState<string>('')
   const [showLogs, setShowLogs] = useState(false)
   const [fieldValues, setFieldValues] = useState<{ [key: string]: string }>({})
   const [isLoading, setIsLoading] = useState(false)
@@ -152,6 +152,7 @@ const TestCard = ({ test }: TestCardProps) => {
   const [isFinished, setIsFinished] = useState(false)
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
   const [popoverMessage, setPopoverMessage] = useState('')
+  const [logType, setLogType] = useState<'request' | 'response'>('request')
   const manualValidationCriteria = ["['b1-3']", "['b1-3','su1-3']"]
   const { data: session } = useSession()
 
@@ -176,6 +177,10 @@ const TestCard = ({ test }: TestCardProps) => {
 
   const handleClose = () => {
     setAnchorEl(null)
+  }
+
+  const toggleLogType = (type: 'request' | 'response') => {
+    setLogType(type)
   }
 
   const open = Boolean(anchorEl)
@@ -233,22 +238,37 @@ const TestCard = ({ test }: TestCardProps) => {
         setIsLoading(true)
         setIsFinished(false)
         setCriteriaMet('')
-        const response = await handleXDRAPICall(targetEndpointTLS, session.user.jsessionid)
+
+        const response = await handleXDRAPICall({
+          ip_address: ip_address,
+          port: port,
+          direct_to: direct_to,
+          direct_from: direct_from,
+          targetEndpointTLS: targetEndpointTLS,
+          outgoing_from: outgoing_from,
+          ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
+          ccdaValidationObjective: documentDetails ? documentDetails.directory : '',
+          ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
+          id: test.id.toString(),
+          jsession: session.user.jsessionid,
+        })
         setIsFinished(true)
         setCriteriaMet(response.criteriaMet)
-        setTestRequestRequest(response.testRequestRequest)
-        setTestRequestResponse(response.testRequestResponse)
+        setTestRequestRequest(response.testRequest)
+        setTestRequestResponse(response.testResponse)
         console.log('Criteria met: ', response.criteriaMet)
-        console.log('Test Request Responses:', response.testRequestResponse)
+        console.log('Test Request Responses:', response.testResponse)
       } catch (error) {
         console.error('Failed to run test:', error)
         setApiError(true)
         setCriteriaMet('FALSE')
       } finally {
         setIsLoading(false)
-        setTimeout(() => {
-          setIsFinished(false)
-        }, 100)
+        if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+          setTimeout(() => {
+            setIsFinished(false)
+          }, 100)
+        }
       }
     }
   }
@@ -274,12 +294,6 @@ const TestCard = ({ test }: TestCardProps) => {
     setDocumentDetails(null)
     setApiError(false)
   }
-
-  const formattedResponse = Object.entries(testRequestResponse).map(([key, value]) => (
-    <Typography key={key} variant="body1" style={{ whiteSpace: 'pre-line' }}>
-      {value}
-    </Typography>
-  ))
 
   const renderCriteriaMetIcon = () => {
     if (criteriaMet === 'TRUE') {
@@ -319,6 +333,15 @@ const TestCard = ({ test }: TestCardProps) => {
   } | null>(null)
 
   const [showDocumentSelector, setShowDocumentSelector] = useState(false)
+
+  const renderLogs = () => {
+    const content = logType === 'request' ? testRequest : testResponse
+    return (
+      <Typography variant="body1" style={{ whiteSpace: 'pre-line' }}>
+        {content || 'No logs to display.'}
+      </Typography>
+    )
+  }
 
   const renderMoreInfo = () => {
     const { moreInfo } = test
@@ -378,21 +401,34 @@ const TestCard = ({ test }: TestCardProps) => {
           renderMoreInfo()
         ) : showLogs ? (
           <CardContent>
-            <Typography variant="h6">Test Logs</Typography>
-            {testRequestResponse ? (
-              <Typography variant="body1">{testRequestResponse}</Typography>
-            ) : (
-              <Typography variant="body1">No logs to display.</Typography>
-            )}
+            <Typography variant="h3">Log for XDR Test ${test.name}</Typography>
+
+            <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-start', mt: 2, mb: 2 }}>
+              <Button
+                variant="contained"
+                onClick={() => toggleLogType('request')}
+                color={logType === 'request' ? 'primary' : 'inherit'}
+              >
+                Request
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => toggleLogType('response')}
+                color={logType === 'response' ? 'primary' : 'inherit'}
+              >
+                Response
+              </Button>
+              <Button variant="outlined" onClick={handleToggleLogs}>
+                Close Logs
+              </Button>
+            </Box>
+            {renderLogs()}
             <Divider sx={{ mb: 2, mt: 2 }} />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
               {test.criteria &&
                 manualValidationCriteria.includes(test.criteria) &&
-                formattedResponse.length > 0 &&
-                !criteriaMet.includes('TRUE') &&
-                !criteriaMet.includes('FALSE') &&
-                !criteriaMet.includes('ERROR') &&
-                !apiError && (
+                testRequest.length > 0 &&
+                criteriaMet.includes('SUCCESS') && (
                   <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button variant="contained" color="primary" onClick={handleAcceptTest}>
                       Accept
@@ -526,8 +562,11 @@ const TestCard = ({ test }: TestCardProps) => {
                   LOGS
                 </Button>
                 {test.criteria &&
-                  (formattedResponse.length > 0 || criteriaMet.includes('FALSE') || criteriaMet.includes('ERROR')) &&
-                  (criteriaMet.includes('TRUE') || criteriaMet.includes('FALSE') || criteriaMet.includes('ERROR')) && (
+                  (testRequest.length > 0 || criteriaMet.includes('FALSE') || criteriaMet.includes('ERROR')) &&
+                  (criteriaMet.includes('TRUE') ||
+                    criteriaMet.includes('FALSE') ||
+                    criteriaMet.includes('ERROR') ||
+                    criteriaMet.includes('SUCCESS')) && (
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <Button variant="contained" color="inherit" onClick={handleClearTest}>
                         Clear

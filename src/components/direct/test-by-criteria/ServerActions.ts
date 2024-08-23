@@ -29,7 +29,17 @@ interface APICallData {
 }
 
 interface XDRAPICallData {
+  ip_address?: string
+  port?: string
+  direct_to?: string
+  direct_from?: string
   targetEndpointTLS?: string
+  outgoing_from?: string
+  ccdaReferenceFilename: string
+  ccdaValidationObjective: string
+  ccdaFileLink: string
+  id: string
+  jsession: string
 }
 export interface FileDetail {
   svap: boolean
@@ -58,8 +68,8 @@ interface APIResponse {
 
 interface XDRAPIResponse {
   criteriaMet: string
-  testRequestRequest: string
-  testRequestResponse: string
+  testRequest: string
+  testResponse: string
 }
 
 export async function handleAPICall(data: APICallData): Promise<APIResponse> {
@@ -89,17 +99,16 @@ export async function handleAPICall(data: APICallData): Promise<APIResponse> {
   }
 }
 
-export async function handleXDRAPICall(targetEndpointTLS: string, jsessionId: string): Promise<XDRAPIResponse> {
-  const apiUrl = process.env.XDR_TEST_BY_CRITERIA_ENDPOINT
-  const data = { targetEndpointTLS }
+export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResponse> {
+  const apiUrl = process.env.XDR_TEST_BY_CRITERIA_ENDPOINT + data.id + '/run'
   const config = {
     method: 'post',
     url: apiUrl,
     headers: {
       'Content-Type': 'application/json',
-      'Cookie': `JSESSIONID=${jsessionId}`,
+      'Cookie': `JSESSIONID=${data.jsession}`,
     },
-    data: JSON.stringify(data),
+    data: data,
   }
 
   console.log('Sending data:', config)
@@ -111,8 +120,8 @@ export async function handleXDRAPICall(targetEndpointTLS: string, jsessionId: st
 
     return {
       criteriaMet: response.data.status,
-      testRequestRequest: content.request,
-      testRequestResponse: content.message,
+      testRequest: response.data.content.value.request,
+      testResponse: response.data.content.value.response,
     }
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -135,7 +144,7 @@ export async function fetchCCDADocuments(): Promise<Documents> {
   }
   try {
     const response = await axios(config)
-    return response.data // Assuming the data is in the format expected by DocumentSelector
+    return response.data
   } catch (error) {
     console.error('Error fetching CCDA documents:', error)
     throw error
