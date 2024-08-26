@@ -79,6 +79,7 @@ export async function handleSearchSITEInbox(prevState: object | undefined, formD
     method: 'GET',
     url: Api,
     params: { fromAddress: formData.get('fromAddress') },
+    timeout: 300000,
   }
 
   console.log('Submitted data TTT SearchSITEInbox', config)

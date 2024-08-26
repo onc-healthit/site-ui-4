@@ -37,11 +37,20 @@ const acceptStyle = {
 const rejectStyle = {
   borderColor: palette.error,
 }
+
 interface DragDropFileUploadProps {
   maxFiles?: number
   name?: string
   allowedSize?: number
   fileName?: ([]) => void
+}
+
+function bytesToSize(bytes: number): string {
+  const sizes: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+  if (bytes === 0) return 'n/a'
+  const i: number = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString())
+  if (i === 0) return `${bytes} ${sizes[i]}`
+  return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${sizes[i]}`
 }
 
 export default function DragDropFileUpload({ maxFiles, allowedSize, name, fileName }: DragDropFileUploadProps) {
@@ -91,7 +100,7 @@ export default function DragDropFileUpload({ maxFiles, allowedSize, name, fileNa
           <>
             {_.isEqual(e.code, 'file-too-large') && (
               <Typography color={palette.error} key={e.code}>
-                {file.name} can not larger than {maxSize} bytes.
+                {file.name} can not be larger than {bytesToSize(maxSize)}.
               </Typography>
             )}
           </>
