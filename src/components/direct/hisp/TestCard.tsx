@@ -116,6 +116,7 @@ const TestCard = ({
   const [isFinished, setIsFinished] = useState(false)
   const [apiError, setApiError] = useState(false)
   const [attachmentType, setAttachmentType] = useState('')
+  const apiUrl = process.env.CCDA_DOCUMENTS || 'https://ett.healthit.gov/ett/api/ccdadocuments'
 
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
     console.log('Confirmed Document', selectedData)
@@ -350,10 +351,10 @@ const TestCard = ({
               <Button
                 variant="outlined"
                 sx={{
-                  color: 'black',
-                  backgroundColor: '#E8E8E8',
-                  borderColor: 'transparent',
-                  boxShadow: '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
+                  'color': 'black',
+                  'backgroundColor': '#E8E8E8',
+                  'borderColor': 'transparent',
+                  'boxShadow': '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
                   '&:hover': {
                     backgroundColor: '#E8E8E8',
                     boxShadow: '0px 4px 2px -1px rgba(0, 0, 0, 0.22)',
@@ -432,7 +433,7 @@ const TestCard = ({
             )}
 
             {showDocumentSelector && (
-              <DocumentSelector onConfirm={handleDocumentConfirm} onClose={handleDocumentSelectorClose} />
+              <DocumentSelector onConfirm={handleDocumentConfirm} onClose={handleDocumentSelectorClose} xdr={false} />
             )}
 
             {_.has(test, 'fields') &&

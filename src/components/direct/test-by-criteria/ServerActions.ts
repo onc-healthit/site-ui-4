@@ -35,9 +35,9 @@ interface XDRAPICallData {
   direct_from?: string
   targetEndpointTLS?: string
   outgoing_from?: string
-  ccdaReferenceFilename: string
-  ccdaValidationObjective: string
-  ccdaFileLink: string
+  name: string
+  path: string
+  link: string
   id: string
   jsession: string
 }
@@ -55,12 +55,6 @@ export interface Directory {
   files: FileDetail[]
 }
 
-export interface Documents {
-  [key: string]: {
-    dirs: Directory[]
-    files: FileDetail[]
-  }
-}
 interface APIResponse {
   criteriaMet: string
   testRequestResponses: string
@@ -131,22 +125,6 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     } else {
       console.error('Error')
     }
-    throw error
-  }
-}
-
-export async function fetchCCDADocuments(): Promise<Documents> {
-  const apiUrl = process.env.CCDA_DOCUMENTS
-  const config = {
-    method: 'get',
-    url: apiUrl,
-    headers: { 'Content-Type': 'application/json' },
-  }
-  try {
-    const response = await axios(config)
-    return response.data
-  } catch (error) {
-    console.error('Error fetching CCDA documents:', error)
     throw error
   }
 }

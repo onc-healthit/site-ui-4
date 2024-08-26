@@ -160,6 +160,7 @@ const TestCard = ({ test }: TestCardProps) => {
   const subDesc = test['Purpose/Description']
   const expTestHeader = 'Expected Test Results'
   const expTestResults = test['Expected Test Results']
+  const apiUrl = process.env.CCDA_DOCUMENTS_XDR || 'https://ett.healthit.gov/ett/api/ccdadocuments'
 
   const requiresCCDADocument = () => {
     return test.inputs?.some((input) => input.key === 'payload' && input.type?.includes('CCDAWidget'))
@@ -246,9 +247,9 @@ const TestCard = ({ test }: TestCardProps) => {
           direct_from: direct_from,
           targetEndpointTLS: targetEndpointTLS,
           outgoing_from: outgoing_from,
-          ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
-          ccdaValidationObjective: documentDetails ? documentDetails.directory : '',
-          ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
+          name: documentDetails ? documentDetails.fileName : '',
+          path: documentDetails ? documentDetails.directory : '',
+          link: documentDetails ? documentDetails.fileLink : '',
           id: test.id.toString(),
           jsession: session.user.jsessionid,
         })
@@ -541,7 +542,7 @@ const TestCard = ({ test }: TestCardProps) => {
               )}
 
               {showDocumentSelector && (
-                <DocumentSelector onConfirm={handleDocumentConfirm} onClose={handleDocumentSelectorClose} />
+                <DocumentSelector onConfirm={handleDocumentConfirm} onClose={handleDocumentSelectorClose} xdr={true} />
               )}
 
               <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 1, pl: 2 }}>
