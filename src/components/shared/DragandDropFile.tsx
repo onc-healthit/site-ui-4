@@ -6,9 +6,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload'
 import palette from '@/styles/palette'
 import Close from '@mui/icons-material/Close'
 import _ from 'lodash'
-{
-  /* TO-DO: Handle upload file as per functionality */
-}
+
 const baseStyle = {
   display: 'flex',
   alignItems: 'center',
@@ -37,6 +35,7 @@ const acceptStyle = {
 const rejectStyle = {
   borderColor: palette.error,
 }
+
 interface DragDropFileUploadProps {
   maxFiles?: number
   name?: string
@@ -44,17 +43,24 @@ interface DragDropFileUploadProps {
   fileName?: ([]) => void
 }
 
+function formatBytes(bytes: number): string {
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+  if (bytes === 0) return '0 Byte'
+  const i = Math.floor(Math.log(bytes) / Math.log(1024))
+  return parseFloat((bytes / Math.pow(1024, i)).toFixed(2)) + ' ' + sizes[i]
+}
+
 export default function DragDropFileUpload({ maxFiles, allowedSize, name, fileName }: DragDropFileUploadProps) {
   const [files, setFiles] = useState<File[]>([])
   const hiddenInputRef = useRef<HTMLInputElement>(null)
   const maxSize = allowedSize ? allowedSize : 1048576
-  const removeFile = (name: string) => {
+  /*  const removeFile = (name: string) => {
     setFiles((files) => files.filter((file) => file.name !== name))
   }
 
   const removeAll = () => {
     setFiles([])
-  }
+  } */
   const UploadFile = () => {
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'Click Upload File', {
@@ -91,7 +97,7 @@ export default function DragDropFileUpload({ maxFiles, allowedSize, name, fileNa
           <>
             {_.isEqual(e.code, 'file-too-large') && (
               <Typography color={palette.error} key={e.code}>
-                {file.name} can not larger than {maxSize} bytes.
+                {file.name} can not be larger than {formatBytes(maxSize)}.
               </Typography>
             )}
           </>
