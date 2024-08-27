@@ -38,7 +38,11 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
         {/* TODO: Issue count should probably be an avatar/badge just like in heatmap */}
         <Box display={'flex'} justifyContent={'space-between'} width={'100%'} flexDirection={'row'} gap={2}>
           <Typography sx={{ fontWeight: 'bold', border: `` }}>{props.validationCategory}</Typography>
-          <Chip variant="outlined" size="small" label={`${props.issueCount} Total Issues`} />
+          <Chip
+            variant="outlined"
+            size="small"
+            label={`${props.issueCount} ${props.issueCount === 1 ? 'Error' : 'Errors'}`}
+          />
         </Box>
       </AccordionSummary>
 

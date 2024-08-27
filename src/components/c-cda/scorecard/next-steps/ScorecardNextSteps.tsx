@@ -5,7 +5,8 @@ import {
 import { Box, Divider, FormControlLabel, styled, Switch, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { removeHashtagToUseHrefLinkAsIdForAnchor } from '../serverside/scorecardHelperService'
-import { HrefLinkValueEnum, SORT_ORDER_STARTING_VALUE, SortOrderEnum } from '../types/ScorecardConstants'
+import { HrefLinkValueEnum, SORT_ORDER_STARTING_VALUE } from '../types/ScorecardConstants'
+// import { SortOrderEnum } from '../types/ScorecardConstants'
 import ScorecardDetailedResults from './ScorecardDetailedResults'
 import ScorecardHeatMap from './ScorecardHeatMap'
 
