@@ -85,9 +85,10 @@ export async function handleSearchSITEInbox(prevState: object | undefined, formD
   console.log('Submitted data TTT SearchSITEInbox', config)
   try {
     const response = await axios.request(config)
-    // console.log(JSON.stringify(response.data))
+    console.log(JSON.stringify(response.data))
     return { response: response.data }
   } catch (error) {
+    console.error(error)
     if (axios.isAxiosError(error)) {
       //  console.log(error)
       console.error(error.response?.data)

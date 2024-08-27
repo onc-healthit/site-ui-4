@@ -22,7 +22,7 @@ const TrustAnchorExchange = ({ trustBundleDownloadUrl }: TrustAnchorExchangeProp
             Download the Trust Anchor for the Sandbox{' '}
             <Link
               color="#42A5F5"
-              href="./certificates/public-keys/direct.site.healthit.gov.der"
+              href="/certificates/public-keys/direct.site.healthit.gov.der"
               locale={false}
               target="_blank"
               rel="noopener noreferrer"
