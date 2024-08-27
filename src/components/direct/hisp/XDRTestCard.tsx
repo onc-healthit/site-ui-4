@@ -24,6 +24,7 @@ import LoadingButton from '../shared/LoadingButton'
 import DocumentSelector from './DocumentSelector'
 import { getSession } from 'next-auth/react'
 import { useSession } from 'next-auth/react'
+import XMLDisplay from '../shared/colorizeXML'
 
 export type TestCaseFields = {
   'name'?: string
@@ -252,6 +253,11 @@ const TestCard = ({ test }: TestCardProps) => {
           link: documentDetails ? documentDetails.fileLink : '',
           id: test.id.toString(),
           jsession: session.user.jsessionid,
+          cures: false,
+          itemNumber: '12',
+          selected: true,
+          svap: false,
+          uscdiv3: false,
         })
         setIsFinished(true)
         setCriteriaMet(response.criteriaMet)
@@ -337,11 +343,7 @@ const TestCard = ({ test }: TestCardProps) => {
 
   const renderLogs = () => {
     const content = logType === 'request' ? testRequest : testResponse
-    return (
-      <Typography variant="body1" style={{ whiteSpace: 'pre-line' }}>
-        {content || 'No logs to display.'}
-      </Typography>
-    )
+    return <XMLDisplay xmlContent={content || 'No logs to display.'} />
   }
 
   const renderMoreInfo = () => {
@@ -423,6 +425,7 @@ const TestCard = ({ test }: TestCardProps) => {
                 Close Logs
               </Button>
             </Box>
+            <Divider sx={{ mb: 2, mt: 2 }} />
             {renderLogs()}
             <Divider sx={{ mb: 2, mt: 2 }} />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
@@ -582,9 +585,6 @@ const TestCard = ({ test }: TestCardProps) => {
           </>
         )}
       </CardContent>
-      <Divider />
-
-      <Divider />
     </Card>
   )
 }

@@ -40,6 +40,11 @@ interface XDRAPICallData {
   link: string
   id: string
   jsession: string
+  cures: boolean
+  itemNumber: string
+  selected: boolean
+  svap: boolean
+  uscdiv3: boolean
 }
 export interface FileDetail {
   svap: boolean
@@ -95,6 +100,25 @@ export async function handleAPICall(data: APICallData): Promise<APIResponse> {
 
 export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResponse> {
   const apiUrl = process.env.XDR_TEST_BY_CRITERIA_ENDPOINT + data.id + '/run'
+  const formattedData = {
+    targetEndpointTLS: data.targetEndpointTLS,
+    ip_address: data.ip_address,
+    port: data.port,
+    direct_to: data.direct_to,
+    direct_from: data.direct_from,
+    outgoing_from: data.outgoing_from,
+    payload: {
+      svap: data.svap,
+      cures: data.cures,
+      name: data.name,
+      link: data.link,
+      uscdiv3: data.uscdiv3,
+      path: [null, data.path],
+      selected: data.selected,
+      itemNumber: data.itemNumber,
+    },
+  }
+
   const config = {
     method: 'post',
     url: apiUrl,
@@ -102,7 +126,7 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
       'Content-Type': 'application/json',
       'Cookie': `JSESSIONID=${data.jsession}`,
     },
-    data: data,
+    data: JSON.stringify(formattedData),
   }
 
   console.log('Sending data:', config)
@@ -113,9 +137,9 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     const content = response.data
 
     return {
-      criteriaMet: response.data.status,
-      testRequest: response.data.content.value.request,
-      testResponse: response.data.content.value.response,
+      criteriaMet: content.status,
+      testRequest: content.content.value.request,
+      testResponse: content.content.value.response,
     }
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
