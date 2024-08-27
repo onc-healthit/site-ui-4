@@ -63,7 +63,8 @@ export default function ScorecardNextSteps({
                 size="small"
               />
             }
-            label={`Sorted by: ${isAscendingOrderChecked ? SortOrderEnum.ASCENDING : SortOrderEnum.DESCENDING} order`}
+            // label={`Sorted by: ${isAscendingOrderChecked ? SortOrderEnum.ASCENDING : SortOrderEnum.DESCENDING} order`}
+            label="Toggle Sort Order"
             name="wrapped"
           />
         </Box>
