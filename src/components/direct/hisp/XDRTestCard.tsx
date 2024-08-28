@@ -133,7 +133,7 @@ interface TestCardProps {
   username?: string
   password?: string
   tlsRequired?: boolean
-  receive: boolean
+  receive?: boolean
 }
 
 interface SelectedDocument {
@@ -553,7 +553,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                 <DocumentSelector
                   onConfirm={handleDocumentConfirm}
                   onClose={handleDocumentSelectorClose}
-                  receive={receive}
+                  receive={receive || false}
                 />
               )}
 
