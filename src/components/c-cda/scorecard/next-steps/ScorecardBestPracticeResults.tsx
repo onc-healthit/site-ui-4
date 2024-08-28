@@ -7,6 +7,7 @@ import { getGradeStyleValueByProperty } from '../serverside/scorecardHelperServi
 import { ConstantsEnum, GradeEnum, gradeStyleMap, SectionNameEnum } from '../types/ScorecardConstants'
 import { ScorecardCategory, ScorecardCategoryRubric } from '../types/ScorecardJsonResponseType'
 import ScorecardTabs from './ScorecardTabs'
+import { ScorecardIssueDescription } from './ScorecardIssueDescription'
 
 interface DetailsAccordionProps {
   disabled: boolean
@@ -99,7 +100,11 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
                 <Typography component="div" gutterBottom sx={{ pb: 2 }}>
                   <b>Description</b>:
                   <br />
-                  {curRubric?.description ? curRubric.description : SectionNameEnum.UNKNOWN}
+                  {curRubric?.description ? (
+                    <ScorecardIssueDescription description={curRubric.description}></ScorecardIssueDescription>
+                  ) : (
+                    SectionNameEnum.UNKNOWN
+                  )}
                   <Box component="span">
                     {curRubric.igReferences[0] && curRubric.igReferences[0] === ConstantsEnum.IG_URL && (
                       <>
