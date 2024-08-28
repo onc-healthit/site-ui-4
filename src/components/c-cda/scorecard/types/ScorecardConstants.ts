@@ -83,28 +83,28 @@ export const gradeStyleMap: { [gradeKey: string]: ScorecardGradeStyleDataType } 
   },
   [GradeEnum.A_MINUS]: {
     color: palette.white,
-    backgroundColor: palette.successDark,
-    hoverBackgroundColor: palette.success,
+    backgroundColor: '#CDF487',
+    hoverBackgroundColor: '#CDF48775',
     hoverColor: null, // OK to be null as no need to change text color on hover
   },
   [GradeEnum.B_PLUS]: {
     color: palette.black,
-    backgroundColor: '#FFB65D75',
-    hoverBackgroundColor: '#FFB65D50',
+    backgroundColor: '#F7EB60',
+    hoverBackgroundColor: '#F7EB6075',
     hoverColor: null, // OK to be null as no need to change text color on hover
   },
   [GradeEnum.B_MINUS]: {
     color: palette.black,
-    backgroundColor: '#C66D0065',
-    hoverBackgroundColor: '#C66D0090',
+    backgroundColor: '#E0CA58',
+    hoverBackgroundColor: '#E0CA5875',
     // backgroundColor: '#FFB65D',
     // hoverBackgroundColor: '#FFB65D75',
     hoverColor: null, // OK to be null as no need to change text color on hover
   },
   [GradeEnum.C]: {
-    color: palette.black,
-    backgroundColor: '#FFB65D',
-    hoverBackgroundColor: '#F3A24F',
+    color: palette.white,
+    backgroundColor: '#C66D00',
+    hoverBackgroundColor: '#975402',
     // backgroundColor: '#C66D0065',
     // hoverBackgroundColor: '#C66D0090',
     hoverColor: null, // OK to be null as no need to change text color on hover
