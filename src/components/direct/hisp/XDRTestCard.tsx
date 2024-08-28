@@ -264,6 +264,9 @@ const TestCard = ({ test, receive }: TestCardProps) => {
         setCriteriaMet(response.criteriaMet)
         setTestRequestRequest(response.testRequest)
         setTestRequestResponse(response.testResponse)
+        if (!testRequest && !testResponse) {
+          setCriteriaMet('FALSE')
+        }
         console.log('Criteria met: ', response.criteriaMet)
         console.log('Test Request Responses:', response.testResponse)
       } catch (error) {
@@ -584,9 +587,11 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                       </Button>
                     </Box>
                   )}
-                {test.criteria && manualValidationCriteria.includes(test.criteria) && isFinished && !apiError && (
-                  <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>
-                )}
+                {test.criteria &&
+                  manualValidationCriteria.includes(test.criteria) &&
+                  (testRequest || testResponse) &&
+                  isFinished &&
+                  !apiError && <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>}
               </Box>
             </Box>
           </>
