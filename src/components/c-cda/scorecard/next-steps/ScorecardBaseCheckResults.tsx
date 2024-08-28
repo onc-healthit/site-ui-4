@@ -35,7 +35,6 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
       defaultExpanded={props.defaultExpanded}
     >
       <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
-        {/* TODO: Issue count should probably be an avatar/badge just like in heatmap */}
         <Box display={'flex'} justifyContent={'space-between'} width={'100%'} flexDirection={'row'} gap={2}>
           <Typography sx={{ fontWeight: 'bold', border: `` }}>{props.validationCategory}</Typography>
           <Chip
