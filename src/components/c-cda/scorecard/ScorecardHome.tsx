@@ -19,6 +19,7 @@ import {
   Container,
   Divider,
   FormControl,
+  FormHelperText,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -489,7 +490,7 @@ export default function ScorecardHome() {
               />
               <CardContent>
                 <Box width="100%">
-                  <Typography variant="body1">
+                  <Typography variant="body1" pb={2}>
                     Please select which sample you would like to use from the dropdown to demo. Enjoy!
                   </Typography>
 
@@ -503,12 +504,13 @@ export default function ScorecardHome() {
                           </MenuItem>
                         ))}
                       </Select>
+                      <FormHelperText>Choose an option from the list</FormHelperText>
                     </FormControl>
                   </Box>
                 </Box>
 
                 {/* Demo Submit  */}
-                <Box sx={{ pt: 7 }}>
+                <Box sx={{ pt: 5 }}>
                   <Button type="submit" variant="outlined" color="primary">
                     TRY ME
                   </Button>

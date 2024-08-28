@@ -5,7 +5,8 @@ import {
 import { Box, Divider, FormControlLabel, styled, Switch, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { removeHashtagToUseHrefLinkAsIdForAnchor } from '../serverside/scorecardHelperService'
-import { HrefLinkValueEnum, SORT_ORDER_STARTING_VALUE, SortOrderEnum } from '../types/ScorecardConstants'
+import { HrefLinkValueEnum, SORT_ORDER_STARTING_VALUE } from '../types/ScorecardConstants'
+// import { SortOrderEnum } from '../types/ScorecardConstants'
 import ScorecardDetailedResults from './ScorecardDetailedResults'
 import ScorecardHeatMap from './ScorecardHeatMap'
 
@@ -36,13 +37,13 @@ export default function ScorecardNextSteps({
 
   const StyledFormControlLabelWithLabelOnLeft = styled(FormControlLabel)`
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
   `
 
   return (
     <Box>
       <Box sx={{ pb: 3 }}>
-        <Box display="flex" justifyContent="space-between">
+        <Box display={'flex'} flexDirection={'row'} justifyContent="space-between">
           <Typography variant="h3" sx={{ fontWeight: 'bold', pt: 2, pb: 2 }}>
             Next Steps
           </Typography>
@@ -52,10 +53,11 @@ export default function ScorecardNextSteps({
                 checked={isAscendingOrderChecked}
                 onChange={handleSortSwitchChange}
                 color="secondary"
-                // defaultChecked
+                size="small"
               />
             }
-            label={`Sorted by: ${isAscendingOrderChecked ? SortOrderEnum.ASCENDING : SortOrderEnum.DESCENDING} order`}
+            // label={`Sorted by: ${isAscendingOrderChecked ? SortOrderEnum.ASCENDING : SortOrderEnum.DESCENDING} order`}
+            label="Toggle Sort Order"
             name="wrapped"
           />
         </Box>
@@ -66,7 +68,6 @@ export default function ScorecardNextSteps({
           results. Note: Sections with errors and sections which do not exist in the document do not receive a grade.
         </Typography>
       </Box>
-
       <ScorecardHeatMap results={results}></ScorecardHeatMap>
       <Box id={removeHashtagToUseHrefLinkAsIdForAnchor(HrefLinkValueEnum.DETAILED_RESULTS)}>
         <ScorecardDetailedResults

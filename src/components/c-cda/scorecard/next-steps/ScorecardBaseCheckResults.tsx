@@ -1,7 +1,7 @@
 import { ScorecardReferenceErrorType } from '@/components/c-cda/scorecard/types/ScorecardJsonResponseType'
 import palette from '@/styles/palette'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Box, Chip, Typography } from '@mui/material'
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
 
@@ -26,8 +26,8 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
         '&:before': {
           display: 'none',
         },
-        borderLeft: `14px solid ${props.leftBorderColor}`,
-        borderTopLeftRadius: '30px',
+        borderLeft: `8px solid ${props.leftBorderColor}`,
+        borderRadius: '4px',
       }}
       disableGutters
       elevation={3}
@@ -35,11 +35,14 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
       defaultExpanded={props.defaultExpanded}
     >
       <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
-        {/* TODO: Issue count should probably be an avatar/badge just like in heatmap */}
-        <Typography sx={{ fontWeight: 'bold', border: `` }}>
-          {/* Note: If converting to have conf and vocab errors in each section, then display sectionName here */}
-          {props.validationCategory} ({props.issueCount})
-        </Typography>
+        <Box display={'flex'} justifyContent={'space-between'} width={'100%'} flexDirection={'row'} gap={2}>
+          <Typography sx={{ fontWeight: 'bold', border: `` }}>{props.validationCategory}</Typography>
+          <Chip
+            variant="outlined"
+            size="small"
+            label={`${props.issueCount} ${props.issueCount === 1 ? 'Error' : 'Errors'}`}
+          />
+        </Box>
       </AccordionSummary>
 
       <AccordionDetails sx={{ p: 2 }}>

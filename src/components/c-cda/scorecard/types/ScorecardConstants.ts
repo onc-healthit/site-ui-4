@@ -77,36 +77,31 @@ export const gradeStyleMap: { [gradeKey: string]: ScorecardGradeStyleDataType } 
   [GradeEnum.A_PLUS]: {
     color: palette.white,
     backgroundColor: palette.successLight,
-    // TODO: Should hoverBackgroundColor be a more unique color? It just matches A- hoverColor for now...
-    hoverBackgroundColor: palette.success, // A+ CAN have issues(see high Scoring sample immunizations) - need to define hoverBackground color
+    hoverBackgroundColor: palette.success, // A+ CAN have issues (see high Scoring sample immunizations) so need to define hoverBackground color
     hoverColor: null, // OK to be null as no need to change text color on hover
   },
   [GradeEnum.A_MINUS]: {
-    color: palette.white,
-    backgroundColor: palette.successDark,
-    hoverBackgroundColor: palette.success,
+    color: palette.black,
+    backgroundColor: '#CDF487',
+    hoverBackgroundColor: '#CDF48775',
     hoverColor: null, // OK to be null as no need to change text color on hover
   },
   [GradeEnum.B_PLUS]: {
     color: palette.black,
-    backgroundColor: '#FFB65D75',
-    hoverBackgroundColor: '#FFB65D50',
+    backgroundColor: '#F7EB60',
+    hoverBackgroundColor: '#F7EB6075',
     hoverColor: null, // OK to be null as no need to change text color on hover
   },
   [GradeEnum.B_MINUS]: {
     color: palette.black,
-    backgroundColor: '#C66D0065',
-    hoverBackgroundColor: '#C66D0090',
-    // backgroundColor: '#FFB65D',
-    // hoverBackgroundColor: '#FFB65D75',
+    backgroundColor: '#E0CA58',
+    hoverBackgroundColor: '#E0CA5875',
     hoverColor: null, // OK to be null as no need to change text color on hover
   },
   [GradeEnum.C]: {
-    color: palette.black,
-    backgroundColor: '#FFB65D',
-    hoverBackgroundColor: '#F3A24F',
-    // backgroundColor: '#C66D0065',
-    // hoverBackgroundColor: '#C66D0090',
+    color: palette.white,
+    backgroundColor: '#C66D00',
+    hoverBackgroundColor: '#975402',
     hoverColor: null, // OK to be null as no need to change text color on hover
   },
   [GradeEnum.D]: {
