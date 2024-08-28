@@ -34,7 +34,10 @@ const DetailsAccordion = (props: DetailsAccordionProps) => {
       disabled={props.disabled}
       defaultExpanded={props.defaultExpanded}
     >
-      <AccordionSummary sx={{ borderBottom: `1px solid ${palette.divider}` }} expandIcon={<ExpandMoreIcon />}>
+      <AccordionSummary
+        sx={{ borderBottom: `1px solid ${palette.divider}`, gap: '16px' }}
+        expandIcon={<ExpandMoreIcon />}
+      >
         <Box display={'flex'} justifyContent={'space-between'} width={'100%'} flexDirection={'row'} gap={2}>
           <Typography sx={{ fontWeight: 'bold', border: `` }}>{props.validationCategory}</Typography>
           <Chip
