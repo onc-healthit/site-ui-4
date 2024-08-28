@@ -77,12 +77,11 @@ export const gradeStyleMap: { [gradeKey: string]: ScorecardGradeStyleDataType } 
   [GradeEnum.A_PLUS]: {
     color: palette.white,
     backgroundColor: palette.successLight,
-    // TODO: Should hoverBackgroundColor be a more unique color? It just matches A- hoverColor for now...
-    hoverBackgroundColor: palette.success, // A+ CAN have issues(see high Scoring sample immunizations) - need to define hoverBackground color
+    hoverBackgroundColor: palette.success, // A+ CAN have issues (see high Scoring sample immunizations) so need to define hoverBackground color
     hoverColor: null, // OK to be null as no need to change text color on hover
   },
   [GradeEnum.A_MINUS]: {
-    color: palette.white,
+    color: palette.black,
     backgroundColor: '#CDF487',
     hoverBackgroundColor: '#CDF48775',
     hoverColor: null, // OK to be null as no need to change text color on hover
@@ -97,16 +96,12 @@ export const gradeStyleMap: { [gradeKey: string]: ScorecardGradeStyleDataType } 
     color: palette.black,
     backgroundColor: '#E0CA58',
     hoverBackgroundColor: '#E0CA5875',
-    // backgroundColor: '#FFB65D',
-    // hoverBackgroundColor: '#FFB65D75',
     hoverColor: null, // OK to be null as no need to change text color on hover
   },
   [GradeEnum.C]: {
     color: palette.white,
     backgroundColor: '#C66D00',
     hoverBackgroundColor: '#975402',
-    // backgroundColor: '#C66D0065',
-    // hoverBackgroundColor: '#C66D0090',
     hoverColor: null, // OK to be null as no need to change text color on hover
   },
   [GradeEnum.D]: {
