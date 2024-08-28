@@ -82,6 +82,7 @@ interface TestCardProps {
   username?: string
   password?: string
   tlsRequired?: boolean
+  receive: boolean
 }
 
 interface SelectedDocument {
@@ -97,6 +98,7 @@ const TestCard = ({
   username = 'defaultUsername',
   password = 'defaultPassword',
   tlsRequired = false,
+  receive,
 }: TestCardProps) => {
   const attachmentTypeTestIDs = [231, 331]
   const manualValidationCriteria = [
@@ -433,7 +435,11 @@ const TestCard = ({
             )}
 
             {showDocumentSelector && (
-              <DocumentSelector onConfirm={handleDocumentConfirm} onClose={handleDocumentSelectorClose} xdr={false} />
+              <DocumentSelector
+                onConfirm={handleDocumentConfirm}
+                onClose={handleDocumentSelectorClose}
+                receive={receive}
+              />
             )}
 
             {_.has(test, 'fields') &&

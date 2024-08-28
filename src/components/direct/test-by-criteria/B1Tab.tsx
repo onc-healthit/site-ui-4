@@ -79,6 +79,10 @@ const B1Component = () => {
     }
   }
 
+  const isReceiveOption = () => {
+    return ['D', 'E', 'F', 'G'].includes(option)
+  }
+
   const selectedXDRTestCases = () => {
     switch (option) {
       case 'A':
@@ -143,6 +147,7 @@ const B1Component = () => {
                   username={username}
                   password={password}
                   tlsRequired={tlsRequired}
+                  receive={isReceiveOption()}
                 />
               </Box>
             ))}
@@ -150,7 +155,7 @@ const B1Component = () => {
             selectedXDRTestCases().map((test, i) => (
               <Box key={i} sx={{ mb: 2 }}>
                 {' '}
-                <XDRTestCard test={test} />
+                <XDRTestCard key={i} test={test} receive={isReceiveOption()} />
               </Box>
             ))}
         </Box>

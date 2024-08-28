@@ -133,6 +133,7 @@ interface TestCardProps {
   username?: string
   password?: string
   tlsRequired?: boolean
+  receive: boolean
 }
 
 interface SelectedDocument {
@@ -141,7 +142,7 @@ interface SelectedDocument {
   fileLink: string
 }
 
-const TestCard = ({ test }: TestCardProps) => {
+const TestCard = ({ test, receive }: TestCardProps) => {
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testResponse, setTestRequestResponse] = useState<string>('')
@@ -431,6 +432,7 @@ const TestCard = ({ test }: TestCardProps) => {
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
               {test.criteria &&
                 manualValidationCriteria.includes(test.criteria) &&
+                testRequest &&
                 testRequest.length > 0 &&
                 criteriaMet.includes('SUCCESS') && (
                   <Box sx={{ display: 'flex', gap: 1 }}>
@@ -545,7 +547,11 @@ const TestCard = ({ test }: TestCardProps) => {
               )}
 
               {showDocumentSelector && (
-                <DocumentSelector onConfirm={handleDocumentConfirm} onClose={handleDocumentSelectorClose} xdr={true} />
+                <DocumentSelector
+                  onConfirm={handleDocumentConfirm}
+                  onClose={handleDocumentSelectorClose}
+                  receive={receive}
+                />
               )}
 
               <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 1, pl: 2 }}>
@@ -566,6 +572,7 @@ const TestCard = ({ test }: TestCardProps) => {
                   LOGS
                 </Button>
                 {test.criteria &&
+                  testRequest &&
                   (testRequest.length > 0 || criteriaMet.includes('FALSE') || criteriaMet.includes('ERROR')) &&
                   (criteriaMet.includes('TRUE') ||
                     criteriaMet.includes('FALSE') ||

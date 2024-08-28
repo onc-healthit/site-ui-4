@@ -19,7 +19,7 @@ import XDR from './XDRTab'
 interface DocumentSelectorProps {
   onConfirm: (selectedData: { directory: string; fileName: string; fileLink: string }) => void
   onClose: () => void
-  xdr: boolean
+  receive: boolean
 }
 
 export interface FileDetail {
@@ -43,7 +43,7 @@ export interface Documents {
   }
 }
 
-const DocumentSelector = ({ onConfirm, onClose, xdr }: DocumentSelectorProps) => {
+const DocumentSelector = ({ onConfirm, onClose, receive: receive }: DocumentSelectorProps) => {
   const [open, setOpen] = useState(true)
   const [documents, setDocuments] = useState<Documents>({})
   const [selectedType, setSelectedType] = useState('cures')
@@ -52,9 +52,9 @@ const DocumentSelector = ({ onConfirm, onClose, xdr }: DocumentSelectorProps) =>
 
   useEffect(() => {
     if (selectedType) {
-      fetchCCDADocuments(xdr).then(setDocuments).catch(console.error)
+      fetchCCDADocuments(receive).then(setDocuments).catch(console.error)
     }
-  }, [selectedType, xdr])
+  }, [selectedType, receive])
 
   interface FileDetail {
     svap: boolean
@@ -109,7 +109,7 @@ const DocumentSelector = ({ onConfirm, onClose, xdr }: DocumentSelectorProps) =>
     onClose()
   }
 
-  const documentType = xdr
+  const documentType = receive
     ? selectedType === 'cures'
       ? 'Receiver SUT Test Data'
       : 'Cures Update Svap Uscdiv3 Receiver SUT Test Data'
@@ -176,10 +176,10 @@ const DocumentSelector = ({ onConfirm, onClose, xdr }: DocumentSelectorProps) =>
   )
 }
 
-export async function fetchCCDADocuments(xdr: boolean): Promise<Documents> {
-  const baseUrl = xdr
+export async function fetchCCDADocuments(receive: boolean): Promise<Documents> {
+  const baseUrl = receive
     ? process.env.CCDA_DOCUMENTS_XDR || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType=xdr'
-    : process.env.CCDA_DOCUMENTS || 'https://ett.healthit.gov/ett/api/ccdadocuments'
+    : process.env.CCDA_DOCUMENTS || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType'
 
   const config = {
     method: 'get',
