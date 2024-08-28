@@ -59,7 +59,16 @@ export default function ScorecardResultsDialog({
         title={`Scorecard Results: ${json?.filename || 'Unknown Filename'}`}
         menuContent={<ScorecardSideNav results={results} />}
         resultsContent={
-          <Box display={'flex'} flexDirection={'column'} gap={4} mt={2} px={4} pb={4} sx={{ overflowY: 'none' }}>
+          <Box
+            id={removeHashtagToUseHrefLinkAsIdForAnchor(HrefLinkValueEnum.TOP)}
+            display={'flex'}
+            flexDirection={'column'}
+            gap={4}
+            mt={2}
+            px={4}
+            pb={4}
+            sx={{ overflowY: 'none' }}
+          >
             <Box id={removeHashtagToUseHrefLinkAsIdForAnchor(HrefLinkValueEnum.BASE_CHECK)}>
               <ScorecardBaseCheckSummary json={json} igResults={igResults} vocabResults={vocabResults} />
             </Box>
@@ -103,6 +112,7 @@ export default function ScorecardResultsDialog({
               )}
             </Box>
             <Button
+              component="a"
               sx={{
                 color: palette.primary,
                 '&:hover': {
@@ -112,7 +122,7 @@ export default function ScorecardResultsDialog({
                   color: palette.primary,
                 },
               }}
-              href="#baseCheck"
+              href={HrefLinkValueEnum.TOP}
               variant="outlined"
             >
               Back to Top

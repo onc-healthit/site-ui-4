@@ -9,6 +9,7 @@ export enum ReferenceInstanceEnum {
 }
 
 export enum HrefLinkValueEnum {
+  TOP = '#top',
   CONFORMANCE = '#conformance-errors',
   VOCAB = '#vocabulary-errors',
   BASE_CHECK = '#base-check',
