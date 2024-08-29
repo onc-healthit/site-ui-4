@@ -1,11 +1,14 @@
+import React from 'react'
 import palette from '@/styles/palette'
-import { Button, Container, List, ListItem, ListItemText } from '@mui/material'
+import { Button, CardContent, List, ListItem, ListItemText } from '@mui/material'
 import Box from '@mui/material/Box'
 import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs'
 import Link from 'next/link'
-import * as React from 'react'
-import { ScorecardCategoryRubric } from '../types/ScorecardJsonResponseType'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { prism } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import xmlFormatter from 'xml-formatter'
+import { ScorecardCategoryRubric, ScorecardIssueXMLInstance } from '../types/ScorecardJsonResponseType'
 
 interface TabPanelProps {
   children?: React.ReactNode
@@ -24,7 +27,7 @@ function CustomTabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box>{children}</Box>}
     </div>
   )
 }
@@ -59,82 +62,100 @@ export default function ScorecardTabs({ rubric }: ScorecardTabsProps) {
   const issueXmlStyle = {
     width: '100%',
     overflow: 'auto',
-    backgroundColor: palette.white,
-    padding: 2,
-    borderRadius: 5,
+    borderRadius: 0,
   }
   const bestPracticeLinkStyle = issueXmlStyle
 
   return (
     <>
-      <Box sx={{ width: '100%', backgroundColor: palette.primary }}>
-        <Container>
-          <Tabs
-            variant="fullWidth"
-            value={value}
-            onChange={handleChange}
-            indicatorColor="secondary"
-            TabScrollButtonProps={{
-              sx: {
-                borderRadius: 10,
-              },
-            }}
-            TabIndicatorProps={{
-              sx: {
-                bgcolor: palette.secondaryLight,
-                height: '8px',
-              },
-            }}
-          >
-            <Tab label={`ISSUE INSTANCES (${rubric.numberOfIssues})`} {...a11yProps(0)} />
-            <Tab label="BEST PRACTICE" {...a11yProps(1)} />
-          </Tabs>
-        </Container>
+      <Box sx={{ width: '100%', backgroundColor: palette.white }}>
+        <Tabs
+          variant="fullWidth"
+          value={value}
+          onChange={handleChange}
+          textColor="primary"
+          TabIndicatorProps={{
+            sx: {
+              height: '4px',
+              backgroundColor: palette.greyDark,
+            },
+          }}
+          sx={{
+            borderRadius: '4px',
+            '& .MuiTab-root': {
+              color: '#000',
+              backgroundColor: '#fff',
+              border: `1px solid ${palette.greyLight}`,
+            },
+            '& .MuiTab-root.Mui-selected': {
+              color: '#000 !important',
+              fontWeight: '600',
+              backgroundColor: '#fff',
+            },
+          }}
+        >
+          <Tab label={`ISSUE INSTANCES (${rubric.numberOfIssues})`} {...a11yProps(0)} />
+          <Tab label="BEST PRACTICE" {...a11yProps(1)} />
+        </Tabs>
       </Box>
 
       <CustomTabPanel value={value} index={0}>
-        <List sx={{ listStyle: 'decimal', pl: 2 }}>
-          {rubric.issuesList.map((issue, index) => (
-            <ListItem sx={{ display: 'list-item' }} key={index}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', pb: 2 }}>
-                <ListItemText
-                  primary={`XML at Line Number ${issue.lineNumber}`}
-                  primaryTypographyProps={{ fontWeight: 'bold' }}
-                />
-                <Button variant="outlined" onClick={() => handleShowIssueXml(index)}>
-                  {isShowIssueXml[index] ? 'HIDE XML' : 'SHOW XML'}
-                </Button>
-              </Box>
-              {isShowIssueXml[index] && (
-                <Box sx={issueXmlStyle}>
-                  {/* TODO: Make this pretty-printed with a library, with syntax highlighting if possible
-                  This is a bit more complex than expected as the xmlString in the JSON has tab and new line delimiters
-                  which likely have to be removed for the library to parse it */}
-                  <pre style={{ whiteSpace: 'pre-line', wordWrap: 'break-word', fontFamily: 'monospace' }}>
-                    {issue.xmlString}
-                  </pre>
+        <CardContent sx={{ border: `1px solid ${palette.greyLight}`, borderRadius: '4px' }}>
+          <List>
+            {rubric.issuesList.map((issue: ScorecardIssueXMLInstance, index) => (
+              <ListItem sx={{ display: 'list-item' }} key={`${issue.lineNumber}-${index}`}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignContent: 'center',
+                    justifyContent: 'space-between',
+                    borderBottom: `1px solid ${palette.greyLight}`,
+                    pb: 1.3,
+                  }}
+                >
+                  <ListItemText
+                    primary={`XML at Line Number ${issue.lineNumber}`}
+                    primaryTypographyProps={{ fontWeight: 'bold' }}
+                  />
+                  <Button size="small" variant="outlined" onClick={() => handleShowIssueXml(index)}>
+                    {isShowIssueXml[index] ? 'HIDE XML' : 'SHOW XML'}
+                  </Button>
                 </Box>
-              )}
-            </ListItem>
-          ))}
-        </List>
+                {isShowIssueXml[index] && (
+                  <Box sx={issueXmlStyle}>
+                    <SyntaxHighlighter language="xml" style={prism} wrapLongLines={true}>
+                      {xmlFormatter(issue.xmlString, {
+                        indentation: '  ',
+                        collapseContent: true,
+                        lineSeparator: '\n',
+                      })}
+                    </SyntaxHighlighter>
+                  </Box>
+                )}
+              </ListItem>
+            ))}
+          </List>
+        </CardContent>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <List sx={{ listStyle: 'decimal', pl: 2 }}>
-          {rubric.exampleTaskForceLinks.map((tfLink, index) => (
-            <ListItem sx={{ display: 'list-item' }} key={index}>
-              <ListItemText
-                primary="Related HL7 C-CDA Task Force example"
-                primaryTypographyProps={{ fontWeight: 'bold' }}
-              />
-              <Box sx={bestPracticeLinkStyle}>
-                <Link href={tfLink} target="_blank" rel="noreferrer noopener">
-                  {tfLink}
-                </Link>
-              </Box>
-            </ListItem>
-          ))}
-        </List>
+        <CardContent sx={{ border: `1px solid ${palette.greyLight}`, borderRadius: '4px' }}>
+          <List>
+            {rubric.exampleTaskForceLinks.map((tfLink, index) => (
+              <ListItem sx={{ display: 'list-item' }} key={index}>
+                <ListItemText
+                  primary="Related HL7 C-CDA Task Force example"
+                  primaryTypographyProps={{ fontWeight: 'bold' }}
+                  sx={{ pb: 3 }}
+                />
+                <Box sx={bestPracticeLinkStyle}>
+                  <Link href={tfLink} target="_blank" rel="noreferrer noopener">
+                    {tfLink}
+                  </Link>
+                </Box>
+              </ListItem>
+            ))}
+          </List>
+        </CardContent>
       </CustomTabPanel>
     </>
   )

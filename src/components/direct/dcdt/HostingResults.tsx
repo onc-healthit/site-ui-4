@@ -140,7 +140,7 @@ const Results = ({ response }: ResultsProps) => {
         </Box>
       )}
       {response.status === 'success' && response.items !== undefined && (
-        <Box p={2} bgcolor={palette.secondaryLight} borderRadius={1} border={`1px solid ${palette.secondary}`} mb={2}>
+        <Box p={2} bgcolor={'#E3F2FD64'} borderRadius={1} border={`1px solid #E3F2FD64`} mb={2}>
           {response.items?.map((item, i) => {
             return (
               <Box key={i}>

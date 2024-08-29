@@ -21,6 +21,17 @@ const testCases = [
         type: 'CCDAWidgetXdr',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (EDGE - SUT)', type: 'text' },
+            { content: 'Limited Metadata', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'XDR Send ',
     'Data Flow in Direct': 'Edge Sends an XDR message to HISP along with Direct Address block',
     'Metadata Included': 'Limited Metadata',
@@ -58,6 +69,17 @@ const testCases = [
         type: 'CCDAWidgetXdr',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (EDGE - SUT)', type: 'text' },
+            { content: 'Full Metadata', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'XDR Send',
     'Data Flow in Direct': 'Edge Sends an XDR message to HISP along with Full Metadata',
     'Metadata Included': 'Full Metadata',
@@ -94,6 +116,17 @@ const testCases = [
         type: 'CCDAWidgetReceiverXdr',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (EDGE - SUT)', type: 'text' },
+            { content: 'Limited Metadata', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'Edge receives an XDR message from the HISP',
     'Metadata Included': 'Limited Metadata',
@@ -101,7 +134,7 @@ const testCases = [
     'SUT: Sender/ Receiver': 'Receiver (Edge - SUT)',
     'Test Tool: Sender / Receiver': 'Sender (Test Tool)',
     'Purpose/Description':
-      "Verify that an Edge system can receive a properly formatted XDR message. The SUT will receive the XDR message with a 'direct:from' and 'direct:to' address of testcase3add@ttpedge.sitenv.org. This was designed to require the SUT's endpoint as the only input parameter.",
+      "Verify that an Edge system can receive a properly formatted XDR message. The SUT will receive the XDR message with a 'direct:from' and 'direct:to' address of testcase3add@ett.healthit.gov. This was designed to require the SUT's endpoint as the only input parameter.",
     'Conformance  Test Details': '',
     'Expected Test Results':
       'Edge system is capable of receiving and processing a valid message, test procedure may include other details for verification. Test Tool is satisfied with a good response.',
@@ -126,6 +159,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (EDGE - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'Edge receives an incorrect XDR message from the HISP',
     'Metadata Included': 'N/A',
@@ -133,7 +177,7 @@ const testCases = [
     'SUT: Sender/ Receiver': 'Receiver (Edge - SUT)',
     'Test Tool: Sender / Receiver': 'Sender (Test Tool)',
     'Purpose/Description':
-      "Verify that the Edge system throws an error when an incorrect message is received. The SUT will receive the XDR message with a 'direct:from' and 'direct:to' address of testcase4a@ttpedge.sitenv.org. This was designed to require the SUT's endpoint as the only input parameter.",
+      "Verify that the Edge system throws an error when an incorrect message is received. The SUT will receive the XDR message with a 'direct:from' and 'direct:to' address of testcase4a@ett.healthit.gov. This was designed to require the SUT's endpoint as the only input parameter.",
     'Conformance  Test Details': 'Create incorrect messages which include Bad SOAP Envelope Details',
     'Expected Test Results': 'Edge system is rejecting the various bad messages sent from the test tool.',
     'Required / Conditional per Direct Edge Protocol Guide ': 'R',
@@ -157,6 +201,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (EDGE - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'Edge receives an incorrect XDR message from the HISP',
     'Metadata Included': 'N/A',
@@ -164,7 +219,7 @@ const testCases = [
     'SUT: Sender/ Receiver': 'Receiver (Edge - SUT)',
     'Test Tool: Sender / Receiver': 'Sender (Test Tool)',
     'Purpose/Description':
-      "Verify that the Edge system throws an error when an incorrect message is received. The SUT will receive the XDR message with a 'direct:from' and 'direct:to' address of testcase4b@ttpedge.sitenv.org. This was designed to require the SUT's endpoint as the only input parameter.",
+      "Verify that the Edge system throws an error when an incorrect message is received. The SUT will receive the XDR message with a 'direct:from' and 'direct:to' address of testcase4b@ett.healthit.gov. This was designed to require the SUT's endpoint as the only input parameter.",
     'Conformance  Test Details': 'Create incorrect messages which include Bad SOAP Body Details',
     'Expected Test Results': 'Edge system is rejecting the various bad messages sent from the test tool.',
     'Required / Conditional per Direct Edge Protocol Guide ': 'R',
@@ -188,6 +243,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (EDGE - SUT)', type: 'text' },
+            { content: 'Full Metadata', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'XDR Receive',
     'Data Flow in Direct': 'Edge receives an XDR message from the HISP',
     'Metadata Included': 'Full Metadata',
@@ -195,7 +261,7 @@ const testCases = [
     'SUT: Sender/ Receiver': 'Receiver (Edge - SUT)',
     'Test Tool: Sender / Receiver': 'Sender (Test Tool)',
     'Purpose/Description':
-      "Verify that an Edge system can receive a properly formatted XDR message. The SUT will receive the XDR message with a 'direct:from' and 'direct:to' address of testcase5@ttpedge.sitenv.org. This was designed to require the SUT's endpoint as the only input parameter.",
+      "Verify that an Edge system can receive a properly formatted XDR message. The SUT will receive the XDR message with a 'direct:from' and 'direct:to' address of testcase5@ett.healthit.gov. This was designed to require the SUT's endpoint as the only input parameter.",
     'Conformance  Test Details': '',
     'Expected Test Results':
       'Edge system is capable of receiving and processing a valid message with Full Metadata, test procedure may include other details for verification. Test Tool is satisfied with a good response.',
@@ -220,6 +286,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (EDGE - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'Authentication',
     'Data Flow in Direct': 'Edge uses Mutual TLS to authenticate to the HISP',
     'Metadata Included': 'N/A',
@@ -252,6 +329,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (EDGE - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'Authentication',
     'Data Flow in Direct': 'Edge uses Mutual TLS to authenticate to the HISP exception case',
     'Metadata Included': 'N/A',
@@ -287,6 +375,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (EDGE - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'Authentication',
     'Data Flow in Direct': 'HISP authenticates to the Edge using Mutual TLS',
     'Metadata Included': 'N/A',
@@ -322,6 +421,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Receiver (EDGE - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': 'Authentication',
     'Data Flow in Direct': 'HISP authenticates to the Edge using Mutual TLS exception case',
     'Metadata Included': 'N/A',
@@ -381,7 +491,7 @@ const testCases = [
     'SUT: Sender/ Receiver': 'Sender (HISP - SUT)',
     'Test Tool: Sender / Receiver': 'Receiver (Test Tool)',
     'Purpose/Description':
-      "Test Tool sends a Direct Message, which is translated to an XDR message and sent to the Edge.\nVerify that the HISP system can create an XDR message per the specification and forward to Edge. The validation report will be sent to the email address registered with the Direct address enter during setup. Direct To Address: SUT's receiving email endpoint for Direct/XDR translation, ETT to SUT workflow. The SUT will receive a message from testcase10@ttpedge.sitenv.org",
+      "Test Tool sends a Direct Message, which is translated to an XDR message and sent to the Edge.\nVerify that the HISP system can create an XDR message per the specification and forward to Edge. The validation report will be sent to the email address registered with the Direct address enter during setup. Direct To Address: SUT's receiving email endpoint for Direct/XDR translation, ETT to SUT workflow. The SUT will receive a message from testcase10@ett.healthit.gov",
     'Conformance  Test Details':
       'XDR Message Checklist + XDS Metadata Checklist for Limited Metadata Document Source + Direct XDR Checklist',
     'Expected Test Results':
@@ -436,7 +546,7 @@ const testCases = [
     'SUT: Sender/ Receiver': 'Sender (HISP - SUT)',
     'Test Tool: Sender / Receiver': 'Receiver (Test Tool)',
     'Purpose/Description':
-      "Test Tool sends a Direct Message + XDM, which is translated to an XDR message with Limited Metadata and sent to the Edge.\nVerify that the HISP system can create an XDR message per the specification and forward to Edge. The validation report will be sent to the email address registered with the Direct address enter during setup. Direct To Address: SUT's receiving email endpoint for Direct/XDR translation, ETT to SUT workflow. The SUT will receive a message from testcase11@ttpedge.sitenv.org.",
+      "Test Tool sends a Direct Message + XDM, which is translated to an XDR message with Limited Metadata and sent to the Edge.\nVerify that the HISP system can create an XDR message per the specification and forward to Edge. The validation report will be sent to the email address registered with the Direct address enter during setup. Direct To Address: SUT's receiving email endpoint for Direct/XDR translation, ETT to SUT workflow. The SUT will receive a message from testcase11@ett.healthit.gov.",
     'Conformance  Test Details':
       'XDR Message Checklist + XDS Metadata Checklist for Limited Metadata Document Source + Direct XDR Checklist',
     'Expected Test Results':
@@ -491,7 +601,7 @@ const testCases = [
     'SUT: Sender/ Receiver': 'Sender (HISP - SUT)',
     'Test Tool: Sender / Receiver': 'Receiver (Test Tool)',
     'Purpose/Description':
-      "Test Tool sends a Direct Message + XDM, which is translated to an XDR message with Full Metadata and sent to the Edge.\nVerify that the HISP system can create an XDR message per the specification and forward to Edge. The validation report will be sent to the email address registered with the Direct address enter during setup. Direct To Address: SUT's receiving email endpoint for Direct/XDR translation, ETT to SUT workflow. The SUT will receive a message from testcase12@ttpedge.sitenv.org.",
+      "Test Tool sends a Direct Message + XDM, which is translated to an XDR message with Full Metadata and sent to the Edge.\nVerify that the HISP system can create an XDR message per the specification and forward to Edge. The validation report will be sent to the email address registered with the Direct address enter during setup. Direct To Address: SUT's receiving email endpoint for Direct/XDR translation, ETT to SUT workflow. The SUT will receive a message from testcase12@ett.healthit.gov.",
     'Conformance  Test Details':
       'XDR Message Checklist + XDS Metadata Checklist for Full Metadata Document Source + Direct XDR Checklist',
     'Expected Test Results':
@@ -1225,6 +1335,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (EDGE - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     expectedMDN: true,
     'Test Focus': '',
     'Data Flow in Direct': '',
@@ -1233,7 +1354,7 @@ const testCases = [
     'SUT: Sender/ Receiver': 'Sender (Edge - SUT)',
     'Test Tool: Sender / Receiver': '',
     'Purpose/Description':
-      'The SUT should send the test message to Testcase20a@ttpedge.sitenv.org. This is a preconfigured address and designed to accommodate the variety of Systems that are testing with minimal user input. The users will see a message from the ETT to allow easy recognition.',
+      'The SUT should send the test message to Testcase20a@ett.healthit.gov. This is a preconfigured address and designed to accommodate the variety of Systems that are testing with minimal user input. The users will see a message from the ETT to allow easy recognition.',
     'Conformance  Test Details': '',
     'Expected Test Results': 'Edge system receives and processes a positive (success) delivery status notification.',
     'Required / Conditional per Direct Edge Protocol Guide': 'R',
@@ -1264,6 +1385,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (EDGE - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     expectedMDN: true,
     'Test Focus': '',
     'Data Flow in Direct': '',
@@ -1272,7 +1404,7 @@ const testCases = [
     'SUT: Sender/ Receiver': 'Sender (Edge - SUT)',
     'Test Tool: Sender / Receiver': '',
     'Purpose/Description':
-      'The SUT should send the test message to Testcase20b@ttpedge.sitenv.org. This is a preconfigured address and designed to accommodate the variety of Systems that are testing with minimal user input. The users will see a message from the ETT to allow easy recognition.',
+      'The SUT should send the test message to Testcase20b@ett.healthit.gov. This is a preconfigured address and designed to accommodate the variety of Systems that are testing with minimal user input. The users will see a message from the ETT to allow easy recognition.',
     'Conformance  Test Details': '',
     'Expected Test Results': 'Edge system receives and processes a negative (failure) delivery status notification..',
     'Required / Conditional per Direct Edge Protocol Guide': 'R',
@@ -1905,7 +2037,7 @@ const testCases = [
     'SUT: Sender/ Receiver': 'Receiver (HISP - SUT)',
     'Test Tool: Sender / Receiver': 'Sender (Test Tool)',
     'Purpose/Description':
-      "The Health IT Module receives a message from the ETT (as Sending HISP) and is unable to deliver the message to its final destination (ETT as Destination Edge). \n Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed. \n Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).\n Expected outcome: '...Final-Recipient: rfc822; processedfailure@ttpedge.sitenv.org, Original-Recipient: rfc822; processedfailure@ttpedge.sitenv.org, Original-Message-ID: <681247680.299.1498573532567.JavaMail.root@ip-172-31-46-193>, Disposition: automatic-action/MDN-sent-automatically;failure, Failure: Failure MDN'",
+      "The Health IT Module receives a message from the ETT (as Sending HISP) and is unable to deliver the message to its final destination (ETT as Destination Edge). \n Note: When the SUT (HISP) receives the MDN (from the 'direct:to' and hence RCPT TO from the Direct communication), the MAIL FROM of the MDN will be 'direct:to' - since the 'direct:to' endpoint is sending the MAIL FROM. The ETT hardcodes 'direct:to' based on the test case, normally is not needed. \n Outgoing (ETT --> SUT) Direct From Address:Note: MDN Direct from address in the 'direct:from' address the XDR MDN. ETT will use in creating the SOAP XDR transaction for this test. In turn this is destined to become the SMTP MAIL FROM for the ensuing Direct Communication between the SUT HISP to the ETT HISP (the 'direct:to' becomes the RCPT TO).\n Expected outcome: '...Final-Recipient: rfc822; processedfailure@ett.healthit.gov, Original-Recipient: rfc822; processedfailure@ett.healthit.gov, Original-Message-ID: <681247680.299.1498573532567.JavaMail.root@ip-172-31-46-193>, Disposition: automatic-action/MDN-sent-automatically;failure, Failure: Failure MDN'",
     'Conformance  Test Details':
       'The Health IT Module delivers a Processed MDN to the ETT (as Sending HISP) followed by a delivery failure message to the ETT (as Sending HISP) after the wait time has exceeded',
     'Expected Test Results':
@@ -2031,6 +2163,17 @@ const testCases = [
         type: 'string',
       },
     ],
+    moreInfo: {
+      headers: ['Vendor Role', 'Metadata Included'],
+      tableData: [
+        {
+          cells: [
+            { content: 'Sender (EDGE - SUT)', type: 'text' },
+            { content: 'N/A', type: 'text' },
+          ],
+        },
+      ],
+    },
     'Test Focus': '',
     'Data Flow in Direct': '',
     'Metadata Included': 'N/A',
@@ -2077,7 +2220,7 @@ const testCases = [
     'SUT: Sender/ Receiver': 'Sender (Edge - SUT)',
     'Test Tool: Sender / Receiver': '',
     'Purpose/Description':
-      'The SUT should send the test message to Testcase50a@ttpedge.sitenv.org. Verify the ability of the sending system to correctly handle the case of sending XDR messages to valid recipients.',
+      'The SUT should send the test message to Testcase50a@ett.healthit.gov. Verify the ability of the sending system to correctly handle the case of sending XDR messages to valid recipients.',
     'Conformance  Test Details': '',
     'Expected Test Results': 'Edge system receives and processes a positive (success) delivery status notification.',
     'Required / Conditional per Direct Edge Protocol Guide': 'R',
@@ -2115,7 +2258,7 @@ const testCases = [
     'SUT: Sender/ Receiver': 'Sender (Edge - SUT)',
     'Test Tool: Sender / Receiver': '',
     'Purpose/Description':
-      'The SUT should send the test message to Testcase50b@ttpedge.sitenv.org. Verify the ability of the sending system to correctly handle the case of sending XDR messages to invalid recipients.',
+      'The SUT should send the test message to Testcase50b@ett.healthit.gov. Verify the ability of the sending system to correctly handle the case of sending XDR messages to invalid recipients.',
     'Conformance  Test Details': '',
     'Expected Test Results':
       'Edge system successfully processes the invalid MDN received for tracking. The Edge SUT should display the event in the log for tracking.',

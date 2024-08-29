@@ -1,10 +1,16 @@
-import palette from '@/styles/palette'
-import { Typography, List, ListItem, Box, Button, Stack } from '@mui/material'
+import { Typography, List, ListItem, Box, Stack } from '@mui/material'
 import bulletedList from '../shared/BulletList'
 import Link from 'next/link'
 import DragandDropFile from '@/components/shared/DragandDropFile'
+import { handleUploadTrustAnchor } from './actions'
+import { useFormState } from 'react-dom'
+import TrustAnchorResults from './TrustAnchorExchangeResults'
 
-const TrustAnchorExchange = () => {
+interface TrustAnchorExchangeProps {
+  trustBundleDownloadUrl: string
+}
+const TrustAnchorExchange = ({ trustBundleDownloadUrl }: TrustAnchorExchangeProps) => {
+  const [data, handleSubmit] = useFormState(handleUploadTrustAnchor, { response: {} })
   return (
     <>
       <Typography variant="body1">
@@ -14,7 +20,13 @@ const TrustAnchorExchange = () => {
         <ListItem sx={{ display: 'list-item' }}>
           <Typography variant="body2">
             Download the Trust Anchor for the Sandbox{' '}
-            <Link color="#42A5F5" href="mailto:edge-test-tool@googlegroups.com">
+            <Link
+              color="#42A5F5"
+              href="/certificates/public-keys/direct.site.healthit.gov.der"
+              locale={false}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               (direct.site.healthit.gov Certificate){' '}
             </Link>
             and import the trust anchor into your trust store.
@@ -29,7 +41,7 @@ const TrustAnchorExchange = () => {
         <ListItem sx={{ display: 'list-item' }}>
           <Typography variant="body2">
             Uploading the Trust Anchor causes an update to the{' '}
-            <Link color="#42A5F5" href={''}>
+            <Link color="#42A5F5" href={trustBundleDownloadUrl}>
               Trust Bundle
             </Link>{' '}
             of direct.site.healthit.gov which is refreshed every five minutes and is only used for testing purposes.
@@ -37,17 +49,17 @@ const TrustAnchorExchange = () => {
           </Typography>
         </ListItem>
       </List>
-      <Box pb={4}>
-        <Stack direction="row" alignItems="flex-start" gap={1}>
-          <Typography gutterBottom variant="body1">
-            <strong>Select a Local Trust Anchor Certificate (binary or PEM encoded):</strong>
-          </Typography>
-        </Stack>
-        <DragandDropFile />
-      </Box>
-      <Button variant="contained" sx={{ color: palette.white }} type="submit">
-        SUBMIT ANCHOR
-      </Button>
+      <form action={handleSubmit}>
+        <Box pb={4}>
+          <Stack direction="row" alignItems="flex-start" gap={1}>
+            <Typography gutterBottom variant="body1">
+              <strong>Select a Local Trust Anchor Certificate (binary or PEM encoded):</strong>
+            </Typography>
+          </Stack>
+          <DragandDropFile maxFiles={1} name="anchoruploadfile" allowedSize={1048576} />
+        </Box>
+        <TrustAnchorResults response={data?.response} buttonTitle={'SUBMIT ANCHOR'} />
+      </form>
     </>
   )
 }

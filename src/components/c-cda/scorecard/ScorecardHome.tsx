@@ -1,5 +1,6 @@
 'use client'
 import {
+  ScorecardCategory,
   ScorecardJsonResponseType,
   ScorecardReferenceResultType,
   ScorecardResultsType,
@@ -18,6 +19,7 @@ import {
   Container,
   Divider,
   FormControl,
+  FormHelperText,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -28,14 +30,21 @@ import SectionHeader from '@shared/SectionHeader'
 import styles from '@shared/styles.module.css'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import ScorecardResults from './ScorecardResults'
+import ScorecardResultsDialog from './ScorecardResultsDialog'
 import { getDemoSample } from './serverside/demoSampleService'
 import {
   getDefaultReferenceResult,
+  getFailingSectionSpecificErrorCount,
   getReferenceResultViaType,
   getRefResultWithMissingSectionsUpdatedWithGivenSection,
 } from './serverside/scorecardHelperService'
-import { ErrorMessage, ReferenceInstanceEnum, SectionNameEnum } from './types/ScorecardConstants'
+import {
+  ErrorMessage,
+  GradeEnum,
+  ReferenceInstanceEnum,
+  SectionNameEnum,
+  SORT_ORDER_STARTING_VALUE,
+} from './types/ScorecardConstants'
 
 export default function ScorecardHome() {
   const [resultsDialogState, setResultsDialogState] = useState(false)
@@ -72,6 +81,14 @@ export default function ScorecardHome() {
       label: 'Sample with Vocabulary Errors',
       value: 'sampleWithVocabularyErrors.json',
     },
+    {
+      label: 'Sample with Missing Section Data',
+      value: 'sampleWithEmptySections.json',
+    },
+    {
+      label: 'Sample with Missing Sections and Errors',
+      value: 'sampleWithEmptySectionsAndErrors.json',
+    },
   ]
   demoSampleOptions.push(...newDemoSampleOptions)
 
@@ -97,7 +114,7 @@ export default function ScorecardHome() {
       value: 'site3-sampleWithErrors.json',
     },
   ]
-  // TODO: Tie this to a debug mode env var (if true, push, otherwise, don't, as we don't need these in production)
+  // TODO: Tie this to a debug mode env var (if true, push, otherwise maybe don't as may not want in production)
   demoSampleOptions.push(...debugSampleOptions)
 
   const [demoSampleOption, setDemoSampleOption] = useState<string>(demoSampleOptions[0].value)
@@ -167,7 +184,7 @@ export default function ScorecardHome() {
     e.preventDefault()
     console.log('handleSubmitScorecardStart(e), event: ', e)
 
-    // TODO:
+    // TODO: Support POST response from API
     // const newScorecardResponseJson: ScorecardJsonResponseType = POST response from API
     // setScorecardResponseJson(newScorecardResponseJson)
     //
@@ -189,6 +206,8 @@ export default function ScorecardHome() {
         if (newJson.results) {
           processScorecardResults(newJson)
           processIgAndVocabResults(newJson)
+          addConfAndVocabErrorCountsToScResults(newJson)
+          sortResultsOrderByGradeTypeAndNumberOfIssues(newJson?.results, SORT_ORDER_STARTING_VALUE)
           return [true, null]
         } else {
           return [false, ErrorMessage.INVALID_SCORECARD_SPECIFIC_RESULTS]
@@ -210,8 +229,8 @@ export default function ScorecardHome() {
   const processIgAndVocabResults = (newJson: ScorecardJsonResponseType) => {
     if (newJson.referenceResults) {
       const extractedIgResults: ScorecardReferenceResultType | null = getReferenceResultViaType(
-        newJson.referenceResults,
-        ReferenceInstanceEnum.IG_CONFORMANCE
+        ReferenceInstanceEnum.IG_CONFORMANCE,
+        newJson.referenceResults
       )
       if (extractedIgResults) {
         const updatedIgResults = getRefResultWithMissingSectionsUpdatedWithGivenSection(
@@ -224,8 +243,8 @@ export default function ScorecardHome() {
       }
 
       const extractedVocabResults: ScorecardReferenceResultType | null = getReferenceResultViaType(
-        newJson.referenceResults,
-        ReferenceInstanceEnum.VOCAB
+        ReferenceInstanceEnum.VOCAB,
+        newJson.referenceResults
       )
       if (extractedVocabResults) {
         const updatedVocabResults = getRefResultWithMissingSectionsUpdatedWithGivenSection(
@@ -239,6 +258,119 @@ export default function ScorecardHome() {
     } else {
       console.log('newScorecardResponseJson.referenceResults is untruthy')
     }
+  }
+
+  const addConfAndVocabErrorCountsToScResults = (newJson: ScorecardJsonResponseType) => {
+    if (newJson.results) {
+      newJson.results.categoryList.forEach((scCategory: ScorecardCategory) => {
+        scCategory.conformanceErrorCount = getFailingSectionSpecificErrorCount(
+          scCategory.categoryName as SectionNameEnum,
+          ReferenceInstanceEnum.IG_CONFORMANCE,
+          newJson.referenceResults
+        )
+        scCategory.vocabularyErrorCount = getFailingSectionSpecificErrorCount(
+          scCategory.categoryName as SectionNameEnum,
+          ReferenceInstanceEnum.VOCAB,
+          newJson.referenceResults
+        )
+      })
+      setScResults(newJson.results)
+    }
+  }
+
+  /* Sort sections:
+  Descending: Sort by Numerical Grade first (lower number of issues first),
+  then Vocabulary (lower number of issues first), then IG Conformance (lower number of issues first),
+  and empty sections (nullFlavorNI) last.
+  isAscending: Sort by IG Conformance (higher number of issues first),
+  then Vocabulary (higher number of issues first), then Grade (higher number of issues first),
+  and empty sections (nullFlavorNI) last.
+  Return values explanation:
+  A negative value (-1): If the first element should come before the second element.
+  A positive value (1): If the first element should come after the second element.
+  Zero (0): If the two elements are considered equal in terms of sorting order.
+  Note: This is used as a callback function via NextSteps with a toggle switch in addition to as a default here
+  */
+  const sortResultsOrderByGradeTypeAndNumberOfIssues = (
+    results: ScorecardResultsType | undefined,
+    isisAscending: boolean
+  ) => {
+    if (results?.categoryList) {
+      const gradeOrder: { [key: string]: number } = {
+        [GradeEnum.A_PLUS]: 1,
+        [GradeEnum.A_MINUS]: 2,
+        [GradeEnum.B_PLUS]: 3,
+        [GradeEnum.B_MINUS]: 4,
+        [GradeEnum.C]: 5,
+        [GradeEnum.D]: 6,
+        // Left out ERRORS and NULL_OR_EMPTY_SECTION on purpose as they are handled more uniquely than a linear order
+      }
+
+      const sortedCategoryList = [...results.categoryList].sort((a, b) => {
+        // Places nullFlavorNI at the end of the list in all cases
+        const nullFlavorNIComparison: number = compareNullFlavorNI(a, b)
+        if (nullFlavorNIComparison !== 0) return nullFlavorNIComparison
+
+        const conformanceComparison: number = compareConformance(a, b, isisAscending)
+        if (conformanceComparison !== 0) return conformanceComparison
+
+        const vocabularyComparison: number = compareVocabulary(a, b, isisAscending)
+        if (vocabularyComparison !== 0) return vocabularyComparison
+
+        const gradeComparison: number = compareGrades(
+          gradeOrder,
+          isisAscending ? (b.categoryGrade as GradeEnum) : (a.categoryGrade as GradeEnum),
+          isisAscending ? (a.categoryGrade as GradeEnum) : (b.categoryGrade as GradeEnum)
+        )
+        if (gradeComparison !== 0) return gradeComparison
+
+        const numberOfIssuesComparison: number = compareNumberOfIssues(a, b, isisAscending)
+        return numberOfIssuesComparison // No check for 0 on last comparison because we have to return something
+      })
+
+      setScResults({ ...results, categoryList: sortedCategoryList })
+    }
+  }
+
+  const compareNullFlavorNI = (a: ScorecardCategory, b: ScorecardCategory): number => {
+    if (a.nullFlavorNI !== b.nullFlavorNI) {
+      return a.nullFlavorNI ? 1 : -1
+    }
+    return 0
+  }
+
+  const compareConformance = (a: ScorecardCategory, b: ScorecardCategory, isAscending: boolean): number => {
+    // Check if one is failing conformance
+    if (a.failingConformance !== b.failingConformance) {
+      return isAscending ? (b.failingConformance ? 1 : -1) : a.failingConformance ? 1 : -1
+    }
+    // Otherwise, if both are the same (failingConformance), compare error count
+    return isAscending
+      ? (b.conformanceErrorCount ?? 0) - (a.conformanceErrorCount ?? 0)
+      : (a.conformanceErrorCount ?? 0) - (b.conformanceErrorCount ?? 0)
+  }
+
+  const compareVocabulary = (a: ScorecardCategory, b: ScorecardCategory, isAscending: boolean): number => {
+    if (a.certificationFeedback !== b.certificationFeedback) {
+      return isAscending ? (b.certificationFeedback ? 1 : -1) : a.certificationFeedback ? 1 : -1
+    }
+    return isAscending
+      ? (b.vocabularyErrorCount ?? 0) - (a.vocabularyErrorCount ?? 0)
+      : (a.vocabularyErrorCount ?? 0) - (b.vocabularyErrorCount ?? 0)
+  }
+
+  const compareGrades = (gradeOrder: { [key: string]: number }, a: GradeEnum, b: GradeEnum): number => {
+    // If either grade is undefined, default to D (worst grade)
+    const gradeA = a ?? GradeEnum.D
+    const gradeB = b ?? GradeEnum.D
+    // Otherwise, return the difference between the order of the two grades
+    return gradeOrder[gradeA] - gradeOrder[gradeB]
+  }
+
+  const compareNumberOfIssues = (a: ScorecardCategory, b: ScorecardCategory, isisAscending: boolean): number => {
+    return isisAscending
+      ? (b.numberOfIssues ?? 0) - (a.numberOfIssues ?? 0)
+      : (a.numberOfIssues ?? 0) - (b.numberOfIssues ?? 0)
   }
 
   const displayResults = (isValidResults: boolean, errorMessage: string | null, isTryMeButtonClick: boolean) => {
@@ -352,13 +484,13 @@ export default function ScorecardHome() {
             <Card sx={{ height: '100%' }}>
               <CardHeader
                 title="Demo"
-                subheader="We've built some examples for you"
+                subheader="We've built some examples for you."
                 titleTypographyProps={{ fontWeight: 'bold' }}
                 subheaderTypographyProps={{ color: palette.primary }}
               />
               <CardContent>
                 <Box width="100%">
-                  <Typography variant="body1">
+                  <Typography variant="body1" pb={2}>
                     Please select which sample you would like to use from the dropdown to demo. Enjoy!
                   </Typography>
 
@@ -372,12 +504,13 @@ export default function ScorecardHome() {
                           </MenuItem>
                         ))}
                       </Select>
+                      <FormHelperText>Choose an option from the list</FormHelperText>
                     </FormControl>
                   </Box>
                 </Box>
 
                 {/* Demo Submit  */}
-                <Box sx={{ pt: 7 }}>
+                <Box sx={{ pt: 5 }}>
                   <Button type="submit" variant="outlined" color="primary">
                     TRY ME
                   </Button>
@@ -442,7 +575,7 @@ export default function ScorecardHome() {
           </Box>
         </Box>
 
-        <ScorecardResults
+        <ScorecardResultsDialog
           dialogState={resultsDialogState}
           handleCloseDialog={handleCloseResultsDialog}
           isTryMeDemo={isTryMeDemo}
@@ -450,7 +583,8 @@ export default function ScorecardHome() {
           results={scResults}
           igResults={igResults}
           vocabResults={vocabResults}
-        ></ScorecardResults>
+          sortFunction={sortResultsOrderByGradeTypeAndNumberOfIssues}
+        ></ScorecardResultsDialog>
       </Container>
     </>
   )

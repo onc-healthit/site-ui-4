@@ -13,14 +13,37 @@ import DialogActions from '@mui/material/DialogActions'
 import { SelectChangeEvent } from '@mui/material/Select'
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
-import { fetchCCDADocuments } from '../test-by-criteria/ServerActions'
+import axios from 'axios'
+import XDR from './XDRTab'
 
 interface DocumentSelectorProps {
   onConfirm: (selectedData: { directory: string; fileName: string; fileLink: string }) => void
   onClose: () => void
+  receive: boolean
 }
 
-const DocumentSelector = ({ onConfirm, onClose }: DocumentSelectorProps) => {
+export interface FileDetail {
+  svap: boolean
+  cures: boolean
+  name: string
+  link: string
+  uscdiv3: boolean
+}
+
+export interface Directory {
+  name: string
+  dirs: Directory[]
+  files: FileDetail[]
+}
+
+export interface Documents {
+  [key: string]: {
+    dirs: Directory[]
+    files: FileDetail[]
+  }
+}
+
+const DocumentSelector = ({ onConfirm, onClose, receive: receive }: DocumentSelectorProps) => {
   const [open, setOpen] = useState(true)
   const [documents, setDocuments] = useState<Documents>({})
   const [selectedType, setSelectedType] = useState('cures')
@@ -29,9 +52,9 @@ const DocumentSelector = ({ onConfirm, onClose }: DocumentSelectorProps) => {
 
   useEffect(() => {
     if (selectedType) {
-      fetchCCDADocuments().then(setDocuments).catch(console.error)
+      fetchCCDADocuments(receive).then(setDocuments).catch(console.error)
     }
-  }, [selectedType])
+  }, [selectedType, receive])
 
   interface FileDetail {
     svap: boolean
@@ -86,8 +109,13 @@ const DocumentSelector = ({ onConfirm, onClose }: DocumentSelectorProps) => {
     onClose()
   }
 
-  const documentType =
-    selectedType === 'cures' ? 'Cures Update Sender SUT Test Data' : 'Cures Update Svap Uscdiv3 Sender SUT Test Data'
+  const documentType = receive
+    ? selectedType === 'cures'
+      ? 'Receiver SUT Test Data'
+      : 'Cures Update Svap Uscdiv3 Receiver SUT Test Data'
+    : selectedType === 'cures'
+      ? 'Cures Update Sender SUT Test Data'
+      : 'Svap Uscdiv3 Sender SUT Test Data'
   const directories = documents[documentType]?.dirs || []
   const files = directories.find((dir) => dir.name === selectedDirectory)?.files || []
 
@@ -146,6 +174,26 @@ const DocumentSelector = ({ onConfirm, onClose }: DocumentSelectorProps) => {
       </DialogActions>
     </Dialog>
   )
+}
+
+export async function fetchCCDADocuments(receive: boolean): Promise<Documents> {
+  const baseUrl = receive
+    ? process.env.CCDA_DOCUMENTS_XDR || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType=xdr'
+    : process.env.CCDA_DOCUMENTS || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType'
+
+  const config = {
+    method: 'get',
+    url: baseUrl.toString(),
+    headers: { 'Content-Type': 'application/json' },
+  }
+
+  try {
+    const response = await axios(config)
+    return response.data
+  } catch (error) {
+    console.error('Error fetching CCDA documents:', error)
+    throw error
+  }
 }
 
 export default DocumentSelector

@@ -1,14 +1,14 @@
-import React, { FC, ReactNode } from 'react'
-import { IconButton, Box, Dialog, DialogContent, DialogTitle } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close'
-import palette from '@/styles/palette'
 import { lightThemeOptions } from '@/styles/lightThemeOptions'
+import palette from '@/styles/palette'
+import CloseIcon from '@mui/icons-material/Close'
+import { Box, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
+import { FC, ReactNode } from 'react'
 
 interface DialogTemplateProps {
   open: boolean
   handleClose: () => void
   title: ReactNode
-  menuContent: ReactNode
+  menuContent?: ReactNode
   resultsContent: ReactNode
   actionsContent: ReactNode
 }
@@ -50,22 +50,24 @@ const DialogTemplate: FC<DialogTemplateProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Menu */}
-        <Box
-          sx={{
-            minWidth: '275px',
-            scrollBehavior: 'smooth',
-            overflowY: 'scroll',
-            [`@media (min-width: ${lightThemeOptions?.breakpoints?.values?.lg}px)`]: {
-              // Use theme breakpoint value
-              overflowY: 'auto',
-            },
-          }}
-          top={'0px'}
-          position={'sticky'}
-          borderRight={`1px solid ${palette.divider} `}
-        >
-          {menuContent}
-        </Box>
+        {menuContent && (
+          <Box
+            sx={{
+              minWidth: '275px',
+              scrollBehavior: 'smooth',
+              overflowY: 'scroll',
+              [`@media (min-width: ${lightThemeOptions?.breakpoints?.values?.lg}px)`]: {
+                // Use theme breakpoint value
+                overflowY: 'auto',
+              },
+            }}
+            top={'0px'}
+            position={'sticky'}
+            borderRight={`1px solid ${palette.divider} `}
+          >
+            {menuContent}
+          </Box>
+        )}
         {/* Results */}
         {resultsContent}
       </DialogContent>
