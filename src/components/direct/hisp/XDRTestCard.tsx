@@ -575,8 +575,6 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                   LOGS
                 </Button>
                 {test.criteria &&
-                  testRequest &&
-                  (testRequest.length > 0 || criteriaMet.includes('FALSE') || criteriaMet.includes('ERROR')) &&
                   (criteriaMet.includes('TRUE') ||
                     criteriaMet.includes('FALSE') ||
                     criteriaMet.includes('ERROR') ||
