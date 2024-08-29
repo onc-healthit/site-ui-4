@@ -7,7 +7,6 @@ import { handleAPICall } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import LoadingButton from '../shared/LoadingButton'
-
 import {
   Box,
   Button,
@@ -15,10 +14,15 @@ import {
   CardContent,
   CardHeader,
   Divider,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Typography,
   FormControlLabel,
   Checkbox,
   TextField,
-  Typography,
+  SelectChangeEvent,
 } from '@mui/material'
 
 export type TestCaseFields = {
@@ -38,7 +42,7 @@ export type TestCaseFields = {
     subDesc?: string
     fields?: ExtraFields[]
     headers: string[]
-    tableData?: TableRowData[]
+    tableData: TableRowData[]
     actionLabel?: string
     optionalTextField?: {
       label: string
@@ -63,11 +67,11 @@ export type FieldValue = boolean | string | number
 export type ExtraFields = {
   label: string
   name: string
-  datatype: 'checkbox' | 'text' | 'number' | string
-  placeholder?: string
-  value: FieldValue
+  datatype: string
+  value?: FieldValue
+  allowedValues?: string[]
   readonly?: boolean
-  display?: boolean
+  display: boolean
   render?: (value: FieldValue) => JSX.Element
 }
 
@@ -78,6 +82,7 @@ interface TestCardProps {
   username?: string
   password?: string
   tlsRequired?: boolean
+  receive?: boolean
 }
 
 interface SelectedDocument {
@@ -93,13 +98,27 @@ const TestCard = ({
   username = 'defaultUsername',
   password = 'defaultPassword',
   tlsRequired = false,
+  receive,
 }: TestCardProps) => {
+  const attachmentTypeTestIDs = [231, 331]
+  const manualValidationCriteria = [
+    "['b1-5']",
+    "['b1-6']",
+    "['b1-5','su1-5']",
+    "['b1-6','su1-6']",
+    "['h2-8','b1-4','b1-7','su1-4','su1-7','sc2-8']",
+    "['b1-4','su1-4']",
+    "['b1-4']",
+  ]
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testRequestResponses, setTestRequestResponses] = useState<string>('')
   const [showLogs, setShowLogs] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
+  const [apiError, setApiError] = useState(false)
+  const [attachmentType, setAttachmentType] = useState('')
+  const apiUrl = process.env.CCDA_DOCUMENTS || 'https://ett.healthit.gov/ett/api/ccdadocuments'
 
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
     console.log('Confirmed Document', selectedData)
@@ -110,21 +129,66 @@ const TestCard = ({
   const handleDocumentSelectorClose = () => {
     setShowDocumentSelector(false)
   }
+  const [showDocumentSelector, setShowDocumentSelector] = useState(false)
+  const handleAcceptTest = () => {
+    setCriteriaMet('TRUE')
+    setShowLogs(false)
+    setIsFinished(false)
+  }
+
+  const handleRejectTest = () => {
+    setCriteriaMet('FALSE')
+    setShowLogs(false)
+    setIsFinished(false)
+  }
+
+  const handleClearTest = () => {
+    setCriteriaMet('')
+    setTestRequestResponses('')
+    setIsFinished(false)
+    setShowLogs(false)
+    setDocumentDetails(null)
+    setApiError(false)
+  }
+
+  const handleAttachmentTypeChange = (event: SelectChangeEvent<string>) => {
+    setAttachmentType(event.target.value)
+  }
 
   const [documentDetails, setDocumentDetails] = useState<{
     directory: string
     fileName: string
     fileLink: string
   } | null>(null)
+
+  const formattedLogs = Object.entries(testRequestResponses).map(([key, value]) => (
+    <Typography key={key} variant="body1" style={{ whiteSpace: 'pre-line' }}>
+      {value}
+    </Typography>
+  ))
+
   const [formData, setFormData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
     test.moreInfo?.fields?.forEach((field) => {
-      initialData[field.name] = field.value
+      let defaultValue: FieldValue
+      switch (field.datatype) {
+        case 'text':
+        case 'DropdownString':
+          defaultValue = field.value ?? ''
+          break
+        case 'checkbox':
+          defaultValue = field.value ?? false
+          break
+        case 'number':
+          defaultValue = field.value ?? 0
+          break
+        default:
+          defaultValue = field.value ?? ''
+      }
+      initialData[field.name] = defaultValue
     })
     return initialData
   })
-
-  const [showDocumentSelector, setShowDocumentSelector] = useState(false)
 
   const handleChange = (name: string, value: FieldValue) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
@@ -156,19 +220,24 @@ const TestCard = ({
           cures: true,
           year: '2021',
           hostingcase: 'YES',
+          attachmentType: attachmentType,
         })
         setIsFinished(true)
         setCriteriaMet(response.criteriaMet)
-        setTestRequestResponses(JSON.stringify(response.testRequestResponses, null, 2))
+        setTestRequestResponses(response.testRequestResponses)
         console.log('Criteria met: ', response.criteriaMet)
         console.log('Test Request Responses:', response.testRequestResponses)
       } catch (error) {
         console.error('Failed to run test:', error)
+        setApiError(true)
+        setCriteriaMet('FALSE')
       } finally {
         setIsLoading(false)
-        setTimeout(() => {
-          setIsFinished(false)
-        }, 100)
+        if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+          setTimeout(() => {
+            setIsFinished(false)
+          }, 100)
+        }
       }
     }
   }
@@ -192,6 +261,33 @@ const TestCard = ({
 
   const handleToggleDetail = () => {
     setShowDetail((prev) => !prev)
+  }
+
+  const renderAttachmentTypeDropdown = () => {
+    if (test.fields) {
+      const field = test.fields.find((f) => f.name === 'attachmentType')
+      return (
+        field &&
+        field.allowedValues && (
+          <FormControl fullWidth margin="normal">
+            <InputLabel>{field.label}</InputLabel>
+            <Select
+              value={attachmentType}
+              label={field.label}
+              onChange={handleAttachmentTypeChange}
+              disabled={field.readonly}
+            >
+              {field.allowedValues.map((value) => (
+                <MenuItem key={value} value={value}>
+                  {value}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )
+      )
+    }
+    return null
   }
 
   return (
@@ -257,10 +353,10 @@ const TestCard = ({
               <Button
                 variant="outlined"
                 sx={{
-                  color: 'black',
-                  backgroundColor: '#E8E8E8',
-                  borderColor: 'transparent',
-                  boxShadow: '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
+                  'color': 'black',
+                  'backgroundColor': '#E8E8E8',
+                  'borderColor': 'transparent',
+                  'boxShadow': '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
                   '&:hover': {
                     backgroundColor: '#E8E8E8',
                     boxShadow: '0px 4px 2px -1px rgba(0, 0, 0, 0.22)',
@@ -277,22 +373,38 @@ const TestCard = ({
         <CardContent>
           <Typography variant="h6">Test Logs</Typography>
           {testRequestResponses ? (
-            <Typography variant="body1" style={{ whiteSpace: 'pre-wrap' }}>
-              {testRequestResponses}
+            <Typography variant="body1" style={{ whiteSpace: 'pre-line' }}>
+              {formattedLogs}
             </Typography>
           ) : (
             <Typography variant="body1">No logs to display.</Typography>
           )}
           <Divider sx={{ mb: 2, mt: 2 }} />
-          <Button variant="contained" onClick={handleToggleLogs}>
-            Close Logs
-          </Button>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
+            {test.criteria &&
+              manualValidationCriteria.includes(test.criteria) &&
+              formattedLogs.length > 0 &&
+              criteriaMet.includes('MANUAL') && (
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  <Button variant="contained" color="primary" onClick={handleAcceptTest}>
+                    Accept
+                  </Button>
+                  <Button variant="outlined" color="primary" onClick={handleRejectTest}>
+                    Reject
+                  </Button>
+                </Box>
+              )}
+            <Button variant="contained" onClick={handleToggleLogs}>
+              Close Logs
+            </Button>
+          </Box>
         </CardContent>
       ) : (
         <CardContent>
           <Typography variant="body2" sx={{ mb: 2 }}>
             {test.desc}
           </Typography>
+          {attachmentTypeTestIDs.includes(test.id) && renderAttachmentTypeDropdown()}
           <Divider sx={{ mb: 0 }} />
           <Box
             sx={{
@@ -314,9 +426,7 @@ const TestCard = ({
                   justifyContent: 'flex-end',
                 }}
               >
-                <Typography>
-                  CCDA Document Type <InfoIcon color="primary" fontSize="small" />
-                </Typography>
+                <Typography>CCDA Document Type</Typography>
                 <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
                   SELECT A DOCUMENT
                 </Button>
@@ -325,7 +435,11 @@ const TestCard = ({
             )}
 
             {showDocumentSelector && (
-              <DocumentSelector onConfirm={handleDocumentConfirm} onClose={handleDocumentSelectorClose} />
+              <DocumentSelector
+                onConfirm={handleDocumentConfirm}
+                onClose={handleDocumentSelectorClose}
+                receive={receive || false}
+              />
             )}
 
             {_.has(test, 'fields') &&
@@ -352,6 +466,19 @@ const TestCard = ({
               <Button variant="contained" color="inherit" onClick={handleToggleLogs}>
                 LOGS
               </Button>
+              {test.criteria &&
+                manualValidationCriteria.includes(test.criteria) &&
+                (formattedLogs.length > 0 || criteriaMet.includes('FALSE')) &&
+                (criteriaMet.includes('TRUE') || criteriaMet.includes('FALSE')) && (
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button variant="contained" color="inherit" onClick={handleClearTest}>
+                      Clear
+                    </Button>
+                  </Box>
+                )}
+              {test.criteria && manualValidationCriteria.includes(test.criteria) && !apiError && isFinished && (
+                <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>
+              )}
             </Box>
           </Box>
         </CardContent>

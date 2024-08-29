@@ -1,27 +1,44 @@
-import { Box, Button, Card, CardContent, CardHeader, Divider, TextField, Typography, FormControl } from '@mui/material'
-
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Snackbar,
+  TextField,
+  Tooltip,
+  Typography,
+  FormControl,
+  Popover,
+} from '@mui/material'
+import InfoIcon from '@mui/icons-material/Info'
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
 import _ from 'lodash'
 import React, { useState } from 'react'
 import DynamicTable from './DynamicTable'
-import { handleAPICall } from '../test-by-criteria/ServerActions'
+import { handleXDRAPICall } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import LoadingButton from '../shared/LoadingButton'
+import DocumentSelector from './DocumentSelector'
+import { getSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
+import XMLDisplay from '../shared/colorizeXML'
 
 export type TestCaseFields = {
-  name?: string
-  id: string | number
-  protocol?: string
-  desc?: string
-  sutEdge?: boolean
-  sutHisp?: boolean
-  sutRole?: string
-  criteria?: string
-  status?: string
-  ccdaFileRequired?: boolean
-  inputs?: InputFields[]
-  moreInfo?: {
+  'name'?: string
+  'id': string | number
+  'protocol'?: string
+  'desc'?: string
+  'sutEdge'?: boolean
+  'sutHisp'?: boolean
+  'sutRole'?: string
+  'criteria'?: string
+  'status'?: string
+  'ccdaFileRequired'?: boolean
+  'inputs'?: InputFields[]
+  'moreInfo'?: {
     subHeader?: string
     subDesc?: string
     subDesc2?: string
@@ -72,17 +89,6 @@ interface StepTextProps {
   inputs: InputFields[]
   role?: string
 }
-const handleClick = (link: string) => {
-  navigator.clipboard
-    .writeText(link)
-    .then(() => {
-      alert('Link copied to clipboard: ' + link)
-    })
-    .catch((err) => {
-      console.error('Failed to copy link: ', err)
-      alert('Failed to copy link. Please try again.')
-    })
-}
 
 const senderText = 'Hit Run to generate your endpoint.'
 const receiverText = 'Hit Run to send a XDR message.'
@@ -127,29 +133,79 @@ interface TestCardProps {
   username?: string
   password?: string
   tlsRequired?: boolean
+  receive?: boolean
 }
 
-const TestCard = ({
-  test,
-  hostname = 'defaultHostname',
-  email = 'defaultEmail',
-  username = 'defaultUsername',
-  password = 'defaultPassword',
-  tlsRequired = false,
-}: TestCardProps) => {
+interface SelectedDocument {
+  directory: string
+  fileName: string
+  fileLink: string
+}
+
+const TestCard = ({ test, receive }: TestCardProps) => {
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
-  const [testRequestResponses, setTestRequestResponses] = useState<string>('')
+  const [testResponse, setTestRequestResponse] = useState<string>('')
+  const [testRequest, setTestRequestRequest] = useState<string>('')
   const [showLogs, setShowLogs] = useState(false)
   const [fieldValues, setFieldValues] = useState<{ [key: string]: string }>({})
   const [isLoading, setIsLoading] = useState(false)
+  const [apiError, setApiError] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
+  const [popoverMessage, setPopoverMessage] = useState('')
+  const [logType, setLogType] = useState<'request' | 'response'>('request')
+  const manualValidationCriteria = ["['b1-3']", "['b1-3','su1-3']"]
+  const { data: session } = useSession()
 
-  const [documentDetails] = useState<{
-    directory: string
-    fileName: string
-    fileLink: string
-  } | null>(null)
+  const subHeader = 'Description'
+  const subDesc = test['Purpose/Description']
+  const expTestHeader = 'Expected Test Results'
+  const expTestResults = test['Expected Test Results']
+  const apiUrl = process.env.CCDA_DOCUMENTS_XDR || 'https://ett.healthit.gov/ett/api/ccdadocuments'
+
+  const requiresCCDADocument = () => {
+    return test.inputs?.some((input) => input.key === 'payload' && input.type?.includes('CCDAWidget'))
+  }
+
+  const shouldDisplayInput = (input: InputFields) => {
+    return !(input.key === 'payload' && input.type?.includes('CCDAWidget'))
+  }
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>, link: string) => {
+    navigator.clipboard.writeText(link)
+    setAnchorEl(event.currentTarget)
+    setPopoverMessage('Copied to clipboard!')
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const toggleLogType = (type: 'request' | 'response') => {
+    setLogType(type)
+  }
+
+  const open = Boolean(anchorEl)
+  const id = open ? 'simple-popover' : undefined
+
+  const endpointTestIds = [
+    '10',
+    '11',
+    '12',
+    '20amu2',
+    '20bmu2',
+    '32mu2',
+    '33mu2',
+    '34mu2',
+    '35mu2',
+    '36mu2',
+    '37mu2',
+    '38mu2',
+    '43mu2',
+    '44mu2',
+  ]
+
   const [formData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
     test.moreInfo?.fields?.forEach((field) => {
@@ -168,6 +224,10 @@ const TestCard = ({
   }
 
   const handleRunTest = async () => {
+    if (!session) {
+      alert('You must be logged in and have a valid session to perform this action.')
+      return
+    }
     if (test.ccdaFileRequired && !documentDetails) {
       alert('This test requires a CCDA document to be selected. Please select a document before running the test.')
     } else {
@@ -181,51 +241,75 @@ const TestCard = ({
         setIsLoading(true)
         setIsFinished(false)
         setCriteriaMet('')
-        const response = await handleAPICall({
-          testCaseNumber: test.id,
-          sutSmtpAddress: hostname,
-          sutEmailAddress: email,
-          useTLS: tlsRequired,
-          sutCommandTimeoutInSeconds: 0,
-          sutUserName: username,
-          sutPassword: password,
-          tttUserName: '',
-          tttPassword: '',
-          startTlsPort: 0,
-          status: '',
-          ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
-          ccdaValidationObjective: documentDetails ? documentDetails.directory : '',
-          ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
-          cures: true,
-          year: '2021',
-          hostingcase: 'YES',
-          ip_address,
-          port,
-          direct_to,
-          direct_from,
-          targetEndpointTLS,
-          outgoing_from,
+
+        const response = await handleXDRAPICall({
+          ip_address: ip_address,
+          port: port,
+          direct_to: direct_to,
+          direct_from: direct_from,
+          targetEndpointTLS: targetEndpointTLS,
+          outgoing_from: outgoing_from,
+          name: documentDetails ? documentDetails.fileName : '',
+          path: documentDetails ? documentDetails.directory : '',
+          link: documentDetails ? documentDetails.fileLink : '',
+          id: test.id.toString(),
+          jsession: session.user.jsessionid,
+          cures: false,
+          itemNumber: '12',
+          selected: true,
+          svap: false,
+          uscdiv3: false,
         })
         setIsFinished(true)
         setCriteriaMet(response.criteriaMet)
-        setTestRequestResponses(JSON.stringify(response.testRequestResponses, null, 2))
+        setTestRequestRequest(response.testRequest)
+        setTestRequestResponse(response.testResponse)
+        if (!testRequest && !testResponse) {
+          setCriteriaMet('FALSE')
+        }
         console.log('Criteria met: ', response.criteriaMet)
-        console.log('Test Request Responses:', response.testRequestResponses)
+        console.log('Test Request Responses:', response.testResponse)
       } catch (error) {
         console.error('Failed to run test:', error)
+        setApiError(true)
+        setCriteriaMet('FALSE')
       } finally {
         setIsLoading(false)
-        setTimeout(() => {
-          setIsFinished(false)
-        }, 100)
+        if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+          setTimeout(() => {
+            setIsFinished(false)
+          }, 100)
+        }
       }
     }
+  }
+
+  const handleAcceptTest = () => {
+    setIsFinished(false)
+    setCriteriaMet('TRUE')
+    setShowLogs(false)
+  }
+
+  const handleRejectTest = () => {
+    setIsFinished(false)
+    setCriteriaMet('FALSE')
+    setShowLogs(false)
+  }
+
+  const handleClearTest = () => {
+    setCriteriaMet('')
+    setTestRequestResponse('')
+    setTestRequestRequest('')
+    setIsFinished(false)
+    setShowLogs(false)
+    setDocumentDetails(null)
+    setApiError(false)
   }
 
   const renderCriteriaMetIcon = () => {
     if (criteriaMet === 'TRUE') {
       return <CheckCircleIcon style={{ color: 'green' }} />
-    } else if (criteriaMet === 'FALSE') {
+    } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR') {
       return <CancelIcon style={{ color: 'red' }} />
     }
     return null
@@ -239,25 +323,49 @@ const TestCard = ({
     setShowDetail((prev) => !prev)
   }
 
+  const toggleDocumentSelector = () => {
+    setShowDocumentSelector(!showDocumentSelector)
+  }
+
+  const handleDocumentConfirm = (selectedData: SelectedDocument) => {
+    console.log('Confirmed Document', selectedData)
+    setDocumentDetails(selectedData)
+    setShowDocumentSelector(false)
+  }
+
+  const handleDocumentSelectorClose = () => {
+    setShowDocumentSelector(false)
+  }
+
+  const [documentDetails, setDocumentDetails] = useState<{
+    directory: string
+    fileName: string
+    fileLink: string
+  } | null>(null)
+
+  const [showDocumentSelector, setShowDocumentSelector] = useState(false)
+
+  const renderLogs = () => {
+    const content = logType === 'request' ? testRequest : testResponse
+    return <XMLDisplay xmlContent={content || 'No logs to display.'} />
+  }
+
   const renderMoreInfo = () => {
     const { moreInfo } = test
     return (
       <Box>
         <Box>
           <Typography variant="h6" sx={{ mb: 2 }}>
-            {moreInfo?.subHeader}
+            {subHeader}
           </Typography>
           <Typography variant="body2" sx={{ mb: 2 }}>
-            {moreInfo?.subDesc}
-          </Typography>
-          <Typography variant="body2" sx={{ mb: 2 }}>
-            {moreInfo?.subDesc2}
+            {subDesc}
           </Typography>
           <Typography variant="h6" sx={{ mb: 2 }}>
-            {moreInfo?.expTestHeader}
+            {expTestHeader}
           </Typography>
           <Typography variant="body2" sx={{ mb: 2 }}>
-            {moreInfo?.expTestResults}
+            {expTestResults}
           </Typography>
         </Box>
 
@@ -273,10 +381,10 @@ const TestCard = ({
           <Button
             variant="outlined"
             sx={{
-              color: 'black',
-              backgroundColor: '#E8E8E8',
-              borderColor: 'transparent',
-              boxShadow: '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
+              'color': 'black',
+              'backgroundColor': '#E8E8E8',
+              'borderColor': 'transparent',
+              'boxShadow': '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
               '&:hover': {
                 backgroundColor: '#E8E8E8',
                 boxShadow: '0px 4px 2px -1px rgba(0, 0, 0, 0.22)',
@@ -300,18 +408,49 @@ const TestCard = ({
           renderMoreInfo()
         ) : showLogs ? (
           <CardContent>
-            <Typography variant="h6">Test Logs</Typography>
-            {testRequestResponses ? (
-              <Typography variant="body1" style={{ whiteSpace: 'pre-wrap' }}>
-                {testRequestResponses}
-              </Typography>
-            ) : (
-              <Typography variant="body1">No logs to display.</Typography>
-            )}
+            <Typography variant="h3">Log for XDR Test ${test.name}</Typography>
+
+            <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-start', mt: 2, mb: 2 }}>
+              <Button
+                variant="contained"
+                onClick={() => toggleLogType('request')}
+                color={logType === 'request' ? 'primary' : 'inherit'}
+              >
+                Request
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => toggleLogType('response')}
+                color={logType === 'response' ? 'primary' : 'inherit'}
+              >
+                Response
+              </Button>
+              <Button variant="outlined" onClick={handleToggleLogs}>
+                Close Logs
+              </Button>
+            </Box>
             <Divider sx={{ mb: 2, mt: 2 }} />
-            <Button variant="contained" onClick={handleToggleLogs}>
-              Close Logs
-            </Button>
+            {renderLogs()}
+            <Divider sx={{ mb: 2, mt: 2 }} />
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
+              {test.criteria &&
+                manualValidationCriteria.includes(test.criteria) &&
+                testRequest &&
+                testRequest.length > 0 &&
+                criteriaMet.includes('SUCCESS') && (
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button variant="contained" color="primary" onClick={handleAcceptTest}>
+                      Accept
+                    </Button>
+                    <Button variant="outlined" color="primary" onClick={handleRejectTest}>
+                      Reject
+                    </Button>
+                  </Box>
+                )}
+              <Button variant="contained" onClick={handleToggleLogs}>
+                Close Logs
+              </Button>
+            </Box>
           </CardContent>
         ) : (
           <>
@@ -326,9 +465,9 @@ const TestCard = ({
                 <StepText inputs={test.inputs} role={test.sutRole} />
               )}
               {_.has(test, 'inputs') &&
-                test.inputs !== undefined &&
-                test.inputs?.map((input) => (
-                  <Box key={input.key || 'default-key'}>
+                test.inputs &&
+                test.inputs.filter(shouldDisplayInput).map((input, index) => (
+                  <Box sx={{ pt: 2 }} key={input.key || 'default-key'}>
                     <FormControl fullWidth>
                       <TextField
                         fullWidth
@@ -343,8 +482,6 @@ const TestCard = ({
                 ))}
             </CardContent>
             <Divider />
-
-            {/* Note: This might change with functionality to generate the endpoint*/}
             <Box
               sx={{
                 display: 'flex',
@@ -356,30 +493,68 @@ const TestCard = ({
                 pr: 2,
               }}
             >
-              {_.includes(
-                ['10', '11', '12', '32mu2', '33mu2', '34mu2', '35mu2', '36mu2', '37mu2', '38mu2', '43mu2', '44mu2'],
-                test.id
-              ) && (
+              {endpointTestIds.includes(test.id.toString()) && (
                 <Box width={'50%'}>
-                  <Box>
+                  <Tooltip placement="bottom" title={endpoint + 'edge-ttp__' + test.id + '/rep/xdrpr'} arrow>
                     <Button
                       sx={{ ml: 2 }}
                       color="secondary"
-                      endIcon={<ContentPasteGoIcon color="secondary" />}
-                      onClick={() => handleClick(endpoint + 'edge-ttp__' + test.id + '/rep/xdrpr')}
+                      endIcon={<ContentPasteGoIcon />}
+                      onClick={(e) => handleClick(e, endpoint + 'edge-ttp__' + test.id + '/rep/xdrpr')}
                     >
                       Endpoint
                     </Button>
+                  </Tooltip>
+                  <Tooltip placement="bottom" title={endpointTLS + 'edge-ttp__' + test.id + '/rep/xdrpr'} arrow>
                     <Button
                       sx={{ ml: 2 }}
                       color="secondary"
-                      endIcon={<ContentPasteGoIcon color="secondary" />}
-                      onClick={() => handleClick(endpointTLS + 'edge-ttp__' + test.id + '/rep/xdrpr')}
+                      endIcon={<ContentPasteGoIcon />}
+                      onClick={(e) => handleClick(e, endpointTLS + 'edge-ttp__' + test.id + '/rep/xdrpr')}
                     >
                       Endpoint TLS
                     </Button>
-                  </Box>
+                  </Tooltip>
+                  <Popover
+                    id={id}
+                    open={open}
+                    anchorEl={anchorEl}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'left',
+                    }}
+                  >
+                    <Typography sx={{ p: 2 }}>{popoverMessage}</Typography>
+                  </Popover>
                 </Box>
+              )}
+              {requiresCCDADocument() && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 1,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-end',
+                    ml: 1,
+                  }}
+                >
+                  <Typography>CCDA Document Type</Typography>
+
+                  <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
+                    SELECT A DOCUMENT
+                  </Button>
+                  {documentDetails && <Typography sx={{ mt: 1 }}>Selected: {documentDetails.fileName}</Typography>}
+                </Box>
+              )}
+
+              {showDocumentSelector && (
+                <DocumentSelector
+                  onConfirm={handleDocumentConfirm}
+                  onClose={handleDocumentSelectorClose}
+                  receive={receive || false}
+                />
               )}
 
               <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 1, pl: 2 }}>
@@ -399,14 +574,29 @@ const TestCard = ({
                 <Button variant="contained" color="inherit" onClick={handleToggleLogs}>
                   LOGS
                 </Button>
+                {test.criteria &&
+                  testRequest &&
+                  (testRequest.length > 0 || criteriaMet.includes('FALSE') || criteriaMet.includes('ERROR')) &&
+                  (criteriaMet.includes('TRUE') ||
+                    criteriaMet.includes('FALSE') ||
+                    criteriaMet.includes('ERROR') ||
+                    criteriaMet.includes('SUCCESS')) && (
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Button variant="contained" color="inherit" onClick={handleClearTest}>
+                        Clear
+                      </Button>
+                    </Box>
+                  )}
+                {test.criteria &&
+                  manualValidationCriteria.includes(test.criteria) &&
+                  (testRequest || testResponse) &&
+                  isFinished &&
+                  !apiError && <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>}
               </Box>
             </Box>
           </>
         )}
       </CardContent>
-      <Divider />
-
-      <Divider />
     </Card>
   )
 }
