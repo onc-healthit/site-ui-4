@@ -1,14 +1,72 @@
 import palette from '@/styles/palette'
-import { Avatar, Box, Chip, Grid, Typography } from '@mui/material'
-import { SectionNameEnum } from '../types/ScorecardConstants'
+import { Avatar, Box, Chip, Grid } from '@mui/material'
+import {
+  getCategoryLabelText,
+  getGradeStyleValueByProperty,
+  getHrefLinkValue,
+  getNumberOfIssuesForDisplay,
+} from '../serverside/scorecardHelperService'
+import { ScorecardCategory, ScorecardResultsType } from '../types/ScorecardJsonResponseType'
 
-export default function ScorecardHeatMap() {
+interface ScorecardHeatMapProps {
+  results: ScorecardResultsType | undefined
+}
+
+export default function ScorecardHeatMap({ results }: ScorecardHeatMapProps) {
+  const sections: ScorecardCategory[] | undefined = results?.categoryList
   const chipFontSize: string = '115%'
 
   return (
     <Box display={'flex'} flexDirection={'column'} gap={2} sx={{ mb: 4 }}>
-      {/* TODO: Increase size of chips as a whole */}
-      <Typography variant="h4" sx={{ fontWeight: 'bold', pb: 2 }}>
+      <Grid container spacing={3}>
+        {/* // TODO: Consider filtering by Scored and Unscored, as we filter, add the properties, then we can sort by that */}
+        {sections?.map((section, index) => (
+          <Grid item key={`${section.categoryName}-${section.categoryNumericalScore}-${index}`}>
+            {/* TODO: Increase size of chips as a whole? */}
+            <Chip
+              label={getCategoryLabelText(section)}
+              avatar={(() => {
+                const numberOfIssues = getNumberOfIssuesForDisplay(section)
+                return section.categoryRubrics && numberOfIssues > 0 ? (
+                  <Avatar sx={{ bgcolor: palette.white }}>{numberOfIssues}</Avatar>
+                ) : undefined
+              })()}
+              sx={{
+                color: getGradeStyleValueByProperty(section, 'color'),
+                backgroundColor: getGradeStyleValueByProperty(section, 'backgroundColor'),
+                '&:hover': {
+                  ...(section.numberOfIssues > 0 || section.failingConformance || section.certificationFeedback
+                    ? {
+                        textDecoration: 'underline',
+                        backgroundColor: getGradeStyleValueByProperty(section, 'hoverBackgroundColor'),
+                        color: getGradeStyleValueByProperty(section, 'hoverColor'),
+                        // boxShadow: 'rgba(0, 0, 0, 0.74902) 3px 8px 24px 0px', // original but a bit far down in 4.0
+                        // boxShadow: 'rgba(0, 0, 0, 0.74902) 3px 0px 24px 0px', // centered
+                        boxShadow: 'rgba(0, 0, 0, 0.74902) 3px 3px 15px 0px', // a good balance for SITE 4.0
+                      }
+                    : {
+                        cursor: 'not-allowed',
+                      }),
+                },
+                '&:visited': {
+                  // Ensure vistited links text color does not change when visited by overriding the default
+                  color: getGradeStyleValueByProperty(section, 'color'),
+                },
+                fontSize: chipFontSize,
+              }}
+              {...((section.numberOfIssues > 0 || section.failingConformance || section.certificationFeedback) && {
+                // Note: Since we check for issues, we won't generate links for empty sections
+                component: 'a',
+                href: getHrefLinkValue(section),
+                clickable: true,
+              })}
+            />
+          </Grid>
+        ))}
+      </Grid>
+
+      {/* // Original static example, useful as a reference  */}
+      {/* <Typography variant="h4" sx={{ fontWeight: 'bold', pb: 2 }}>
         Scored Sections
       </Typography>
       <Grid container spacing={3}>
@@ -155,7 +213,7 @@ export default function ScorecardHeatMap() {
         <Grid item>
           <Chip
             variant="outlined"
-            label={`${SectionNameEnum.MISCELLANEOUS}: No data in submitted document`}
+            label={`${SectionNameEnum.MISCELLANEOUS}: ${GradeEnum.NULL_OR_EMPTY_SECTION}`}
             sx={{
               color: palette.black,
               backgroundColor: palette.greyLight,
@@ -204,7 +262,7 @@ export default function ScorecardHeatMap() {
             clickable
           />
         </Grid>
-      </Grid>
+      </Grid> */}
     </Box>
   )
 }

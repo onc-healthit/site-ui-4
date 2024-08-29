@@ -134,6 +134,7 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
       'Cookie': `JSESSIONID=${data.jsession}`,
     },
     data: JSON.stringify(formattedData),
+
   }
 
   console.log('Sending data:', config)
@@ -175,7 +176,13 @@ export async function fetchCCDADocuments(receive: boolean): Promise<Documents> {
     const response = await axios(config)
     return response.data
   } catch (error) {
-    console.error('Error fetching CCDA documents:', error)
+    if (axios.isAxiosError(error) && error.response) {
+      console.error('API Error Response:', error.response.data)
+      console.error('Status:', error.response.status)
+      console.error('Headers:', error.response.headers)
+    } else {
+      console.error('Error')
+    }
     throw error
   }
 }

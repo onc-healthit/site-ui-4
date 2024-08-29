@@ -1,30 +1,22 @@
 'use client'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Button,
-  Container,
-  Divider,
-  List,
-  MenuItem,
-} from '@mui/material'
+import { Box, Button, Container, Divider } from '@mui/material'
 
+import {
+  ScorecardJsonResponseType,
+  ScorecardReferenceResultType,
+  ScorecardResultsType,
+} from '@/components/c-cda/scorecard/types/ScorecardJsonResponseType'
 import DialogTemplate from '@/components/shared/dialog/DialogTemplate' // Adjust the path if needed
 import palette from '@/styles/palette'
 import ScorecardNextSteps from './next-steps/ScorecardNextSteps'
+import ScorecardSideNav from './ScorecardSideNav'
+import { removeHashtagToUseHrefLinkAsIdForAnchor } from './serverside/scorecardHelperService'
 import ScorecardBaseCheckSummary from './summary/ScorecardBaseCheckSummary'
 import ScorecardBestPracticeSummary from './summary/ScorecardBestPracticeSummary'
 import ScorecardCompareChartSummary from './summary/ScorecardCompareChartSummary'
-import {
-  ScorecardReferenceResultType,
-  ScorecardJsonResponseType,
-  ScorecardResultsType,
-} from '@/components/c-cda/scorecard/types/ScorecardJsonResponseType'
+import { HrefLinkValueEnum } from './types/ScorecardConstants'
 
-interface ScorecardResultsProps {
+interface ScorecardResultsDialogProps {
   dialogState: boolean
   handleCloseDialog: () => void
   isTryMeDemo: boolean
@@ -32,9 +24,10 @@ interface ScorecardResultsProps {
   results: ScorecardResultsType | undefined
   igResults: ScorecardReferenceResultType
   vocabResults: ScorecardReferenceResultType
+  sortFunction: (results: ScorecardResultsType | undefined, isAscending: boolean) => void
 }
 
-export default function ScorecardResults({
+export default function ScorecardResultsDialog({
   dialogState,
   handleCloseDialog,
   isTryMeDemo,
@@ -42,7 +35,8 @@ export default function ScorecardResults({
   results,
   igResults,
   vocabResults,
-}: ScorecardResultsProps) {
+  sortFunction,
+}: ScorecardResultsDialogProps) {
   const dividerPaddingStyle = {
     paddingTop: 2,
   }
@@ -63,44 +57,37 @@ export default function ScorecardResults({
         open={dialogState}
         handleClose={handleCloseDialog}
         title={`Scorecard Results: ${json?.filename || 'Unknown Filename'}`}
-        menuContent={
-          <List>
-            <MenuItem sx={{ fontWeight: 'bold', py: 1 }}>Base Check</MenuItem>
-            <MenuItem sx={{ fontWeight: 'bold', py: 1 }}>Best Practice</MenuItem>
-            <MenuItem sx={{ fontWeight: 'bold', py: 1 }}>Compare</MenuItem>
-            <Box sx={{ fontWeight: 'bold' }}>
-              <Accordion disableGutters elevation={0}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>Next Steps</AccordionSummary>
-                <AccordionDetails>
-                  <MenuItem sx={{ fontWeight: 'bold', py: 1 }}>Allergies (5)</MenuItem>
-                  <MenuItem sx={{ fontWeight: 'bold', py: 1 }}>Patient (10)</MenuItem>
-                  <MenuItem sx={{ fontWeight: 'bold', py: 1 }}>Procedures (7)</MenuItem>
-                  <MenuItem sx={{ fontWeight: 'bold', py: 1 }}>Social History (3)</MenuItem>
-                  <MenuItem sx={{ fontWeight: 'bold', py: 1 }}>Vital Signs (12)</MenuItem>
-                  <MenuItem sx={{ fontWeight: 'bold', py: 1 }}>Immunizations (4)</MenuItem>
-                  <MenuItem sx={{ fontWeight: 'bold', py: 1 }}>Medications (6)</MenuItem>
-                  <MenuItem sx={{ fontWeight: 'bold', py: 1 }}>Problems (8)</MenuItem>
-                </AccordionDetails>
-              </Accordion>
-            </Box>
-          </List>
-        }
+        menuContent={<ScorecardSideNav results={results} />}
         resultsContent={
-          <Box display={'flex'} flexDirection={'column'} gap={4} mt={2} px={4} pb={4} sx={{ overflowY: 'none' }}>
-            <Box id="baseCheck">
+          <Box
+            id={removeHashtagToUseHrefLinkAsIdForAnchor(HrefLinkValueEnum.TOP)}
+            display={'flex'}
+            flexDirection={'column'}
+            gap={4}
+            mt={2}
+            px={4}
+            pb={4}
+            sx={{ overflowY: 'none' }}
+          >
+            <Box id={removeHashtagToUseHrefLinkAsIdForAnchor(HrefLinkValueEnum.BASE_CHECK)}>
               <ScorecardBaseCheckSummary json={json} igResults={igResults} vocabResults={vocabResults} />
             </Box>
             <Divider sx={dividerPaddingStyle} />
-            <Box id="bestPractice">
+            <Box id={removeHashtagToUseHrefLinkAsIdForAnchor(HrefLinkValueEnum.BEST_PRACTICE)}>
               <ScorecardBestPracticeSummary results={results} />
             </Box>
             <Divider sx={dividerPaddingStyle} />
-            <Box id="compare">
+            <Box id={removeHashtagToUseHrefLinkAsIdForAnchor(HrefLinkValueEnum.COMPARE)}>
               <ScorecardCompareChartSummary />
             </Box>
             <Divider sx={dividerPaddingStyle} />
-            <Box id="nextSteps">
-              <ScorecardNextSteps json={json} results={results} igResults={igResults} vocabResults={vocabResults} />
+            <Box id={removeHashtagToUseHrefLinkAsIdForAnchor(HrefLinkValueEnum.NEXT_STEPS)}>
+              <ScorecardNextSteps
+                results={results}
+                igResults={igResults}
+                vocabResults={vocabResults}
+                sortFunction={sortFunction}
+              />
             </Box>
           </Box>
         }
@@ -119,12 +106,13 @@ export default function ScorecardResults({
                 Save Report
               </Button>
               {isShowSampleDownloadButton && (
-                <Button onClick={handleDownloadSampleDocument} color="primary" variant="contained">
+                <Button onClick={handleDownloadSampleDocument} color="primary" variant="outlined">
                   Download Sample Document
                 </Button>
               )}
             </Box>
             <Button
+              component="a"
               sx={{
                 color: palette.primary,
                 '&:hover': {
@@ -134,7 +122,7 @@ export default function ScorecardResults({
                   color: palette.primary,
                 },
               }}
-              href="#baseCheck"
+              href={HrefLinkValueEnum.TOP}
               variant="outlined"
             >
               Back to Top

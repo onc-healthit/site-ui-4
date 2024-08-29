@@ -3,18 +3,20 @@ import { ScorecardJsonResponseType } from '@/components/c-cda/scorecard/types/Sc
 // importing samples directly, and prior to logic, so they are loaded as fast as possible/loaded during build time
 // Note: This requires a rebuild if we want to update the files data
 import highScoringSampleJsonData from './samples/json/highScoringSample.json'
-import lowScoringSample_r21JsonData from './samples/json/lowScoringSample_r21.json'
 import lowScoringSample_r11JsonData from './samples/json/lowScoringSample_r11.json'
+import lowScoringSample_r21JsonData from './samples/json/lowScoringSample_r21.json'
+import sampleWithEmptySectionsJsonData from './samples/json/sampleWithEmptySections.json'
+import sampleWithEmptySectionsAndErrorsJsonData from './samples/json/sampleWithEmptySectionsAndErrors.json'
 import sampleWithErrorsJsonData from './samples/json/sampleWithErrors.json'
-import sampleWithSchemaErrorsJsonData from './samples/json/sampleWithSchemaErrors.json'
-import sampleWithoutAnyContentJsonData from './samples/json/sampleWithoutAnyContent.json'
 import sampleWithIGErrorsJsonData from './samples/json/sampleWithIGErrors.json'
+import sampleWithSchemaErrorsJsonData from './samples/json/sampleWithSchemaErrors.json'
 import sampleWithVocabularyErrorsJsonData from './samples/json/sampleWithVocabularyErrors.json'
+import sampleWithoutAnyContentJsonData from './samples/json/sampleWithoutAnyContent.json'
 import site3HighScoringSampleJsonData from './samples/json/site3-highScoringSample.json'
 import site3LowScoringSampleJsonData from './samples/json/site3-lowScoringSample.json'
 import site3SampleWithErrorsJsonData from './samples/json/site3-sampleWithErrors.json'
 
-const demoSampleMap: { [key: string]: ScorecardJsonResponseType } = {
+const demoSampleMap: { [jsonResultsFileKey: string]: ScorecardJsonResponseType } = {
   'highScoringSample.json': highScoringSampleJsonData,
   'lowScoringSample_r21.json': lowScoringSample_r21JsonData,
   'lowScoringSample_r11.json': lowScoringSample_r11JsonData,
@@ -23,6 +25,8 @@ const demoSampleMap: { [key: string]: ScorecardJsonResponseType } = {
   'sampleWithoutAnyContent.json': sampleWithoutAnyContentJsonData,
   'sampleWithIGErrors.json': sampleWithIGErrorsJsonData,
   'sampleWithVocabularyErrors.json': sampleWithVocabularyErrorsJsonData,
+  'sampleWithEmptySections.json': sampleWithEmptySectionsJsonData,
+  'sampleWithEmptySectionsAndErrors.json': sampleWithEmptySectionsAndErrorsJsonData,
   'site3-highScoringSample.json': site3HighScoringSampleJsonData,
   'site3-lowScoringSample.json': site3LowScoringSampleJsonData,
   'site3-sampleWithErrors.json': site3SampleWithErrorsJsonData,

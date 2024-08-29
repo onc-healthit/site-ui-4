@@ -46,6 +46,7 @@ jobs:
           mkdir ./build
           cp ./.next -pR ./build/.next
           cp ./next.config.js ./build/next.config.js
+          cp ./public -pR ./build/public
           cp ./package.json ./build/package.json
           cp ./package-lock.json ./build/package-lock.json
       - name: Upload build folder

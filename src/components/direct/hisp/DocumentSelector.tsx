@@ -170,4 +170,24 @@ const DocumentSelector = ({ onConfirm, onClose, receive: receive }: DocumentSele
   )
 }
 
+export async function fetchCCDADocuments(receive: boolean): Promise<Documents> {
+  const baseUrl = receive
+    ? process.env.CCDA_DOCUMENTS_XDR || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType=xdr'
+    : process.env.CCDA_DOCUMENTS || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType'
+
+  const config = {
+    method: 'get',
+    url: baseUrl.toString(),
+    headers: { 'Content-Type': 'application/json' },
+  }
+
+  try {
+    const response = await axios(config)
+    return response.data
+  } catch (error) {
+    console.error('Error fetching CCDA documents:', error)
+    throw error
+  }
+}
+
 export default DocumentSelector

@@ -1,13 +1,14 @@
-'use client'
 import { Typography, List, ListItem } from '@mui/material'
 import bulletedList from '../shared/BulletList'
 import TabsComponent, { TabInputs } from '@/components/shared/TabsComponent'
 import PrecannedContentTab from './PrecannedContentTab'
 import OwnContentTab from './OwnContentTab'
-
-const ReceeiveMessageSITE = () => {
+interface ReceiveMessageSITEProps {
+  sampleCCDAFiles: string[]
+}
+const ReceiveMessageSITE = ({ sampleCCDAFiles }: ReceiveMessageSITEProps) => {
   const contentTabs: TabInputs[] = [
-    { tabName: 'PRECANNED CONTENT', tabIndex: 0, tabPanel: <PrecannedContentTab /> },
+    { tabName: 'PRECANNED CONTENT', tabIndex: 0, tabPanel: <PrecannedContentTab sampleCCDAFiles={sampleCCDAFiles} /> },
     { tabName: 'CHOOSE YOUR OWN CONTENT', tabIndex: 1, tabPanel: <OwnContentTab /> },
   ]
 
@@ -48,4 +49,4 @@ const ReceeiveMessageSITE = () => {
   )
 }
 
-export default ReceeiveMessageSITE
+export default ReceiveMessageSITE

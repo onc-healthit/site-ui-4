@@ -1,5 +1,5 @@
-import palette from '@/styles/palette'
 import { ScorecardResultsType } from '@/components/c-cda/scorecard/types/ScorecardJsonResponseType'
+import palette from '@/styles/palette'
 import { Box, Divider, Typography } from '@mui/material'
 import CountUp from 'react-countup'
 
@@ -29,32 +29,32 @@ export default function ScorecardBestPracticeSummary({ results }: ScorecardBestP
         Best Practice
       </Typography>
       <Box display="flex" flexDirection={'row'} justifyContent={'center'} py={2}>
-        <Box width="33%">
+        <Box width="33.3%">
           <Typography align="center" variant="h1" sx={bestPracticeHeaderStyle}>
-            <CountUp end={totalIssuesCount} duration={2} />
+            <CountUp end={totalIssuesCount} duration={0.5} />
           </Typography>
           <Typography align="center" variant="h6">
             <b>Total Issues out of {totalIssuesChecks}</b> Checks
           </Typography>
         </Box>
         <Divider orientation="vertical" variant="middle" flexItem />
-        <Box width="33%">
+        <Box width="33.3%">
           <Typography align="center" variant="h1" sx={bestPracticeHeaderStyle}>
-            <CountUp end={uniqueIssuesCount} duration={2} />
+            <CountUp end={uniqueIssuesCount} duration={0.5} />
           </Typography>
           <Typography align="center" variant="h6">
             <b>Unique Issues out of {uniqueIssuesChecks}</b> Rules
           </Typography>
         </Box>
         <Divider orientation="vertical" variant="middle" flexItem />
-        <Box width="33%">
+        <Box width="33.3%">
           <Typography align="center" variant="h1" sx={{ ...bestPracticeHeaderStyle, color: palette.success }}>
             {grade}
           </Typography>
           <Typography align="center" variant="h6">
             Grade{' '}
             <b>
-              <CountUp end={numericalGrade} duration={2} /> out of 100
+              <CountUp end={numericalGrade} duration={0.5} /> out of 100
             </b>
           </Typography>
         </Box>
