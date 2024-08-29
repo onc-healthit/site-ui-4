@@ -28,6 +28,13 @@ interface APICallData {
   attachmentType?: string
 }
 
+export interface Documents {
+  [key: string]: {
+    dirs: Directory[]
+    files: FileDetail[]
+  }
+}
+
 interface XDRAPICallData {
   ip_address?: string
   port?: string
@@ -149,6 +156,26 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     } else {
       console.error('Error')
     }
+    throw error
+  }
+}
+
+export async function fetchCCDADocuments(receive: boolean): Promise<Documents> {
+  const baseUrl = receive
+    ? process.env.CCDA_DOCUMENTS_XDR || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType=xdr'
+    : process.env.CCDA_DOCUMENTS || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType'
+
+  const config = {
+    method: 'get',
+    url: baseUrl.toString(),
+    headers: { 'Content-Type': 'application/json' },
+  }
+
+  try {
+    const response = await axios(config)
+    return response.data
+  } catch (error) {
+    console.error('Error fetching CCDA documents:', error)
     throw error
   }
 }
