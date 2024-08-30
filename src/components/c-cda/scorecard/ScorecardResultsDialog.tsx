@@ -122,7 +122,7 @@ export default function ScorecardResultsDialog({
             <Button
               component="a"
               sx={{
-                'color': palette.primary,
+                color: palette.primary,
                 '&:hover': {
                   color: palette.primaryDark,
                 },
