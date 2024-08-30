@@ -47,6 +47,14 @@ export default function ScorecardResultsDialog({
 
   const handleDownloadSampleDocument = () => {
     console.log('Enter handleDownloadSampleDocument()')
+    // Create an anchor element since next.js can use that cleanly to download a static asset in the public folder
+    const locationPrefix = '/c-cda/scorecard/samples/'
+    const link = document.createElement('a')
+    link.setAttribute('download', '') // Force download vs nav, no filenmae set so uses default url name
+    link.href = locationPrefix + (json?.filename ? json.filename : 'UnknownFilename.xml')
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   const isShowSampleDownloadButton: boolean = isTryMeDemo
@@ -114,7 +122,7 @@ export default function ScorecardResultsDialog({
             <Button
               component="a"
               sx={{
-                color: palette.primary,
+                'color': palette.primary,
                 '&:hover': {
                   color: palette.primaryDark,
                 },
