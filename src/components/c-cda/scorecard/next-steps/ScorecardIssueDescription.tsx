@@ -1,6 +1,5 @@
-import React from 'react'
-import Link from 'next/link'
 import { Box } from '@mui/material'
+import React from 'react'
 
 interface ScorecardIssueDescriptionProps {
   description: string
