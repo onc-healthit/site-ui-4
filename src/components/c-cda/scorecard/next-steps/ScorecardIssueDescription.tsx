@@ -1,6 +1,5 @@
-import React from 'react'
-import Link from 'next/link'
 import { Box } from '@mui/material'
+import React from 'react'
 
 interface ScorecardIssueDescriptionProps {
   description: string
@@ -21,9 +20,9 @@ export const ScorecardIssueDescription: React.FC<ScorecardIssueDescriptionProps>
           href = href.replace('scorecard', 'c-cda/scorecard')
           const text = curPart.replace(/<[^>]+>/g, '') // Remove HTML tags to extract text
           return (
-            <Link key={index} href={href}>
+            <a key={index} href={href} download>
               {text}
-            </Link>
+            </a>
           )
         }
 
