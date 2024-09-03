@@ -82,11 +82,11 @@ export default function ScorecardHome() {
       value: 'sampleWithVocabularyErrors.json',
     },
     {
-      label: 'Sample with Missing Section Data',
+      label: 'Sample with Empty Sections',
       value: 'sampleWithEmptySections.json',
     },
     {
-      label: 'Sample with Missing Sections and Errors',
+      label: 'Sample with Empty Sections and Errors',
       value: 'sampleWithEmptySectionsAndErrors.json',
     },
   ]
