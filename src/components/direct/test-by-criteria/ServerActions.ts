@@ -131,10 +131,10 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     url: apiUrl,
     headers: {
       'Content-Type': 'application/json',
+      // prettier-ignore
       'Cookie': `JSESSIONID=${data.jsession}`,
     },
     data: JSON.stringify(formattedData),
-
   }
 
   console.log('Sending data:', config)
