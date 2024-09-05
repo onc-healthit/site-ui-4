@@ -39,10 +39,8 @@ const B1Component = () => {
   const handleChange = (event: SelectChangeEvent) => {
     const newOption = event.target.value as string
 
-    // Set showTestCard to false to remove old cards
     setShowTestCard(false)
 
-    // Delay the re-render of test cards to allow the old cards to be removed completely
     setTimeout(() => {
       setOption(newOption)
       setShowTestCard(true)
