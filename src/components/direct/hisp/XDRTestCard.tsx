@@ -5,40 +5,37 @@ import {
   CardContent,
   CardHeader,
   Divider,
-  Snackbar,
   TextField,
   Tooltip,
   Typography,
   FormControl,
   Popover,
 } from '@mui/material'
-import InfoIcon from '@mui/icons-material/Info'
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
 import _ from 'lodash'
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import DynamicTable from './DynamicTable'
 import { handleXDRAPICall } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import LoadingButton from '../shared/LoadingButton'
 import DocumentSelector from './DocumentSelector'
-import { getSession } from 'next-auth/react'
 import { useSession } from 'next-auth/react'
 import XMLDisplay from '../shared/colorizeXML'
 
 export type TestCaseFields = {
-  'name'?: string
-  'id': string | number
-  'protocol'?: string
-  'desc'?: string
-  'sutEdge'?: boolean
-  'sutHisp'?: boolean
-  'sutRole'?: string
-  'criteria'?: string
-  'status'?: string
-  'ccdaFileRequired'?: boolean
-  'inputs'?: InputFields[]
-  'moreInfo'?: {
+  name?: string
+  id: string | number
+  protocol?: string
+  desc?: string
+  sutEdge?: boolean
+  sutHisp?: boolean
+  sutRole?: string
+  criteria?: string
+  status?: string
+  ccdaFileRequired?: boolean
+  inputs?: InputFields[]
+  moreInfo?: {
     subHeader?: string
     subDesc?: string
     subDesc2?: string
@@ -152,8 +149,14 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const [apiError, setApiError] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
+
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
   const [popoverMessage, setPopoverMessage] = useState('')
+  const [autoCloseTimer, setAutoCloseTimer] = useState<NodeJS.Timeout | null>(null)
+  const open = Boolean(anchorEl)
+  const id = open ? 'simple-popover' : undefined
+  const hiddenAnchorRef = useRef(null)
+
   const [logType, setLogType] = useState<'request' | 'response'>('request')
   const manualValidationCriteria = ["['b1-3']", "['b1-3','su1-3']"]
   const { data: session } = useSession()
@@ -162,7 +165,6 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   const subDesc = test['Purpose/Description']
   const expTestHeader = 'Expected Test Results'
   const expTestResults = test['Expected Test Results']
-  const apiUrl = process.env.CCDA_DOCUMENTS_XDR || 'https://ett.healthit.gov/ett/api/ccdadocuments'
 
   const requiresCCDADocument = () => {
     return test.inputs?.some((input) => input.key === 'payload' && input.type?.includes('CCDAWidget'))
@@ -174,20 +176,37 @@ const TestCard = ({ test, receive }: TestCardProps) => {
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, link: string) => {
     navigator.clipboard.writeText(link)
-    setAnchorEl(event.currentTarget)
-    setPopoverMessage('Copied to clipboard!')
+    showPopover('Copied to clipboard!', event.currentTarget)
   }
 
-  const handleClose = () => {
+  const showPopover = (message: string, anchor: HTMLButtonElement | null) => {
+    setPopoverMessage(message)
+    setAnchorEl(anchor || hiddenAnchorRef.current)
+
+    if (autoCloseTimer) clearTimeout(autoCloseTimer)
+    const timer = setTimeout(() => {
+      handleClosePopover()
+    }, 3000)
+    setAutoCloseTimer(timer)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (autoCloseTimer) clearTimeout(autoCloseTimer)
+    }
+  }, [autoCloseTimer, anchorEl])
+
+  const handleClosePopover = () => {
+    if (autoCloseTimer) {
+      clearTimeout(autoCloseTimer)
+      setAutoCloseTimer(null)
+    }
     setAnchorEl(null)
   }
 
   const toggleLogType = (type: 'request' | 'response') => {
     setLogType(type)
   }
-
-  const open = Boolean(anchorEl)
-  const id = open ? 'simple-popover' : undefined
 
   const endpointTestIds = [
     '10',
@@ -205,6 +224,9 @@ const TestCard = ({ test, receive }: TestCardProps) => {
     '43mu2',
     '44mu2',
   ]
+
+  const ccdaRequiredTestIds = ['1', '2', '3add']
+  const isCCDADocumentRequired = ccdaRequiredTestIds.includes(test.id.toString())
 
   const [formData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
@@ -225,11 +247,17 @@ const TestCard = ({ test, receive }: TestCardProps) => {
 
   const handleRunTest = async () => {
     if (!session) {
-      alert('You must be logged in and have a valid session to perform this action.')
+      showPopover('You must be logged in and have a valid session to perform this action.', null)
       return
     }
-    if (test.ccdaFileRequired && !documentDetails) {
-      alert('This test requires a CCDA document to be selected. Please select a document before running the test.')
+    console.log('ccda required' + test.ccdaFileRequired)
+    console.log('doc details ' + documentDetails)
+    if (isCCDADocumentRequired && !documentDetails) {
+      showPopover(
+        'This test requires a CCDA document to be selected. Please select a document before running the test.',
+        null
+      )
+      return
     } else {
       const ip_address = fieldValues['ip_address'] || ''
       const port = fieldValues['port'] || ''
@@ -381,10 +409,10 @@ const TestCard = ({ test, receive }: TestCardProps) => {
           <Button
             variant="outlined"
             sx={{
-              'color': 'black',
-              'backgroundColor': '#E8E8E8',
-              'borderColor': 'transparent',
-              'boxShadow': '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
+              color: 'black',
+              backgroundColor: '#E8E8E8',
+              borderColor: 'transparent',
+              boxShadow: '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
               '&:hover': {
                 backgroundColor: '#E8E8E8',
                 boxShadow: '0px 4px 2px -1px rgba(0, 0, 0, 0.22)',
@@ -404,6 +432,22 @@ const TestCard = ({ test, receive }: TestCardProps) => {
       <CardHeader title={test.name}></CardHeader>
       <Divider />
       <CardContent>
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClosePopover}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+        >
+          <Typography sx={{ p: 2 }}>{popoverMessage}</Typography>
+        </Popover>
         {showDetail ? (
           renderMoreInfo()
         ) : showLogs ? (
@@ -466,7 +510,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
               )}
               {_.has(test, 'inputs') &&
                 test.inputs &&
-                test.inputs.filter(shouldDisplayInput).map((input, index) => (
+                test.inputs.filter(shouldDisplayInput).map((input) => (
                   <Box sx={{ pt: 2 }} key={input.key || 'default-key'}>
                     <FormControl fullWidth>
                       <TextField
@@ -519,10 +563,14 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                     id={id}
                     open={open}
                     anchorEl={anchorEl}
-                    onClose={handleClose}
+                    onClose={handleClosePopover}
                     anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'center',
+                    }}
+                    transformOrigin={{
                       vertical: 'top',
-                      horizontal: 'left',
+                      horizontal: 'center',
                     }}
                   >
                     <Typography sx={{ p: 2 }}>{popoverMessage}</Typography>
@@ -568,6 +616,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                 >
                   RUN
                 </LoadingButton>
+                <div ref={hiddenAnchorRef} style={{ visibility: 'hidden', top: '50px' }}></div>
                 <Button variant="contained" onClick={handleToggleDetail}>
                   MORE INFO
                 </Button>
