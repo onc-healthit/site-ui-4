@@ -25,15 +25,23 @@ const H1Component = () => {
   const [tlsRequired, setTlsRequired] = useState(false)
 
   const dropdownOptions = [
-    { value: 'directHome', label: 'Criteria (i) Direct Home - Certificates', link: '/direct-home' },
+    {
+      value: 'directHome',
+      label: 'Criteria (i) Direct Home - Certificates',
+      link: '/direct#certification-download',
+    },
     {
       value: 'certificateDiscovery',
       label: 'Criteria (i) Certificate Discovery / Hosting',
-      link: '/certificate-discovery',
+      link: '/direct/dcdt#hosting',
     },
-    { value: 'registerDirect', label: 'Criteria (i) Register Direct', link: '/register-direct' },
-    { value: 'sendDirectMessage', label: 'Criteria (i) Send Direct Message', link: '/send-direct-message' },
-    { value: 'receiveMessageStatus', label: 'Criteria (i) Receive - Message Status', link: '/receive-message-status' },
+    { value: 'registerDirect', label: 'Criteria (i) Register Direct', link: '/direct/register' },
+    { value: 'sendDirectMessage', label: 'Criteria (i) Send Direct Message', link: '/direct/senddirect' },
+    {
+      value: 'receiveMessageStatus',
+      label: 'Criteria (i) Receive - Message Status',
+      link: '/direct/senddirect#message-status',
+    },
     { value: 'deliveryNotifications', label: 'Criteria (ii) Delivery Notifications', testCard: true },
   ]
 
