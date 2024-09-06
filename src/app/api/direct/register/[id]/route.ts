@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import _ from 'lodash'
 
 const ETT_API_URL = process.env.ETT_API_URL
 
@@ -27,6 +28,15 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
   const body = await request.json()
   const emailAddressToRegister = body.contactEmailAddressToAdd?.toLowerCase()
+  if (_.isEmpty(emailAddressToRegister)) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Email address is required',
+      },
+      { status: 500 }
+    )
+  }
   const ettAPIUrl = `${ETT_API_URL}/registration/contact/${params.id}`
   try {
     const response = await fetch(ettAPIUrl, {

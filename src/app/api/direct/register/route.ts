@@ -1,6 +1,7 @@
 import { authOptions } from '@/lib/auth'
 import { getServerSession } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
+import _ from 'lodash'
 const ETT_API_URL = process.env.ETT_API_URL
 
 const getETTProperties = async () => {
@@ -25,6 +26,15 @@ export async function POST(request: NextRequest) {
     const jsessionid = session.user.jsessionid
     const body = await request.json()
     const emailAddressToRegister = body.directEmailAddress?.toLowerCase()
+    if (_.isEmpty(emailAddressToRegister)) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Email address is required',
+        },
+        { status: 500 }
+      )
+    }
     const isValidEmailDomain = await isEmailDomainValid(emailAddressToRegister)
     if (!isValidEmailDomain) {
       return NextResponse.json(
@@ -39,7 +49,7 @@ export async function POST(request: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Cookie': `JSESSIONID=${jsessionid}`,
+        Cookie: `JSESSIONID=${jsessionid}`,
       },
       body: emailAddressToRegister,
     })
@@ -72,7 +82,7 @@ export async function GET(req: NextRequest) {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Cookie': `JSESSIONID=${jsessionid}`,
+      Cookie: `JSESSIONID=${jsessionid}`,
     },
   })
   const data = await response.json()

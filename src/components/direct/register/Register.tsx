@@ -29,6 +29,8 @@ const Register = () => {
   const [selectedDirectEmailAddress, setSelectedDirectEmailAddress] = useState('')
   const [directEmailAddressList, setDirectEmailAddressList] = useState<string[]>([])
   const [contactEmailAdressList, setContactEmailAddressList] = useState<string[]>([])
+  const [directEmailFormatError, setDirectEmailFormatError] = useState(false)
+  const [contactEmailFormatError, setContactEmailFormatError] = useState(false)
   const directEmailAddressRef = useRef(null)
   const contactEmailAddressRef = useRef(null)
   const { data: session, status } = useSession()
@@ -135,6 +137,30 @@ const Register = () => {
     return data || []
   }
 
+  const validateDirectEmailFormat = (e) => {
+    if (!_.isEmpty(e.target.value)) {
+      if (e.target.validity.valid) {
+        setDirectEmailFormatError(false)
+      } else {
+        setDirectEmailFormatError(true)
+      }
+    } else {
+      setDirectEmailFormatError(false)
+    }
+  }
+
+  const validateContactEmailFormat = (e) => {
+    if (!_.isEmpty(e.target.value)) {
+      if (e.target.validity.valid) {
+        setContactEmailFormatError(false)
+      } else {
+        setContactEmailFormatError(true)
+      }
+    } else {
+      setContactEmailFormatError(false)
+    }
+  }
+
   return (
     <>
       {/* Global Header */}
@@ -169,14 +195,21 @@ const Register = () => {
                   id="outlined-direct-email-address"
                   label="Enter a valid Direct Email Address"
                   fullWidth
-                  //helperText="Direct messages will be accepted for validation only when the Direct (From) address is registered here."
                   required
-                  type="email"
                   inputRef={directEmailAddressRef}
+                  onChange={validateDirectEmailFormat}
+                  error={directEmailFormatError}
+                  helperText={directEmailFormatError ? 'Please enter a valid email' : ''}
                   InputProps={{
+                    type: 'email',
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton edge="end" color="primary" onClick={() => addDirectAddress()}>
+                        <IconButton
+                          edge="end"
+                          color="primary"
+                          onClick={() => addDirectAddress()}
+                          disabled={directEmailFormatError}
+                        >
                           <AddBoxIcon fontSize="large" />
                         </IconButton>
                       </InputAdornment>
@@ -214,12 +247,15 @@ const Register = () => {
                 <Box sx={{ pb: 2 }}>
                   <TextField
                     id="outlined-contact-email-address"
-                    label="Contact Email Address"
-                    type="email"
+                    label={`Enter a contact email address for ${selectedDirectEmailAddress}`}
                     fullWidth
                     inputRef={contactEmailAddressRef}
                     required
+                    onChange={validateContactEmailFormat}
+                    error={contactEmailFormatError}
+                    helperText={contactEmailFormatError ? 'Please enter a valid email' : ''}
                     InputProps={{
+                      type: 'email',
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton edge="end" color="primary" onClick={() => addContactAddress()}>
@@ -231,9 +267,6 @@ const Register = () => {
                   />
                 </Box>
                 <Box>
-                  {/* <Typography variant="h3" component={'h1'}>
-                    Manage Contact Email Addresses for {selectedDirectEmailAddress}
-                  </Typography> */}
                   {!_.isEmpty(contactEmailAdressList) && (
                     <List>
                       {contactEmailAdressList.map((x) => {
@@ -241,7 +274,12 @@ const Register = () => {
                           <ListItem key={x}>
                             <ListItemText primary={x} />
                             <ListItemSecondaryAction>
-                              <IconButton edge="end" aria-label="delete" onClick={() => deleteContactAddress(x)}>
+                              <IconButton
+                                edge="end"
+                                aria-label="delete"
+                                onClick={() => deleteContactAddress(x)}
+                                disabled={contactEmailFormatError}
+                              >
                                 <DeleteIcon />
                               </IconButton>
                             </ListItemSecondaryAction>
