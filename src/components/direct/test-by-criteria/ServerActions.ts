@@ -144,10 +144,13 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     console.log('Raw content:', response.data)
     const content = response.data
 
+    const testRequest = content.content.value.request || content.message
+    const testResponse = content.content.value.response
+
     return {
       criteriaMet: content.status,
-      testRequest: content.content.value.request,
-      testResponse: content.content.value.response,
+      testRequest: testRequest,
+      testResponse: testResponse,
     }
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {

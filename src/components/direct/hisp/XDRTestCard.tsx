@@ -289,10 +289,12 @@ const TestCard = ({ test, receive }: TestCardProps) => {
           uscdiv3: false,
         })
         setIsFinished(true)
-        setCriteriaMet(response.criteriaMet)
+        if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+          setCriteriaMet(response.criteriaMet)
+        }
         setTestRequestRequest(response.testRequest)
         setTestRequestResponse(response.testResponse)
-        if (!testRequest && !testResponse) {
+        if (!testRequest && !testResponse && test.criteria && !manualValidationCriteria.includes(test.criteria)) {
           setCriteriaMet('FALSE')
         }
         console.log('Criteria met: ', response.criteriaMet)
@@ -300,7 +302,9 @@ const TestCard = ({ test, receive }: TestCardProps) => {
       } catch (error) {
         console.error('Failed to run test:', error)
         setApiError(true)
-        setCriteriaMet('FALSE')
+        if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+          setCriteriaMet('FALSE')
+        }
       } finally {
         setIsLoading(false)
         if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
@@ -452,7 +456,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
           renderMoreInfo()
         ) : showLogs ? (
           <CardContent>
-            <Typography variant="h3">Log for XDR Test ${test.name}</Typography>
+            <Typography variant="h3">Log for XDR Test {test.name}</Typography>
 
             <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-start', mt: 2, mb: 2 }}>
               <Button
@@ -480,8 +484,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
               {test.criteria &&
                 manualValidationCriteria.includes(test.criteria) &&
                 testRequest &&
-                testRequest.length > 0 &&
-                criteriaMet.includes('SUCCESS') && (
+                testRequest.length > 0 && (
                   <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button variant="contained" color="primary" onClick={handleAcceptTest}>
                       Accept
