@@ -131,6 +131,7 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     url: apiUrl,
     headers: {
       'Content-Type': 'application/json',
+      // prettier-ignore
       'Cookie': `JSESSIONID=${data.jsession}`,
     },
     data: JSON.stringify(formattedData),
@@ -144,10 +145,13 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     console.log('Raw content:', response.data)
     const content = response.data
 
+    const testRequest = content.content.value.request || content.message
+    const testResponse = content.content.value.response
+
     return {
       criteriaMet: content.status,
-      testRequest: content.content.value.request,
-      testResponse: content.content.value.response,
+      testRequest: testRequest,
+      testResponse: testResponse,
     }
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
