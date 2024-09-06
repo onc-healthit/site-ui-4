@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
 import BannerBox from '@/components/shared/BannerBox'
 import Link from 'next/link'
 import styles from '@shared/styles.module.css'
@@ -20,21 +19,17 @@ const SendDirect = () => {
   ]
 
   useEffect(() => {
-    const hash = window.location.hash.replace('#', '').replace(/-/g, ' ').toLowerCase()
-    const tab = sendDirectTabs.find((t) => t.tabName.toLowerCase() === hash)
-    setSelectedTab(tab ? tab.tabName : 'VERSION V1.3')
-    window.addEventListener('hashchange', () => {
-      const updatedHash = window.location.hash.replace('#', '').replace(/-/g, ' ').toLowerCase()
-      const updatedTab = sendDirectTabs.find((t) => t.tabName.toLowerCase() === updatedHash)
-      setSelectedTab(updatedTab ? updatedTab.tabName : 'VERSION V1.3')
-    })
+    const handleRouteChange = () => {
+      const hash = window.location.hash.replace('#', '').replace(/-/g, ' ').toLowerCase()
+      const tab = sendDirectTabs.find((t) => t.tabName.toLowerCase() === hash)
+      setSelectedTab(tab ? tab.tabName : 'VERSION V1.3')
+    }
+
+    handleRouteChange()
+    window.addEventListener('hashchange', handleRouteChange)
 
     return () => {
-      window.removeEventListener('hashchange', () => {
-        const updatedHash = window.location.hash.replace('#', '').replace(/-/g, ' ').toLowerCase()
-        const updatedTab = sendDirectTabs.find((t) => t.tabName.toLowerCase() === updatedHash)
-        setSelectedTab(updatedTab ? updatedTab.tabName : 'VERSION V1.3')
-      })
+      window.removeEventListener('hashchange', handleRouteChange)
     }
   }, [])
 
@@ -49,8 +44,8 @@ const SendDirect = () => {
             Direct Message
           </Link>,
         ]}
-        heading={'Send Direct Message '}
-        description={<>Send a Direct message from this tool to a HISP of your choosing. Need more text here</>}
+        heading={'Send Direct Message'}
+        description="Send a Direct message from this tool to a HISP of your choosing. Need more text here"
       />
       <TabsComponent selectedTab={selectedTab} tabs={sendDirectTabs} />
     </>
