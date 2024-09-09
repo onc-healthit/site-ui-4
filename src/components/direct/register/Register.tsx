@@ -22,7 +22,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox'
 import DeleteIcon from '@mui/icons-material/Delete'
 import palette from '@/styles/palette'
 import _ from 'lodash'
-import { useEffect, useRef, useState } from 'react'
+import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import { useSession } from 'next-auth/react'
 
 const Register = () => {
@@ -31,8 +31,8 @@ const Register = () => {
   const [contactEmailAdressList, setContactEmailAddressList] = useState<string[]>([])
   const [directEmailFormatError, setDirectEmailFormatError] = useState(false)
   const [contactEmailFormatError, setContactEmailFormatError] = useState(false)
-  const directEmailAddressRef = useRef(null)
-  const contactEmailAddressRef = useRef(null)
+  const directEmailAddressRef = useRef() as MutableRefObject<HTMLInputElement>
+  const contactEmailAddressRef = useRef() as MutableRefObject<HTMLInputElement>
   const { data: session, status } = useSession()
 
   useEffect(() => {
@@ -44,6 +44,9 @@ const Register = () => {
         },
       })
       const data = await response.json()
+      if (!response.ok) {
+        throw new Error(`Error fetching direct email addresseses for logged in user: ${data.error.message}`)
+      }
       setDirectEmailAddressList(data)
       const contactList = getContactEmailAddressesListForSelectedDirectAddress(data[0])
       setContactEmailAddressList(await contactList)
@@ -61,14 +64,17 @@ const Register = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ directEmailAddressToAdd }),
+      body: JSON.stringify({ directEmailAddress: directEmailAddressToAdd }),
     })
     const data = await response.json()
+    if (!response.ok) {
+      throw new Error(`Error adding direct address ${directEmailAddressToAdd}: ${data.error.message}`)
+    }
     setDirectEmailAddressList([...directEmailAddressList, directEmailAddressToAdd])
     const contactList = getContactEmailAddressesListForSelectedDirectAddress(directEmailAddressToAdd)
     setContactEmailAddressList(await contactList)
     setSelectedDirectEmailAddress(directEmailAddressToAdd)
-    directEmailAddressRef.current.value = null
+    directEmailAddressRef.current.value = ''
   }
 
   const addContactAddress = async () => {
@@ -81,9 +87,12 @@ const Register = () => {
       body: JSON.stringify({ contactEmailAddressToAdd }),
     })
     const data = await response.json()
+    if (!response.ok) {
+      throw new Error(`Error adding contact address ${contactEmailAddressToAdd}: ${data.error.message}`)
+    }
     if (data === true) {
       setContactEmailAddressList([...contactEmailAdressList, contactEmailAddressToAdd])
-      contactEmailAddressRef.current.value = null
+      contactEmailAddressRef.current.value = ''
     }
   }
 
@@ -95,15 +104,19 @@ const Register = () => {
       },
     })
     const data = await response.json()
+    if (!response.ok) {
+      throw new Error(`Deleting direct group ${selectedDirectEmailAddress}: ${data.error.message}`)
+    }
     if (data === true) {
       setDirectEmailAddressList(directEmailAddressList.filter((x) => x !== selectedDirectEmailAddress))
       setContactEmailAddressList([])
-      setSelectedDirectEmailAddress('')
+      if (!_.isEmpty(directEmailAddressList)) {
+        setSelectedDirectEmailAddress(directEmailAddressList[0])
+      }
     }
   }
 
   const deleteContactAddress = async (contactEmailAddress: string) => {
-    console.log(`Delete Contact Email Address: ${contactEmailAddress}`)
     const response = await fetch(
       `http://localhost:3000/api/direct/register/${selectedDirectEmailAddress}?contact=${contactEmailAddress}`,
       {
@@ -114,6 +127,9 @@ const Register = () => {
       }
     )
     const data = await response.json()
+    if (!response.ok) {
+      throw new Error(`Error deleting contact email addresses ${contactEmailAddress}: ${data.error.message}`)
+    }
     if (data === true) {
       setContactEmailAddressList(contactEmailAdressList.filter((x) => x !== contactEmailAddress))
     }
@@ -134,10 +150,13 @@ const Register = () => {
       },
     })
     const data = await response.json()
+    if (!response.ok) {
+      throw new Error(`Error fetching contact email addresses ${directEmailAddress}: ${data.error.message}`)
+    }
     return data || []
   }
 
-  const validateDirectEmailFormat = (e) => {
+  const validateDirectEmailFormat: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
     if (!_.isEmpty(e.target.value)) {
       if (e.target.validity.valid) {
         setDirectEmailFormatError(false)
@@ -149,7 +168,7 @@ const Register = () => {
     }
   }
 
-  const validateContactEmailFormat = (e) => {
+  const validateContactEmailFormat: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
     if (!_.isEmpty(e.target.value)) {
       if (e.target.validity.valid) {
         setContactEmailFormatError(false)

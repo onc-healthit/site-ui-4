@@ -8,7 +8,7 @@ const getETTProperties = async () => {
   const response = await fetch(`${ETT_API_URL}/properties`)
   return await response.json()
 }
-async function isEmailDomainValid(emailAddressToRegister: any): Promise<boolean> {
+async function isEmailDomainValid(emailAddressToRegister: string): Promise<boolean> {
   const emailDomain = emailAddressToRegister.split('@')[1]
   const invalidDomains = await getInvalidDomains()
   if (invalidDomains.includes(emailDomain)) {
@@ -23,9 +23,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(false)
   }
   try {
-    const jsessionid = session.user.jsessionid
+    const jsessionid = session?.user?.jsessionid ?? ''
     const body = await request.json()
     const emailAddressToRegister = body.directEmailAddress?.toLowerCase()
+    console.log(`DEBUG: emailAddressToRegister: ${emailAddressToRegister}`)
     if (_.isEmpty(emailAddressToRegister)) {
       return NextResponse.json(
         {
@@ -64,20 +65,22 @@ export async function POST(request: NextRequest) {
       )
     }
     return NextResponse.json(data, { status: 200 })
-  } catch (error: any) {
-    return NextResponse.json(
-      {
-        success: false,
-        error: error.message || 'An error occurred',
-      },
-      { status: 500 }
-    )
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: error.message || 'An error occurred',
+        },
+        { status: 500 }
+      )
+    }
   }
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const session = await getServerSession(authOptions)
-  const jsessionid = session.user.jsessionid
+  const jsessionid = session?.user?.jsessionid ?? ''
   const response = await fetch(`${ETT_API_URL}/registration/direct`, {
     method: 'GET',
     headers: {
@@ -86,6 +89,15 @@ export async function GET(req: NextRequest) {
     },
   })
   const data = await response.json()
+  if (!response.ok) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: data,
+      },
+      { status: 500 }
+    )
+  }
   return NextResponse.json(data, { status: 200 })
 }
 
