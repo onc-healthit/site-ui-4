@@ -25,6 +25,8 @@ import palette from '@/styles/palette'
 import _ from 'lodash'
 import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import { useSession } from 'next-auth/react'
+import ErrorDisplayCard from '@/components/c-cda/validation/results/ErrorDisplay'
+import AlertSnackbar from '../shared/AlertSnackbar'
 
 const Register = () => {
   const [selectedDirectEmailAddress, setSelectedDirectEmailAddress] = useState('')
@@ -38,13 +40,15 @@ const Register = () => {
   const [isDeletingDirectEmailGroup, setIsDeletingDirectEmailGroup] = useState(false)
   const [isDeletingContactAddress, setIsDeletingContactAddress] = useState(false)
   const [isFetchingContactAddresses, setIsFetchingContactAddresses] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
   const directEmailAddressRef = useRef() as MutableRefObject<HTMLInputElement>
   const contactEmailAddressRef = useRef() as MutableRefObject<HTMLInputElement>
   const { data: session, status } = useSession()
 
   useEffect(() => {
     async function fetchLoggedInUsersDirectEmailAdresses() {
-      const response = await fetch('http://localhost:3000/api/direct/register', {
+      const response = await fetch('/api/direct/register', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -52,6 +56,7 @@ const Register = () => {
       })
       const data = await response.json()
       if (!response.ok) {
+        setErrorMessage(data.error.message)
         throw new Error(`Error fetching direct email addresseses for logged in user: ${data.error.message}`)
       }
       setDirectEmailAddressList(data)
@@ -71,7 +76,7 @@ const Register = () => {
     const directEmailAddressToAdd = (directEmailAddressRef.current as unknown as HTMLInputElement)?.value || ''
     directEmailAddressRef.current.value = ''
     setIsAddingDirectAddress(true)
-    const response = await fetch('http://localhost:3000/api/direct/register', {
+    const response = await fetch('/api/direct/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -81,6 +86,7 @@ const Register = () => {
     const data = await response.json()
     if (!response.ok) {
       setIsAddingDirectAddress(false)
+      setErrorMessage(data.error.message)
       throw new Error(`Error adding direct address ${directEmailAddressToAdd}: ${data.error.message}`)
     }
     setDirectEmailAddressList([...directEmailAddressList, directEmailAddressToAdd])
@@ -88,13 +94,14 @@ const Register = () => {
     setContactEmailAddressList(await contactList)
     setSelectedDirectEmailAddress(directEmailAddressToAdd)
     setIsAddingDirectAddress(false)
+    setSuccessMessage('Direct email address added.')
   }
 
   const addContactAddress = async () => {
     const contactEmailAddressToAdd = (contactEmailAddressRef.current as unknown as HTMLInputElement)?.value || ''
     contactEmailAddressRef.current.value = ''
     setIsAddingContactAddress(true)
-    const response = await fetch(`http://localhost:3000/api/direct/register/${selectedDirectEmailAddress}`, {
+    const response = await fetch(`/api/direct/register/${selectedDirectEmailAddress}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -104,17 +111,19 @@ const Register = () => {
     const data = await response.json()
     if (!response.ok) {
       setIsAddingContactAddress(false)
+      setErrorMessage(data.error.message)
       throw new Error(`Error adding contact address ${contactEmailAddressToAdd}: ${data.error.message}`)
     }
     if (data === true) {
       setContactEmailAddressList([...contactEmailAdressList, contactEmailAddressToAdd])
       setIsAddingContactAddress(false)
+      setSuccessMessage(`Contact email address added to ${selectedDirectEmailAddress}.`)
     }
   }
 
   const deleteDirectEmailGroup = async () => {
     setIsDeletingDirectEmailGroup(true)
-    const response = await fetch(`http://localhost:3000/api/direct/register/${selectedDirectEmailAddress}`, {
+    const response = await fetch(`/api/direct/register/${selectedDirectEmailAddress}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -123,6 +132,7 @@ const Register = () => {
     const data = await response.json()
     if (!response.ok) {
       setIsDeletingDirectEmailGroup(false)
+      setErrorMessage(data.error.message)
       throw new Error(`Deleting direct group ${selectedDirectEmailAddress}: ${data.error.message}`)
     }
     if (data === true) {
@@ -133,28 +143,28 @@ const Register = () => {
       }
     }
     setIsDeletingDirectEmailGroup(false)
+    setSuccessMessage('Direct email address group deleted.')
   }
 
   const deleteContactAddress = async (contactEmailAddress: string) => {
     setIsDeletingContactAddress(true)
-    const response = await fetch(
-      `http://localhost:3000/api/direct/register/${selectedDirectEmailAddress}?contact=${contactEmailAddress}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    )
+    const response = await fetch(`/api/direct/register/${selectedDirectEmailAddress}?contact=${contactEmailAddress}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
     const data = await response.json()
     if (!response.ok) {
       setIsDeletingContactAddress(false)
+      setErrorMessage(data.error.message)
       throw new Error(`Error deleting contact email addresses ${contactEmailAddress}: ${data.error.message}`)
     }
     if (data === true) {
       setContactEmailAddressList(contactEmailAdressList.filter((x) => x !== contactEmailAddress))
     }
     setIsDeletingContactAddress(false)
+    setSuccessMessage(`Contact email address deleted from ${selectedDirectEmailAddress}.`)
   }
 
   const handleDirectEmailAddressChange = async (event: SelectChangeEvent) => {
@@ -167,7 +177,7 @@ const Register = () => {
   }
 
   const getContactEmailAddressesListForSelectedDirectAddress = async (directEmailAddress: string) => {
-    const response = await fetch(`http://localhost:3000/api/direct/register/${directEmailAddress}`, {
+    const response = await fetch(`/api/direct/register/${directEmailAddress}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -175,6 +185,7 @@ const Register = () => {
     })
     const data = await response.json()
     if (!response.ok) {
+      setErrorMessage(data.error.message)
       throw new Error(`Error fetching contact email addresses ${directEmailAddress}: ${data.error.message}`)
     }
     return data || []
@@ -354,6 +365,17 @@ const Register = () => {
               </>
             )}
           </Grid>
+          {!_.isEmpty(errorMessage) && (
+            <ErrorDisplayCard open={true} handleClose={() => setErrorMessage('')} response={{ error: errorMessage }} />
+          )}
+          {!_.isEmpty(successMessage) && (
+            <AlertSnackbar
+              message={successMessage}
+              severity="success"
+              open={true}
+              onClose={() => setSuccessMessage('')}
+            />
+          )}
         </Container>
       )}
     </>
