@@ -31,6 +31,12 @@ const Register = () => {
   const [contactEmailAdressList, setContactEmailAddressList] = useState<string[]>([])
   const [directEmailFormatError, setDirectEmailFormatError] = useState(false)
   const [contactEmailFormatError, setContactEmailFormatError] = useState(false)
+  const [isFetchingLoggedInUsersDirectEmailAdresses, setIsFetchingLoggedInUsersDirectEmailAdresses] = useState(false)
+  const [isAddingDirectAddress, setIsAddingDirectAddress] = useState(false)
+  const [isAddingContactAddress, setIsAddingContactAddress] = useState(false)
+  const [isDeletingDirectEmailGroup, setIsDeletingDirectEmailGroup] = useState(false)
+  const [isDeletingContactAddress, setIsDeletingContactAddress] = useState(false)
+  const [isFetchingContactAddresses, setIsFetchingContactAddresses] = useState(false)
   const directEmailAddressRef = useRef() as MutableRefObject<HTMLInputElement>
   const contactEmailAddressRef = useRef() as MutableRefObject<HTMLInputElement>
   const { data: session, status } = useSession()
@@ -53,12 +59,17 @@ const Register = () => {
       setSelectedDirectEmailAddress(data[0])
     }
     if (status === 'authenticated') {
-      fetchLoggedInUsersDirectEmailAdresses()
+      setIsFetchingLoggedInUsersDirectEmailAdresses(true)
+      fetchLoggedInUsersDirectEmailAdresses().then(() => {
+        setIsFetchingLoggedInUsersDirectEmailAdresses(false)
+      })
     }
   }, [session, status])
 
   const addDirectAddress = async () => {
     const directEmailAddressToAdd = (directEmailAddressRef.current as unknown as HTMLInputElement)?.value || ''
+    directEmailAddressRef.current.value = ''
+    setIsAddingDirectAddress(true)
     const response = await fetch('http://localhost:3000/api/direct/register', {
       method: 'POST',
       headers: {
@@ -68,17 +79,20 @@ const Register = () => {
     })
     const data = await response.json()
     if (!response.ok) {
+      setIsAddingDirectAddress(false)
       throw new Error(`Error adding direct address ${directEmailAddressToAdd}: ${data.error.message}`)
     }
     setDirectEmailAddressList([...directEmailAddressList, directEmailAddressToAdd])
     const contactList = getContactEmailAddressesListForSelectedDirectAddress(directEmailAddressToAdd)
     setContactEmailAddressList(await contactList)
     setSelectedDirectEmailAddress(directEmailAddressToAdd)
-    directEmailAddressRef.current.value = ''
+    setIsAddingDirectAddress(false)
   }
 
   const addContactAddress = async () => {
     const contactEmailAddressToAdd = (contactEmailAddressRef.current as unknown as HTMLInputElement)?.value || ''
+    contactEmailAddressRef.current.value = ''
+    setIsAddingContactAddress(true)
     const response = await fetch(`http://localhost:3000/api/direct/register/${selectedDirectEmailAddress}`, {
       method: 'POST',
       headers: {
@@ -88,15 +102,17 @@ const Register = () => {
     })
     const data = await response.json()
     if (!response.ok) {
+      setIsAddingContactAddress(false)
       throw new Error(`Error adding contact address ${contactEmailAddressToAdd}: ${data.error.message}`)
     }
     if (data === true) {
       setContactEmailAddressList([...contactEmailAdressList, contactEmailAddressToAdd])
-      contactEmailAddressRef.current.value = ''
+      setIsAddingContactAddress(false)
     }
   }
 
   const deleteDirectEmailGroup = async () => {
+    setIsDeletingDirectEmailGroup(true)
     const response = await fetch(`http://localhost:3000/api/direct/register/${selectedDirectEmailAddress}`, {
       method: 'DELETE',
       headers: {
@@ -105,6 +121,7 @@ const Register = () => {
     })
     const data = await response.json()
     if (!response.ok) {
+      setIsDeletingDirectEmailGroup(false)
       throw new Error(`Deleting direct group ${selectedDirectEmailAddress}: ${data.error.message}`)
     }
     if (data === true) {
@@ -114,9 +131,11 @@ const Register = () => {
         setSelectedDirectEmailAddress(directEmailAddressList[0])
       }
     }
+    setIsDeletingDirectEmailGroup(false)
   }
 
   const deleteContactAddress = async (contactEmailAddress: string) => {
+    setIsDeletingContactAddress(true)
     const response = await fetch(
       `http://localhost:3000/api/direct/register/${selectedDirectEmailAddress}?contact=${contactEmailAddress}`,
       {
@@ -128,18 +147,22 @@ const Register = () => {
     )
     const data = await response.json()
     if (!response.ok) {
+      setIsDeletingContactAddress(false)
       throw new Error(`Error deleting contact email addresses ${contactEmailAddress}: ${data.error.message}`)
     }
     if (data === true) {
       setContactEmailAddressList(contactEmailAdressList.filter((x) => x !== contactEmailAddress))
     }
+    setIsDeletingContactAddress(false)
   }
 
   const handleDirectEmailAddressChange = async (event: SelectChangeEvent) => {
     const selectedDirectEmailAddress = event.target.value as string
     setSelectedDirectEmailAddress(selectedDirectEmailAddress)
+    setIsFetchingContactAddresses(true)
     const contactList = await getContactEmailAddressesListForSelectedDirectAddress(selectedDirectEmailAddress)
     setContactEmailAddressList(contactList)
+    setIsFetchingContactAddresses(false)
   }
 
   const getContactEmailAddressesListForSelectedDirectAddress = async (directEmailAddress: string) => {
@@ -205,114 +228,133 @@ const Register = () => {
       />
 
       {/* Main Content */}
-      <Container sx={{ pt: 4 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <>
-              <Box sx={{ pb: 2 }}>
-                <TextField
-                  id="outlined-direct-email-address"
-                  label="Enter a valid Direct Email Address"
-                  fullWidth
-                  required
-                  inputRef={directEmailAddressRef}
-                  onChange={validateDirectEmailFormat}
-                  error={directEmailFormatError}
-                  helperText={directEmailFormatError ? 'Please enter a valid email' : ''}
-                  InputProps={{
-                    type: 'email',
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          edge="end"
-                          color="primary"
-                          onClick={() => addDirectAddress()}
-                          disabled={directEmailFormatError}
-                        >
-                          <AddBoxIcon fontSize="large" />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Box>
-              {!_.isEmpty(directEmailAddressList) && (
-                <Box>
-                  <Select value={selectedDirectEmailAddress} onChange={handleDirectEmailAddressChange} fullWidth>
-                    {directEmailAddressList.map((x, index) => {
-                      return (
-                        <MenuItem key={index} value={x}>
-                          {x}
-                        </MenuItem>
-                      )
-                    })}
-                  </Select>
-                  <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} sx={{ mt: 2 }}>
-                    <Button
-                      variant="outlined"
-                      sx={{ color: palette.errorDark, borderColor: palette.errorDark }}
-                      onClick={deleteDirectEmailGroup}
-                    >
-                      DELETE {selectedDirectEmailAddress}
-                    </Button>
+      {isFetchingLoggedInUsersDirectEmailAdresses ? (
+        <p>working...</p>
+      ) : (
+        <Container sx={{ pt: 4 }}>
+          <Grid container spacing={2}>
+            {isAddingDirectAddress || isDeletingDirectEmailGroup ? (
+              <p>working...</p>
+            ) : (
+              <Grid item xs={6}>
+                <>
+                  <Box sx={{ pb: 2 }}>
+                    <TextField
+                      id="outlined-direct-email-address"
+                      label="Enter a valid Direct Email Address"
+                      fullWidth
+                      required
+                      inputRef={directEmailAddressRef}
+                      onChange={validateDirectEmailFormat}
+                      error={directEmailFormatError}
+                      helperText={directEmailFormatError ? 'Please enter a valid email' : ''}
+                      InputProps={{
+                        type: 'email',
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              edge="end"
+                              color="primary"
+                              onClick={() => addDirectAddress()}
+                              disabled={directEmailFormatError || directEmailAddressRef.current?.value === ''}
+                            >
+                              <AddBoxIcon fontSize="large" />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
                   </Box>
-                </Box>
-              )}
-            </>
-          </Grid>
-          {!_.isEmpty(directEmailAddressList) && (
-            <Grid item xs={6}>
-              <>
-                <Box sx={{ pb: 2 }}>
-                  <TextField
-                    id="outlined-contact-email-address"
-                    label={`Enter a contact email address for ${selectedDirectEmailAddress}`}
-                    fullWidth
-                    inputRef={contactEmailAddressRef}
-                    required
-                    onChange={validateContactEmailFormat}
-                    error={contactEmailFormatError}
-                    helperText={contactEmailFormatError ? 'Please enter a valid email' : ''}
-                    InputProps={{
-                      type: 'email',
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton edge="end" color="primary" onClick={() => addContactAddress()}>
-                            <AddBoxIcon fontSize="large" />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Box>
-                <Box>
-                  {!_.isEmpty(contactEmailAdressList) && (
-                    <List>
-                      {contactEmailAdressList.map((x) => {
-                        return (
-                          <ListItem key={x}>
-                            <ListItemText primary={x} />
-                            <ListItemSecondaryAction>
-                              <IconButton
-                                edge="end"
-                                aria-label="delete"
-                                onClick={() => deleteContactAddress(x)}
-                                disabled={contactEmailFormatError}
-                              >
-                                <DeleteIcon />
-                              </IconButton>
-                            </ListItemSecondaryAction>
-                          </ListItem>
-                        )
-                      })}
-                    </List>
+                  {!_.isEmpty(directEmailAddressList) && (
+                    <Box>
+                      <Select value={selectedDirectEmailAddress} onChange={handleDirectEmailAddressChange} fullWidth>
+                        {directEmailAddressList.map((x, index) => {
+                          return (
+                            <MenuItem key={index} value={x}>
+                              {x}
+                            </MenuItem>
+                          )
+                        })}
+                      </Select>
+                      <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} sx={{ mt: 2 }}>
+                        <Button
+                          variant="outlined"
+                          sx={{ color: palette.errorDark, borderColor: palette.errorDark }}
+                          onClick={deleteDirectEmailGroup}
+                        >
+                          DELETE {selectedDirectEmailAddress}
+                        </Button>
+                      </Box>
+                    </Box>
                   )}
-                </Box>
+                </>
+              </Grid>
+            )}
+            {!_.isEmpty(directEmailAddressList) && (
+              <>
+                {isAddingContactAddress || isDeletingContactAddress || isFetchingContactAddresses ? (
+                  <p>working...</p>
+                ) : (
+                  <Grid item xs={6}>
+                    <>
+                      <Box sx={{ pb: 2 }}>
+                        <TextField
+                          id="outlined-contact-email-address"
+                          label={`Enter a contact email address for ${selectedDirectEmailAddress}`}
+                          fullWidth
+                          inputRef={contactEmailAddressRef}
+                          required
+                          onChange={validateContactEmailFormat}
+                          error={contactEmailFormatError}
+                          helperText={contactEmailFormatError ? 'Please enter a valid email' : ''}
+                          InputProps={{
+                            type: 'email',
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  edge="end"
+                                  color="primary"
+                                  onClick={() => addContactAddress()}
+                                  disabled={contactEmailFormatError || contactEmailAddressRef.current?.value === ''}
+                                >
+                                  <AddBoxIcon fontSize="large" />
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Box>
+                      <Box>
+                        {!_.isEmpty(contactEmailAdressList) && (
+                          <List>
+                            {contactEmailAdressList.map((x) => {
+                              return (
+                                <ListItem key={x}>
+                                  <ListItemText primary={x} />
+                                  <ListItemSecondaryAction>
+                                    <IconButton
+                                      edge="end"
+                                      aria-label="delete"
+                                      onClick={() => deleteContactAddress(x)}
+                                      disabled={contactEmailFormatError}
+                                    >
+                                      <DeleteIcon />
+                                    </IconButton>
+                                  </ListItemSecondaryAction>
+                                </ListItem>
+                              )
+                            })}
+                          </List>
+                        )}
+                      </Box>
+                    </>
+                  </Grid>
+                )}
               </>
-            </Grid>
-          )}
-        </Grid>
-      </Container>
+            )}
+          </Grid>
+        </Container>
+      )}
     </>
   )
 }
