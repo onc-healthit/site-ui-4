@@ -44,7 +44,6 @@ jobs:
       - name: Create Build Artifact
         run: |
           ls -la
-          ls -la ./.next
           mkdir ./build
           cp ./.next -pR ./build/.next
           cp ./next.config.js ./build/next.config.js
@@ -56,6 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: BuildArtifact
+          include-hidden-files: true
           path: ./build
           retention-days: 7
   deploy:
