@@ -17,6 +17,7 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
+  LinearProgress,
 } from '@mui/material'
 import AddBoxIcon from '@mui/icons-material/AddBox'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -229,12 +230,12 @@ const Register = () => {
 
       {/* Main Content */}
       {isFetchingLoggedInUsersDirectEmailAdresses ? (
-        <p>working...</p>
+        <LinearProgress />
       ) : (
         <Container sx={{ pt: 4 }}>
           <Grid container spacing={2}>
             {isAddingDirectAddress || isDeletingDirectEmailGroup ? (
-              <p>working...</p>
+              <LinearProgress />
             ) : (
               <Grid item xs={6}>
                 <>
@@ -293,7 +294,7 @@ const Register = () => {
             {!_.isEmpty(directEmailAddressList) && (
               <>
                 {isAddingContactAddress || isDeletingContactAddress || isFetchingContactAddresses ? (
-                  <p>working...</p>
+                  <LinearProgress />
                 ) : (
                   <Grid item xs={6}>
                     <>
