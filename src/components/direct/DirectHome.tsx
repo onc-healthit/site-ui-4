@@ -197,10 +197,12 @@ const DirectHome = () => {
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
-        <SectionHeader
-          header={'Certification for Download'}
-          subHeader={'Empower Your Testing with Essential Certificates'}
-        />
+        <div id="certification-download">
+          <SectionHeader
+            header={'Certification for Download'}
+            subHeader={'Empower Your Testing with Essential Certificates'}
+          />
+        </div>
         <Box sx={{ ...flexibleBox }}>
           <CertificateCard
             title={'Public Cert'}

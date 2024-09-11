@@ -135,6 +135,7 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
       'Cookie': `JSESSIONID=${data.jsession}`,
     },
     data: JSON.stringify(formattedData),
+
   }
 
   console.log('Sending data:', config)

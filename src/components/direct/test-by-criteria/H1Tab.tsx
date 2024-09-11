@@ -10,24 +10,60 @@ import {
   CardContent,
   Container,
 } from '@mui/material'
+import React, { useState } from 'react'
 import Profile from '../shared/Profile'
-import SMTPTestCard from '../shared/SMTPTestCard'
 import palette from '@/styles/palette'
-import React, { useEffect } from 'react'
-import criteria from '@/assets/Criteria'
+import TestCard from '../hisp/TestCard'
+import testCases from '../../../assets/SMTPTestCases'
 
 const H1Component = () => {
-  const [option, setOption] = React.useState('')
-  const [showTestCard, setShowTestCard] = React.useState(false)
-  const handleChange = (event: SelectChangeEvent) => {
-    setOption(event.target.value as string)
-  }
-  const h1CriteriaList = criteria.filter((c) => c.testList === "['h1']")
-  /*   useEffect(() => {
-    if (option !== '') {
-      setShowTestCard(true)
+  const [option, setOption] = useState('')
+  const [hostname, setHostname] = useState('')
+  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [tlsRequired, setTlsRequired] = useState(false)
+
+  const dropdownOptions = [
+    {
+      value: 'directHome',
+      label: 'Criteria (i) Direct Home - Certificates',
+      link: '/direct#certification-download',
+    },
+    {
+      value: 'certificateDiscovery',
+      label: 'Criteria (i) Certificate Discovery / Hosting',
+      link: '/direct/dcdt#hosting',
+    },
+    { value: 'registerDirect', label: 'Criteria (i) Register Direct', link: '/direct/register' },
+    { value: 'sendDirectMessage', label: 'Criteria (i) Send Direct Message', link: '/direct/senddirect' },
+    {
+      value: 'receiveMessageStatus',
+      label: 'Criteria (i) Receive - Message Status',
+      link: '/direct/senddirect#message-status',
+    },
+    { value: 'deliveryNotifications', label: 'Criteria (ii) Delivery Notifications', testCard: true },
+  ]
+
+  const h1Criteria = testCases.tests.filter((test) => test.criteria?.includes('h1-1'))
+
+  const selectedTestCases = () => {
+    switch (option) {
+      default:
+        return h1Criteria
     }
-  }, [option]) */
+  }
+
+  const handleChange = (event: SelectChangeEvent) => {
+    const selectedOption = dropdownOptions.find((option) => option.value === event.target.value)
+    if (selectedOption?.testCard) {
+      setOption(event.target.value)
+    } else if (selectedOption?.link) {
+      window.location.href = selectedOption.link
+    }
+  }
+
+  const showTestCard = option === 'deliveryNotifications'
 
   return (
     <Container>
@@ -49,9 +85,9 @@ const H1Component = () => {
                       label="Choose a sub category"
                       onChange={handleChange}
                     >
-                      {h1CriteriaList.map((option) => (
-                        <MenuItem key={option.name} value={option.name}>
-                          {option.name}
+                      {dropdownOptions.map((item) => (
+                        <MenuItem key={item.value} value={item.value}>
+                          {item.label}
                         </MenuItem>
                       ))}
                     </Select>
@@ -61,21 +97,35 @@ const H1Component = () => {
             </CardContent>
           </Card>
           <Card>
-            <Profile />
+            <Profile
+              setHostname={setHostname}
+              setEmail={setEmail}
+              setUsername={setUsername}
+              setPassword={setPassword}
+              setTls={setTlsRequired}
+            />
           </Card>
         </Box>
         <Box sx={{ flexGrow: 1 }}>
-          {showTestCard && (
-            <SMTPTestCard
-              cardHeader={'SMTP Test 8,14 (Send)'}
-              cardContent={
-                'Verifies the ability of the sending system to send an email to ETT using the SMTP protocol with STARTTLS. The SUT will send an email to edge-receiver@james.healthit.gov. Hitting "Run" will cause ETT to search for an email sent to edge-receiver@james.healthit.gov from the email address entered in Profile window. Note that the C-CDA Document Type selected will not affect the test result.'
-              }
-            />
-          )}
+          {showTestCard &&
+            selectedTestCases().map((test, i) => (
+              <Box key={i} sx={{ mb: 2 }}>
+                {' '}
+                <TestCard
+                  test={test}
+                  hostname={hostname}
+                  email={email}
+                  username={username}
+                  password={password}
+                  tlsRequired={tlsRequired}
+                  receive={false}
+                />
+              </Box>
+            ))}
         </Box>
       </Box>
     </Container>
   )
 }
+
 export default H1Component
