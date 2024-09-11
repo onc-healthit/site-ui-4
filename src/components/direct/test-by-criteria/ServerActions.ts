@@ -145,7 +145,7 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     const content = response.data
 
     const testRequest = content.content.value.request || content.message
-    const testResponse = content.content.value.response
+    const testResponse = content.content.value.response || ''
 
     return {
       criteriaMet: content.status,
