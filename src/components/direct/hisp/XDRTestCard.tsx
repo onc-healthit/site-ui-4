@@ -456,7 +456,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
           renderMoreInfo()
         ) : showLogs ? (
           <CardContent>
-            <Typography variant="h3">Log for XDR Test {test.name}</Typography>
+            <Typography variant="h3">Log for {test.name}</Typography>
 
             <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-start', mt: 2, mb: 2 }}>
               <Button
