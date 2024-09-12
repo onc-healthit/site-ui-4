@@ -27,7 +27,7 @@ export async function handleSubmitHosting(prevState: object | undefined, formDat
       console.error(error.response?.data)
       return {
         response: {
-          error: 'They was an error connecting to the backend, Please try again later!',
+          error: 'There was an error completing the request, Please try again later!',
           errorStatus: error.response?.status,
         },
       }
@@ -65,7 +65,7 @@ export async function handleSubmitDiscover(prevState: object | undefined, formDa
       console.error(error.response?.data)
       return {
         response: {
-          error: 'They was an error connecting to the backend, Please try again later!',
+          error: 'There was an error completing the request, Please try again later!',
           errorStatus: error.response?.status,
         },
       }

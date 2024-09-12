@@ -29,7 +29,7 @@ export async function handleSendMessageWithAttachmentFilepath(prevState: object 
       console.error(error.response?.data)
       return {
         response: {
-          error: 'They was an error connecting to the backend, Please try again later!',
+          error: 'There was an error completing the request, Please try again later!',
           errorStatus: error.response?.status,
         },
       }
@@ -60,7 +60,7 @@ export async function handleSendMessageWithAttachmentFile(prevState: object | un
       console.error(error.response?.data)
       return {
         response: {
-          error: 'They was an error connecting to the backend, Please try again later!',
+          error: 'There was an error completing the request, Please try again later!',
           errorStatus: error.response?.status,
         },
       }
@@ -91,7 +91,7 @@ export async function handleSearchSITEInbox(prevState: object | undefined, formD
       console.error(error.response?.data)
       return {
         response: {
-          error: 'They was an error connecting to the backend, Please try again later!',
+          error: 'There was an error completing the request, Please try again later!',
           errorStatus: error.response?.status,
         },
       }
@@ -120,7 +120,7 @@ export async function handleSearchHHSInbox(prevState: object | undefined, formDa
       console.error(error.response?.data)
       return {
         response: {
-          error: 'They was an error connecting to the backend, Please try again later!',
+          error: 'There was an error completing the request, Please try again later!',
           errorStatus: error.response?.status,
         },
       }
@@ -151,7 +151,7 @@ export async function handleUploadTrustAnchor(prevState: object | undefined, for
       console.error(error.response?.data)
       return {
         response: {
-          error: 'They was an error connecting to the backend, Please try again later!',
+          error: 'There was an error completing the request, Please try again later!',
           errorStatus: error.response?.status,
         },
       }
