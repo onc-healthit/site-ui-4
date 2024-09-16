@@ -49,7 +49,7 @@ const XDM = () => {
           </Link>,
         ]}
         heading={'XDM Validator'}
-        description={<>Upload your XDM file to validate its authenticity.</>}
+        description={<>Upload your XDM file to validate.</>}
       />
 
       {/* Main Content */}

@@ -163,7 +163,7 @@ const DirectHome = () => {
           />
           <CategoryCard
             cardHeader="XDM Validator"
-            description={'Upload your XDM file to validate its authenticity.'}
+            description={'Upload your XDM file to validate.'}
             buttonTitle={'validate'}
             buttonLink={'/direct/xdm'}
             buttonIcon={<ArrowForwardIcon />}
