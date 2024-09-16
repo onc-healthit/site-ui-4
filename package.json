@@ -22,7 +22,7 @@
     "@mui/material": "^5.16.0",
     "@mui/material-nextjs": "^5.15.5",
     "@mui/x-data-grid": "^7.12.1",
-    "axios": "^1.6.8",
+    "axios": "^1.7.7",
     "dompurify": "^3.1.2",
     "lodash": "^4.17.21",
     "marked": "^12.0.2",

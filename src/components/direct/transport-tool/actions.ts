@@ -1,4 +1,5 @@
 'use server'
+import { GENERIC_ERROR_MESSAGE } from '@/constants/errorConstants'
 import axios from 'axios'
 
 export async function getSampleCCDAFiles(sampleCCDAFilesEndpoint: string) {
@@ -29,7 +30,7 @@ export async function handleSendMessageWithAttachmentFilepath(prevState: object 
       console.error(error.response?.data)
       return {
         response: {
-          error: 'There was an error completing the request, Please try again later!',
+          error: GENERIC_ERROR_MESSAGE,
           errorStatus: error.response?.status,
         },
       }
@@ -60,7 +61,7 @@ export async function handleSendMessageWithAttachmentFile(prevState: object | un
       console.error(error.response?.data)
       return {
         response: {
-          error: 'There was an error completing the request, Please try again later!',
+          error: GENERIC_ERROR_MESSAGE,
           errorStatus: error.response?.status,
         },
       }
@@ -91,7 +92,7 @@ export async function handleSearchSITEInbox(prevState: object | undefined, formD
       console.error(error.response?.data)
       return {
         response: {
-          error: 'There was an error completing the request, Please try again later!',
+          error: GENERIC_ERROR_MESSAGE,
           errorStatus: error.response?.status,
         },
       }
@@ -120,7 +121,7 @@ export async function handleSearchHHSInbox(prevState: object | undefined, formDa
       console.error(error.response?.data)
       return {
         response: {
-          error: 'There was an error completing the request, Please try again later!',
+          error: GENERIC_ERROR_MESSAGE,
           errorStatus: error.response?.status,
         },
       }
@@ -151,7 +152,7 @@ export async function handleUploadTrustAnchor(prevState: object | undefined, for
       console.error(error.response?.data)
       return {
         response: {
-          error: 'There was an error completing the request, Please try again later!',
+          error: GENERIC_ERROR_MESSAGE,
           errorStatus: error.response?.status,
         },
       }
