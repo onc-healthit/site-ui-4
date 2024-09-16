@@ -1,6 +1,7 @@
 'use server'
 import https from 'https'
 import axios from 'axios'
+import { GENERIC_ERROR_MESSAGE } from '@/constants/errorConstants'
 //Get Scenario file options
 export async function getScenarioOptions(criteriaUrl: string) {
   const res = await fetch(criteriaUrl)
@@ -77,7 +78,7 @@ export async function postToValidatorV3(prevState: object | undefined, formData:
       console.error(error.response?.data)
       return {
         response: {
-          error: 'Validator Service had an issue, Please try again later!',
+          error: GENERIC_ERROR_MESSAGE,
           errorStatus: error.response?.status,
         },
       }
@@ -126,7 +127,7 @@ export async function postToValidatorV1(prevState: object | undefined, formData:
       console.error(error.response?.data)
       return {
         response: {
-          error: 'Validator Service had an issue, Please try again later!',
+          error: GENERIC_ERROR_MESSAGE,
           errorStatus: error.response?.status,
         },
       }

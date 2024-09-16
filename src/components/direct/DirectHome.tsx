@@ -162,10 +162,10 @@ const DirectHome = () => {
             cardWidthPercent={100}
           />
           <CategoryCard
-            cardHeader="Validate Direct Email"
-            description={'Upload your Direct message and its certificate to validate its authenticity.'}
+            cardHeader="XDM Validator"
+            description={'Upload your XDM file to validate.'}
             buttonTitle={'validate'}
-            buttonLink={'/direct/validate'}
+            buttonLink={'/direct/xdm'}
             buttonIcon={<ArrowForwardIcon />}
             cardWidthPercent={100}
           />

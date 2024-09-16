@@ -1,4 +1,4 @@
-'use client'
+/* 'use client'
 import BannerBox from '@/components/shared/BannerBox'
 import styles from '@/components/shared/styles.module.css'
 import { Box, Button, Container, Stack, TextField, Tooltip, Typography } from '@mui/material'
@@ -10,26 +10,7 @@ import palette from '@/styles/palette'
 const Validate = () => {
   return (
     <>
-      {/* Global Header */}
-      <BannerBox
-        breadcrumbs={[
-          <Link color="inherit" href="/direct" key="1" className={styles.link}>
-            Direct
-          </Link>,
-          <Link color="inherit" href="/direct/validate" key="2" className={styles.link}>
-            Validate
-          </Link>,
-        ]}
-        heading={'Validate Direct Message'}
-        description={
-          <>
-            Ensure that your direct messaging system complies with legal and regulatory requirements, including HIPAA
-            regulations in the United States. Stay updated with any changes in the regulations that might impact the way
-            direct messages need to be handled and secured.
-          </>
-        }
-      />
-      {/* Main Content */}
+      
       <Container>
         <Box>
           <Typography variant="h3" component={'h1'} sx={{ p: 4, pl: 0 }}>
@@ -87,3 +68,4 @@ const Validate = () => {
 }
 
 export default Validate
+ */
