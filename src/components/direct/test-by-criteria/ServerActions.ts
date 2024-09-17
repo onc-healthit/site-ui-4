@@ -1,5 +1,9 @@
 'use server'
 import axios from 'axios'
+import { authOptions } from '@/lib/auth'
+import { NextRequest, NextResponse } from 'next/server'
+import _ from 'lodash'
+import { getServerSession } from 'next-auth'
 
 interface APICallData {
   testCaseNumber: number | string
@@ -107,7 +111,8 @@ export async function handleAPICall(data: APICallData): Promise<APIResponse> {
 
 export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResponse> {
   const apiUrl = process.env.XDR_TEST_BY_CRITERIA_ENDPOINT + data.id + '/run'
-  const jsessionstring = 'JSESSIONID=' + data.jsession
+  const session = await getServerSession(authOptions)
+  const jsessionid = session?.user?.jsessionid ?? ''
   const formattedData = {
     targetEndpointTLS: data.targetEndpointTLS,
     ip_address: data.ip_address,
@@ -132,7 +137,7 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     url: apiUrl,
     headers: {
       'Content-Type': 'application/json',
-      Cookie: jsessionstring,
+      Cookie: `JSESSIONID=${jsessionid}`,
     },
     data: JSON.stringify(formattedData),
   }
