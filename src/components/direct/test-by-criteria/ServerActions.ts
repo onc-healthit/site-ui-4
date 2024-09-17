@@ -135,7 +135,6 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
       'Cookie': `JSESSIONID=${data.jsession}`,
     },
     data: JSON.stringify(formattedData),
-
   }
 
   console.log('Sending data:', config)
@@ -146,7 +145,7 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     const content = response.data
 
     const testRequest = content.content.value.request || content.message
-    const testResponse = content.content.value.response || ''
+    const testResponse = content.content.value.response || content.message
 
     return {
       criteriaMet: content.status,
