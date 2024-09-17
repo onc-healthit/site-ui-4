@@ -145,7 +145,7 @@ export default function ScorecardResultsDialog({
             </Box>
             <Divider sx={dividerPaddingStyle} />
             <Box id={removeHashtagToUseHrefLinkAsIdForAnchor(HrefLinkValueEnum.COMPARE)}>
-              <ScorecardCompareChartSummary />
+              <ScorecardCompareChartSummary results={results} />
             </Box>
             <Divider sx={dividerPaddingStyle} />
             <Box id={removeHashtagToUseHrefLinkAsIdForAnchor(HrefLinkValueEnum.NEXT_STEPS)}>
