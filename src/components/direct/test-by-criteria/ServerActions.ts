@@ -107,6 +107,7 @@ export async function handleAPICall(data: APICallData): Promise<APIResponse> {
 
 export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResponse> {
   const apiUrl = process.env.XDR_TEST_BY_CRITERIA_ENDPOINT + data.id + '/run'
+  const jsessionstring = 'JSESSIONID=' + data.jsession
   const formattedData = {
     targetEndpointTLS: data.targetEndpointTLS,
     ip_address: data.ip_address,
@@ -131,8 +132,7 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     url: apiUrl,
     headers: {
       'Content-Type': 'application/json',
-      // prettier-ignore
-      'Cookie': `JSESSIONID=${data.jsession}`,
+      Cookie: jsessionstring,
     },
     data: JSON.stringify(formattedData),
   }
