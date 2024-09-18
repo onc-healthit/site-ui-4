@@ -51,50 +51,50 @@ const XDMResults = ({ response, buttonTitle }: ResultsComponentProps) => {
             Validator Results
           </Typography>
           {response.pass && (
-            <Box
-              sx={{ width: '100%', flexDirection: 'row', gap: '16px', display: 'flex', alignItems: 'center', p: 2 }}
-              borderRadius={1}
-              border={`1px solid ${palette.success}`}
-            >
-              <Check
-                fontSize="large"
-                sx={{
-                  'color': palette.success,
-                  'transition': 'transform 0.3s ease-in-out',
-                  'transform': 'scale(1)',
-                  '&:hover': {
-                    transform: 'scale(1.2)',
-                  },
-                }}
-              />
+             <Box borderRadius={1} border={`1px solid ${palette.success}`}>
+              <Box
+                sx={{ width: '100%', flexDirection: 'row', gap: '16px', display: 'flex', alignItems: 'center', p: 2 }}
+              >
+                <Check
+                  fontSize="large"
+                  sx={{
+                    color: palette.success,
+                    transition: 'transform 0.3s ease-in-out',
+                    transform: 'scale(1)',
+                    '&:hover': {
+                      transform: 'scale(1.2)',
+                    },
+                  }}
+                />
+                  <Typography variant="h4">Validation Passed</Typography>
+              </Box>
               <Box>
                 <pre>{response.report}</pre>
               </Box>
             </Box>
           )}
           {!response.pass && (
-            <Box
-              sx={{ width: '100%', flexDirection: 'row', gap: '16px', display: 'flex', alignItems: 'center', p: 2 }}
-              borderRadius={1}
-              border={`1px solid ${palette.error}`}
-            >
-              <ErrorIcon
-                fontSize="large"
-                sx={{
-                  'color': palette.error,
-                  'transition': 'transform 0.3s ease-in-out',
-                  'transform': 'scale(1)',
-                  '&:hover': {
-                    transform: 'scale(1.2)',
-                  },
-                }}
-              />
+            <Box borderRadius={1} border={`1px solid ${palette.error}`}>
+              <Box
+                sx={{ width: '100%', flexDirection: 'row', gap: '16px', display: 'flex', alignItems: 'center', p: 2 }}
+              >
+                <ErrorIcon
+                  fontSize="large"
+                  sx={{
+                    color: palette.error,
+                    transition: 'transform 0.3s ease-in-out',
+                    transform: 'scale(1)',
+                    '&:hover': {
+                      transform: 'scale(1.2)',
+                    },
+                  }}
+                />
+                  <Typography variant="h4">Validation Failed</Typography>
+              </Box>
               <Box>
                 <pre>{response.report}</pre>
               </Box>
             </Box>
-          )}
-        </Box>
       )}
     </>
   )
