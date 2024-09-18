@@ -188,6 +188,14 @@ const DirectHome = () => {
             cardWidthPercent={100}
           />
           <CategoryCard
+            cardHeader="XDR Edge Test Tool"
+            description={`This Tool provides a mechanism for developers to test the sending and receiving capabilities of their Direct XDR Edge Implementations. The implementers can interact with a Direct Reference Implementation to check their implementations for interoperability and functionality.`}
+            buttonTitle={'TEST XDR EDGE'}
+            buttonLink={'/direct/xdr-edge'}
+            buttonIcon={<ArrowForwardIcon />}
+            cardWidthPercent={100}
+          />
+          <CategoryCard
             cardHeader="HISP Testing Portal"
             description={`Simulate Health Information Service Provider (HISP) functionality and validate your system's compatibility with SMTP, IMAP, and POP3 protocols through comprehensive test cases and message tracking, ensuring seamless integration with Direct messaging providers.`}
             buttonTitle={'Simulate HISP'}
