@@ -95,6 +95,8 @@ const XDMResults = ({ response, buttonTitle }: ResultsComponentProps) => {
                 <pre>{response.report}</pre>
               </Box>
             </Box>
+          )}
+        </Box>
       )}
     </>
   )
