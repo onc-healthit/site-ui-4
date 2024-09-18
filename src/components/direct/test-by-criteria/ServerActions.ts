@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { authOptions } from '@/lib/auth'
 import _ from 'lodash'
+import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 
 interface APICallData {
@@ -144,7 +145,7 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
 
   try {
     const response = await axios(config)
-    console.log('Raw content 1226:', response.data)
+    console.log('Raw content 1205:', response.data)
     const content = response.data
 
     let testRequest = ''
