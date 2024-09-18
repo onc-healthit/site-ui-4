@@ -1,7 +1,6 @@
 'use server'
 import axios from 'axios'
 import { authOptions } from '@/lib/auth'
-import { NextRequest, NextResponse } from 'next/server'
 import _ from 'lodash'
 import { getServerSession } from 'next-auth'
 
@@ -135,10 +134,9 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
   const config = {
     method: 'post',
     url: apiUrl,
-    headers: {
-      'Content-Type': 'application/json',
-      Cookie: `JSESSIONID=${jsessionid}`,
-    },
+    headers: session
+      ? { 'Content-Type': 'application/json', Cookie: `JSESSIONID=${jsessionid}` }
+      : { 'Content-Type': 'application/json' },
     data: JSON.stringify(formattedData),
   }
 
@@ -149,8 +147,17 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     console.log('Raw content 1226:', response.data)
     const content = response.data
 
-    const testRequest = content.content.value.request || content.message
-    const testResponse = content.content.value.response || content.message
+    let testRequest = ''
+    let testResponse = ''
+
+    if (content && content.content && content.content.value) {
+      testRequest = content.content.value.request || content.message
+      testResponse = content.content.value.response || content.message
+    } else {
+      console.error('Invalid response structure:', content)
+      testRequest = content.message
+      testResponse = content.message
+    }
 
     return {
       criteriaMet: content.status,
