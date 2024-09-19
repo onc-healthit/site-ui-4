@@ -2,7 +2,7 @@
   "Overview": [
     {
       "question": "What is SITE?",
-      "answer": "Discover the core concept and purpose behind SITE, and how it can benefit you or your organization."
+      "answer": "The Standards Implementation & Testing Environment (SITE) is a centralized collection of testing tools and resources designed to assist health IT developers and users in fully evaluating specific technical standards and maximizing the potential of their health IT implementations. SITE includes test tools, sample data, collaboration resources, and useful links."
     },
     {
       "question": "How do I get started with SITE?",
@@ -10,19 +10,11 @@
     },
     {
       "question": "What are the key features of SITE?",
-      "answer": "Explore the various tools, functions, and capabilities that SITE offers to help you achieve your goals."
-    },
-    {
-      "question": "How can I connect with other users on SITE?",
-      "answer": "Learn how to build connections, join communities, and engage with fellow SITE users."
-    },
-    {
-      "question": "Is SITE compatible with mobile devices?",
-      "answer": "Find out if SITE is accessible on smartphones and tablets, and how to make the most of the mobile experience."
+      "answer": "SITE includes ONC Certification Tools, General Testing Tools, and Resources.  ONC Certification Tools include FHIR resources, C-CDA testing, clinical quality measure testing, electronic prescribing tools, public health reporting testing, and alternative testing. Our General Testing Tools include a suite of general testing tools, including the CPOE Evaluation Tool, IHE Testing Tools, Lantern Project, and the Inferno HL7 FHIR Validator.  In addition to this FAQ resource, videos and documentation help enhance your understanding of SITE."
     },
     {
       "question": "How can I report issues or seek assistance on SITE?",
-      "answer": "Get information on how to report bugs, seek technical support, or contact our customer service team."
+      "answer": "Contact us at edge-test-tool@googlegroups.com or access our forum for the latest questions & answers. \nQuestions about the applicability of the initial set of standards, implementation specifications, and certification criteria should be directed to ONC at ONC.Certification@hhs.gov. Questions about the functions and activities of the ONC-ATLs and ONC-ACBs should also be directed to ONC at ONC.Certification@hhs.gov."
     }
   ],
   "Direct": [
@@ -336,5 +328,6 @@
       "question": "Does the ETT require the same unique message ID when the message is sent to multiple recipients, or is it acceptable to have different message IDs for each recipient?",
       "answer": "Message IDs must be unique."
     }
-  ]
+  ],
+  "Videos": []
 }

@@ -16,16 +16,10 @@ export default function SiteNavResources() {
 
   const items: NavListItemType[] = [
     {
-      text: 'FAQs',
+      text: 'Documentation',
       isExternalLink: false,
-      href: '/faqs',
-      icon: <QuestionAnswerOutlined aria-label="Go to FAQs" fontSize="small" />,
-    },
-    {
-      text: 'Documentation & Videos',
-      isExternalLink: false,
-      href: '/docs-and-vids',
-      icon: <IntegrationInstructionsOutlined aria-label="Go to Documentation and Videos" fontSize="small" />,
+      href: '/docs',
+      icon: <IntegrationInstructionsOutlined aria-label="Go to Documentation" fontSize="small" />,
     },
   ]
 

@@ -1,16 +1,20 @@
-import { Typography, Container, List, ListItemButton } from '@mui/material'
+import { Typography, Container, List, ListItemButton, Link } from '@mui/material'
 import Box from '@mui/material/Box'
 import DocsCard from './DocsCard'
 import BannerBox from '@shared/BannerBox'
+import palette from '@/styles/palette'
 import DocsSubMenu from './DocsSubMenu'
-import VideoItem from './VideoItem'
 
 export default function DocsHome() {
   return (
     <div>
       <BannerBox
-        breadcrumbs={undefined}
-        heading={'Documents & Videos'}
+        breadcrumbs={
+          <Link color={palette.secondary} href={'/docs'}>
+            Documents
+          </Link>
+        }
+        heading={'Documents'}
         subHeading={'A hub of valuable resources'}
         isTourButton={false}
         description={
@@ -22,7 +26,7 @@ export default function DocsHome() {
           <DocsSubMenu />
           <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
             <DocsCard
-              header="Documents & Videos"
+              header="Documents"
               content={
                 <div>
                   <Typography id="docs" variant="body1" sx={{ mb: 1.5 }}>
@@ -34,10 +38,7 @@ export default function DocsHome() {
                     <ListItemButton href="https://www.healthit.gov/topic/certification-ehrs/onc-health-it-certification-program-test-method">
                       Access Testing Procedures and Companion Guides
                     </ListItemButton>
-                    <ListItemButton href="/local-install">Local Installation Guide</ListItemButton>
-                    <ListItemButton href="https://www.healthit.gov/topic/certification-ehrs/2015-edition-cures-update-test-method">
-                      Installing using the AMI (Amazon Machine Image)
-                    </ListItemButton>
+
                     <ListItemButton href="https://github.com/onc-healthit/ett/raw/resources/documentation/guides/ETT%20Endpoints.docx">
                       Endpoints for ETT.HealthIT.Gov testing
                     </ListItemButton>
@@ -46,81 +47,152 @@ export default function DocsHome() {
               }
             />
             <DocsCard
-              header="Videos"
+              header="GitHub"
               content={
                 <div>
-                  <Typography id="vids" variant="body1" sx={{ mb: 4 }}>
-                    For those who prefer visual learning, our video collection offers an engaging way to absorb
-                    information
+                  <Typography id="github" variant="body1" sx={{ mb: 2 }}>
+                    The following Github repositories are part of SITE releases.
                   </Typography>
                   <div
                     style={{
                       display: 'grid',
-                      gridTemplateColumns: 'repeat(2, 1fr)',
                       gap: '20px',
                     }}
                   >
-                    <VideoItem
-                      fileName="Intro_To_ETT.mp4"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/Intro_To_ETT.mp4"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="MDHT.mp4"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/MDHT.mp4"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="XDM_Validation.mp4"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/XDM_Validation.mp4"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="Receiver Tests SMTP.mp4"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/Receiver%20Tests%20SMTP.mp4"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="XDR_EDGE_RECEIVER.mp4"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/XDR_EDGE_RECEIVER.mp4"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="XDR_EDGE_SENDER.mp4"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/XDR_EDGE_SENDER.mp4"
-                      showFileType
-                    />
-
-                    <VideoItem
-                      fileName="XDR_Validation.mp4"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/XDR_Validation.mp4"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="readme.txt"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/readme.txt"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="Update readme.txt"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/commit/b7f3e765747720b2d6a9b918e7137dd9ba5eeb3c"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="video_demos.html"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/video_demos.html"
-                      showFileType
-                    />
+                    <List>
+                      <Typography style={{ marginBottom: 16 }}>
+                        reference-ccda-validator:
+                        <a href="https://github.com/onc-healthit/reference-ccda-validator" style={{ marginLeft: 4 }}>
+                          https://github.com/onc-healthit/reference-ccda-validator
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        code-validator-api:
+                        <a href="https://github.com/onc-healthit/code-validator-api" style={{ marginLeft: 4 }}>
+                          https://github.com/onc-healthit/code-validator-api
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        content-validator-api:
+                        <a href="https://github.com/onc-healthit/content-validator-api" style={{ marginLeft: 4 }}>
+                          https://github.com/onc-healthit/content-validator-api
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        ccda-scorecard:
+                        <a href="https://github.com/onc-healthit/reference-ccda-validator" style={{ marginLeft: 4 }}>
+                          https://github.com/onc-healthit/reference-ccda-validator
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        xdr-message-validator:
+                        <a href="https://github.com/onc-healthit/xdr-message-validator" style={{ marginLeft: 4 }}>
+                          https://github.com/onc-healthit/xdr-message-validator
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        SITE IHE XDR Test Tool Implementation:
+                        <a href="https://github.com/onc-healthit/soap" style={{ marginLeft: 4 }}>
+                          https://github.com/onc-healthit/soap
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        Set of FHIR tools for SITE:
+                        <a href="https://github.com/onc-healthit/fhir-tools" style={{ marginLeft: 4 }}>
+                          https://github.com/onc-healthit/fhir-tools
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        direct-transport-message-sender:
+                        <a
+                          href="https://github.com/onc-healthit/direct-transport-message-sender"
+                          style={{ marginLeft: 4 }}
+                        >
+                          https://github.com/onc-healthit/direct-transport-message-sender
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        trustanchor-uploader:
+                        <a href="https://github.com/onc-healthit/trustanchor-uploader" style={{ marginLeft: 4 }}>
+                          https://github.com/onc-healthit/trustanchor-uploader
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        xdr-message-sender:
+                        <a href="https://github.com/onc-healthit/xdr-message-sender" style={{ marginLeft: 4 }}>
+                          https://github.com/onc-healthit/xdr-message-sender
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        scorecard-results-mailer-job:
+                        <a
+                          href="https://github.com/onc-healthit/scorecard-results-mailer-job"
+                          style={{ marginLeft: 4 }}
+                        >
+                          https://github.com/onc-healthit/scorecard-results-mailer-job
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        Direct Certificate Discovery Tool (DCDT):
+                        <a href="https://github.com/onc-healthit/dcdt" style={{ marginLeft: 4 }}>
+                          https://github.com/onc-healthit/dcdt
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        ETT:
+                        <a href="https://github.com/onc-healthit/ett" style={{ marginLeft: 4 }}>
+                          https://github.com/onc-healthit/ett
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        SiteUi:
+                        <a href="https://github.com/onc-healthit/site-ui" style={{ marginLeft: 4 }}>
+                          https://github.com/onc-healthit/site-ui
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        ccda-parser:
+                        <a href="https://github.com/onc-healthit/ccda-parser" style={{ marginLeft: 4 }}>
+                          https://github.com/onc-healthit/ccda-parser
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        ccda-uscdi-certification-testdata:
+                        <a
+                          href="https://github.com/onc-healthit/ccda-uscdi-certification-testdata"
+                          style={{ marginLeft: 4 }}
+                        >
+                          https://github.com/onc-healthit/ccda-uscdi-certification-testdata
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        2015 Edition Cures Update Data:
+                        <a
+                          href="https://github.com/onc-healthit/2015-edition-cures-update-data"
+                          style={{ marginLeft: 4 }}
+                        >
+                          https://github.com/onc-healthit/2015-edition-cures-update-data
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        2015 Edition Cures Update USCDI V2 Data:
+                        <a
+                          href="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v2-testdata"
+                          style={{ marginLeft: 4 }}
+                        >
+                          https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v2-testdata
+                        </a>
+                      </Typography>
+                      <Typography style={{ marginBottom: 16 }}>
+                        2015 Edition Cures Update USCDI V3 Data:
+                        <a
+                          href="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v3-testdata"
+                          style={{ marginLeft: 4 }}
+                        >
+                          https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v3-testdata
+                        </a>
+                      </Typography>
+                    </List>
                   </div>
                 </div>
               }
