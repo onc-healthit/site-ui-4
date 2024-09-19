@@ -1,5 +1,9 @@
 'use server'
 import axios from 'axios'
+import { authOptions } from '@/lib/auth'
+import _ from 'lodash'
+import { NextRequest, NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
 
 interface APICallData {
   testCaseNumber: number | string
@@ -107,6 +111,8 @@ export async function handleAPICall(data: APICallData): Promise<APIResponse> {
 
 export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResponse> {
   const apiUrl = process.env.XDR_TEST_BY_CRITERIA_ENDPOINT + data.id + '/run'
+  const session = await getServerSession(authOptions)
+  const jsessionid = session?.user?.jsessionid ?? ''
   const formattedData = {
     targetEndpointTLS: data.targetEndpointTLS,
     ip_address: data.ip_address,
@@ -129,24 +135,30 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
   const config = {
     method: 'post',
     url: apiUrl,
-    headers: {
-      'Content-Type': 'application/json',
-      // prettier-ignore
-      'Cookie': `JSESSIONID=${data.jsession}`,
-    },
+    headers: session
+      ? { 'Content-Type': 'application/json', Cookie: `JSESSIONID=${jsessionid}` }
+      : { 'Content-Type': 'application/json' },
     data: JSON.stringify(formattedData),
-
   }
 
   console.log('Sending data:', config)
 
   try {
     const response = await axios(config)
-    console.log('Raw content:', response.data)
+    console.log('Raw content 1205:', response.data)
     const content = response.data
 
-    const testRequest = content.content.value.request || content.message
-    const testResponse = content.content.value.response || ''
+    let testRequest = ''
+    let testResponse = ''
+
+    if (content && content.content && content.content.value) {
+      testRequest = content.content.value.request || content.message
+      testResponse = content.content.value.response || content.message
+    } else {
+      console.error('Invalid response structure:', content)
+      testRequest = content.message
+      testResponse = content.message
+    }
 
     return {
       criteriaMet: content.status,
