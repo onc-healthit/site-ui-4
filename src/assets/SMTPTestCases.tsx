@@ -1581,6 +1581,7 @@ const testCases = {
       criteria: "['h1-1','h2-10','sa1-1','sc2-10']",
       sutHisp: true,
       sutEdge: false,
+      ccdaFileRequired: true,
       fields: [
         {
           label: 'C-CDA Document Type',
@@ -1622,6 +1623,7 @@ const testCases = {
       criteria: "['h1-1','h2-10','sa1-1','sc2-10']",
       sutHisp: true,
       sutEdge: false,
+      ccdaFileRequired: true,
       fields: [
         {
           label: 'C-CDA Document Type',
@@ -1663,6 +1665,7 @@ const testCases = {
       criteria: "['h1-1','sa1-1','sc2-10']",
       sutHisp: true,
       sutEdge: false,
+      ccdaFileRequired: true,
       fields: [
         {
           label: 'C-CDA Document Type',
