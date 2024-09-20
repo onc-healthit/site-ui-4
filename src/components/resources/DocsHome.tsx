@@ -1,13 +1,60 @@
-import { Typography, Container, List, ListItemButton, Link } from '@mui/material'
-import Box from '@mui/material/Box'
-import DocsCard from './DocsCard'
-import BannerBox from '@shared/BannerBox'
+'use client'
+import { Box, Container, Link } from '@mui/material'
+import BannerBox from '../shared/BannerBox'
+import SubMenu, { menuProps } from '@/components/shared/SubMenu'
 import palette from '@/styles/palette'
-import DocsSubMenu from './DocsSubMenu'
+import DocsCard from './DocsCard'
+import { SxProps, Theme } from '@mui/system'
+import { useTheme } from '@mui/material/styles'
 
-export default function DocsHome() {
+const DocsHome = () => {
+  const menuItems: menuProps[] = [
+    { heading: 'Documents', href: '#documents' },
+    { heading: 'GitHub', href: '#github' },
+    { heading: 'Contact Us', href: 'mailto:edge-test-tool@googlegroups.com' },
+  ]
+  const cardMaxWidth = 345
+  const cardImageWidth = '345px'
+  const theme = useTheme()
+  const flexibleBox: SxProps<Theme> = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    gap: '32px',
+    flexDirection: 'row',
+    width: '100%',
+    mb: 4,
+    [theme.breakpoints.only('lg')]: {
+      width: '100%',
+      justifyContent: 'space-between',
+      gap: '32px',
+      flexWrap: 'nowrap',
+      flexDirection: 'row',
+    },
+    [theme.breakpoints.between('lg', 'md')]: {
+      width: '100%',
+      justifyContent: 'space-between',
+      gap: '4px',
+      flexWrap: 'wrap',
+      flexDirection: 'row',
+    },
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: '32px',
+    },
+  }
+  function trackMenuItemClick(heading: string) {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Click archive sub menu', {
+        event_category: 'Navigation',
+        event_label: heading,
+      })
+    }
+  }
   return (
-    <div>
+    <Box>
+      {/* Global Header */}
       <BannerBox
         breadcrumbs={
           <Link color={palette.secondary} href={'/docs'}>
@@ -15,191 +62,144 @@ export default function DocsHome() {
           </Link>
         }
         heading={'Documents'}
-        subHeading={'A hub of valuable resources'}
-        isTourButton={false}
         description={
-          "In this dedicated area of our website, you'll find a treasure trove of valuable resources designed to enhance your understanding of ONC SITE (Office of the National Coordinator for Health Information Technology - Strategic Interoperability Testing and Evaluation). Whether you're a healthcare professional, a developer, an industry stakeholder, or simply someone interested in the world of health information technology, this section has something for everyone."
+          <>
+            In this dedicated area of our website, you will find a treasure trove of valuable resources designed to
+            enhance your understanding of ONC SITE (Office of the National Coordinator for Health Information Technology
+            - Strategic Interoperability Testing and Evaluation). Whether you are a healthcare professional, a
+            developer, an industry stakeholder, or simply someone interested in the world of health information
+            technology, this section has something for everyone.
+          </>
         }
       />
       <Container>
-        <Box pt={4} pb={4} gap={4} display={'flex'} flexDirection={'row'}>
-          <DocsSubMenu />
-          <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
-            <DocsCard
-              header="Documents"
-              content={
-                <div>
-                  <Typography id="docs" variant="body1" sx={{ mb: 1.5 }}>
-                    {
-                      "Our document library is a comprehensive repository of whitepapers, research reports, guidelines, and informative articles related to ONC SITE. Whether you're looking to stay up-to-date with the latest regulatory changes, delve into technical specifications, or gain insights into the broader landscape of health IT, you'll find a wealth of knowledge at your fingertips."
-                    }
-                  </Typography>
-                  <List>
-                    <ListItemButton href="https://www.healthit.gov/topic/certification-ehrs/onc-health-it-certification-program-test-method">
-                      Access Testing Procedures and Companion Guides
-                    </ListItemButton>
+        <Box sx={flexibleBox}>
+          <Box pt={4} pb={4} display={'flex'} flexDirection={'row'} gap={4}>
+            <Box display={'flex'} flexDirection={'column'} gap={4}>
+              <SubMenu onClick={trackMenuItemClick} menuItems={menuItems} />
+            </Box>
 
-                    <ListItemButton href="https://github.com/onc-healthit/ett/raw/resources/documentation/guides/ETT%20Endpoints.docx">
-                      Endpoints for ETT.HealthIT.Gov testing
-                    </ListItemButton>
-                  </List>
-                </div>
-              }
-            />
-            <DocsCard
-              header="GitHub"
-              content={
-                <div>
-                  <Typography id="github" variant="body1" sx={{ mb: 2 }}>
-                    The following Github repositories are part of SITE releases.
-                  </Typography>
-                  <div
-                    style={{
-                      display: 'grid',
-                      gap: '20px',
-                    }}
-                  >
-                    <List>
-                      <Typography style={{ marginBottom: 16 }}>
-                        reference-ccda-validator:
-                        <a href="https://github.com/onc-healthit/reference-ccda-validator" style={{ marginLeft: 4 }}>
-                          https://github.com/onc-healthit/reference-ccda-validator
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        code-validator-api:
-                        <a href="https://github.com/onc-healthit/code-validator-api" style={{ marginLeft: 4 }}>
-                          https://github.com/onc-healthit/code-validator-api
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        content-validator-api:
-                        <a href="https://github.com/onc-healthit/content-validator-api" style={{ marginLeft: 4 }}>
-                          https://github.com/onc-healthit/content-validator-api
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        ccda-scorecard:
-                        <a href="https://github.com/onc-healthit/reference-ccda-validator" style={{ marginLeft: 4 }}>
-                          https://github.com/onc-healthit/reference-ccda-validator
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        xdr-message-validator:
-                        <a href="https://github.com/onc-healthit/xdr-message-validator" style={{ marginLeft: 4 }}>
-                          https://github.com/onc-healthit/xdr-message-validator
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        SITE IHE XDR Test Tool Implementation:
-                        <a href="https://github.com/onc-healthit/soap" style={{ marginLeft: 4 }}>
-                          https://github.com/onc-healthit/soap
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        Set of FHIR tools for SITE:
-                        <a href="https://github.com/onc-healthit/fhir-tools" style={{ marginLeft: 4 }}>
-                          https://github.com/onc-healthit/fhir-tools
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        direct-transport-message-sender:
-                        <a
-                          href="https://github.com/onc-healthit/direct-transport-message-sender"
-                          style={{ marginLeft: 4 }}
-                        >
-                          https://github.com/onc-healthit/direct-transport-message-sender
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        trustanchor-uploader:
-                        <a href="https://github.com/onc-healthit/trustanchor-uploader" style={{ marginLeft: 4 }}>
-                          https://github.com/onc-healthit/trustanchor-uploader
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        xdr-message-sender:
-                        <a href="https://github.com/onc-healthit/xdr-message-sender" style={{ marginLeft: 4 }}>
-                          https://github.com/onc-healthit/xdr-message-sender
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        scorecard-results-mailer-job:
-                        <a
-                          href="https://github.com/onc-healthit/scorecard-results-mailer-job"
-                          style={{ marginLeft: 4 }}
-                        >
-                          https://github.com/onc-healthit/scorecard-results-mailer-job
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        Direct Certificate Discovery Tool (DCDT):
-                        <a href="https://github.com/onc-healthit/dcdt" style={{ marginLeft: 4 }}>
-                          https://github.com/onc-healthit/dcdt
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        ETT:
-                        <a href="https://github.com/onc-healthit/ett" style={{ marginLeft: 4 }}>
-                          https://github.com/onc-healthit/ett
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        SiteUi:
-                        <a href="https://github.com/onc-healthit/site-ui" style={{ marginLeft: 4 }}>
-                          https://github.com/onc-healthit/site-ui
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        ccda-parser:
-                        <a href="https://github.com/onc-healthit/ccda-parser" style={{ marginLeft: 4 }}>
-                          https://github.com/onc-healthit/ccda-parser
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        ccda-uscdi-certification-testdata:
-                        <a
-                          href="https://github.com/onc-healthit/ccda-uscdi-certification-testdata"
-                          style={{ marginLeft: 4 }}
-                        >
-                          https://github.com/onc-healthit/ccda-uscdi-certification-testdata
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        2015 Edition Cures Update Data:
-                        <a
-                          href="https://github.com/onc-healthit/2015-edition-cures-update-data"
-                          style={{ marginLeft: 4 }}
-                        >
-                          https://github.com/onc-healthit/2015-edition-cures-update-data
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        2015 Edition Cures Update USCDI V2 Data:
-                        <a
-                          href="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v2-testdata"
-                          style={{ marginLeft: 4 }}
-                        >
-                          https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v2-testdata
-                        </a>
-                      </Typography>
-                      <Typography style={{ marginBottom: 16 }}>
-                        2015 Edition Cures Update USCDI V3 Data:
-                        <a
-                          href="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v3-testdata"
-                          style={{ marginLeft: 4 }}
-                        >
-                          https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v3-testdata
-                        </a>
-                      </Typography>
-                    </List>
-                  </div>
-                </div>
-              }
-            />
+            <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
+              <BannerBox
+                heading={'Documents'}
+                description={
+                  <>
+                    Our document library is a comprehensive repository of whitepapers, research reports, guidelines, and
+                    informative articles related to ONC SITE. Whether you are looking to stay up-to-date with the latest
+                    regulatory changes, delve into technical specifications, or gain insights into the broader landscape
+                    of health IT, you will find a wealth of knowledge at your fingertips.
+                  </>
+                }
+              />
+              <Box id="documents" display={'flex'} flexDirection={'row'} gap={4} width="100%">
+                <DocsCard
+                  cardHeader="Access Testing Procedures and Companion Guides"
+                  description={''}
+                  buttonLink="https://www.healthit.gov/topic/certification-ehrs/onc-health-it-certification-program-test-method"
+                />
+                <DocsCard
+                  cardHeader="Endpoints for ETT.HealthIT.Gov testing"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/ett/raw/resources/documentation/guides/ETT%20Endpoints.docx"
+                />
+              </Box>
+              <BannerBox
+                heading={'GitHub'}
+                description={<>The following Github repositories are part of SITE releases.</>}
+              />
+              <DocsCard
+                cardHeader="Reference C-CDA Validator"
+                description={''}
+                buttonLink="https://github.com/onc-healthit/reference-ccda-validator"
+              />
+              <DocsCard
+                cardHeader="Code Validator API"
+                description={''}
+                buttonLink="https://github.com/onc-healthit/code-validator-api"
+              />
+              <DocsCard
+                cardHeader="Content Validator API"
+                description={' '}
+                buttonLink="https://github.com/onc-healthit/content-validator-api"
+              />
+              <DocsCard
+                cardHeader="C-CDA Scorecard"
+                description={' '}
+                buttonLink="https://github.com/onc-healthit/ccda-scorecard"
+              />
+              <DocsCard
+                cardHeader="XDR Message Validator"
+                description={' '}
+                buttonLink="https://github.com/onc-healthit/xdr-message-validator"
+              />
+              <DocsCard
+                cardHeader="SITE IHE XDR Test Tool Implementation"
+                description={' '}
+                buttonLink="https://github.com/onc-healthit/soap"
+              />
+              <DocsCard
+                cardHeader="Set of FHIR tools for SITE"
+                description={' '}
+                buttonLink="https://github.com/onc-healthit/fhir-tools"
+              />
+              <DocsCard
+                cardHeader="Direct Transport Message Sender"
+                description={' '}
+                buttonLink="https://github.com/onc-healthit/direct-transport-message-sender"
+              />
+              <DocsCard
+                cardHeader="Trust Anchor Uploader"
+                description={' '}
+                buttonLink="https://github.com/onc-healthit/trustanchor-uploader"
+              />
+              <DocsCard
+                cardHeader="XDR Message Sender"
+                description={' '}
+                buttonLink="https://github.com/onc-healthit/xdr-message-sender"
+              />
+              <DocsCard
+                cardHeader="Scorecard Results Mailer Job"
+                description={' '}
+                buttonLink="https://github.com/onc-healthit/scorecard-results-mailer-job"
+              />
+              <DocsCard
+                cardHeader=" Direct Certificate Discovery Tool (DCDT)"
+                description={' '}
+                buttonLink="https://github.com/onc-healthit/dcdt"
+              />
+              <DocsCard cardHeader="ETT" description={' '} buttonLink="https://github.com/onc-healthit/ett" />
+              <DocsCard cardHeader="SITE UI" description={' '} buttonLink="https://github.com/onc-healthit/site-ui" />
+              <DocsCard
+                cardHeader="C-CDA Parser"
+                description={' '}
+                buttonLink="https://github.com/onc-healthit/ccda-parser"
+              />
+              <DocsCard
+                cardHeader="C-CDA USCDI Certification Testdata"
+                description={' '}
+                buttonLink="https://github.com/onc-healthit/ccda-uscdi-certification-testdata"
+              />
+              <DocsCard
+                cardHeader="2015 Edition Cures Update Data"
+                description={' '}
+                buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-data"
+              />
+              <DocsCard
+                cardHeader="2015 Edition Cures Update USCDI V2 Data"
+                description={' '}
+                buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v2-testdata"
+              />
+              <DocsCard
+                cardHeader="2015 Edition Cures Update USCDI V3 Data"
+                description={' '}
+                buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v3-testdata"
+              />
+            </Box>
           </Box>
         </Box>
       </Container>
-    </div>
+    </Box>
   )
 }
+
+export default DocsHome
