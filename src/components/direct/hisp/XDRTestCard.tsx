@@ -598,7 +598,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                 <DocumentSelector
                   onConfirm={handleDocumentConfirm}
                   onClose={handleDocumentSelectorClose}
-                  receive={receive || false}
+                  receive={test.sutRole === 'receiver'}
                 />
               )}
 
