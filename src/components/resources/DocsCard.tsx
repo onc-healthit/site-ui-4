@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography'
 import { Button, CardActions } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import Link from 'next/link'
-import palette from '@/styles/palette'
 
 export interface DocsCardProps {
   cardHeader: string

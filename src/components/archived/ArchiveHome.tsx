@@ -63,7 +63,8 @@ export default function ArchiveHome() {
                   <CardContent>
                     <Typography variant="body2">
                       The Frequently Asked Questions (FAQ) section of the SITE website compiles questions and inquiries
-                      we have received in the past. You can search for answers by SITE's features and functionality.
+                      we have received in the past. You can search for answers by SITE&apos;s features and
+                      functionality.
                     </Typography>
                   </CardContent>
                 </Card>

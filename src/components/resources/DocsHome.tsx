@@ -13,8 +13,7 @@ const DocsHome = () => {
     { heading: 'GitHub', href: '#github' },
     { heading: 'Contact Us', href: 'mailto:edge-test-tool@googlegroups.com' },
   ]
-  const cardMaxWidth = 345
-  const cardImageWidth = '345px'
+
   const theme = useTheme()
   const flexibleBox: SxProps<Theme> = {
     display: 'flex',
