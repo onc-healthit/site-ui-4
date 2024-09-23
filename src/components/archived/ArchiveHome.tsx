@@ -46,7 +46,7 @@ export default function ArchiveHome() {
         heading={'Archived tools, files and other additional content'}
         isTourButton={false}
         description={
-          'Unearth a treasure trove of archived resources including tools, files, and more! Please be aware that these materials are no longer actively maintained. Despite this, they offer valuable insights and historical context. Dive into our curated collection to explore and discover valuable resources for your projects and endeavors!'
+          'This section contains archived materials, including FAQs and videos. While these items are no longer actively maintained, they may provide useful insights and historical context. Feel free to explore the collection for reference and background information.'
         }
       />
       <Container>
