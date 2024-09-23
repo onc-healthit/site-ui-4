@@ -85,28 +85,34 @@ export type TableCellData = {
 interface StepTextProps {
   inputs: InputFields[]
   role?: string
+  endpointsGenerated: boolean
 }
 
 const senderText = 'Hit Run to generate your endpoint.'
 const receiverText = 'Hit Run to send a XDR message.'
-const endpoint = 'http://ett.healthit.gov:11080/xdstools/sim/'
-const endpointTLS = 'https://ett.healthit.gov:11084/xdstools/sim/'
+const defaultEndpoint = `http://ett.healthit.gov:11080/xdstools/sim/`
+const defaultEndpointTLS = `https://ett.healthit.gov:11084/xdstools/sim/`
 
-const StepText = ({ inputs, role }: StepTextProps) => {
+const StepText = ({ inputs, role, endpointsGenerated }: StepTextProps) => {
+  if (endpointsGenerated) {
+    return (
+      <Typography variant="body2">
+        <strong>Step 2:</strong> Send XDR message to endpoint and refresh to check status.
+      </Typography>
+    )
+  }
+
   return (
     <>
       <Typography variant="body2">
-        <strong>Step 1</strong>: Provide your{' '}
-        {inputs.map((input, i) => {
-          return (
-            <span key={i}>
-              {input.name}
-              {inputs !== undefined ? (i === inputs.length - 1 ? '. ' : ', ') : '. '}
-            </span>
-          )
-        })}
-        {role === 'sender' && senderText}
-        {role === 'receiver' && receiverText}
+        <strong>Step 1:</strong> Provide your{' '}
+        {inputs.map((input, i) => (
+          <span key={i}>
+            {input.name}
+            {inputs.length - 1 === i ? '. ' : ', '}
+          </span>
+        ))}
+        {role === 'sender' ? senderText : receiverText}
       </Typography>
     </>
   )
@@ -149,6 +155,9 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const [apiError, setApiError] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
+  const [endpointsGenerated, setEndpointsGenerated] = useState(false)
+  const [endpoint, setEndpoint] = useState(defaultEndpoint)
+  const [endpointTLS, setEndpointTLS] = useState(defaultEndpointTLS)
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
   const [popoverMessage, setPopoverMessage] = useState('')
@@ -292,6 +301,14 @@ const TestCard = ({ test, receive }: TestCardProps) => {
         if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
           setCriteriaMet(response.criteriaMet)
         }
+        if (
+          !endpointTestIds.includes(test.id.toString()) &&
+          (response.endpoint.length > 10 || response.endpointTLS.length > 10)
+        ) {
+          setEndpointsGenerated(true)
+          setEndpoint(response.endpoint || defaultEndpoint)
+          setEndpointTLS(response.endpointTLS || defaultEndpointTLS)
+        }
         setTestRequestRequest(response.testRequest)
         setTestRequestResponse(response.testResponse)
         if (!testRequest && !testResponse && test.criteria && !manualValidationCriteria.includes(test.criteria)) {
@@ -335,10 +352,16 @@ const TestCard = ({ test, receive }: TestCardProps) => {
     setIsFinished(false)
     setShowLogs(false)
     setDocumentDetails(null)
+    setEndpointsGenerated(false)
+    setEndpoint(defaultEndpoint)
+    setEndpointTLS(defaultEndpointTLS)
     setApiError(false)
   }
 
   const renderCriteriaMetIcon = () => {
+    if (endpointsGenerated) {
+      return <Typography style={{ color: 'red' }}>Pending</Typography>
+    }
     if (criteriaMet === 'TRUE') {
       return <CheckCircleIcon style={{ color: 'green' }} />
     } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR') {
@@ -506,13 +529,14 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                 {test.desc}
               </Typography>
               {_.isEqual(test.sutRole, 'receiver') && _.has(test, 'inputs') && test.inputs !== undefined && (
-                <StepText inputs={test.inputs} role={test.sutRole} />
+                <StepText inputs={test.inputs} role={test.sutRole} endpointsGenerated={endpointsGenerated} />
               )}
               {_.isEqual(test.sutRole, 'sender') && _.has(test, 'inputs') && test.inputs !== undefined && (
-                <StepText inputs={test.inputs} role={test.sutRole} />
+                <StepText inputs={test.inputs} role={test.sutRole} endpointsGenerated={endpointsGenerated} />
               )}
               {_.has(test, 'inputs') &&
                 test.inputs &&
+                !endpointsGenerated &&
                 test.inputs.filter(shouldDisplayInput).map((input) => (
                   <Box sx={{ pt: 2 }} key={input.key || 'default-key'}>
                     <FormControl fullWidth>
@@ -540,47 +564,68 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                 pr: 2,
               }}
             >
-              {endpointTestIds.includes(test.id.toString()) && (
-                <Box width={'50%'}>
-                  <Tooltip placement="bottom" title={endpoint + 'edge-ttp__' + test.id + '/rep/xdrpr'} arrow>
-                    <Button
-                      sx={{ ml: 2 }}
-                      color="secondary"
-                      endIcon={<ContentPasteGoIcon />}
-                      onClick={(e) => handleClick(e, endpoint + 'edge-ttp__' + test.id + '/rep/xdrpr')}
+              {endpointTestIds.includes(test.id.toString()) ||
+                (endpointsGenerated && (
+                  <Box width={'50%'}>
+                    {endpoint.length > 10 && (
+                      <Tooltip
+                        placement="bottom"
+                        title={endpointsGenerated ? endpoint : `${endpoint}edge-ttp__${test.id}/rep/xdrpr`}
+                        arrow
+                      >
+                        <Button
+                          sx={{ ml: 2 }}
+                          color="secondary"
+                          endIcon={<ContentPasteGoIcon />}
+                          onClick={(e) =>
+                            handleClick(e, endpointsGenerated ? endpoint : `${endpoint}edge-ttp__${test.id}/rep/xdrpr`)
+                          }
+                        >
+                          Endpoint
+                        </Button>
+                      </Tooltip>
+                    )}
+                    {endpointTLS.length > 10 && (
+                      <Tooltip
+                        placement="bottom"
+                        title={endpointsGenerated ? endpointTLS : `${endpointTLS}edge-ttp__${test.id}/rep/xdrpr`}
+                        arrow
+                      >
+                        <Button
+                          sx={{ ml: 2 }}
+                          color="secondary"
+                          endIcon={<ContentPasteGoIcon />}
+                          onClick={(e) =>
+                            handleClick(
+                              e,
+                              endpointsGenerated ? endpointTLS : `${endpointTLS}edge-ttp__${test.id}/rep/xdrpr`
+                            )
+                          }
+                        >
+                          Endpoint TLS
+                        </Button>
+                      </Tooltip>
+                    )}
+                    <Popover
+                      id={id}
+                      open={open}
+                      anchorEl={anchorEl}
+                      onClose={handleClosePopover}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                      }}
                     >
-                      Endpoint
-                    </Button>
-                  </Tooltip>
-                  <Tooltip placement="bottom" title={endpointTLS + 'edge-ttp__' + test.id + '/rep/xdrpr'} arrow>
-                    <Button
-                      sx={{ ml: 2 }}
-                      color="secondary"
-                      endIcon={<ContentPasteGoIcon />}
-                      onClick={(e) => handleClick(e, endpointTLS + 'edge-ttp__' + test.id + '/rep/xdrpr')}
-                    >
-                      Endpoint TLS
-                    </Button>
-                  </Tooltip>
-                  <Popover
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClosePopover}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'center',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'center',
-                    }}
-                  >
-                    <Typography sx={{ p: 2 }}>{popoverMessage}</Typography>
-                  </Popover>
-                </Box>
-              )}
-              {requiresCCDADocument() && (
+                      <Typography sx={{ p: 2 }}>{popoverMessage}</Typography>
+                    </Popover>
+                  </Box>
+                ))}
+
+              {requiresCCDADocument() && !endpointsGenerated && (
                 <Box
                   sx={{
                     display: 'flex',
@@ -610,15 +655,23 @@ const TestCard = ({ test, receive }: TestCardProps) => {
 
               <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 1, pl: 2 }}>
                 {renderCriteriaMetIcon()}
-                <LoadingButton
-                  loading={isLoading}
-                  done={isFinished}
-                  onClick={handleRunTest}
-                  variant="contained"
-                  color="primary"
-                >
-                  RUN
-                </LoadingButton>
+                {endpointsGenerated ? (
+                  <Button variant="contained" color="primary">
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <span>Refresh</span>
+                    </div>
+                  </Button>
+                ) : (
+                  <LoadingButton
+                    loading={isLoading}
+                    done={isFinished}
+                    onClick={handleRunTest}
+                    variant="contained"
+                    color="primary"
+                  >
+                    RUN
+                  </LoadingButton>
+                )}
                 <div ref={hiddenAnchorRef} style={{ visibility: 'hidden', top: '50px' }}></div>
                 <Button variant="contained" onClick={handleToggleDetail}>
                   MORE INFO
