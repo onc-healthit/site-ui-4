@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { Box, List, ListItemButton, ListItemText } from '@mui/material'
+import { Box, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import Link from 'next/link'
 import { useTheme } from '@mui/material/styles'
 import palette from '@/styles/palette'
@@ -8,6 +8,7 @@ import palette from '@/styles/palette'
 export type menuProps = {
   heading: string
   href: string
+  icon?: JSX.Element
 }
 
 export interface SubMenuProps {
@@ -51,6 +52,7 @@ const SubMenu = ({ menuItems, onClick }: SubMenuProps) => {
               }}
             >
               <ListItemText primaryTypographyProps={{ color: palette.primary }} primary={item.heading} />
+              {item.icon && <ListItemIcon sx={{ marginLeft: '4px' }}> {item.icon}</ListItemIcon>}
             </ListItemButton>
           </Link>
         ))}

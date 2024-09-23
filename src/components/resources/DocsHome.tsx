@@ -6,12 +6,19 @@ import palette from '@/styles/palette'
 import DocsCard from './DocsCard'
 import { SxProps, Theme } from '@mui/system'
 import { useTheme } from '@mui/material/styles'
+import MailOutlineIcon from '@mui/icons-material/MailOutline'
+import React from 'react'
+import { MenuItem, ListItemIcon, ListItemText } from '@mui/material'
 
-const DocsHome = () => {
+const DocsHome: React.FC = () => {
   const menuItems: menuProps[] = [
     { heading: 'Documents', href: '#documents' },
     { heading: 'GitHub', href: '#github' },
-    { heading: 'Contact Us', href: 'mailto:edge-test-tool@googlegroups.com' },
+    {
+      heading: 'Contact Us',
+      href: 'mailto:edge-test-tool@googlegroups.com',
+      icon: <MailOutlineIcon />,
+    },
   ]
 
   const theme = useTheme()
@@ -104,95 +111,97 @@ const DocsHome = () => {
               </Box>
               <BannerBox
                 heading={'GitHub'}
-                description={<>The following Github repositories are part of SITE releases.</>}
+                description={<>The following GitHub repositories are part of SITE releases.</>}
               />
-              <DocsCard
-                cardHeader="Reference C-CDA Validator"
-                description={''}
-                buttonLink="https://github.com/onc-healthit/reference-ccda-validator"
-              />
-              <DocsCard
-                cardHeader="Code Validator API"
-                description={''}
-                buttonLink="https://github.com/onc-healthit/code-validator-api"
-              />
-              <DocsCard
-                cardHeader="Content Validator API"
-                description={' '}
-                buttonLink="https://github.com/onc-healthit/content-validator-api"
-              />
-              <DocsCard
-                cardHeader="C-CDA Scorecard"
-                description={' '}
-                buttonLink="https://github.com/onc-healthit/ccda-scorecard"
-              />
-              <DocsCard
-                cardHeader="XDR Message Validator"
-                description={' '}
-                buttonLink="https://github.com/onc-healthit/xdr-message-validator"
-              />
-              <DocsCard
-                cardHeader="SITE IHE XDR Test Tool Implementation"
-                description={' '}
-                buttonLink="https://github.com/onc-healthit/soap"
-              />
-              <DocsCard
-                cardHeader="Set of FHIR tools for SITE"
-                description={' '}
-                buttonLink="https://github.com/onc-healthit/fhir-tools"
-              />
-              <DocsCard
-                cardHeader="Direct Transport Message Sender"
-                description={' '}
-                buttonLink="https://github.com/onc-healthit/direct-transport-message-sender"
-              />
-              <DocsCard
-                cardHeader="Trust Anchor Uploader"
-                description={' '}
-                buttonLink="https://github.com/onc-healthit/trustanchor-uploader"
-              />
-              <DocsCard
-                cardHeader="XDR Message Sender"
-                description={' '}
-                buttonLink="https://github.com/onc-healthit/xdr-message-sender"
-              />
-              <DocsCard
-                cardHeader="Scorecard Results Mailer Job"
-                description={' '}
-                buttonLink="https://github.com/onc-healthit/scorecard-results-mailer-job"
-              />
-              <DocsCard
-                cardHeader=" Direct Certificate Discovery Tool (DCDT)"
-                description={' '}
-                buttonLink="https://github.com/onc-healthit/dcdt"
-              />
-              <DocsCard cardHeader="ETT" description={' '} buttonLink="https://github.com/onc-healthit/ett" />
-              <DocsCard cardHeader="SITE UI" description={' '} buttonLink="https://github.com/onc-healthit/site-ui" />
-              <DocsCard
-                cardHeader="C-CDA Parser"
-                description={' '}
-                buttonLink="https://github.com/onc-healthit/ccda-parser"
-              />
-              <DocsCard
-                cardHeader="C-CDA USCDI Certification Testdata"
-                description={' '}
-                buttonLink="https://github.com/onc-healthit/ccda-uscdi-certification-testdata"
-              />
-              <DocsCard
-                cardHeader="2015 Edition Cures Update Data"
-                description={' '}
-                buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-data"
-              />
-              <DocsCard
-                cardHeader="2015 Edition Cures Update USCDI V2 Data"
-                description={' '}
-                buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v2-testdata"
-              />
-              <DocsCard
-                cardHeader="2015 Edition Cures Update USCDI V3 Data"
-                description={' '}
-                buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v3-testdata"
-              />
+              <Box id="github" display={'flex'} flexDirection={'row'} flexWrap="wrap" gap={4} width="100%">
+                <DocsCard
+                  cardHeader="Reference C-CDA Validator"
+                  description={''}
+                  buttonLink="https://github.com/onc-healthit/reference-ccda-validator"
+                />
+                <DocsCard
+                  cardHeader="Code Validator API"
+                  description={''}
+                  buttonLink="https://github.com/onc-healthit/code-validator-api"
+                />
+                <DocsCard
+                  cardHeader="Content Validator API"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/content-validator-api"
+                />
+                <DocsCard
+                  cardHeader="C-CDA Scorecard"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/ccda-scorecard"
+                />
+                <DocsCard
+                  cardHeader="XDR Message Validator"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/xdr-message-validator"
+                />
+                <DocsCard
+                  cardHeader="SITE IHE XDR Test Tool Implementation"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/soap"
+                />
+                <DocsCard
+                  cardHeader="Set of FHIR tools for SITE"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/fhir-tools"
+                />
+                <DocsCard
+                  cardHeader="Direct Transport Message Sender"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/direct-transport-message-sender"
+                />
+                <DocsCard
+                  cardHeader="Trust Anchor Uploader"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/trustanchor-uploader"
+                />
+                <DocsCard
+                  cardHeader="XDR Message Sender"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/xdr-message-sender"
+                />
+                <DocsCard
+                  cardHeader="Scorecard Results Mailer Job"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/scorecard-results-mailer-job"
+                />
+                <DocsCard
+                  cardHeader=" Direct Certificate Discovery Tool (DCDT)"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/dcdt"
+                />
+                <DocsCard cardHeader="ETT" description={' '} buttonLink="https://github.com/onc-healthit/ett" />
+                <DocsCard cardHeader="SITE UI" description={' '} buttonLink="https://github.com/onc-healthit/site-ui" />
+                <DocsCard
+                  cardHeader="C-CDA Parser"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/ccda-parser"
+                />
+                <DocsCard
+                  cardHeader="C-CDA USCDI Certification Testdata"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/ccda-uscdi-certification-testdata"
+                />
+                <DocsCard
+                  cardHeader="2015 Edition Cures Update Data"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-data"
+                />
+                <DocsCard
+                  cardHeader="2015 Edition Cures Update USCDI V2 Data"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v2-testdata"
+                />
+                <DocsCard
+                  cardHeader="2015 Edition Cures Update USCDI V3 Data"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v3-testdata"
+                />
+              </Box>
             </Box>
           </Box>
         </Box>
