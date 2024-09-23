@@ -20,7 +20,6 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import LoadingButton from '../shared/LoadingButton'
 import DocumentSelector from './DocumentSelector'
-import { useSession } from 'next-auth/react'
 import XMLDisplay from '../shared/colorizeXML'
 
 export type TestCaseFields = {
@@ -168,7 +167,6 @@ const TestCard = ({ test, receive }: TestCardProps) => {
 
   const [logType, setLogType] = useState<'request' | 'response'>('request')
   const manualValidationCriteria = ["['b1-3']", "['b1-3','su1-3']"]
-  const { data: session } = useSession()
 
   const subHeader = 'Description'
   const subDesc = test['Purpose/Description']
@@ -255,10 +253,6 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   }
 
   const handleRunTest = async () => {
-    if (!session) {
-      showPopover('You must be logged in and have a valid session to perform this action.', null)
-      return
-    }
     console.log('ccda required' + test.ccdaFileRequired)
     console.log('doc details ' + documentDetails)
     if (isCCDADocumentRequired && !documentDetails) {
@@ -290,7 +284,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
           path: documentDetails ? documentDetails.directory : '',
           link: documentDetails ? documentDetails.fileLink : '',
           id: test.id.toString(),
-          jsession: session.user.jsessionid,
+          jsession: '',
           cures: false,
           itemNumber: '12',
           selected: true,
