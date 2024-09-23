@@ -80,6 +80,8 @@ interface XDRAPIResponse {
   criteriaMet: string
   testRequest: string
   testResponse: string
+  endpoint: string
+  endpointTLS: string
 }
 
 export async function handleAPICall(data: APICallData): Promise<APIResponse> {
@@ -150,10 +152,14 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
 
     let testRequest = ''
     let testResponse = ''
+    let endpoint = ''
+    let endpointTLS = ''
 
     if (content && content.content && content.content.value) {
       testRequest = content.content.value.request || content.message
       testResponse = content.content.value.response || content.message
+      endpoint = content.content.value.endpoint || content.message
+      endpointTLS = content.content.value.endpointTLS || content.message
     } else {
       console.error('Invalid response structure:', content)
       testRequest = content.message
@@ -164,6 +170,8 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
       criteriaMet: content.status,
       testRequest: testRequest,
       testResponse: testResponse,
+      endpoint: endpoint,
+      endpointTLS: endpointTLS,
     }
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
