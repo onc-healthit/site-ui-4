@@ -8,7 +8,6 @@ import React from 'react'
 import DevTools from '@/components/shared/nav/nav/DevTools'
 import NavFooter from '@/components/shared/nav/nav/NavFooter'
 import NavHeader from '@/components/shared/nav/nav/NavHeader'
-import SiteNavArchived from '@/components/shared/nav/nav/categories/SiteNavArchived'
 import SiteNavGeneralTools from '@/components/shared/nav/nav/categories/SiteNavGeneralTools'
 import SiteNavIndustryTools from '@/components/shared/nav/nav/categories/SiteNavIndustryTools'
 import SiteNavOncCertTools from '@/components/shared/nav/nav/categories/SiteNavOncCertTools'
@@ -99,7 +98,6 @@ export default function SiteNav({ open, handleDrawerClose, handleAuthChange }: S
           <SiteNavGeneralTools />
           <SiteNavIndustryTools />
           <SiteNavResources />
-          <SiteNavArchived />
         </List>
         {/* <DevTools auth={auth} handleAuthChange={handleAuthChange} /> */}
         <NavFooter />

@@ -1,5 +1,5 @@
 'use client'
-import { ContentCopy, IntegrationInstructionsOutlined, QuestionAnswerOutlined } from '@mui/icons-material'
+import { ContentCopy, IntegrationInstructionsOutlined, ArchiveOutlined } from '@mui/icons-material'
 import { useState } from 'react'
 
 /* Custom Imports */
@@ -20,6 +20,12 @@ export default function SiteNavResources() {
       isExternalLink: false,
       href: '/docs',
       icon: <IntegrationInstructionsOutlined aria-label="Go to Documentation" fontSize="small" />,
+    },
+    {
+      text: 'Archived',
+      isExternalLink: false,
+      href: '/archived',
+      icon: <ArchiveOutlined aria-label="Go to archived page" fontSize="small" />,
     },
   ]
 

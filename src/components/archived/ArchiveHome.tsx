@@ -48,9 +48,6 @@ export default function ArchiveHome() {
         <Box pt={4} pb={4} gap={4} display={'flex'} flexDirection={'row'}>
           <SubMenu onClick={trackMenuItemClick} menuItems={menuItems} />
           <Box gap={4} display={'flex'} flexDirection={'column'}>
-            <Box id="overview">
-              <FAQCard header={'SITE Overview'} items={faq.Overview} />
-            </Box>
             <Box>
               <Box id="faq">
                 <Card>
@@ -70,6 +67,9 @@ export default function ArchiveHome() {
                 </Card>
               </Box>
             </Box>
+            <Box id="overview">
+              <FAQCard header={'SITE Overview'} items={faq.Overview} />
+            </Box>
             <Box id="ccda">
               <FAQCard header={'Consolidated Clinical Document Architecture (C-CDA) FAQs'} items={faq['C-CDA']} />
             </Box>
@@ -87,19 +87,17 @@ export default function ArchiveHome() {
             </Box>
             <Box id="other">
               <FAQCard header={'Other FAQs & Helpful Items'} items={faq.Other} />
-              <Box id="videos">
-                <Card>
-                  <CardHeader
-                    titleTypographyProps={{ fontWeight: 700, variant: 'h2', sx: { textAlign: 'left' } }}
-                    title="Videos"
-                  />
-                  <CardContent>
-                    <Typography variant="body2" sx={{ ml: -2 }}>
-                      For those who prefer visual learning, our video collection offers an engaging way to absorb
-                      information
-                    </Typography>
-                  </CardContent>
-                </Card>
+              <Box id="videos" sx={{ mb: 2 }}>
+                <CardHeader
+                  titleTypographyProps={{ fontWeight: 700, variant: 'h2', sx: { textAlign: 'left' } }}
+                  title="Videos"
+                />
+                <CardContent>
+                  <Typography variant="body2" sx={{ ml: -2 }}>
+                    For those who prefer visual learning, our video collection offers an engaging way to absorb
+                    information
+                  </Typography>
+                </CardContent>
 
                 <Box
                   sx={{
@@ -171,47 +169,6 @@ export default function ArchiveHome() {
                     showFileType
                   />
                 </Box>
-              </Box>
-              <Box sx={{ pt: 4 }}>
-                <Card>
-                  <CardHeader titleTypographyProps={{ fontWeight: 700 }} title="Helpful Links" />
-                  <CardContent>
-                    <Typography gutterBottom variant="body2">
-                      A good cheat-sheet resource for XD* metadata is available at:
-                      <a href="http://ihewiki.wustl.edu/wiki/index.php/Notes_on_XDS_Profile.">
-                        http://ihewiki.wustl.edu/wiki/index.php/Notes_on_XDS_Profile.
-                      </a>
-                    </Typography>
-                    <Typography gutterBottom variant="body2">
-                      A helpful guide for navigating the XDR metadata. There are also example files in this directory:
-                      <a href="ftp://ftp.ihe.net/%20TFImplementationMaterial/ITI/examples/XDS.b/">
-                        ftp://ftp.ihe.net/%20TFImplementationMaterial/ITI/examples/XDS.b/ (see
-                        ProvideAndRegisterDocument*)
-                      </a>
-                    </Typography>
-                    <Typography gutterBottom variant="body2">
-                      Here are some examples for XDR:
-                      <a href="http://wiki.ihe.net/index.php/XDS.bImplementation#ExampleProvideandRegisterDocumentSet-btransaction.28withfullmetadata.29">
-                        http://wiki.ihe.net/index.php/XDS.bImplementation#ExampleProvideandRegisterDocumentSet-btransaction.28withfullmetadata.29
-                      </a>
-                    </Typography>
-                    <Typography gutterBottom variant="body2">
-                      Provide and register examples. Some examples for XDM:
-                      <a href="ftp://ftp.ihe.net/TFImplementationMaterial/ITI/examples/XDS.b/">
-                        {' '}
-                        ftp://ftp.ihe.net/Connectathon/samples/XDM_samples/
-                      </a>
-                    </Typography>
-                    <Typography gutterBottom variant="body2">
-                      A table showing the difference in optionality between the different XD* metadata is available in
-                      Vol 3 of IHE ITI:
-                      <a href="http://www.ihe.net/uploadedFiles/Documents/ITI/IHE_ITI_TF_Vol3.pdf">
-                        http://www.ihe.net/uploadedFiles/Documents/ITI/IHE_ITI_TF_Vol3.pdf
-                      </a>
-                      . See table 4.3.1-3: Sending Actor Metadata Attribute Optionality starting on page 109.
-                    </Typography>
-                  </CardContent>
-                </Card>
               </Box>
             </Box>
           </Box>
