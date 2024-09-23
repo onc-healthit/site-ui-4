@@ -19,7 +19,7 @@ const DocsCard = ({ cardHeader, description, buttonLink }: DocsCardProps) => {
   return (
     <Card
       sx={{
-        width: '250px',
+        width: '310px',
         borderTop: '16px solid #E8E8E8',
         display: 'flex',
         flexDirection: 'column',
