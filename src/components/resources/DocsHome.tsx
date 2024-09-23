@@ -1,12 +1,12 @@
 'use client'
-import { Box, Container, Link } from '@mui/material'
+import { Box, Container, Link, Typography, Divider } from '@mui/material'
 import BannerBox from '../shared/BannerBox'
 import SubMenu, { menuProps } from '@/components/shared/SubMenu'
 import palette from '@/styles/palette'
 import DocsCard from './DocsCard'
 import { SxProps, Theme } from '@mui/system'
 import { useTheme } from '@mui/material/styles'
-import MailOutlineIcon from '@mui/icons-material/MailOutline'
+import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined'
 import React from 'react'
 
 const DocsHome = () => {
@@ -16,7 +16,7 @@ const DocsHome = () => {
     {
       heading: 'Contact Us',
       href: 'mailto:edge-test-tool@googlegroups.com',
-      icon: <MailOutlineIcon />,
+      icon: <ForwardToInboxOutlinedIcon color="primary" fontSize="small" />,
     },
   ]
 
@@ -83,19 +83,16 @@ const DocsHome = () => {
             <Box display={'flex'} flexDirection={'column'} gap={4}>
               <SubMenu onClick={trackMenuItemClick} menuItems={menuItems} />
             </Box>
-
-            <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
-              <BannerBox
-                heading={'Documents'}
-                description={
-                  <>
-                    Our document library is a comprehensive repository of whitepapers, research reports, guidelines, and
-                    informative articles related to ONC SITE. Whether you are looking to stay up-to-date with the latest
-                    regulatory changes, delve into technical specifications, or gain insights into the broader landscape
-                    of health IT, you will find a wealth of knowledge at your fingertips.
-                  </>
-                }
-              />
+            <Box gap={2} display={'flex'} flexDirection={'column'} flexWrap={'wrap'}>
+              <Typography fontWeight={'600'} mb={0} component="h2" variant="h4">
+                Documents
+              </Typography>
+              <Typography>
+                Our document library is a comprehensive repository of whitepapers, research reports, guidelines, and
+                informative articles related to ONC SITE. Whether you are looking to stay up-to-date with the latest
+                regulatory changes, delve into technical specifications, or gain insights into the broader landscape of
+                health IT, you will find a wealth of knowledge at your fingertips.
+              </Typography>
               <Box id="documents" display={'flex'} flexDirection={'row'} gap={4} width="100%">
                 <DocsCard
                   cardHeader="Access Testing Procedures and Companion Guides"
@@ -108,10 +105,14 @@ const DocsHome = () => {
                   buttonLink="https://github.com/onc-healthit/ett/raw/resources/documentation/guides/ETT%20Endpoints.docx"
                 />
               </Box>
-              <BannerBox
-                heading={'GitHub'}
-                description={<>The following GitHub repositories are part of SITE releases.</>}
-              />
+              <Divider sx={{ my: 2, borderBottomWidth: 2 }} />
+              <Box gap={2} display={'flex'} flexDirection={'column'} flexWrap={'wrap'}>
+                <Typography fontWeight={'600'} mb={0} component="h2" variant="h4">
+                  Github
+                </Typography>
+                <Typography>The following GitHub repositories are part of SITE releases.</Typography>
+              </Box>
+
               <Box id="github" display={'flex'} flexDirection={'row'} flexWrap="wrap" gap={4} width="100%">
                 <DocsCard
                   cardHeader="Reference C-CDA Validator"
