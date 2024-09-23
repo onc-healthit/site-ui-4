@@ -21,10 +21,12 @@ const DocsCard = ({ cardHeader, description, buttonLink }: DocsCardProps) => {
       sx={{
         width: '250px',
         borderTop: '16px solid #E8E8E8',
+        display: 'flex',
+        flexDirection: 'column',
       }}
       id="category"
     >
-      <CardContent sx={{ pt: 2, pb: 3, pl: 3, pr: 3 }}>
+      <CardContent sx={{ pt: 2, pb: 3, pl: 3, pr: 3, flexGrow: 1 }}>
         <Typography variant="h6" component="h3" color="default" sx={{ mb: 1 }}>
           <strong>{cardHeader}</strong>
         </Typography>
@@ -32,7 +34,7 @@ const DocsCard = ({ cardHeader, description, buttonLink }: DocsCardProps) => {
           {description}
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions sx={{ justifyContent: 'flex-start', paddingLeft: '16px', paddingBottom: '8px' }}>
         <Link
           href={buttonLink ?? '/'}
           target={isExternalLink ? '_blank' : undefined}

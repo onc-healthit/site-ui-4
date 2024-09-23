@@ -8,9 +8,8 @@ import { SxProps, Theme } from '@mui/system'
 import { useTheme } from '@mui/material/styles'
 import MailOutlineIcon from '@mui/icons-material/MailOutline'
 import React from 'react'
-import { MenuItem, ListItemIcon, ListItemText } from '@mui/material'
 
-const DocsHome: React.FC = () => {
+const DocsHome = () => {
   const menuItems: menuProps[] = [
     { heading: 'Documents', href: '#documents' },
     { heading: 'GitHub', href: '#github' },
