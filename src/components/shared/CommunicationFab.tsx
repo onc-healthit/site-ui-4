@@ -24,6 +24,7 @@ import { fetchReleaseData } from '@/assets/ReleaseService'
 import palette from '@/styles/palette'
 import placeholder from '@public/shared/PlaceHolderImageSITE.png'
 import Image from 'next/image'
+import MailOutlineIcon from '@mui/icons-material/MailOutline'
 
 const drawerWidth = 500
 
@@ -109,7 +110,7 @@ const CommunicationFab: React.FC = () => {
           <LinkButton
             label="Questions or Inquiries"
             url="mailto:edge-test-tool@googlegroups.com"
-            icon={<MoreVertIcon fontSize="small" htmlColor={palette.primaryDark} />}
+            icon={<MailOutlineIcon fontSize="small" htmlColor={palette.primaryDark} />}
           />
         </Box>
         <Tooltip arrow placement="left" title="Close Information Panel">
