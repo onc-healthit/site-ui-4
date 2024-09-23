@@ -17,14 +17,13 @@ import React, { useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import InfoIcon from '@mui/icons-material/Info'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
 import SecurityIcon from '@mui/icons-material/Security'
 import LinkButton from './LinkButton'
 import { fetchReleaseData } from '@/assets/ReleaseService'
 import palette from '@/styles/palette'
 import placeholder from '@public/shared/PlaceHolderImageSITE.png'
 import Image from 'next/image'
-import MailOutlineIcon from '@mui/icons-material/MailOutline'
+import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined'
 
 const drawerWidth = 500
 
@@ -110,7 +109,7 @@ const CommunicationFab: React.FC = () => {
           <LinkButton
             label="Questions or Inquiries"
             url="mailto:edge-test-tool@googlegroups.com"
-            icon={<MailOutlineIcon fontSize="small" htmlColor={palette.primaryDark} />}
+            icon={<ForwardToInboxOutlinedIcon fontSize="small" htmlColor={palette.primaryDark} />}
           />
         </Box>
         <Tooltip arrow placement="left" title="Close Information Panel">
