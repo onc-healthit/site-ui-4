@@ -116,12 +116,14 @@ const DocsHome: React.FC = () => {
               <Box id="github" display={'flex'} flexDirection={'row'} flexWrap="wrap" gap={4} width="100%">
                 <DocsCard
                   cardHeader="Reference C-CDA Validator"
-                  description={''}
+                  description={'Reference C-CDA Configuration and Deployment'}
                   buttonLink="https://github.com/onc-healthit/reference-ccda-validator"
                 />
                 <DocsCard
                   cardHeader="Code Validator API"
-                  description={''}
+                  description={
+                    'This project does vocabulary validation of C-CDAs against a configured repository of codesystem and valueset files.'
+                  }
                   buttonLink="https://github.com/onc-healthit/code-validator-api"
                 />
                 <DocsCard
@@ -131,22 +133,24 @@ const DocsHome: React.FC = () => {
                 />
                 <DocsCard
                   cardHeader="C-CDA Scorecard"
-                  description={' '}
+                  description={'This application contains the C-CDA Scorecard service.  '}
                   buttonLink="https://github.com/onc-healthit/ccda-scorecard"
                 />
                 <DocsCard
                   cardHeader="XDR Message Validator"
-                  description={' '}
+                  description={'This tool supports testing XDR implementation over SOAP protocal. '}
                   buttonLink="https://github.com/onc-healthit/xdr-message-validator"
                 />
                 <DocsCard
                   cardHeader="SITE IHE XDR Test Tool Implementation"
-                  description={' '}
+                  description={
+                    'XDRValidator is a XDR Edge protocol test tool. This tool takes a soap request of XDR message to validates it and return validation results. '
+                  }
                   buttonLink="https://github.com/onc-healthit/soap"
                 />
                 <DocsCard
-                  cardHeader="Set of FHIR tools for SITE"
-                  description={' '}
+                  cardHeader="FHIR Tools"
+                  description={'Set of FHIR tools for SITE '}
                   buttonLink="https://github.com/onc-healthit/fhir-tools"
                 />
                 <DocsCard
@@ -171,7 +175,7 @@ const DocsHome: React.FC = () => {
                 />
                 <DocsCard
                   cardHeader=" Direct Certificate Discovery Tool (DCDT)"
-                  description={' '}
+                  description={'The open code repository for the Direct Certificate Discovery Tool (DCDT). '}
                   buttonLink="https://github.com/onc-healthit/dcdt"
                 />
                 <DocsCard cardHeader="ETT" description={' '} buttonLink="https://github.com/onc-healthit/ett" />
@@ -188,7 +192,7 @@ const DocsHome: React.FC = () => {
                 />
                 <DocsCard
                   cardHeader="2015 Edition Cures Update Data"
-                  description={' '}
+                  description={'Repository for the test data supporting the 2015 Cures Update final rule. '}
                   buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-data"
                 />
                 <DocsCard
