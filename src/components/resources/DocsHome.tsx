@@ -69,11 +69,10 @@ const DocsHome = () => {
         heading={'Documents'}
         description={
           <>
-            In this dedicated area of our website, you will find a treasure trove of valuable resources designed to
-            enhance your understanding of ONC SITE (Office of the National Coordinator for Health Information Technology
-            - Strategic Interoperability Testing and Evaluation). Whether you are a healthcare professional, a
-            developer, an industry stakeholder, or simply someone interested in the world of health information
-            technology, this section has something for everyone.
+            Explore a collection of documents and GitHub repositories on this page, designed to enhance your
+            understanding of the ONC Standards Implementation & Testing Environment (SITE). Whether you&apos;re looking
+            for technical documentation or ready-to-use code, these resources will support your efforts in testing and
+            implementing health IT standards.
           </>
         }
       />
