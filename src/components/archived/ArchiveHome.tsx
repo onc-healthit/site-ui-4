@@ -7,6 +7,7 @@ import palette from '@/styles/palette'
 import FAQCard from './ArchiveCard'
 import faq from './data/FAQ.json'
 import VideoItem from '../resources/VideoItem'
+import MailOutlineIcon from '@mui/icons-material/MailOutline'
 
 export default function ArchiveHome() {
   const menuItems: menuProps[] = [
@@ -19,7 +20,11 @@ export default function ArchiveHome() {
     { heading: 'SMTP', href: '#smtp' },
     { heading: 'Other', href: '#other' },
     { heading: 'Videos', href: '#videos' },
-    { heading: 'Contact Us', href: 'mailto:edge-test-tool@googlegroups.com' },
+    {
+      heading: 'Contact Us',
+      href: 'mailto:edge-test-tool@googlegroups.com',
+      icon: <MailOutlineIcon />,
+    },
   ]
   function trackMenuItemClick(heading: string) {
     if (typeof window.gtag === 'function') {
