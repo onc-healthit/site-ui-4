@@ -1,133 +1,216 @@
-import { Typography, Container, List, ListItemButton } from '@mui/material'
-import Box from '@mui/material/Box'
+'use client'
+import { Box, Container, Link, Typography, Divider } from '@mui/material'
+import BannerBox from '../shared/BannerBox'
+import SubMenu, { menuProps } from '@/components/shared/SubMenu'
+import palette from '@/styles/palette'
 import DocsCard from './DocsCard'
-import BannerBox from '@shared/BannerBox'
-import DocsSubMenu from './DocsSubMenu'
-import VideoItem from './VideoItem'
+import { SxProps, Theme } from '@mui/system'
+import { useTheme } from '@mui/material/styles'
+import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined'
+import React from 'react'
 
-export default function DocsHome() {
+const DocsHome = () => {
+  const menuItems: menuProps[] = [
+    { heading: 'Documents', href: '#documents' },
+    { heading: 'GitHub', href: '#github' },
+    {
+      heading: 'Contact Us',
+      href: 'mailto:edge-test-tool@googlegroups.com',
+      icon: <ForwardToInboxOutlinedIcon color="primary" fontSize="small" />,
+    },
+  ]
+
+  const theme = useTheme()
+  const flexibleBox: SxProps<Theme> = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    gap: '32px',
+    flexDirection: 'row',
+    width: '100%',
+    mb: 4,
+    [theme.breakpoints.only('lg')]: {
+      width: '100%',
+      justifyContent: 'space-between',
+      gap: '32px',
+      flexWrap: 'nowrap',
+      flexDirection: 'row',
+    },
+    [theme.breakpoints.between('lg', 'md')]: {
+      width: '100%',
+      justifyContent: 'space-between',
+      gap: '4px',
+      flexWrap: 'wrap',
+      flexDirection: 'row',
+    },
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: '32px',
+    },
+  }
+  function trackMenuItemClick(heading: string) {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'Click archive sub menu', {
+        event_category: 'Navigation',
+        event_label: heading,
+      })
+    }
+  }
   return (
-    <div>
+    <Box>
+      {/* Global Header */}
       <BannerBox
-        breadcrumbs={undefined}
-        heading={'Documents & Videos'}
-        subHeading={'A hub of valuable resources'}
-        isTourButton={false}
+        breadcrumbs={
+          <Link color={palette.secondary} href={'/docs'}>
+            Documents
+          </Link>
+        }
+        heading={'Documents'}
         description={
-          "In this dedicated area of our website, you'll find a treasure trove of valuable resources designed to enhance your understanding of ONC SITE (Office of the National Coordinator for Health Information Technology - Strategic Interoperability Testing and Evaluation). Whether you're a healthcare professional, a developer, an industry stakeholder, or simply someone interested in the world of health information technology, this section has something for everyone."
+          <>
+            Explore a collection of documents and GitHub repositories on this page, designed to enhance your
+            understanding of the ONC Standards Implementation & Testing Environment (SITE). Whether you&apos;re looking
+            for technical documentation or ready-to-use code, these resources will support your efforts in testing and
+            implementing health IT standards.
+          </>
         }
       />
       <Container>
-        <Box pt={4} pb={4} gap={4} display={'flex'} flexDirection={'row'}>
-          <DocsSubMenu />
-          <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
-            <DocsCard
-              header="Documents & Videos"
-              content={
-                <div>
-                  <Typography id="docs" variant="body1" sx={{ mb: 1.5 }}>
-                    {
-                      "Our document library is a comprehensive repository of whitepapers, research reports, guidelines, and informative articles related to ONC SITE. Whether you're looking to stay up-to-date with the latest regulatory changes, delve into technical specifications, or gain insights into the broader landscape of health IT, you'll find a wealth of knowledge at your fingertips."
-                    }
-                  </Typography>
-                  <List>
-                    <ListItemButton href="https://www.healthit.gov/topic/certification-ehrs/onc-health-it-certification-program-test-method">
-                      Access Testing Procedures and Companion Guides
-                    </ListItemButton>
-                    <ListItemButton href="/local-install">Local Installation Guide</ListItemButton>
-                    <ListItemButton href="https://www.healthit.gov/topic/certification-ehrs/2015-edition-cures-update-test-method">
-                      Installing using the AMI (Amazon Machine Image)
-                    </ListItemButton>
-                    <ListItemButton href="https://github.com/onc-healthit/ett/raw/resources/documentation/guides/ETT%20Endpoints.docx">
-                      Endpoints for ETT.HealthIT.Gov testing
-                    </ListItemButton>
-                  </List>
-                </div>
-              }
-            />
-            <DocsCard
-              header="Videos"
-              content={
-                <div>
-                  <Typography id="vids" variant="body1" sx={{ mb: 4 }}>
-                    For those who prefer visual learning, our video collection offers an engaging way to absorb
-                    information
-                  </Typography>
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(2, 1fr)',
-                      gap: '20px',
-                    }}
-                  >
-                    <VideoItem
-                      fileName="Intro_To_ETT.mp4"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/Intro_To_ETT.mp4"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="MDHT.mp4"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/MDHT.mp4"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="XDM_Validation.mp4"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/XDM_Validation.mp4"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="Receiver Tests SMTP.mp4"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/Receiver%20Tests%20SMTP.mp4"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="XDR_EDGE_RECEIVER.mp4"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/XDR_EDGE_RECEIVER.mp4"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="XDR_EDGE_SENDER.mp4"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/XDR_EDGE_SENDER.mp4"
-                      showFileType
-                    />
+        <Box sx={flexibleBox}>
+          <Box pt={4} pb={4} display={'flex'} flexDirection={'row'} gap={4}>
+            <Box display={'flex'} flexDirection={'column'} gap={4}>
+              <SubMenu onClick={trackMenuItemClick} menuItems={menuItems} />
+            </Box>
+            <Box gap={2} display={'flex'} flexDirection={'column'} flexWrap={'wrap'}>
+              <Typography fontWeight={'600'} mb={0} component="h2" variant="h4">
+                Documents
+              </Typography>
+              <Typography>
+                Our document library is a comprehensive repository of whitepapers, research reports, guidelines, and
+                informative articles related to ONC SITE. Whether you are looking to stay up-to-date with the latest
+                regulatory changes, delve into technical specifications, or gain insights into the broader landscape of
+                health IT, you will find a wealth of knowledge at your fingertips.
+              </Typography>
+              <Box id="documents" display={'flex'} flexDirection={'row'} gap={4} width="100%">
+                <DocsCard
+                  cardHeader="Access Testing Procedures and Companion Guides"
+                  description={''}
+                  buttonLink="https://www.healthit.gov/topic/certification-ehrs/onc-health-it-certification-program-test-method"
+                />
+                <DocsCard
+                  cardHeader="Endpoints for ETT.HealthIT.Gov testing"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/ett/raw/resources/documentation/guides/ETT%20Endpoints.docx"
+                />
+              </Box>
+              <Divider sx={{ my: 2, borderBottomWidth: 2 }} />
+              <Box gap={2} display={'flex'} flexDirection={'column'} flexWrap={'wrap'}>
+                <Typography fontWeight={'600'} mb={0} component="h2" variant="h4">
+                  Github
+                </Typography>
+                <Typography>The following GitHub repositories are part of SITE releases.</Typography>
+              </Box>
 
-                    <VideoItem
-                      fileName="XDR_Validation.mp4"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/XDR_Validation.mp4"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="readme.txt"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/readme.txt"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="Update readme.txt"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/commit/b7f3e765747720b2d6a9b918e7137dd9ba5eeb3c"
-                      showFileType
-                    />
-                    <VideoItem
-                      fileName="video_demos.html"
-                      fileDate="2016-12-12"
-                      fileUrl="https://github.com/onc-healthit/ett/blob/resources/documentation/training/nist-training-videos/video_demos.html"
-                      showFileType
-                    />
-                  </div>
-                </div>
-              }
-            />
+              <Box id="github" display={'flex'} flexDirection={'row'} flexWrap="wrap" gap={4} width="100%">
+                <DocsCard
+                  cardHeader="Reference C-CDA Validator"
+                  description={'Reference C-CDA Configuration and Deployment'}
+                  buttonLink="https://github.com/onc-healthit/reference-ccda-validator"
+                />
+                <DocsCard
+                  cardHeader="Code Validator API"
+                  description={
+                    'This project does vocabulary validation of C-CDAs against a configured repository of codesystem and valueset files.'
+                  }
+                  buttonLink="https://github.com/onc-healthit/code-validator-api"
+                />
+                <DocsCard
+                  cardHeader="Content Validator API"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/content-validator-api"
+                />
+                <DocsCard
+                  cardHeader="C-CDA Scorecard"
+                  description={'This application contains the C-CDA Scorecard service.  '}
+                  buttonLink="https://github.com/onc-healthit/ccda-scorecard"
+                />
+                <DocsCard
+                  cardHeader="XDR Message Validator"
+                  description={'This tool supports testing XDR implementation over SOAP protocal. '}
+                  buttonLink="https://github.com/onc-healthit/xdr-message-validator"
+                />
+                <DocsCard
+                  cardHeader="SITE IHE XDR Test Tool Implementation"
+                  description={
+                    'XDRValidator is a XDR Edge protocol test tool. This tool takes a soap request of XDR message to validates it and return validation results. '
+                  }
+                  buttonLink="https://github.com/onc-healthit/soap"
+                />
+                <DocsCard
+                  cardHeader="FHIR Tools"
+                  description={'Set of FHIR tools for SITE '}
+                  buttonLink="https://github.com/onc-healthit/fhir-tools"
+                />
+                <DocsCard
+                  cardHeader="Direct Transport Message Sender"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/direct-transport-message-sender"
+                />
+                <DocsCard
+                  cardHeader="Trust Anchor Uploader"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/trustanchor-uploader"
+                />
+                <DocsCard
+                  cardHeader="XDR Message Sender"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/xdr-message-sender"
+                />
+                <DocsCard
+                  cardHeader="Scorecard Results Mailer Job"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/scorecard-results-mailer-job"
+                />
+                <DocsCard
+                  cardHeader=" Direct Certificate Discovery Tool (DCDT)"
+                  description={'The open code repository for the Direct Certificate Discovery Tool (DCDT). '}
+                  buttonLink="https://github.com/onc-healthit/dcdt"
+                />
+                <DocsCard cardHeader="ETT" description={' '} buttonLink="https://github.com/onc-healthit/ett" />
+                <DocsCard cardHeader="SITE UI" description={' '} buttonLink="https://github.com/onc-healthit/site-ui" />
+                <DocsCard
+                  cardHeader="C-CDA Parser"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/ccda-parser"
+                />
+                <DocsCard
+                  cardHeader="C-CDA USCDI Certification Testdata"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/ccda-uscdi-certification-testdata"
+                />
+                <DocsCard
+                  cardHeader="2015 Edition Cures Update Data"
+                  description={'Repository for the test data supporting the 2015 Cures Update final rule. '}
+                  buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-data"
+                />
+                <DocsCard
+                  cardHeader="2015 Edition Cures Update USCDI V2 Data"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v2-testdata"
+                />
+                <DocsCard
+                  cardHeader="2015 Edition Cures Update USCDI V3 Data"
+                  description={' '}
+                  buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v3-testdata"
+                />
+              </Box>
+            </Box>
           </Box>
         </Box>
       </Container>
-    </div>
+    </Box>
   )
 }
+
+export default DocsHome
