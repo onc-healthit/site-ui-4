@@ -2,11 +2,11 @@ import {
   ScorecardReferenceResultType,
   ScorecardResultsType,
 } from '@/components/c-cda/scorecard/types/ScorecardJsonResponseType'
-import { Box, Divider, FormControlLabel, styled, Switch, Typography } from '@mui/material'
+import { Box, Divider, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { removeHashtagToUseHrefLinkAsIdForAnchor } from '../serverside/scorecardHelperService'
 import { HrefLinkValueEnum, SORT_ORDER_STARTING_VALUE } from '../types/ScorecardConstants'
-// import { SortOrderEnum } from '../types/ScorecardConstants'
+import SwitchWithLabel from '@/components/shared/SwitchWIthLabel'
 import ScorecardDetailedResults from './ScorecardDetailedResults'
 import ScorecardHeatMap from './ScorecardHeatMap'
 
@@ -35,11 +35,6 @@ export default function ScorecardNextSteps({
     setIsAscendingOrderChecked((prevIsAscendingOrderChecked) => !prevIsAscendingOrderChecked)
   }
 
-  const StyledFormControlLabelWithLabelOnLeft = styled(FormControlLabel)`
-    display: flex;
-    flex-direction: row;
-  `
-
   return (
     <Box>
       <Box sx={{ pb: 3 }}>
@@ -47,18 +42,11 @@ export default function ScorecardNextSteps({
           <Typography variant="h3" sx={{ fontWeight: 'bold', pt: 2, pb: 2 }}>
             Next Steps
           </Typography>
-          <StyledFormControlLabelWithLabelOnLeft
-            control={
-              <Switch
-                checked={isAscendingOrderChecked}
-                onChange={handleSortSwitchChange}
-                color="secondary"
-                size="small"
-              />
-            }
-            // label={`Sorted by: ${isAscendingOrderChecked ? SortOrderEnum.ASCENDING : SortOrderEnum.DESCENDING} order`}
-            label="Toggle Sort Order"
-            name="wrapped"
+          <SwitchWithLabel
+            isChecked={isAscendingOrderChecked}
+            handleToggleSwitch={handleSortSwitchChange}
+            labelText="Toggle Sort Order"
+            labelOnRight={false}
           />
         </Box>
         <Typography variant="h6">

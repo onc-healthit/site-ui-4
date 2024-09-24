@@ -18,15 +18,16 @@ import {
   SelectChangeEvent,
   TextField,
   LinearProgress,
+  Typography,
 } from '@mui/material'
 import AddBoxIcon from '@mui/icons-material/AddBox'
 import DeleteIcon from '@mui/icons-material/Delete'
-import palette from '@/styles/palette'
 import _ from 'lodash'
 import { MutableRefObject, useEffect, useRef, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import ErrorDisplayCard from '@/components/c-cda/validation/results/ErrorDisplay'
 import AlertSnackbar from '../shared/AlertSnackbar'
+import PageAlertBox from '../../shared/PageAlertBox'
 
 const Register = () => {
   const [selectedDirectEmailAddress, setSelectedDirectEmailAddress] = useState('')
@@ -240,85 +241,35 @@ const Register = () => {
       />
 
       {/* Main Content */}
-      {isFetchingLoggedInUsersDirectEmailAdresses ? (
-        <LinearProgress />
-      ) : (
+      {status !== 'authenticated' ? (
         <Container sx={{ pt: 4 }}>
-          <Grid container spacing={2}>
-            {isAddingDirectAddress || isDeletingDirectEmailGroup ? (
-              <LinearProgress />
-            ) : (
-              <Grid item xs={6}>
-                <>
-                  <Box sx={{ pb: 2 }}>
-                    <TextField
-                      id="outlined-direct-email-address"
-                      label="Enter a valid Direct Email Address"
-                      fullWidth
-                      required
-                      inputRef={directEmailAddressRef}
-                      onChange={validateDirectEmailFormat}
-                      error={directEmailFormatError}
-                      helperText={directEmailFormatError ? 'Please enter a valid email' : ''}
-                      InputProps={{
-                        type: 'email',
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              edge="end"
-                              color="primary"
-                              onClick={() => addDirectAddress()}
-                              disabled={directEmailFormatError || directEmailAddressRef.current?.value === ''}
-                            >
-                              <AddBoxIcon fontSize="large" />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Box>
-                  {!_.isEmpty(directEmailAddressList) && (
-                    <Box>
-                      <Select value={selectedDirectEmailAddress} onChange={handleDirectEmailAddressChange} fullWidth>
-                        {directEmailAddressList.map((x, index) => {
-                          return (
-                            <MenuItem key={index} value={x}>
-                              {x}
-                            </MenuItem>
-                          )
-                        })}
-                      </Select>
-                      <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} sx={{ mt: 2 }}>
-                        <Button
-                          variant="outlined"
-                          sx={{ color: palette.errorDark, borderColor: palette.errorDark }}
-                          onClick={deleteDirectEmailGroup}
-                        >
-                          DELETE {selectedDirectEmailAddress}
-                        </Button>
-                      </Box>
-                    </Box>
-                  )}
-                </>
-              </Grid>
-            )}
-            {!_.isEmpty(directEmailAddressList) && (
-              <>
-                {isAddingContactAddress || isDeletingContactAddress || isFetchingContactAddresses ? (
+          <PageAlertBox message="You must be logged in to manage your Direct Email Groups." />
+        </Container>
+      ) : (
+        <>
+          {isFetchingLoggedInUsersDirectEmailAdresses ? (
+            <LinearProgress />
+          ) : (
+            <Container sx={{ pt: 4 }}>
+              <Grid container spacing={2}>
+                {isAddingDirectAddress || isDeletingDirectEmailGroup ? (
                   <LinearProgress />
                 ) : (
                   <Grid item xs={6}>
                     <>
                       <Box sx={{ pb: 2 }}>
+                        <Typography variant="h4" component={'h2'} sx={{ pb: 4, pl: 0 }}>
+                          Add a valid Direct email address to get started.
+                        </Typography>
                         <TextField
-                          id="outlined-contact-email-address"
-                          label={`Enter a contact email address for ${selectedDirectEmailAddress}`}
+                          id="outlined-direct-email-address"
+                          //label="Enter a valid Direct Email Address"
                           fullWidth
-                          inputRef={contactEmailAddressRef}
                           required
-                          onChange={validateContactEmailFormat}
-                          error={contactEmailFormatError}
-                          helperText={contactEmailFormatError ? 'Please enter a valid email' : ''}
+                          inputRef={directEmailAddressRef}
+                          onChange={validateDirectEmailFormat}
+                          error={directEmailFormatError}
+                          helperText={directEmailFormatError ? 'Please enter a valid email' : ''}
                           InputProps={{
                             type: 'email',
                             endAdornment: (
@@ -326,8 +277,9 @@ const Register = () => {
                                 <IconButton
                                   edge="end"
                                   color="primary"
-                                  onClick={() => addContactAddress()}
-                                  disabled={contactEmailFormatError || contactEmailAddressRef.current?.value === ''}
+                                  onClick={() => addDirectAddress()}
+                                  disabled={directEmailFormatError || directEmailAddressRef.current?.value === ''}
+                                  title="Add a Direct email address to manage its contacts."
                                 >
                                   <AddBoxIcon fontSize="large" />
                                 </IconButton>
@@ -336,47 +288,125 @@ const Register = () => {
                           }}
                         />
                       </Box>
-                      <Box>
-                        {!_.isEmpty(contactEmailAdressList) && (
-                          <List>
-                            {contactEmailAdressList.map((x) => {
+                      {!_.isEmpty(directEmailAddressList) && (
+                        <Box>
+                          <Select
+                            value={selectedDirectEmailAddress}
+                            onChange={handleDirectEmailAddressChange}
+                            fullWidth
+                            title="Select a Direct email address to manage its contacts."
+                          >
+                            {directEmailAddressList.map((x, index) => {
                               return (
-                                <ListItem key={x}>
-                                  <ListItemText primary={x} />
-                                  <ListItemSecondaryAction>
-                                    <IconButton
-                                      edge="end"
-                                      aria-label="delete"
-                                      onClick={() => deleteContactAddress(x)}
-                                      disabled={contactEmailFormatError}
-                                    >
-                                      <DeleteIcon />
-                                    </IconButton>
-                                  </ListItemSecondaryAction>
-                                </ListItem>
+                                <MenuItem key={index} value={x}>
+                                  {x}
+                                </MenuItem>
                               )
                             })}
-                          </List>
-                        )}
-                      </Box>
+                          </Select>
+                          <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} sx={{ mt: 2 }}>
+                            <Button
+                              variant="contained"
+                              color="error"
+                              //sx={{ color: '#FF5252', borderColor: '#FF5252' }}
+                              onClick={deleteDirectEmailGroup}
+                              title="Delete the selected Direct email address."
+                            >
+                              DELETE SELECTED EMAIL GROUP
+                            </Button>
+                          </Box>
+                        </Box>
+                      )}
                     </>
                   </Grid>
                 )}
-              </>
-            )}
-          </Grid>
-          {!_.isEmpty(errorMessage) && (
-            <ErrorDisplayCard open={true} handleClose={() => setErrorMessage('')} response={{ error: errorMessage }} />
+                {!_.isEmpty(directEmailAddressList) && (
+                  <>
+                    {isAddingContactAddress || isDeletingContactAddress || isFetchingContactAddresses ? (
+                      <LinearProgress />
+                    ) : (
+                      <Grid item xs={6}>
+                        <>
+                          <Box sx={{ pb: 2 }}>
+                            <Typography variant="h4" component={'h2'} sx={{ pb: 4, pl: 0 }}>
+                              Manage contacts for selected email
+                            </Typography>
+                            <TextField
+                              id="outlined-contact-email-address"
+                              //label={`Enter a contact email address for ${selectedDirectEmailAddress}`}
+                              fullWidth
+                              inputRef={contactEmailAddressRef}
+                              required
+                              onChange={validateContactEmailFormat}
+                              error={contactEmailFormatError}
+                              helperText={contactEmailFormatError ? 'Please enter a valid email' : ''}
+                              InputProps={{
+                                type: 'email',
+                                endAdornment: (
+                                  <InputAdornment position="end">
+                                    <IconButton
+                                      edge="end"
+                                      color="primary"
+                                      onClick={() => addContactAddress()}
+                                      title="Add a contact email address for the selected Direct email address."
+                                      disabled={contactEmailFormatError || contactEmailAddressRef.current?.value === ''}
+                                    >
+                                      <AddBoxIcon fontSize="large" />
+                                    </IconButton>
+                                  </InputAdornment>
+                                ),
+                              }}
+                            />
+                          </Box>
+                          <Box>
+                            {!_.isEmpty(contactEmailAdressList) && (
+                              <List>
+                                {contactEmailAdressList.map((x) => {
+                                  return (
+                                    <ListItem key={x}>
+                                      <ListItemText primary={x} />
+                                      <ListItemSecondaryAction>
+                                        <IconButton
+                                          edge="end"
+                                          aria-label="delete"
+                                          onClick={() => deleteContactAddress(x)}
+                                          disabled={contactEmailFormatError}
+                                          color="error"
+                                          title="Delete this contact email address."
+                                        >
+                                          <DeleteIcon />
+                                        </IconButton>
+                                      </ListItemSecondaryAction>
+                                    </ListItem>
+                                  )
+                                })}
+                              </List>
+                            )}
+                          </Box>
+                        </>
+                      </Grid>
+                    )}
+                  </>
+                )}
+              </Grid>
+              {!_.isEmpty(errorMessage) && (
+                <ErrorDisplayCard
+                  open={true}
+                  handleClose={() => setErrorMessage('')}
+                  response={{ error: errorMessage }}
+                />
+              )}
+              {!_.isEmpty(successMessage) && (
+                <AlertSnackbar
+                  message={successMessage}
+                  severity="success"
+                  open={true}
+                  onClose={() => setSuccessMessage('')}
+                />
+              )}
+            </Container>
           )}
-          {!_.isEmpty(successMessage) && (
-            <AlertSnackbar
-              message={successMessage}
-              severity="success"
-              open={true}
-              onClose={() => setSuccessMessage('')}
-            />
-          )}
-        </Container>
+        </>
       )}
     </>
   )
