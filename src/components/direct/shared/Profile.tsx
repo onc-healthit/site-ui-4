@@ -1,5 +1,7 @@
 import palette from '@/styles/palette'
 import { Box, TextField, Button, MenuItem, FormGroup, FormControlLabel, Switch } from '@mui/material'
+import { useContext } from 'react'
+import { ProfileContext } from '../hisp/context'
 
 const dropdown = [
   {
@@ -8,23 +10,9 @@ const dropdown = [
   },
 ]
 
-interface ProfileProps {
-  setHostname?: (hostname: string) => void
-  setEmail?: (email: string) => void
-  setUsername?: (username: string) => void
-  setPassword?: (password: string) => void
-  setTls?: (tls: boolean) => void
-}
-
-const noop = () => {}
-
-const Profile: React.FC<ProfileProps> = ({
-  setHostname = noop,
-  setEmail = noop,
-  setUsername = noop,
-  setPassword = noop,
-  setTls = noop,
-}) => {
+const Profile = () => {
+  const { setHostname, setEmail, setUsername, setPassword, setTls, hostname, email, password, tls, username } =
+    useContext(ProfileContext)
   return (
     <Box component="form" sx={{ backgroundColor: palette.white }}>
       <TextField
@@ -49,6 +37,7 @@ const Profile: React.FC<ProfileProps> = ({
             label="Vendor Hostname/IP"
             helperText="helper text"
             defaultValue=""
+            value={hostname}
             required
             onChange={(e) => setHostname(e.target.value)}
           />
@@ -58,6 +47,7 @@ const Profile: React.FC<ProfileProps> = ({
             label="Vendor Direct Email Address"
             helperText="helper text"
             defaultValue=""
+            value={email}
             required
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -69,6 +59,7 @@ const Profile: React.FC<ProfileProps> = ({
             label="Vendor Username"
             helperText="helper text"
             defaultValue=""
+            value={username}
             required
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -79,13 +70,14 @@ const Profile: React.FC<ProfileProps> = ({
             helperText="helper text"
             type="password"
             defaultValue=""
+            value={password}
             required
             onChange={(e) => setPassword(e.target.value)}
           />
         </Box>
         <FormGroup sx={{ width: '50%' }}>
           <FormControlLabel
-            control={<Switch color="secondary" defaultChecked onChange={(e) => setTls(e.target.checked)} />}
+            control={<Switch color="secondary" defaultChecked value={tls} onChange={(e) => setTls(e.target.checked)} />}
             label="TLS REQUIRED"
             name="tlsRequired"
           />
