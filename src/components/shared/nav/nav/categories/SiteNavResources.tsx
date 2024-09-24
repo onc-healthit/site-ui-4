@@ -1,4 +1,3 @@
-'use client'
 import { ContentCopy, IntegrationInstructionsOutlined, ArchiveOutlined } from '@mui/icons-material'
 import { useState } from 'react'
 
