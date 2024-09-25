@@ -1,5 +1,4 @@
-'use client'
-import { ContentCopy, IntegrationInstructionsOutlined, QuestionAnswerOutlined } from '@mui/icons-material'
+import { ContentCopy, IntegrationInstructionsOutlined, ArchiveOutlined } from '@mui/icons-material'
 import { useState } from 'react'
 
 /* Custom Imports */
@@ -16,16 +15,16 @@ export default function SiteNavResources() {
 
   const items: NavListItemType[] = [
     {
-      text: 'FAQs',
+      text: 'Documentation',
       isExternalLink: false,
-      href: '/faqs',
-      icon: <QuestionAnswerOutlined aria-label="Go to FAQs" fontSize="small" />,
+      href: '/docs',
+      icon: <IntegrationInstructionsOutlined aria-label="Go to Documentation" fontSize="small" />,
     },
     {
-      text: 'Documentation & Videos',
+      text: 'Archived',
       isExternalLink: false,
-      href: '/docs-and-vids',
-      icon: <IntegrationInstructionsOutlined aria-label="Go to Documentation and Videos" fontSize="small" />,
+      href: '/archived',
+      icon: <ArchiveOutlined aria-label="Go to archived page" fontSize="small" />,
     },
   ]
 

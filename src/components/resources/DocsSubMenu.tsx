@@ -18,7 +18,7 @@ const DocsSubMenu = () => {
       }}
     >
       <DocsSubMenuButton link="#docs" heading="Documents" />
-      <DocsSubMenuButton link="#vids" heading="Videos" />
+      <DocsSubMenuButton link="#github" heading="GitHub Repositories" />
       <DocsSubMenuButton link="mailto:edge-test-tool@googlegroups.com" heading="Contact Us" />
     </Box>
   )

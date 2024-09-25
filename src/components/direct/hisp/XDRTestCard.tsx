@@ -84,6 +84,7 @@ interface StepTextProps {
 }
 const senderText = 'Hit Run to generate your endpoint.'
 const receiverText = 'Hit Run to send a XDR message.'
+
 const StepText = ({ inputs, role, endpointsGenerated }: StepTextProps) => {
   if (endpointsGenerated) {
     return (
@@ -92,6 +93,7 @@ const StepText = ({ inputs, role, endpointsGenerated }: StepTextProps) => {
       </Typography>
     )
   }
+
   return (
     <>
       <Typography variant="body2">
@@ -145,6 +147,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   const [endpointsGenerated, setEndpointsGenerated] = useState(false)
   const [endpoint, setEndpoint] = useState(defaultEndpoint)
   const [endpointTLS, setEndpointTLS] = useState(defaultEndpointTLS)
+
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
   const [popoverMessage, setPopoverMessage] = useState('')
   const [autoCloseTimer, setAutoCloseTimer] = useState<NodeJS.Timeout | null>(null)
@@ -610,6 +613,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
               )}
               <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 1, pl: 2 }}>
                 {renderCriteriaMetIcon()}
+
                 <LoadingButton
                   loading={isLoading}
                   done={isFinished}
