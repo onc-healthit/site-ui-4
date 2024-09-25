@@ -133,8 +133,11 @@ interface SelectedDocument {
   fileLink: string
 }
 const TestCard = ({ test, receive }: TestCardProps) => {
-  const defaultEndpoint = `process.env.XDR_ENDPOINT_PREFIX` + test.id + '/rep/xdrpr'
-  const defaultEndpointTLS = `process.env.XDR_ENDPOINT_PREFIX` + test.id + '/rep/xdrpr'
+  const defaultEndpoint =
+    process.env.XDR_ENDPOINT_PREFIX || 'http://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
+  const defaultEndpointTLS =
+    process.env.XDR_ENDPOINT_TLS_PREFIX ||
+    'https://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testResponse, setTestRequestResponse] = useState<string>('')
@@ -530,40 +533,22 @@ const TestCard = ({ test, receive }: TestCardProps) => {
             >
               {(endpointTestIds.includes(test.id.toString()) || endpointsGenerated) && (
                 <Box width={'50%'}>
-                  <Tooltip
-                    placement="bottom"
-                    title={endpointsGenerated ? endpoint : `${defaultEndpoint}edge-ttp__${test.id}/rep/xdrpr`}
-                    arrow
-                  >
+                  <Tooltip placement="bottom" title={endpointsGenerated ? endpoint : `${defaultEndpoint}`} arrow>
                     <Button
                       sx={{ ml: 2 }}
                       color="secondary"
                       endIcon={<ContentPasteGoIcon />}
-                      onClick={(e) =>
-                        handleClick(
-                          e,
-                          endpointsGenerated ? endpoint : `${defaultEndpoint}edge-ttp__${test.id}/rep/xdrpr`
-                        )
-                      }
+                      onClick={(e) => handleClick(e, endpointsGenerated ? endpoint : `${defaultEndpoint}`)}
                     >
                       Endpoint
                     </Button>
                   </Tooltip>
-                  <Tooltip
-                    placement="bottom"
-                    title={endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}edge-ttp__${test.id}/rep/xdrpr`}
-                    arrow
-                  >
+                  <Tooltip placement="bottom" title={endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`} arrow>
                     <Button
                       sx={{ ml: 2 }}
                       color="secondary"
                       endIcon={<ContentPasteGoIcon />}
-                      onClick={(e) =>
-                        handleClick(
-                          e,
-                          endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}edge-ttp__${test.id}/rep/xdrpr`
-                        )
-                      }
+                      onClick={(e) => handleClick(e, endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`)}
                     >
                       Endpoint TLS
                     </Button>
