@@ -87,10 +87,8 @@ const DocsHome = () => {
                 Document Library
               </Typography>
               <Typography>
-                Our document library is a comprehensive repository of whitepapers, research reports, guidelines, and
-                informative articles related to ONC SITE. Whether you are looking to stay up-to-date with the latest
-                regulatory changes, delve into technical specifications, or gain insights into the broader landscape of
-                health IT, you will find a wealth of knowledge at your fingertips.
+                Our document library offers a growing collection of resources relevant to SITE. It will be updated to
+                build a comprehensive repository of relevant materials.
               </Typography>
               <Box id="document-library" display={'flex'} flexDirection={'row'} gap={4} width="100%">
                 <DocsCard
