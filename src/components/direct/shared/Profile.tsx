@@ -1,43 +1,145 @@
 import palette from '@/styles/palette'
-import { Box, TextField, Button, MenuItem, FormGroup, FormControlLabel, Switch } from '@mui/material'
-import { useContext } from 'react'
+import {
+  Box,
+  TextField,
+  Button,
+  FormGroup,
+  FormControlLabel,
+  Switch,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+} from '@mui/material'
+import { useContext, useEffect, useState } from 'react'
 import { ProfileContext } from '../hisp/context'
-
-const dropdown = [
-  {
-    value: 'Default Profile',
-    label: 'Default Profile',
-  },
-]
+import { fetchProfiles, saveProfile } from '../hisp/actions'
+import { useSession } from 'next-auth/react'
+import AlertSnackbar from './AlertSnackbar'
+import _ from 'lodash'
 
 const Profile = () => {
-  const { setHostname, setEmail, setUsername, setPassword, setTls, hostname, email, password, tls, username } =
-    useContext(ProfileContext)
+  const {
+    setProfileid,
+    setProfilename,
+    setHostname,
+    setEmail,
+    setUsername,
+    setPassword,
+    setTls,
+    profileid,
+    profilename,
+    hostname,
+    email,
+    password,
+    tls,
+    username,
+  } = useContext(ProfileContext)
+  const { data: session, status } = useSession()
+  interface Profile {
+    profileName: string
+    sutSMTPAddress: string
+    sutEmailAddress: string
+    sutUsername: string
+    sutPassword: string
+    useTLS: boolean
+    smtpEdgeProfileID: string
+  }
+
+  const [profiles, setProfiles] = useState<Profile[]>([])
+  const [selectedProfileIndex, setSelectedProfileIndex] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState('')
+
+  useEffect(() => {
+    async function fetchLoggedInUsersProfiles() {
+      const loggedInUsersProfiles = await fetchProfiles()
+      const filteredProiles = loggedInUsersProfiles.filter(
+        (profile: { profileName: null }) => profile.profileName !== null
+      )
+      if (!_.isEmpty(filteredProiles)) {
+        setProfiles(filteredProiles)
+        setSelectedProfileIndex(0)
+        setProfilename(filteredProiles[0].profileName)
+        setHostname(filteredProiles[0].sutSMTPAddress)
+        setEmail(filteredProiles[0].sutEmailAddress)
+        setUsername(filteredProiles[0].sutUsername)
+        setPassword(filteredProiles[0].sutPassword)
+        setTls(filteredProiles[0].useTLS)
+        setProfileid(filteredProiles[0].smtpEdgeProfileID)
+      }
+    }
+    if (status === 'authenticated') {
+      fetchLoggedInUsersProfiles()
+    }
+  }, [status, session])
+
+  const handleSaveProfile = () => {
+    setIsLoading(true)
+    saveProfile({
+      profileid: profileid || '',
+      hostname: hostname,
+      email: email,
+      username: username,
+      password: password,
+      istls: tls,
+      profilename: profilename,
+    }).then(async (response) => {
+      setIsLoading(false)
+      setMessage(response.message)
+      const loggedInUsersProfiles = await fetchProfiles()
+      const filteredProiles = loggedInUsersProfiles.filter(
+        (profile: { profileName: null }) => profile.profileName !== null
+      )
+      setProfiles(filteredProiles)
+      setSelectedProfileIndex(filteredProiles.length - 1)
+      setProfilename(filteredProiles[filteredProiles.length - 1].profileName)
+      setHostname(filteredProiles[filteredProiles.length - 1].sutSMTPAddress)
+      setEmail(filteredProiles[filteredProiles.length - 1].sutEmailAddress)
+      setUsername(filteredProiles[filteredProiles.length - 1].sutUsername)
+      setPassword(filteredProiles[filteredProiles.length - 1].sutPassword)
+      setTls(filteredProiles[filteredProiles.length - 1].useTLS)
+      setProfileid(filteredProiles[filteredProiles.length - 1].smtpEdgeProfileID)
+    })
+  }
+
+  const handleProfileChange = async (event: SelectChangeEvent) => {
+    const selectedProfileIndex = _.toNumber(event.target.value)
+    setSelectedProfileIndex(selectedProfileIndex)
+    setProfilename(profiles[selectedProfileIndex].profileName)
+    setHostname(profiles[selectedProfileIndex].sutSMTPAddress)
+    setEmail(profiles[selectedProfileIndex].sutEmailAddress)
+    setUsername(profiles[selectedProfileIndex].sutUsername)
+    setPassword(profiles[selectedProfileIndex].sutPassword)
+    setTls(profiles[selectedProfileIndex].useTLS)
+    setProfileid(profiles[selectedProfileIndex].smtpEdgeProfileID)
+  }
+
   return (
     <Box component="form" sx={{ backgroundColor: palette.white }}>
-      <TextField
-        fullWidth
-        id="select-profile"
-        select
-        label="Select A Profile"
-        defaultValue="Default Profile"
-        variant="filled"
-      >
-        {dropdown.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </TextField>
+      {profiles.length > 0 && (
+        <Select
+          fullWidth
+          title="Select a profile."
+          onChange={handleProfileChange}
+          value={_.toString(selectedProfileIndex)}
+        >
+          {profiles.map((profile, index) => {
+            return (
+              <MenuItem key={index} value={index}>
+                {profile.profileName}
+              </MenuItem>
+            )
+          })}
+        </Select>
+      )}
       <Box display={'flex'} flexDirection={'column'} gap={4} p={2}>
         <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} pt={2} gap={2}>
           <TextField
             fullWidth
             id="outlined-vendor-hostname"
             label="Vendor Hostname/IP"
-            helperText="helper text"
-            defaultValue=""
-            value={hostname}
+            helperText="Hostname/IP of the vendor SMTP sysem"
+            value={hostname || ''}
             required
             onChange={(e) => setHostname(e.target.value)}
           />
@@ -45,9 +147,8 @@ const Profile = () => {
             fullWidth
             id="vendor-email"
             label="Vendor Direct Email Address"
-            helperText="helper text"
-            defaultValue=""
-            value={email}
+            helperText="Email of the vendor SMTP system"
+            value={email || ''}
             required
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -57,9 +158,8 @@ const Profile = () => {
             fullWidth
             id="vendor-username"
             label="Vendor Username"
-            helperText="helper text"
-            defaultValue=""
-            value={username}
+            helperText="Username for the vendor SMTP system"
+            value={username || ''}
             required
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -67,10 +167,9 @@ const Profile = () => {
             fullWidth
             id="vendor-password"
             label="Vendor Password"
-            helperText="helper text"
+            helperText="Password for the vendor SMTP system"
             type="password"
-            defaultValue=""
-            value={password}
+            value={password || ''}
             required
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -83,19 +182,31 @@ const Profile = () => {
           />
         </FormGroup>
       </Box>
-      <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} p={2}>
-        <Box display={'flex'} flexDirection={'row'} gap={1}>
-          <Button variant="outlined" sx={{ color: palette.primary }}>
-            Make Profile
-          </Button>
-          <Button disabled variant="outlined" sx={{ color: palette.primary }}>
-            Save
-          </Button>
-        </Box>
-        <Button variant="text" sx={{ color: palette.errorDark }}>
-          Remove
-        </Button>
+
+      <Box display={'flex'} flexDirection={'column'} justifyContent={'space-between'} p={2}>
+        {status === 'authenticated' && (
+          <>
+            <TextField
+              fullWidth
+              id="select-profile"
+              label="Profile Name"
+              value={profilename}
+              onChange={(e) => setProfilename(e.target.value)}
+            />
+            <Box display={'flex'} justifyContent="space-between" component="span" sx={{ pt: 3 }}>
+              <Button variant="outlined" sx={{ color: palette.primary }} onClick={() => handleSaveProfile()}>
+                Save
+              </Button>
+              <Button variant="text" sx={{ color: palette.errorDark }}>
+                Remove
+              </Button>
+            </Box>
+          </>
+        )}
       </Box>
+      {!_.isEmpty(message) && (
+        <AlertSnackbar message={message} severity="success" open={true} onClose={() => setMessage('')} />
+      )}
     </Box>
   )
 }
