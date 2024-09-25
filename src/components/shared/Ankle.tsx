@@ -36,10 +36,10 @@ export default function Ankle() {
     <Box bgcolor="#122953" boxShadow={'0px -4px 20px 20px rgb(0, 0, 0, 0.15)'} pt={4} pb={4}>
       <Container>
         <Typography variant="h5" color="#fff" component={'h2'}>
-          <strong>Can&apos;t find what your looking for?</strong>
+          <strong>Can&apos;t find what you&apos;re looking for?</strong>
         </Typography>
         <Typography variant="body1" color="#fff">
-          Please checkout our{' '}
+          Please check out our{' '}
           <Link onClick={ClickDocumentationAnkle} style={{ color: palette.white }} href="/docs" passHref>
             Documentation
           </Link>{' '}
