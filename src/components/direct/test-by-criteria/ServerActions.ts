@@ -84,6 +84,12 @@ interface XDRAPIResponse {
   endpointTLS: string
 }
 
+interface StatusResponse {
+  criteriaMet: string
+  message: string
+  status: string
+}
+
 export async function handleAPICall(data: APICallData): Promise<APIResponse> {
   const apiUrl = process.env.SMTP_TEST_BY_CRITERIA_ENDPOINT
   const config = {
@@ -182,6 +188,34 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
       console.error('Error')
     }
     throw error
+  }
+}
+
+export async function GetStatus(testCaseId: string): Promise<StatusResponse> {
+  const statusUrl = process.env.XDR_TEST_BY_CRITERIA_ENDPOINT + testCaseId + '/status'
+  const session = await getServerSession(authOptions)
+  const jsessionid = session?.user?.jsessionid ?? ''
+  try {
+    const response = await axios.get(statusUrl, {
+      headers: session
+        ? { 'Content-Type': 'application/json', Cookie: `JSESSIONID=${jsessionid}` }
+        : { 'Content-Type': 'application/json' },
+    })
+    const content = response.data
+    console.log('Status fetched: ', content)
+    return {
+      criteriaMet: content.criteriaMet,
+      message: content.message,
+      status: content.status,
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Failed to fetch status:', error.response?.data)
+      throw new Error(`Failed to fetch status: ${error.message}`)
+    } else {
+      console.error('Unexpected error:', error)
+      throw new Error('An unexpected error occurred')
+    }
   }
 }
 
