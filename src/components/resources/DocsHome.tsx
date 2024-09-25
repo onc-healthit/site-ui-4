@@ -11,7 +11,7 @@ import React from 'react'
 
 const DocsHome = () => {
   const menuItems: menuProps[] = [
-    { heading: 'Documents', href: '#documents' },
+    { heading: 'Document Library', href: '#document-library' },
     { heading: 'GitHub', href: '#github' },
     {
       heading: 'Contact Us',
@@ -63,10 +63,10 @@ const DocsHome = () => {
       <BannerBox
         breadcrumbs={
           <Link color={palette.secondary} href={'/docs'}>
-            Documents
+            Docs
           </Link>
         }
-        heading={'Documents'}
+        heading={'Documentation'}
         description={
           <>
             Explore a collection of documents and GitHub repositories on this page, designed to enhance your
@@ -84,7 +84,7 @@ const DocsHome = () => {
             </Box>
             <Box gap={2} display={'flex'} flexDirection={'column'} flexWrap={'wrap'}>
               <Typography fontWeight={'600'} mb={0} component="h2" variant="h4">
-                Documents
+                Document Library
               </Typography>
               <Typography>
                 Our document library is a comprehensive repository of whitepapers, research reports, guidelines, and
@@ -92,7 +92,7 @@ const DocsHome = () => {
                 regulatory changes, delve into technical specifications, or gain insights into the broader landscape of
                 health IT, you will find a wealth of knowledge at your fingertips.
               </Typography>
-              <Box id="documents" display={'flex'} flexDirection={'row'} gap={4} width="100%">
+              <Box id="document-library" display={'flex'} flexDirection={'row'} gap={4} width="100%">
                 <DocsCard
                   cardHeader="Access Testing Procedures and Companion Guides"
                   description={''}
