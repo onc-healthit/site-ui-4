@@ -67,6 +67,7 @@ const Profile = () => {
         setTls(filteredProiles[0].useTLS)
         setProfileid(filteredProiles[0].smtpEdgeProfileID)
       }
+      return filteredProiles
     }
     if (status === 'authenticated') {
       fetchLoggedInUsersProfiles()
@@ -85,13 +86,13 @@ const Profile = () => {
       profilename: profilename,
     }).then(async (response) => {
       setIsLoading(false)
-      setMessage(response.message)
+      setMessage('Profile saved successfully.')
       const loggedInUsersProfiles = await fetchProfiles()
       const filteredProiles = loggedInUsersProfiles.filter(
         (profile: { profileName: null }) => profile.profileName !== null
       )
       setProfiles(filteredProiles)
-      setSelectedProfileIndex(filteredProiles.length - 1)
+      setSelectedProfileIndex(profiles.length - 1)
       setProfilename(filteredProiles[filteredProiles.length - 1].profileName)
       setHostname(filteredProiles[filteredProiles.length - 1].sutSMTPAddress)
       setEmail(filteredProiles[filteredProiles.length - 1].sutEmailAddress)
@@ -104,6 +105,17 @@ const Profile = () => {
 
   const handleProfileChange = async (event: SelectChangeEvent) => {
     const selectedProfileIndex = _.toNumber(event.target.value)
+    if (selectedProfileIndex === -1) {
+      setSelectedProfileIndex(selectedProfileIndex)
+      setProfilename('')
+      setHostname('')
+      setEmail('')
+      setUsername('')
+      setPassword('')
+      setTls(false)
+      setProfileid('')
+      return
+    }
     setSelectedProfileIndex(selectedProfileIndex)
     setProfilename(profiles[selectedProfileIndex].profileName)
     setHostname(profiles[selectedProfileIndex].sutSMTPAddress)
@@ -130,6 +142,9 @@ const Profile = () => {
               </MenuItem>
             )
           })}
+          <MenuItem key={-1} value={-1}>
+            New Profile
+          </MenuItem>
         </Select>
       )}
       <Box display={'flex'} flexDirection={'column'} gap={4} p={2}>
@@ -191,6 +206,7 @@ const Profile = () => {
               id="select-profile"
               label="Profile Name"
               value={profilename}
+              required
               onChange={(e) => setProfilename(e.target.value)}
             />
             <Box display={'flex'} justifyContent="space-between" component="span" sx={{ pt: 3 }}>
