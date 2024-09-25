@@ -11,7 +11,7 @@ import React from 'react'
 
 const DocsHome = () => {
   const menuItems: menuProps[] = [
-    { heading: 'Document Library', href: '#documents-library' },
+    { heading: 'Document Library', href: '#document-library' },
     { heading: 'GitHub', href: '#github' },
     {
       heading: 'Contact Us',
@@ -92,7 +92,7 @@ const DocsHome = () => {
                 regulatory changes, delve into technical specifications, or gain insights into the broader landscape of
                 health IT, you will find a wealth of knowledge at your fingertips.
               </Typography>
-              <Box id="documents-library" display={'flex'} flexDirection={'row'} gap={4} width="100%">
+              <Box id="document-library" display={'flex'} flexDirection={'row'} gap={4} width="100%">
                 <DocsCard
                   cardHeader="Access Testing Procedures and Companion Guides"
                   description={''}
