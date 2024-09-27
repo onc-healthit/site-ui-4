@@ -14,6 +14,7 @@ interface SwitchWithLabelProps {
   handleToggleSwitch: (event: React.ChangeEvent<HTMLInputElement>) => void
   labelText: string
   labelOnRight?: boolean
+  name?: string
 }
 
 export default function SwitchWithLabel({
@@ -21,8 +22,11 @@ export default function SwitchWithLabel({
   handleToggleSwitch: handleChangeSwitch,
   labelText,
   labelOnRight,
+  name,
 }: SwitchWithLabelProps) {
-  const SwitchControl = <Switch checked={isChecked} onChange={handleChangeSwitch} color="secondary" size="small" />
+  const SwitchControl = (
+    <Switch checked={isChecked} onChange={handleChangeSwitch} color="secondary" size="small" name={name} />
+  )
 
   return labelOnRight ? (
     <StyledFormControlLabelWithLabelOnRight control={SwitchControl} label={labelText} />
