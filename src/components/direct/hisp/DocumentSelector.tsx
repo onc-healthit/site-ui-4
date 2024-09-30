@@ -13,6 +13,7 @@ import DialogActions from '@mui/material/DialogActions'
 import { SelectChangeEvent } from '@mui/material/Select'
 import Divider from '@mui/material/Divider'
 import Typography from '@mui/material/Typography'
+import { fetchCCDADocuments } from '../test-by-criteria/ServerActions'
 import axios from 'axios'
 import XDR from './XDRTab'
 
@@ -34,13 +35,6 @@ export interface Directory {
   name: string
   dirs: Directory[]
   files: FileDetail[]
-}
-
-export interface Documents {
-  [key: string]: {
-    dirs: Directory[]
-    files: FileDetail[]
-  }
 }
 
 const DocumentSelector = ({ onConfirm, onClose, receive: receive }: DocumentSelectorProps) => {
@@ -174,26 +168,6 @@ const DocumentSelector = ({ onConfirm, onClose, receive: receive }: DocumentSele
       </DialogActions>
     </Dialog>
   )
-}
-
-export async function fetchCCDADocuments(receive: boolean): Promise<Documents> {
-  const baseUrl = receive
-    ? process.env.CCDA_DOCUMENTS_XDR || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType=xdr'
-    : process.env.CCDA_DOCUMENTS || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType'
-
-  const config = {
-    method: 'get',
-    url: baseUrl.toString(),
-    headers: { 'Content-Type': 'application/json' },
-  }
-
-  try {
-    const response = await axios(config)
-    return response.data
-  } catch (error) {
-    console.error('Error fetching CCDA documents:', error)
-    throw error
-  }
 }
 
 export default DocumentSelector

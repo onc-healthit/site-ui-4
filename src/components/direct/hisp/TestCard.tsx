@@ -1,5 +1,4 @@
 import DynamicTable from './DynamicTable'
-import InfoIcon from '@mui/icons-material/Info'
 import _ from 'lodash'
 import React, { useState } from 'react'
 import DocumentSelector from './DocumentSelector'
@@ -23,6 +22,7 @@ import {
   Checkbox,
   TextField,
   SelectChangeEvent,
+  Popover,
 } from '@mui/material'
 
 export type TestCaseFields = {
@@ -100,6 +100,10 @@ const TestCard = ({
   tlsRequired = false,
   receive,
 }: TestCardProps) => {
+  const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLButtonElement | null>(null)
+  const popoverOpen = Boolean(popoverAnchorEl)
+  const popoverId = popoverOpen ? 'ccda-file-required-popover' : undefined
+  const [autoCloseTimer, setAutoCloseTimer] = useState<NodeJS.Timeout | null>(null)
   const attachmentTypeTestIDs = [231, 331]
   const manualValidationCriteria = [
     "['b1-5']",
@@ -118,7 +122,6 @@ const TestCard = ({
   const [isFinished, setIsFinished] = useState(false)
   const [apiError, setApiError] = useState(false)
   const [attachmentType, setAttachmentType] = useState('')
-  const apiUrl = process.env.CCDA_DOCUMENTS || 'https://ett.healthit.gov/ett/api/ccdadocuments'
 
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
     console.log('Confirmed Document', selectedData)
@@ -194,9 +197,21 @@ const TestCard = ({
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const handleClosePopover = () => {
+    if (autoCloseTimer) {
+      clearTimeout(autoCloseTimer)
+      setAutoCloseTimer(null)
+    }
+    setPopoverAnchorEl(null)
+  }
+
   const handleRunTest = async () => {
     if (test.ccdaFileRequired && !documentDetails) {
-      alert('This test requires a CCDA document to be selected. Please select a document before running the test.')
+      setPopoverAnchorEl(document.activeElement as HTMLButtonElement)
+      const timer = setTimeout(() => {
+        handleClosePopover()
+      }, 2500)
+      setAutoCloseTimer(timer)
     } else {
       try {
         setIsLoading(true)
@@ -294,7 +309,25 @@ const TestCard = ({
     <Card>
       <CardHeader title={test.name} />
       <Divider />
-
+      {}
+      <Popover
+        id={popoverId}
+        open={popoverOpen}
+        anchorEl={popoverAnchorEl}
+        onClose={handleClosePopover}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+      >
+        <Typography sx={{ p: 2 }}>
+          This test requires a CCDA document to be selected. Please select a document before running the test.
+        </Typography>
+      </Popover>
       {showDetail ? (
         <>
           <CardContent>
@@ -353,10 +386,10 @@ const TestCard = ({
               <Button
                 variant="outlined"
                 sx={{
-                  'color': 'black',
-                  'backgroundColor': '#E8E8E8',
-                  'borderColor': 'transparent',
-                  'boxShadow': '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
+                  color: 'black',
+                  backgroundColor: '#E8E8E8',
+                  borderColor: 'transparent',
+                  boxShadow: '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
                   '&:hover': {
                     backgroundColor: '#E8E8E8',
                     boxShadow: '0px 4px 2px -1px rgba(0, 0, 0, 0.22)',
@@ -438,7 +471,7 @@ const TestCard = ({
               <DocumentSelector
                 onConfirm={handleDocumentConfirm}
                 onClose={handleDocumentSelectorClose}
-                receive={receive || false}
+                receive={test.sutRole === 'receiver'}
               />
             )}
 
@@ -468,7 +501,6 @@ const TestCard = ({
               </Button>
               {test.criteria &&
                 manualValidationCriteria.includes(test.criteria) &&
-                (formattedLogs.length > 0 || criteriaMet.includes('FALSE')) &&
                 (criteriaMet.includes('TRUE') || criteriaMet.includes('FALSE')) && (
                   <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button variant="contained" color="inherit" onClick={handleClearTest}>

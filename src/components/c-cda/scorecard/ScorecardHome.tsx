@@ -45,6 +45,7 @@ import {
   SectionNameEnum,
   SORT_ORDER_STARTING_VALUE,
 } from './types/ScorecardConstants'
+import ErrorDisplayCard from '../validation/results/ErrorDisplay'
 
 export default function ScorecardHome() {
   const [resultsDialogState, setResultsDialogState] = useState(false)
@@ -52,6 +53,8 @@ export default function ScorecardHome() {
     setResultsDialogState(false)
   }
   const [isTryMeDemo, setIsTryMeDemo] = useState(false)
+
+  const [scorecardHomeError, setScorecardHomeError] = useState('')
 
   const demoSampleOptions: { label: string; value: string }[] = [
     {
@@ -82,11 +85,11 @@ export default function ScorecardHome() {
       value: 'sampleWithVocabularyErrors.json',
     },
     {
-      label: 'Sample with Missing Section Data',
+      label: 'Sample with Empty Sections',
       value: 'sampleWithEmptySections.json',
     },
     {
-      label: 'Sample with Missing Sections and Errors',
+      label: 'Sample with Empty Sections and Errors',
       value: 'sampleWithEmptySectionsAndErrors.json',
     },
   ]
@@ -168,8 +171,14 @@ export default function ScorecardHome() {
       const [isValidResults, errorMessage]: [boolean, string | null] = processResults(newScorecardResponseJson)
       displayResults(isValidResults, errorMessage, true)
     } catch (error) {
-      // TODO: In the extremely unlikely case this happens, we should produce a dialog error
-      console.error('Failed to run Try Me Demo in handleSubmitDemoStart(), unable to get demo sample: ', error)
+      const errorMessagePrefix = 'Error running Scorecard Demo'
+      console.error(
+        `${errorMessagePrefix} in handleSubmitDemoStart():
+        Failed to run Scorecard Demo in handleSubmitDemoStart(), unable to get demo sample: `,
+        error
+      )
+      setScorecardHomeError(`${errorMessagePrefix}:
+        ${error}. Please try again later.`)
     }
 
     if (typeof window.gtag === 'function') {
@@ -380,8 +389,7 @@ export default function ScorecardHome() {
     } else {
       const finalErrorMessage = `Error: ${errorMessage ? errorMessage : 'Unknown error message'} `
       console.error(finalErrorMessage)
-      // TODO: Replace wuth error dialog used in C-CDA Validator
-      alert(finalErrorMessage)
+      setScorecardHomeError(finalErrorMessage)
     }
   }
 
@@ -585,6 +593,12 @@ export default function ScorecardHome() {
           vocabResults={vocabResults}
           sortFunction={sortResultsOrderByGradeTypeAndNumberOfIssues}
         ></ScorecardResultsDialog>
+
+        <ErrorDisplayCard
+          open={scorecardHomeError ? true : false}
+          handleClose={() => setScorecardHomeError('')}
+          response={{ error: scorecardHomeError }}
+        />
       </Container>
     </>
   )

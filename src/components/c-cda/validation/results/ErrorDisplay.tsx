@@ -60,7 +60,8 @@ const ErrorDisplayCard = ({ open, handleClose, response }: ErrorDisplayCardProps
             </Box>
           </Box>
           <DialogContent sx={{ padding: '32px' }}>
-            <Typography>{response.error}</Typography>
+            {/* Note: pre-line preserves newlines and collapse extra spaces */}
+            <Typography sx={{ whiteSpace: 'pre-line' }}>{response.error}</Typography>
           </DialogContent>
         </Dialog>
       ) : null}

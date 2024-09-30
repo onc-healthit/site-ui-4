@@ -1,36 +1,63 @@
 import * as React from 'react'
 import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
-import { Button, CardActions } from '@mui/material'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-
-export interface CriteriaCardProps {
-  cardHeader: string
-  description: string
+import Divider from '@mui/material/Divider'
+import { CardHeader, CardContent, List, ListItem, ListItemText, Box } from '@mui/material'
+export interface QAItem {
+  question: string
+  answer: string
 }
-const ArchiveCard = ({ cardHeader, description }: CriteriaCardProps) => {
+
+interface FAQCardProps {
+  header: string
+  items: QAItem[]
+}
+
+const ArchiveCard = ({ header, items }: FAQCardProps) => {
   return (
     <Card
       sx={{
-        width: '250px',
-        borderTop: '16px solid #E8E8E8',
+        width: '100%',
+        borderRadius: '8px',
       }}
-      id="category"
     >
-      <CardContent sx={{ pt: 2, pb: 3, pl: 3, pr: 3 }}>
-        <Typography variant="h6" component="h3" color="default" sx={{ mb: 1 }}>
-          <strong>{cardHeader}</strong>
-        </Typography>
-        <Typography variant="body1" sx={{ fontSize: '0.75rem' }}>
-          {description}
-        </Typography>
+      <CardHeader titleTypographyProps={{ fontWeight: 700 }} title={header} />
+      <Divider />
+      <CardContent>
+        <List disablePadding>
+          {items.map((item, index) => (
+            <React.Fragment key={index}>
+              <ListItem alignItems="flex-start" sx={{ pb: 1, px: 0 }}>
+                <ListItemText>
+                  <Box display={'flex'} gap={1} flexDirection={'row'}>
+                    <Typography fontWeight={'600'} variant="h6" gutterBottom>
+                      Q:
+                    </Typography>
+                    <Typography fontWeight={'600'} variant="h6" gutterBottom>
+                      {item.question}
+                    </Typography>
+                  </Box>
+                  <Box display={'flex'} gap={1} flexDirection={'row'}>
+                    <Typography variant="body2" gutterBottom>
+                      A:
+                    </Typography>
+                    <Typography variant="body2">
+                      {item.answer.split('\n').map((i, key) => {
+                        return (
+                          <span key={key}>
+                            {i}
+                            <br />
+                          </span>
+                        )
+                      })}
+                    </Typography>
+                  </Box>
+                </ListItemText>
+              </ListItem>
+            </React.Fragment>
+          ))}
+        </List>
       </CardContent>
-      <CardActions>
-        <Button size="small" variant="text" color="secondary" endIcon={<ArrowForwardIcon />}>
-          Go
-        </Button>
-      </CardActions>
     </Card>
   )
 }

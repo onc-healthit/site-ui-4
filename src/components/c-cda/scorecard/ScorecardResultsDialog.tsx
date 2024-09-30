@@ -15,6 +15,8 @@ import ScorecardBaseCheckSummary from './summary/ScorecardBaseCheckSummary'
 import ScorecardBestPracticeSummary from './summary/ScorecardBestPracticeSummary'
 import ScorecardCompareChartSummary from './summary/ScorecardCompareChartSummary'
 import { HrefLinkValueEnum } from './types/ScorecardConstants'
+import { useState } from 'react'
+import ErrorDisplayCard from '../validation/results/ErrorDisplay'
 
 interface ScorecardResultsDialogProps {
   dialogState: boolean
@@ -37,16 +39,81 @@ export default function ScorecardResultsDialog({
   vocabResults,
   sortFunction,
 }: ScorecardResultsDialogProps) {
+  const [isSaveReportLoading, setIsSaveReportLoading] = useState(false)
+  const [saveReportError, setSaveReportError] = useState('')
+
   const dividerPaddingStyle = {
     paddingTop: 2,
   }
 
-  const handleSaveReport = () => {
+  const handleSaveReport = async () => {
     console.log('Enter handleSaveReport()')
+
+    setIsSaveReportLoading(true)
+    setSaveReportError('')
+
+    try {
+      if (!json) {
+        throw new Error('json is undefined, there is no data to save')
+      }
+
+      const scorecardApiUrl = process.env.NEXT_PUBLIC_SCORECARD_SAVESCORECARDSERVICE_API
+      if (!scorecardApiUrl) {
+        throw new Error('The Save Scorecard API URL is undefined, there is no valid endpoint to call')
+      }
+
+      console.log('Client API call running for save scorecard service ')
+      // Note: CORS is configured on the server to allow trusted domains
+      const response = await fetch(scorecardApiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // prettier-ignore
+          'Accept': 'application/pdf',
+        },
+        body: JSON.stringify(json),
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error encountered while saving scorecard results. Status: ${response.status}`)
+      }
+
+      console.log('POST request successful for save scorecard service, preparing to download file')
+      const pdfBlobResponse = await response.blob()
+      console.log('PDF blob response created', pdfBlobResponse)
+
+      console.log('Downloading the file')
+      const url = window.URL.createObjectURL(pdfBlobResponse)
+      if (url) {
+        console.log('Valid URL created from PDF blob response', url)
+        const link = document.createElement('a')
+        link.href = url
+        link.download = json?.filename ? `SITE_C-CDA_Scorecard_${json.filename}.pdf` : 'scorecardReport.pdf'
+        document.body.appendChild(link)
+        console.log('Initiating download of scorecard report')
+        link.click()
+        link.remove()
+      }
+    } catch (error) {
+      const errorMessagePrefix = 'Error saving scorecard report'
+      console.error(`${errorMessagePrefix} in handleSaveReport():`, error)
+      setSaveReportError(`${errorMessagePrefix}:
+        ${error}. Please try again later.`)
+    } finally {
+      setIsSaveReportLoading(false)
+    }
   }
 
   const handleDownloadSampleDocument = () => {
     console.log('Enter handleDownloadSampleDocument()')
+    // Create an anchor element since next.js can use that cleanly to download a static asset in the public folder
+    const locationPrefix = '/c-cda/scorecard/samples/'
+    const link = document.createElement('a')
+    link.setAttribute('download', '') // Force download vs nav, no filenmae set so uses default url name
+    link.href = locationPrefix + (json?.filename ? json.filename : 'UnknownFilename.xml')
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
   }
 
   const isShowSampleDownloadButton: boolean = isTryMeDemo
@@ -78,7 +145,7 @@ export default function ScorecardResultsDialog({
             </Box>
             <Divider sx={dividerPaddingStyle} />
             <Box id={removeHashtagToUseHrefLinkAsIdForAnchor(HrefLinkValueEnum.COMPARE)}>
-              <ScorecardCompareChartSummary />
+              <ScorecardCompareChartSummary results={results} />
             </Box>
             <Divider sx={dividerPaddingStyle} />
             <Box id={removeHashtagToUseHrefLinkAsIdForAnchor(HrefLinkValueEnum.NEXT_STEPS)}>
@@ -102,9 +169,14 @@ export default function ScorecardResultsDialog({
             }}
           >
             <Box display={'flex'} gap={4}>
-              <Button onClick={handleSaveReport} color="primary" variant="contained">
-                Save Report
+              <Button onClick={handleSaveReport} disabled={isSaveReportLoading} color="primary" variant="contained">
+                {isSaveReportLoading ? 'Saving...' : 'Save Report'}
               </Button>
+              <ErrorDisplayCard
+                open={saveReportError ? true : false}
+                handleClose={() => setSaveReportError('')}
+                response={{ error: saveReportError }}
+              />
               {isShowSampleDownloadButton && (
                 <Button onClick={handleDownloadSampleDocument} color="primary" variant="outlined">
                   Download Sample Document
