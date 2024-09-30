@@ -1,9 +1,11 @@
 import {
   Box,
   Button,
+  ButtonGroup,
   Card,
   CardContent,
   CardHeader,
+  Chip,
   Divider,
   TextField,
   Tooltip,
@@ -22,6 +24,8 @@ import LoadingButton from '../shared/LoadingButton'
 import DocumentSelector from './DocumentSelector'
 import { useSession } from 'next-auth/react'
 import XMLDisplay from '../shared/colorizeXML'
+import palette from '@/styles/palette'
+import { green, orange } from '@mui/material/colors'
 export type TestCaseFields = {
   name?: string
   id: string | number
@@ -340,12 +344,12 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   }
   const renderCriteriaMetIcon = () => {
     if (endpointsGenerated) {
-      return <Typography style={{ color: 'red' }}>Pending</Typography>
+      return <Chip variant="outlined" color="warning" label="Pending"></Chip>
     }
     if (criteriaMet === 'TRUE') {
-      return <CheckCircleIcon style={{ color: 'green' }} />
+      return <Chip color="success" label="Success"></Chip>
     } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR') {
-      return <CancelIcon style={{ color: 'red' }} />
+      return <Chip color="error" label="Failed"></Chip>
     }
     return null
   }
@@ -402,20 +406,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
           <Button variant="contained" color="primary" onClick={() => console.log(formData)}>
             RUN
           </Button>
-          <Button
-            variant="outlined"
-            sx={{
-              color: 'black',
-              backgroundColor: '#E8E8E8',
-              borderColor: 'transparent',
-              boxShadow: '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
-              '&:hover': {
-                backgroundColor: '#E8E8E8',
-                boxShadow: '0px 4px 2px -1px rgba(0, 0, 0, 0.22)',
-              },
-            }}
-            onClick={handleToggleDetail}
-          >
+          <Button variant="outlined" color="secondary" onClick={handleToggleDetail}>
             RETURN TO TEST
           </Button>
         </Box>
@@ -424,7 +415,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   }
   return (
     <Card>
-      <CardHeader title={test.name}></CardHeader>
+      <CardHeader title={test.name} />
       <Divider />
       <CardContent>
         <Popover
@@ -448,29 +439,29 @@ const TestCard = ({ test, receive }: TestCardProps) => {
         ) : showLogs ? (
           <CardContent>
             <Typography variant="h3">Log for {test.name}</Typography>
-            <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-start', mt: 2, mb: 2 }}>
-              <Button
-                variant="contained"
-                onClick={() => toggleLogType('request')}
-                color={logType === 'request' ? 'primary' : 'inherit'}
-              >
-                Request
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => toggleLogType('response')}
-                color={logType === 'response' ? 'primary' : 'inherit'}
-              >
-                Response
-              </Button>
-              <Button variant="outlined" onClick={handleToggleLogs}>
-                Close Logs
-              </Button>
+            <Box sx={{ display: 'flex', gap: 1, justifyContent: 'space-between', mt: 2, mb: 2 }}>
+              <ButtonGroup>
+                <Button
+                  variant={logType === 'request' ? 'contained' : 'outlined'}
+                  onClick={() => toggleLogType('request')}
+                  color="primary"
+                  size="small"
+                >
+                  Request
+                </Button>
+                <Button
+                  variant={logType === 'response' ? 'contained' : 'outlined'}
+                  onClick={() => toggleLogType('response')}
+                  color="primary"
+                >
+                  Response
+                </Button>
+              </ButtonGroup>
             </Box>
             <Divider sx={{ mb: 2, mt: 2 }} />
             {renderLogs()}
             <Divider sx={{ mb: 2, mt: 2 }} />
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', mt: 2 }}>
               {test.criteria &&
                 manualValidationCriteria.includes(test.criteria) &&
                 testRequest &&
@@ -484,8 +475,10 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                     </Button>
                   </Box>
                 )}
-              <Button variant="contained" onClick={handleToggleLogs}>
-                Close Logs
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row-reverse', alignItems: 'flex-end' }}>
+              <Button variant="outlined" color="secondary" onClick={handleToggleLogs}>
+                Return to test
               </Button>
             </Box>
           </CardContent>
@@ -520,22 +513,13 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                 ))}
             </CardContent>
             <Divider />
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: 1,
-                paddingY: 2,
-                pr: 2,
-              }}
-            >
-              {(endpointTestIds.includes(test.id.toString()) || endpointsGenerated) && (
-                <Box width={'50%'}>
+            {(endpointTestIds.includes(test.id.toString()) || endpointsGenerated) && (
+              <Box display={'flex'} flexDirection={'row'} gap={4} p={2}>
+                <Box width={'50%'} display={'flex'} flexDirection={'column'}>
                   <Tooltip placement="bottom" title={endpointsGenerated ? endpoint : `${defaultEndpoint}`} arrow>
                     <Button
-                      sx={{ ml: 2 }}
+                      sx={{ width: 'fit-content' }}
+                      size="small"
                       color="secondary"
                       endIcon={<ContentPasteGoIcon />}
                       onClick={(e) => handleClick(e, endpointsGenerated ? endpoint : `${defaultEndpoint}`)}
@@ -543,9 +527,15 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                       Endpoint
                     </Button>
                   </Tooltip>
+                  <Typography whiteSpace={'preline'} variant="caption">
+                    {endpointsGenerated ? endpointTLS : endpointTLS}
+                  </Typography>
+                </Box>
+                <Box width={'30%'} display={'flex'} flexDirection={'column'}>
                   <Tooltip placement="bottom" title={endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`} arrow>
                     <Button
-                      sx={{ ml: 2 }}
+                      sx={{ width: 'fit-content' }}
+                      size="small"
                       color="secondary"
                       endIcon={<ContentPasteGoIcon />}
                       onClick={(e) => handleClick(e, endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`)}
@@ -553,24 +543,89 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                       Endpoint TLS
                     </Button>
                   </Tooltip>
-                  <Popover
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClosePopover}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'center',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'center',
-                    }}
-                  >
-                    <Typography sx={{ p: 2 }}>{popoverMessage}</Typography>
-                  </Popover>
+                  <Typography variant="caption">
+                    {endpointsGenerated ? defaultEndpointTLS : defaultEndpointTLS}
+                  </Typography>
                 </Box>
-              )}
+                <Popover
+                  id={id}
+                  open={open}
+                  anchorEl={anchorEl}
+                  onClose={handleClosePopover}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                  }}
+                >
+                  <Typography sx={{ p: 2 }}>{popoverMessage}</Typography>
+                </Popover>
+              </Box>
+            )}
+            <Box display={'flex'} justifyContent={'space-between'} alignItems={'flex-end'} pt={2} flexWrap={'wrap'}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignContent: 'flex-end',
+                  alignItems: 'flex-end',
+                  justifyContent: 'space-between',
+                  gap: 1,
+                  mt: 1,
+                }}
+              >
+                <Box></Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'flex-end',
+                    justifyContent: 'space-between',
+                    gap: 1,
+                    mt: 1,
+                  }}
+                >
+                  <LoadingButton
+                    loading={isLoading}
+                    done={isFinished}
+                    progressive={true}
+                    progressDuration={10000}
+                    onClick={handleRunTest}
+                    variant="contained"
+                    color="primary"
+                  >
+                    {endpointsGenerated ? 'REFRESH' : 'RUN'}
+                  </LoadingButton>
+
+                  {/* <div ref={hiddenAnchorRef} style={{ visibility: 'hidden', top: '50px' }}></div> */}
+
+                  <Button variant="outlined" color="secondary" onClick={handleToggleDetail}>
+                    MORE INFO
+                  </Button>
+                  <Button variant="outlined" color="secondary" onClick={handleToggleLogs}>
+                    LOGS
+                  </Button>
+                  {test.criteria &&
+                    (criteriaMet.includes('TRUE') ||
+                      criteriaMet.includes('FALSE') ||
+                      criteriaMet.includes('ERROR') ||
+                      criteriaMet.includes('SUCCESS')) && (
+                      <Box sx={{ display: 'flex', gap: 1 }}>
+                        <Button
+                          variant="text"
+                          sx={{ color: palette.errorDark }}
+                          color="inherit"
+                          onClick={handleClearTest}
+                        >
+                          Clear
+                        </Button>
+                      </Box>
+                    )}
+                </Box>
+              </Box>
               {requiresCCDADocument() && !endpointsGenerated && (
                 <Box
                   sx={{
@@ -586,7 +641,11 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                   <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
                     SELECT A DOCUMENT
                   </Button>
-                  {documentDetails && <Typography sx={{ mt: 1 }}>Selected: {documentDetails.fileName}</Typography>}
+                  {documentDetails && (
+                    <Typography variant="caption" sx={{ mt: 1 }}>
+                      Selected: {documentDetails.fileName}
+                    </Typography>
+                  )}
                 </Box>
               )}
               {showDocumentSelector && (
@@ -596,44 +655,12 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                   receive={test.sutRole === 'receiver'}
                 />
               )}
-              <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 1, pl: 2 }}>
-                {renderCriteriaMetIcon()}
-
-                <LoadingButton
-                  loading={isLoading}
-                  done={isFinished}
-                  progressive={false}
-                  progressDuration={10000}
-                  onClick={handleRunTest}
-                  variant="contained"
-                  color="primary"
-                >
-                  {endpointsGenerated ? 'REFRESH' : 'RUN'}
-                </LoadingButton>
-                <div ref={hiddenAnchorRef} style={{ visibility: 'hidden', top: '50px' }}></div>
-                <Button variant="contained" onClick={handleToggleDetail}>
-                  MORE INFO
-                </Button>
-                <Button variant="contained" color="inherit" onClick={handleToggleLogs}>
-                  LOGS
-                </Button>
-                {test.criteria &&
-                  (criteriaMet.includes('TRUE') ||
-                    criteriaMet.includes('FALSE') ||
-                    criteriaMet.includes('ERROR') ||
-                    criteriaMet.includes('SUCCESS')) && (
-                    <Box sx={{ display: 'flex', gap: 1 }}>
-                      <Button variant="contained" color="inherit" onClick={handleClearTest}>
-                        Clear
-                      </Button>
-                    </Box>
-                  )}
-                {test.criteria &&
-                  manualValidationCriteria.includes(test.criteria) &&
-                  (testRequest || testResponse) &&
-                  isFinished &&
-                  !apiError && <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>}
-              </Box>
+              {renderCriteriaMetIcon()}
+              {test.criteria &&
+                manualValidationCriteria.includes(test.criteria) &&
+                (testRequest || testResponse) &&
+                isFinished &&
+                !apiError && <Typography sx={{ ml: 1, color: 'primary' }}>Waiting Validation...</Typography>}
             </Box>
           </>
         )}
