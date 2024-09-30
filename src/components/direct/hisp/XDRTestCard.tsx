@@ -22,6 +22,7 @@ import LoadingButton from '../shared/LoadingButton'
 import DocumentSelector from './DocumentSelector'
 import { useSession } from 'next-auth/react'
 import XMLDisplay from '../shared/colorizeXML'
+import ValidatorMenu from '@/components/c-cda/validation/results/ValidationMenu'
 export type TestCaseFields = {
   name?: string
   id: string | number
@@ -258,7 +259,11 @@ const TestCard = ({ test, receive }: TestCardProps) => {
         if (endpointsGenerated) {
           const status = await GetStatus(test.id.toString())
           console.log('Test status:', status)
+          setTestRequestRequest(status.testRequest)
+          setTestRequestResponse(status.testResponse)
+          setCriteriaMet(status.criteriaMet)
           setIsFinished(true)
+          console.log('criteriamet:', criteriaMet)
         } else {
           const response = await handleXDRAPICall({
             ip_address: ip_address,
@@ -339,10 +344,10 @@ const TestCard = ({ test, receive }: TestCardProps) => {
     setApiError(false)
   }
   const renderCriteriaMetIcon = () => {
-    if (endpointsGenerated) {
+    if (endpointsGenerated && criteriaMet != 'PASSED') {
       return <Typography style={{ color: 'red' }}>Pending</Typography>
     }
-    if (criteriaMet === 'TRUE') {
+    if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED') {
       return <CheckCircleIcon style={{ color: 'green' }} />
     } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR') {
       return <CancelIcon style={{ color: 'red' }} />
@@ -618,9 +623,11 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                   LOGS
                 </Button>
                 {test.criteria &&
+                  criteriaMet &&
                   (criteriaMet.includes('TRUE') ||
                     criteriaMet.includes('FALSE') ||
                     criteriaMet.includes('ERROR') ||
+                    criteriaMet.includes('PASSED') ||
                     criteriaMet.includes('SUCCESS')) && (
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <Button variant="contained" color="inherit" onClick={handleClearTest}>
