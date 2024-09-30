@@ -94,9 +94,9 @@ const B1Component = () => {
 
   return (
     <Container>
-      <Box sx={{ display: 'flex', width: '100%', pt: 4, gap: 4 }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: '40%' }}>
-          <Card>
+      <Box sx={{ display: 'flex', width: '100%', py: 4, gap: 4 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: '40%', position: 'sticky', top: '0px' }}>
+          <Card sx={{ position: 'sticky', top: '75px', zIndex: '800' }}>
             <CardContent>
               <Box component="form" sx={{ backgroundColor: palette.white }}>
                 <Typography variant="body2" gutterBottom>
@@ -123,7 +123,7 @@ const B1Component = () => {
               </Box>
             </CardContent>
           </Card>
-          <Card>
+          <Card sx={{ position: 'sticky', top: '225px', zIndex: '800' }}>
             <Profile
               setHostname={setHostname}
               setEmail={setEmail}

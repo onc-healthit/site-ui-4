@@ -321,12 +321,10 @@ const TestCard = ({ test, receive }: TestCardProps) => {
     }
   }
   const handleAcceptTest = () => {
-    setIsFinished(false)
     setCriteriaMet('TRUE')
     setShowLogs(false)
   }
   const handleRejectTest = () => {
-    setIsFinished(false)
     setCriteriaMet('FALSE')
     setShowLogs(false)
   }
@@ -403,9 +401,9 @@ const TestCard = ({ test, receive }: TestCardProps) => {
           <TextField key={index} label={field.label} defaultValue={field.value} variant="outlined" fullWidth disabled />
         ))}
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 2 }}>
-          <Button variant="contained" color="primary" onClick={() => console.log(formData)}>
+          {/* <Button variant="contained" color="primary" onClick={() => console.log(formData)}>
             RUN
-          </Button>
+          </Button> */}
           <Button variant="outlined" color="secondary" onClick={handleToggleDetail}>
             RETURN TO TEST
           </Button>
@@ -417,7 +415,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
     <Card>
       <CardHeader title={test.name} />
       <Divider />
-      <CardContent>
+      <CardContent sx={{ px: 2 }}>
         <Popover
           id={id}
           open={open}
@@ -437,7 +435,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
         {showDetail ? (
           renderMoreInfo()
         ) : showLogs ? (
-          <CardContent>
+          <Box sx={{ px: 2, pb: 0 }}>
             <Typography variant="h3">Log for {test.name}</Typography>
             <Box sx={{ display: 'flex', gap: 1, justifyContent: 'space-between', mt: 2, mb: 2 }}>
               <ButtonGroup>
@@ -461,27 +459,33 @@ const TestCard = ({ test, receive }: TestCardProps) => {
             <Divider sx={{ mb: 2, mt: 2 }} />
             {renderLogs()}
             <Divider sx={{ mb: 2, mt: 2 }} />
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', mt: 2 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row-reverse',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+                mt: 2,
+              }}
+            >
+              <Button variant="outlined" color="secondary" onClick={handleToggleLogs}>
+                Return to test
+              </Button>
               {test.criteria &&
                 manualValidationCriteria.includes(test.criteria) &&
                 testRequest &&
                 testRequest.length > 0 && (
                   <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button variant="contained" color="primary" onClick={handleAcceptTest}>
+                    <Button variant="outlined" color="success" onClick={handleAcceptTest}>
                       Accept
                     </Button>
-                    <Button variant="outlined" color="primary" onClick={handleRejectTest}>
+                    <Button variant="text" sx={{ color: palette.warningDark }} onClick={handleRejectTest}>
                       Reject
                     </Button>
                   </Box>
                 )}
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row-reverse', alignItems: 'flex-end' }}>
-              <Button variant="outlined" color="secondary" onClick={handleToggleLogs}>
-                Return to test
-              </Button>
-            </Box>
-          </CardContent>
+          </Box>
         ) : (
           <>
             <CardContent>
@@ -565,7 +569,14 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                 </Popover>
               </Box>
             )}
-            <Box display={'flex'} justifyContent={'space-between'} alignItems={'flex-end'} pt={2} flexWrap={'wrap'}>
+            <Box
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'flex-end'}
+              pt={2}
+              flexWrap={'wrap'}
+              flexDirection={'row-reverse'}
+            >
               <Box
                 sx={{
                   display: 'flex',
@@ -577,7 +588,16 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                   mt: 1,
                 }}
               >
-                <Box></Box>
+                <Box>
+                  {' '}
+                  {test.criteria &&
+                    manualValidationCriteria.includes(test.criteria) &&
+                    (testRequest || testResponse) &&
+                    isFinished &&
+                    !apiError && (
+                      <Typography sx={{ ml: 1, color: 'primary' }}>Waiting Validation...(Check Logs)</Typography>
+                    )}
+                </Box>
                 <Box
                   sx={{
                     display: 'flex',
@@ -608,6 +628,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                   <Button variant="outlined" color="secondary" onClick={handleToggleLogs}>
                     LOGS
                   </Button>
+
                   {test.criteria &&
                     (criteriaMet.includes('TRUE') ||
                       criteriaMet.includes('FALSE') ||
@@ -626,7 +647,8 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                     )}
                 </Box>
               </Box>
-              {requiresCCDADocument() && !endpointsGenerated && (
+
+              {requiresCCDADocument() && !endpointsGenerated && !isFinished && (
                 <Box
                   sx={{
                     display: 'flex',
@@ -655,12 +677,8 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                   receive={test.sutRole === 'receiver'}
                 />
               )}
+
               {renderCriteriaMetIcon()}
-              {test.criteria &&
-                manualValidationCriteria.includes(test.criteria) &&
-                (testRequest || testResponse) &&
-                isFinished &&
-                !apiError && <Typography sx={{ ml: 1, color: 'primary' }}>Waiting Validation...</Typography>}
             </Box>
           </>
         )}
