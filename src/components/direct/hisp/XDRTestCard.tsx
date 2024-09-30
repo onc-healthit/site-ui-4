@@ -26,6 +26,7 @@ import { useSession } from 'next-auth/react'
 import XMLDisplay from '../shared/colorizeXML'
 import palette from '@/styles/palette'
 import { green, orange } from '@mui/material/colors'
+import ValidatorMenu from '@/components/c-cda/validation/results/ValidationMenu'
 export type TestCaseFields = {
   name?: string
   id: string | number
@@ -262,7 +263,11 @@ const TestCard = ({ test, receive }: TestCardProps) => {
         if (endpointsGenerated) {
           const status = await GetStatus(test.id.toString())
           console.log('Test status:', status)
+          setTestRequestRequest(status.testRequest)
+          setTestRequestResponse(status.testResponse)
+          setCriteriaMet(status.criteriaMet)
           setIsFinished(true)
+          console.log('criteriamet:', criteriaMet)
         } else {
           const response = await handleXDRAPICall({
             ip_address: ip_address,

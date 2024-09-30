@@ -6,9 +6,9 @@ import { ButtonProps } from '@mui/material/Button'
 interface ExtendedLoadingButtonProps extends ButtonProps {
   loading: boolean
   done: boolean
-  progressive?: boolean // Flag to enable progressive mode
-  progressDuration?: number // Duration in milliseconds for the progress to complete
-  finalLabel?: ReactNode // Label to display once loading is complete
+  progressive?: boolean
+  progressDuration?: number
+  finalLabel?: ReactNode
   children: ReactNode
 }
 
@@ -16,7 +16,7 @@ const LoadingButton: React.FC<ExtendedLoadingButtonProps> = ({
   loading,
   done,
   progressive = false,
-  progressDuration = 3000, // default to 3000ms
+  progressDuration = 3000,
   finalLabel = 'Refresh',
   children,
   ...props

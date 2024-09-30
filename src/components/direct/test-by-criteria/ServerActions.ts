@@ -86,6 +86,8 @@ interface XDRAPIResponse {
 
 interface StatusResponse {
   criteriaMet: string
+  testRequest: string
+  testResponse: string
   message: string
   status: string
 }
@@ -202,9 +204,19 @@ export async function GetStatus(testCaseId: string): Promise<StatusResponse> {
         : { 'Content-Type': 'application/json' },
     })
     const content = response.data
+    let testRequest = ''
+    let testResponse = ''
+    let criteriaMet = ''
+    if (content && content.content && content.content.value) {
+      testRequest = content.content.value.request || content.message
+      testResponse = content.content.value.response || content.message
+      criteriaMet = content.content.criteriaMet
+    }
     console.log('Status fetched: ', content)
     return {
-      criteriaMet: content.criteriaMet,
+      criteriaMet: criteriaMet,
+      testRequest: testRequest,
+      testResponse: testResponse,
       message: content.message,
       status: content.status,
     }
