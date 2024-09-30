@@ -98,7 +98,7 @@ export default function ArchiveHome() {
                   <CardHeader
                     titleTypographyProps={{ fontWeight: 700, variant: 'h2', sx: { textAlign: 'left' } }}
                     title="Videos"
-                    subheader="For those who prefer visual learning, our video collection offers an engaging way to absorb information"
+                    subheader="While our archived videos do not reflect the current user interface, they may still offer valuable insights into using SITE."
                   />
                   <Divider />
                   <Box
