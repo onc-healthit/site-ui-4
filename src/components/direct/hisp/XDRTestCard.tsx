@@ -628,6 +628,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                     criteriaMet.includes('FALSE') ||
                     criteriaMet.includes('ERROR') ||
                     criteriaMet.includes('PASSED') ||
+                    criteriaMet.includes('PENDING') ||
                     criteriaMet.includes('SUCCESS')) && (
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <Button variant="contained" color="inherit" onClick={handleClearTest}>
