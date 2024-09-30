@@ -1,6 +1,6 @@
 import React, { ReactNode, useState, useEffect } from 'react'
 import { Button, CircularProgress, Box, Typography } from '@mui/material'
-import CheckIcon from '@mui/icons-material/Check'
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges'
 import { ButtonProps } from '@mui/material/Button'
 
 interface ExtendedLoadingButtonProps extends ButtonProps {
@@ -44,18 +44,18 @@ const LoadingButton: React.FC<ExtendedLoadingButtonProps> = ({
   }, [progressive, loading, progressDuration])
 
   return (
-    <Button {...props} disabled={loading || done}>
+    <Button variant="text" {...props} disabled={loading}>
       {done && !progressive ? (
-        <CheckIcon />
+        <PublishedWithChangesIcon />
       ) : done && progressive ? (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <CheckIcon />
+          <PublishedWithChangesIcon fontSize="small" />
           <Typography variant="button">{finalLabel}</Typography>
         </Box>
       ) : loading && progressive ? (
-        <CircularProgress variant="determinate" value={progress} size={24} />
+        <CircularProgress color="warning" variant="determinate" value={progress} size={24} />
       ) : loading && !progressive ? (
-        <CircularProgress size={24} />
+        <CircularProgress value={progress} size={24} />
       ) : (
         children
       )}
