@@ -431,7 +431,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   }
   return (
     <Card>
-      <CardHeader title={test.name} />
+      <CardHeader titleTypographyProps={{ fontWeight: '500' }} title={test.name} />
       <Divider />
       <CardContent sx={{ px: 2 }}>
         <Popover
@@ -486,7 +486,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                 mt: 2,
               }}
             >
-              <Button variant="outlined" color="secondary" onClick={handleToggleLogs}>
+              <Button variant="outlined" onClick={handleToggleLogs}>
                 Return to test
               </Button>
               {test.criteria &&
@@ -506,7 +506,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
           </Box>
         ) : (
           <>
-            <CardContent>
+            <CardContent sx={{ px: 0 }}>
               <Typography variant="body2" sx={{ pb: 2 }}>
                 {test.desc}
               </Typography>
