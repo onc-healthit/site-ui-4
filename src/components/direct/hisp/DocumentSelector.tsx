@@ -8,12 +8,12 @@ import Radio from '@mui/material/Radio'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
+import { Box, Typography, Button } from '@mui/material'
 import DialogActions from '@mui/material/DialogActions'
 import { SelectChangeEvent } from '@mui/material/Select'
 import Divider from '@mui/material/Divider'
-import Typography from '@mui/material/Typography'
 import { fetchCCDADocuments } from '../test-by-criteria/ServerActions'
+import InputLabel from '@mui/material/InputLabel'
 import axios from 'axios'
 import XDR from './XDRTab'
 
@@ -128,36 +128,40 @@ const DocumentSelector = ({ onConfirm, onClose, receive: receive }: DocumentSele
         <Typography variant="body1" sx={{ mb: 2, mt: 1 }} gutterBottom>
           Then select a document. You can search within the field below to find your file.
         </Typography>
-        <Select
-          fullWidth
-          value={selectedDirectory}
-          onChange={handleDirectoryChange}
-          displayEmpty
-          inputProps={{ 'aria-label': 'Select directory' }}
-        >
-          {directories.map((dir) => (
-            <MenuItem key={dir.name} value={dir.name}>
-              {dir.name}
-            </MenuItem>
-          ))}
-        </Select>
-        <Typography variant="body2" sx={{ fontSize: '.75rem', mb: 2, ml: 2, mt: 0.5, color: 'gray' }} gutterBottom>
-          Then select a document. You can search within the field below to find your file.
-        </Typography>
-        <TextField
-          fullWidth
-          select
-          label="Reference Filename"
-          value={selectedFile}
-          onChange={handleFileChange}
-          helperText="Select validation objective first, then you will be able to select from the given list"
-        >
-          {files.map((file) => (
-            <MenuItem key={file.name} value={file.link}>
-              {file.name}
-            </MenuItem>
-          ))}
-        </TextField>
+        <Box display={'flex'} flexDirection={'column'} gap={2}>
+          <>
+            <Select
+              fullWidth
+              id="validation-group"
+              value={selectedDirectory}
+              onChange={handleDirectoryChange}
+              required
+              displayEmpty
+              inputProps={{ 'aria-label': 'Select directory' }}
+            >
+              <MenuItem disabled value="">
+                <em>Select validation objective</em>
+              </MenuItem>
+              {directories.map((dir) => (
+                <MenuItem key={dir.name} value={dir.name}>
+                  {dir.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </>
+          <>
+            <TextField fullWidth select label="Reference Filename" value={selectedFile} onChange={handleFileChange}>
+              <MenuItem disabled value="">
+                <em>Need to select a validation objective</em>
+              </MenuItem>
+              {files.map((file) => (
+                <MenuItem key={file.name} value={file.link}>
+                  {file.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </>
+        </Box>
       </DialogContent>
       <Divider sx={{ my: 0 }} />
       <DialogActions sx={{ p: '16px 24px' }}>
