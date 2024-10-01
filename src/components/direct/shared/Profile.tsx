@@ -73,7 +73,6 @@ const Profile = () => {
         setProfileid(filteredProiles[0].smtpEdgeProfileID)
       }
       setIsLoading(false)
-      return filteredProiles
     }
     if (status === 'authenticated') {
       fetchLoggedInUsersProfiles()
@@ -95,22 +94,18 @@ const Profile = () => {
       const loggedInUsersProfiles = await fetchProfiles()
       const filteredProiles = removeProfilesWithNullProfileName(loggedInUsersProfiles)
       setProfiles(filteredProiles)
-      if (selectedProfileName === NEWPROFILENAME) {
-        const lastProfile = _.last(filteredProiles)
-        console.log(`DEBUG: lastProfile: ${JSON.stringify(lastProfile)}`)
-        if (lastProfile) {
-          setSelectedProfileName(lastProfile.profileName)
-          setProfilename(lastProfile.profileName)
-          setHostname(lastProfile.sutSMTPAddress)
-          setEmail(lastProfile.sutEmailAddress)
-          setUsername(lastProfile.sutUsername)
-          setPassword(lastProfile.sutPassword)
-          setTls(lastProfile.useTLS)
-          setProfileid(lastProfile.smtpEdgeProfileID)
-        }
+      const savedProfile = filteredProiles.filter((profile) => profile.profileName === profilename).pop()
+      if (savedProfile) {
+        setSelectedProfileName(savedProfile.profileName)
+        setProfilename(savedProfile.profileName)
+        setHostname(savedProfile.sutSMTPAddress)
+        setEmail(savedProfile.sutEmailAddress)
+        setUsername(savedProfile.sutUsername)
+        setPassword(savedProfile.sutPassword)
+        setTls(savedProfile.useTLS)
+        setProfileid(savedProfile.smtpEdgeProfileID)
       }
       setIsLoading(false)
-      //handleProfileChange({ target: { value: selectedProfile.smtpEdgeProfileID } } as SelectChangeEvent)
     })
   }
 
@@ -123,9 +118,7 @@ const Profile = () => {
       const filteredProfiles = removeProfilesWithNullProfileName(loggedInUsersProfiles)
       setProfiles(filteredProfiles || [{ smtpEdgeProfileID: NEWPROFILENAME } as Profile])
       const lastProfile = _.last(filteredProfiles)
-      console.log(`DEBUG: lastProfile: ${JSON.stringify(lastProfile)}`)
-
-      setSelectedProfileName(lastProfile?.smtpEdgeProfileID || NEWPROFILENAME)
+      setSelectedProfileName(lastProfile?.profileName || NEWPROFILENAME)
       setProfilename(lastProfile?.profileName || '')
       setHostname(lastProfile?.sutSMTPAddress || '')
       setEmail(lastProfile?.sutEmailAddress || '')
@@ -133,9 +126,7 @@ const Profile = () => {
       setPassword(lastProfile?.sutPassword || '')
       setTls(lastProfile?.useTLS || false)
       setProfileid(lastProfile?.smtpEdgeProfileID || NEWPROFILENAME)
-
       setIsLoading(false)
-      //handleProfileChange({ target: { value: selectedProfile.smtpEdgeProfileID } } as SelectChangeEvent)
     })
   }
 
@@ -171,7 +162,7 @@ const Profile = () => {
       {isLoading ? (
         <LinearProgress />
       ) : (
-        <Box component="form" sx={{ backgroundColor: palette.white }}>
+        <Box component="form" onSubmit={handleSaveProfile} sx={{ backgroundColor: palette.white }}>
           {!_.isEmpty(profiles) && (
             <Select fullWidth title="Select a profile." onChange={handleProfileChange} value={selectedProfileName}>
               {profiles.map((profile, index) => {
@@ -230,9 +221,7 @@ const Profile = () => {
             </Box>
             <FormGroup sx={{ width: '50%' }}>
               <FormControlLabel
-                control={
-                  <Switch color="secondary" defaultChecked value={tls} onChange={(e) => setTls(e.target.checked)} />
-                }
+                control={<Switch color="secondary" checked={tls} onChange={(e) => setTls(e.target.checked)} />}
                 label="TLS REQUIRED"
                 name="tlsRequired"
               />
@@ -251,10 +240,15 @@ const Profile = () => {
                   onChange={(e) => setProfilename(e.target.value)}
                 />
                 <Box display={'flex'} justifyContent="space-between" component="span" sx={{ pt: 3 }}>
-                  <Button variant="outlined" sx={{ color: palette.primary }} onClick={() => handleSaveProfile()}>
+                  <Button variant="outlined" sx={{ color: palette.primary }} type="submit">
                     Save
                   </Button>
-                  <Button variant="text" sx={{ color: palette.errorDark }} onClick={() => handleDeleteProfile()}>
+                  <Button
+                    variant="text"
+                    sx={{ color: palette.errorDark }}
+                    onClick={() => handleDeleteProfile()}
+                    disabled={profilename === '' || profilename !== selectedProfileName}
+                  >
                     Remove
                   </Button>
                 </Box>
