@@ -95,12 +95,24 @@ const B1Component = () => {
   return (
     <Container>
       <Box sx={{ display: 'flex', width: '100%', py: 4, gap: 4 }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: '40%', position: 'sticky', top: '0px' }}>
-          <Card sx={{ position: 'sticky', top: '75px', zIndex: '800' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            maxWidth: '40%',
+            position: 'sticky',
+            top: '75px',
+            zIndex: '801',
+            height: '80vh',
+          }}
+        >
+          <Card sx={{ position: 'relative', border: '.5px solid #BCBCBC' }}>
             <CardContent>
               <Box component="form" sx={{ backgroundColor: palette.white }}>
-                <Typography variant="body2" gutterBottom>
-                  Use the menu to select what sub criteria you want to test for.
+                <Typography fontWeight={'600'} variant="h5" component="h2" gutterBottom pb={2}>
+                  Use the menu to select what
+                  <br /> sub criteria you want to test for.
                 </Typography>
                 <Box>
                   <FormControl fullWidth>
@@ -123,7 +135,7 @@ const B1Component = () => {
               </Box>
             </CardContent>
           </Card>
-          <Card sx={{ position: 'sticky', top: '225px', zIndex: '800' }}>
+          <Card>
             <Profile
               setHostname={setHostname}
               setEmail={setEmail}
@@ -133,7 +145,18 @@ const B1Component = () => {
             />
           </Card>
         </Box>
-        <Box sx={{ flexGrow: 1 }}>
+        <Box maxWidth={'60%'}>
+          {(!showTestCard || (selectedTestCases().length === 0 && selectedXDRTestCases().length === 0)) && (
+            <Box
+              border={`1px solid ${palette.grey}`}
+              borderRadius={2}
+              padding={2}
+              display={'flex'}
+              alignItems={'center'}
+            >
+              <p>Waiting for sub criteria to be selected...</p>
+            </Box>
+          )}
           {showTestCard &&
             selectedTestCases().map((test, i) => (
               <Box key={i} sx={{ mb: 2 }}>
