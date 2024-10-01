@@ -1,3 +1,4 @@
+import React, { useState, useEffect, useRef } from 'react'
 import {
   Box,
   Button,
@@ -14,18 +15,17 @@ import {
   Popover,
 } from '@mui/material'
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
+import palette from '@/styles/palette'
+
 import _ from 'lodash'
-import React, { useState, useEffect, useRef } from 'react'
 import DynamicTable from './DynamicTable'
-import { handleXDRAPICall, GetStatus } from '../test-by-criteria/ServerActions'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import CancelIcon from '@mui/icons-material/Cancel'
 import LoadingButton from '../shared/LoadingButton'
 import DocumentSelector from './DocumentSelector'
+import { handleXDRAPICall, GetStatus } from '../test-by-criteria/ServerActions'
 import { useSession } from 'next-auth/react'
-import XMLDisplay from '../shared/colorizeXML'
-import palette from '@/styles/palette'
-import { green, orange } from '@mui/material/colors'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { prism } from 'react-syntax-highlighter/dist/esm/styles/prism'
+
 import ValidatorMenu from '@/components/c-cda/validation/results/ValidationMenu'
 export type TestCaseFields = {
   name?: string
@@ -379,9 +379,22 @@ const TestCard = ({ test, receive }: TestCardProps) => {
     fileLink: string
   } | null>(null)
   const [showDocumentSelector, setShowDocumentSelector] = useState(false)
+
   const renderLogs = () => {
     const content = logType === 'request' ? testRequest : testResponse
-    return <XMLDisplay xmlContent={content || 'No logs to display.'} />
+    const xmlString = typeof content === 'string' ? content : 'No logs to display.'
+    const issueXmlStyle = {
+      overflow: 'auto',
+      borderRadius: 0,
+      maxHeight: '700px',
+    }
+    return (
+      <Box sx={issueXmlStyle}>
+        <SyntaxHighlighter language="xml" style={prism} wrapLongLines={true}>
+          {xmlString}
+        </SyntaxHighlighter>
+      </Box>
+    )
   }
   const renderMoreInfo = () => {
     const { moreInfo } = test
@@ -510,6 +523,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                   <Box sx={{ pt: 2 }} key={input.key || 'default-key'}>
                     <FormControl fullWidth>
                       <TextField
+                        required
                         fullWidth
                         label={input.name}
                         variant="outlined"
@@ -523,9 +537,9 @@ const TestCard = ({ test, receive }: TestCardProps) => {
             </CardContent>
             <Divider />
             {(endpointTestIds.includes(test.id.toString()) || endpointsGenerated) && (
-              <Box display={'flex'} flexDirection={'row'} gap={4} p={2}>
+              <Box display={'flex'} flexDirection={'row'} gap={4} px={2} pt={2}>
                 <Box width={'50%'} display={'flex'} flexDirection={'column'}>
-                  <Tooltip placement="bottom" title={endpointsGenerated ? endpoint : `${defaultEndpoint}`} arrow>
+                  <Tooltip placement="top" title="Click to copy" arrow>
                     <Button
                       sx={{ width: 'fit-content' }}
                       size="small"
@@ -541,7 +555,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                   </Typography>
                 </Box>
                 <Box width={'30%'} display={'flex'} flexDirection={'column'}>
-                  <Tooltip placement="bottom" title={endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`} arrow>
+                  <Tooltip placement="top" title="Click to copy" arrow>
                     <Button
                       sx={{ width: 'fit-content' }}
                       size="small"
