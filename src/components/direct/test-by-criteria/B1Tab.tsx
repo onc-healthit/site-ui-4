@@ -100,7 +100,7 @@ const B1Component = () => {
             display: 'flex',
             flexDirection: 'column',
             gap: 2,
-            maxWidth: '40%',
+            maxWidth: '35%',
             position: 'sticky',
             top: '75px',
             zIndex: '801',
@@ -145,7 +145,7 @@ const B1Component = () => {
             />
           </Card>
         </Box>
-        <Box maxWidth={'60%'}>
+        <Box width={'60%'}>
           {(!showTestCard || (selectedTestCases().length === 0 && selectedXDRTestCases().length === 0)) && (
             <Box
               border={`1px solid ${palette.grey}`}
