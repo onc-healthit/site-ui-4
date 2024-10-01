@@ -160,9 +160,9 @@ const DocumentSelector = ({ onConfirm, onClose, receive: receive }: DocumentSele
         </TextField>
       </DialogContent>
       <Divider sx={{ my: 0 }} />
-      <DialogActions>
+      <DialogActions sx={{ p: '16px 24px' }}>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleConfirm} color="primary">
+        <Button variant="contained" onClick={handleConfirm} color="primary">
           Confirm
         </Button>
       </DialogActions>
