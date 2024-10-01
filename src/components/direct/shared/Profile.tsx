@@ -54,7 +54,12 @@ const Profile = () => {
   const [profiles, setProfiles] = useState<Profile[]>([])
   const [selectedProfileName, setSelectedProfileName] = useState(NEWPROFILENAME)
   const [isLoading, setIsLoading] = useState(false)
-  const [message, setMessage] = useState('')
+  interface Message {
+    text: string
+    severity: 'info' | 'error' | 'success' | 'warning'
+  }
+
+  const [message, setMessage] = useState<Message>({ text: '', severity: 'info' })
 
   useEffect(() => {
     async function fetchLoggedInUsersProfiles() {
@@ -90,20 +95,24 @@ const Profile = () => {
       istls: tls,
       profilename: profilename,
     }).then(async (response) => {
-      setMessage(`${profilename} saved`)
-      const loggedInUsersProfiles = await fetchProfiles()
-      const filteredProiles = removeProfilesWithNullProfileName(loggedInUsersProfiles)
-      setProfiles(filteredProiles)
-      const savedProfile = filteredProiles.filter((profile) => profile.profileName === profilename).pop()
-      if (savedProfile) {
-        setSelectedProfileName(savedProfile.profileName)
-        setProfilename(savedProfile.profileName)
-        setHostname(savedProfile.sutSMTPAddress)
-        setEmail(savedProfile.sutEmailAddress)
-        setUsername(savedProfile.sutUsername)
-        setPassword(savedProfile.sutPassword)
-        setTls(savedProfile.useTLS)
-        setProfileid(savedProfile.smtpEdgeProfileID)
+      if (response) {
+        setMessage({ text: `${profilename} saved`, severity: 'success' })
+        const loggedInUsersProfiles = await fetchProfiles()
+        const filteredProiles = removeProfilesWithNullProfileName(loggedInUsersProfiles)
+        setProfiles(filteredProiles)
+        const savedProfile = filteredProiles.filter((profile) => profile.profileName === profilename).pop()
+        if (savedProfile) {
+          setSelectedProfileName(savedProfile.profileName)
+          setProfilename(savedProfile.profileName)
+          setHostname(savedProfile.sutSMTPAddress)
+          setEmail(savedProfile.sutEmailAddress)
+          setUsername(savedProfile.sutUsername)
+          setPassword(savedProfile.sutPassword)
+          setTls(savedProfile.useTLS)
+          setProfileid(savedProfile.smtpEdgeProfileID)
+        }
+      } else {
+        setMessage({ text: `Failed to save ${profilename}`, severity: 'error' })
       }
       setIsLoading(false)
     })
@@ -113,19 +122,23 @@ const Profile = () => {
     setIsLoading(true)
     const profileNameToDelete = selectedProfileName
     deleteProfile(profileNameToDelete).then(async (response) => {
-      setMessage(`${profilename} deleted`)
-      const loggedInUsersProfiles = await fetchProfiles()
-      const filteredProfiles = removeProfilesWithNullProfileName(loggedInUsersProfiles)
-      setProfiles(filteredProfiles || [{ smtpEdgeProfileID: NEWPROFILENAME } as Profile])
-      const lastProfile = _.last(filteredProfiles)
-      setSelectedProfileName(lastProfile?.profileName || NEWPROFILENAME)
-      setProfilename(lastProfile?.profileName || '')
-      setHostname(lastProfile?.sutSMTPAddress || '')
-      setEmail(lastProfile?.sutEmailAddress || '')
-      setUsername(lastProfile?.sutUsername || '')
-      setPassword(lastProfile?.sutPassword || '')
-      setTls(lastProfile?.useTLS || false)
-      setProfileid(lastProfile?.smtpEdgeProfileID || NEWPROFILENAME)
+      if (response) {
+        setMessage({ text: `${profileNameToDelete} removed`, severity: 'success' })
+        const loggedInUsersProfiles = await fetchProfiles()
+        const filteredProfiles = removeProfilesWithNullProfileName(loggedInUsersProfiles)
+        setProfiles(filteredProfiles || [{ smtpEdgeProfileID: NEWPROFILENAME } as Profile])
+        const lastProfile = _.last(filteredProfiles)
+        setSelectedProfileName(lastProfile?.profileName || NEWPROFILENAME)
+        setProfilename(lastProfile?.profileName || '')
+        setHostname(lastProfile?.sutSMTPAddress || '')
+        setEmail(lastProfile?.sutEmailAddress || '')
+        setUsername(lastProfile?.sutUsername || '')
+        setPassword(lastProfile?.sutPassword || '')
+        setTls(lastProfile?.useTLS || false)
+        setProfileid(lastProfile?.smtpEdgeProfileID || NEWPROFILENAME)
+      } else {
+        setMessage({ text: `Failed to remove ${profileNameToDelete}`, severity: 'error' })
+      }
       setIsLoading(false)
     })
   }
@@ -256,7 +269,12 @@ const Profile = () => {
             )}
           </Box>
           {!_.isEmpty(message) && (
-            <AlertSnackbar message={message} severity="success" open={true} onClose={() => setMessage('')} />
+            <AlertSnackbar
+              message={message.text}
+              severity={message.severity}
+              open={true}
+              onClose={() => setMessage({ text: '', severity: 'info' })}
+            />
           )}
         </Box>
       )}
