@@ -4,7 +4,6 @@ import ProfilesCard from './ProfilesCard'
 import { useSession } from 'next-auth/react'
 import PageAlertBox from '@/components/shared/PageAlertBox'
 import { useEffect } from 'react'
-import { fetchUserProfiles } from './actions'
 
 const ValidationResults = () => {
   const { data: session, status } = useSession()
