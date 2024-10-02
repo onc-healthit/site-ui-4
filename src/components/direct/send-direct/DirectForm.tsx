@@ -1,3 +1,6 @@
+import SwitchWithLabel from '@/components/shared/SwitchWithLabel'
+import DragandDropFile from '@components/shared/DragandDropFile'
+import HelpIcon from '@mui/icons-material/Help'
 import {
   Box,
   Container,
@@ -12,13 +15,10 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
-import DragandDropFile from '@components/shared/DragandDropFile'
-import HelpIcon from '@mui/icons-material/Help'
-import React, { useEffect, useState } from 'react'
 import _ from 'lodash'
-import { handleSendDirectMessage } from './actions'
+import React, { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
-import SwitchWithLabel from '@/components/shared/SwitchWithLabel'
+import { handleSendDirectMessage } from './actions'
 import SendDirectResults from './SendDirectResults'
 
 const documentDropdown = [

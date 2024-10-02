@@ -2,6 +2,7 @@ import {
   ScorecardReferenceResultType,
   ScorecardResultsType,
 } from '@/components/c-cda/scorecard/types/ScorecardJsonResponseType'
+import SwitchWithLabel from '@/components/shared/SwitchWithLabel'
 import { Box, Divider, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { removeHashtagToUseHrefLinkAsIdForAnchor } from '../serverside/scorecardHelperService'
