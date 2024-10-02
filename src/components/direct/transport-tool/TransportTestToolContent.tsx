@@ -55,7 +55,10 @@ const TransportTestToolContent = ({ sampleCCDAFiles, trustBundleDownloadUrl }: T
                   >
                     <Typography variant="body2">
                       Publish your Direct certificates (Organization or Address bound) per the{' '}
-                      <Link href="https://wiki.directproject.org/Documentation_Library">Direct specifications</Link>.
+                      <Link href="https://wiki.directproject.org/wiki/Documentation_Library">
+                        Direct specifications
+                      </Link>
+                      .
                     </Typography>
                   </ListItem>
                   <ListItem sx={{ display: 'list-item' }}>

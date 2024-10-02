@@ -80,6 +80,16 @@ interface XDRAPIResponse {
   criteriaMet: string
   testRequest: string
   testResponse: string
+  endpoint: string
+  endpointTLS: string
+}
+
+interface StatusResponse {
+  criteriaMet: string
+  testRequest: string
+  testResponse: string
+  message: string
+  status: string
 }
 
 export async function handleAPICall(data: APICallData): Promise<APIResponse> {
@@ -150,10 +160,14 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
 
     let testRequest = ''
     let testResponse = ''
+    let endpoint = ''
+    let endpointTLS = ''
 
     if (content && content.content && content.content.value) {
       testRequest = content.content.value.request || content.message
       testResponse = content.content.value.response || content.message
+      endpoint = content.content.value.endpoint || content.message
+      endpointTLS = content.content.value.endpointTLS || content.message
     } else {
       console.error('Invalid response structure:', content)
       testRequest = content.message
@@ -164,6 +178,8 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
       criteriaMet: content.status,
       testRequest: testRequest,
       testResponse: testResponse,
+      endpoint: endpoint,
+      endpointTLS: endpointTLS,
     }
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -174,6 +190,44 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
       console.error('Error')
     }
     throw error
+  }
+}
+
+export async function GetStatus(testCaseId: string): Promise<StatusResponse> {
+  const statusUrl = process.env.XDR_TEST_BY_CRITERIA_ENDPOINT + testCaseId + '/status'
+  const session = await getServerSession(authOptions)
+  const jsessionid = session?.user?.jsessionid ?? ''
+  try {
+    const response = await axios.get(statusUrl, {
+      headers: session
+        ? { 'Content-Type': 'application/json', Cookie: `JSESSIONID=${jsessionid}` }
+        : { 'Content-Type': 'application/json' },
+    })
+    const content = response.data
+    let testRequest = ''
+    let testResponse = ''
+    let criteriaMet = ''
+    if (content && content.content && content.content.value) {
+      testRequest = content.content.value.request || content.message
+      testResponse = content.content.value.response || content.message
+      criteriaMet = content.content.criteriaMet
+    }
+    console.log('Status fetched: ', content)
+    return {
+      criteriaMet: criteriaMet,
+      testRequest: testRequest,
+      testResponse: testResponse,
+      message: content.message,
+      status: content.status,
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error('Failed to fetch status:', error.response?.data)
+      throw new Error(`Failed to fetch status: ${error.message}`)
+    } else {
+      console.error('Unexpected error:', error)
+      throw new Error('An unexpected error occurred')
+    }
   }
 }
 

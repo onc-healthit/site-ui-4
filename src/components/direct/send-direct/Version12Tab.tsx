@@ -1,5 +1,5 @@
 import DirectForm, { algorithmProps, certProps } from './DirectForm'
-
+import { SendDirectTabsProps } from './SendDirectTabs'
 const certificateDropdownV12: certProps[] = [
   { value: 'GOOD', label: 'GOOD_CERT' },
   { value: 'INVALID', label: 'INVALID_CERT' },
@@ -12,9 +12,14 @@ const algorithmDropdownV12: algorithmProps[] = [
   { value: 'sha1', label: 'SHA-1' },
   { value: 'sha256', label: 'SHA-256' },
 ]
-const Version12 = () => {
+const Version12 = ({ domainName }: SendDirectTabsProps) => {
   return (
-    <DirectForm version={'v12'} certificateDropdown={certificateDropdownV12} algorithmDropdown={algorithmDropdownV12} />
+    <DirectForm
+      version={'v12'}
+      certificateDropdown={certificateDropdownV12}
+      algorithmDropdown={algorithmDropdownV12}
+      domainName={domainName}
+    />
   )
 }
 

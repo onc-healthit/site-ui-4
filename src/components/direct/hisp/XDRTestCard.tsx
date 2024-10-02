@@ -15,13 +15,14 @@ import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
 import _ from 'lodash'
 import React, { useState, useEffect, useRef } from 'react'
 import DynamicTable from './DynamicTable'
-import { handleXDRAPICall } from '../test-by-criteria/ServerActions'
+import { handleXDRAPICall, GetStatus } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import LoadingButton from '../shared/LoadingButton'
 import DocumentSelector from './DocumentSelector'
+import { useSession } from 'next-auth/react'
 import XMLDisplay from '../shared/colorizeXML'
-
+import ValidatorMenu from '@/components/c-cda/validation/results/ValidationMenu'
 export type TestCaseFields = {
   name?: string
   id: string | number
@@ -63,56 +64,53 @@ export type TestCaseFields = {
   'Direct Edge Protocol Guide 1.1 RTM Reference'?: number
   'Test Data IDs'?: string | null
 }
-
 export type InputFields = {
   name?: string
   hoverlabel?: string
   key?: string
   type?: string
 }
-
 export type TableRowData = {
   cells: TableCellData[]
 }
-
 export type TableCellData = {
   content: string | JSX.Element
   type: 'text' | 'checkbox' | 'icon' | string
   isChecked?: boolean
 }
-
 interface StepTextProps {
   inputs: InputFields[]
   role?: string
+  endpointsGenerated: boolean
 }
-
 const senderText = 'Hit Run to generate your endpoint.'
 const receiverText = 'Hit Run to send a XDR message.'
-const endpoint = 'http://ett.healthit.gov:11080/xdstools/sim/'
-const endpointTLS = 'https://ett.healthit.gov:11084/xdstools/sim/'
 
-const StepText = ({ inputs, role }: StepTextProps) => {
+const StepText = ({ inputs, role, endpointsGenerated }: StepTextProps) => {
+  if (endpointsGenerated) {
+    return (
+      <Typography variant="body2">
+        <strong>Step 2:</strong> Send XDR message to endpoint and refresh to check status.
+      </Typography>
+    )
+  }
+
   return (
     <>
       <Typography variant="body2">
-        <strong>Step 1</strong>: Provide your{' '}
-        {inputs.map((input, i) => {
-          return (
-            <span key={i}>
-              {input.name}
-              {inputs !== undefined ? (i === inputs.length - 1 ? '. ' : ', ') : '. '}
-            </span>
-          )
-        })}
-        {role === 'sender' && senderText}
-        {role === 'receiver' && receiverText}
+        <strong>Step 1:</strong> Provide your{' '}
+        {inputs.map((input, i) => (
+          <span key={i}>
+            {input.name}
+            {inputs.length - 1 === i ? '. ' : ', '}
+          </span>
+        ))}
+        {role === 'sender' ? senderText : receiverText}
       </Typography>
     </>
   )
 }
-
 export type FieldValue = boolean | string | number
-
 export type ExtraFields = {
   label: string
   name: string
@@ -121,7 +119,6 @@ export type ExtraFields = {
   value: FieldValue
   render?: (value: FieldValue) => JSX.Element
 }
-
 interface TestCardProps {
   test: TestCaseFields
   hostname?: string
@@ -131,14 +128,17 @@ interface TestCardProps {
   tlsRequired?: boolean
   receive?: boolean
 }
-
 interface SelectedDocument {
   directory: string
   fileName: string
   fileLink: string
 }
-
 const TestCard = ({ test, receive }: TestCardProps) => {
+  const defaultEndpoint =
+    process.env.XDR_ENDPOINT_PREFIX || 'http://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
+  const defaultEndpointTLS =
+    process.env.XDR_ENDPOINT_TLS_PREFIX ||
+    'https://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testResponse, setTestRequestResponse] = useState<string>('')
@@ -148,6 +148,9 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   const [isLoading, setIsLoading] = useState(false)
   const [apiError, setApiError] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
+  const [endpointsGenerated, setEndpointsGenerated] = useState(false)
+  const [endpoint, setEndpoint] = useState(defaultEndpoint)
+  const [endpointTLS, setEndpointTLS] = useState(defaultEndpointTLS)
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
   const [popoverMessage, setPopoverMessage] = useState('')
@@ -155,45 +158,37 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   const open = Boolean(anchorEl)
   const id = open ? 'simple-popover' : undefined
   const hiddenAnchorRef = useRef(null)
-
   const [logType, setLogType] = useState<'request' | 'response'>('request')
   const manualValidationCriteria = ["['b1-3']", "['b1-3','su1-3']"]
-
+  const { data: session } = useSession()
   const subHeader = 'Description'
   const subDesc = test['Purpose/Description']
   const expTestHeader = 'Expected Test Results'
   const expTestResults = test['Expected Test Results']
-
   const requiresCCDADocument = () => {
     return test.inputs?.some((input) => input.key === 'payload' && input.type?.includes('CCDAWidget'))
   }
-
   const shouldDisplayInput = (input: InputFields) => {
     return !(input.key === 'payload' && input.type?.includes('CCDAWidget'))
   }
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, link: string) => {
     navigator.clipboard.writeText(link)
     showPopover('Copied to clipboard!', event.currentTarget)
   }
-
   const showPopover = (message: string, anchor: HTMLButtonElement | null) => {
     setPopoverMessage(message)
     setAnchorEl(anchor || hiddenAnchorRef.current)
-
     if (autoCloseTimer) clearTimeout(autoCloseTimer)
     const timer = setTimeout(() => {
       handleClosePopover()
     }, 3000)
     setAutoCloseTimer(timer)
   }
-
   useEffect(() => {
     return () => {
       if (autoCloseTimer) clearTimeout(autoCloseTimer)
     }
   }, [autoCloseTimer, anchorEl])
-
   const handleClosePopover = () => {
     if (autoCloseTimer) {
       clearTimeout(autoCloseTimer)
@@ -201,11 +196,9 @@ const TestCard = ({ test, receive }: TestCardProps) => {
     }
     setAnchorEl(null)
   }
-
   const toggleLogType = (type: 'request' | 'response') => {
     setLogType(type)
   }
-
   const endpointTestIds = [
     '10',
     '11',
@@ -222,10 +215,8 @@ const TestCard = ({ test, receive }: TestCardProps) => {
     '43mu2',
     '44mu2',
   ]
-
   const ccdaRequiredTestIds = ['1', '2', '3add']
   const isCCDADocumentRequired = ccdaRequiredTestIds.includes(test.id.toString())
-
   const [formData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
     test.moreInfo?.fields?.forEach((field) => {
@@ -233,7 +224,6 @@ const TestCard = ({ test, receive }: TestCardProps) => {
     })
     return initialData
   })
-
   const handleChange = (key: string | undefined, value: string) => {
     if (key) {
       setFieldValues((prev) => ({
@@ -242,8 +232,11 @@ const TestCard = ({ test, receive }: TestCardProps) => {
       }))
     }
   }
-
   const handleRunTest = async () => {
+    if (!session) {
+      showPopover('You must be logged in and have a valid session to perform this action.', null)
+      return
+    }
     console.log('ccda required' + test.ccdaFileRequired)
     console.log('doc details ' + documentDetails)
     if (isCCDADocumentRequired && !documentDetails) {
@@ -263,36 +256,55 @@ const TestCard = ({ test, receive }: TestCardProps) => {
         setIsLoading(true)
         setIsFinished(false)
         setCriteriaMet('')
-
-        const response = await handleXDRAPICall({
-          ip_address: ip_address,
-          port: port,
-          direct_to: direct_to,
-          direct_from: direct_from,
-          targetEndpointTLS: targetEndpointTLS,
-          outgoing_from: outgoing_from,
-          name: documentDetails ? documentDetails.fileName : '',
-          path: documentDetails ? documentDetails.directory : '',
-          link: documentDetails ? documentDetails.fileLink : '',
-          id: test.id.toString(),
-          jsession: '',
-          cures: false,
-          itemNumber: '12',
-          selected: true,
-          svap: false,
-          uscdiv3: false,
-        })
-        setIsFinished(true)
-        if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
-          setCriteriaMet(response.criteriaMet)
+        if (endpointsGenerated) {
+          const status = await GetStatus(test.id.toString())
+          console.log('Test status:', status)
+          setTestRequestRequest(status.testRequest)
+          setTestRequestResponse(status.testResponse)
+          setCriteriaMet(status.criteriaMet)
+          setIsFinished(true)
+          console.log('criteriamet:', criteriaMet)
+        } else {
+          const response = await handleXDRAPICall({
+            ip_address: ip_address,
+            port: port,
+            direct_to: direct_to,
+            direct_from: direct_from,
+            targetEndpointTLS: targetEndpointTLS,
+            outgoing_from: outgoing_from,
+            name: documentDetails ? documentDetails.fileName : '',
+            path: documentDetails ? documentDetails.directory : '',
+            link: documentDetails ? documentDetails.fileLink : '',
+            id: test.id.toString(),
+            jsession: session.user.jsessionid,
+            cures: false,
+            itemNumber: '12',
+            selected: true,
+            svap: false,
+            uscdiv3: false,
+          })
+          setTimeout(() => {
+            setIsFinished(true)
+            if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+              setCriteriaMet(response.criteriaMet)
+            }
+            if (
+              !endpointTestIds.includes(test.id.toString()) &&
+              (response.endpoint.length > 10 || response.endpointTLS.length > 10)
+            ) {
+              setEndpointsGenerated(true)
+              setEndpoint(response.endpoint || defaultEndpoint)
+              setEndpointTLS(response.endpointTLS || defaultEndpointTLS)
+            }
+            setTestRequestRequest(response.testRequest)
+            setTestRequestResponse(response.testResponse)
+            if (!testRequest && !testResponse && test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+              setCriteriaMet('FALSE')
+            }
+            console.log('Criteria met: ', response.criteriaMet)
+            console.log('Test Request Responses:', response.testResponse)
+          }, 10)
         }
-        setTestRequestRequest(response.testRequest)
-        setTestRequestResponse(response.testResponse)
-        if (!testRequest && !testResponse && test.criteria && !manualValidationCriteria.includes(test.criteria)) {
-          setCriteriaMet('FALSE')
-        }
-        console.log('Criteria met: ', response.criteriaMet)
-        console.log('Test Request Responses:', response.testResponse)
       } catch (error) {
         console.error('Failed to run test:', error)
         setApiError(true)
@@ -309,19 +321,16 @@ const TestCard = ({ test, receive }: TestCardProps) => {
       }
     }
   }
-
   const handleAcceptTest = () => {
     setIsFinished(false)
     setCriteriaMet('TRUE')
     setShowLogs(false)
   }
-
   const handleRejectTest = () => {
     setIsFinished(false)
     setCriteriaMet('FALSE')
     setShowLogs(false)
   }
-
   const handleClearTest = () => {
     setCriteriaMet('')
     setTestRequestResponse('')
@@ -329,53 +338,49 @@ const TestCard = ({ test, receive }: TestCardProps) => {
     setIsFinished(false)
     setShowLogs(false)
     setDocumentDetails(null)
+    setEndpointsGenerated(false)
+    setEndpoint(defaultEndpoint)
+    setEndpointTLS(defaultEndpointTLS)
     setApiError(false)
   }
-
   const renderCriteriaMetIcon = () => {
-    if (criteriaMet === 'TRUE') {
+    if (endpointsGenerated && criteriaMet != 'PASSED') {
+      return <Typography style={{ color: 'red' }}>Pending</Typography>
+    }
+    if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED') {
       return <CheckCircleIcon style={{ color: 'green' }} />
     } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR') {
       return <CancelIcon style={{ color: 'red' }} />
     }
     return null
   }
-
   const handleToggleLogs = () => {
     setShowLogs((prev) => !prev)
   }
-
   const handleToggleDetail = () => {
     setShowDetail((prev) => !prev)
   }
-
   const toggleDocumentSelector = () => {
     setShowDocumentSelector(!showDocumentSelector)
   }
-
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
     console.log('Confirmed Document', selectedData)
     setDocumentDetails(selectedData)
     setShowDocumentSelector(false)
   }
-
   const handleDocumentSelectorClose = () => {
     setShowDocumentSelector(false)
   }
-
   const [documentDetails, setDocumentDetails] = useState<{
     directory: string
     fileName: string
     fileLink: string
   } | null>(null)
-
   const [showDocumentSelector, setShowDocumentSelector] = useState(false)
-
   const renderLogs = () => {
     const content = logType === 'request' ? testRequest : testResponse
     return <XMLDisplay xmlContent={content || 'No logs to display.'} />
   }
-
   const renderMoreInfo = () => {
     const { moreInfo } = test
     return (
@@ -394,12 +399,10 @@ const TestCard = ({ test, receive }: TestCardProps) => {
             {expTestResults}
           </Typography>
         </Box>
-
         {test.moreInfo?.tableData && <DynamicTable headers={test.moreInfo.headers} rows={test.moreInfo.tableData} />}
         {moreInfo?.fields?.map((field, index) => (
           <TextField key={index} label={field.label} defaultValue={field.value} variant="outlined" fullWidth disabled />
         ))}
-
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 2 }}>
           <Button variant="contained" color="primary" onClick={() => console.log(formData)}>
             RUN
@@ -424,7 +427,6 @@ const TestCard = ({ test, receive }: TestCardProps) => {
       </Box>
     )
   }
-
   return (
     <Card>
       <CardHeader title={test.name}></CardHeader>
@@ -451,7 +453,6 @@ const TestCard = ({ test, receive }: TestCardProps) => {
         ) : showLogs ? (
           <CardContent>
             <Typography variant="h3">Log for {test.name}</Typography>
-
             <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-start', mt: 2, mb: 2 }}>
               <Button
                 variant="contained"
@@ -500,13 +501,14 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                 {test.desc}
               </Typography>
               {_.isEqual(test.sutRole, 'receiver') && _.has(test, 'inputs') && test.inputs !== undefined && (
-                <StepText inputs={test.inputs} role={test.sutRole} />
+                <StepText inputs={test.inputs} role={test.sutRole} endpointsGenerated={endpointsGenerated} />
               )}
               {_.isEqual(test.sutRole, 'sender') && _.has(test, 'inputs') && test.inputs !== undefined && (
-                <StepText inputs={test.inputs} role={test.sutRole} />
+                <StepText inputs={test.inputs} role={test.sutRole} endpointsGenerated={endpointsGenerated} />
               )}
               {_.has(test, 'inputs') &&
                 test.inputs &&
+                !endpointsGenerated &&
                 test.inputs.filter(shouldDisplayInput).map((input) => (
                   <Box sx={{ pt: 2 }} key={input.key || 'default-key'}>
                     <FormControl fullWidth>
@@ -534,24 +536,24 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                 pr: 2,
               }}
             >
-              {endpointTestIds.includes(test.id.toString()) && (
+              {(endpointTestIds.includes(test.id.toString()) || endpointsGenerated) && (
                 <Box width={'50%'}>
-                  <Tooltip placement="bottom" title={endpoint + 'edge-ttp__' + test.id + '/rep/xdrpr'} arrow>
+                  <Tooltip placement="bottom" title={endpointsGenerated ? endpoint : `${defaultEndpoint}`} arrow>
                     <Button
                       sx={{ ml: 2 }}
                       color="secondary"
                       endIcon={<ContentPasteGoIcon />}
-                      onClick={(e) => handleClick(e, endpoint + 'edge-ttp__' + test.id + '/rep/xdrpr')}
+                      onClick={(e) => handleClick(e, endpointsGenerated ? endpoint : `${defaultEndpoint}`)}
                     >
                       Endpoint
                     </Button>
                   </Tooltip>
-                  <Tooltip placement="bottom" title={endpointTLS + 'edge-ttp__' + test.id + '/rep/xdrpr'} arrow>
+                  <Tooltip placement="bottom" title={endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`} arrow>
                     <Button
                       sx={{ ml: 2 }}
                       color="secondary"
                       endIcon={<ContentPasteGoIcon />}
-                      onClick={(e) => handleClick(e, endpointTLS + 'edge-ttp__' + test.id + '/rep/xdrpr')}
+                      onClick={(e) => handleClick(e, endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`)}
                     >
                       Endpoint TLS
                     </Button>
@@ -574,7 +576,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                   </Popover>
                 </Box>
               )}
-              {requiresCCDADocument() && (
+              {requiresCCDADocument() && !endpointsGenerated && (
                 <Box
                   sx={{
                     display: 'flex',
@@ -586,32 +588,32 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                   }}
                 >
                   <Typography>CCDA Document Type</Typography>
-
                   <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
                     SELECT A DOCUMENT
                   </Button>
                   {documentDetails && <Typography sx={{ mt: 1 }}>Selected: {documentDetails.fileName}</Typography>}
                 </Box>
               )}
-
               {showDocumentSelector && (
                 <DocumentSelector
                   onConfirm={handleDocumentConfirm}
                   onClose={handleDocumentSelectorClose}
-                  receive={receive || false}
+                  receive={test.sutRole === 'receiver'}
                 />
               )}
-
               <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 1, pl: 2 }}>
                 {renderCriteriaMetIcon()}
+
                 <LoadingButton
                   loading={isLoading}
                   done={isFinished}
+                  progressive={false}
+                  progressDuration={10000}
                   onClick={handleRunTest}
                   variant="contained"
                   color="primary"
                 >
-                  RUN
+                  {endpointsGenerated ? 'REFRESH' : 'RUN'}
                 </LoadingButton>
                 <div ref={hiddenAnchorRef} style={{ visibility: 'hidden', top: '50px' }}></div>
                 <Button variant="contained" onClick={handleToggleDetail}>
@@ -621,9 +623,12 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                   LOGS
                 </Button>
                 {test.criteria &&
+                  criteriaMet &&
                   (criteriaMet.includes('TRUE') ||
                     criteriaMet.includes('FALSE') ||
                     criteriaMet.includes('ERROR') ||
+                    criteriaMet.includes('PASSED') ||
+                    criteriaMet.includes('PENDING') ||
                     criteriaMet.includes('SUCCESS')) && (
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <Button variant="contained" color="inherit" onClick={handleClearTest}>
