@@ -18,7 +18,7 @@ import React, { useEffect, useState } from 'react'
 import _ from 'lodash'
 import { handleSendDirectMessage } from './actions'
 import { useFormState } from 'react-dom'
-import SwitchWithLabel from '@/components/shared/SwitchWIthLabel'
+import SwitchWithLabel from '@/components/shared/SwitchWithLabel'
 import SendDirectResults from './SendDirectResults'
 
 const documentDropdown = [

@@ -6,7 +6,6 @@ import { Box, Divider, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { removeHashtagToUseHrefLinkAsIdForAnchor } from '../serverside/scorecardHelperService'
 import { HrefLinkValueEnum, SORT_ORDER_STARTING_VALUE } from '../types/ScorecardConstants'
-import SwitchWithLabel from '@/components/shared/SwitchWithLabel'
 import ScorecardDetailedResults from './ScorecardDetailedResults'
 import ScorecardHeatMap from './ScorecardHeatMap'
 
