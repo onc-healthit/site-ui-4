@@ -8,7 +8,7 @@ import SiteAppBar from '@/components/shared/nav/app-bar/SiteAppBar'
 import Nav from '@/components/shared/nav/nav/Nav'
 
 export default function CombinedNavAndAppBar() {
-  // TODO: default to false based on NEXT_PUBLIC_IS_DEBUG_MODE env var
+  // When false, nav expanded by default (prod). When true, nav collapsed (dev)
   const [open, setOpen] = React.useState(!(process.env.NEXT_PUBLIC_IS_DEBUG_MODE === 'true'))
   const handleDrawerOpen = () => {
     setOpen(true)
