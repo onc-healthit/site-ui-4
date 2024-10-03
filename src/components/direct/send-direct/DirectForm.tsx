@@ -67,7 +67,8 @@ const DirectForm = ({ version, certificateDropdown, algorithmDropdown, domainNam
   const [isMessageWrapped, setIsMessageWrapped] = useState(true)
   const [isInvalidDigest, setIsInvalidDigest] = useState(false)
   const [data, handleSubmit] = useFormState(handleSendDirectMessage, { response: {} })
-
+  const [algorithmDropdownM, setAlgorithmDropdownM] = useState(algorithmDropdown)
+  
   //Validation
   const handleValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
     const errors = { ...formErrors }
@@ -98,7 +99,15 @@ const DirectForm = ({ version, certificateDropdown, algorithmDropdown, domainNam
     if (isInvalidDigest) {
       setSelectedCertificate('')
     }
-  }, [formErrors, formValues, isInvalidDigest])
+    if (_.isEqual(selectedCertificate, 'GOOD_ECDSA_CERT')) {
+      const filteredAlgo = _.filter(algorithmDropdown, function (o) {
+        return o.label.includes('ECDSA')
+      })
+      setAlgorithmDropdownM(filteredAlgo)
+    } else {
+      setAlgorithmDropdownM(algorithmDropdown)
+    }
+  }, [algorithmDropdown, formErrors, formValues, isInvalidDigest, selectedCertificate])
   const handleChangeDocument = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setSelectedDocument(value)
@@ -291,7 +300,7 @@ const DirectForm = ({ version, certificateDropdown, algorithmDropdown, domainNam
             value={selectedAlgorithm}
             onChange={(e) => setSelectedAlgorithm(e.target.value)}
           >
-            {algorithmDropdown.map((option) => (
+            {algorithmDropdownM.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
