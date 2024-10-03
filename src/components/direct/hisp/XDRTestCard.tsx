@@ -23,6 +23,8 @@ import DocumentSelector from './DocumentSelector'
 import { useSession } from 'next-auth/react'
 import XMLDisplay from '../shared/colorizeXML'
 import ValidatorMenu from '@/components/c-cda/validation/results/ValidationMenu'
+import ValidatorResultsSummary from '@/components/c-cda/validation/results/ValidationResultsSummary'
+
 export type TestCaseFields = {
   name?: string
   id: string | number
@@ -151,6 +153,20 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   const [endpointsGenerated, setEndpointsGenerated] = useState(false)
   const [endpoint, setEndpoint] = useState(defaultEndpoint)
   const [endpointTLS, setEndpointTLS] = useState(defaultEndpointTLS)
+  const [validationResults, setValidationResults] = useState<any>(null)
+
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const summaryRef = useRef<HTMLDivElement>(null)
+  const mdhtErrorRef = useRef<HTMLDivElement>(null)
+  const mdhtWarningRef = useRef<HTMLDivElement>(null)
+  const mdhtInfoRef = useRef<HTMLDivElement>(null)
+  const vocabularyErrorRef = useRef<HTMLDivElement>(null)
+  const vocabularyWarningRef = useRef<HTMLDivElement>(null)
+  const vocabularyInfoRef = useRef<HTMLDivElement>(null)
+  const referenceErrorRef = useRef<HTMLDivElement>(null)
+  const referenceWarningRef = useRef<HTMLDivElement>(null)
+  const referenceInfoRef = useRef<HTMLDivElement>(null)
+  const originalCCDARef = useRef<HTMLDivElement>(null)
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
   const [popoverMessage, setPopoverMessage] = useState('')
@@ -158,7 +174,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   const open = Boolean(anchorEl)
   const id = open ? 'simple-popover' : undefined
   const hiddenAnchorRef = useRef(null)
-  const [logType, setLogType] = useState<'request' | 'response'>('request')
+  const [logType, setLogType] = useState<'request' | 'response' | 'ccdaValidation'>('request')
   const manualValidationCriteria = ["['b1-3']", "['b1-3','su1-3']"]
   const { data: session } = useSession()
   const subHeader = 'Description'
@@ -196,7 +212,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
     }
     setAnchorEl(null)
   }
-  const toggleLogType = (type: 'request' | 'response') => {
+  const toggleLogType = (type: 'request' | 'response' | 'ccdaValidation') => {
     setLogType(type)
   }
   const endpointTestIds = [
@@ -263,7 +279,9 @@ const TestCard = ({ test, receive }: TestCardProps) => {
           setTestRequestResponse(status.testResponse)
           setCriteriaMet(status.criteriaMet)
           setIsFinished(true)
-          console.log('criteriamet:', criteriaMet)
+          if (status.results) {
+            setValidationResults(status.results)
+          }
         } else {
           const response = await handleXDRAPICall({
             ip_address: ip_address,
@@ -342,7 +360,9 @@ const TestCard = ({ test, receive }: TestCardProps) => {
     setEndpoint(defaultEndpoint)
     setEndpointTLS(defaultEndpointTLS)
     setApiError(false)
+    setValidationResults(null)
   }
+
   const renderCriteriaMetIcon = () => {
     if (endpointsGenerated && criteriaMet != 'PASSED') {
       return <Typography style={{ color: 'red' }}>Pending</Typography>
@@ -378,9 +398,35 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   } | null>(null)
   const [showDocumentSelector, setShowDocumentSelector] = useState(false)
   const renderLogs = () => {
-    const content = logType === 'request' ? testRequest : testResponse
-    return <XMLDisplay xmlContent={content || 'No logs to display.'} />
+    if (logType === 'ccdaValidation') {
+      if (validationResults) {
+        return (
+          <ValidatorResultsSummary
+            results={validationResults}
+            scrollRef={scrollRef}
+            summaryRef={summaryRef}
+            mdhtErrorRef={mdhtErrorRef}
+            mdhtWarningRef={mdhtWarningRef}
+            mdhtInfoRef={mdhtInfoRef}
+            vocabularyErrorRef={vocabularyErrorRef}
+            vocabularyWarningRef={vocabularyWarningRef}
+            vocabularyInfoRef={vocabularyInfoRef}
+            referenceErrorRef={referenceErrorRef}
+            referenceWarningRef={referenceWarningRef}
+            referenceInfoRef={referenceInfoRef}
+            originalCCDARef={originalCCDARef}
+            criteria={test.criteria || ''}
+          />
+        )
+      } else {
+        return <Typography>No C-CDA Validation results available.</Typography>
+      }
+    } else {
+      const content = logType === 'request' ? testRequest : testResponse
+      return <XMLDisplay xmlContent={content || 'No logs to display.'} />
+    }
   }
+
   const renderMoreInfo = () => {
     const { moreInfo } = test
     return (
@@ -468,10 +514,19 @@ const TestCard = ({ test, receive }: TestCardProps) => {
               >
                 Response
               </Button>
+              <Button
+                variant="contained"
+                onClick={() => toggleLogType('ccdaValidation')}
+                color={logType === 'ccdaValidation' ? 'primary' : 'inherit'}
+                disabled={!validationResults}
+              >
+                C-CDA Validation
+              </Button>
               <Button variant="outlined" onClick={handleToggleLogs}>
                 Close Logs
               </Button>
             </Box>
+
             <Divider sx={{ mb: 2, mt: 2 }} />
             {renderLogs()}
             <Divider sx={{ mb: 2, mt: 2 }} />

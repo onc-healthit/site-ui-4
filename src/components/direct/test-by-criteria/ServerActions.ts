@@ -90,6 +90,10 @@ interface StatusResponse {
   testResponse: string
   message: string
   status: string
+  results?: {
+    resultsMetaData: any
+    ccdaValidationResults: any[]
+  }
 }
 
 export async function handleAPICall(data: APICallData): Promise<APIResponse> {
@@ -197,6 +201,7 @@ export async function GetStatus(testCaseId: string): Promise<StatusResponse> {
   const statusUrl = process.env.XDR_TEST_BY_CRITERIA_ENDPOINT + testCaseId + '/status'
   const session = await getServerSession(authOptions)
   const jsessionid = session?.user?.jsessionid ?? ''
+
   try {
     const response = await axios.get(statusUrl, {
       headers: session
@@ -207,11 +212,28 @@ export async function GetStatus(testCaseId: string): Promise<StatusResponse> {
     let testRequest = ''
     let testResponse = ''
     let criteriaMet = ''
+    let results = {
+      resultsMetaData: null,
+      ccdaValidationResults: [] as any[],
+    }
+
     if (content && content.content && content.content.value) {
       testRequest = content.content.value.request || content.message
       testResponse = content.content.value.response || content.message
       criteriaMet = content.content.criteriaMet
+
+      const ccdaReport = content.content.value.ccdaReport
+      if (ccdaReport) {
+        const resultsMetaData = ccdaReport.resultsMetaData
+        const ccdaValidationResults = ccdaReport.ccdaValidationResults
+
+        results = {
+          resultsMetaData: resultsMetaData,
+          ccdaValidationResults: ccdaValidationResults,
+        }
+      }
     }
+
     console.log('Status fetched: ', content)
     return {
       criteriaMet: criteriaMet,
@@ -219,6 +241,7 @@ export async function GetStatus(testCaseId: string): Promise<StatusResponse> {
       testResponse: testResponse,
       message: content.message,
       status: content.status,
+      results: results,
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {
