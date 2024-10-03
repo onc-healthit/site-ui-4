@@ -22,7 +22,6 @@ import LoadingButton from '../shared/LoadingButton'
 import DocumentSelector from './DocumentSelector'
 import { useSession } from 'next-auth/react'
 import XMLDisplay from '../shared/colorizeXML'
-import ValidatorMenu from '@/components/c-cda/validation/results/ValidationMenu'
 import ValidatorResultsSummary from '@/components/c-cda/validation/results/ValidationResultsSummary'
 
 export type TestCaseFields = {
@@ -85,6 +84,30 @@ interface StepTextProps {
   role?: string
   endpointsGenerated: boolean
 }
+
+interface ValidationResults {
+  resultsMetaData: ResultsMetaData
+  ccdaValidationResults: CCDAValidationResult[]
+}
+
+interface ResultsMetaData {
+  documentType: string
+}
+
+interface CCDAValidationResult {
+  errorType: string
+  messageId: string
+}
+
+interface StatusResponse {
+  testRequest: string
+  testResponse: string
+  criteriaMet: string
+  results?: ValidationResults
+  message: string
+  status: string
+}
+
 const senderText = 'Hit Run to generate your endpoint.'
 const receiverText = 'Hit Run to send a XDR message.'
 
@@ -153,7 +176,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   const [endpointsGenerated, setEndpointsGenerated] = useState(false)
   const [endpoint, setEndpoint] = useState(defaultEndpoint)
   const [endpointTLS, setEndpointTLS] = useState(defaultEndpointTLS)
-  const [validationResults, setValidationResults] = useState<any>(null)
+  const [validationResults, setValidationResults] = useState<ValidationResults | null>(null)
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const summaryRef = useRef<HTMLDivElement>(null)

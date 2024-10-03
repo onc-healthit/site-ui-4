@@ -84,16 +84,33 @@ interface XDRAPIResponse {
   endpointTLS: string
 }
 
+interface ResultsMetaData {
+  documentType: string
+  validationObjective: string
+  ccdaVersion: string
+  curesUpdate: boolean
+  svap2022: boolean
+  uscdi: boolean
+  validationDate: string
+}
+
+interface CCDAValidationResult {
+  errorType: string
+  messageId: string
+}
+
+interface ValidationResults {
+  resultsMetaData: ResultsMetaData
+  ccdaValidationResults: CCDAValidationResult[]
+}
+
 interface StatusResponse {
   criteriaMet: string
   testRequest: string
   testResponse: string
   message: string
   status: string
-  results?: {
-    resultsMetaData: any
-    ccdaValidationResults: any[]
-  }
+  results?: ValidationResults
 }
 
 export async function handleAPICall(data: APICallData): Promise<APIResponse> {
@@ -212,20 +229,17 @@ export async function GetStatus(testCaseId: string): Promise<StatusResponse> {
     let testRequest = ''
     let testResponse = ''
     let criteriaMet = ''
-    let results = {
-      resultsMetaData: null,
-      ccdaValidationResults: [] as any[],
-    }
+    let results: ValidationResults | undefined
 
     if (content && content.content && content.content.value) {
-      testRequest = content.content.value.request || content.message
-      testResponse = content.content.value.response || content.message
-      criteriaMet = content.content.criteriaMet
+      testRequest = content.content.value.request || content.message || ''
+      testResponse = content.content.value.response || content.message || ''
+      criteriaMet = content.content.criteriaMet || ''
 
       const ccdaReport = content.content.value.ccdaReport
       if (ccdaReport) {
-        const resultsMetaData = ccdaReport.resultsMetaData
-        const ccdaValidationResults = ccdaReport.ccdaValidationResults
+        const resultsMetaData: ResultsMetaData = ccdaReport.resultsMetaData
+        const ccdaValidationResults: CCDAValidationResult[] = ccdaReport.ccdaValidationResults
 
         results = {
           resultsMetaData: resultsMetaData,
