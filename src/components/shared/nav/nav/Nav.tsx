@@ -5,10 +5,8 @@ import { CSSObject, Theme, styled, useTheme } from '@mui/material/styles'
 import React from 'react'
 
 /* Custom Imports */
-import DevTools from '@/components/shared/nav/nav/DevTools'
 import NavFooter from '@/components/shared/nav/nav/NavFooter'
 import NavHeader from '@/components/shared/nav/nav/NavHeader'
-import SiteNavArchived from '@/components/shared/nav/nav/categories/SiteNavArchived'
 import SiteNavGeneralTools from '@/components/shared/nav/nav/categories/SiteNavGeneralTools'
 import SiteNavIndustryTools from '@/components/shared/nav/nav/categories/SiteNavIndustryTools'
 import SiteNavOncCertTools from '@/components/shared/nav/nav/categories/SiteNavOncCertTools'
@@ -65,9 +63,8 @@ const Drawer = styled(MuiDrawer, {
 interface SiteNavProps {
   open: boolean
   handleDrawerClose: () => void
-  handleAuthChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
-export default function SiteNav({ open, handleDrawerClose, handleAuthChange }: SiteNavProps) {
+export default function SiteNav({ open, handleDrawerClose }: SiteNavProps) {
   const theme = useTheme()
 
   return (
@@ -99,7 +96,6 @@ export default function SiteNav({ open, handleDrawerClose, handleAuthChange }: S
           <SiteNavGeneralTools />
           <SiteNavIndustryTools />
           <SiteNavResources />
-          <SiteNavArchived />
         </List>
         {/* <DevTools auth={auth} handleAuthChange={handleAuthChange} /> */}
         <NavFooter />

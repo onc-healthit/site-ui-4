@@ -8,12 +8,8 @@ import SiteAppBar from '@/components/shared/nav/app-bar/SiteAppBar'
 import Nav from '@/components/shared/nav/nav/Nav'
 
 export default function CombinedNavAndAppBar() {
-  const handleAuthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //setAuth(event.target.checked)
-  }
-
-  // TODO: default to false based on DEV_MODE env var
-  const [open, setOpen] = React.useState(true)
+  // When false, nav expanded by default (prod). When true, nav collapsed (dev)
+  const [open, setOpen] = React.useState(!(process.env.NEXT_PUBLIC_IS_DEBUG_MODE === 'true'))
   const handleDrawerOpen = () => {
     setOpen(true)
   }
@@ -25,7 +21,7 @@ export default function CombinedNavAndAppBar() {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <SiteAppBar open={open} handleDrawerOpen={handleDrawerOpen} />
-      <Nav open={open} handleDrawerClose={handleDrawerClose} handleAuthChange={handleAuthChange} />
+      <Nav open={open} handleDrawerClose={handleDrawerClose} />
     </Box>
   )
 }
