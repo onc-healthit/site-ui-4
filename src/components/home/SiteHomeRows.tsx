@@ -18,7 +18,7 @@ import {
   lanternSvg,
   referenceDataSvg,
 } from '@public/home'
-import ONCLogo from '@public/shared/ONCLogo-backgroundImage.png'
+import ONCLogo from '@public/shared/LogoBackgroundImage.png'
 import Image from 'next/image'
 import CardWithImageHome from '@shared/CardWithImageHome'
 import SectionHeader from '../shared/SectionHeader'
@@ -105,7 +105,8 @@ export default function SiteHomeRows() {
           overflowX: 'clip',
           width: '100%',
           height: '100%',
-          objectFit: 'contain',
+          objectFit: 'none',
+          objectPosition: 'right',
         }}
         src={ONCLogo}
         alt="ONC Logo"
