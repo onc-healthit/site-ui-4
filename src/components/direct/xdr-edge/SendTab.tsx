@@ -5,11 +5,14 @@ import Content from './send/ContentTab'
 import bulletedList from '../shared/BulletList'
 import { Container, Typography, List, ListItem } from '@mui/material'
 
-const SendTab = () => {
+interface SendTabProps {
+  sampleCCDAFiles: string[]
+}
+const SendTab = ({ sampleCCDAFiles }: SendTabProps) => {
   const [selectedTab, setSelectedTab] = useState('Choose template')
 
   const sendTabs: TabInputs[] = [
-    { tabName: 'Choose template', tabIndex: 0, tabPanel: <Template /> },
+    { tabName: 'Choose template', tabIndex: 0, tabPanel: <Template sampleCCDAFiles={sampleCCDAFiles} /> },
     { tabName: 'Choose own content', tabIndex: 1, tabPanel: <Content /> },
   ]
 
@@ -27,7 +30,6 @@ const SendTab = () => {
       window.removeEventListener('hashchange', handleRouteChange)
     }
   })
-
   return (
     <>
       <Container>

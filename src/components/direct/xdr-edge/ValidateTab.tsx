@@ -1,7 +1,12 @@
-import { Container, List, ListItem, Typography, Card, CardContent, Box, TextField, Button } from '@mui/material'
+import { Container, List, ListItem, Typography, Card, CardContent, Box, TextField } from '@mui/material'
 import bulletedList from '../shared/BulletList'
+import { useFormState } from 'react-dom'
+import { handleMessageValidation } from './actions'
+import ValidateResult from './ValidateResult'
 
 const ValidateTab = () => {
+  const [data, handleSubmit] = useFormState(handleMessageValidation, { response: {} })
+
   return (
     <>
       <Container>
@@ -39,21 +44,22 @@ const ValidateTab = () => {
             </ListItem>
           </List>
         </List>
+
         <Card>
           <CardContent>
-            <Box pb={4} component="form" width={'100%'} noValidate>
-              <TextField
-                sx={{ pb: 2 }}
-                fullWidth
-                id="from-address"
-                name="fromAddress"
-                label="Enter Message From Address"
-                helperText="Direct messages will be accepted for validation only when the Direct (From) address is registered here."
-              />
-              <Button variant="contained" color="primary" size="large" type="submit">
-                SEARCH
-              </Button>
-            </Box>
+            <form action={handleSubmit}>
+              <Box pb={4} width={'100%'}>
+                <TextField
+                  sx={{ pb: 2 }}
+                  fullWidth
+                  id="from-address"
+                  name="fromAddress"
+                  label="Enter Message From Address"
+                  helperText="Direct messages will be accepted for validation only when the Direct (From) address is registered here."
+                />
+                <ValidateResult response={data?.response} buttonTitle={'SEARCH'} />
+              </Box>
+            </form>
           </CardContent>
         </Card>
       </Container>
