@@ -71,7 +71,7 @@ const Content = (response: ContentProps) => {
     </Box>
   )
 }
-const ReceiveMessageSITEResults = ({ response, buttonTitle }: ResultsComponentProps) => {
+const SendResult = ({ response, buttonTitle }: ResultsComponentProps) => {
   return (
     <ResultsComponent
       response={response}
@@ -86,4 +86,4 @@ const ReceiveMessageSITEResults = ({ response, buttonTitle }: ResultsComponentPr
   )
 }
 
-export default ReceiveMessageSITEResults
+export default SendResult

@@ -1,4 +1,5 @@
 'use server'
+import { GENERIC_ERROR_MESSAGE } from '@/constants/errorConstants'
 import axios from 'axios'
 
 export async function getSampleCCDAFiles(sampleCCDAFilesEndpoint: string) {
@@ -34,7 +35,7 @@ export async function handleSendMessage(prevState: object | undefined, formData:
       console.error(error.response?.data)
       return {
         response: {
-          error: 'They was an error connecting to the backend, Please try again later!',
+          error: GENERIC_ERROR_MESSAGE,
           errorStatus: error.response?.status,
         },
       }
@@ -64,7 +65,7 @@ export async function handleMessageValidation(prevState: object | undefined, for
       console.error(error.response?.data)
       return {
         response: {
-          error: 'They was an error connecting to the backend, Please try again later!',
+          error: GENERIC_ERROR_MESSAGE,
           errorStatus: error.response?.status,
         },
       }

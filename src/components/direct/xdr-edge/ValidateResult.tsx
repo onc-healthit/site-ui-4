@@ -71,7 +71,7 @@ const Content = ({ response }: { response: MessagesProp[] }) => {
     </Box>
   )
 }
-const ReceiveMessageSITEResults = ({ response, buttonTitle }: ResultsComponentProps) => {
+const ValidateResult = ({ response, buttonTitle }: ResultsComponentProps) => {
   return (
     <ResultsComponent
       response={response}
@@ -84,4 +84,4 @@ const ReceiveMessageSITEResults = ({ response, buttonTitle }: ResultsComponentPr
   )
 }
 
-export default ReceiveMessageSITEResults
+export default ValidateResult

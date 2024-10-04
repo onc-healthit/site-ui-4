@@ -14,7 +14,7 @@ import DragandDropFile from '@components/shared/DragandDropFile'
 import HelpIcon from '@mui/icons-material/Help'
 import React, { useState, useEffect } from 'react'
 import { useFormState } from 'react-dom'
-import SwitchWithLabel from '@components/shared/SwitchWIthLabel'
+import SwitchWithLabel from '@components/shared/SwitchWithLabel'
 import { handleSendMessage } from '../actions'
 import SendResults from './SendResult'
 
