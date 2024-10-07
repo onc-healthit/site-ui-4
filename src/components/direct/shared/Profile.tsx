@@ -65,17 +65,17 @@ const Profile = () => {
     async function fetchLoggedInUsersProfiles() {
       setIsLoading(true)
       const loggedInUsersProfiles = await fetchProfiles()
-      const filteredProiles = removeProfilesWithNullProfileName(loggedInUsersProfiles)
-      if (!_.isEmpty(filteredProiles)) {
-        setProfiles(filteredProiles)
-        setSelectedProfileName(filteredProiles[0].profileName)
-        setProfilename(filteredProiles[0].profileName)
-        setHostname(filteredProiles[0].sutSMTPAddress)
-        setEmail(filteredProiles[0].sutEmailAddress)
-        setUsername(filteredProiles[0].sutUsername)
-        setPassword(filteredProiles[0].sutPassword)
-        setTls(filteredProiles[0].useTLS)
-        setProfileid(filteredProiles[0].smtpEdgeProfileID)
+      const filteredProfiles = removeProfilesWithNullProfileName(loggedInUsersProfiles)
+      if (!_.isEmpty(filteredProfiles)) {
+        setProfiles(filteredProfiles)
+        setSelectedProfileName(filteredProfiles[0].profileName)
+        setProfilename(filteredProfiles[0].profileName)
+        setHostname(filteredProfiles[0].sutSMTPAddress)
+        setEmail(filteredProfiles[0].sutEmailAddress)
+        setUsername(filteredProfiles[0].sutUsername)
+        setPassword(filteredProfiles[0].sutPassword)
+        setTls(filteredProfiles[0].useTLS)
+        setProfileid(filteredProfiles[0].smtpEdgeProfileID)
       }
       setIsLoading(false)
     }
@@ -98,9 +98,9 @@ const Profile = () => {
       if (response) {
         setMessage({ text: `${profilename} saved`, severity: 'success' })
         const loggedInUsersProfiles = await fetchProfiles()
-        const filteredProiles = removeProfilesWithNullProfileName(loggedInUsersProfiles)
-        setProfiles(filteredProiles)
-        const savedProfile = filteredProiles.filter((profile) => profile.profileName === profilename).pop()
+        const filteredProfiles = removeProfilesWithNullProfileName(loggedInUsersProfiles)
+        setProfiles(filteredProfiles)
+        const savedProfile = filteredProfiles.filter((profile) => profile.profileName === profilename).pop()
         if (savedProfile) {
           setSelectedProfileName(savedProfile.profileName)
           setProfilename(savedProfile.profileName)
