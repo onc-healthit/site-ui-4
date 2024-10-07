@@ -17,12 +17,15 @@ import * as React from 'react'
 import testCases from '@/assets/SMTPTestCases'
 import _ from 'lodash'
 import TestFilter from './TestFilter'
+import { useContext } from 'react'
+import { ProfileContext } from './context'
 
 const IMAP = () => {
   const [option, setOption] = React.useState('')
   const imapTestCases = testCases.tests.filter((test) => test.protocol === 'imap')
   const imapTestCasesSender = imapTestCases.filter((test) => test.sutRole === 'sender' && test.sutHisp)
   const imapTestCasesReceiver = imapTestCases.filter((test) => test.sutRole === 'receiver' && test.sutHisp)
+  const { hostname, email, password, tls, username } = useContext(ProfileContext)
   const handleChange = (event: SelectChangeEvent) => {
     setOption(event.target.value as string)
   }
@@ -86,7 +89,14 @@ const IMAP = () => {
               {imapTestCasesSender.map((test, i) => {
                 return (
                   <Box pb={4} key={i}>
-                    <TestCard test={test} />
+                    <TestCard
+                      test={test}
+                      email={email}
+                      hostname={hostname}
+                      password={password}
+                      tlsRequired={tls}
+                      username={username}
+                    />
                   </Box>
                 )
               })}
@@ -98,7 +108,15 @@ const IMAP = () => {
               {imapTestCasesReceiver.map((test, i) => {
                 return (
                   <Box pb={4} key={i}>
-                    <TestCard key={i} test={test} />
+                    <TestCard
+                      key={i}
+                      test={test}
+                      email={email}
+                      hostname={hostname}
+                      password={password}
+                      tlsRequired={tls}
+                      username={username}
+                    />
                   </Box>
                 )
               })}

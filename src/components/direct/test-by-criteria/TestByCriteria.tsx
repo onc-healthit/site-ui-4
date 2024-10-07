@@ -7,6 +7,7 @@ import H2Component from './H2Tab'
 import Link from 'next/link'
 import styles from '@shared/styles.module.css'
 import TabsComponent, { TabInputs } from '@/components/shared/TabsComponent'
+import ProfileProvider from '../hisp/provider'
 export interface criteriaProps {
   selectedTab: string
 }
@@ -33,7 +34,9 @@ const TestByCriteria = ({ selectedTab }: criteriaProps) => {
         heading={'Test By Criteria'}
         description={<>New Helper Text</>}
       />
-      <TabsComponent selectedTab={selectedTab} tabs={criteriaTabs} />
+      <ProfileProvider>
+        <TabsComponent selectedTab={selectedTab} tabs={criteriaTabs} />
+      </ProfileProvider>
     </>
   )
 }
