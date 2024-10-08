@@ -8,6 +8,7 @@ import { SxProps, Theme } from '@mui/system'
 import { useTheme } from '@mui/material/styles'
 import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined'
 import React from 'react'
+import eventTrack from '@/services/analytics'
 
 const DocsHome = () => {
   const menuItems: menuProps[] = [
@@ -51,10 +52,7 @@ const DocsHome = () => {
   }
   function trackMenuItemClick(heading: string) {
     if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Click archive sub menu', {
-        event_category: 'Navigation',
-        event_label: heading,
-      })
+      eventTrack('Click archive sub menu', 'Navigation', heading)
     }
   }
   return (
