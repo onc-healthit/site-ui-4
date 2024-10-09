@@ -158,7 +158,14 @@ interface SelectedDocument {
   fileName: string
   fileLink: string
 }
-const TestCard = ({ test, receive }: TestCardProps) => {
+const TestCard = ({
+  test,
+  hostname = 'defaultHostname',
+  email = 'defaultEmail',
+  username = 'defaultUsername',
+  password = 'defaultPassword',
+  receive,
+}: TestCardProps) => {
   const defaultEndpoint =
     process.env.XDR_ENDPOINT_PREFIX || 'http://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
   const defaultEndpointTLS =
