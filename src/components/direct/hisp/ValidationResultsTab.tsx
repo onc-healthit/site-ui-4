@@ -30,11 +30,18 @@ const removeProfilesWithNullProfileName = (profiles: Profile[]) => {
   return profiles.filter((profile) => profile.profileName !== null)
 }
 
+interface ProfileReport {
+  smtpEdgeLogID: number
+  testCaseNumber: string
+  timestamp: number
+  criteriaMet: boolean
+}
+
 const ValidationResults = () => {
   const { data: session, status } = useSession()
   const [profiles, setProfiles] = React.useState<Profile[]>([])
   const [isLoading, setIsLoading] = React.useState(false)
-  const [profileReport, setProfileReport] = React.useState<any>([])
+  const [profileReport, setProfileReport] = React.useState<ProfileReport[]>([])
   const [profileName, setProfileName] = React.useState('')
   const [open, setOpen] = React.useState(false)
 
@@ -118,7 +125,7 @@ const ValidationResults = () => {
                       </TableHead>
                       {!_.isEmpty(profileReport) ? (
                         <TableBody>
-                          {profileReport.map((row: any) => (
+                          {profileReport.map((row: ProfileReport) => (
                             <TableRow
                               key={row.smtpEdgeLogID}
                               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
