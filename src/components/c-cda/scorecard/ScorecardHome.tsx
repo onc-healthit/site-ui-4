@@ -165,7 +165,7 @@ export default function ScorecardHome() {
         ${error}. Please try again later.`)
     }
 
-    eventTrack('Button Click Form Submission', 'Scorecard', 'Run the Try Me Demo with selected file and view results')
+    eventTrack('Sumbit Form for Try Me Demo', 'Scorecard', 'Run the Try Me Demo with selected file and view results')
   }
 
   const getFileName = (data: File[]) => {
@@ -431,8 +431,9 @@ export default function ScorecardHome() {
 
   const handleCardWithBorderClick = (index: number) => {
     setModalUrl(modalUrls[index])
+    eventTrack('Open Scorecard Model', 'Button', modalUrls[index])
   }
-
+  //events firing twice//
   return (
     <>
       {/* Global Header */}

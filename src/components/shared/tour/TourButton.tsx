@@ -28,11 +28,11 @@ const TourButton: React.FC = () => {
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status } = data
     if (status === 'skipped') {
-      eventTrack('Skip Tour', 'Button', 'User Skip Tour')
+      eventTrack('Tour Skipped', 'Button', 'User Skipped Tour')
       setRun(false) // Reset the run state
     }
     if (status === 'finished') {
-      eventTrack('End Tour', 'Button', 'User Stopped Tour')
+      eventTrack('Tour Ended', 'Button', 'User Stopped Tour')
       setRun(false) // Reset the run state
     }
   }
