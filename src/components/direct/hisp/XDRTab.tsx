@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 
 import {
   Box,
-  Button,
   Container,
   Card,
   CardContent,
@@ -14,9 +13,9 @@ import {
   SelectChangeEvent,
 } from '@mui/material'
 import XDRTestCard from '@components/direct/hisp/XDRTestCard'
-import { Download } from '@mui/icons-material'
 import TestFilter from './TestFilter'
 import testCases from '@/assets/XDRTestCases'
+import DownloadXDRCert from '../shared/DownloadXDRCert'
 
 const XDR = () => {
   const [option, setOption] = useState('')
@@ -71,16 +70,7 @@ const XDR = () => {
               </FormControl>
             </CardContent>
           </Card>
-          <Card elevation={4}>
-            <CardContent>
-              <Box display={'flex'} flexDirection={'column'} alignItems={'flex-start'} gap={2} pt={1}>
-                <Typography>You can also download XDR TLS certificates.</Typography>
-                <Button variant="outlined" color="primary" endIcon={<Download />}>
-                  Download
-                </Button>
-              </Box>
-            </CardContent>
-          </Card>
+          <DownloadXDRCert />
         </Box>
         <Box display={'flex'} flexDirection={'column'} width={'60%'} gap={4}>
           {option !== '' && (
