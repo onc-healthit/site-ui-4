@@ -20,12 +20,15 @@ import testCases from '@/assets/SMTPTestCases'
 import DragandDropFile from '@/components/shared/DragandDropFile'
 import HelpIcon from '@mui/icons-material/Help'
 import TestFilter from './TestFilter'
+import { useContext } from 'react'
+import { ProfileContext } from './context'
 
 const MessageTracking = () => {
   const [option, setOption] = React.useState('')
   const mu2TestCases = testCases.tests.filter((test) => test.protocol === 'mu2')
   const mu2TestCasesSender = mu2TestCases.filter((test) => test.sutRole === 'sender' && test.sutHisp)
   const mu2TestCasesReceiver = mu2TestCases.filter((test) => test.sutRole === 'receiver' && test.sutHisp)
+  const { hostname, email, password, tls, username } = useContext(ProfileContext)
   const handleChange = (event: SelectChangeEvent) => {
     setOption(event.target.value as string)
   }
@@ -102,7 +105,14 @@ const MessageTracking = () => {
               {mu2TestCasesSender.map((test, i) => {
                 return (
                   <Box pb={4} key={i}>
-                    <TestCard test={test} />
+                    <TestCard
+                      test={test}
+                      email={email}
+                      hostname={hostname}
+                      password={password}
+                      tlsRequired={tls}
+                      username={username}
+                    />
                   </Box>
                 )
               })}
@@ -113,7 +123,15 @@ const MessageTracking = () => {
               {mu2TestCasesReceiver.map((test, i) => {
                 return (
                   <Box pb={4} key={i}>
-                    <TestCard key={i} test={test} />
+                    <TestCard
+                      key={i}
+                      test={test}
+                      email={email}
+                      hostname={hostname}
+                      password={password}
+                      tlsRequired={tls}
+                      username={username}
+                    />
                   </Box>
                 )
               })}

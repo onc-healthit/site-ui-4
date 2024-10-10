@@ -16,12 +16,15 @@ import palette from '@/styles/palette'
 import * as React from 'react'
 import testCases from '@/assets/SMTPTestCases'
 import TestFilter from './TestFilter'
+import { useContext } from 'react'
+import { ProfileContext } from './context'
 
 const SMTP = () => {
   const [option, setOption] = React.useState('')
   const smtpTestCases = testCases.tests.filter((test) => test.protocol === 'smtp')
   const smtpTestCasesSender = smtpTestCases.filter((test) => test.sutRole === 'sender' && test.sutHisp)
   const smtpTestCasesReceiver = smtpTestCases.filter((test) => test.sutRole === 'receiver' && test.sutHisp)
+  const { hostname, email, password, tls, username } = useContext(ProfileContext)
   const handleChange = (event: SelectChangeEvent) => {
     setOption(event.target.value as string)
   }
@@ -85,7 +88,14 @@ const SMTP = () => {
               {smtpTestCasesSender.map((test, i) => {
                 return (
                   <Box pb={4} key={i}>
-                    <TestCard test={test} />
+                    <TestCard
+                      test={test}
+                      email={email}
+                      hostname={hostname}
+                      password={password}
+                      tlsRequired={tls}
+                      username={username}
+                    />
                   </Box>
                 )
               })}
@@ -96,7 +106,15 @@ const SMTP = () => {
               {smtpTestCasesReceiver.map((test, i) => {
                 return (
                   <Box pb={4} key={i}>
-                    <TestCard key={i} test={test} />
+                    <TestCard
+                      key={i}
+                      test={test}
+                      email={email}
+                      hostname={hostname}
+                      password={password}
+                      tlsRequired={tls}
+                      username={username}
+                    />
                   </Box>
                 )
               })}
