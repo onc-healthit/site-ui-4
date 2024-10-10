@@ -46,7 +46,7 @@ const XDR = () => {
       </Box>
       <Box display={'flex'} flexDirection={'row'} gap={4} py={4}>
         <Box
-          sx={{ position: 'sticky', top: '80px', zIndex: 100, height: '100%' }}
+          sx={{ position: 'sticky', top: '80px', zIndex: 100, height: '100%', width: '40%' }}
           display={'flex'}
           gap={4}
           flexDirection={'column'}

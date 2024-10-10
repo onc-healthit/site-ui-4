@@ -59,7 +59,7 @@ const Profile = () => {
     severity: 'info' | 'error' | 'success' | 'warning'
   }
 
-  const [message, setMessage] = useState<Message>({ text: '', severity: 'info' })
+  const [message, setMessage] = useState<Message | null>(null)
 
   useEffect(() => {
     async function fetchLoggedInUsersProfiles() {
@@ -177,21 +177,37 @@ const Profile = () => {
       ) : (
         <Box component="form" onSubmit={handleSaveProfile} sx={{ backgroundColor: palette.white }}>
           {!_.isEmpty(profiles) && (
-            <Select fullWidth title="Select a profile." onChange={handleProfileChange} value={selectedProfileName}>
-              {profiles.map((profile, index) => {
-                return (
-                  <MenuItem key={index} value={profile.profileName}>
-                    {profile.profileName}
-                  </MenuItem>
-                )
-              })}
-              <MenuItem key={-1} value={NEWPROFILENAME}>
-                New Profile
-              </MenuItem>
-            </Select>
+            <>
+              <Select
+                variant="filled"
+                fullWidth
+                title="Select a profile."
+                onChange={handleProfileChange}
+                value={selectedProfileName}
+                sx={{
+                  borderRadius: 1,
+                  border: `1px solid ${palette.divider}`,
+                  pb: 1,
+                  '&:hover': {
+                    backgroundColor: '#e4f1fe', // Customize hover background color
+                  },
+                }}
+              >
+                {profiles.map((profile, index) => {
+                  return (
+                    <MenuItem key={index} value={profile.profileName}>
+                      {profile.profileName}
+                    </MenuItem>
+                  )
+                })}
+                <MenuItem key={-1} value={NEWPROFILENAME}>
+                  New Profile
+                </MenuItem>
+              </Select>
+            </>
           )}
-          <Box display={'flex'} flexDirection={'column'} gap={4} p={2}>
-            <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} pt={2} gap={2}>
+          <Box display={'flex'} flexDirection={'column'} p={2}>
+            <Box display={'flex'} flexDirection={'column'} justifyContent={'space-between'} pt={3} gap={3}>
               <TextField
                 fullWidth
                 id="outlined-vendor-hostname"
@@ -199,6 +215,7 @@ const Profile = () => {
                 helperText="Hostname/IP of the vendor SMTP sysem"
                 value={hostname || ''}
                 required
+                size="small"
                 onChange={(e) => setHostname(e.target.value)}
               />
               <TextField
@@ -208,10 +225,11 @@ const Profile = () => {
                 helperText="Email of the vendor SMTP system"
                 value={email || ''}
                 required
+                size="small"
                 onChange={(e) => setEmail(e.target.value)}
               />
             </Box>
-            <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} gap={2}>
+            <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} pt={3} gap={2}>
               <TextField
                 fullWidth
                 id="vendor-username"
@@ -219,6 +237,7 @@ const Profile = () => {
                 helperText="Username for the vendor SMTP system"
                 value={username || ''}
                 required
+                size="small"
                 onChange={(e) => setUsername(e.target.value)}
               />
               <TextField
@@ -229,10 +248,11 @@ const Profile = () => {
                 type="password"
                 value={password || ''}
                 required
+                size="small"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Box>
-            <FormGroup sx={{ width: '50%' }}>
+            <FormGroup sx={{ pt: 1 }}>
               <FormControlLabel
                 control={<Switch color="secondary" checked={tls} onChange={(e) => setTls(e.target.checked)} />}
                 label="TLS REQUIRED"
@@ -241,7 +261,7 @@ const Profile = () => {
             </FormGroup>
           </Box>
 
-          <Box display={'flex'} flexDirection={'column'} justifyContent={'space-between'} p={2}>
+          <Box display={'flex'} flexDirection={'column'} justifyContent={'space-between'} p={2} gap={4}>
             {status === 'authenticated' && (
               <>
                 <TextField
@@ -250,9 +270,10 @@ const Profile = () => {
                   label="Profile Name"
                   value={profilename}
                   required
+                  size="small"
                   onChange={(e) => setProfilename(e.target.value)}
                 />
-                <Box display={'flex'} justifyContent="space-between" component="span" sx={{ pt: 3 }}>
+                <Box display={'flex'} justifyContent="space-between" component="span">
                   <Button variant="outlined" sx={{ color: palette.primary }} type="submit">
                     Save
                   </Button>
@@ -273,7 +294,7 @@ const Profile = () => {
               message={message.text}
               severity={message.severity}
               open={true}
-              onClose={() => setMessage({ text: '', severity: 'info' })}
+              onClose={() => setMessage(null)}
             />
           )}
         </Box>

@@ -5,8 +5,9 @@ interface DocsCardProps {
   smtpAddress: string
   emailAddress: string
   header: string
+  getProfileReport: (profileName: string) => void
 }
-const ProfilesCard: React.FC<DocsCardProps> = ({ smtpAddress, emailAddress, header }) => {
+const ProfilesCard: React.FC<DocsCardProps> = ({ smtpAddress, emailAddress, header, getProfileReport }) => {
   return (
     <Card
       sx={{
@@ -18,22 +19,21 @@ const ProfilesCard: React.FC<DocsCardProps> = ({ smtpAddress, emailAddress, head
         <Typography variant="h4" sx={{ flexGrow: 1, fontWeight: 'bold', color: '#001439' }}>
           {header}
         </Typography>
-        <Avatar></Avatar>
       </Toolbar>
       <Divider />
       <Box display={'flex'} sx={{ flexDirection: 'column', margin: 2 }}>
         <Box display={'flex'} sx={{ justifyContent: 'space-between', marginBottom: 2 }}>
           <Box display={'flex'} sx={{ flexDirection: 'column', mr: 2 }}>
-            <Typography variant="subtitle2">SUTE SMTP Address:</Typography>
+            <Typography variant="subtitle2">Vendor Hostname/IP:</Typography>
             <Typography variant="body2">{smtpAddress}</Typography>
           </Box>
           <Box display={'flex'} sx={{ flexDirection: 'column' }}>
-            <Typography variant="subtitle2">SUTE Email Address:</Typography>
+            <Typography variant="subtitle2">Vendor Direct Email Address:</Typography>
             <Typography variant="body2">{emailAddress}</Typography>
           </Box>
         </Box>
         <Divider sx={{ marginY: 2 }} />
-        <Button variant="outlined" color="primary" sx={{ alignSelf: 'start' }}>
+        <Button variant="outlined" color="primary" sx={{ alignSelf: 'start' }} onClick={() => getProfileReport(header)}>
           Show Report
         </Button>
       </Box>
