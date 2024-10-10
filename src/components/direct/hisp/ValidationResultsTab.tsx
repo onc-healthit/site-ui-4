@@ -4,9 +4,7 @@ import {
   Typography,
   Container,
   LinearProgress,
-  AppBar,
-  IconButton,
-  Toolbar,
+  Button,
   Paper,
   Table,
   TableBody,
@@ -14,15 +12,16 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
 } from '@mui/material'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace'
 import ProfilesCard from './ProfilesCard'
 import { useSession } from 'next-auth/react'
 import PageAlertBox from '@/components/shared/PageAlertBox'
 import { useEffect } from 'react'
 import { fetchProfileReport, fetchProfiles } from './actions'
-import CloseIcon from '@mui/icons-material/Close'
 import Profile from '../shared/Profile'
 import _ from 'lodash'
 
@@ -93,33 +92,35 @@ const ValidationResults = () => {
           ) : (
             <Box
               sx={{
-                padding: '32px',
+                py: '32px',
                 minHeight: 'auto',
               }}
             >
               {open && (
-                <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
-                  <AppBar sx={{ position: 'relative' }}>
-                    <Toolbar>
-                      <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                        Validation Report for {profileName}
-                      </Typography>
-                      <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={() => handleCloseProfileReport()}
-                        aria-label="close"
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                    </Toolbar>
-                  </AppBar>
+                <Box gap={4} display={'flex'} flexDirection={'column'} flexWrap={'wrap'}>
+                  <Box display={'flex'} flexDirection={'row'} alignContent={'space-between'} alignItems={'center'}>
+                    <Typography sx={{ flex: 1 }} variant="h4" component="h2">
+                      Validation Report for {profileName}
+                    </Typography>
+                    <Button
+                      color="primary"
+                      variant="text"
+                      startIcon={<KeyboardBackspaceIcon />}
+                      onClick={() => handleCloseProfileReport()}
+                      aria-label="close"
+                      size="small"
+                    >
+                      Go back to profiles
+                    </Button>
+                  </Box>
                   <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                       <TableHead>
-                        <TableRow>
-                          <TableCell>Test Case</TableCell>
-                          <TableCell align="center">Timestamp</TableCell>
+                        <TableRow sx={{ fontSize: '1.2em' }}>
+                          <TableCell>
+                            <strong>Test Case</strong>
+                          </TableCell>
+                          <TableCell align="left">Timestamp</TableCell>
                           <TableCell align="center">Result</TableCell>
                         </TableRow>
                       </TableHead>
@@ -131,11 +132,19 @@ const ValidationResults = () => {
                               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                               <TableCell component="th" scope="row">
-                                {row.testCaseNumber}
+                                <strong>{row.testCaseNumber}</strong>
                               </TableCell>
-                              <TableCell align="center">{convertDate(row.timestamp)}</TableCell>
+                              <TableCell align="left">{convertDate(row.timestamp)}</TableCell>
                               <TableCell align="center">
-                                {row.criteriaMet ? <CheckCircleIcon color="success" /> : <CancelIcon color="error" />}
+                                {row.criteriaMet ? (
+                                  <Tooltip arrow placement="left" title="Success">
+                                    <CheckCircleIcon color="success" />
+                                  </Tooltip>
+                                ) : (
+                                  <Tooltip arrow placement="left" title="Failed">
+                                    <CancelIcon color="error" />
+                                  </Tooltip>
+                                )}
                               </TableCell>
                             </TableRow>
                           ))}
@@ -155,7 +164,7 @@ const ValidationResults = () => {
               )}
               {!open && (
                 <>
-                  <Typography variant="h4" sx={{ mb: 4 }}>
+                  <Typography variant="h3" component={'h2'} sx={{ mb: 4 }}>
                     Below are your saved profiles. Select one to see the validation results.
                   </Typography>
                   <Box gap={4} display={'flex'} flexDirection={'row'} flexWrap={'wrap'}>
