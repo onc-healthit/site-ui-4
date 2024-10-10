@@ -6,6 +6,7 @@ import { handleAPICall } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import LoadingButton from '../shared/LoadingButton'
+import { APICallData, APICallResponse, TestRequestResponses } from '../test-by-criteria/ServerActions'
 import {
   Box,
   Button,
@@ -98,7 +99,6 @@ const TestCard = ({
   username = 'defaultUsername',
   password = 'defaultPassword',
   tlsRequired = false,
-  receive,
 }: TestCardProps) => {
   const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLButtonElement | null>(null)
   const popoverOpen = Boolean(popoverAnchorEl)
@@ -114,9 +114,13 @@ const TestCard = ({
     "['b1-4','su1-4']",
     "['b1-4']",
   ]
+  const mdnTestIds = ['139']
+  const [currentStep, setCurrentStep] = useState<number>(1)
+  const [previousResult, setPreviousResult] = useState<APICallResponse | null>(null)
+
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
-  const [testRequestResponses, setTestRequestResponses] = useState<string>('')
+  const [testRequestResponses, setTestRequestResponses] = useState<TestRequestResponses>({})
   const [showLogs, setShowLogs] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
@@ -146,12 +150,14 @@ const TestCard = ({
   }
 
   const handleClearTest = () => {
+    setCurrentStep(1)
     setCriteriaMet('')
-    setTestRequestResponses('')
+    setTestRequestResponses({})
     setIsFinished(false)
     setShowLogs(false)
     setDocumentDetails(null)
     setApiError(false)
+    setPreviousResult(null)
   }
 
   const handleAttachmentTypeChange = (event: SelectChangeEvent<string>) => {
@@ -164,11 +170,16 @@ const TestCard = ({
     fileLink: string
   } | null>(null)
 
-  const formattedLogs = Object.entries(testRequestResponses).map(([key, value]) => (
-    <Typography key={key} variant="body1" style={{ whiteSpace: 'pre-line' }}>
-      {value}
-    </Typography>
-  ))
+  const formattedLogs = Object.entries(testRequestResponses).map(([key, value]) => {
+    const cleanedKey = key.trim()
+    const cleanedValue = value.trim()
+
+    return (
+      <Typography key={key} variant="body1" style={{ whiteSpace: 'pre-line' }}>
+        {`${cleanedKey}: ${cleanedValue}`}
+      </Typography>
+    )
+  })
 
   const [formData, setFormData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
@@ -206,6 +217,7 @@ const TestCard = ({
   }
 
   const handleRunTest = async () => {
+    const isMDNTest = mdnTestIds.includes(test.id.toString())
     if (test.ccdaFileRequired && !documentDetails) {
       setPopoverAnchorEl(document.activeElement as HTMLButtonElement)
       const timer = setTimeout(() => {
@@ -217,31 +229,104 @@ const TestCard = ({
         setIsLoading(true)
         setIsFinished(false)
         setCriteriaMet('')
-        const response = await handleAPICall({
-          testCaseNumber: test.id,
-          sutSmtpAddress: hostname,
-          sutEmailAddress: email,
-          useTLS: tlsRequired,
-          sutCommandTimeoutInSeconds: 0,
-          sutUserName: username,
-          sutPassword: password,
-          tttUserName: '',
-          tttPassword: '',
-          startTlsPort: 0,
-          status: '',
-          ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
-          ccdaValidationObjective: documentDetails ? documentDetails.directory : '',
-          ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
-          cures: true,
-          year: '2021',
-          hostingcase: 'YES',
-          attachmentType: attachmentType,
-        })
-        setIsFinished(true)
-        setCriteriaMet(response.criteriaMet)
-        setTestRequestResponses(response.testRequestResponses)
-        console.log('Criteria met: ', response.criteriaMet)
-        console.log('Test Request Responses:', response.testRequestResponses)
+        if (isMDNTest) {
+          if (currentStep === 1) {
+            const requestData: APICallData = {
+              testCaseNumber: test.id,
+              sutSmtpAddress: hostname,
+              sutEmailAddress: email,
+              useTLS: tlsRequired,
+              sutCommandTimeoutInSeconds: 0,
+              sutUserName: username,
+              sutPassword: password,
+              tttUserName: '',
+              tttPassword: '',
+              startTlsPort: 0,
+              status: 'na',
+              ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
+              ccdaValidationObjective: test.criteria || '',
+              ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
+              cures: true,
+              year: '2021',
+              hostingcase: 'YES',
+              attachmentType: attachmentType,
+            }
+
+            const response = await handleAPICall(requestData)
+            const result = response[0]
+
+            setIsFinished(true)
+            setCriteriaMet(result.criteriaMet)
+            setTestRequestResponses(result.testRequestResponses)
+            setPreviousResult(result)
+
+            if (result.criteriaMet.includes('STEP2')) {
+              setCurrentStep(2)
+            }
+          } else if (currentStep === 2 && previousResult) {
+            const requestData: APICallData = {
+              testCaseNumber: test.id,
+              sutSmtpAddress: hostname,
+              sutEmailAddress: email,
+              useTLS: tlsRequired,
+              sutCommandTimeoutInSeconds: 0,
+              sutUserName: username,
+              sutPassword: password,
+              tttUserName: '',
+              tttPassword: '',
+              startTlsPort: 0,
+              status: 'fetching',
+              ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
+              ccdaValidationObjective: test.criteria || '',
+              ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
+              cures: true,
+              year: '2021',
+              hostingcase: 'YES',
+              attachmentType: attachmentType,
+              previousResult: previousResult,
+            }
+
+            const response = await handleAPICall(requestData)
+            const result = response[0]
+
+            setIsFinished(true)
+            setCriteriaMet(result.criteriaMet)
+            setTestRequestResponses(result.testRequestResponses)
+            setPreviousResult(null)
+            setCurrentStep(1)
+          }
+        } else {
+          const response = await handleAPICall({
+            testCaseNumber: test.id,
+            sutSmtpAddress: hostname,
+            sutEmailAddress: email,
+            useTLS: tlsRequired,
+            sutCommandTimeoutInSeconds: 0,
+            sutUserName: username,
+            sutPassword: password,
+            tttUserName: '',
+            tttPassword: '',
+            startTlsPort: 0,
+            status: '',
+            ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
+            ccdaValidationObjective: documentDetails ? documentDetails.directory : '',
+            ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
+            cures: true,
+            year: '2021',
+            hostingcase: 'YES',
+            attachmentType: attachmentType,
+          })
+          const result = response[0]
+
+          setIsFinished(true)
+          setCriteriaMet(result.criteriaMet)
+          setTestRequestResponses(result.testRequestResponses)
+          if (result.criteriaMet.includes('STEP2')) {
+            setCurrentStep(2)
+          }
+          console.log('Criteria met: ', result.criteriaMet)
+          console.log('Test Request Responses:', result.testRequestResponses)
+        }
       } catch (error) {
         console.error('Failed to run test:', error)
         setApiError(true)
@@ -491,7 +576,15 @@ const TestCard = ({
                 variant="contained"
                 color="primary"
               >
-                RUN
+                <LoadingButton
+                  loading={isLoading}
+                  done={isFinished}
+                  onClick={handleRunTest}
+                  variant="contained"
+                  color="primary"
+                >
+                  {mdnTestIds.includes(test.id.toString()) ? (currentStep === 1 ? 'RUN' : 'CHECK MDN') : 'RUN'}
+                </LoadingButton>
               </LoadingButton>
               <Button variant="contained" onClick={handleToggleDetail}>
                 MORE INFO
@@ -500,8 +593,13 @@ const TestCard = ({
                 LOGS
               </Button>
               {test.criteria &&
-                manualValidationCriteria.includes(test.criteria) &&
-                (criteriaMet.includes('TRUE') || criteriaMet.includes('FALSE')) && (
+                criteriaMet &&
+                (criteriaMet.includes('TRUE') ||
+                  criteriaMet.includes('FALSE') ||
+                  criteriaMet.includes('ERROR') ||
+                  criteriaMet.includes('PASSED') ||
+                  criteriaMet.includes('PENDING') ||
+                  criteriaMet.includes('SUCCESS')) && (
                   <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button variant="contained" color="inherit" onClick={handleClearTest}>
                       Clear
