@@ -55,7 +55,6 @@ const ValidateTab = () => {
                   id="from-address"
                   name="fromAddress"
                   label="Enter Message From Address"
-                  helperText="Direct messages will be accepted for validation only when the Direct (From) address is registered here."
                 />
                 <ValidateResult response={data?.response} buttonTitle={'SEARCH'} />
               </Box>
