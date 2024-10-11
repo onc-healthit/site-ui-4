@@ -15,6 +15,7 @@ import {
 import { signIn } from 'next-auth/react'
 import React, { useState } from 'react'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
+import eventTrack from '@/services/analytics'
 
 const StyledLoginButtonRowWrapper = styled('div')(() => ({
   paddingTop: 24,
@@ -35,6 +36,7 @@ const Login = (props: { handleAuthClose: () => void }) => {
 
   const handleLogin = () => {
     signIn('credentials', { username: email, password: password })
+    eventTrack('Sign In', 'Authentication', 'User Clicks Sign In')
   }
 
   const handleClickShowPassword = () => {
