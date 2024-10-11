@@ -7,12 +7,16 @@ import { useState } from 'react'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
 export default function Auth(props: any) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [isCreatingAccount, setIsCreatingAccount] = useState(false)
+  const [message, setMessage] = useState({ message: '', severity: 'info' })
   const { data: session } = useSession()
   const handleAuthMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
   const handleAuthClose = () => {
     setAnchorEl(null)
+    setIsCreatingAccount(false)
+    setMessage({ message: '', severity: 'info' })
   }
 
   return (
@@ -85,7 +89,13 @@ export default function Auth(props: any) {
             open={Boolean(anchorEl)}
             onClose={handleAuthClose}
           >
-            <Login handleAuthClose={handleAuthClose} />
+            <Login
+              handleAuthClose={handleAuthClose}
+              setIsCreatingAccount={setIsCreatingAccount}
+              isCreatingAccount={isCreatingAccount}
+              message={message}
+              setMessage={setMessage}
+            />
           </Popover>
         </div>
       )}
