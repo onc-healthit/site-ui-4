@@ -114,7 +114,7 @@ const TestCard = ({
     "['b1-4','su1-4']",
     "['b1-4']",
   ]
-  const mdnTestIds = ['139']
+  const mdnTestIds = ['mu2']
   const [currentStep, setCurrentStep] = useState<number>(1)
   const [previousResult, setPreviousResult] = useState<APICallResponse | null>(null)
 
@@ -217,7 +217,7 @@ const TestCard = ({
   }
 
   const handleRunTest = async () => {
-    const isMDNTest = mdnTestIds.includes(test.id.toString())
+    const isMDNTest = test.protocol && mdnTestIds.includes(test.protocol)
     if (test.ccdaFileRequired && !documentDetails) {
       setPopoverAnchorEl(document.activeElement as HTMLButtonElement)
       const timer = setTimeout(() => {
@@ -583,7 +583,11 @@ const TestCard = ({
                   variant="contained"
                   color="primary"
                 >
-                  {mdnTestIds.includes(test.id.toString()) ? (currentStep === 1 ? 'RUN' : 'CHECK MDN') : 'RUN'}
+                  {test.protocol && mdnTestIds.includes(test.protocol)
+                    ? currentStep === 1
+                      ? 'RUN'
+                      : 'CHECK MDN'
+                    : 'RUN'}
                 </LoadingButton>
               </LoadingButton>
               <Button variant="contained" onClick={handleToggleDetail}>
