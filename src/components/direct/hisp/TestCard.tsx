@@ -115,6 +115,7 @@ const TestCard = ({
     "['b1-4']",
   ]
   const mdnTestIds = ['mu2']
+  const clearButtonVisibleOnCriteriaSet = new Set(['TRUE', 'FALSE', 'ERROR', 'PASSED', 'PENDING', 'SUCCESS', 'STEP2'])
   const [currentStep, setCurrentStep] = useState<number>(1)
   const [previousResult, setPreviousResult] = useState<APICallResponse | null>(null)
 
@@ -169,6 +170,42 @@ const TestCard = ({
     fileName: string
     fileLink: string
   } | null>(null)
+  const baseRequestData: APICallData = {
+    testCaseNumber: test.id,
+    sutSmtpAddress: hostname,
+    sutEmailAddress: email,
+    useTLS: tlsRequired,
+    sutCommandTimeoutInSeconds: 0,
+    sutUserName: username,
+    sutPassword: password,
+    tttUserName: '',
+    tttPassword: '',
+    startTlsPort: 0,
+    status: '',
+    ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
+    ccdaValidationObjective: test.criteria || '',
+    ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
+    cures: true,
+    year: '2021',
+    hostingcase: 'YES',
+    attachmentType: attachmentType,
+    previousResult: undefined,
+  }
+
+  const createRequestData = (step: number, prevResult?: APICallResponse | null): APICallData => {
+    const requestData = { ...baseRequestData }
+
+    if (step === 1) {
+      requestData.status = 'na'
+    } else if (step === 2 && prevResult) {
+      requestData.status = 'fetching'
+      requestData.previousResult = prevResult
+    } else {
+      requestData.status = ''
+    }
+
+    return requestData
+  }
 
   const formattedLogs = Object.entries(testRequestResponses).map(([key, value]) => {
     const cleanedKey = key.trim()
@@ -218,6 +255,7 @@ const TestCard = ({
 
   const handleRunTest = async () => {
     const isMDNTest = test.protocol && mdnTestIds.includes(test.protocol)
+
     if (test.ccdaFileRequired && !documentDetails) {
       setPopoverAnchorEl(document.activeElement as HTMLButtonElement)
       const timer = setTimeout(() => {
@@ -229,103 +267,38 @@ const TestCard = ({
         setIsLoading(true)
         setIsFinished(false)
         setCriteriaMet('')
+
         if (isMDNTest) {
-          if (currentStep === 1) {
-            const requestData: APICallData = {
-              testCaseNumber: test.id,
-              sutSmtpAddress: hostname,
-              sutEmailAddress: email,
-              useTLS: tlsRequired,
-              sutCommandTimeoutInSeconds: 0,
-              sutUserName: username,
-              sutPassword: password,
-              tttUserName: '',
-              tttPassword: '',
-              startTlsPort: 0,
-              status: 'na',
-              ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
-              ccdaValidationObjective: test.criteria || '',
-              ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
-              cures: true,
-              year: '2021',
-              hostingcase: 'YES',
-              attachmentType: attachmentType,
-            }
+          const requestData = createRequestData(currentStep, previousResult)
 
-            const response = await handleAPICall(requestData)
-            const result = response[0]
-
-            setIsFinished(true)
-            setCriteriaMet(result.criteriaMet)
-            setTestRequestResponses(result.testRequestResponses)
-            setPreviousResult(result)
-
-            if (result.criteriaMet.includes('STEP2')) {
-              setCurrentStep(2)
-            }
-          } else if (currentStep === 2 && previousResult) {
-            const requestData: APICallData = {
-              testCaseNumber: test.id,
-              sutSmtpAddress: hostname,
-              sutEmailAddress: email,
-              useTLS: tlsRequired,
-              sutCommandTimeoutInSeconds: 0,
-              sutUserName: username,
-              sutPassword: password,
-              tttUserName: '',
-              tttPassword: '',
-              startTlsPort: 0,
-              status: 'fetching',
-              ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
-              ccdaValidationObjective: test.criteria || '',
-              ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
-              cures: true,
-              year: '2021',
-              hostingcase: 'YES',
-              attachmentType: attachmentType,
-              previousResult: previousResult,
-            }
-
-            const response = await handleAPICall(requestData)
-            const result = response[0]
-
-            setIsFinished(true)
-            setCriteriaMet(result.criteriaMet)
-            setTestRequestResponses(result.testRequestResponses)
-            setPreviousResult(null)
-            setCurrentStep(1)
-          }
-        } else {
-          const response = await handleAPICall({
-            testCaseNumber: test.id,
-            sutSmtpAddress: hostname,
-            sutEmailAddress: email,
-            useTLS: tlsRequired,
-            sutCommandTimeoutInSeconds: 0,
-            sutUserName: username,
-            sutPassword: password,
-            tttUserName: '',
-            tttPassword: '',
-            startTlsPort: 0,
-            status: '',
-            ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
-            ccdaValidationObjective: documentDetails ? documentDetails.directory : '',
-            ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
-            cures: true,
-            year: '2021',
-            hostingcase: 'YES',
-            attachmentType: attachmentType,
-          })
+          const response = await handleAPICall(requestData)
           const result = response[0]
 
           setIsFinished(true)
           setCriteriaMet(result.criteriaMet)
           setTestRequestResponses(result.testRequestResponses)
+
+          if (currentStep === 1) {
+            setPreviousResult(result)
+            if (result.criteriaMet.includes('STEP2')) {
+              setCurrentStep(2)
+            }
+          } else if (currentStep === 2) {
+            setPreviousResult(null)
+            setCurrentStep(1)
+          }
+        } else {
+          const requestData = createRequestData(0)
+          const response = await handleAPICall(requestData)
+          const result = response[0]
+
+          setIsFinished(true)
+          setCriteriaMet(result.criteriaMet)
+          setTestRequestResponses(result.testRequestResponses)
+
           if (result.criteriaMet.includes('STEP2')) {
             setCurrentStep(2)
           }
-          console.log('Criteria met: ', result.criteriaMet)
-          console.log('Test Request Responses:', result.testRequestResponses)
         }
       } catch (error) {
         console.error('Failed to run test:', error)
@@ -598,12 +571,7 @@ const TestCard = ({
               </Button>
               {test.criteria &&
                 criteriaMet &&
-                (criteriaMet.includes('TRUE') ||
-                  criteriaMet.includes('FALSE') ||
-                  criteriaMet.includes('ERROR') ||
-                  criteriaMet.includes('PASSED') ||
-                  criteriaMet.includes('PENDING') ||
-                  criteriaMet.includes('SUCCESS')) && (
+                Array.from(clearButtonVisibleOnCriteriaSet).some((status) => criteriaMet.includes(status)) && (
                   <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button variant="contained" color="inherit" onClick={handleClearTest}>
                       Clear
