@@ -139,7 +139,7 @@ export default function SiteHomeRows() {
                 {
                   title: 'Inferno FHIR Testing',
                   description:
-                    'This is an instance of Inferno hosted by ONC for purposes of testing for the ONC Health IT Certification Program and to support community-driven health IT standards development projects.',
+                    'This is an instance of Inferno hosted by ASTP for purposes of testing for the ONC Health IT Certification Program and to support community-driven health IT standards development projects.',
                   cardImage: infernoSvg,
                   pathname: 'https://inferno.healthit.gov/',
                 },
@@ -153,7 +153,7 @@ export default function SiteHomeRows() {
                 {
                   title: 'Direct Project Tooling',
                   description:
-                    'The ONC Direct Tool utilizes the Direct Standard® to provide a mechanism for developers and implementers to test the capabilities of securely transporting sensitive health care information over the open internet.',
+                    'The ASTP Direct Tool utilizes the Direct Standard® to provide a mechanism for developers and implementers to test the capabilities of securely transporting sensitive health care information over the open internet.',
                   cardImage: directSvg,
                   pathname: '/direct',
                 },
