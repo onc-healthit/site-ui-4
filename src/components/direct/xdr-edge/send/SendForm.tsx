@@ -53,13 +53,7 @@ const SendForm = ({ version, sampleCCDAFiles }: SendFormProps) => {
           <form action={handleSubmit}>
             <Box pb={4} width={'100%'}>
               <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} pb={4} gap={4} pt={2}>
-                <TextField
-                  sx={{ width: '50%', pb: 2 }}
-                  id="endpoint"
-                  name="endpoint"
-                  label="Enter Your Endpoint URL"
-                  helperText="Direct messages will be accepted for validation only when the Direct (From) address is registered here."
-                />
+                <TextField sx={{ width: '50%', pb: 2 }} id="endpoint" name="endpoint" label="Enter Your Endpoint URL" />
                 <TextField
                   sx={{ width: '50%', pb: 2 }}
                   id="message-type"
@@ -90,7 +84,7 @@ const SendForm = ({ version, sampleCCDAFiles }: SendFormProps) => {
                     id="select-document"
                     name="attachmentFilePath"
                     select
-                    label="Select a Template Sample C-CDA File to Send:"
+                    label="Select a Sample C-CDA File to Send:"
                     helperText=""
                     defaultValue=" "
                     value={selectedFile}
@@ -128,7 +122,7 @@ const SendForm = ({ version, sampleCCDAFiles }: SendFormProps) => {
                 <SwitchWithLabel
                   isChecked={showOptional}
                   handleToggleSwitch={handleOptionalChange}
-                  labelText="Show Fields"
+                  labelText="Show Optional XDR Message Properties"
                   labelOnRight
                 />
               </Box>
@@ -141,14 +135,12 @@ const SendForm = ({ version, sampleCCDAFiles }: SendFormProps) => {
                     id="directFromAddress"
                     name="directFromAddress"
                     label="Enter Your From Direct Address"
-                    helperText="Direct messages will be accepted for validation only when the Direct (From) address is registered here."
                   />
                   <TextField
                     sx={{ width: '50%', pb: 2 }}
                     id="directToAddress"
                     name="directToAddress"
                     label="Enter Your To Direct Address"
-                    helperText="Direct messages will be accepted for validation only when the Direct (From) address is registered here."
                   />
                 </Box>
               )}
