@@ -57,6 +57,19 @@ const H2Component = () => {
 
   const handleCriteriaChange = (event: SelectChangeEvent) => {
     setSelectedCriteria(event.target.value as string)
+    if (
+      event.target.value === 'Criteria (i) XDR Validator' ||
+      event.target.value === 'Criteria (i)(B) Send conversion XDR' ||
+      event.target.value === 'Criteria (i)(B)  Receive conversion XDR' ||
+      event.target.value === 'Criteria (i)(C) Send using Edge Protocol - XDR' ||
+      event.target.value === 'Criteria (i)(C) Receive using Edge Protocol - XDR' ||
+      event.target.value === 'Criteria (ii)(C) Delivery Notification in Direct - XDR' ||
+      event.target.value === 'Criteria (ii)(C) Receive XDR: Disposition-Notification'
+    ) {
+      setIsXDR(true)
+    } else {
+      setIsXDR(false)
+    }
   }
   return (
     <Container>
