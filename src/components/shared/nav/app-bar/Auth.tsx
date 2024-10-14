@@ -8,6 +8,7 @@ import { useState } from 'react'
 export default function Auth(props: any) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [isCreatingAccount, setIsCreatingAccount] = useState(false)
+  const [isForgotPassword, setIsForgotPassword] = useState(false)
   const [message, setMessage] = useState({ message: '', severity: 'info' })
   const { data: session } = useSession()
   const handleAuthMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -16,6 +17,7 @@ export default function Auth(props: any) {
   const handleAuthClose = () => {
     setAnchorEl(null)
     setIsCreatingAccount(false)
+    setIsForgotPassword(false)
     setMessage({ message: '', severity: 'info' })
   }
 
@@ -95,6 +97,8 @@ export default function Auth(props: any) {
               isCreatingAccount={isCreatingAccount}
               message={message}
               setMessage={setMessage}
+              isForgotPassword={isForgotPassword}
+              setIsForgotPassword={setIsForgotPassword}
             />
           </Popover>
         </div>
