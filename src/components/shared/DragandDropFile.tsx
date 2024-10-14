@@ -62,9 +62,9 @@ export default function DragDropFileUpload({ maxFiles, allowedSize, name, fileNa
     setFiles([])
   } */
   const UploadFile = () => {
-    if (typeof window.gtag === 'function') {
-      eventTrack('Upload File', 'Button', 'Drag & Drop File Upload')
-    }
+    const h1Element = document.querySelector('h1')
+    const pageTitle = h1Element?.textContent || 'Unknown Title'
+    eventTrack('Upload File', pageTitle, 'Drag & Drop File Upload')
   }
 
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject, open, fileRejections } = useDropzone({
