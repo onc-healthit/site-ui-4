@@ -3,7 +3,6 @@ import { ResultMetaData } from './ValidationMenu'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useEffect, useState } from 'react'
 import eventTrack from '@/services/analytics'
-import { Title } from '@mui/icons-material'
 
 export interface MetaDataProps {
   resultMetaData: ResultMetaData[]
