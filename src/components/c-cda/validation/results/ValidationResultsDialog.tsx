@@ -36,9 +36,7 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
     content: () => contentRef.current,
   })
   const trackSaveButtonClick = () => {
-    if (typeof window.gtag === 'function') {
-      eventTrack('Save Results', 'C-CDA Validation', 'Print/Save Validator Results')
-    }
+    eventTrack('Save Results', 'C-CDA Validation', 'Print/Save Validator Results')
   }
   return (
     <DialogTemplate
