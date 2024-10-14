@@ -3,6 +3,7 @@ import { Box, Button, Menu, MenuItem, Popover, Typography } from '@mui/material'
 import Login from './Login'
 import { signOut, useSession } from 'next-auth/react'
 import { useState } from 'react'
+import eventTrack from '@/services/analytics'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
 export default function Auth(props: any) {
@@ -10,6 +11,7 @@ export default function Auth(props: any) {
   const { data: session } = useSession()
   const handleAuthMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
+    eventTrack('Open Authentication Panel', 'Authentication', 'User Clicks Login')
   }
   const handleAuthClose = () => {
     setAnchorEl(null)
@@ -51,7 +53,14 @@ export default function Auth(props: any) {
           >
             {/* <MenuItem onClick={handleAuthClose}>Account Info</MenuItem>
             <MenuItem onClick={handleAuthClose}>Change Password</MenuItem> */}
-            <MenuItem onClick={() => signOut()}>Log Out</MenuItem>
+            <MenuItem
+              onClick={() => {
+                eventTrack('User Log Out', 'Authentication', 'User Clicks Log out')
+                signOut()
+              }}
+            >
+              Log Out
+            </MenuItem>{' '}
           </Menu>
         </div>
       ) : (
