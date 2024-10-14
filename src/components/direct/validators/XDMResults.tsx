@@ -12,6 +12,7 @@ interface ResultsComponentProps {
   response: ContentProps
   disabled?: boolean
   buttonTitle: string
+  onClick: () => void
 }
 type ContentProps = {
   pass: boolean
@@ -20,7 +21,7 @@ type ContentProps = {
   error?: string
   errorStatus?: number
 }
-const XDMResults = ({ response, buttonTitle }: ResultsComponentProps) => {
+const XDMResults = ({ onClick, response, buttonTitle }: ResultsComponentProps) => {
   const [errorOpen, setErrorOpen] = useState(false)
   const { pending } = useFormStatus()
 
@@ -32,11 +33,11 @@ const XDMResults = ({ response, buttonTitle }: ResultsComponentProps) => {
     if (!pending && _.has(response, 'error')) {
       setErrorOpen(true)
     }
-  }, [pending, response])
+  }, [pending, response, onClick])
 
   return (
     <>
-      <Button type="submit" variant="contained" disabled={pending}>
+      <Button onClick={onClick} type="submit" variant="contained" disabled={pending}>
         {pending ? <CircularProgress size={24} /> : buttonTitle}
       </Button>
 
@@ -51,7 +52,7 @@ const XDMResults = ({ response, buttonTitle }: ResultsComponentProps) => {
             Validator Results
           </Typography>
           {response.pass && (
-             <Box borderRadius={1} border={`1px solid ${palette.success}`}>
+            <Box borderRadius={1} border={`1px solid ${palette.success}`}>
               <Box
                 sx={{ width: '100%', flexDirection: 'row', gap: '16px', display: 'flex', alignItems: 'center', p: 2 }}
               >
@@ -66,7 +67,7 @@ const XDMResults = ({ response, buttonTitle }: ResultsComponentProps) => {
                     },
                   }}
                 />
-                  <Typography variant="h4">Validation Passed</Typography>
+                <Typography variant="h4">Validation Passed</Typography>
               </Box>
               <Box>
                 <pre>{response.report}</pre>
@@ -89,7 +90,7 @@ const XDMResults = ({ response, buttonTitle }: ResultsComponentProps) => {
                     },
                   }}
                 />
-                  <Typography variant="h4">Validation Failed</Typography>
+                <Typography variant="h4">Validation Failed</Typography>
               </Box>
               <Box>
                 <pre>{response.report}</pre>
