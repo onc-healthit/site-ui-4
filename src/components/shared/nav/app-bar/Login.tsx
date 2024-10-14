@@ -16,7 +16,7 @@ import {
 import { signIn } from 'next-auth/react'
 import React, { useState } from 'react'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { registerAccount } from '../actions'
+import { registerAccount, forgotPassword } from '../actions'
 import _ from 'lodash'
 
 const LoginButtonStyle = {
@@ -31,12 +31,16 @@ const Login = ({
   isCreatingAccount,
   message,
   setMessage,
+  isForgotPassword,
+  setIsForgotPassword,
 }: {
   handleAuthClose: () => void
   setIsCreatingAccount: React.Dispatch<React.SetStateAction<boolean>>
   isCreatingAccount: boolean
   message: { message: string; severity: string }
   setMessage: React.Dispatch<React.SetStateAction<{ message: string; severity: string }>>
+  isForgotPassword: boolean
+  setIsForgotPassword: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -50,19 +54,26 @@ const Login = ({
 
   const handleCreateAccount = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('Create Account')
     if (password === repeatPassword) {
       registerAccount({ username: email, password: password }).then((data) => {
         if (data === true) {
           signIn('credentials', { username: email, password: password })
         } else {
-          console.log('cant sign in')
           setMessage({ message: 'User already exists', severity: 'error' })
         }
       })
     } else {
       setMessage({ message: 'Passwords do not match', severity: 'error' })
     }
+  }
+
+  const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    forgotPassword(email).then((data) => {
+      if (data !== true) {
+        setMessage({ message: 'This username does not exist', severity: 'error' })
+      }
+    })
   }
 
   const handleClickShowPassword = () => {
@@ -118,6 +129,11 @@ const Login = ({
           </Box>
         </Grid>
       </Grid>
+      <Box display={'flex'} justifyContent="flex-end" component="span" width={'100%'} sx={{ mt: 1 }}>
+        <Button size="small" onClick={() => setIsForgotPassword(true)} color="secondary" variant="text">
+          FORGOT PASSWORD?
+        </Button>
+      </Box>
     </Box>
   )
 
@@ -184,6 +200,39 @@ const Login = ({
     </Box>
   )
 
+  const ForgotPasswordGrid = (
+    <Box component="form" onSubmit={(e) => handleForgotPassword(e)} sx={{ backgroundColor: palette.white }}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            label="Email (Or Username)"
+            variant="outlined"
+            helperText="A new password will be sent to this email"
+            required
+            fullWidth
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Box display={'flex'} justifyContent="space-between" component="span" width={'100%'}>
+            <Button style={LoginButtonStyle} variant="contained" size="small" type="submit">
+              SEND
+            </Button>
+            <Button
+              style={LoginButtonStyle}
+              variant="contained"
+              size="small"
+              onClick={() => handleAuthClose()}
+              color="secondary"
+            >
+              CANCEL
+            </Button>
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
+  )
+
   return (
     <>
       {!_.isEmpty(message.message) && (
@@ -195,18 +244,33 @@ const Login = ({
           {message.message}
         </Alert>
       )}
-      <Card elevation={10} sx={{ maxWidth: '350px' }}>
-        <CardHeader
-          title={isCreatingAccount ? 'Create Account' : 'Login'}
-          action={
-            <IconButton aria-label="settings" onClick={() => handleAuthClose()}>
-              <Close fontSize="small" />
-            </IconButton>
-          }
-          titleTypographyProps={{ fontWeight: '600', variant: 'h3', color: palette.primary }}
-        />
-        <CardContent>{isCreatingAccount ? CreateAccountGrid : LoginGrid}</CardContent>
-      </Card>
+      {isForgotPassword ? (
+        <Card elevation={10} sx={{ maxWidth: '350px' }}>
+          <CardHeader
+            title={'Forgot Password'}
+            action={
+              <IconButton aria-label="settings" onClick={() => handleAuthClose()}>
+                <Close fontSize="small" />
+              </IconButton>
+            }
+            titleTypographyProps={{ fontWeight: '600', variant: 'h3', color: palette.primary }}
+          />
+          <CardContent>{ForgotPasswordGrid}</CardContent>
+        </Card>
+      ) : (
+        <Card elevation={10} sx={{ maxWidth: '350px' }}>
+          <CardHeader
+            title={isCreatingAccount ? 'Create Account' : 'Login'}
+            action={
+              <IconButton aria-label="settings" onClick={() => handleAuthClose()}>
+                <Close fontSize="small" />
+              </IconButton>
+            }
+            titleTypographyProps={{ fontWeight: '600', variant: 'h3', color: palette.primary }}
+          />
+          <CardContent>{isCreatingAccount ? CreateAccountGrid : LoginGrid}</CardContent>
+        </Card>
+      )}
     </>
   )
 }
