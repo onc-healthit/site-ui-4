@@ -2,6 +2,9 @@ import { Accordion, AccordionSummary, Typography, AccordionDetails, List, MenuIt
 import { ResultMetaData } from './ValidationMenu'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { useEffect, useState } from 'react'
+import eventTrack from '@/services/analytics'
+import { Title } from '@mui/icons-material'
+
 export interface MetaDataProps {
   resultMetaData: ResultMetaData[]
   title: string
@@ -43,8 +46,9 @@ const ValidatorMenuSection = ({ resultMetaData, title, errorRef, warningRef, inf
     }
   }, [errorCount, infoCount, warningCount])
 
-  const onScroll = (ref: React.RefObject<HTMLDivElement>) => {
+  const onScroll = (ref: React.RefObject<HTMLDivElement>, title: string) => {
     ref.current?.scrollIntoView({ behavior: 'smooth' })
+    eventTrack('Go to validation results sub menu', 'C-CDA Validation', title)
   }
   return (
     <>
@@ -68,14 +72,14 @@ const ValidatorMenuSection = ({ resultMetaData, title, errorRef, warningRef, inf
             <MenuItem
               sx={{ display: 'flex', justifyContent: 'space-between' }}
               disabled={errorDisabled}
-              onClick={() => onScroll(errorRef)}
+              onClick={() => onScroll(errorRef, `${title} - Errors`)}
             >
               Errors <Chip size="small" color="error" label={errorCount} />
             </MenuItem>
             <MenuItem
               sx={{ display: 'flex', justifyContent: 'space-between' }}
               disabled={warningDisabled}
-              onClick={() => onScroll(warningRef)}
+              onClick={() => onScroll(warningRef, `${title} - Warnings`)}
             >
               Warnings
               <Chip size="small" color="warning" label={warningCount} />
@@ -83,7 +87,7 @@ const ValidatorMenuSection = ({ resultMetaData, title, errorRef, warningRef, inf
             <MenuItem
               sx={{ display: 'flex', justifyContent: 'space-between' }}
               disabled={infoDisabled}
-              onClick={() => onScroll(infoRef)}
+              onClick={() => onScroll(infoRef, `${title} - Info`)}
             >
               Info <Chip size="small" color="primary" label={infoCount} />
             </MenuItem>
