@@ -203,7 +203,6 @@ const TestCard = ({
     } else {
       requestData.status = ''
     }
-
     return requestData
   }
 

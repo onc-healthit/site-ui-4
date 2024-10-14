@@ -150,6 +150,7 @@ interface SelectedDocument {
   fileName: string
   fileLink: string
 }
+
 const TestCard = ({ test }: TestCardProps) => {
   const defaultEndpoint =
     process.env.XDR_ENDPOINT_PREFIX || 'http://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
