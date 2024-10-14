@@ -1,5 +1,5 @@
 import { AccountCircle } from '@mui/icons-material'
-import { Box, Button, Menu, MenuItem, Popover, Typography } from '@mui/material'
+import { Box, Button, Link, Menu, MenuItem, Popover, Typography } from '@mui/material'
 import Login from './Login'
 import { signOut, useSession } from 'next-auth/react'
 import { useState } from 'react'
@@ -55,8 +55,16 @@ export default function Auth(props: any) {
             open={Boolean(anchorEl)}
             onClose={handleAuthClose}
           >
-            {/* <MenuItem onClick={handleAuthClose}>Account Info</MenuItem>
-            <MenuItem onClick={handleAuthClose}>Change Password</MenuItem> */}
+            <MenuItem>
+              <Link href="/account/info" underline="none">
+                Account Info
+              </Link>
+            </MenuItem>
+            <MenuItem>
+              <Link href="/account/changepassword" underline="none">
+                Change Password
+              </Link>
+            </MenuItem>
             <MenuItem onClick={() => signOut()}>Log Out</MenuItem>
           </Menu>
         </div>
