@@ -35,7 +35,7 @@ const CCDAHome = () => {
       />
       {/* Main Content */}
       <Container>
-        <SectionHeader header={'C-CDA Validators'} subHeader={'The latest C-CDA validators from ONC'} />
+        <SectionHeader header={'C-CDA Validators'} subHeader={'The latest C-CDA validators from ASTP'} />
         <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
           <CardWithImage
             title={'C-CDA Validator: USCDI v3'}

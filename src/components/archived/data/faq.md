@@ -558,7 +558,7 @@ I believe the application is hard-coded to look for those particular folders in 
 
       * A: No specific updates were made to the tool to remove the validation for the “No Known Problems”.
 
-  Are you following the HL7 example at http://hl7-c-cda-examples.herokuapp.com/examples/view/7353a215efda8dfe3fbacb19abbb90756ce14bab
+  Are you following the HL7® example at http://hl7-c-cda-examples.herokuapp.com/examples/view/7353a215efda8dfe3fbacb19abbb90756ce14bab
 
 - Q: Hoping to obtain some clarity around representing NDC codes for administered immunizations in the C-CDA.
 
@@ -592,9 +592,9 @@ Because that is not a domain that we manage, our system is rejecting the XDR mes
 
 - Q: How do we differentiate between a PRN medication and a Daily once frequency medication?
 
-  - A: Right now, the presence of a ‘precondition’ with appropriate nullFlavor is an indicator for PRN without a precondition. If you have a precondition, that that is your precondition PRN – if this is a problem in your current live implementation, please come to HL7 SDWG (Thursday 10-12 PM ET - Agenda) – happy to discuss alternative approaches. " QD = daily" & "PRN = As needed"; You can have ‘Daily with a specific precondition (e.g. Back pan) or ‘Daily as-needed’
+  - A: Right now, the presence of a ‘precondition’ with appropriate nullFlavor is an indicator for PRN without a precondition. If you have a precondition, that that is your precondition PRN – if this is a problem in your current live implementation, please come to HL7® SDWG (Thursday 10-12 PM ET - Agenda) – happy to discuss alternative approaches. " QD = daily" & "PRN = As needed"; You can have ‘Daily with a specific precondition (e.g. Back pan) or ‘Daily as-needed’
     (aka QD PRN). If you want to present an example with precondition, we are happy to have
-    you on the HL7 examples task force.
+    you on the HL7® examples task force.
 
 - Q: The previous test data (v9) had medications that seemed to fall either within the admission (6/22/15-6/24/15) or to be discharge medications (beginning 6/24/15 with various end dates). The v10 test data changed the dates. Was there a rationale for this change? Are the medications that start during the admission but continue after it (for example, 6/22/15-6/30/15) intended to be prescriptions or inpatient orders?
 
@@ -624,7 +624,7 @@ Because that is not a domain that we manage, our system is rejecting the XDR mes
 
 - Q: We’re getting an error message while trying to validate a C-CDA file- any suggestions?
 
-  - A: All prescribable medication formulations are represented using either a "generic" or "brand-specific" concept. This includes RxNorm codes whose Term Type is SCD (semantic clinical drug), SBD (semantic brand drug), GPCK (generic pack), BPCK (brand pack), SCDG (semantic clinical drug group), SBDG (semantic brand drug group), SCDF (semantic clinical drug form), or SBDF (semantic brand drug form). It does not include the PSN term type, hence the error. If PSN needs to be included, it should be an ERRATA through HL7.
+  - A: All prescribable medication formulations are represented using either a "generic" or "brand-specific" concept. This includes RxNorm codes whose Term Type is SCD (semantic clinical drug), SBD (semantic brand drug), GPCK (generic pack), BPCK (brand pack), SCDG (semantic clinical drug group), SBDG (semantic brand drug group), SCDF (semantic clinical drug form), or SBDF (semantic brand drug form). It does not include the PSN term type, hence the error. If PSN needs to be included, it should be an ERRATA through HL7®.
 
 - Q: For Negative Testing CCDS samples 2 and 3, there is a SNOMED code "27171005" which is being validated in the ETT Message Validator as a LOINC code and throwing an error. It appears that this is a valid SNOMED code in the results section of a procedure. Will the ETT Message Validator be updated to address this issue?
 
