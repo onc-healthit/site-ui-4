@@ -1,24 +1,27 @@
 'use client'
 import PageAlertBox from '@/components/shared/PageAlertBox'
-import palette from '@/styles/palette'
 import {
   Alert,
   Box,
   Button,
+  Card,
   Container,
   Divider,
   Grid,
   IconButton,
   InputAdornment,
+  Link,
   LinearProgress,
   TextField,
   Typography,
+  CardContent,
 } from '@mui/material'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { changePassword } from './actions'
 import _ from 'lodash'
 import { VisibilityOff, Visibility } from '@mui/icons-material'
+import BannerBox from '@shared/BannerBox'
 
 const LoginButtonStyle = {
   padding: '10px 0',
@@ -66,8 +69,8 @@ const ChangePasswordHome = () => {
   }
 
   const ChangePasswordGrid = (
-    <Box component="form" onSubmit={(e) => handleChangePassword(e)} sx={{ backgroundColor: palette.white, mt: 5 }}>
-      <Grid container spacing={2}>
+    <Box component="form" onSubmit={(e) => handleChangePassword(e)} sx={{ mt: 5 }}>
+      <Grid gap={2} container>
         <Grid item xs={12}>
           <TextField
             label="Old Password"
@@ -140,33 +143,47 @@ const ChangePasswordHome = () => {
   )
 
   return status !== 'authenticated' ? (
-    <Container sx={{ pt: 4 }}>
+    <Container maxWidth="md" sx={{ pt: 4 }}>
       <PageAlertBox message="You must be logged in to change your password." />
     </Container>
   ) : (
     <>
-      <Container sx={{ pt: 4 }}>
-        {isLoading ? (
-          <LinearProgress />
-        ) : (
-          <>
-            <Typography sx={{ flex: 1 }} variant="h1" component="h1">
-              Change Your Password
-            </Typography>
-            <Divider />
+      {isLoading ? (
+        <LinearProgress />
+      ) : (
+        <>
+          <Container sx={{ mt: 8 }} maxWidth="xs">
+            <Card>
+              <CardContent>
+                <Typography variant="h1" gutterBottom fontWeight={'600'}>
+                  Change Password
+                </Typography>
+                <Divider sx={{ my: 2 }} />
+                <Typography gutterBottom>
+                  To keep your account secure, please enter your current password and your new password. Make sure your
+                  new password includes a mix of letters, numbers, and symbols.
+                </Typography>
+                <Typography sx={{ mt: 2 }}>
+                  Choose a password that you haven&apos;t used before. Once you&apos;ve filled in the fields, click{' '}
+                  <strong>"Save"</strong> to update your password. If you need assistance, please contact our support
+                  team. Stay secure!
+                </Typography>
+                {ChangePasswordGrid}
+              </CardContent>
+            </Card>
             {!_.isEmpty(message.message) && (
               <Alert
+                variant="filled"
                 severity={message.severity as 'error' | 'info' | 'success' | 'warning'}
-                sx={{ marginBottom: '10px' }}
+                sx={{ marginY: '20px' }}
                 onClose={() => setMessage({ message: '', severity: 'info' })}
               >
                 {message.message}
               </Alert>
             )}
-            {ChangePasswordGrid}
-          </>
-        )}
-      </Container>
+          </Container>
+        </>
+      )}
     </>
   )
 }
