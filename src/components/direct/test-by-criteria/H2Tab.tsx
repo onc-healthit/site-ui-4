@@ -18,6 +18,7 @@ import XDRTestCard from '../hisp/XDRTestCard'
 import testCases from '../../../assets/SMTPTestCases'
 import xdrTestCases from '../../../assets/XDRTestCases'
 import { ProfileContext } from '../hisp/context'
+import DownloadXDRCert from '../shared/DownloadXDRCert'
 
 interface TestCase {
   id: number
@@ -48,6 +49,7 @@ const H2Component = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>('')
   const { hostname, email, password, tls, username } = useContext(ProfileContext)
+  const [isXDR, setIsXDR] = React.useState(false)
 
   const categories = [
     { value: 'all', label: 'All' },
@@ -242,6 +244,11 @@ const H2Component = () => {
   const handleCategoryChange = (event: SelectChangeEvent<string>) => {
     setSelectedCategory(event.target.value)
     setSelectedSubcategory('')
+    if (event.target.value.includes('XDR')) {
+      setIsXDR(true)
+    } else {
+      setIsXDR(false)
+    }
   }
 
   const handleSubcategoryChange = (event: SelectChangeEvent<string>) => {
@@ -254,6 +261,11 @@ const H2Component = () => {
       } else if (selectedOption.link) {
         window.location.href = selectedOption.link
       }
+    }
+    if (event.target.value.includes('XDR')) {
+      setIsXDR(true)
+    } else {
+      setIsXDR(false)
     }
   }
 
