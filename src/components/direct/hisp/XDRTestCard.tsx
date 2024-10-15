@@ -23,6 +23,7 @@ import DocumentSelector from './DocumentSelector'
 import { useSession } from 'next-auth/react'
 import XMLDisplay from '../shared/colorizeXML'
 import ValidatorResultsSummary from '@/components/c-cda/validation/results/ValidationResultsSummary'
+import AlertSnackbar from '../shared/AlertSnackbar'
 
 export type TestCaseFields = {
   name?: string
@@ -99,15 +100,6 @@ interface CCDAValidationResult {
   messageId: string
 }
 
-interface StatusResponse {
-  testRequest: string
-  testResponse: string
-  criteriaMet: string
-  results?: ValidationResults
-  message: string
-  status: string
-}
-
 const senderText = 'Hit Run to generate your endpoint.'
 const receiverText = 'Hit Run to send a XDR message.'
 
@@ -158,7 +150,8 @@ interface SelectedDocument {
   fileName: string
   fileLink: string
 }
-const TestCard = ({ test, receive }: TestCardProps) => {
+
+const TestCard = ({ test }: TestCardProps) => {
   const defaultEndpoint =
     process.env.XDR_ENDPOINT_PREFIX || 'http://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
   const defaultEndpointTLS =
@@ -191,12 +184,10 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   const referenceInfoRef = useRef<HTMLDivElement>(null)
   const originalCCDARef = useRef<HTMLDivElement>(null)
 
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
-  const [popoverMessage, setPopoverMessage] = useState('')
-  const [autoCloseTimer, setAutoCloseTimer] = useState<NodeJS.Timeout | null>(null)
-  const open = Boolean(anchorEl)
-  const id = open ? 'simple-popover' : undefined
-  const hiddenAnchorRef = useRef(null)
+  const [alertOpen, setAlertOpen] = useState<boolean>(false)
+  const [alertMessage, setAlertMessage] = useState<string>('')
+  const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('info')
+
   const [logType, setLogType] = useState<'request' | 'response' | 'ccdaValidation'>('request')
   const manualValidationCriteria = ["['b1-3']", "['b1-3','su1-3']"]
   const { data: session } = useSession()
@@ -210,31 +201,18 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   const shouldDisplayInput = (input: InputFields) => {
     return !(input.key === 'payload' && input.type?.includes('CCDAWidget'))
   }
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, link: string) => {
     navigator.clipboard.writeText(link)
-    showPopover('Copied to clipboard!', event.currentTarget)
+    setAlertMessage('Copied to clipboard!')
+    setAlertSeverity('success')
+    setAlertOpen(true)
   }
-  const showPopover = (message: string, anchor: HTMLButtonElement | null) => {
-    setPopoverMessage(message)
-    setAnchorEl(anchor || hiddenAnchorRef.current)
-    if (autoCloseTimer) clearTimeout(autoCloseTimer)
-    const timer = setTimeout(() => {
-      handleClosePopover()
-    }, 3000)
-    setAutoCloseTimer(timer)
+
+  const handleAlertClose = () => {
+    setAlertOpen(false)
   }
-  useEffect(() => {
-    return () => {
-      if (autoCloseTimer) clearTimeout(autoCloseTimer)
-    }
-  }, [autoCloseTimer, anchorEl])
-  const handleClosePopover = () => {
-    if (autoCloseTimer) {
-      clearTimeout(autoCloseTimer)
-      setAutoCloseTimer(null)
-    }
-    setAnchorEl(null)
-  }
+
   const toggleLogType = (type: 'request' | 'response' | 'ccdaValidation') => {
     setLogType(type)
   }
@@ -273,92 +251,93 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   }
   const handleRunTest = async () => {
     if (!session) {
-      showPopover('You must be logged in and have a valid session to perform this action.', null)
+      setAlertMessage('You must be logged in and have a valid session to perform this action.')
+      setAlertSeverity('error')
+      setAlertOpen(true)
       return
     }
-    console.log('ccda required' + test.ccdaFileRequired)
-    console.log('doc details ' + documentDetails)
+
     if (isCCDADocumentRequired && !documentDetails) {
-      showPopover(
-        'This test requires a CCDA document to be selected. Please select a document before running the test.',
-        null
+      setAlertMessage(
+        'This test requires a CCDA document to be selected. Please select a document before running the test.'
       )
+      setAlertSeverity('error')
+      setAlertOpen(true)
       return
-    } else {
-      const ip_address = fieldValues['ip_address'] || ''
-      const port = fieldValues['port'] || ''
-      const direct_to = fieldValues['direct_to'] || ''
-      const direct_from = fieldValues['direct_from'] || ''
-      const targetEndpointTLS = fieldValues['targetEndpointTLS'] || ''
-      const outgoing_from = fieldValues['outgoing_from'] || ''
-      try {
-        setIsLoading(true)
-        setIsFinished(false)
-        setCriteriaMet('')
-        if (endpointsGenerated) {
-          const status = await GetStatus(test.id.toString())
-          console.log('Test status:', status)
-          setTestRequestRequest(status.testRequest)
-          setTestRequestResponse(status.testResponse)
-          setCriteriaMet(status.criteriaMet)
+    }
+    const ip_address = fieldValues['ip_address'] || ''
+    const port = fieldValues['port'] || ''
+    const direct_to = fieldValues['direct_to'] || ''
+    const direct_from = fieldValues['direct_from'] || ''
+    const targetEndpointTLS = fieldValues['targetEndpointTLS'] || ''
+    const outgoing_from = fieldValues['outgoing_from'] || ''
+    try {
+      setIsLoading(true)
+      setIsFinished(false)
+      setCriteriaMet('')
+      if (endpointsGenerated) {
+        const status = await GetStatus(test.id.toString())
+        console.log('Test status:', status)
+        setTestRequestRequest(status.testRequest)
+        setTestRequestResponse(status.testResponse)
+        setCriteriaMet(status.criteriaMet)
+        setIsFinished(true)
+        if (status.results) {
+          setValidationResults(status.results)
+        }
+      } else {
+        const response = await handleXDRAPICall({
+          ip_address: ip_address,
+          port: port,
+          direct_to: direct_to,
+          direct_from: direct_from,
+          targetEndpointTLS: targetEndpointTLS,
+          outgoing_from: outgoing_from,
+          name: documentDetails ? documentDetails.fileName : '',
+          path: documentDetails ? documentDetails.directory : '',
+          link: documentDetails ? documentDetails.fileLink : '',
+          id: test.id.toString(),
+          jsession: session.user.jsessionid,
+          cures: false,
+          itemNumber: '12',
+          selected: true,
+          svap: false,
+          uscdiv3: false,
+        })
+        setTimeout(() => {
           setIsFinished(true)
-          if (status.results) {
-            setValidationResults(status.results)
+          if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+            setCriteriaMet(response.criteriaMet)
           }
-        } else {
-          const response = await handleXDRAPICall({
-            ip_address: ip_address,
-            port: port,
-            direct_to: direct_to,
-            direct_from: direct_from,
-            targetEndpointTLS: targetEndpointTLS,
-            outgoing_from: outgoing_from,
-            name: documentDetails ? documentDetails.fileName : '',
-            path: documentDetails ? documentDetails.directory : '',
-            link: documentDetails ? documentDetails.fileLink : '',
-            id: test.id.toString(),
-            jsession: session.user.jsessionid,
-            cures: false,
-            itemNumber: '12',
-            selected: true,
-            svap: false,
-            uscdiv3: false,
-          })
-          setTimeout(() => {
-            setIsFinished(true)
-            if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
-              setCriteriaMet(response.criteriaMet)
-            }
-            if (
-              !endpointTestIds.includes(test.id.toString()) &&
-              (response.endpoint.length > 10 || response.endpointTLS.length > 10)
-            ) {
-              setEndpointsGenerated(true)
-              setEndpoint(response.endpoint || defaultEndpoint)
-              setEndpointTLS(response.endpointTLS || defaultEndpointTLS)
-            }
-            setTestRequestRequest(response.testRequest)
-            setTestRequestResponse(response.testResponse)
-            if (!testRequest && !testResponse && test.criteria && !manualValidationCriteria.includes(test.criteria)) {
-              setCriteriaMet('FALSE')
-            }
-            console.log('Criteria met: ', response.criteriaMet)
-            console.log('Test Request Responses:', response.testResponse)
-          }, 10)
-        }
-      } catch (error) {
-        console.error('Failed to run test:', error)
-        setApiError(true)
-        if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
-          setCriteriaMet('FALSE')
-        }
-      } finally {
-        setIsLoading(false)
-        if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
-          setTimeout(() => {
-            setIsFinished(false)
-          }, 100)
-        }
+          if (
+            !endpointTestIds.includes(test.id.toString()) &&
+            (response.endpoint.length > 10 || response.endpointTLS.length > 10)
+          ) {
+            setEndpointsGenerated(true)
+            setEndpoint(response.endpoint || defaultEndpoint)
+            setEndpointTLS(response.endpointTLS || defaultEndpointTLS)
+          }
+          setTestRequestRequest(response.testRequest)
+          setTestRequestResponse(response.testResponse)
+          if (!testRequest && !testResponse && test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+            setCriteriaMet('FALSE')
+          }
+          console.log('Criteria met: ', response.criteriaMet)
+          console.log('Test Request Responses:', response.testResponse)
+        }, 10)
+      }
+    } catch (error) {
+      console.error('Failed to run test:', error)
+      setApiError(true)
+      if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+        setCriteriaMet('FALSE')
+      }
+    } finally {
+      setIsLoading(false)
+      if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+        setTimeout(() => {
+          setIsFinished(false)
+        }, 100)
       }
     }
   }
@@ -501,22 +480,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
       <CardHeader title={test.name}></CardHeader>
       <Divider />
       <CardContent>
-        <Popover
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClosePopover}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-        >
-          <Typography sx={{ p: 2 }}>{popoverMessage}</Typography>
-        </Popover>
+        <AlertSnackbar message={alertMessage} severity={alertSeverity} open={alertOpen} onClose={handleAlertClose} />
         {showDetail ? (
           renderMoreInfo()
         ) : showLogs ? (
@@ -636,22 +600,6 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                       Endpoint TLS
                     </Button>
                   </Tooltip>
-                  <Popover
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClosePopover}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'center',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'center',
-                    }}
-                  >
-                    <Typography sx={{ p: 2 }}>{popoverMessage}</Typography>
-                  </Popover>
                 </Box>
               )}
               {requiresCCDADocument() && !endpointsGenerated && (
@@ -693,7 +641,6 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                 >
                   {endpointsGenerated ? 'REFRESH' : 'RUN'}
                 </LoadingButton>
-                <div ref={hiddenAnchorRef} style={{ visibility: 'hidden', top: '50px' }}></div>
                 <Button variant="contained" onClick={handleToggleDetail}>
                   MORE INFO
                 </Button>

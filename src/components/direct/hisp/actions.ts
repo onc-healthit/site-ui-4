@@ -110,3 +110,31 @@ export async function fetchProfiles() {
     }
   }
 }
+
+export async function fetchProfileReport(profilename: string) {
+  const session = await getServerSession(authOptions)
+  const jsessionid = session?.user?.jsessionid ?? ''
+  const ettAPIUrl = `${ETT_API_URL}/smtpLog/${profilename}`
+  try {
+    const response = await fetch(ettAPIUrl, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Cookie: `JSESSIONID=${jsessionid}`,
+      },
+    })
+    const data = await response.json()
+    if (!response.ok) {
+      console.log(`Error: ${data}`)
+    }
+    return data
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return JSON.stringify({
+        status: 500,
+        success: false,
+        error: error.message || 'An error occurred',
+      })
+    }
+  }
+}

@@ -6,6 +6,7 @@ import { handleAPICall } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import LoadingButton from '../shared/LoadingButton'
+import { APICallData, APICallResponse, TestRequestResponses } from '../test-by-criteria/ServerActions'
 import {
   Box,
   Button,
@@ -22,8 +23,8 @@ import {
   Checkbox,
   TextField,
   SelectChangeEvent,
-  Popover,
 } from '@mui/material'
+import AlertSnackbar from '../shared/AlertSnackbar'
 
 export type TestCaseFields = {
   name: string
@@ -98,12 +99,7 @@ const TestCard = ({
   username = 'defaultUsername',
   password = 'defaultPassword',
   tlsRequired = false,
-  receive,
 }: TestCardProps) => {
-  const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLButtonElement | null>(null)
-  const popoverOpen = Boolean(popoverAnchorEl)
-  const popoverId = popoverOpen ? 'ccda-file-required-popover' : undefined
-  const [autoCloseTimer, setAutoCloseTimer] = useState<NodeJS.Timeout | null>(null)
   const attachmentTypeTestIDs = [231, 331]
   const manualValidationCriteria = [
     "['b1-5']",
@@ -114,14 +110,23 @@ const TestCard = ({
     "['b1-4','su1-4']",
     "['b1-4']",
   ]
+  const mdnTestIds = ['mu2']
+  const clearButtonVisibleOnCriteriaSet = new Set(['TRUE', 'FALSE', 'ERROR', 'PASSED', 'PENDING', 'SUCCESS', 'STEP2'])
+  const [currentStep, setCurrentStep] = useState<number>(1)
+  const [previousResult, setPreviousResult] = useState<APICallResponse | null>(null)
+
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
-  const [testRequestResponses, setTestRequestResponses] = useState<string>('')
+  const [testRequestResponses, setTestRequestResponses] = useState<TestRequestResponses>({})
   const [showLogs, setShowLogs] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isFinished, setIsFinished] = useState(false)
   const [apiError, setApiError] = useState(false)
   const [attachmentType, setAttachmentType] = useState('')
+
+  const [alertOpen, setAlertOpen] = useState<boolean>(false)
+  const [alertMessage, setAlertMessage] = useState<string>('')
+  const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('error')
 
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
     console.log('Confirmed Document', selectedData)
@@ -146,12 +151,14 @@ const TestCard = ({
   }
 
   const handleClearTest = () => {
+    setCurrentStep(1)
     setCriteriaMet('')
-    setTestRequestResponses('')
+    setTestRequestResponses({})
     setIsFinished(false)
     setShowLogs(false)
     setDocumentDetails(null)
     setApiError(false)
+    setPreviousResult(null)
   }
 
   const handleAttachmentTypeChange = (event: SelectChangeEvent<string>) => {
@@ -163,12 +170,52 @@ const TestCard = ({
     fileName: string
     fileLink: string
   } | null>(null)
+  const baseRequestData: APICallData = {
+    testCaseNumber: test.id,
+    sutSmtpAddress: hostname,
+    sutEmailAddress: email,
+    useTLS: tlsRequired,
+    sutCommandTimeoutInSeconds: 0,
+    sutUserName: username,
+    sutPassword: password,
+    tttUserName: '',
+    tttPassword: '',
+    startTlsPort: 0,
+    status: '',
+    ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
+    ccdaValidationObjective: test.criteria || '',
+    ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
+    cures: true,
+    year: '2021',
+    hostingcase: 'YES',
+    attachmentType: attachmentType,
+    previousResult: undefined,
+  }
 
-  const formattedLogs = Object.entries(testRequestResponses).map(([key, value]) => (
-    <Typography key={key} variant="body1" style={{ whiteSpace: 'pre-line' }}>
-      {value}
-    </Typography>
-  ))
+  const createRequestData = (step: number, prevResult?: APICallResponse | null): APICallData => {
+    const requestData = { ...baseRequestData }
+
+    if (step === 1) {
+      requestData.status = 'na'
+    } else if (step === 2 && prevResult) {
+      requestData.status = 'fetching'
+      requestData.previousResult = prevResult
+    } else {
+      requestData.status = ''
+    }
+    return requestData
+  }
+
+  const formattedLogs = Object.entries(testRequestResponses).map(([key, value]) => {
+    const cleanedKey = key.trim()
+    const cleanedValue = value.trim()
+
+    return (
+      <Typography key={key} variant="body1" style={{ whiteSpace: 'pre-line' }}>
+        {`${cleanedKey}: ${cleanedValue}`}
+      </Typography>
+    )
+  })
 
   const [formData, setFormData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
@@ -197,62 +244,67 @@ const TestCard = ({
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleClosePopover = () => {
-    if (autoCloseTimer) {
-      clearTimeout(autoCloseTimer)
-      setAutoCloseTimer(null)
-    }
-    setPopoverAnchorEl(null)
-  }
-
   const handleRunTest = async () => {
-    if (test.ccdaFileRequired && !documentDetails) {
-      setPopoverAnchorEl(document.activeElement as HTMLButtonElement)
-      const timer = setTimeout(() => {
-        handleClosePopover()
-      }, 2500)
-      setAutoCloseTimer(timer)
-    } else {
-      try {
-        setIsLoading(true)
-        setIsFinished(false)
-        setCriteriaMet('')
-        const response = await handleAPICall({
-          testCaseNumber: test.id,
-          sutSmtpAddress: hostname,
-          sutEmailAddress: email,
-          useTLS: tlsRequired,
-          sutCommandTimeoutInSeconds: 0,
-          sutUserName: username,
-          sutPassword: password,
-          tttUserName: '',
-          tttPassword: '',
-          startTlsPort: 0,
-          status: '',
-          ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
-          ccdaValidationObjective: documentDetails ? documentDetails.directory : '',
-          ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
-          cures: true,
-          year: '2021',
-          hostingcase: 'YES',
-          attachmentType: attachmentType,
-        })
+    const isMDNTest = test.protocol && mdnTestIds.includes(test.protocol)
+
+    if (test.ccdaFileRequired && !documentDetails && !test.name.includes('MT')) {
+      setAlertMessage(
+        'This test requires a CCDA document to be selected. Please select a document before running the test.'
+      )
+      setAlertSeverity('error')
+      setAlertOpen(true)
+      return
+    }
+    try {
+      setIsLoading(true)
+      setIsFinished(false)
+      setCriteriaMet('')
+
+      if (isMDNTest) {
+        const requestData = createRequestData(currentStep, previousResult)
+
+        const response = await handleAPICall(requestData)
+        const result = response[0]
+
         setIsFinished(true)
-        setCriteriaMet(response.criteriaMet)
-        setTestRequestResponses(response.testRequestResponses)
-        console.log('Criteria met: ', response.criteriaMet)
-        console.log('Test Request Responses:', response.testRequestResponses)
-      } catch (error) {
-        console.error('Failed to run test:', error)
-        setApiError(true)
-        setCriteriaMet('FALSE')
-      } finally {
-        setIsLoading(false)
-        if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
-          setTimeout(() => {
-            setIsFinished(false)
-          }, 100)
+        setCriteriaMet(result.criteriaMet)
+        setTestRequestResponses(result.testRequestResponses)
+
+        if (currentStep === 1) {
+          setPreviousResult(result)
+          if (result.criteriaMet.includes('STEP2')) {
+            setCurrentStep(2)
+          }
+        } else if (currentStep === 2) {
+          setPreviousResult(null)
+          setCurrentStep(1)
         }
+      } else {
+        const requestData = createRequestData(0)
+        const response = await handleAPICall(requestData)
+        const result = response[0]
+
+        setIsFinished(true)
+        setCriteriaMet(result.criteriaMet)
+        setTestRequestResponses(result.testRequestResponses)
+
+        if (result.criteriaMet.includes('STEP2')) {
+          setCurrentStep(2)
+        }
+      }
+    } catch (error) {
+      console.error('Failed to run test:', error)
+      setApiError(true)
+      setAlertMessage('An error occurred while running the test.')
+      setAlertSeverity('error')
+      setAlertOpen(true)
+      setCriteriaMet('FALSE')
+    } finally {
+      setIsLoading(false)
+      if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+        setTimeout(() => {
+          setIsFinished(false)
+        }, 100)
       }
     }
   }
@@ -276,6 +328,10 @@ const TestCard = ({
 
   const handleToggleDetail = () => {
     setShowDetail((prev) => !prev)
+  }
+
+  const handleAlertClose = () => {
+    setAlertOpen(false)
   }
 
   const renderAttachmentTypeDropdown = () => {
@@ -309,25 +365,9 @@ const TestCard = ({
     <Card>
       <CardHeader title={test.name} />
       <Divider />
-      {}
-      <Popover
-        id={popoverId}
-        open={popoverOpen}
-        anchorEl={popoverAnchorEl}
-        onClose={handleClosePopover}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-      >
-        <Typography sx={{ p: 2 }}>
-          This test requires a CCDA document to be selected. Please select a document before running the test.
-        </Typography>
-      </Popover>
+      <Card>
+        <AlertSnackbar message={alertMessage} severity={alertSeverity} open={alertOpen} onClose={handleAlertClose} />
+      </Card>
       {showDetail ? (
         <>
           <CardContent>
@@ -491,7 +531,19 @@ const TestCard = ({
                 variant="contained"
                 color="primary"
               >
-                RUN
+                <LoadingButton
+                  loading={isLoading}
+                  done={isFinished}
+                  onClick={handleRunTest}
+                  variant="contained"
+                  color="primary"
+                >
+                  {test.protocol && mdnTestIds.includes(test.protocol)
+                    ? currentStep === 1
+                      ? 'RUN'
+                      : 'CHECK MDN'
+                    : 'RUN'}
+                </LoadingButton>
               </LoadingButton>
               <Button variant="contained" onClick={handleToggleDetail}>
                 MORE INFO
@@ -500,8 +552,8 @@ const TestCard = ({
                 LOGS
               </Button>
               {test.criteria &&
-                manualValidationCriteria.includes(test.criteria) &&
-                (criteriaMet.includes('TRUE') || criteriaMet.includes('FALSE')) && (
+                criteriaMet &&
+                Array.from(clearButtonVisibleOnCriteriaSet).some((status) => criteriaMet.includes(status)) && (
                   <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button variant="contained" color="inherit" onClick={handleClearTest}>
                       Clear

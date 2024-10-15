@@ -51,7 +51,7 @@ const MessageTracking = () => {
           Select sender or receiver for your system & fill in the additional fields to get started.{' '}
         </Typography>
       </Box>
-      <Box sx={{ display: 'flex', width: '100%', pt: 4, gap: 4 }}>
+      <Box sx={{ display: 'flex', width: '100%', py: 4, gap: 4 }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: '40%' }}>
           <Card>
             <CardContent>

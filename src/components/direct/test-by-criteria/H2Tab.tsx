@@ -333,9 +333,12 @@ const H2Component = () => {
               </Box>
             </CardContent>
           </Card>
-          <Card>
-            <Profile />
-          </Card>
+          {isXDR && <DownloadXDRCert />}
+          {!isXDR && (
+            <Card>
+              <Profile />
+            </Card>
+          )}
         </Box>
         <Box sx={{ flexGrow: 1 }}>
           {showTestCard &&

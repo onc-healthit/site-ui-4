@@ -44,13 +44,12 @@ const SendTab = ({ sampleCCDAFiles }: SendTabProps) => {
           </ListItem>
           <ListItem sx={{ display: 'list-item' }}>
             <Typography variant="body2">
-              Enter any optional properties by expanding the optional properties panel. To remove the entered
-              properties, collapse the panel by clicking on the tile.
+              Choose a CCDA document that you would like to attach as part of the payload.
             </Typography>
           </ListItem>
           <ListItem sx={{ display: 'list-item' }}>
             <Typography variant="body2">
-              Choose any CCDA document that you would like to attach as part of the payload.
+              To add additional properties, toggle the &apos;Show Optional XDR Message Properties&apos; switch.
             </Typography>
           </ListItem>
           <ListItem sx={{ display: 'list-item' }}>
