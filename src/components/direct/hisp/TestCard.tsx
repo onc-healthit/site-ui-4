@@ -23,8 +23,8 @@ import {
   Checkbox,
   TextField,
   SelectChangeEvent,
-  Popover,
 } from '@mui/material'
+import AlertSnackbar from '../shared/AlertSnackbar'
 
 export type TestCaseFields = {
   name: string
@@ -100,10 +100,6 @@ const TestCard = ({
   password = 'defaultPassword',
   tlsRequired = false,
 }: TestCardProps) => {
-  const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLButtonElement | null>(null)
-  const popoverOpen = Boolean(popoverAnchorEl)
-  const popoverId = popoverOpen ? 'ccda-file-required-popover' : undefined
-  const [autoCloseTimer, setAutoCloseTimer] = useState<NodeJS.Timeout | null>(null)
   const attachmentTypeTestIDs = [231, 331]
   const manualValidationCriteria = [
     "['b1-5']",
@@ -127,6 +123,10 @@ const TestCard = ({
   const [isFinished, setIsFinished] = useState(false)
   const [apiError, setApiError] = useState(false)
   const [attachmentType, setAttachmentType] = useState('')
+
+  const [alertOpen, setAlertOpen] = useState<boolean>(false)
+  const [alertMessage, setAlertMessage] = useState<string>('')
+  const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('error')
 
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
     console.log('Confirmed Document', selectedData)
@@ -203,7 +203,6 @@ const TestCard = ({
     } else {
       requestData.status = ''
     }
-
     return requestData
   }
 
@@ -245,72 +244,67 @@ const TestCard = ({
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleClosePopover = () => {
-    if (autoCloseTimer) {
-      clearTimeout(autoCloseTimer)
-      setAutoCloseTimer(null)
-    }
-    setPopoverAnchorEl(null)
-  }
-
   const handleRunTest = async () => {
     const isMDNTest = test.protocol && mdnTestIds.includes(test.protocol)
 
-    if (test.ccdaFileRequired && !documentDetails) {
-      setPopoverAnchorEl(document.activeElement as HTMLButtonElement)
-      const timer = setTimeout(() => {
-        handleClosePopover()
-      }, 2500)
-      setAutoCloseTimer(timer)
-    } else {
-      try {
-        setIsLoading(true)
-        setIsFinished(false)
-        setCriteriaMet('')
+    if (test.ccdaFileRequired && !documentDetails && !test.name.includes('MT')) {
+      setAlertMessage(
+        'This test requires a CCDA document to be selected. Please select a document before running the test.'
+      )
+      setAlertSeverity('error')
+      setAlertOpen(true)
+      return
+    }
+    try {
+      setIsLoading(true)
+      setIsFinished(false)
+      setCriteriaMet('')
 
-        if (isMDNTest) {
-          const requestData = createRequestData(currentStep, previousResult)
+      if (isMDNTest) {
+        const requestData = createRequestData(currentStep, previousResult)
 
-          const response = await handleAPICall(requestData)
-          const result = response[0]
+        const response = await handleAPICall(requestData)
+        const result = response[0]
 
-          setIsFinished(true)
-          setCriteriaMet(result.criteriaMet)
-          setTestRequestResponses(result.testRequestResponses)
+        setIsFinished(true)
+        setCriteriaMet(result.criteriaMet)
+        setTestRequestResponses(result.testRequestResponses)
 
-          if (currentStep === 1) {
-            setPreviousResult(result)
-            if (result.criteriaMet.includes('STEP2')) {
-              setCurrentStep(2)
-            }
-          } else if (currentStep === 2) {
-            setPreviousResult(null)
-            setCurrentStep(1)
-          }
-        } else {
-          const requestData = createRequestData(0)
-          const response = await handleAPICall(requestData)
-          const result = response[0]
-
-          setIsFinished(true)
-          setCriteriaMet(result.criteriaMet)
-          setTestRequestResponses(result.testRequestResponses)
-
+        if (currentStep === 1) {
+          setPreviousResult(result)
           if (result.criteriaMet.includes('STEP2')) {
             setCurrentStep(2)
           }
+        } else if (currentStep === 2) {
+          setPreviousResult(null)
+          setCurrentStep(1)
         }
-      } catch (error) {
-        console.error('Failed to run test:', error)
-        setApiError(true)
-        setCriteriaMet('FALSE')
-      } finally {
-        setIsLoading(false)
-        if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
-          setTimeout(() => {
-            setIsFinished(false)
-          }, 100)
+      } else {
+        const requestData = createRequestData(0)
+        const response = await handleAPICall(requestData)
+        const result = response[0]
+
+        setIsFinished(true)
+        setCriteriaMet(result.criteriaMet)
+        setTestRequestResponses(result.testRequestResponses)
+
+        if (result.criteriaMet.includes('STEP2')) {
+          setCurrentStep(2)
         }
+      }
+    } catch (error) {
+      console.error('Failed to run test:', error)
+      setApiError(true)
+      setAlertMessage('An error occurred while running the test.')
+      setAlertSeverity('error')
+      setAlertOpen(true)
+      setCriteriaMet('FALSE')
+    } finally {
+      setIsLoading(false)
+      if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+        setTimeout(() => {
+          setIsFinished(false)
+        }, 100)
       }
     }
   }
@@ -334,6 +328,10 @@ const TestCard = ({
 
   const handleToggleDetail = () => {
     setShowDetail((prev) => !prev)
+  }
+
+  const handleAlertClose = () => {
+    setAlertOpen(false)
   }
 
   const renderAttachmentTypeDropdown = () => {
@@ -367,25 +365,9 @@ const TestCard = ({
     <Card>
       <CardHeader title={test.name} />
       <Divider />
-      {}
-      <Popover
-        id={popoverId}
-        open={popoverOpen}
-        anchorEl={popoverAnchorEl}
-        onClose={handleClosePopover}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-      >
-        <Typography sx={{ p: 2 }}>
-          This test requires a CCDA document to be selected. Please select a document before running the test.
-        </Typography>
-      </Popover>
+      <Card>
+        <AlertSnackbar message={alertMessage} severity={alertSeverity} open={alertOpen} onClose={handleAlertClose} />
+      </Card>
       {showDetail ? (
         <>
           <CardContent>
