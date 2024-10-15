@@ -88,15 +88,9 @@ const H2Component = () => {
   const subcategories: Subcategory[] = [
     {
       value: 'certificateDiscoveryHosting',
-      label: 'Criteria (i) Certificate Discovery I Hosting',
+      label: 'Criteria (i) Certificate Discovery / Hosting - 2015 DCDT',
       categories: ['all', 'setup'],
       link: '/direct/dcdt#hosting',
-    },
-    {
-      value: 'dcdt2015',
-      label: '- 2015 DCDT',
-      categories: ['all', 'setup'],
-      link: '/direct/dcdt',
     },
     {
       value: 'registerDirect',
@@ -126,19 +120,13 @@ const H2Component = () => {
       value: 'ccdaValidator',
       label: 'Criteria (i) C-CDA R2.1 validator',
       categories: ['all', 'setup'],
-      link: '/validator/ccda',
-    },
-    {
-      value: 'xdrValidator',
-      label: 'Criteria (i) XDR Validator',
-      categories: ['all', 'setup'],
-      link: '/validator/xdr',
+      link: '/c-cda/uscdi-v3',
     },
     {
       value: 'xdmValidator',
       label: 'Criteria (i) XDM Validator',
       categories: ['all', 'setup'],
-      link: '/validator/xdm',
+      link: '/direct/xdm',
     },
     {
       value: 'sendConversionXDR',
