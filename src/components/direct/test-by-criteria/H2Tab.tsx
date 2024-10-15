@@ -17,6 +17,7 @@ import * as React from 'react'
 import { useEffect } from 'react'
 import criteria from '@/assets/Criteria'
 import _ from 'lodash'
+import DownloadXDRCert from '../shared/DownloadXDRCert'
 
 const H2Component = () => {
   const h2CriteriaList = criteria.filter((c) => c.testList === "['h2']")
@@ -24,6 +25,7 @@ const H2Component = () => {
   const [criteriaOptions, setCriteriaOptions] = React.useState(h2CriteriaList)
   const [selectedCriteria, setSelectedCriteria] = React.useState('')
   const [showTestCard, setShowTestCard] = React.useState(false)
+  const [isXDR, setIsXDR] = React.useState(false)
 
   const h2FirstDropdown = [
     { name: 'All', testList: ['h2', 'sc2'], selectOption: 'ALL' },
@@ -46,10 +48,20 @@ const H2Component = () => {
     const criteriaList = h2CriteriaList.filter((c) => c.selectOption?.includes(selectedOption[0].selectOption))
     setCriteriaOptions(criteriaList)
     setSelectedCriteria('')
+    if (event.target.value.includes('XDR')) {
+      setIsXDR(true)
+    } else {
+      setIsXDR(false)
+    }
   }
 
   const handleCriteriaChange = (event: SelectChangeEvent) => {
     setSelectedCriteria(event.target.value as string)
+    if (event.target.value.includes('XDR')) {
+      setIsXDR(true)
+    } else {
+      setIsXDR(false)
+    }
   }
   return (
     <Container>
@@ -109,9 +121,12 @@ const H2Component = () => {
               </Box>
             </CardContent>
           </Card>
-          <Card>
-            <Profile />
-          </Card>
+          {isXDR && <DownloadXDRCert />}
+          {!isXDR && (
+            <Card>
+              <Profile />
+            </Card>
+          )}
         </Box>
         <Box sx={{ flexGrow: 1 }}>
           {showTestCard && (
