@@ -1,8 +1,9 @@
 import { AccountCircle } from '@mui/icons-material'
-import { Box, Button, Link, Menu, MenuItem, Popover, Typography } from '@mui/material'
+import { Box, Button, Divider, Link, Menu, MenuItem, Popover, Typography } from '@mui/material'
 import Login from './Login'
 import { signOut, useSession } from 'next-auth/react'
 import { useState } from 'react'
+import palette from '@/styles/palette'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
 export default function Auth(props: any) {
@@ -33,14 +34,14 @@ export default function Auth(props: any) {
             onClick={handleAuthMenu}
             color="inherit"
           >
-            <Typography variant="h6" component="div">
+            <Typography pr={2} variant="h6" component="div">
               {session ? `${session.user?.name}` : 'LOGIN'}
               {''}
             </Typography>
             <AccountCircle />
           </Button>
           <Menu
-            sx={{ mt: 5 }}
+            sx={{ mt: 5.2 }}
             id="menu-appbar"
             anchorEl={anchorEl}
             anchorOrigin={{
@@ -65,7 +66,10 @@ export default function Auth(props: any) {
                 Change Password
               </Link>
             </MenuItem>
-            <MenuItem onClick={() => signOut()}>Log Out</MenuItem>
+            <Divider />
+            <MenuItem sx={{ color: palette.secondaryLight }} onClick={() => signOut()}>
+              Log Out
+            </MenuItem>
           </Menu>
         </div>
       ) : (

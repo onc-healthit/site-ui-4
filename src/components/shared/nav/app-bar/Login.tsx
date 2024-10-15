@@ -81,7 +81,7 @@ const Login = ({
   }
 
   const LoginGrid = (
-    <Box component="form" onSubmit={(e) => handleLogin(e)} sx={{ backgroundColor: palette.white }}>
+    <Box component="form" mb={-1} onSubmit={(e) => handleLogin(e)} sx={{ backgroundColor: palette.white }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
@@ -113,7 +113,7 @@ const Login = ({
           />
         </Grid>
         <Grid item xs={12}>
-          <Box display={'flex'} justifyContent="space-between" component="span" width={'100%'}>
+          <Box gap={1} display={'flex'} justifyContent="space-between" component="span" width={'100%'}>
             <Button style={LoginButtonStyle} variant="contained" size="small" type="submit">
               SIGN IN
             </Button>
@@ -214,7 +214,7 @@ const Login = ({
           />
         </Grid>
         <Grid item xs={12}>
-          <Box display={'flex'} justifyContent="space-between" component="span" width={'100%'}>
+          <Box display={'flex'} gap={1} justifyContent="space-between" component="span">
             <Button style={LoginButtonStyle} variant="contained" size="small" type="submit">
               SEND
             </Button>
@@ -235,42 +235,47 @@ const Login = ({
 
   return (
     <>
-      {!_.isEmpty(message.message) && (
-        <Alert
-          severity={message.severity as 'error' | 'info' | 'success' | 'warning'}
-          sx={{ marginBottom: '10px' }}
-          onClose={() => setMessage({ message: '', severity: 'info' })}
-        >
-          {message.message}
-        </Alert>
-      )}
-      {isForgotPassword ? (
-        <Card elevation={10} sx={{ maxWidth: '350px' }}>
-          <CardHeader
-            title={'Forgot Password'}
-            action={
-              <IconButton aria-label="settings" onClick={() => handleAuthClose()}>
-                <Close fontSize="small" />
-              </IconButton>
-            }
-            titleTypographyProps={{ fontWeight: '600', variant: 'h3', color: palette.primary }}
-          />
-          <CardContent>{ForgotPasswordGrid}</CardContent>
-        </Card>
-      ) : (
-        <Card elevation={10} sx={{ maxWidth: '350px' }}>
-          <CardHeader
-            title={isCreatingAccount ? 'Create Account' : 'Login'}
-            action={
-              <IconButton aria-label="settings" onClick={() => handleAuthClose()}>
-                <Close fontSize="small" />
-              </IconButton>
-            }
-            titleTypographyProps={{ fontWeight: '600', variant: 'h3', color: palette.primary }}
-          />
-          <CardContent>{isCreatingAccount ? CreateAccountGrid : LoginGrid}</CardContent>
-        </Card>
-      )}
+      <Box>
+        {isForgotPassword ? (
+          <Card elevation={10} sx={{ maxWidth: '350px' }}>
+            <CardHeader
+              title={'Forgot Password'}
+              action={
+                <IconButton aria-label="settings" onClick={() => handleAuthClose()}>
+                  <Close fontSize="small" />
+                </IconButton>
+              }
+              titleTypographyProps={{ fontWeight: '600', variant: 'h3', color: palette.primary }}
+            />
+            <CardContent>{ForgotPasswordGrid}</CardContent>
+          </Card>
+        ) : (
+          <Card elevation={10} sx={{ maxWidth: '350px' }}>
+            <CardHeader
+              title={isCreatingAccount ? 'Create Account' : 'Login'}
+              action={
+                <IconButton aria-label="settings" onClick={() => handleAuthClose()}>
+                  <Close fontSize="small" />
+                </IconButton>
+              }
+              titleTypographyProps={{ fontWeight: '600', variant: 'h3', color: palette.primary }}
+            />
+            <CardContent>{isCreatingAccount ? CreateAccountGrid : LoginGrid}</CardContent>
+          </Card>
+        )}
+      </Box>
+      <Box position="fixed" top="auto" sx={{ minWidth: '350px' }}>
+        {!_.isEmpty(message.message) && (
+          <Alert
+            variant="filled"
+            severity={message.severity as 'error' | 'info' | 'success' | 'warning'}
+            sx={{ my: '20px', zIndex: '5000' }}
+            onClose={() => setMessage({ message: '', severity: 'info' })}
+          >
+            {message.message}
+          </Alert>
+        )}
+      </Box>
     </>
   )
 }
