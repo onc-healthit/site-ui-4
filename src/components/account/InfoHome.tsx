@@ -1,25 +1,11 @@
 'use client'
 import PageAlertBox from '@/components/shared/PageAlertBox'
-import {
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  Container,
-  Divider,
-  LinearProgress,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-} from '@mui/material'
+import { Box, Card, Container, Divider, LinearProgress, List, ListItem, ListItemText, Typography } from '@mui/material'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { fetchAccountInfo } from './actions'
 import Profile from '../direct/shared/Profile'
 import BannerBox from '../shared/BannerBox'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import palette from '@/styles/palette'
 import { AccountCircleOutlined, EmailOutlined } from '@mui/icons-material'
 
 const InfoHome = () => {

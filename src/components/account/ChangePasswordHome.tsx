@@ -10,7 +10,6 @@ import {
   Grid,
   IconButton,
   InputAdornment,
-  Link,
   LinearProgress,
   TextField,
   Typography,
@@ -21,7 +20,6 @@ import { useState } from 'react'
 import { changePassword } from './actions'
 import _ from 'lodash'
 import { VisibilityOff, Visibility } from '@mui/icons-material'
-import BannerBox from '@shared/BannerBox'
 
 const LoginButtonStyle = {
   padding: '10px 0',
@@ -165,8 +163,8 @@ const ChangePasswordHome = () => {
                 </Typography>
                 <Typography sx={{ mt: 2 }}>
                   Choose a password that you haven&apos;t used before. Once you&apos;ve filled in the fields, click{' '}
-                  <strong>"Save"</strong> to update your password. If you need assistance, please contact our support
-                  team. Stay secure!
+                  <strong>&quot;Save&quot;</strong> to update your password. If you need assistance, please contact our
+                  support team. Stay secure!
                 </Typography>
                 {ChangePasswordGrid}
               </CardContent>
