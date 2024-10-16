@@ -50,7 +50,7 @@ const Login = ({
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     signIn('credentials', { username: email, password: password })
-    eventTrack('Sign In', 'Authentication', 'User Clicks Sign In')
+    eventTrack('Sign In', 'Authentication', 'User clicks Sign In')
   }
 
   const handleCreateAccount = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -59,18 +59,22 @@ const Login = ({
       registerAccount({ username: email, password: password }).then((data) => {
         if (data === true) {
           signIn('credentials', { username: email, password: password })
+          eventTrack('Create Account', 'Authentication', 'User create account')
         } else {
           setMessage({ message: 'User already exists', severity: 'error' })
+          eventTrack('Error on Create Account', 'Authentication', 'User exists already on create account')
         }
       })
     } else {
       setMessage({ message: 'Passwords do not match', severity: 'error' })
+      eventTrack('Error on Create Account', 'Authentication', 'Password does not match on create account')
     }
   }
 
   const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     forgotPassword(email).then((data) => {
+      eventTrack('Forgot Password', 'Authentication', 'User clicks on forgot password')
       if (data !== true) {
         setMessage({ message: 'This username does not exist', severity: 'error' })
       }
