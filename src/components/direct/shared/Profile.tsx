@@ -214,7 +214,6 @@ const Profile = () => {
                 label="Vendor Hostname/IP"
                 helperText="Hostname/IP of the vendor SMTP sysem"
                 value={hostname || ''}
-                required
                 size="small"
                 onChange={(e) => setHostname(e.target.value)}
               />
@@ -224,7 +223,6 @@ const Profile = () => {
                 label="Vendor Direct Email Address"
                 helperText="Email of the vendor SMTP system"
                 value={email || ''}
-                required
                 size="small"
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -236,7 +234,6 @@ const Profile = () => {
                 label="Vendor Username"
                 helperText="Username for the vendor SMTP system"
                 value={username || ''}
-                required
                 size="small"
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -247,7 +244,6 @@ const Profile = () => {
                 helperText="Password for the vendor SMTP system"
                 type="password"
                 value={password || ''}
-                required
                 size="small"
                 onChange={(e) => setPassword(e.target.value)}
               />
