@@ -50,10 +50,8 @@ const DocsHome = () => {
       gap: '32px',
     },
   }
-  function trackMenuItemClick(heading: string) {
-    if (typeof window.gtag === 'function') {
-      eventTrack('Click archive sub menu', 'Navigation', heading)
-    }
+  const trackMenuItemClick = (heading: string) => {
+    eventTrack('Click Documentation sub menu', 'Documentation', heading)
   }
   return (
     <Box>
