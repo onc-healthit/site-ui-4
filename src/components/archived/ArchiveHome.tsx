@@ -29,7 +29,7 @@ export default function ArchiveHome() {
   ]
 
   function trackMenuItemClick(heading: string) {
-    eventTrack('Sub Menu Anchor Link Click', 'Archived', `Navigated to ${heading} via sub menu in Archived page`)
+    eventTrack('Click archived sub menu', 'Archived', heading)
     // TODO: Decided if the new format for eventType, eventCategory, and eventLabel is appropriate.
     // Remove the following code either way, but, if new format is not preferred,
     // copy the old string labels into event track before deletion
