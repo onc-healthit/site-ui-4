@@ -9,11 +9,10 @@ import {
   Tooltip,
   Typography,
   FormControl,
-  Popover,
 } from '@mui/material'
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
 import _ from 'lodash'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import DynamicTable from './DynamicTable'
 import { handleXDRAPICall, GetStatus } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
@@ -189,7 +188,7 @@ const TestCard = ({ test }: TestCardProps) => {
   const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('info')
 
   const [logType, setLogType] = useState<'request' | 'response' | 'ccdaValidation'>('request')
-  const manualValidationCriteria = ["['b1-3']", "['b1-3','su1-3']"]
+  const manualValidationIDs = ['4a', '4b']
   const { data: session } = useSession()
   const subHeader = 'Description'
   const subDesc = test['Purpose/Description']
@@ -306,7 +305,7 @@ const TestCard = ({ test }: TestCardProps) => {
         })
         setTimeout(() => {
           setIsFinished(true)
-          if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+          if (test.criteria && !manualValidationIDs.includes(test.id.toString())) {
             setCriteriaMet(response.criteriaMet)
           }
           if (
@@ -319,7 +318,7 @@ const TestCard = ({ test }: TestCardProps) => {
           }
           setTestRequestRequest(response.testRequest)
           setTestRequestResponse(response.testResponse)
-          if (!testRequest && !testResponse && test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+          if (!testRequest && !testResponse && test.criteria && !manualValidationIDs.includes(test.id.toString())) {
             setCriteriaMet('FALSE')
           }
           console.log('Criteria met: ', response.criteriaMet)
@@ -329,12 +328,12 @@ const TestCard = ({ test }: TestCardProps) => {
     } catch (error) {
       console.error('Failed to run test:', error)
       setApiError(true)
-      if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+      if (test.criteria && !manualValidationIDs.includes(test.id.toString())) {
         setCriteriaMet('FALSE')
       }
     } finally {
       setIsLoading(false)
-      if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
+      if (test.criteria && !manualValidationIDs.includes(test.id.toString())) {
         setTimeout(() => {
           setIsFinished(false)
         }, 100)
@@ -519,7 +518,7 @@ const TestCard = ({ test }: TestCardProps) => {
             <Divider sx={{ mb: 2, mt: 2 }} />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
               {test.criteria &&
-                manualValidationCriteria.includes(test.criteria) &&
+                manualValidationIDs.includes(test.id.toString()) &&
                 testRequest &&
                 testRequest.length > 0 && (
                   <Box sx={{ display: 'flex', gap: 1 }}>
@@ -647,22 +646,15 @@ const TestCard = ({ test }: TestCardProps) => {
                 <Button variant="contained" color="inherit" onClick={handleToggleLogs}>
                   LOGS
                 </Button>
+                {((test.criteria && criteriaMet) || isFinished) && (
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button variant="contained" color="inherit" onClick={handleClearTest}>
+                      Clear
+                    </Button>
+                  </Box>
+                )}
                 {test.criteria &&
-                  criteriaMet &&
-                  (criteriaMet.includes('TRUE') ||
-                    criteriaMet.includes('FALSE') ||
-                    criteriaMet.includes('ERROR') ||
-                    criteriaMet.includes('PASSED') ||
-                    criteriaMet.includes('PENDING') ||
-                    criteriaMet.includes('SUCCESS')) && (
-                    <Box sx={{ display: 'flex', gap: 1 }}>
-                      <Button variant="contained" color="inherit" onClick={handleClearTest}>
-                        Clear
-                      </Button>
-                    </Box>
-                  )}
-                {test.criteria &&
-                  manualValidationCriteria.includes(test.criteria) &&
+                  manualValidationIDs.includes(test.id.toString()) &&
                   (testRequest || testResponse) &&
                   isFinished &&
                   !apiError && <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>}
