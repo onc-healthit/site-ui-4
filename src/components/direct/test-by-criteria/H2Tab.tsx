@@ -19,6 +19,7 @@ import testCases from '../../../assets/SMTPTestCases'
 import xdrTestCases from '../../../assets/XDRTestCases'
 import { ProfileContext } from '../hisp/context'
 import DownloadXDRCert from '../shared/DownloadXDRCert'
+import eventTrack from '@/services/analytics'
 
 interface TestCase {
   id: number
@@ -244,11 +245,13 @@ const H2Component = () => {
   const handleCategoryChange = (event: SelectChangeEvent<string>) => {
     setSelectedCategory(event.target.value)
     setSelectedSubcategory('')
+
     if (event.target.value.includes('XDR')) {
       setIsXDR(true)
     } else {
       setIsXDR(false)
     }
+    eventTrack(`Selected: ${event.target.value}`, 'Test By Criteria - H2', 'User selects category on h2 tab')
   }
 
   const handleSubcategoryChange = (event: SelectChangeEvent<string>) => {
@@ -260,6 +263,11 @@ const H2Component = () => {
       if (selectedOption.testCard) {
       } else if (selectedOption.link) {
         window.location.href = selectedOption.link
+        eventTrack(
+          `Selected sub category: ${selectedOption.link}`,
+          'Test By Criteria - H2',
+          'User selects sub category on h2 tab'
+        )
       }
     }
     if (event.target.value.includes('XDR')) {
@@ -267,6 +275,11 @@ const H2Component = () => {
     } else {
       setIsXDR(false)
     }
+    eventTrack(
+      `Selected: sub category ${event.target.value}`,
+      'Test By Criteria - H2',
+      'User selects sub category on h2 tab'
+    )
   }
 
   const filteredSubcategories = subcategories.filter(
