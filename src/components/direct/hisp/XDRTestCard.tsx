@@ -318,7 +318,14 @@ const TestCard = ({ test }: TestCardProps) => {
           }
           setTestRequestRequest(response.testRequest)
           setTestRequestResponse(response.testResponse)
-          if (!testRequest && !testResponse && test.criteria && !manualValidationIDs.includes(test.id.toString())) {
+          if (
+            !testRequest &&
+            !testResponse &&
+            test.criteria &&
+            !manualValidationIDs.includes(test.id.toString()) &&
+            criteriaMet
+          ) {
+            console.log('Response null, setting criteria met false')
             setCriteriaMet('FALSE')
           }
           console.log('Criteria met: ', response.criteriaMet)
@@ -365,10 +372,11 @@ const TestCard = ({ test }: TestCardProps) => {
   }
 
   const renderCriteriaMetIcon = () => {
-    if (endpointsGenerated && criteriaMet != 'PASSED') {
+    console.log('criteria met icon: ', criteriaMet)
+    if (endpointsGenerated && criteriaMet != 'PASSED' && manualValidationIDs.includes(test.id.toString())) {
       return <Typography style={{ color: 'red' }}>Pending</Typography>
     }
-    if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED') {
+    if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED' || criteriaMet === 'SUCCESS') {
       return <CheckCircleIcon style={{ color: 'green' }} />
     } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR') {
       return <CancelIcon style={{ color: 'red' }} />

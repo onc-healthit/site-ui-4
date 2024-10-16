@@ -310,7 +310,7 @@ const TestCard = ({
   }
 
   const renderCriteriaMetIcon = () => {
-    if (criteriaMet === 'TRUE') {
+    if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED') {
       return <CheckCircleIcon style={{ color: 'green' }} />
     } else if (criteriaMet === 'FALSE') {
       return <CancelIcon style={{ color: 'red' }} />
