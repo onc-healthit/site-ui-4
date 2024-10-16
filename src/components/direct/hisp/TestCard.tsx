@@ -25,6 +25,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material'
 import AlertSnackbar from '../shared/AlertSnackbar'
+import eventTrack from '@/services/analytics'
 
 export type TestCaseFields = {
   name: string
@@ -255,6 +256,7 @@ const TestCard = ({
       setAlertOpen(true)
       return
     }
+    eventTrack(` Run test for ${test.name}`, 'Test By Criteria', `${test.criteria}`)
     try {
       setIsLoading(true)
       setIsFinished(false)

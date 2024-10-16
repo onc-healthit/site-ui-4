@@ -109,7 +109,7 @@ const ValidatorMenu = ({
   const resultsMetaData = _.get(results, 'resultsMetaData')
   const resultMetaData = _.get(resultsMetaData, 'resultMetaData')
   const onScroll = (ref: React.RefObject<HTMLDivElement>, title: string) => {
-    eventTrack(`Go to validation results sub menu`, 'C-CDA Validation', title)
+    eventTrack(`Click on validation results sub menu`, 'C-CDA Validation', title)
     ref.current?.scrollIntoView({ behavior: 'smooth' })
   }
   return (

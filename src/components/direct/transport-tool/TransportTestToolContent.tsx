@@ -21,10 +21,8 @@ const menuItems: menuProps[] = [
   { heading: 'Send Direct Message using Direct Trust Production Bundle', href: '#sendMessageDirect' },
   { heading: 'Receive Direct Message from SITE', href: '#receiveMessageSITE' },
 ]
-function trackMenuItemClick(heading: string) {
-  if (typeof window.gtag === 'function') {
-    eventTrack('Click transport test tool sub menu', 'Navigation', heading)
-  }
+const trackMenuItemClick = (heading: string) => {
+  eventTrack('Click transport tool sub menu', 'Transport Test Tool', heading)
 }
 
 const TransportTestToolContent = ({ sampleCCDAFiles, trustBundleDownloadUrl }: TransportTestToolProps) => {

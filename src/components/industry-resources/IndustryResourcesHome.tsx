@@ -19,10 +19,8 @@ const menuItems: menuProps[] = [
   { heading: 'Referenece Data', href: '#rd' },
 ]
 
-function trackMenuItemClick(heading: string) {
-  if (typeof window.gtag === 'function') {
-    eventTrack('Click industry resources sub menu', 'Navigation', heading)
-  }
+const trackMenuItemClick = (heading: string) => {
+  eventTrack('Click industry resources sub menu', 'Industry Resources', heading)
 }
 
 const IndustryResourcesHome = () => {
