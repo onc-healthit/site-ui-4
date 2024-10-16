@@ -8,6 +8,8 @@ import { CircularProgress } from '@mui/material'
 import palette from '@/styles/palette'
 import { Check } from '@mui/icons-material'
 import ErrorIcon from '@mui/icons-material/Error'
+import eventTrack from '@/services/analytics'
+
 interface ResultsComponentProps {
   response: ContentProps
   disabled?: boolean
@@ -24,7 +26,9 @@ const TrustAnchorResults = ({ response, buttonTitle }: ResultsComponentProps) =>
   const [resultsOpen, setResultsOpen] = useState(false)
   const [errorOpen, setErrorOpen] = useState(false)
   const { pending } = useFormStatus()
-
+  const trackSubmitClick = () => {
+    eventTrack('Submit Anchor', 'Transport Test Tool', 'Trust Anchor Exchange Instructions')
+  }
   const handleErrorClose = () => {
     setErrorOpen(false)
   }
@@ -44,7 +48,7 @@ const TrustAnchorResults = ({ response, buttonTitle }: ResultsComponentProps) =>
 
   return (
     <>
-      <Button type="submit" variant="contained" disabled={pending}>
+      <Button onClick={trackSubmitClick} type="submit" variant="contained" disabled={pending}>
         {pending ? <CircularProgress size={24} /> : buttonTitle}
       </Button>
 
