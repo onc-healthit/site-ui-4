@@ -20,7 +20,7 @@ import xdrTestCases from '../../../assets/XDRTestCases'
 import { useContext } from 'react'
 import { ProfileContext } from '../hisp/context'
 import DownloadXDRCert from '../shared/DownloadXDRCert'
-
+import eventTrack from '@/services/analytics'
 const B1Component = () => {
   const [option, setOption] = useState('')
   const [showTestCard, setShowTestCard] = useState(false)
@@ -48,6 +48,7 @@ const B1Component = () => {
 
     setTimeout(() => {
       setOption(newOption)
+      trackDropdownClick(newOption)
       setShowTestCard(true)
     }, 0)
   }
@@ -62,7 +63,6 @@ const B1Component = () => {
     { value: 'G', label: 'Criteria (i)(B) Receive using Edge Protocol - POP3' },
     { value: 'H', label: 'Criteria (i)(C) XDM Processing Received via Edge Protocol' },
   ]
-
   const selectedTestCases = () => {
     switch (option) {
       case 'B':
@@ -94,6 +94,12 @@ const B1Component = () => {
         return criteriaD
       default:
         return []
+    }
+  }
+  const trackDropdownClick = (selectedValue: string) => {
+    const selectedDropdown = dropdown.find((option) => option.value === selectedValue)
+    if (selectedDropdown) {
+      eventTrack(`Selected: ${selectedDropdown.label}`, 'Test By Criteria - B1', 'User selects criteria on b1 tab')
     }
   }
 
