@@ -1,4 +1,5 @@
 'use server'
+import { GENERIC_ERROR_MESSAGE } from '@/constants/errorConstants'
 import axios from 'axios'
 import _ from 'lodash'
 
@@ -36,7 +37,7 @@ export async function handleXDMUpload(prevState: object | undefined, formData: F
         console.error(error.response?.data)
         return {
           response: {
-            error: 'There was an error completing the request, Please try again later!',
+            error: GENERIC_ERROR_MESSAGE,
             errorStatus: error.response?.status,
           },
         }

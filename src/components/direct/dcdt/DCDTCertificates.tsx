@@ -57,7 +57,9 @@ const DCDTCertificates = () => {
         <ListItem sx={{ display: 'list-item' }}>
           <Typography variant="body2">
             {"Download the Testing Tool's trust anchor."}{' '}
-            <Link href={'http://dcdt31.healthit.gov/dcdt/discovery/anchor'}>Download Trust Anchor</Link>
+            <Link href={'https://dcdt31.healthit.gov/dcdt/discovery/anchor'} locale={false}
+              target="_blank"
+              rel="noopener noreferrer">Download Trust Anchor</Link>
           </Typography>
         </ListItem>
         <ListItem sx={{ display: 'list-item' }}>

@@ -63,9 +63,8 @@ const Drawer = styled(MuiDrawer, {
 interface SiteNavProps {
   open: boolean
   handleDrawerClose: () => void
-  handleAuthChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
-export default function SiteNav({ open, handleDrawerClose, handleAuthChange }: SiteNavProps) {
+export default function SiteNav({ open, handleDrawerClose }: SiteNavProps) {
   const theme = useTheme()
 
   return (

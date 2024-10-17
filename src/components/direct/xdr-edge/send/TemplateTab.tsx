@@ -1,6 +1,10 @@
 import SendForm from './SendForm'
-const Template = () => {
-  return <SendForm version={'template'} />
+
+interface TemplateProps {
+  sampleCCDAFiles: string[]
+}
+const Template = ({ sampleCCDAFiles }: TemplateProps) => {
+  return <SendForm version={'template'} sampleCCDAFiles={sampleCCDAFiles} />
 }
 
 export default Template

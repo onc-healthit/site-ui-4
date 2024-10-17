@@ -202,6 +202,7 @@ export default function ValidatorForm({
 
           {/* Buttons */}
           <Box display="flex" flexDirection="row" justifyContent="space-between" sx={{ pt: 4 }}>
+            {/* ValidationComponent returns the validate button, a loading dialog, and the validation results */}
             <ValidationComponent
               response={data?.response}
               estimatedValidationTime={estimatedValidationTime}

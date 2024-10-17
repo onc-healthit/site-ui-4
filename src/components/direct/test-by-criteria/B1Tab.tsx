@@ -17,15 +17,15 @@ import palette from '@/styles/palette'
 import React, { useState } from 'react'
 import testCases from '../../../assets/SMTPTestCases'
 import xdrTestCases from '../../../assets/XDRTestCases'
+import { useContext } from 'react'
+import { ProfileContext } from '../hisp/context'
+import DownloadXDRCert from '../shared/DownloadXDRCert'
 
 const B1Component = () => {
   const [option, setOption] = useState('')
   const [showTestCard, setShowTestCard] = useState(false)
-  const [hostname, setHostname] = useState('')
-  const [email, setEmail] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [tlsRequired, setTlsRequired] = useState(false)
+  const { hostname, email, password, tls, username } = useContext(ProfileContext)
+  const [isXDR, setIsXDR] = React.useState(false)
 
   const criteriaA = xdrTestCases.filter((testXdr) => testXdr.criteria?.includes('b1-1'))
   const criteriaB = testCases.tests.filter((test) => test.criteria?.includes('b1-8'))
@@ -40,6 +40,11 @@ const B1Component = () => {
     const newOption = event.target.value as string
 
     setShowTestCard(false)
+    if (newOption === 'A' || newOption === 'D') {
+      setIsXDR(true)
+    } else {
+      setIsXDR(false)
+    }
 
     setTimeout(() => {
       setOption(newOption)
@@ -123,15 +128,12 @@ const B1Component = () => {
               </Box>
             </CardContent>
           </Card>
-          <Card>
-            <Profile
-              setHostname={setHostname}
-              setEmail={setEmail}
-              setUsername={setUsername}
-              setPassword={setPassword}
-              setTls={setTlsRequired}
-            />
-          </Card>
+          {!isXDR && (
+            <Card>
+              <Profile />
+            </Card>
+          )}
+          {isXDR && <DownloadXDRCert />}
         </Box>
         <Box sx={{ flexGrow: 1 }}>
           {showTestCard &&
@@ -144,7 +146,7 @@ const B1Component = () => {
                   email={email}
                   username={username}
                   password={password}
-                  tlsRequired={tlsRequired}
+                  tlsRequired={tls}
                   receive={isReceiveOption()}
                 />
               </Box>

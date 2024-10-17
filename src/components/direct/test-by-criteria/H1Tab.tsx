@@ -15,14 +15,12 @@ import Profile from '../shared/Profile'
 import palette from '@/styles/palette'
 import TestCard from '../hisp/TestCard'
 import testCases from '../../../assets/SMTPTestCases'
+import { useContext } from 'react'
+import { ProfileContext } from '../hisp/context'
 
 const H1Component = () => {
   const [option, setOption] = useState('')
-  const [hostname, setHostname] = useState('')
-  const [email, setEmail] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [tlsRequired, setTlsRequired] = useState(false)
+  const { hostname, email, password, tls, username } = useContext(ProfileContext)
 
   const dropdownOptions = [
     {
@@ -97,13 +95,7 @@ const H1Component = () => {
             </CardContent>
           </Card>
           <Card>
-            <Profile
-              setHostname={setHostname}
-              setEmail={setEmail}
-              setUsername={setUsername}
-              setPassword={setPassword}
-              setTls={setTlsRequired}
-            />
+            <Profile />
           </Card>
         </Box>
         <Box sx={{ flexGrow: 1 }}>
@@ -117,7 +109,7 @@ const H1Component = () => {
                   email={email}
                   username={username}
                   password={password}
-                  tlsRequired={tlsRequired}
+                  tlsRequired={tls}
                   receive={false}
                 />
               </Box>
