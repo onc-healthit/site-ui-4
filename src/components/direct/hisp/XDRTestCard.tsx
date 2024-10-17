@@ -307,7 +307,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
             }
             console.log('Criteria met: ', response.criteriaMet)
             console.log('Test Request Responses:', response.testResponse)
-          }, 10)
+          }, 5000)
         }
       } catch (error) {
         console.error('Failed to run test:', error)
@@ -631,7 +631,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                     loading={isLoading}
                     done={isFinished}
                     progressive={true}
-                    progressDuration={10000}
+                    progressDuration={5000}
                     onClick={handleRunTest}
                     variant="contained"
                     color="primary"

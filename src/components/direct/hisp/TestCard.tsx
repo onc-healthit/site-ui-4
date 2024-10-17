@@ -256,7 +256,7 @@ const TestCard = ({
         if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
           setTimeout(() => {
             setIsFinished(false)
-          }, 100)
+          }, 5000)
         }
       }
     }
@@ -478,6 +478,7 @@ const TestCard = ({
                     loading={isLoading}
                     done={isFinished}
                     progressive={true}
+                    progressDuration={5000}
                     onClick={handleRunTest}
                     variant="contained"
                     color="primary"
