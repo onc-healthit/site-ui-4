@@ -5,7 +5,7 @@ import _ from 'lodash'
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 
-interface APICallData {
+export interface APICallData {
   testCaseNumber: number | string
   sutSmtpAddress: string
   sutEmailAddress: string
@@ -30,6 +30,7 @@ interface APICallData {
   targetEndpointTLS?: string
   outgoing_from?: string
   attachmentType?: string
+  previousResult?: APICallResponse
 }
 
 export interface Documents {
@@ -57,6 +58,7 @@ interface XDRAPICallData {
   svap: boolean
   uscdiv3: boolean
 }
+
 export interface FileDetail {
   svap: boolean
   cures: boolean
@@ -71,9 +73,28 @@ export interface Directory {
   files: FileDetail[]
 }
 
-interface APIResponse {
+export interface APICallResponse {
+  didRequestTimeOut: boolean
+  timeElapsedInSeconds: number
+  proctored: boolean
+  attachments: Record<string, unknown>
+  CCDAValidationReports: Record<string, unknown>
+  MessageId: string
+  fetchType: string
+  searchType: string
+  startTime: string
+  lastTestResultStatus: number
+  lastTestResponse: string
+  testCaseId: number
+  testCaseDesc: string | null
+  messageId: string
   criteriaMet: string
-  testRequestResponses: string
+  testRequestResponses: TestRequestResponses
+  ccdavalidationReports: Record<string, unknown>
+}
+
+export interface TestRequestResponses {
+  [key: string]: string
 }
 
 interface XDRAPIResponse {
@@ -84,15 +105,36 @@ interface XDRAPIResponse {
   endpointTLS: string
 }
 
+interface ResultsMetaData {
+  documentType: string
+  validationObjective: string
+  ccdaVersion: string
+  curesUpdate: boolean
+  svap2022: boolean
+  uscdi: boolean
+  validationDate: string
+}
+
+interface CCDAValidationResult {
+  errorType: string
+  messageId: string
+}
+
+interface ValidationResults {
+  resultsMetaData: ResultsMetaData
+  ccdaValidationResults: CCDAValidationResult[]
+}
+
 interface StatusResponse {
   criteriaMet: string
   testRequest: string
   testResponse: string
   message: string
   status: string
+  results?: ValidationResults
 }
 
-export async function handleAPICall(data: APICallData): Promise<APIResponse> {
+export async function handleAPICall(data: APICallData): Promise<APICallResponse[]> {
   const apiUrl = process.env.SMTP_TEST_BY_CRITERIA_ENDPOINT
   const config = {
     method: 'post',
@@ -103,17 +145,16 @@ export async function handleAPICall(data: APICallData): Promise<APIResponse> {
 
   try {
     const response = await axios(config)
-    return {
-      criteriaMet: response.data[0].criteriaMet,
-      testRequestResponses: response.data[0].testRequestResponses,
-    }
+    console.log('raw API call data: ', response)
+    const responseData: APICallResponse[] = response.data
+    return responseData
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       console.error('API Error Response:', error.response.data)
       console.error('Status:', error.response.status)
       console.error('Headers:', error.response.headers)
     } else {
-      console.error('Error Message:')
+      console.error('Error')
     }
     throw error
   }
@@ -155,7 +196,7 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
 
   try {
     const response = await axios(config)
-    console.log('Raw content 1205:', response.data)
+    console.log('Raw content:', response.data)
     const content = response.data
 
     let testRequest = ''
@@ -164,10 +205,10 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     let endpointTLS = ''
 
     if (content && content.content && content.content.value) {
-      testRequest = content.content.value.request || content.message
-      testResponse = content.content.value.response || content.message
-      endpoint = content.content.value.endpoint || content.message
-      endpointTLS = content.content.value.endpointTLS || content.message
+      testRequest = content.content.value.request
+      testResponse = content.content.value.response
+      endpoint = content.content.value.endpoint
+      endpointTLS = content.content.value.endpointTLS
     } else {
       console.error('Invalid response structure:', content)
       testRequest = content.message
@@ -193,10 +234,43 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
   }
 }
 
+export async function handleCheckMDNCall(data: APICallData): Promise<XDRAPIResponse> {
+  const apiUrl = process.env.SMTP_TEST_BY_CRITERIA_ENDPOINT
+  const session = await getServerSession(authOptions)
+  const jsessionid = session?.user?.jsessionid ?? ''
+
+  const config = {
+    method: 'post',
+    url: apiUrl,
+    headers: session
+      ? { 'Content-Type': 'application/json', Cookie: `JSESSIONID=${jsessionid}` }
+      : { 'Content-Type': 'application/json' },
+    data: data,
+  }
+
+  console.log('Sending data:', config)
+
+  try {
+    const response = await axios(config)
+    console.log('MDN check raw content:', response.data)
+    return response.data[0]
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      console.error('API Error Response:', error.response.data)
+      console.error('Status:', error.response.status)
+      console.error('Headers:', error.response.headers)
+    } else {
+      console.error('MDN Check Error')
+    }
+    throw error
+  }
+}
+
 export async function GetStatus(testCaseId: string): Promise<StatusResponse> {
   const statusUrl = process.env.XDR_TEST_BY_CRITERIA_ENDPOINT + testCaseId + '/status'
   const session = await getServerSession(authOptions)
   const jsessionid = session?.user?.jsessionid ?? ''
+
   try {
     const response = await axios.get(statusUrl, {
       headers: session
@@ -207,11 +281,25 @@ export async function GetStatus(testCaseId: string): Promise<StatusResponse> {
     let testRequest = ''
     let testResponse = ''
     let criteriaMet = ''
+    let results: ValidationResults | undefined
+
     if (content && content.content && content.content.value) {
-      testRequest = content.content.value.request || content.message
-      testResponse = content.content.value.response || content.message
-      criteriaMet = content.content.criteriaMet
+      testRequest = content.content.value.request || content.message || ''
+      testResponse = content.content.value.response || content.message || ''
+      criteriaMet = content.content.criteriaMet || ''
+
+      const ccdaReport = content.content.value.ccdaReport
+      if (ccdaReport) {
+        const resultsMetaData: ResultsMetaData = ccdaReport.resultsMetaData
+        const ccdaValidationResults: CCDAValidationResult[] = ccdaReport.ccdaValidationResults
+
+        results = {
+          resultsMetaData: resultsMetaData,
+          ccdaValidationResults: ccdaValidationResults,
+        }
+      }
     }
+
     console.log('Status fetched: ', content)
     return {
       criteriaMet: criteriaMet,
@@ -219,6 +307,7 @@ export async function GetStatus(testCaseId: string): Promise<StatusResponse> {
       testResponse: testResponse,
       message: content.message,
       status: content.status,
+      results: results,
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {

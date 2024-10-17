@@ -5,11 +5,14 @@ import Content from './send/ContentTab'
 import bulletedList from '../shared/BulletList'
 import { Container, Typography, List, ListItem } from '@mui/material'
 
-const SendTab = () => {
+interface SendTabProps {
+  sampleCCDAFiles: string[]
+}
+const SendTab = ({ sampleCCDAFiles }: SendTabProps) => {
   const [selectedTab, setSelectedTab] = useState('Choose template')
 
   const sendTabs: TabInputs[] = [
-    { tabName: 'Choose template', tabIndex: 0, tabPanel: <Template /> },
+    { tabName: 'Choose template', tabIndex: 0, tabPanel: <Template sampleCCDAFiles={sampleCCDAFiles} /> },
     { tabName: 'Choose own content', tabIndex: 1, tabPanel: <Content /> },
   ]
 
@@ -27,7 +30,6 @@ const SendTab = () => {
       window.removeEventListener('hashchange', handleRouteChange)
     }
   })
-
   return (
     <>
       <Container>
@@ -42,13 +44,12 @@ const SendTab = () => {
           </ListItem>
           <ListItem sx={{ display: 'list-item' }}>
             <Typography variant="body2">
-              Enter any optional properties by expanding the optional properties panel. To remove the entered
-              properties, collapse the panel by clicking on the tile.
+              Choose a CCDA document that you would like to attach as part of the payload.
             </Typography>
           </ListItem>
           <ListItem sx={{ display: 'list-item' }}>
             <Typography variant="body2">
-              Choose any CCDA document that you would like to attach as part of the payload.
+              To add additional properties, toggle the &apos;Show Optional XDR Message Properties&apos; switch.
             </Typography>
           </ListItem>
           <ListItem sx={{ display: 'list-item' }}>

@@ -9,6 +9,7 @@ import IMAP from './IMAPTab'
 import POP3 from './POP3Tab'
 import XDR from './XDRTab'
 import ValidationResults from './ValidationResultsTab'
+import ProfileProvider from './provider'
 
 const HISPPortal = () => {
   const hispTabs: TabInputs[] = [
@@ -41,7 +42,9 @@ const HISPPortal = () => {
         }
       />
       {/* Main Content */}
-      <TabsComponent selectedTab={''} tabs={hispTabs} />
+      <ProfileProvider>
+        <TabsComponent selectedTab={''} tabs={hispTabs} />
+      </ProfileProvider>
     </>
   )
 }

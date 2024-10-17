@@ -107,7 +107,6 @@ const ValidationResults = ({
   const ccdaMDHTConformanceValidationResults = ccdaValidationResults.filter((result) =>
     result?.type.includes('C-CDA MDHT Conformance')
   )
-
   const sccVocabularyValidationResults = ccdaValidationResults.filter((result) =>
     result?.type.includes('S&CC Vocabulary Validation Conformance')
   )

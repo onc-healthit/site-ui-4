@@ -1,18 +1,25 @@
 import { AccountCircle } from '@mui/icons-material'
-import { Box, Button, Menu, MenuItem, Popover, Typography } from '@mui/material'
+import { Box, Button, Divider, Link, Menu, MenuItem, Popover, Typography } from '@mui/material'
 import Login from './Login'
 import { signOut, useSession } from 'next-auth/react'
 import { useState } from 'react'
+import palette from '@/styles/palette'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
 export default function Auth(props: any) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [isCreatingAccount, setIsCreatingAccount] = useState(false)
+  const [isForgotPassword, setIsForgotPassword] = useState(false)
+  const [message, setMessage] = useState({ message: '', severity: 'info' })
   const { data: session } = useSession()
   const handleAuthMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
   const handleAuthClose = () => {
     setAnchorEl(null)
+    setIsCreatingAccount(false)
+    setIsForgotPassword(false)
+    setMessage({ message: '', severity: 'info' })
   }
 
   return (
@@ -27,14 +34,14 @@ export default function Auth(props: any) {
             onClick={handleAuthMenu}
             color="inherit"
           >
-            <Typography variant="h6" component="div">
+            <Typography pr={2} variant="h6" component="div">
               {session ? `${session.user?.name}` : 'LOGIN'}
               {''}
             </Typography>
             <AccountCircle />
           </Button>
           <Menu
-            sx={{ mt: 5 }}
+            sx={{ mt: 5.2 }}
             id="menu-appbar"
             anchorEl={anchorEl}
             anchorOrigin={{
@@ -49,9 +56,20 @@ export default function Auth(props: any) {
             open={Boolean(anchorEl)}
             onClose={handleAuthClose}
           >
-            {/* <MenuItem onClick={handleAuthClose}>Account Info</MenuItem>
-            <MenuItem onClick={handleAuthClose}>Change Password</MenuItem> */}
-            <MenuItem onClick={() => signOut()}>Log Out</MenuItem>
+            <MenuItem>
+              <Link href="/account/info" underline="none">
+                Account Info
+              </Link>
+            </MenuItem>
+            <MenuItem>
+              <Link href="/account/changepassword" underline="none">
+                Change Password
+              </Link>
+            </MenuItem>
+            <Divider />
+            <MenuItem sx={{ color: palette.secondaryLight }} onClick={() => signOut()}>
+              Log Out
+            </MenuItem>
           </Menu>
         </div>
       ) : (
@@ -85,7 +103,15 @@ export default function Auth(props: any) {
             open={Boolean(anchorEl)}
             onClose={handleAuthClose}
           >
-            <Login handleAuthClose={handleAuthClose} />
+            <Login
+              handleAuthClose={handleAuthClose}
+              setIsCreatingAccount={setIsCreatingAccount}
+              isCreatingAccount={isCreatingAccount}
+              message={message}
+              setMessage={setMessage}
+              isForgotPassword={isForgotPassword}
+              setIsForgotPassword={setIsForgotPassword}
+            />
           </Popover>
         </div>
       )}

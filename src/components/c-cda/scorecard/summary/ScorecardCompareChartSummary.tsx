@@ -1,4 +1,4 @@
-import SwitchWithLabel from '@/components/shared/SwitchWIthLabel'
+import SwitchWithLabel from '@/components/shared/SwitchWithLabel'
 import { Box, Typography } from '@mui/material'
 import { BarChart } from '@mui/x-charts/BarChart'
 import { useState } from 'react'
