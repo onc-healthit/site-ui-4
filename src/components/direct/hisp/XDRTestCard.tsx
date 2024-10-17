@@ -638,16 +638,22 @@ const TestCard = ({ test }: TestCardProps) => {
                       Endpoint
                     </Button>
                   </Tooltip>
-                  <Tooltip placement="bottom" title={endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`} arrow>
-                    <Button
-                      sx={{ ml: 2 }}
-                      color="secondary"
-                      endIcon={<ContentPasteGoIcon />}
-                      onClick={(e) => handleClick(e, endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`)}
+                  {test.id != 7 && (
+                    <Tooltip
+                      placement="bottom"
+                      title={endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`}
+                      arrow
                     >
-                      Endpoint TLS
-                    </Button>
-                  </Tooltip>
+                      <Button
+                        sx={{ ml: 2 }}
+                        color="secondary"
+                        endIcon={<ContentPasteGoIcon />}
+                        onClick={(e) => handleClick(e, endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`)}
+                      >
+                        Endpoint TLS
+                      </Button>
+                    </Tooltip>
+                  )}
                 </Box>
               )}
               {requiresCCDADocument() && !endpointsGenerated && (
