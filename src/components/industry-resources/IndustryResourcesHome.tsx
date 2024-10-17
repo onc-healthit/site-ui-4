@@ -41,7 +41,7 @@ const IndustryResourcesHome = () => {
         description={
           <>
             {
-              'Welcome to Your Ultimate Hub for Industry Resources, where professionals across various sectors find the tools, insights, and connections they need to excel. From comprehensive guides and research reports to the latest industry news and trends, we provide everything you need to stay ahead in your field. Join our community to access exclusive content, expert advice, and a network of like-minded professionals. Your journey to industry excellence starts here.'
+              'Welcome to the Industry Resources Hub, designed to support your testing and certification efforts. Here, you will find valuable links to HL7 standards, Implementation Guides, and MITRE GitHub repositories, along with other resources that can assist with the ONC Certification program. Whether you are navigating technical requirements or seeking tools for interoperability testing, these resources can help guide your process.'
             }
           </>
         }
@@ -50,8 +50,8 @@ const IndustryResourcesHome = () => {
       <Container>
         {/* Resources Header*/}
         <SectionHeader
-          header={'Comprehensive Insights, Expert Advice, Unmatched Connections'}
-          subHeader={'Empowering Your Success with Top-Tier Industry Resources'}
+          header={'Key Resources for Your Testing and Certification Needs'}
+          subHeader={'Industry Standards and Testing Tools Guidance'}
         />
         <Box pb={4} gap={4} display={'flex'} flexDirection={'row'}>
           <Box
@@ -95,11 +95,11 @@ const IndustryResourcesHome = () => {
                       implementing HL7 standards.
                     </Typography>
                     <Typography gutterBottom variant="body2">
-                      This page describes the FHIR tooling ecosystem and the vision for its future development,
-                      including the FHIR community&apos;s collective view of what types of tooling are needed, how those
+                      This page describes the FHIR® tooling ecosystem and the vision for its future development,
+                      including the FHIR® community&apos;s collective view of what types of tooling are needed, how those
                       tools might best interact with each other and how the tooling community itself will interact and
                       collaborate to maximize the benefit of its collective investment. It also serves as an entry point
-                      for those who are new to the FHIR tooling community and are interested in what tooling is
+                      for those who are new to the FHIR® tooling community and are interested in what tooling is
                       available and/or how they might best contribute to the community.
                     </Typography>
                     <Typography variant="caption">
@@ -122,9 +122,9 @@ const IndustryResourcesHome = () => {
                       standards, and protocols for implementing interoperable health information systems.
                     </Typography>
                     <Typography gutterBottom variant="body2">
-                      The FHIR community publishes Implementation Guides that build on the specification and detail how
-                      FHIR is used in a particular context. An implementation guide is a combination of human readable
-                      documentation and computer processable content published as a FHIR NPM package.
+                      The FHIR® community publishes Implementation Guides that build on the specification and detail how
+                      FHIR® is used in a particular context. An implementation guide is a combination of human readable
+                      documentation and computer processable content published as a FHIR® NPM package.
                     </Typography>
                   </Box>
                 }

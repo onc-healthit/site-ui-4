@@ -146,8 +146,8 @@ const DocsHome = () => {
                   buttonLink="https://github.com/onc-healthit/soap"
                 />
                 <DocsCard
-                  cardHeader="FHIR Tools"
-                  description={'Set of FHIR tools for SITE '}
+                  cardHeader="FHIR® Tools"
+                  description={'Set of FHIR® tools for SITE '}
                   buttonLink="https://github.com/onc-healthit/fhir-tools"
                 />
                 <DocsCard

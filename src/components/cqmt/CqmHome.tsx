@@ -33,7 +33,7 @@ const CqmHome = () => {
         description={
           <>
             {
-              "Cypress, the official testing tool for EHR Certification under ONC's 2014 and 2015 Certification Editions, ensures precise evaluation of Clinical Quality Measures (CQM) in Electronic Health Records. Tailored for both EHR vendors and Authorized Testing Labs, Cypress, sponsored by the Office of the National Coordinator for Health IT and developed by The MITRE Corporation, facilitates rigorous and repeatable testing for accurate calculation of CQMs for Eligible Providers and Hospitals."
+              "Cypress, the official testing tool for EHR Certification under ONC's 2014 and 2015 Certification Editions, ensures precise evaluation of Clinical Quality Measures (CQMs) in Electronic Health Records(EHRs). Tailored for both EHR vendors and Authorized Testing Labs, Cypress, sponsored by ASTP and developed by The MITRE Corporation, facilitates rigorous and repeatable testing for accurate calculation of CQMs for Eligible Providers and Hospitals."
             }
           </>
         }
@@ -74,7 +74,7 @@ const CqmHome = () => {
               cardImage={cypressImagery}
               cardHeader={'Rigorous & repeatable testing of Electronic Health Records'}
               description={
-                'Cypress is the rigorous and repeatable testing tool of Electronic Health Records (EHR) and EHR modules in calculating eCQMs used by CMS’s Quality Reporting Programs. The Cypress tool is open source and freely available for use or adoption by the health IT community including EHR vendors and testing labs. Cypress serves as the official testing tool for the EHR Certification program supported by the Office of the National Coordinator for Health IT (ONC).'
+                'Cypress is the rigorous and repeatable testing tool of Electronic Health Records (EHRs) and EHR modules in calculating eCQMs used by CMS’s Quality Reporting Programs. The Cypress tool is open source and freely available for use or adoption by the health IT community including EHR vendors and testing labs. Cypress serves as the official testing tool for the EHR Certification program supported by the Assistant Secretary for Technology Policy (ASTP).'
               }
               pathname={'https://www.healthit.gov/cypress/'}
               maxWidth={900}
@@ -104,7 +104,7 @@ const CqmHome = () => {
             />
             <VerticalCard
               title={'Cypress Issue Tracker'}
-              description={'Track questions and issue that Cypress supports.'}
+              description={'Track questions and issues that Cypress supports.'}
               buttonTitle={'TRACK your question'}
               buttonIcon={<TrackChangesIcon />}
               buttonHref={'https://jira.oncprojectracking.org/browse/CYPRESSef'}

@@ -47,7 +47,7 @@ const TourButton: React.FC = () => {
     {
       target: '#site-nav-onc-cert-tools',
       content:
-        'ONC has curated the content for the left navigation on their website to provide users with easy access to the most relevant and valuable pages.',
+        'ASTP has curated the content for the left navigation on their website to provide users with easy access to the most relevant and valuable pages.',
       placement: 'right' as const,
       styles: {
         options: {
@@ -77,7 +77,7 @@ const TourButton: React.FC = () => {
     {
       target: '#site-nav-industry-testing',
       content:
-        'ONC has curated the content for the left navigation on their website to provide users with easy access to the most relevant and valuable pages.',
+        'ASTP has curated the content for the left navigation on their website to provide users with easy access to the most relevant and valuable pages.',
       placement: 'right' as const,
       styles: {
         options: {
@@ -92,7 +92,7 @@ const TourButton: React.FC = () => {
     {
       target: '#communication-Fab',
       content:
-        'ONC has curated the content for the left navigation on their website to provide users with easy access to the most relevant and valuable pages.',
+        'ASTP has curated the content for the left navigation on their website to provide users with easy access to the most relevant and valuable pages.',
       placement: 'top' as const,
       styles: {
         options: {

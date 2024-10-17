@@ -143,7 +143,7 @@ export default function ScorecardTabs({ rubric }: ScorecardTabsProps) {
             {rubric.exampleTaskForceLinks.map((tfLink, index) => (
               <ListItem sx={{ display: 'list-item' }} key={index}>
                 <ListItemText
-                  primary="Related HL7 C-CDA Task Force example"
+                  primary="Related HL7® C-CDA Task Force example"
                   primaryTypographyProps={{ fontWeight: 'bold' }}
                   sx={{ pb: 3 }}
                 />
