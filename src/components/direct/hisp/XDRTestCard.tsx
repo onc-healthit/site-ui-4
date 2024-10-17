@@ -255,6 +255,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
     '44mu2',
   ]
   const ccdaRequiredTestIds = ['1', '2', '3add']
+  const sendEdgeTestsCriteria = ['b1-1']
   const isCCDADocumentRequired = ccdaRequiredTestIds.includes(test.id.toString())
   const [formData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
@@ -271,6 +272,14 @@ const TestCard = ({ test, receive }: TestCardProps) => {
       }))
     }
   }
+
+  const fixEndpoint = (url: string): string => {
+    if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
+      return 'https://' + url
+    }
+    return url
+  }
+
   const handleRunTest = async () => {
     if (!session) {
       showPopover('You must be logged in and have a valid session to perform this action.', null)
@@ -329,13 +338,19 @@ const TestCard = ({ test, receive }: TestCardProps) => {
             if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
               setCriteriaMet(response.criteriaMet)
             }
-            if (
-              !endpointTestIds.includes(test.id.toString()) &&
-              (response.endpoint.length > 10 || response.endpointTLS.length > 10)
-            ) {
-              setEndpointsGenerated(true)
-              setEndpoint(response.endpoint || defaultEndpoint)
-              setEndpointTLS(response.endpointTLS || defaultEndpointTLS)
+            if (!endpointTestIds.includes(test.id.toString())) {
+              let endpointSet = false
+              if (response.endpoint && response.endpoint.length > 10) {
+                setEndpoint(fixEndpoint(response.endpoint))
+                endpointSet = true
+              }
+              if (response.endpointTLS && response.endpointTLS.length > 10) {
+                setEndpointTLS(fixEndpoint(response.endpointTLS))
+                endpointSet = true
+              }
+              if (endpointSet) {
+                setEndpointsGenerated(true)
+              }
             }
             setTestRequestRequest(response.testRequest)
             setTestRequestResponse(response.testResponse)
@@ -387,7 +402,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   }
 
   const renderCriteriaMetIcon = () => {
-    if (endpointsGenerated && criteriaMet != 'PASSED') {
+    if (endpointsGenerated && criteriaMet != 'PASSED' && manualValidationIDs.includes(test.id.toString())) {
       return <Typography style={{ color: 'red' }}>Pending</Typography>
     }
     if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED') {

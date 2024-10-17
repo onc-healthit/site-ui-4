@@ -185,10 +185,10 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     let endpointTLS = ''
 
     if (content && content.content && content.content.value) {
-      testRequest = content.content.value.request || content.message
-      testResponse = content.content.value.response || content.message
-      endpoint = content.content.value.endpoint || content.message
-      endpointTLS = content.content.value.endpointTLS || content.message
+      testRequest = content.content.value.request
+      testResponse = content.content.value.response
+      endpoint = content.content.value.endpoint
+      endpointTLS = content.content.value.endpointTLS
     } else {
       console.error('Invalid response structure:', content)
       testRequest = content.message
