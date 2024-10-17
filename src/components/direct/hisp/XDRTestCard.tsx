@@ -83,6 +83,7 @@ interface StepTextProps {
   inputs: InputFields[]
   role?: string
   endpointsGenerated: boolean
+  criteriaMet: string
 }
 
 interface ValidationResults {
@@ -102,30 +103,6 @@ interface CCDAValidationResult {
 const senderText = 'Hit Run to generate your endpoint.'
 const receiverText = 'Hit Run to send a XDR message.'
 
-const StepText = ({ inputs, role, endpointsGenerated }: StepTextProps) => {
-  if (endpointsGenerated) {
-    return (
-      <Typography variant="body2">
-        <strong>Step 2:</strong> Send XDR message to endpoint and refresh to check status.
-      </Typography>
-    )
-  }
-
-  return (
-    <>
-      <Typography variant="body2">
-        <strong>Step 1:</strong> Provide your{' '}
-        {inputs.map((input, i) => (
-          <span key={i}>
-            {input.name}
-            {inputs.length - 1 === i ? '. ' : ', '}
-          </span>
-        ))}
-        {role === 'sender' ? senderText : receiverText}
-      </Typography>
-    </>
-  )
-}
 export type FieldValue = boolean | string | number
 export type ExtraFields = {
   label: string
@@ -188,7 +165,7 @@ const TestCard = ({ test }: TestCardProps) => {
   const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('info')
 
   const [logType, setLogType] = useState<'request' | 'response' | 'ccdaValidation'>('request')
-  const manualValidationIDs = ['4a', '4b']
+  const manualValidationIDs = ['4a', '4b', '20amu2', '20bmu2']
   const { data: session } = useSession()
   const subHeader = 'Description'
   const subDesc = test['Purpose/Description']
@@ -211,7 +188,6 @@ const TestCard = ({ test }: TestCardProps) => {
   const handleAlertClose = () => {
     setAlertOpen(false)
   }
-
   const toggleLogType = (type: 'request' | 'response' | 'ccdaValidation') => {
     setLogType(type)
   }
@@ -232,7 +208,45 @@ const TestCard = ({ test }: TestCardProps) => {
     '44mu2',
   ]
   const ccdaRequiredTestIds = ['1', '2', '3add']
+  const sendEdgeTestsCriteria = ['b1-1']
   const isCCDADocumentRequired = ccdaRequiredTestIds.includes(test.id.toString())
+  const StepText = ({ inputs, role, endpointsGenerated, criteriaMet }: StepTextProps) => {
+    if (manualValidationIDs.includes(test.id.toString()) && isFinished) {
+      if (test.id == '20amu2' || test.id == '20bmu2') {
+        console.log('abc')
+        testRequest == 'Check your SUT logs and accept or reject'
+        testResponse == 'Check your SUT logs and accept or reject'
+      }
+      return (
+        <Typography variant="body2">
+          <strong>Step 3:</strong> Check the logs to accept/reject the response
+        </Typography>
+      )
+    }
+
+    if (endpointsGenerated) {
+      return (
+        <Typography variant="body2">
+          <strong>Step 2:</strong> Send XDR message to endpoint and refresh to check status.
+        </Typography>
+      )
+    }
+
+    return (
+      <>
+        <Typography variant="body2">
+          <strong>Step 1:</strong> Provide your{' '}
+          {inputs.map((input, i) => (
+            <span key={i}>
+              {input.name}
+              {inputs.length - 1 === i ? '. ' : ', '}
+            </span>
+          ))}
+          {role === 'sender' ? senderText : receiverText}
+        </Typography>
+      </>
+    )
+  }
   const [formData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
     test.moreInfo?.fields?.forEach((field) => {
@@ -248,6 +262,14 @@ const TestCard = ({ test }: TestCardProps) => {
       }))
     }
   }
+
+  const fixEndpoint = (url: string): string => {
+    if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
+      return 'https://' + url
+    }
+    return url
+  }
+
   const handleRunTest = async () => {
     if (!session) {
       setAlertMessage('You must be logged in and have a valid session to perform this action.')
@@ -283,6 +305,7 @@ const TestCard = ({ test }: TestCardProps) => {
         setIsFinished(true)
         if (status.results) {
           setValidationResults(status.results)
+          setEndpointsGenerated(false)
         }
       } else {
         const response = await handleXDRAPICall({
@@ -308,13 +331,20 @@ const TestCard = ({ test }: TestCardProps) => {
           if (test.criteria && !manualValidationIDs.includes(test.id.toString())) {
             setCriteriaMet(response.criteriaMet)
           }
-          if (
-            !endpointTestIds.includes(test.id.toString()) &&
-            (response.endpoint.length > 10 || response.endpointTLS.length > 10)
-          ) {
-            setEndpointsGenerated(true)
-            setEndpoint(response.endpoint || defaultEndpoint)
-            setEndpointTLS(response.endpointTLS || defaultEndpointTLS)
+          if (!endpointTestIds.includes(test.id.toString())) {
+            let endpointSet = false
+            if (response.endpoint && response.endpoint.length > 10) {
+              setEndpoint(fixEndpoint(response.endpoint))
+              endpointSet = true
+            }
+            if (response.endpointTLS && response.endpointTLS.length > 10) {
+              setEndpointTLS(fixEndpoint(response.endpointTLS))
+              endpointSet = true
+            }
+            if (endpointSet) {
+              console.log('setting endpoints generated')
+              setEndpointsGenerated(true)
+            }
           }
           setTestRequestRequest(response.testRequest)
           setTestRequestResponse(response.testResponse)
@@ -372,11 +402,9 @@ const TestCard = ({ test }: TestCardProps) => {
   }
 
   const renderCriteriaMetIcon = () => {
-    console.log('criteria met icon: ', criteriaMet)
-    if (endpointsGenerated && criteriaMet != 'PASSED' && manualValidationIDs.includes(test.id.toString())) {
+    if (endpointsGenerated) {
       return <Typography style={{ color: 'red' }}>Pending</Typography>
-    }
-    if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED' || criteriaMet === 'SUCCESS') {
+    } else if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED' || criteriaMet === 'SUCCESS') {
       return <CheckCircleIcon style={{ color: 'green' }} />
     } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR') {
       return <CancelIcon style={{ color: 'red' }} />
@@ -431,7 +459,12 @@ const TestCard = ({ test }: TestCardProps) => {
         return <Typography>No C-CDA Validation results available.</Typography>
       }
     } else {
-      const content = logType === 'request' ? testRequest : testResponse
+      let content = logType === 'request' ? testRequest : testResponse
+
+      if ((test.id === '20amu2' || test.id === '20bmu2') && isFinished && (!testRequest || !testResponse)) {
+        content = 'Check your SUT logs and accept or reject'
+      }
+
       return <XMLDisplay xmlContent={content || 'No logs to display.'} />
     }
   }
@@ -525,19 +558,16 @@ const TestCard = ({ test }: TestCardProps) => {
             {renderLogs()}
             <Divider sx={{ mb: 2, mt: 2 }} />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-              {test.criteria &&
-                manualValidationIDs.includes(test.id.toString()) &&
-                testRequest &&
-                testRequest.length > 0 && (
-                  <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button variant="contained" color="primary" onClick={handleAcceptTest}>
-                      Accept
-                    </Button>
-                    <Button variant="outlined" color="primary" onClick={handleRejectTest}>
-                      Reject
-                    </Button>
-                  </Box>
-                )}
+              {test.criteria && manualValidationIDs.includes(test.id.toString()) && isFinished && (
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  <Button variant="contained" color="primary" onClick={handleAcceptTest}>
+                    Accept
+                  </Button>
+                  <Button variant="outlined" color="primary" onClick={handleRejectTest}>
+                    Reject
+                  </Button>
+                </Box>
+              )}
               <Button variant="contained" onClick={handleToggleLogs}>
                 Close Logs
               </Button>
@@ -550,14 +580,25 @@ const TestCard = ({ test }: TestCardProps) => {
                 {test.desc}
               </Typography>
               {_.isEqual(test.sutRole, 'receiver') && _.has(test, 'inputs') && test.inputs !== undefined && (
-                <StepText inputs={test.inputs} role={test.sutRole} endpointsGenerated={endpointsGenerated} />
+                <StepText
+                  inputs={test.inputs}
+                  role={test.sutRole}
+                  endpointsGenerated={endpointsGenerated}
+                  criteriaMet={criteriaMet}
+                />
               )}
               {_.isEqual(test.sutRole, 'sender') && _.has(test, 'inputs') && test.inputs !== undefined && (
-                <StepText inputs={test.inputs} role={test.sutRole} endpointsGenerated={endpointsGenerated} />
+                <StepText
+                  inputs={test.inputs}
+                  role={test.sutRole}
+                  endpointsGenerated={endpointsGenerated}
+                  criteriaMet={criteriaMet}
+                />
               )}
               {_.has(test, 'inputs') &&
                 test.inputs &&
                 !endpointsGenerated &&
+                !isFinished &&
                 test.inputs.filter(shouldDisplayInput).map((input) => (
                   <Box sx={{ pt: 2 }} key={input.key || 'default-key'}>
                     <FormControl fullWidth>
@@ -597,16 +638,22 @@ const TestCard = ({ test }: TestCardProps) => {
                       Endpoint
                     </Button>
                   </Tooltip>
-                  <Tooltip placement="bottom" title={endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`} arrow>
-                    <Button
-                      sx={{ ml: 2 }}
-                      color="secondary"
-                      endIcon={<ContentPasteGoIcon />}
-                      onClick={(e) => handleClick(e, endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`)}
+                  {test.id != 7 && (
+                    <Tooltip
+                      placement="bottom"
+                      title={endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`}
+                      arrow
                     >
-                      Endpoint TLS
-                    </Button>
-                  </Tooltip>
+                      <Button
+                        sx={{ ml: 2 }}
+                        color="secondary"
+                        endIcon={<ContentPasteGoIcon />}
+                        onClick={(e) => handleClick(e, endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`)}
+                      >
+                        Endpoint TLS
+                      </Button>
+                    </Tooltip>
+                  )}
                 </Box>
               )}
               {requiresCCDADocument() && !endpointsGenerated && (
@@ -661,11 +708,9 @@ const TestCard = ({ test }: TestCardProps) => {
                     </Button>
                   </Box>
                 )}
-                {test.criteria &&
-                  manualValidationIDs.includes(test.id.toString()) &&
-                  (testRequest || testResponse) &&
-                  isFinished &&
-                  !apiError && <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>}
+                {test.criteria && manualValidationIDs.includes(test.id.toString()) && isFinished && !apiError && (
+                  <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>
+                )}
               </Box>
             </Box>
           </>
