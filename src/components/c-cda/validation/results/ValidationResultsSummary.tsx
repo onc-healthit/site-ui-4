@@ -237,7 +237,7 @@ const ValidatorResultsSummary: React.FC<ValidatorResultsSummaryProps> = ({
       </Box>
       <Box px={4} pb={4} id="original-ccda" ref={originalCCDARef}>
         <Typography variant="h4" sx={{ fontWeight: 'bold', pb: 4 }}>
-          Original C-CDA
+          Submitted C-CDA Document
         </Typography>
         {resultsMetaData ? <OriginalCCDAResult xmlData={resultsMetaData} /> : <Typography>No Results</Typography>}
       </Box>

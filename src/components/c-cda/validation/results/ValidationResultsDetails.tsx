@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Typography, Box, Accordion, AccordionSummary, AccordionDetails } from '@mui/material'
 import palette from '@/styles/palette'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -33,18 +33,36 @@ const DetailsAccordion = ({
   defaultExpanded,
   referenceCCDAResults,
 }: DetailsProps) => {
-  const [expanded, setExpanded] = useState(false)
+  const [expanded, setExpanded] = useState(
+    disabled || details.length === 0 ? false : defaultExpanded !== undefined ? defaultExpanded : false
+  )
+
   const [content, setContent] = useState<CCDAValidationResult[]>([])
   const [contentLoaded, setContentLoaded] = useState(false)
+  const userClickedAccordian = useRef(false) // Prevents scroll to default expanded accordians on component load
+
+  useEffect(() => {
+    if (expanded && !contentLoaded) {
+      setContent(details)
+      setTimeout(() => {
+        setContentLoaded(true)
+      }, 250)
+    }
+
+    // Scroll after content has been set
+    if (expanded && contentLoaded && userClickedAccordian.current) {
+      executeScroll()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [expanded, contentLoaded, details])
 
   const handleAccordionChange = () => {
+    userClickedAccordian.current = !expanded // Set to true only when expanding
     setExpanded((prevExpanded) => !prevExpanded)
+
+    // If expanding, reset contentLoaded to false to show the loading message
     if (!expanded) {
-      setTimeout(() => {
-        setContent(details)
-        setContentLoaded(true)
-        executeScroll()
-      }, 500)
+      setContentLoaded(false)
     }
   }
 
@@ -59,6 +77,11 @@ const DetailsAccordion = ({
 
   return (
     <Accordion
+      slotProps={{
+        transition: {
+          timeout: 50, // Adjust the expand/collapse animation speed (set to 0 to disable)
+        },
+      }}
       sx={{
         py: 0,
         '&:before': {

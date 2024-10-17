@@ -134,7 +134,7 @@ const ValidatorMenu = ({
         ) : null}
 
         <MenuItem sx={{ fontWeight: 'bold' }} onClick={() => onScroll(originalCCDARef)}>
-          Original C-CDA
+          Submitted C-CDA Document
         </MenuItem>
       </List>
     </>
