@@ -25,6 +25,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material'
 import AlertSnackbar from '../shared/AlertSnackbar'
+import eventTrack from '@/services/analytics'
 
 export type TestCaseFields = {
   name: string
@@ -159,6 +160,7 @@ const TestCard = ({
     setDocumentDetails(null)
     setApiError(false)
     setPreviousResult(null)
+    eventTrack('Clear Test', 'Test By Criteria', `${test.criteria}`)
   }
 
   const handleAttachmentTypeChange = (event: SelectChangeEvent<string>) => {
@@ -243,8 +245,9 @@ const TestCard = ({
   const handleChange = (name: string, value: FieldValue) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
-
+  //Event trigger twice
   const handleRunTest = async () => {
+    eventTrack(` Run test for ${test.name}`, 'Test By Criteria', `${test.criteria}`)
     const isMDNTest = test.protocol && mdnTestIds.includes(test.protocol)
 
     if (test.ccdaFileRequired && !documentDetails && !test.name.includes('MT')) {
@@ -322,12 +325,14 @@ const TestCard = ({
     setShowDocumentSelector(!showDocumentSelector)
   }
 
-  const handleToggleLogs = () => {
+  const handleToggleLogs = (buttonText: string) => {
     setShowLogs((prev) => !prev)
+    eventTrack(buttonText, 'Test By Criteria - XDR Test', `${test.criteria}`)
   }
 
-  const handleToggleDetail = () => {
+  const handleToggleDetail = (buttonText: string) => {
     setShowDetail((prev) => !prev)
+    eventTrack(buttonText, 'Test By Criteria - XDR Test', `${test.criteria}`)
   }
 
   const handleAlertClose = () => {
@@ -435,7 +440,7 @@ const TestCard = ({
                     boxShadow: '0px 4px 2px -1px rgba(0, 0, 0, 0.22)',
                   },
                 }}
-                onClick={handleToggleDetail}
+                onClick={() => handleToggleDetail('Return to test')}
               >
                 RETURN TO TEST
               </Button>
@@ -467,7 +472,7 @@ const TestCard = ({
                   </Button>
                 </Box>
               )}
-            <Button variant="contained" onClick={handleToggleLogs}>
+            <Button variant="contained" onClick={() => handleToggleLogs('Close Logs')}>
               Close Logs
             </Button>
           </Box>
@@ -545,10 +550,10 @@ const TestCard = ({
                     : 'RUN'}
                 </LoadingButton>
               </LoadingButton>
-              <Button variant="contained" onClick={handleToggleDetail}>
+              <Button variant="contained" onClick={() => handleToggleDetail('More Info')}>
                 MORE INFO
               </Button>
-              <Button variant="contained" color="inherit" onClick={handleToggleLogs}>
+              <Button variant="contained" color="inherit" onClick={() => handleToggleLogs('Open Logs')}>
                 LOGS
               </Button>
               {((test.criteria &&

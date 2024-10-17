@@ -16,6 +16,8 @@ import _ from 'lodash'
 import ErrorDisplayCard from '@/components/c-cda/validation/results/ErrorDisplay'
 import CloseIcon from '@mui/icons-material/Close'
 import palette from '@/styles/palette'
+import eventTrack from '@/services/analytics'
+
 interface ResultsComponentProps {
   response: object
   disabled?: boolean
@@ -100,6 +102,7 @@ const ResultsComponent = ({
   //console.log(response)
   const handleLoadingOpen = () => {
     setLoadingOpen(true)
+    eventTrack(`Submit ${buttonTitle}`, 'Direct XDR Edge Test Tool', resultsDialogTitle)
   }
   const handleCloseDialog = () => {
     setResultsOpen(false)

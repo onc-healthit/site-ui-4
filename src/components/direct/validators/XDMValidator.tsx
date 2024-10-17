@@ -8,6 +8,7 @@ import { handleXDMUpload } from './actions'
 import { useFormState } from 'react-dom'
 import { useEffect, useState } from 'react'
 import XDMResults from './XDMResults'
+import eventTrack from '@/services/analytics'
 
 const XDM = () => {
   const [base64, setBase64] = useState<string | null>(null)
@@ -35,7 +36,9 @@ const XDM = () => {
       setFileContent(data[0])
     }
   }
-
+  const handleValidation = () => {
+    eventTrack('Run XDM Validator', 'XDM Validator', `User submitted file for XDM Validator`)
+  }
   return (
     <>
       {/* Global Header */}
@@ -63,7 +66,7 @@ const XDM = () => {
             </Stack>
             <DragandDropFile maxFiles={1} name="messageFilePath" allowedSize={5242880} fileName={getFileName} />
           </Box>
-          <XDMResults response={data?.response} buttonTitle={'VALIDATE'} />
+          <XDMResults onClick={handleValidation} response={data?.response} buttonTitle={'VALIDATE'} />
         </form>
       </Container>
     </>

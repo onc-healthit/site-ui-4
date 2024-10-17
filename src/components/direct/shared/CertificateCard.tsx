@@ -7,6 +7,7 @@ import { Button, CardActions } from '@mui/material'
 import Image from 'next/image'
 import ArrowForwardIcon from '@mui/icons-material/ArrowDownward'
 import Link from 'next/link'
+import eventTrack from '@/services/analytics'
 export interface CertificateCardProps {
   title: string
   cardImage: string
@@ -14,7 +15,11 @@ export interface CertificateCardProps {
   description: string
   href: string
 }
+
 const CertificateCard = ({ title, cardImage, cardHeader, description, href }: CertificateCardProps) => {
+  const trackDownload = () => {
+    eventTrack('Download Certification', 'Direct', title)
+  }
   return (
     <Card
       sx={{ maxWidth: 250, display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}
@@ -40,7 +45,14 @@ const CertificateCard = ({ title, cardImage, cardHeader, description, href }: Ce
         </Typography>
       </CardContent>
       <CardActions sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
-        <Button size="small" variant="text" color="secondary" endIcon={<ArrowForwardIcon />} href={href}>
+        <Button
+          onClick={trackDownload}
+          size="small"
+          variant="text"
+          color="secondary"
+          endIcon={<ArrowForwardIcon />}
+          href={href}
+        >
           DOWNLOAD
         </Button>
       </CardActions>

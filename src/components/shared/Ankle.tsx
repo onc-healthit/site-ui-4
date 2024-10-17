@@ -2,6 +2,7 @@
 import palette from '@/styles/palette'
 import { Box, Container, Typography } from '@mui/material'
 import Link from 'next/link'
+import eventTrack from '@/services/analytics'
 
 interface GtagOptions {
   event_category: string
@@ -18,18 +19,12 @@ declare global {
 export default function Ankle() {
   const ClickDocumentationAnkle = () => {
     if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Go to Docs', {
-        event_category: 'Link',
-        event_label: 'Go to Docs thru ankle',
-      })
+      eventTrack('Go to Documentation Page', 'Link', 'Go to Docs thru ankle')
     }
   }
   const ClickArchivedAnkle = () => {
     if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Go to Archived', {
-        event_category: 'Link',
-        event_label: 'Go to Archived thru ankle',
-      })
+      eventTrack('Go to Archived Page', 'Link', 'Go to Archived thru ankle')
     }
   }
   return (

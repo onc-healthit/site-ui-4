@@ -7,6 +7,7 @@ import NotificationImportantOutlined from '@mui/icons-material/NotificationImpor
 import { fetchNotifications, Announcement } from '@/assets/NotificationService'
 import palette from '@/styles/palette'
 import { fetchReleaseData } from '@/assets/ReleaseService'
+import eventTrack from '@/services/analytics'
 
 const NotificationFab: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -48,10 +49,7 @@ const NotificationFab: React.FC = () => {
 
   const trackEvent = (action: string, category: string, label: string) => {
     if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-      window.gtag('event', action, {
-        event_category: category,
-        event_label: label,
-      })
+      eventTrack(action, category, label)
     }
   }
 

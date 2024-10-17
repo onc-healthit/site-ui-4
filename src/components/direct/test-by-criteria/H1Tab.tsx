@@ -17,11 +17,11 @@ import TestCard from '../hisp/TestCard'
 import testCases from '../../../assets/SMTPTestCases'
 import { useContext } from 'react'
 import { ProfileContext } from '../hisp/context'
+import eventTrack from '@/services/analytics'
 
 const H1Component = () => {
   const [option, setOption] = useState('')
   const { hostname, email, password, tls, username } = useContext(ProfileContext)
-
   const dropdownOptions = [
     {
       value: 'directHome',
@@ -56,8 +56,10 @@ const H1Component = () => {
     const selectedOption = dropdownOptions.find((option) => option.value === event.target.value)
     if (selectedOption?.testCard) {
       setOption(event.target.value)
+      eventTrack(`Selected: ${selectedOption.label}`, 'Test By Criteria - H1', 'User selects criteria on h1 tab')
     } else if (selectedOption?.link) {
       window.location.href = selectedOption.link
+      eventTrack(`Selected: ${selectedOption.link}`, 'Test By Criteria - H1', 'User selects criteria on h1 tab')
     }
   }
 

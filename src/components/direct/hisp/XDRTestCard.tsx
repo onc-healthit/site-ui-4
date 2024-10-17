@@ -23,6 +23,7 @@ import { useSession } from 'next-auth/react'
 import XMLDisplay from '../shared/colorizeXML'
 import ValidatorResultsSummary from '@/components/c-cda/validation/results/ValidationResultsSummary'
 import AlertSnackbar from '../shared/AlertSnackbar'
+import eventTrack from '@/services/analytics'
 
 export type TestCaseFields = {
   name?: string
@@ -248,7 +249,9 @@ const TestCard = ({ test }: TestCardProps) => {
       }))
     }
   }
+  //Event trigger twice
   const handleRunTest = async () => {
+    eventTrack(` Run test for ${test.name}`, 'Test By Criteria - XDR Test', `${test.criteria}`)
     if (!session) {
       setAlertMessage('You must be logged in and have a valid session to perform this action.')
       setAlertSeverity('error')
@@ -369,6 +372,7 @@ const TestCard = ({ test }: TestCardProps) => {
     setEndpointTLS(defaultEndpointTLS)
     setApiError(false)
     setValidationResults(null)
+    eventTrack('Clear Test', 'Test By Criteria - XDR Test', `${test.criteria}`)
   }
 
   const renderCriteriaMetIcon = () => {
@@ -386,8 +390,9 @@ const TestCard = ({ test }: TestCardProps) => {
   const handleToggleLogs = () => {
     setShowLogs((prev) => !prev)
   }
-  const handleToggleDetail = () => {
+  const handleToggleDetail = (buttonText: string) => {
     setShowDetail((prev) => !prev)
+    eventTrack(buttonText, 'Test By Criteria - XDR Test', `${test.criteria}`)
   }
   const toggleDocumentSelector = () => {
     setShowDocumentSelector(!showDocumentSelector)
@@ -459,7 +464,13 @@ const TestCard = ({ test }: TestCardProps) => {
           <TextField key={index} label={field.label} defaultValue={field.value} variant="outlined" fullWidth disabled />
         ))}
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 2 }}>
-          <Button variant="contained" color="primary" onClick={() => console.log(formData)}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              console.log(formData)
+            }}
+          >
             RUN
           </Button>
           <Button
@@ -474,7 +485,7 @@ const TestCard = ({ test }: TestCardProps) => {
                 boxShadow: '0px 4px 2px -1px rgba(0, 0, 0, 0.22)',
               },
             }}
-            onClick={handleToggleDetail}
+            onClick={() => handleToggleDetail('Return to test')}
           >
             RETURN TO TEST
           </Button>
@@ -648,7 +659,7 @@ const TestCard = ({ test }: TestCardProps) => {
                 >
                   {endpointsGenerated ? 'REFRESH' : 'RUN'}
                 </LoadingButton>
-                <Button variant="contained" onClick={handleToggleDetail}>
+                <Button variant="contained" onClick={() => handleToggleDetail('More Info')}>
                   MORE INFO
                 </Button>
                 <Button variant="contained" color="inherit" onClick={handleToggleLogs}>

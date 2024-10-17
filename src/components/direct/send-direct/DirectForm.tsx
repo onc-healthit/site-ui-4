@@ -20,6 +20,7 @@ import React, { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import { handleSendDirectMessage } from './actions'
 import SendDirectResults from './SendDirectResults'
+import eventTrack from '@/services/analytics'
 
 const documentDropdown = [
   {
@@ -68,7 +69,7 @@ const DirectForm = ({ version, certificateDropdown, algorithmDropdown, domainNam
   const [isInvalidDigest, setIsInvalidDigest] = useState(false)
   const [data, handleSubmit] = useFormState(handleSendDirectMessage, { response: {} })
   const [algorithmDropdownM, setAlgorithmDropdownM] = useState(algorithmDropdown)
-  
+
   //Validation
   const handleValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
     const errors = { ...formErrors }
@@ -95,6 +96,7 @@ const DirectForm = ({ version, certificateDropdown, algorithmDropdown, domainNam
   useEffect(() => {
     if (_.has(formValues, 'fromAddress') && _.has(formValues, 'toAddress') && _.isEmpty(formErrors)) {
       setDisableSendButton(false)
+      eventTrack('Run Send Direct Message', 'Send Direct Message', `${version}`)
     }
     if (isInvalidDigest) {
       setSelectedCertificate('')
@@ -107,7 +109,7 @@ const DirectForm = ({ version, certificateDropdown, algorithmDropdown, domainNam
     } else {
       setAlgorithmDropdownM(algorithmDropdown)
     }
-  }, [algorithmDropdown, formErrors, formValues, isInvalidDigest, selectedCertificate])
+  }, [algorithmDropdown, formErrors, formValues, isInvalidDigest, selectedCertificate, version])
   const handleChangeDocument = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setSelectedDocument(value)

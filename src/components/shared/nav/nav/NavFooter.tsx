@@ -2,6 +2,7 @@
 import { fetchSanitizedMarkdownData } from '@/services/markdownToHTMLService'
 import { Box, Button, Dialog, DialogActions, DialogContent } from '@mui/material'
 import { useEffect, useState } from 'react'
+import eventTrack from '@/services/analytics'
 
 export default function NavFooter() {
   const [openDialog, setOpenDialog] = useState(false)
@@ -9,20 +10,14 @@ export default function NavFooter() {
   const handleOpenDialog = () => {
     setOpenDialog(true)
     if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Open Release Notes', {
-        event_category: 'Button',
-        event_label: 'Open Release Notes thru Nav',
-      })
+      eventTrack('Open Release Notes', 'Button', 'Open Release Notes thru Nav')
     }
   }
 
   const handleCloseDialog = () => {
     setOpenDialog(false)
     if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Close Release Notes', {
-        event_category: 'Button',
-        event_label: 'Close Release Notes',
-      })
+      eventTrack('Close Release Notes', 'Button', 'Close Release Notes')
     }
   }
 

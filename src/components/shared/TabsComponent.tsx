@@ -1,4 +1,5 @@
 'use client'
+import eventTrack from '@/services/analytics'
 import palette from '@/styles/palette'
 import { Box, Container, Tabs, Tab } from '@mui/material'
 import * as React from 'react'
@@ -25,6 +26,10 @@ const TabsComponent = ({ selectedTab, tabs }: TabsProps) => {
   const [value, setValue] = React.useState(0)
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
+    const h1Element = document.querySelector('h1')
+    const pageTitle = h1Element?.textContent || 'Unknown Title'
+    const { tabName, tabIndex } = tabs[newValue]
+    eventTrack(`Click on ${tabName} Tab`, pageTitle, `Index: ${tabIndex}`)
   }
 
   useEffect(() => {
