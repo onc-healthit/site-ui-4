@@ -32,7 +32,7 @@ export type TestCaseFields = {
   sutEdge?: boolean
   sutHisp?: boolean
   sutRole?: string
-  criteria: string
+  criteria?: string
   status?: string
   ccdaFileRequired?: boolean
   inputs?: InputFields[]
