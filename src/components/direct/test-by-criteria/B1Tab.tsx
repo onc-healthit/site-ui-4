@@ -53,14 +53,14 @@ const B1Component = () => {
   }
 
   const dropdown = [
-    { value: 'A', label: 'Criteria (i)(A) Send using Edge Protocol - XDR' },
-    { value: 'B', label: 'Criteria (i)(A) Send using Edge Protocol - SMTP' },
-    { value: 'C', label: 'Criteria (i)(A) Send using Edge Protocol - Delivery Notification' },
-    { value: 'D', label: 'Criteria (i)(B) Receive using Edge Protocol - XDR' },
-    { value: 'E', label: 'Criteria (i)(B) Receive using Edge Protocol - SMTP' },
-    { value: 'F', label: 'Criteria (i)(B) Receive using Edge Protocol - IMAP' },
-    { value: 'G', label: 'Criteria (i)(B) Receive using Edge Protocol - POP3' },
-    { value: 'H', label: 'Criteria (i)(C) XDM Processing Received via Edge Protocol' },
+    { value: 'A', label: 'Paragraph (i)(A) Send using Edge Protocol - XDR' },
+    { value: 'B', label: 'Paragraph (i)(A) Send using Edge Protocol - SMTP' },
+    { value: 'C', label: 'Paragraph (i)(A) Send using Edge Protocol - Delivery Notification' },
+    { value: 'D', label: 'Paragraph (i)(B) Receive using Edge Protocol - XDR' },
+    { value: 'E', label: 'Paragraph (i)(B) Receive using Edge Protocol - SMTP' },
+    { value: 'F', label: 'Paragraph (i)(B) Receive using Edge Protocol - IMAP' },
+    { value: 'G', label: 'Paragraph (i)(B) Receive using Edge Protocol - POP3' },
+    { value: 'H', label: 'Paragraph (i)(C) XDM Processing Received via Edge Protocol' },
   ]
 
   const selectedTestCases = () => {
@@ -105,7 +105,7 @@ const B1Component = () => {
             <CardContent>
               <Box component="form" sx={{ backgroundColor: palette.white }}>
                 <Typography variant="body2" gutterBottom>
-                  Use the menu to select what sub criteria you want to test for.
+                  Use the menu to select what paragraph you want to test for.
                 </Typography>
                 <Box>
                   <FormControl fullWidth>

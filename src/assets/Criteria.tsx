@@ -7,7 +7,7 @@ const criteria = [
     selectOption: "['A','B','2','3','4','5','6','7','8','9','10']",
   },
   {
-    name: 'Criteria (i) Direct Home - Certificates',
+    name: 'Paragraph (i) Direct Home - Certificates',
     testList: "['h1']",
     redirect: {
       hrefvalue: '',
@@ -16,7 +16,7 @@ const criteria = [
     },
   },
   {
-    name: 'Criteria (i) Certificate Discovery / Hosting - 2015 DCDT',
+    name: 'Paragraph (i) Certificate Discovery / Hosting - 2015 DCDT',
     testList: "['h1']",
     redirect: {
       hrefvalue: '',
@@ -25,7 +25,7 @@ const criteria = [
     },
   },
   {
-    name: 'Criteria (i) Register Direct',
+    name: 'Paragraph (i) Register Direct',
     testList: "['h1']",
     redirect: {
       hrefvalue: '',
@@ -34,7 +34,7 @@ const criteria = [
     },
   },
   {
-    name: 'Criteria (i) Send Direct Message',
+    name: 'Paragraph (i) Send Direct Message',
     testList: "['h1']",
     redirect: {
       hrefvalue: '',
@@ -43,7 +43,7 @@ const criteria = [
     },
   },
   {
-    name: 'Criteria (i) Receive - Message Status',
+    name: 'Paragraph (i) Receive - Message Status',
     testList: "['h1']",
     redirect: {
       hrefvalue: '',
@@ -52,7 +52,7 @@ const criteria = [
     },
   },
   {
-    name: 'Criteria (ii) Delivery Notifications',
+    name: 'Paragraph (ii) Delivery Notifications',
     xdrTest: false,
     protocol: 'MT',
     testList: "['h1']",
@@ -60,7 +60,7 @@ const criteria = [
     uploadOption: true,
   },
   {
-    name: 'Criteria (i) Certificate Discovery / Hosting - 2015 DCDT',
+    name: 'Paragraph (i) Certificate Discovery / Hosting - 2015 DCDT',
     testList: "['h2']",
     redirect: {
       hrefvalue: '',
@@ -70,7 +70,7 @@ const criteria = [
     selectOption: "['A','B','2','9','5','6','10']",
   },
   {
-    name: 'Criteria (i) Register Direct',
+    name: 'Paragraph (i) Register Direct',
     testList: "['h2']",
     redirect: {
       hrefvalue: '',
@@ -80,7 +80,7 @@ const criteria = [
     selectOption: "['A','B','2','9']",
   },
   {
-    name: 'Criteria (i) Direct Home - Certificates',
+    name: 'Paragraph (i) Direct Home - Certificates',
     testList: "['h2']",
     redirect: {
       hrefvalue: '',
@@ -90,7 +90,7 @@ const criteria = [
     selectOption: "['A','B','6','5']",
   },
   {
-    name: 'Criteria (i) Send Direct Message',
+    name: 'Paragraph (i) Send Direct Message',
     testList: "['h2']",
     redirect: {
       hrefvalue: '',
@@ -100,7 +100,7 @@ const criteria = [
     selectOption: "['A','B','5','6']",
   },
   {
-    name: 'Criteria (i) Message Status',
+    name: 'Paragraph (i) Message Status',
     testList: "['h2']",
     redirect: {
       hrefvalue: '',
@@ -110,7 +110,7 @@ const criteria = [
     selectOption: "['A','B','5','6']",
   },
   {
-    name: 'Criteria (i) C-CDA R2.1 Validator',
+    name: 'Paragraph (i) C-CDA R2.1 Validator',
     testList: "['h2']",
     redirect: {
       hrefvalue: '',
@@ -120,7 +120,7 @@ const criteria = [
     selectOption: "['B']",
   },
   {
-    name: 'Criteria (i) XDR Validator',
+    name: 'Paragraph (i) XDR Validator',
     testList: "['h2']",
     redirect: {
       hrefvalue: '',
@@ -129,7 +129,7 @@ const criteria = [
     },
   },
   {
-    name: 'Criteria (i) XDM Validator',
+    name: 'Paragraph (i) XDM Validator',
     testList: "['h2']",
     redirect: {
       hrefvalue: '',
@@ -139,28 +139,28 @@ const criteria = [
     selectOption: "['2','6','4','B','5']",
   },
   {
-    name: 'Criteria (i)(B) Send conversion XDR',
+    name: 'Paragraph (i)(B) Send conversion XDR',
     xdrTest: true,
     testList: "['h2']",
     criteria: "'h2-1'",
     selectOption: "['3','B']",
   },
   {
-    name: 'Criteria (i)(B)  Receive conversion XDR',
+    name: 'Paragraph (i)(B)  Receive conversion XDR',
     xdrTest: true,
     testList: "['h2']",
     criteria: "'h2-2'",
     selectOption: "['5','7']",
   },
   {
-    name: 'Criteria (i)(C) Send using Edge Protocol - XDR',
+    name: 'Paragraph (i)(C) Send using Edge Protocol - XDR',
     xdrTest: true,
     testList: "['h2']",
     criteria: "'h2-3'",
     selectOption: "['B','3','4']",
   },
   {
-    name: 'Criteria (i)(C) Send using Edge Protocol - SMTP',
+    name: 'Paragraph (i)(C) Send using Edge Protocol - SMTP',
     xdrTest: false,
     protocol: 'SMTP',
     testList: "['h2']",
@@ -168,7 +168,7 @@ const criteria = [
     selectOption: "['B','4']",
   },
   {
-    name: 'Criteria (i)(C) Send using Edge Protocol - Delivery Notification',
+    name: 'Paragraph (i)(C) Send using Edge Protocol - Delivery Notification',
     xdrTest: false,
     protocol: 'MT',
     testList: "['h2']",
@@ -176,7 +176,7 @@ const criteria = [
     selectOption: "['B','4']",
   },
   {
-    name: 'Criteria (i)(C) Send using Edge Protocol - IMAP',
+    name: 'Paragraph (i)(C) Send using Edge Protocol - IMAP',
     xdrTest: false,
     protocol: 'IMAP',
     testList: "['h2']",
@@ -184,7 +184,7 @@ const criteria = [
     selectOption: "['B','4']",
   },
   {
-    name: 'Criteria (i)(C) Send using Edge Protocol - POP',
+    name: 'Paragraph (i)(C) Send using Edge Protocol - POP',
     xdrTest: false,
     protocol: 'POP',
     testList: "['h2']",
@@ -192,14 +192,14 @@ const criteria = [
     selectOption: "['B','4']",
   },
   {
-    name: 'Criteria (i)(C) Receive using Edge Protocol - XDR',
+    name: 'Paragraph (i)(C) Receive using Edge Protocol - XDR',
     xdrTest: true,
     testList: "['h2']",
     criteria: "'h2-7'",
     selectOption: "['5','8']",
   },
   {
-    name: 'Criteria (i)(C) Receive using Edge Protocol - SMTP',
+    name: 'Paragraph (i)(C) Receive using Edge Protocol - SMTP',
     xdrTest: false,
     protocol: 'SMTP',
     testList: "['h2']",
@@ -207,7 +207,7 @@ const criteria = [
     selectOption: "['5','8']",
   },
   {
-    name: 'Criteria (ii) Delivery Notification in Direct - SMTP',
+    name: 'Paragraph (ii) Delivery Notification in Direct - SMTP',
     xdrTest: false,
     protocol: 'MT',
     testList: "['h2']",
@@ -215,7 +215,7 @@ const criteria = [
     selectOption: "['9','B']",
   },
   {
-    name: 'Criteria (ii) Receive SMTP: Disposition-Notification',
+    name: 'Paragraph (ii) Receive SMTP: Disposition-Notification',
     xdrTest: false,
     uploadOption: true,
     protocol: 'MT',
@@ -224,68 +224,68 @@ const criteria = [
     selectOption: "['5','10']",
   },
   {
-    name: 'Criteria (ii)(C) Delivery Notification in Direct - XDR',
+    name: 'Paragraph (ii)(C) Delivery Notification in Direct - XDR',
     xdrTest: true,
     testList: "['h2']",
     criteria: "'h2-11'",
     selectOption: "['9','B']",
   },
   {
-    name: 'Criteria (ii)(C) Receive XDR: Disposition-Notification',
+    name: 'Paragraph (ii)(C) Receive XDR: Disposition-Notification',
     xdrTest: true,
     testList: "['h2']",
     criteria: "'h2-12'",
     selectOption: "['5','10']",
   },
   {
-    name: 'Criteria (i)(A) Send using Edge Protocol - XDR',
+    name: 'Paragraph (i)(A) Send using Edge Protocol - XDR',
     xdrTest: true,
     testList: "['b1']",
     criteria: "'b1-1'",
   },
   {
-    name: 'Criteria (i)(A) Send using Edge Protocol - SMTP',
+    name: 'Paragraph (i)(A) Send using Edge Protocol - SMTP',
     xdrTest: false,
     protocol: 'SMTP',
     testList: "['b1']",
     criteria: "'b1-8'",
   },
   {
-    name: 'Criteria (i)(A) Send using Edge Protocol - Delivery Notification',
+    name: 'Paragraph (i)(A) Send using Edge Protocol - Delivery Notification',
     xdrTest: false,
     protocol: 'MT',
     testList: "['b1']",
     criteria: "'b1-2'",
   },
   {
-    name: 'Criteria (i)(B) Receive using Edge Protocol - XDR',
+    name: 'Paragraph (i)(B) Receive using Edge Protocol - XDR',
     xdrTest: true,
     testList: "['b1']",
     criteria: "'b1-3'",
   },
   {
-    name: 'Criteria (i)(B) Receive using Edge Protocol - SMTP',
+    name: 'Paragraph (i)(B) Receive using Edge Protocol - SMTP',
     xdrTest: false,
     protocol: 'SMTP',
     testList: "['b1']",
     criteria: "'b1-4'",
   },
   {
-    name: 'Criteria (i)(B) Receive using Edge Protocol - IMAP',
+    name: 'Paragraph (i)(B) Receive using Edge Protocol - IMAP',
     xdrTest: false,
     protocol: 'IMAP',
     testList: "['b1']",
     criteria: "'b1-5'",
   },
   {
-    name: 'Criteria (i)(B) Receive using Edge Protocol - POP3',
+    name: 'Paragraph (i)(B) Receive using Edge Protocol - POP3',
     xdrTest: false,
     protocol: 'POP',
     testList: "['b1']",
     criteria: "'b1-6'",
   },
   {
-    name: 'Criteria (i)(C) XDM Processing(Received via Edge Protocol)',
+    name: 'Paragraph (i)(C) XDM Processing(Received via Edge Protocol)',
     xdrTest: false,
     protocol: 'SMTP',
     testList: "['b1']",
@@ -293,54 +293,54 @@ const criteria = [
   },
 
   {
-    name: 'Criteria (i)(A) Send using Edge Protocol - XDR',
+    name: 'Paragraph (i)(A) Send using Edge Protocol - XDR',
     xdrTest: true,
     testList: "['su1']",
     criteria: "'su1-1'",
   },
   {
-    name: 'Criteria (i)(A) Send using Edge Protocol - Delivery Notification',
+    name: 'Paragraph (i)(A) Send using Edge Protocol - Delivery Notification',
     xdrTest: false,
     protocol: 'MT',
     testList: "['su1']",
     criteria: "'su1-2'",
   },
   {
-    name: 'Criteria (i)(B) Receive using Edge Protocol - XDR',
+    name: 'Paragraph (i)(B) Receive using Edge Protocol - XDR',
     xdrTest: true,
     testList: "['su1']",
     criteria: "'su1-3'",
   },
   {
-    name: 'Criteria (i)(B) Receive using Edge Protocol - SMTP',
+    name: 'Paragraph (i)(B) Receive using Edge Protocol - SMTP',
     xdrTest: false,
     protocol: 'SMTP',
     testList: "['su1']",
     criteria: "'su1-4'",
   },
   {
-    name: 'Criteria (i)(B) Receive using Edge Protocol - IMAP',
+    name: 'Paragraph (i)(B) Receive using Edge Protocol - IMAP',
     xdrTest: false,
     protocol: 'IMAP',
     testList: "['su1']",
     criteria: "'su1-5'",
   },
   {
-    name: 'Criteria (i)(B) Receive using Edge Protocol - POP3',
+    name: 'Paragraph (i)(B) Receive using Edge Protocol - POP3',
     xdrTest: false,
     protocol: 'POP',
     testList: "['su1']",
     criteria: "'su1-6'",
   },
   {
-    name: 'Criteria (i)(C) XDM Processing(Received via Edge Protocol)',
+    name: 'Paragraph (i)(C) XDM Processing(Received via Edge Protocol)',
     xdrTest: false,
     protocol: 'SMTP',
     testList: "['su1']",
     criteria: "'su1-7'",
   },
   {
-    name: 'Criteria (i) Direct Home - Certificates',
+    name: 'Paragraph (i) Direct Home - Certificates',
     testList: "['sa1']",
     redirect: {
       hrefvalue: 'direct.home',
@@ -349,7 +349,7 @@ const criteria = [
     },
   },
   {
-    name: 'Criteria (i) Certificate Discovery / Hosting - 2015 DCDT',
+    name: 'Paragraph (i) Certificate Discovery / Hosting - 2015 DCDT',
     testList: "['sa1']",
     redirect: {
       hrefvalue: 'direct.dcdt2',
@@ -358,7 +358,7 @@ const criteria = [
     },
   },
   {
-    name: 'Criteria (i) Register Direct',
+    name: 'Paragraph (i) Register Direct',
     testList: "['sa1']",
     redirect: {
       hrefvalue: 'direct.register',
@@ -367,7 +367,7 @@ const criteria = [
     },
   },
   {
-    name: 'Criteria (i) Send Direct Message',
+    name: 'Paragraph (i) Send Direct Message',
     testList: "['sa1']",
     redirect: {
       hrefvalue: 'direct.send',
@@ -376,7 +376,7 @@ const criteria = [
     },
   },
   {
-    name: 'Criteria (i) Receive - Message Status',
+    name: 'Paragraph (i) Receive - Message Status',
     testList: "['sa1']",
     redirect: {
       hrefvalue: 'direct.status',
@@ -385,7 +385,7 @@ const criteria = [
     },
   },
   {
-    name: 'Criteria (ii) Delivery Notifications',
+    name: 'Paragraph (ii) Delivery Notifications',
     xdrTest: false,
     protocol: 'MT',
     testList: "['sa1']",
@@ -393,7 +393,7 @@ const criteria = [
     uploadOption: true,
   },
   {
-    name: 'Criteria (i) Certificate Discovery / Hosting - 2015 DCDT',
+    name: 'Paragraph (i) Certificate Discovery / Hosting - 2015 DCDT',
     testList: "['sc2']",
     redirect: {
       hrefvalue: 'direct.dcdt2',
@@ -403,7 +403,7 @@ const criteria = [
     selectOption: "['A','B','2','9','5','6','10']",
   },
   {
-    name: 'Criteria (i) Register Direct',
+    name: 'Paragraph (i) Register Direct',
     testList: "['sc2']",
     redirect: {
       hrefvalue: 'direct.register',
@@ -413,7 +413,7 @@ const criteria = [
     selectOption: "['A','B','2','9']",
   },
   {
-    name: 'Criteria (i) Direct Home - Certificates',
+    name: 'Paragraph (i) Direct Home - Certificates',
     testList: "['sc2']",
     redirect: {
       hrefvalue: 'direct.home',
@@ -423,7 +423,7 @@ const criteria = [
     selectOption: "['A','B','6','5']",
   },
   {
-    name: 'Criteria (i) Send Direct Message',
+    name: 'Paragraph (i) Send Direct Message',
     testList: "['sc2']",
     redirect: {
       hrefvalue: 'direct.send',
@@ -433,7 +433,7 @@ const criteria = [
     selectOption: "['A','B','5','6']",
   },
   {
-    name: 'Criteria (i) Message Status',
+    name: 'Paragraph (i) Message Status',
     testList: "['sc2']",
     redirect: {
       hrefvalue: 'direct.status',
@@ -443,7 +443,7 @@ const criteria = [
     selectOption: "['A','B','5','6']",
   },
   {
-    name: 'Criteria (i) C-CDA R2.1 Validator',
+    name: 'Paragraph (i) C-CDA R2.1 Validator',
     testList: "['sc2']",
     redirect: {
       hrefvalue: 'direct.ccdar2',
@@ -453,7 +453,7 @@ const criteria = [
     selectOption: "['B']",
   },
   {
-    name: 'Criteria (i) XDR Validator',
+    name: 'Paragraph (i) XDR Validator',
     testList: "['sc2']",
     redirect: {
       hrefvalue: 'validators.xdr',
@@ -462,7 +462,7 @@ const criteria = [
     },
   },
   {
-    name: 'Criteria (i) XDM Validator',
+    name: 'Paragraph (i) XDM Validator',
     testList: "['sc2']",
     redirect: {
       hrefvalue: 'validators.xdm',
@@ -472,28 +472,28 @@ const criteria = [
     selectOption: "['2','6','4','B','5']",
   },
   {
-    name: 'Criteria (i)(B) Send conversion XDR',
+    name: 'Paragraph (i)(B) Send conversion XDR',
     xdrTest: true,
     testList: "['sc2']",
     criteria: "'sc2-1'",
     selectOption: "['3','B']",
   },
   {
-    name: 'Criteria (i)(B)  Receive conversion XDR',
+    name: 'Paragraph (i)(B)  Receive conversion XDR',
     xdrTest: true,
     testList: "['sc2']",
     criteria: "'sc2-2'",
     selectOption: "['5','7']",
   },
   {
-    name: 'Criteria (i)(C) Send using Edge Protocol - XDR',
+    name: 'Paragraph (i)(C) Send using Edge Protocol - XDR',
     xdrTest: true,
     testList: "['sc2']",
     criteria: "'sc2-3'",
     selectOption: "['B','3','4']",
   },
   {
-    name: 'Criteria (i)(C) Send using Edge Protocol - SMTP',
+    name: 'Paragraph (i)(C) Send using Edge Protocol - SMTP',
     xdrTest: false,
     protocol: 'MT',
     testList: "['sc2']",
@@ -501,14 +501,14 @@ const criteria = [
     selectOption: "['B','4']",
   },
   {
-    name: 'Criteria (i)(C) Receive using Edge Protocol - XDR',
+    name: 'Paragraph (i)(C) Receive using Edge Protocol - XDR',
     xdrTest: true,
     testList: "['sc2']",
     criteria: "'sc2-7'",
     selectOption: "['5','8']",
   },
   {
-    name: 'Criteria (i)(C) Receive using Edge Protocol - SMTP',
+    name: 'Paragraph (i)(C) Receive using Edge Protocol - SMTP',
     xdrTest: false,
     protocol: 'SMTP',
     testList: "['sc2']",
@@ -516,7 +516,7 @@ const criteria = [
     selectOption: "['5','8']",
   },
   {
-    name: 'Criteria (ii) Delivery Notification in Direct - SMTP',
+    name: 'Paragraph (ii) Delivery Notification in Direct - SMTP',
     xdrTest: false,
     protocol: 'MT',
     testList: "['sc2']",
@@ -524,7 +524,7 @@ const criteria = [
     selectOption: "['9','B']",
   },
   {
-    name: 'Criteria (ii) Receive SMTP: Disposition-Notification',
+    name: 'Paragraph (ii) Receive SMTP: Disposition-Notification',
     xdrTest: false,
     uploadOption: true,
     protocol: 'MT',
@@ -533,7 +533,7 @@ const criteria = [
     selectOption: "['5','10']",
   },
   {
-    name: 'Criteria (ii)(C) Delivery Notification in Direct - XDR',
+    name: 'Paragraph (ii)(C) Delivery Notification in Direct - XDR',
     xdrTest: true,
     testList: "['sc2']",
     criteria: "'sc2-11'",
