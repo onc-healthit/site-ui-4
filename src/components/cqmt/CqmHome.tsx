@@ -32,9 +32,11 @@ const CqmHome = () => {
         heading={'Clinical Quality Measure Testing'}
         description={
           <>
-            {
-              'Cypress is a test tool authorized by the ONC Health IT Certification Program for testing of certification criteria related to clinical quality measures (CQM) in Health IT Modules outlined at 45 CFR 170.315(c). Tailored for both Certified Health IT developers and ONC-Authorized Testing Labs and developed by the MITRE Corporation, Cypress facilitates rigorous and repeatable testing for the accurate calculation of CQMs for Eligible Providers and Hospitals.'
-            }
+            Cypress is a test tool authorized by the ONC Health IT Certification Program for testing of certification
+            criteria related to clinical quality measures (CQM) in Health IT Modules outlined at 45 CFR 170.315(c).
+            Tailored for both Certified Health IT developers and ONC-Authorized Testing Labs and developed by the MITRE
+            Corporation, Cypress facilitates rigorous and repeatable testing for the accurate calculation of CQMs for
+            Eligible Providers and Hospitals.
           </>
         }
       />
