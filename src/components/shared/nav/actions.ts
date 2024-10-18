@@ -15,17 +15,13 @@ export async function registerAccount({ username, password }: { username: string
       }),
     })
     const data = await response.json()
-    if (!response.ok) {
-      console.log(`Error: ${data}`)
+    if (data !== true) {
+      throw new Error(data.message)
     }
     return data
   } catch (error: unknown) {
     if (error instanceof Error) {
-      return JSON.stringify({
-        status: 500,
-        success: false,
-        error: error.message || 'An error occurred',
-      })
+      throw new Error(`${error.message}`)
     }
   }
 }
@@ -38,22 +34,16 @@ export async function forgotPassword(username: string) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        username,
-      }),
+      body: username,
     })
     const data = await response.json()
-    if (!response.ok) {
-      console.log(`Error: ${data}`)
+    if (data !== true) {
+      throw new Error(data.message)
     }
     return data
   } catch (error: unknown) {
     if (error instanceof Error) {
-      return JSON.stringify({
-        status: 500,
-        success: false,
-        error: error.message || 'An error occurred',
-      })
+      throw new Error(`${error.message}`)
     }
   }
 }
