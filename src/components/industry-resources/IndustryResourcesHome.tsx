@@ -15,7 +15,6 @@ const menuItems: menuProps[] = [
   { heading: 'HL7', href: '#hl7' },
   { heading: 'Implementation Guides', href: '#ig' },
   { heading: 'MITRE Github', href: '#mg' },
-  { heading: 'Referenece Data', href: '#rd' },
 ]
 
 function trackMenuItemClick(heading: string) {
@@ -96,10 +95,10 @@ const IndustryResourcesHome = () => {
                     </Typography>
                     <Typography gutterBottom variant="body2">
                       This page describes the FHIR® tooling ecosystem and the vision for its future development,
-                      including the FHIR® community&apos;s collective view of what types of tooling are needed, how those
-                      tools might best interact with each other and how the tooling community itself will interact and
-                      collaborate to maximize the benefit of its collective investment. It also serves as an entry point
-                      for those who are new to the FHIR® tooling community and are interested in what tooling is
+                      including the FHIR® community&apos;s collective view of what types of tooling are needed, how
+                      those tools might best interact with each other and how the tooling community itself will interact
+                      and collaborate to maximize the benefit of its collective investment. It also serves as an entry
+                      point for those who are new to the FHIR® tooling community and are interested in what tooling is
                       available and/or how they might best contribute to the community.
                     </Typography>
                     <Typography variant="caption">
@@ -122,9 +121,9 @@ const IndustryResourcesHome = () => {
                       standards, and protocols for implementing interoperable health information systems.
                     </Typography>
                     <Typography gutterBottom variant="body2">
-                      The FHIR® community publishes Implementation Guides that build on the specification and detail how
-                      FHIR® is used in a particular context. An implementation guide is a combination of human readable
-                      documentation and computer processable content published as a FHIR® NPM package.
+                      The FHIR® community publishes Implementation Guides that build on the specification and detail
+                      how FHIR® is used in a particular context. An implementation guide is a combination of human
+                      readable documentation and computer processable content published as a FHIR® NPM package.
                     </Typography>
                   </Box>
                 }
@@ -154,22 +153,6 @@ const IndustryResourcesHome = () => {
                 buttonTitle={'MITRE GitHub Repositories'}
                 buttonIcon={<ArrowForward />}
                 buttonHref={'https://github.com/mitre'}
-              />
-            </Box>
-            <Box id="rd" sx={{ scrollMarginTop: '6em' }}>
-              <VerticalCard
-                title={'Reference Data'}
-                description={
-                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
-                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
-                      Values used to standardize and categorize data elements within a system, making it easier to
-                      understand and compare data across different applications or processes.
-                    </Typography>
-                  </Box>
-                }
-                buttonTitle={'DOCUMENTATION'}
-                buttonIcon={<ArrowForward />}
-                buttonHref={'#'}
               />
             </Box>
           </Box>

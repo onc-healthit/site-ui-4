@@ -57,7 +57,6 @@ describe('Home Page - Industry Testing Tools', () => {
   })
   const links = [
     { text: 'HL7 Tools', url: '/industry-resources#hl7' },
-    { text: 'Reference Data', url: '/industry-resources#rd' },
     { text: 'Implementation Guides', url: `/industry-resources#ig` },
   ]
 

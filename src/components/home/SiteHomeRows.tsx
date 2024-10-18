@@ -16,7 +16,6 @@ import {
   infernoSvg,
   infernoValidatorSvg,
   lanternSvg,
-  referenceDataSvg,
 } from '@public/home'
 import ONCLogo from '@public/shared/LogoBackgroundImage.png'
 import Image from 'next/image'
@@ -293,13 +292,6 @@ export default function SiteHomeRows() {
                       'Implementation guides in healthcare serve as comprehensive documents outlining the specific rules, standards, and protocols for implementing interoperable health information systems.',
                     cardImage: igSvg,
                     pathname: '/industry-resources#ig',
-                  },
-                  {
-                    title: 'Reference Data',
-                    description:
-                      'Values used to standardize and categorize data elements within a system, making it easier to understand and compare data across different applications or processes.',
-                    cardImage: referenceDataSvg,
-                    pathname: '/industry-resources#rd',
                   },
                 ].map((card, index) => (
                   <Box key={index} p={1}>
