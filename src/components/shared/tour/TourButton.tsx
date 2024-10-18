@@ -62,7 +62,7 @@ const TourButton: React.FC = () => {
     {
       target: '#site-nav-general-tools',
       content:
-        'ONC has curated the content for the left navigation on their website to provide users with easy access to the most relevant and valuable pages.',
+        'ASTP has curated the content for the left navigation on their website to provide users with easy access to the most relevant and valuable pages.',
       placement: 'right' as const,
       styles: {
         options: {
