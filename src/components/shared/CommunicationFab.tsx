@@ -90,11 +90,13 @@ const CommunicationFab: React.FC = () => {
                 intuitive and efficient user experience.
               </Typography>
             </CardContent>
+            {/*
             <CardActions>
               <Button variant="text" color="secondary">
                 Read More
               </Button>
             </CardActions>
+            */}
           </Card>
           <LinkButton
             label="Access Forum"
