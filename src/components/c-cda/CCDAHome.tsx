@@ -1,4 +1,4 @@
-import { Box, Container, Divider } from '@mui/material'
+import { Box, Container, Divider, Typography } from '@mui/material'
 import oneclick from '@public/c-cda/oneclick.svg'
 import scorecard from '@public/c-cda/scorecard.svg'
 import uscdiv1 from '@public/c-cda/uscdi-v1.svg'
@@ -9,10 +9,12 @@ import CardWithImage from '@shared/CardWithImage'
 import styles from '@shared/styles.module.css'
 import Link from 'next/link'
 import SectionHeader from '../shared/SectionHeader'
+import palette from '@/styles/palette'
+import { TipsAndUpdatesOutlined } from '@mui/icons-material'
 
 const CCDAHome = () => {
   const maxWidthMainValidatorCards = 390
-  const maxWidthAdditionalToolCards = 550
+  const maxWidthAdditionalToolCards = 600 // Change to 390 if using a three column grid
   const flexibleBox = { display: 'flex', gap: 4, flexDirection: 'row', width: '100%', justifyContent: 'space-between' }
   return (
     <>
