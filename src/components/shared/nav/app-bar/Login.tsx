@@ -56,15 +56,15 @@ const Login = ({
   const handleCreateAccount = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (password === repeatPassword) {
-      registerAccount({ username: email, password: password }).then((data) => {
-        if (data === true) {
+      registerAccount({ username: email, password: password })
+        .then(() => {
           signIn('credentials', { username: email, password: password })
           eventTrack('Create Account', 'Authentication', 'User create account')
-        } else {
-          setMessage({ message: 'User already exists', severity: 'error' })
+        })
+        .catch((error) => {
+          setMessage({ message: error.message, severity: 'error' })
           eventTrack('Error on Create Account', 'Authentication', 'User exists already on create account')
-        }
-      })
+        })
     } else {
       setMessage({ message: 'Passwords do not match', severity: 'error' })
       eventTrack('Error on Create Account', 'Authentication', 'Password does not match on create account')
@@ -73,12 +73,14 @@ const Login = ({
 
   const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    forgotPassword(email).then((data) => {
-      eventTrack('Forgot Password', 'Authentication', 'User clicks on forgot password')
-      if (data !== true) {
-        setMessage({ message: 'This username does not exist', severity: 'error' })
-      }
-    })
+    forgotPassword(email)
+      .then(() => {
+        eventTrack('Forgot Password', 'Authentication', 'User clicks on forgot password')
+        setMessage({ message: 'Password reset email sent', severity: 'success' })
+      })
+      .catch((error) => {
+        setMessage({ message: error.message, severity: 'error' })
+      })
   }
 
   const handleClickShowPassword = () => {
