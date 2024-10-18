@@ -46,8 +46,16 @@ const TourButton: React.FC = () => {
   const steps = [
     {
       target: '#site-nav-onc-cert-tools',
-      content:
-        'ASTP has curated the content for the left navigation on their website to provide users with easy access to the most relevant and valuable pages.',
+      content: (
+        <>
+          The left navigation panel has been streamlined for easy access to tools and resources available on SITE. These
+          are organized into three main categories: ONC Certification Tools, General Testing Tools, and Industry
+          Resources.
+          <br />
+          <br />
+          The ONC Certification Tools section includes everything required for ONC Certification.
+        </>
+      ),
       placement: 'right' as const,
       styles: {
         options: {
@@ -62,7 +70,7 @@ const TourButton: React.FC = () => {
     {
       target: '#site-nav-general-tools',
       content:
-        'ASTP has curated the content for the left navigation on their website to provide users with easy access to the most relevant and valuable pages.',
+        'General Testing Tools are conveniently grouped to support users in conducting various tests efficiently.',
       placement: 'right' as const,
       styles: {
         options: {
@@ -77,7 +85,7 @@ const TourButton: React.FC = () => {
     {
       target: '#site-nav-industry-testing',
       content:
-        'ASTP has curated the content for the left navigation on their website to provide users with easy access to the most relevant and valuable pages.',
+        "Industry Resources offer links to key references such as HL7 standards, FHIR Implementation Guides, MITRE's GitHub repositories, and additional essential materials.",
       placement: 'right' as const,
       styles: {
         options: {
@@ -92,7 +100,7 @@ const TourButton: React.FC = () => {
     {
       target: '#communication-Fab',
       content:
-        'ASTP has curated the content for the left navigation on their website to provide users with easy access to the most relevant and valuable pages.',
+        'The Information panel provides valuable details about SITE, including announcements, release notes, a link to the Google Group forum, and contact information for questions or inquiries.',
       placement: 'top' as const,
       styles: {
         options: {
