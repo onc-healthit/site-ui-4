@@ -38,7 +38,7 @@ const CCDAHome = () => {
       />
       {/* Main Content */}
       <Container>
-        <SectionHeader header={'C-CDA Validators'} subHeader={'The latest C-CDA validators from ONC'} />
+        <SectionHeader header={'C-CDA Validators'} subHeader={'The latest C-CDA validators from ASTP'} />
         <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
           {/* TODO: Update each description to be unique to each validator version */}
           {/* TODO: When adding USCDI v4, Uncomment code below, reduce maxWidthMainValidatorCards to 390 */}

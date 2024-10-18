@@ -25,22 +25,22 @@ const H1Component = () => {
   const dropdownOptions = [
     {
       value: 'directHome',
-      label: 'Criteria (i) Direct Home - Certificates',
+      label: 'Paragraph (i) Direct Home - Certificates',
       link: '/direct#certification-download',
     },
     {
       value: 'certificateDiscovery',
-      label: 'Criteria (i) Certificate Discovery / Hosting',
+      label: 'Paragraph (i) Certificate Discovery / Hosting',
       link: '/direct/dcdt#hosting',
     },
-    { value: 'registerDirect', label: 'Criteria (i) Register Direct', link: '/direct/register' },
-    { value: 'sendDirectMessage', label: 'Criteria (i) Send Direct Message', link: '/direct/senddirect' },
+    { value: 'registerDirect', label: 'Paragraph (i) Register Direct', link: '/direct/register' },
+    { value: 'sendDirectMessage', label: 'Paragraph (i) Send Direct Message', link: '/direct/senddirect' },
     {
       value: 'receiveMessageStatus',
-      label: 'Criteria (i) Receive - Message Status',
+      label: 'Paragraph (i) Receive - Message Status',
       link: '/direct/senddirect#message-status',
     },
-    { value: 'deliveryNotifications', label: 'Criteria (ii) Delivery Notifications', testCard: true },
+    { value: 'deliveryNotifications', label: 'Paragraph (ii) Delivery Notifications', testCard: true },
   ]
 
   const h1Criteria = testCases.tests.filter((test) => test.criteria?.includes('h1-1'))
@@ -73,7 +73,7 @@ const H1Component = () => {
             <CardContent>
               <Box component="form" sx={{ backgroundColor: palette.white }}>
                 <Typography variant="body2" gutterBottom>
-                  Use the menu to select what sub criteria you want to test for.
+                  Use the menu to select what paragraph you want to test for.
                 </Typography>
                 <Box>
                   <FormControl fullWidth>

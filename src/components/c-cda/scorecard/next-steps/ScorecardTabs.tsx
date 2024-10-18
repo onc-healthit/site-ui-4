@@ -115,7 +115,7 @@ export default function ScorecardTabs({ rubric }: ScorecardTabsProps) {
                 >
                   <ListItemText
                     primary={`XML at Line Number ${issue.lineNumber}`}
-                    primaryTypographyProps={{ fontWeight: 'bold' }}
+                    primaryTypographyProps={{ sx: { fontWeight: 'bold' } }}
                   />
                   <Button size="small" variant="outlined" onClick={() => handleShowIssueXml(index)}>
                     {isShowIssueXml[index] ? 'HIDE XML' : 'SHOW XML'}
@@ -143,8 +143,8 @@ export default function ScorecardTabs({ rubric }: ScorecardTabsProps) {
             {rubric.exampleTaskForceLinks.map((tfLink, index) => (
               <ListItem sx={{ display: 'list-item' }} key={index}>
                 <ListItemText
-                  primary="Related HL7 C-CDA Task Force example"
-                  primaryTypographyProps={{ fontWeight: 'bold' }}
+                  primary="Related HL7® C-CDA Task Force example"
+                  primaryTypographyProps={{ sx: { fontWeight: 'bold' } }}
                   sx={{ pb: 3 }}
                 />
                 <Box sx={bestPracticeLinkStyle}>
