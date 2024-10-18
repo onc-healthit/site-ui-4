@@ -3,6 +3,7 @@ import oneclick from '@public/c-cda/oneclick.svg'
 import scorecard from '@public/c-cda/scorecard.svg'
 import uscdiv1 from '@public/c-cda/uscdi-v1.svg'
 import uscdiv3 from '@public/c-cda/uscdi-v3.svg'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import uscdiv4 from '@public/c-cda/uscdi-v4.svg'
 import BannerBox from '@shared/BannerBox'
 import CardWithImage from '@shared/CardWithImage'
@@ -11,8 +12,8 @@ import Link from 'next/link'
 import SectionHeader from '../shared/SectionHeader'
 
 const CCDAHome = () => {
-  const maxWidthMainValidatorCards = 390
-  const maxWidthAdditionalToolCards = 600 // Change to 390 if using a three column grid
+  const maxWidthMainValidatorCards = 600 // Change to 390 if using a three column grid, 600 fo 2 column
+  const maxWidthAdditionalToolCards = 600 // Change to 390 if using a three column grid, 600 fo 2 column
   const flexibleBox = { display: 'flex', gap: 4, flexDirection: 'row', width: '100%', justifyContent: 'space-between' }
   return (
     <>
@@ -40,7 +41,8 @@ const CCDAHome = () => {
         <SectionHeader header={'C-CDA Validators'} subHeader={'The latest C-CDA validators from ONC'} />
         <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
           {/* TODO: Update each description to be unique to each validator version */}
-          <CardWithImage
+          {/* TODO: When adding USCDI v4, Uncomment code below, reduce maxWidthMainValidatorCards to 390 */}
+          {/* <CardWithImage
             title={'C-CDA Validator: USCDI V4'}
             cardImage={uscdiv4}
             cardHeader={'C-CDA Validator: USCDI v4'}
@@ -48,7 +50,7 @@ const CCDAHome = () => {
             pathname={'/c-cda/uscdi-v4'}
             maxWidth={maxWidthMainValidatorCards}
             imageWidth={maxWidthMainValidatorCards + 'px'}
-          />
+          /> */}
           <CardWithImage
             title={'C-CDA Validator: USCDI v3'}
             cardImage={uscdiv3}
@@ -86,7 +88,6 @@ const CCDAHome = () => {
             maxWidth={maxWidthAdditionalToolCards}
             imageWidth={maxWidthAdditionalToolCards + 'px'}
           />
-          {/* TODO: Are we going to make a landing page for the one click scorecard or just link to the ONC page? */}
           <CardWithImage
             title={'One Click Scorecard'}
             cardImage={oneclick}
