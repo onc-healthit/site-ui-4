@@ -431,7 +431,7 @@ export default function ScorecardHome() {
 
   const handleCardWithBorderClick = (index: number) => {
     setModalUrl(modalUrls[index])
-    eventTrack('Open Scorecard Model', 'Scorecard', modalUrls[index])
+    eventTrack('Open Scorecard Modal', 'Scorecard', modalUrls[index])
   }
   //events firing twice//
   return (
