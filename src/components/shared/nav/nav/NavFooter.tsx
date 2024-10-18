@@ -9,16 +9,12 @@ export default function NavFooter() {
 
   const handleOpenDialog = () => {
     setOpenDialog(true)
-    {
-      eventTrack('Open Release Notes', 'Release Notes', 'User clicks open release notes thru navigation')
-    }
+    eventTrack('Open Release Notes', 'Release Notes', 'User clicks open release notes thru navigation')
   }
 
   const handleCloseDialog = () => {
     setOpenDialog(false)
-    {
-      eventTrack('Close Release Notes', 'Release Notes', 'User clicks close release')
-    }
+    eventTrack('Close Release Notes', 'Release Notes', 'User clicks close release')
   }
 
   // const [releaseVersionHTML, setReleaseVersionHTML] = useState<string | undefined>()
