@@ -155,6 +155,24 @@ const IndustryResourcesHome = () => {
                 buttonHref={'https://github.com/mitre'}
               />
             </Box>
+            {/*
+            <Box id="rd" sx={{ scrollMarginTop: '6em' }}>
+              <VerticalCard
+                title={'Reference Data'}
+                description={
+                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
+                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
+                      Values used to standardize and categorize data elements within a system, making it easier to
+                      understand and compare data across different applications or processes.
+                    </Typography>
+                  </Box>
+                }
+                buttonTitle={'DOCUMENTATION'}
+                buttonIcon={<ArrowForward />}
+                buttonHref={'#'}
+              />
+            </Box>
+            */}
           </Box>
         </Box>
       </Container>
