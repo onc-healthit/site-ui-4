@@ -9,15 +9,15 @@ export default function NavFooter() {
 
   const handleOpenDialog = () => {
     setOpenDialog(true)
-    if (typeof window.gtag === 'function') {
-      eventTrack('Open Release Notes', 'Button', 'Open Release Notes thru Nav')
+    {
+      eventTrack('Open Release Notes', 'Release Notes', 'User clicks open release notes thru navigation')
     }
   }
 
   const handleCloseDialog = () => {
     setOpenDialog(false)
-    if (typeof window.gtag === 'function') {
-      eventTrack('Close Release Notes', 'Button', 'Close Release Notes')
+    {
+      eventTrack('Close Release Notes', 'Release Notes', 'User clicks close release')
     }
   }
 

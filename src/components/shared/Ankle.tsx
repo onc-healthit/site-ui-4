@@ -18,13 +18,13 @@ declare global {
 
 export default function Ankle() {
   const ClickDocumentationAnkle = () => {
-    if (typeof window.gtag === 'function') {
-      eventTrack('Go to Documentation Page', 'Link', 'Go to Docs thru ankle')
+    {
+      eventTrack('Go to Documentation Page', 'Ankle', 'Go to Docs thru ankle')
     }
   }
   const ClickArchivedAnkle = () => {
-    if (typeof window.gtag === 'function') {
-      eventTrack('Go to Archived Page', 'Link', 'Go to Archived thru ankle')
+    {
+      eventTrack('Go to Archived Page', 'Ankle', 'Go to Archived thru ankle')
     }
   }
   return (

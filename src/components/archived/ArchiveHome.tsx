@@ -28,17 +28,8 @@ export default function ArchiveHome() {
     },
   ]
 
-  function trackMenuItemClick(heading: string) {
+  const trackMenuItemClick = (heading: string) => {
     eventTrack('Click archived sub menu', 'Archived', heading)
-    // TODO: Decided if the new format for eventType, eventCategory, and eventLabel is appropriate.
-    // Remove the following code either way, but, if new format is not preferred,
-    // copy the old string labels into event track before deletion
-    // if (typeof window.gtag === 'function') {
-    //   window.gtag('event', 'Click FAQs sub menu', {
-    //     event_category: 'Navigation',
-    //     event_label: heading,
-    //   })
-    // }
   }
 
   return (

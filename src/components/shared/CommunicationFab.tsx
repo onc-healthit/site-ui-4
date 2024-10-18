@@ -32,15 +32,15 @@ const CommunicationFab: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const handleDrawerOpen = () => {
     setDrawerOpen(true)
-    if (typeof window.gtag === 'function') {
-      eventTrack('Open Communication FAB', 'Button', 'Communication Panel')
+    {
+      eventTrack('Open Communication FAB', 'Communication Panel', 'User cllicks open communication panel')
     }
   }
 
   const handleDrawerClose = () => {
     setDrawerOpen(false)
-    if (typeof window.gtag === 'function') {
-      eventTrack('Close Communication FAB', 'Button', 'Communication Panel')
+    {
+      eventTrack('Close Communication FAB', 'Communication Panel', 'User clicks close communication panel')
     }
   }
 

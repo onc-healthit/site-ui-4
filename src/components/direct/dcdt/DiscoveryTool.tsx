@@ -27,10 +27,8 @@ const menuItems: menuProps[] = [
   { heading: "Discover DCDT's Certificates", href: '#certificates' },
   { heading: 'Resources', href: '#resources' },
 ]
-function trackMenuItemClick(heading: string) {
-  if (typeof window.gtag === 'function') {
-    eventTrack('Click DCDT sub menu', 'Direct Certificate Discovery Tool', heading)
-  }
+const trackMenuItemClick = (heading: string) => {
+  eventTrack('Click DCDT sub menu', 'Direct Certificate Discovery Tool', heading)
 }
 type LinkButtonProps = {
   href: string
