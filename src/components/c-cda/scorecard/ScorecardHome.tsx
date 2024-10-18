@@ -141,7 +141,7 @@ export default function ScorecardHome() {
     console.log(`Selected ${demoSampleSelected}`)
     setDemoSampleOption(demoSampleSelected)
 
-    eventTrack('Dropdown Selection', 'Scorecard', `Selected ${demoSampleSelected} sample within Try Me Demo dropdown`)
+    eventTrack('Select from Dropdown', 'Scorecard', `Selected ${demoSampleSelected} sample within Try Me Demo`)
   }
 
   const handleSubmitDemoStart = (e: React.FormEvent<HTMLFormElement>) => {
@@ -165,7 +165,7 @@ export default function ScorecardHome() {
         ${error}. Please try again later.`)
     }
 
-    eventTrack('Button Click Form Submission', 'Scorecard', 'Run the Try Me Demo with selected file and view results')
+    eventTrack('Sumbit Form for Try Me Demo', 'Scorecard', 'Run the Try Me Demo with selected file and view results')
   }
 
   const getFileName = (data: File[]) => {
@@ -212,7 +212,7 @@ export default function ScorecardHome() {
       setIsValidating(false)
     }
 
-    eventTrack('Button Click Form Submission', 'Scorecard', 'Run SC validation with selected file and view results')
+    eventTrack('Submit file for Scorecard', 'Scorecard', 'User clicks start to score their file and view results')
   }
 
   const processResults = (newJson: ScorecardJsonResponseType): [boolean, string | null] => {
@@ -431,8 +431,9 @@ export default function ScorecardHome() {
 
   const handleCardWithBorderClick = (index: number) => {
     setModalUrl(modalUrls[index])
+    eventTrack('Open Scorecard Modal', 'Scorecard', modalUrls[index])
   }
-
+  //events firing twice//
   return (
     <>
       {/* Global Header */}

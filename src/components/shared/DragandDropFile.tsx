@@ -4,8 +4,8 @@ import React, { useMemo, useRef, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
 import palette from '@/styles/palette'
-import Close from '@mui/icons-material/Close'
 import _ from 'lodash'
+import eventTrack from '@/services/analytics'
 
 const baseStyle = {
   display: 'flex',
@@ -62,12 +62,9 @@ export default function DragDropFileUpload({ maxFiles, allowedSize, name, fileNa
     setFiles([])
   } */
   const UploadFile = () => {
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Click Upload File', {
-        event_category: 'Button',
-        event_label: 'Drag & Drop File Upload',
-      })
-    }
+    const h1Element = document.querySelector('h1')
+    const pageTitle = h1Element?.textContent || 'Unknown Title'
+    eventTrack('Upload File', pageTitle, 'Drag & Drop File Upload')
   }
 
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject, open, fileRejections } = useDropzone({

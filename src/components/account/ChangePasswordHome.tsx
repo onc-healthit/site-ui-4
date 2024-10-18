@@ -20,6 +20,7 @@ import { useState } from 'react'
 import { changePassword } from './actions'
 import _ from 'lodash'
 import { VisibilityOff, Visibility } from '@mui/icons-material'
+import eventTrack from '@/services/analytics'
 
 const LoginButtonStyle = {
   padding: '10px 0',
@@ -46,11 +47,13 @@ const ChangePasswordHome = () => {
           setOldPassword('')
           setPassword('')
           setRepeatPassword('')
+          eventTrack('Change Password', 'Authentication', 'Success')
         } else {
           setMessage({ message: `${data}`, severity: 'error' })
           setOldPassword('')
           setPassword('')
           setRepeatPassword('')
+          eventTrack('Change Password', 'Authentication', 'Error')
         }
       })
     } else {
@@ -58,6 +61,7 @@ const ChangePasswordHome = () => {
       setOldPassword('')
       setPassword('')
       setRepeatPassword('')
+      eventTrack('Change Password', 'Authentication', 'Password do not match')
     }
     setIsLoading(false)
   }

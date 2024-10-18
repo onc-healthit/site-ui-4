@@ -16,6 +16,7 @@ import {
   Button,
 } from '@mui/material'
 import palette from '@/styles/palette'
+import eventTrack from '@/services/analytics'
 import Hosting from './Hosting'
 import DCDTCertificates from './DCDTCertificates'
 import bulletedList from '../shared/BulletList'
@@ -26,15 +27,9 @@ const menuItems: menuProps[] = [
   { heading: "Discover DCDT's Certificates", href: '#certificates' },
   { heading: 'Resources', href: '#resources' },
 ]
-function trackMenuItemClick(heading: string) {
-  if (typeof window.gtag === 'function') {
-    window.gtag('event', 'Click discovery tool sub menu', {
-      event_category: 'Navigation',
-      event_label: heading,
-    })
-  }
+const trackMenuItemClick = (heading: string) => {
+  eventTrack('Click DCDT sub menu', 'Direct Certificate Discovery Tool', heading)
 }
-
 type LinkButtonProps = {
   href: string
   title: string

@@ -3,6 +3,7 @@ import { Button, Box } from '@mui/material'
 import dynamic from 'next/dynamic' // Import dynamic from next/dynamic
 import palette from '@/styles/palette'
 import { CallBackProps } from 'react-joyride'
+import eventTrack from '@/services/analytics'
 
 const Joyride = dynamic(() => import('react-joyride'), { ssr: false }) // Dynamically import Joyride
 
@@ -21,25 +22,17 @@ const TourButton: React.FC = () => {
   const [run, setRun] = useState(false)
 
   const handleClickStart = () => {
-    // Google Analytics event tracking
+    eventTrack('Tour Started', 'Button', 'User Started Tour')
     setRun(true) // Reset the run state
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Start Tour', {
-        event_category: 'Button',
-        event_label: 'Start Tour',
-      })
-    }
   }
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status } = data
-
-    if (status === 'finished' || status === 'skipped') {
-      if (window.gtag && typeof window.gtag === 'function') {
-        window.gtag('event', 'End Tour', {
-          event_category: 'Button',
-          event_label: status === 'finished' ? 'Tour Finished' : 'Tour Skipped',
-        })
-      }
+    if (status === 'skipped') {
+      eventTrack('Tour Skipped', 'Button', 'User Skipped Tour')
+      setRun(false) // Reset the run state
+    }
+    if (status === 'finished') {
+      eventTrack('Tour Ended', 'Button', 'User Stopped Tour')
       setRun(false) // Reset the run state
     }
   }

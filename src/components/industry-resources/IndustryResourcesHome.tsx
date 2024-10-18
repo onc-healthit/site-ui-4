@@ -10,6 +10,7 @@ import palette from '@/styles/palette'
 import SectionHeader from '../shared/SectionHeader'
 import SubMenu, { menuProps } from '@/components/shared/SubMenu'
 import VerticalCard from '../shared/VerticalCard'
+import eventTrack from '@/services/analytics'
 
 const menuItems: menuProps[] = [
   { heading: 'HL7', href: '#hl7' },
@@ -18,13 +19,8 @@ const menuItems: menuProps[] = [
   { heading: 'Referenece Data', href: '#rd' },
 ]
 
-function trackMenuItemClick(heading: string) {
-  if (typeof window.gtag === 'function') {
-    window.gtag('event', 'Click industry resources sub menu', {
-      event_category: 'Navigation',
-      event_label: heading,
-    })
-  }
+const trackMenuItemClick = (heading: string) => {
+  eventTrack('Click industry resources sub menu', 'Industry Resources', heading)
 }
 
 const IndustryResourcesHome = () => {
