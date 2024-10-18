@@ -18,14 +18,10 @@ declare global {
 
 export default function Ankle() {
   const ClickDocumentationAnkle = () => {
-    {
-      eventTrack('Go to Documentation Page', 'Ankle', 'Go to Docs thru ankle')
-    }
+    eventTrack('Go to Documentation Page', 'Ankle', 'Go to Docs thru ankle')
   }
   const ClickArchivedAnkle = () => {
-    {
-      eventTrack('Go to Archived Page', 'Ankle', 'Go to Archived thru ankle')
-    }
+    eventTrack('Go to Archived Page', 'Ankle', 'Go to Archived thru ankle')
   }
   return (
     <Box bgcolor="#122953" boxShadow={'0px -4px 20px 20px rgb(0, 0, 0, 0.15)'} pt={4} pb={4}>
