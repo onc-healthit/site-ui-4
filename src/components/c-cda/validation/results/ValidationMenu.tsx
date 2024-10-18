@@ -118,6 +118,7 @@ const ValidatorMenu = ({
         <MenuItem sx={{ fontWeight: 'bold', py: 1 }} onClick={() => onScroll(summaryRef, 'Summary & Results')}>
           Summary & Results
         </MenuItem>
+        
         {resultMetaData ? (
           <ResultsSection
             resultMetaData={resultMetaData}
@@ -135,7 +136,7 @@ const ValidatorMenu = ({
         ) : null}
 
         <MenuItem sx={{ fontWeight: 'bold' }} onClick={() => onScroll(originalCCDARef, 'Original C-CDA')}>
-          Original C-CDA
+          Submitted C-CDA Document
         </MenuItem>
       </List>
     </>
