@@ -310,7 +310,7 @@ const TestCard = ({
   }
 
   const renderCriteriaMetIcon = () => {
-    if (criteriaMet === 'TRUE') {
+    if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED') {
       return <CheckCircleIcon style={{ color: 'green' }} />
     } else if (criteriaMet === 'FALSE') {
       return <CancelIcon style={{ color: 'red' }} />
@@ -551,15 +551,16 @@ const TestCard = ({
               <Button variant="contained" color="inherit" onClick={handleToggleLogs}>
                 LOGS
               </Button>
-              {test.criteria &&
+              {((test.criteria &&
                 criteriaMet &&
-                Array.from(clearButtonVisibleOnCriteriaSet).some((status) => criteriaMet.includes(status)) && (
-                  <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button variant="contained" color="inherit" onClick={handleClearTest}>
-                      Clear
-                    </Button>
-                  </Box>
-                )}
+                Array.from(clearButtonVisibleOnCriteriaSet).some((status) => criteriaMet.includes(status))) ||
+                isFinished) && (
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  <Button variant="contained" color="inherit" onClick={handleClearTest}>
+                    Clear
+                  </Button>
+                </Box>
+              )}
               {test.criteria && manualValidationCriteria.includes(test.criteria) && !apiError && isFinished && (
                 <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>
               )}
