@@ -12,7 +12,7 @@ import SectionHeader from '../shared/SectionHeader'
 
 const CCDAHome = () => {
   const maxWidthMainValidatorCards = 390
-  const maxWidthAdditionalToolCards = 550
+  const maxWidthAdditionalToolCards = 600 // Change to 390 if using a three column grid
   const flexibleBox = { display: 'flex', gap: 4, flexDirection: 'row', width: '100%', justifyContent: 'space-between' }
   return (
     <>
