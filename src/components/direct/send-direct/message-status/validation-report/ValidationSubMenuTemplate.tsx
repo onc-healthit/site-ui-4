@@ -1,19 +1,61 @@
-import React from 'react'
-import { List, ListItem, ListItemIcon, ListItemButton, Typography, Card, CardContent, Divider } from '@mui/material'
+import React, { useEffect } from 'react'
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemButton,
+  Typography,
+  Card,
+  CardContent,
+  Divider,
+  Button,
+  Box,
+} from '@mui/material'
 import { CheckCircle } from '@mui/icons-material'
+import { ValidationReport } from './ValidationReportTypes'
+import { Child, FilteredChildrenProps } from './ValidationReportTemplate'
 
-const items = [
-  { text: 'Part: multipart/signed', paddingLeft: 0 },
-  { text: '-Part: multipart/signed', paddingLeft: 1 },
-  { text: '-Part: application/pkc7-signature', paddingLeft: 2.5 },
-  { text: '-Part: application/pkc7-signature', paddingLeft: 3.5 },
-  { text: '-Part: application/pkc7-signature', paddingLeft: 4.5 },
-  { text: '-Part: application/pkc7-signature', paddingLeft: 5.5 },
-  { text: '-Part: application/pkc7-signature', paddingLeft: 6.5 },
-  { text: '-Part: application/pkc7-signature', paddingLeft: 1 },
-]
+interface SubMenuProps {
+  filteredChildren: Child[]
+  selectNode: (node: ValidationReport) => void
+}
+const extractContentType = (contentType: string) => {
+  const semicolonIndex = contentType.indexOf(';')
+  return semicolonIndex !== -1 ? contentType.substring(0, semicolonIndex) : contentType
+}
+const TreeNode = ({
+  node,
+  parent,
+  onSelectNode,
+}: {
+  node: ValidationReport
+  parent: ValidationReport | null
+  onSelectNode: (node: ValidationReport) => void
+}) => {
+  const contentTypeText = extractContentType(node.contentType)
+  return (
+    <Box ml={parent ? 4 : 0} mb={2}>
+      <Button variant="outlined" color="primary" onClick={() => onSelectNode(node)}>
+        {contentTypeText}
+      </Button>
 
-const ValidationSubMenuTemplate = () => {
+      {Array.isArray(node.children) && node.children.length > 0 && (
+        <Box ml={4}>
+          {node.children.map((child, index) => (
+            <TreeNode key={index} node={child} parent={node} onSelectNode={onSelectNode} />
+          ))}
+        </Box>
+      )}
+    </Box>
+  )
+}
+const ValidationSubMenuTemplate = ({ filteredChildren, selectNode }: SubMenuProps) => {
+  /*   useEffect(() => {
+    if (filteredChildren.length > 0) {
+      const firstNode = filteredChildren[0].node
+      selectNode(firstNode)
+    }
+  }, [filteredChildren, selectNode]) */
   return (
     <Card>
       <CardContent>
@@ -24,7 +66,11 @@ const ValidationSubMenuTemplate = () => {
           Click on the menu item to view the selected parts & table.
         </Typography>
         <Divider />
-        <List sx={{ p: 0, width: '450px' }} component="nav" aria-label="Tree menu">
+        {filteredChildren.map(
+          ({ node, parent }, index) =>
+            parent === null && <TreeNode key={index} node={node} parent={parent} onSelectNode={selectNode} />
+        )}
+        {/* <List sx={{ p: 0, width: '450px' }} component="nav" aria-label="Tree menu">
           {items.map((item, index) => (
             <ListItem
               key={index}
@@ -40,7 +86,7 @@ const ValidationSubMenuTemplate = () => {
               </ListItemIcon>
             </ListItem>
           ))}
-        </List>
+        </List> */}
       </CardContent>
     </Card>
   )

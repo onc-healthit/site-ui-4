@@ -2,8 +2,11 @@
 import React from 'react'
 import { Card, CardContent, Box, Typography, Divider } from '@mui/material'
 import palette from '@/styles/palette'
-
-const ValidationSolutions = () => {
+import { ValidationReport } from './ValidationReportTypes'
+interface SelectedPartsTemplateProps {
+  selectedNode: ValidationReport | null
+}
+const SelectedPartsTemplate = ({ selectedNode }: SelectedPartsTemplateProps) => {
   return (
     <>
       {/* Main Content */}
@@ -25,13 +28,13 @@ const ValidationSolutions = () => {
               border={`1px solid ${palette.greyDark}`}
             >
               <Typography fontFamily={'monospace'} variant="body1">
-                Content-Type: application/pks-mine; smime-type=envopleddata; name “smime.p7m”
+                Content-Type: {selectedNode?.contentType}
               </Typography>
               <Typography fontFamily={'monospace'} variant="body1">
-                Content-Disposition: placeholder
+                Content-Disposition: {selectedNode?.contentDisposition}
               </Typography>
               <Typography fontFamily={'monospace'} variant="body1">
-                Content-Transfer: placeholder
+                Content-Transfer: {selectedNode?.contentTransferEncoding}
               </Typography>
             </Box>
           </CardContent>
@@ -41,4 +44,4 @@ const ValidationSolutions = () => {
   )
 }
 
-export default ValidationSolutions
+export default SelectedPartsTemplate

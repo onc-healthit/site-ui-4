@@ -2,15 +2,20 @@
 import React from 'react'
 import { Container, Box, Button, Typography } from '@mui/material'
 import palette from '@/styles/palette'
-
-const MessageTemplate = () => {
+import { RawContent } from './ValidationReportTypes'
+interface MessageTemplateProps {
+  rawContent: RawContent
+}
+const MessageTemplate = ({ rawContent }: MessageTemplateProps) => {
+  //revisit this to make it dynamic based on the download link
+  const downloadLink = `https://ett.healthit.gov/ett/api/validationReport/download/${rawContent.downloadLink}`
   return (
     <>
       {/* Main Content */}
       <Container sx={{ pt: 0, pb: 8 }} maxWidth="lg">
         <Box flexDirection={'row'} justifyContent={'space-between'} display={'flex'} pb={2}>
           <Typography variant="h3">Message</Typography>
-          <Button variant="outlined" color="primary">
+          <Button variant="outlined" color="primary" href={downloadLink}>
             Download
           </Button>
         </Box>
@@ -24,17 +29,7 @@ const MessageTemplate = () => {
           borderRadius={1}
           border={`1px solid ${palette.greyDark}`}
         >
-          <Typography fontFamily={'monospace'} variant="body1">
-            ExtrinsicObjectID, URI, HashAttribute, SizeAttribute, URIAttribute, DocumentStatus, FileType,
-            SubmissionDate, ApprovalStatus, Comments 655883d1-54a6-4dbb-a616-48e71e46b3e2, CCDAAMB.XML, Hash attribute
-            found, Size attribute found, URI attribute found, Document found for uri, XML, 2024-06-20, Approved,
-            Document meets all the required attributes and is approved for use.ExtrinsicObjectID, URI, HashAttribute,
-            SizeAttribute, URIAttribute, DocumentStatus, FileType, SubmissionDate, ApprovalStatus, Comments
-            655883d1-54a6-4dbb-a616-48e71e46b3e2, CCDAAMB.XML, Hash attribute found, Size attribute found, URI attribute
-            found, Document found for uri, XML, 2024-06-20, Approved, Document meets all the required attributes and is
-            approved for use.{' '}
-          </Typography>
-          <Typography>Approved, Document meets all the required attributes and is approved for use.</Typography>
+          <pre>{rawContent.rawContent}</pre>
         </Box>
       </Container>
     </>

@@ -20,6 +20,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import ErrorDisplayCard from '@/components/c-cda/validation/results/ErrorDisplay'
 import { format } from 'date-fns'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 interface LogEntry {
   logID: string
   incoming: boolean
@@ -48,6 +49,7 @@ interface MessageData {
   directAddress: string
   logList: LogEntry[]
 }
+
 const MessageStatusDashboard = () => {
   const { status } = useSession()
   const [showOutgoing, setShowOutgoing] = useState(true)
@@ -55,6 +57,7 @@ const MessageStatusDashboard = () => {
   const [messageData, setMessageData] = useState<MessageData[]>([])
   const [isFetching, setIsFetching] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const router = useRouter()
   useEffect(() => {
     console.log('status', status)
 
@@ -82,6 +85,10 @@ const MessageStatusDashboard = () => {
         return 'primary'
     }
   }
+  const handleMessageClick = (messageId: string) => {
+    const category = showOutgoing ? 'outgoing' : 'incoming'
+    router.push(`/direct/messagestatus/validationreport/${category}/${messageId}`)
+  }
   const columns: GridColDef[] = [
     { field: 'a_from', headerName: showOutgoing ? 'From' : 'To', minWidth: 200, flex: 0.5 },
     {
@@ -92,7 +99,7 @@ const MessageStatusDashboard = () => {
       renderCell: (params) => (
         <>
           {!showOutgoing ? (
-            <Link href="" passHref>
+            <Link href={`/direct/messagestatus/validationreport/incoming/${params.value}`} passHref>
               {params.value}
             </Link>
           ) : (
@@ -117,7 +124,11 @@ const MessageStatusDashboard = () => {
       renderCell: (params) => (
         <>
           {params.value === 'MDN_RECEIVED' ? (
-            <Button href="" variant="outlined" color={getStatusColor(params.value)}>
+            <Button
+              variant="outlined"
+              color={getStatusColor(params.value)}
+              onClick={() => handleMessageClick(params.row.b_messageID)}
+            >
               {params.value}
             </Button>
           ) : (
