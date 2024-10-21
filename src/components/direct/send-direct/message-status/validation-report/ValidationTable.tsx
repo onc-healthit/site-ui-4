@@ -20,13 +20,13 @@ const columns: GridColDef[] = [
   {
     field: 'found',
     headerName: 'Found',
-    minWidth: 500,
+    minWidth: 400,
     flex: 1,
   },
   {
     field: 'expected',
     headerName: 'Expected',
-    minWidth: 500,
+    minWidth: 400,
     flex: 0.5,
   },
   {

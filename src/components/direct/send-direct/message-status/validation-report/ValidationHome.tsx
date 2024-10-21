@@ -75,8 +75,8 @@ const ValidationHome = ({ messageId, category }: ValidationHomeProps) => {
   }
   useEffect(() => {
     if (!_.isEmpty(messageId)) {
-      setIsFetching(true)
       if (category === 'outgoing') {
+        setIsFetching(true)
         console.log(messageId)
         const decodedMessageId = decodeURIComponent(messageId)
         handleFindMdn(decodedMessageId).then((data) => {
@@ -84,13 +84,15 @@ const ValidationHome = ({ messageId, category }: ValidationHomeProps) => {
           handleFetchValidationReport(data.messageId)
           handleFetchValidationReportRawContent(data.messageId)
           handleFetchCcdaReport(data.messageId)
+          setIsFetching(false)
         })
       } else {
+        setIsFetching(true)
         handleFetchValidationReport(messageId)
         handleFetchValidationReportRawContent(messageId)
         handleFetchCcdaReport(messageId)
+        setIsFetching(false)
       }
-      setIsFetching(false)
     }
   }, [category, messageId])
   return (
@@ -116,13 +118,11 @@ const ValidationHome = ({ messageId, category }: ValidationHomeProps) => {
         <LinearProgress />
       ) : (
         <Container>
-          <Box pt={4} flexDirection={'row'} gap={4} justifyContent={'space-between'} display={'flex'} pb={2}>
-            <ReportTabs
-              validationReport={validationReport}
-              validationReportRawContent={validationReportRawContent}
-              ccdaReport={ccdaReport}
-            />
-          </Box>
+          <ReportTabs
+            validationReport={validationReport}
+            validationReportRawContent={validationReportRawContent}
+            ccdaReport={ccdaReport}
+          />
         </Container>
       )}
     </>

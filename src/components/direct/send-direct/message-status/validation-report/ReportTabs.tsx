@@ -9,6 +9,7 @@ import ValidationTable from './ValidationTable'
 import { RawContent, ReportProps, ValidationReport } from './ValidationReportTypes'
 import _ from 'lodash'
 import ValidationReportTemplate from './ValidationReportTemplate'
+import TabsComponent, { TabInputs } from '@/components/shared/TabsComponent'
 type MenuItemWithLayout = menuProps & { layout: () => JSX.Element }
 
 const TreeNode = ({ node, parent }: { node: ValidationReport; parent: ValidationReport | null }) => {
@@ -50,7 +51,7 @@ const filterChildren = (
 const ValidationReportLayout = (validationReport: ValidationReport, version: string) => {
   const condition = (node: ValidationReport) => _.has(node, 'contentType')
   const filteredChildren = filterChildren(validationReport, condition)
-  console.log('filteredChildren', filteredChildren)
+  //console.log('filteredChildren', filteredChildren)
   return (
     <Container>
       <Box flexDirection={'column'} gap={4} justifyContent={'space-between'} display={'flex'} pb={2}>
@@ -79,17 +80,25 @@ const ReportTabs = ({ validationReport, validationReportRawContent, ccdaReport }
       layout: () => ValidationReportLayout(validationReport, 'USCDIV2'),
     },
   ]
-
-  validationReportRawContent.map((item) => {
-    menuItems.push({ heading: item.filename, href: '', layout: () => RawContentLayout(item) })
+  const reportTabs: TabInputs[] = [
+    { tabName: 'Validation Report', tabIndex: 0, tabPanel: ValidationReportLayout(validationReport, '') },
+    {
+      tabName: 'Validation Report USCDI V2',
+      tabIndex: 1,
+      tabPanel: ValidationReportLayout(validationReport, 'USCDIV2'),
+    },
+  ]
+  validationReportRawContent.map((item, index) => {
+    reportTabs.push({ tabName: item.filename, tabIndex: index + 2, tabPanel: RawContentLayout(item) })
   })
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
   // console.log(JSON.stringify(menuItems))
+
   return (
-    <Box display="flex">
+    /*  <Box display="flex">
       <Tabs
         textColor="primary"
         indicatorColor="secondary"
@@ -126,7 +135,8 @@ const ReportTabs = ({ validationReport, validationReportRawContent, ccdaReport }
           </Box>
         ))}
       </Box>
-    </Box>
+    </Box> */
+    <TabsComponent selectedTab={''} tabs={reportTabs} />
   )
 }
 
