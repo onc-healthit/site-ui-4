@@ -15,7 +15,6 @@ import TestCard from './TestCard'
 import palette from '@/styles/palette'
 import * as React from 'react'
 import testCases from '@/assets/SMTPTestCases'
-import TestFilter from './TestFilter'
 import { useContext } from 'react'
 import { ProfileContext } from './context'
 
@@ -78,11 +77,6 @@ const SMTP = () => {
           </Card>
         </Box>
         <Box sx={{ flexGrow: 1 }}>
-          {option !== '' && (
-            <Box pb={2}>
-              <TestFilter />
-            </Box>
-          )}
           {option === 'sender' && (
             <div>
               {smtpTestCasesSender.map((test, i) => {

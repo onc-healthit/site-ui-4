@@ -13,7 +13,6 @@ import {
   SelectChangeEvent,
 } from '@mui/material'
 import XDRTestCard from '@components/direct/hisp/XDRTestCard'
-import TestFilter from './TestFilter'
 import testCases from '@/assets/XDRTestCases'
 import DownloadXDRCert from '../shared/DownloadXDRCert'
 
@@ -73,11 +72,6 @@ const XDR = () => {
           <DownloadXDRCert />
         </Box>
         <Box display={'flex'} flexDirection={'column'} width={'60%'} gap={4}>
-          {option !== '' && (
-            <Box>
-              <TestFilter />
-            </Box>
-          )}
           {option === 'sender' && (
             <div>
               {xdrTestCasesSender.map((testcase, i) => {
