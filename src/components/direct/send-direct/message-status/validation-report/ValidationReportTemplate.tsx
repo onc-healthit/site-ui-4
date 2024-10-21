@@ -9,6 +9,7 @@ import {
   ListItemButton,
   ListItemIcon,
   Box,
+  Paper,
 } from '@mui/material'
 import ValidationTable from './ValidationTable'
 import ValidationSubMenuTemplate from './ValidationSubMenuTemplate'
@@ -32,12 +33,14 @@ const ValidationReportTemplate = ({ filteredChildren, version }: FilteredChildre
   }
   return (
     <>
-      <Box flexDirection={'row'} gap={4} justifyContent={'space-between'} display={'flex'} pb={2}>
+      <Box flexDirection={'row'} gap={4} justifyContent={'space-between'} display={'flex'} py={4}>
         <ValidationSubMenuTemplate filteredChildren={filteredChildren} selectNode={handleSelectNode} />
         <SelectedPartsTemplate selectedNode={selectedNode} />
       </Box>
-      {version === '' && <ValidationTable selectedNodeDetails={selectedNode?.details ?? null} />}
-      {version === 'USCDIV2' && <ValidationTable selectedNodeDetails={selectedNode?.svapdetails ?? null} />}
+      <Paper>
+        {version === '' && <ValidationTable selectedNodeDetails={selectedNode?.details ?? null} />}
+        {version === 'USCDIV2' && <ValidationTable selectedNodeDetails={selectedNode?.svapdetails ?? null} />}
+      </Paper>
     </>
   )
 }

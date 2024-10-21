@@ -1,44 +1,55 @@
 import React from 'react'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip, Box } from '@mui/material'
+import { Chip, Box } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import palette from '@/styles/palette'
-import { Detail, ValidationReport } from './ValidationReportTypes'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { Detail } from './ValidationReportTypes'
+import { DataGrid, GridColDef, GridRowHeightParams, GridRowHeightReturnValue } from '@mui/x-data-grid'
 
 interface ValidationTableProps {
   selectedNodeDetails: Detail[] | null
 }
 
 const columns: GridColDef[] = [
-  { field: 'name', headerName: 'Name', minWidth: 200, flex: 0.5 },
+  {
+    field: 'name',
+    headerName: 'Name',
+    minWidth: 200,
+    maxWidth: 300,
+    renderCell: (params) => (
+      <div style={{ padding: 16, whiteSpace: 'normal', wordWrap: 'break-word' }}>{params.value}</div>
+    ),
+  },
   {
     field: 'dts',
     headerName: 'DTS',
-    minWidth: 100,
-    flex: 0.5,
+    renderCell: (params) => (
+      <div style={{ padding: 16, whiteSpace: 'normal', wordWrap: 'break-word' }}>{params.value}</div>
+    ),
   },
   {
     field: 'found',
     headerName: 'Found',
-    minWidth: 400,
-    flex: 1,
+    maxWidth: 300,
+    minWidth: 250,
+    renderCell: (params) => (
+      <div style={{ padding: 16, whiteSpace: 'normal', wordWrap: 'break-word' }}>{params.value}</div>
+    ),
   },
   {
     field: 'expected',
     headerName: 'Expected',
-    minWidth: 400,
-    flex: 0.5,
+    maxWidth: 300,
+    minWidth: 250,
+    renderCell: (params) => (
+      <div style={{ padding: 16, whiteSpace: 'normal', wordWrap: 'break-word' }}>{params.value}</div>
+    ),
   },
   {
     field: 'rfc',
     headerName: 'RFC',
-    minWidth: 400,
-    flex: 0.5,
-
+    minWidth: 200,
     renderCell: (params) => {
-      if (!params.value) {
-        return null
-      }
+      if (!params.value) return null
 
       const rfcLinks = params.value
         .split(';')
@@ -47,11 +58,13 @@ const columns: GridColDef[] = [
             const text = curr
             const url = array[index + 1]
             acc.push(
-              <Box key={index} component="span" mb={4}>
-                <a href={url} target="_blank" rel="noopener noreferrer">
-                  {text}
-                </a>
-              </Box>
+              <div style={{ padding: 16 }}>
+                <Box key={index} component="span" mb={4}>
+                  <a href={url} target="_blank" rel="noopener noreferrer">
+                    {text}
+                  </a>
+                </Box>
+              </div>
             )
           }
           return acc
@@ -63,11 +76,17 @@ const columns: GridColDef[] = [
   {
     field: 'status',
     headerName: 'Status',
-    minWidth: 200,
-    flex: 0.5,
-    renderCell: (params) => <StyledChip status={params.value} label={params.value} />,
+    maxWidth: 200,
+    flex: 0.1,
+    renderCell: (params) => (
+      <div style={{ padding: 16 }}>
+        {' '}
+        <StyledChip status={params.value} label={params.value} />
+      </div>
+    ),
   },
 ]
+
 interface StyledChipProps {
   status: 'SUCCESS' | 'WARNING' | 'INFO' | 'ERROR'
 }
@@ -99,6 +118,11 @@ const StyledChip = styled(Chip)<StyledChipProps>(({ status }) => ({
 }))
 
 const ValidationTable = ({ selectedNodeDetails }: ValidationTableProps) => {
+  const getRowHeight = (params: GridRowHeightParams): GridRowHeightReturnValue => {
+    // Logic to determine row height
+    return 'auto' // Adjust as needed based on your criteria
+  }
+
   return (
     <DataGrid
       columns={columns}
@@ -108,8 +132,9 @@ const ValidationTable = ({ selectedNodeDetails }: ValidationTableProps) => {
       disableColumnMenu
       disableColumnSelector
       disableDensitySelector
-      density={'comfortable'}
       autoHeight
+      density="comfortable"
+      getRowHeight={getRowHeight} // Add getRowHeight here
     />
   )
 }
