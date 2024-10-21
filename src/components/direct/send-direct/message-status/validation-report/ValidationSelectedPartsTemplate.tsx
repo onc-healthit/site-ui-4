@@ -11,29 +11,29 @@ const SelectedPartsTemplate = ({ selectedNode }: SelectedPartsTemplateProps) => 
     <>
       {/* Main Content */}
       <Box display={'flex'} width="50%" gap={4} flexDirection={'column'}>
-        <Card sx={{ width: '100%' }}>
+        <Card sx={{ width: '100%', minHeight: '-webkit-fill-available' }}>
           <CardContent>
-            <Typography variant="h4" sx={{ pb: 1 }}>
+            <Typography variant="h4" sx={{ pb: 3.5 }}>
               Selected Parts
             </Typography>
             <Divider sx={{ mb: 2 }} />
             <Box
               display={'flex'}
               width="100%"
-              gap={1}
+              gap={3}
               bgcolor={palette.greyLight}
               flexDirection={'column'}
               p={2}
               borderRadius={1}
               border={`1px solid ${palette.greyDark}`}
             >
-              <Typography fontFamily={'monospace'} variant="body1">
+              <Typography fontFamily={'monospace'} variant="h6">
                 Content-Type: {selectedNode?.contentType}
               </Typography>
-              <Typography fontFamily={'monospace'} variant="body1">
+              <Typography fontFamily={'monospace'} variant="h6">
                 Content-Disposition: {selectedNode?.contentDisposition}
               </Typography>
-              <Typography fontFamily={'monospace'} variant="body1">
+              <Typography fontFamily={'monospace'} variant="h6">
                 Content-Transfer: {selectedNode?.contentTransferEncoding}
               </Typography>
             </Box>

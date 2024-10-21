@@ -14,6 +14,7 @@ import {
 import { CheckCircle } from '@mui/icons-material'
 import { ValidationReport } from './ValidationReportTypes'
 import { Child, FilteredChildrenProps } from './ValidationReportTemplate'
+import palette from '@/styles/palette'
 
 interface SubMenuProps {
   filteredChildren: Child[]
@@ -34,18 +35,28 @@ const TreeNode = ({
 }) => {
   const contentTypeText = extractContentType(node.contentType)
   return (
-    <Box ml={parent ? 4 : 0} mb={2}>
-      <Button variant="outlined" color="primary" onClick={() => onSelectNode(node)}>
-        {contentTypeText}
-      </Button>
+    <Box ml={parent ? 4 : 0}>
+      <List sx={{ borderLeft: `1.5px solid ${palette.primary}`, borderLeftStyle: 'dotted' }}>
+        <Button
+          sx={{
+            borderRadius: '0 0.3rem 0.3rem 0', // top-left, top-right, bottom-right, bottom-left
+            borderTop: `.5px solid ${palette.primary}`,
+            borderBottom: `.5px solid ${palette.primary}`,
+            borderRight: `.5px solid ${palette.primary}`,
+          }}
+          variant="text"
+          color="primary"
+          onClick={() => onSelectNode(node)}
+        ></Button>
 
-      {Array.isArray(node.children) && node.children.length > 0 && (
-        <Box ml={4}>
-          {node.children.map((child, index) => (
-            <TreeNode key={index} node={child} parent={node} onSelectNode={onSelectNode} />
-          ))}
-        </Box>
-      )}
+        {Array.isArray(node.children) && node.children.length > 0 && (
+          <Box ml={4}>
+            {node.children.map((child, index) => (
+              <TreeNode key={index} node={child} parent={node} onSelectNode={onSelectNode} />
+            ))}
+          </Box>
+        )}
+      </List>
     </Box>
   )
 }
@@ -65,7 +76,7 @@ const ValidationSubMenuTemplate = ({ filteredChildren, selectNode }: SubMenuProp
         <Typography variant="caption" sx={{ mb: 2 }}>
           Click on the menu item to view the selected parts & table.
         </Typography>
-        <Divider />
+        <Divider sx={{ mb: 2 }} />
         {filteredChildren.map(
           ({ node, parent }, index) =>
             parent === null && <TreeNode key={index} node={node} parent={parent} onSelectNode={selectNode} />
