@@ -95,8 +95,6 @@ type Cert = {
 }
 
 const Results = ({ response }: ResultsProps) => {
-  console.log(response)
-  console.log(response.errors?.fields['items[0].directAddress'][0].messages[0])
   return (
     <Box>
       {response.status === 'success' && response.items !== undefined && response.items[0].success && (
