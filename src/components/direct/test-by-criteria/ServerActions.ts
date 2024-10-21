@@ -215,8 +215,14 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
       testResponse = content.message
     }
 
+    let criteriaMet = content.status
+
+    if (content && content.content && content.content.criteriaMet != null) {
+      criteriaMet = content.content.criteriaMet
+    }
+
     return {
-      criteriaMet: content.status,
+      criteriaMet: criteriaMet,
       testRequest: testRequest,
       testResponse: testResponse,
       endpoint: endpoint,
