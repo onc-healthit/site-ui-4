@@ -358,7 +358,6 @@ const TestCard = ({ test }: TestCardProps) => {
             console.log('Response null, setting criteria met false')
             setCriteriaMet('FALSE')
           }
-          console.log('Full response: ', response)
           console.log('Criteria met: ', response.criteriaMet)
           console.log('Test Request Responses:', response.testResponse)
         }, 10)
@@ -407,7 +406,7 @@ const TestCard = ({ test }: TestCardProps) => {
       return <Typography style={{ color: 'red' }}>Pending</Typography>
     } else if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED' || criteriaMet === 'SUCCESS') {
       return <CheckCircleIcon style={{ color: 'green' }} />
-    } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR' || criteriaMet === 'FAILED') {
+    } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR') {
       return <CancelIcon style={{ color: 'red' }} />
     }
     return null
