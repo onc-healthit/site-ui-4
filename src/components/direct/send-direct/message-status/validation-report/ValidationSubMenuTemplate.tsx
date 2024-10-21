@@ -1,17 +1,6 @@
 import React, { useEffect } from 'react'
-import {
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemButton,
-  Typography,
-  Card,
-  CardContent,
-  Divider,
-  Button,
-  Box,
-} from '@mui/material'
-import { CheckCircle } from '@mui/icons-material'
+import { List, Typography, Card, CardContent, Divider, Button, Box } from '@mui/material'
+import { CheckCircle, ErrorOutline } from '@mui/icons-material'
 import { ValidationReport } from './ValidationReportTypes'
 import { Child, FilteredChildrenProps } from './ValidationReportTemplate'
 import palette from '@/styles/palette'
@@ -35,19 +24,40 @@ const TreeNode = ({
 }) => {
   const contentTypeText = extractContentType(node.contentType)
   return (
-    <Box ml={parent ? 4 : 0}>
-      <List sx={{ borderLeft: `1.5px solid ${palette.primary}`, borderLeftStyle: 'dotted' }}>
+    <Box borderLeft={`1.5px solid ${palette.primary}`} ml={parent ? 4 : 0}>
+      <List
+        sx={{
+          marginLeft: '1px',
+        }}
+      >
         <Button
           sx={{
-            borderRadius: '0 0.3rem 0.3rem 0', // top-left, top-right, bottom-right, bottom-left
-            borderTop: `.5px solid ${palette.primary}`,
-            borderBottom: `.5px solid ${palette.primary}`,
-            borderRight: `.5px solid ${palette.primary}`,
+            px: 2,
+            '&:focus': {
+              borderRight: `8px solid ${palette.secondaryLight}`, // Add focus outline
+            },
+            '&:hover': {
+              backgroundColor: `${palette.greyLight}`, // Lighten the background on hover
+            },
+            ml: '8px',
+            bgcolor: 'white',
+            '&:before': {
+              content: '""',
+              position: 'absolute',
+              left: '-10px',
+              width: '10px',
+              height: '1px',
+              backgroundColor: palette.primary, // Dot color
+            },
           }}
-          variant="text"
+          size="small"
+          variant="outlined"
           color="primary"
           onClick={() => onSelectNode(node)}
-        ></Button>
+        >
+          {node.status ? <CheckCircle sx={{ mr: 1 }} color="success" /> : <ErrorOutline sx={{ mr: 1 }} color="error" />}
+          {contentTypeText}
+        </Button>
 
         {Array.isArray(node.children) && node.children.length > 0 && (
           <Box ml={4}>
@@ -68,7 +78,7 @@ const ValidationSubMenuTemplate = ({ filteredChildren, selectNode }: SubMenuProp
     }
   }, [filteredChildren, selectNode]) */
   return (
-    <Card>
+    <Card sx={{ width: '75%' }}>
       <CardContent>
         <Typography variant="h4" sx={{ pb: 1 }}>
           Summary
@@ -77,27 +87,12 @@ const ValidationSubMenuTemplate = ({ filteredChildren, selectNode }: SubMenuProp
           Click on the menu item to view the selected parts & table.
         </Typography>
         <Divider sx={{ mb: 2 }} />
-        {filteredChildren.map(
-          ({ node, parent }, index) =>
-            parent === null && <TreeNode key={index} node={node} parent={parent} onSelectNode={selectNode} />
-        )}
-        {/* <List sx={{ p: 0, width: '450px' }} component="nav" aria-label="Tree menu">
-          {items.map((item, index) => (
-            <ListItem
-              key={index}
-              sx={{ pl: item.paddingLeft, display: 'flex', gap: 1, justifyContent: 'space-between' }}
-            >
-              <ListItemButton sx={{ pl: 0, py: 0.1 }}>
-                <Typography sx={{ whiteSpace: 'break-spaces', fontSize: '.9em', py: 0.5, px: 1 }}>
-                  {item.text}
-                </Typography>
-              </ListItemButton>
-              <ListItemIcon sx={{ minWidth: '0px' }}>
-                <CheckCircle color="success" />
-              </ListItemIcon>
-            </ListItem>
-          ))}
-        </List> */}
+        <Box border={`1px solid ${palette.greyLight}`} borderRadius={2} p={2}>
+          {filteredChildren.map(
+            ({ node, parent }, index) =>
+              parent === null && <TreeNode key={index} node={node} parent={parent} onSelectNode={selectNode} />
+          )}
+        </Box>
       </CardContent>
     </Card>
   )

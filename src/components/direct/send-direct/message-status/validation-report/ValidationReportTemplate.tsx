@@ -1,16 +1,4 @@
-import { CheckCircle } from '@mui/icons-material'
-import {
-  Card,
-  CardContent,
-  Typography,
-  Divider,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  Box,
-  Paper,
-} from '@mui/material'
+import { Box, Paper } from '@mui/material'
 import ValidationTable from './ValidationTable'
 import ValidationSubMenuTemplate from './ValidationSubMenuTemplate'
 import { ValidationReport } from './ValidationReportTypes'
@@ -33,14 +21,29 @@ const ValidationReportTemplate = ({ filteredChildren, version }: FilteredChildre
   }
   return (
     <>
-      <Box flexDirection={'row'} gap={4} justifyContent={'space-between'} display={'flex'} py={4}>
-        <ValidationSubMenuTemplate filteredChildren={filteredChildren} selectNode={handleSelectNode} />
-        <SelectedPartsTemplate selectedNode={selectedNode} />
+      <Box width={'100%'} display={'flex'} flexDirection={'column'}>
+        <Box
+          gap={4}
+          justifyContent={'space-between'}
+          display={'flex'}
+          py={4}
+          sx={{
+            '@media (max-width:900px)': {
+              flexDirection: 'column', // Adjust the layout for small screens
+            },
+            '@media (min-width:901px)': {
+              flexDirection: 'row', // Keep it as row for larger screens
+            },
+          }}
+        >
+          <ValidationSubMenuTemplate filteredChildren={filteredChildren} selectNode={handleSelectNode} />
+          <SelectedPartsTemplate selectedNode={selectedNode} />
+        </Box>
+        <Paper>
+          {version === '' && <ValidationTable selectedNodeDetails={selectedNode?.details ?? null} />}
+          {version === 'USCDIV2' && <ValidationTable selectedNodeDetails={selectedNode?.svapdetails ?? null} />}
+        </Paper>
       </Box>
-      <Paper>
-        {version === '' && <ValidationTable selectedNodeDetails={selectedNode?.details ?? null} />}
-        {version === 'USCDIV2' && <ValidationTable selectedNodeDetails={selectedNode?.svapdetails ?? null} />}
-      </Paper>
     </>
   )
 }
