@@ -10,6 +10,7 @@ import bulletedList from '../shared/BulletList'
 import { useFormState } from 'react-dom'
 import { handleSubmitDiscover } from './actions'
 import DiscoverResultsComponent from './DiscoverResults'
+import eventTrack from '@/services/analytics'
 
 const DCDTCertificates = () => {
   const [discoverCase, setDiscoverCase] = React.useState(discoverTestCases.filter((c) => c.code === ' '))
@@ -36,6 +37,11 @@ const DCDTCertificates = () => {
     setDiscoverCase(discoverTestCases.filter((c) => c.code === ' '))
     setDirectAddress('')
     setResultsAddress('')
+    eventTrack(
+      'Reset Discover DCDT Certificates',
+      'Direct Certificate Discovery Tool',
+      `User clicks reset discover DCDT certificates`
+    )
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,9 +63,14 @@ const DCDTCertificates = () => {
         <ListItem sx={{ display: 'list-item' }}>
           <Typography variant="body2">
             {"Download the Testing Tool's trust anchor."}{' '}
-            <Link href={'https://dcdt31.healthit.gov/dcdt/discovery/anchor'} locale={false}
+            <Link
+              href={'https://dcdt31.healthit.gov/dcdt/discovery/anchor'}
+              locale={false}
               target="_blank"
-              rel="noopener noreferrer">Download Trust Anchor</Link>
+              rel="noopener noreferrer"
+            >
+              Download Trust Anchor
+            </Link>
           </Typography>
         </ListItem>
         <ListItem sx={{ display: 'list-item' }}>
@@ -99,6 +110,7 @@ const DCDTCertificates = () => {
               value={resultsAddress}
               InputProps={{ type: 'email' }}
               onChange={handleChange}
+              sx={{ mb: 4 }}
             />
             <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'}>
               <Box display={'flex'} flexDirection={'row'} gap={1}>
