@@ -91,7 +91,7 @@ const H2Component = () => {
   const subcategories: Subcategory[] = [
     {
       value: 'certificateDiscoveryHosting',
-      label: 'Criteria (i) Certificate Discovery / Hosting - 2015 DCDT',
+      label: 'Paragraph (i) Certificate Discovery / Hosting - 2015 DCDT',
       categories: [
         'all',
         'setup',
@@ -106,43 +106,43 @@ const H2Component = () => {
     },
     {
       value: 'registerDirect',
-      label: 'Criteria (i) Register Direct',
+      label: 'Paragraph (i) Register Direct',
       categories: ['all', 'setup', 'send', 'sendDeliveryNotification', 'sendDirectXDM'],
       link: '/direct/register',
     },
     {
       value: 'directHomeCertificates',
-      label: 'Criteria (i) Direct Home - Certificates',
+      label: 'Paragraph (i) Direct Home - Certificates',
       categories: ['all', 'setup', 'send', 'receive', 'receiveDirectXDM'],
       link: '/direct#certification-download',
     },
     {
       value: 'sendDirectMessage',
-      label: 'Criteria (i) Send Direct Message',
+      label: 'Paragraph (i) Send Direct Message',
       categories: ['all', 'setup', 'send', 'receive', 'receiveDirectXDM'],
       link: '/direct/senddirect',
     },
     {
       value: 'messageStatus',
-      label: 'Criteria (i) Message Status',
+      label: 'Paragraph (i) Message Status',
       categories: ['all', 'setup', 'send', 'receive', 'receiveDirectXDM'],
       link: '/direct/senddirect#message-status',
     },
     {
       value: 'ccdaValidator',
-      label: 'Criteria (i) C-CDA R2.1 validator',
+      label: 'Paragraph (i) C-CDA R2.1 validator',
       categories: ['all', 'send'],
       link: '/c-cda/uscdi-v3',
     },
     {
       value: 'xdmValidator',
-      label: 'Criteria (i) XDM Validator',
+      label: 'Paragraph (i) XDM Validator',
       categories: ['all', 'send', 'sendDirectXDM', 'sendEdgeProtocol', 'receive', 'receiveDirectXDM'],
       link: '/direct/xdm',
     },
     {
       value: 'sendConversionXDR',
-      label: 'Criteria (i)(B) Send conversion XDR',
+      label: 'Paragraph (i)(B) Send conversion XDR',
       categories: ['all', 'sendConversionXDR', 'send'],
       testCard: true,
       testSources: ['xdr'],
@@ -150,7 +150,7 @@ const H2Component = () => {
     },
     {
       value: 'receiveConversionXDR',
-      label: 'Criteria (i)(B) Receive conversion XDR',
+      label: 'Paragraph (i)(B) Receive conversion XDR',
       categories: ['all', 'receiveConversionXDR', 'receive'],
       testCard: true,
       testSources: ['xdr'],
@@ -159,23 +159,23 @@ const H2Component = () => {
     },
     {
       value: 'sendEdgeXDR',
-      label: 'Criteria (i)(C) Send using Edge Protocol - XDR',
       categories: ['all', 'sendEdgeProtocol', 'send', 'sendConversionXDR'],
+      label: 'Paragraph (i)(C) Send using Edge Protocol - XDR',
       testCard: true,
       testSources: ['xdr'],
       criteria: ['h2-3'],
     },
     {
       value: 'sendEdgeSMTP',
-      label: 'Criteria (i)(C) Send using Edge Protocol - SMTP',
       categories: ['all', 'sendEdgeProtocol', 'send'],
+      label: 'Paragraph (i)(C) Send using Edge Protocol - SMTP',
       testCard: true,
       testSources: ['smtp'],
       criteria: [''],
     },
     {
       value: 'sendEdgeDeliveryNotification',
-      label: 'Criteria (i)(C) Send using Edge Protocol - Delivery Notification',
+      label: 'Paragraph (i)(C) Send using Edge Protocol - Delivery Notification',
       categories: ['all', 'sendEdgeProtocol', 'send'],
       testCard: true,
       testSources: ['smtp'],
@@ -183,7 +183,7 @@ const H2Component = () => {
     },
     {
       value: 'sendEdgeIMAP',
-      label: 'Criteria (i)(C) Send using Edge Protocol - IMAP',
+      label: 'Paragraph (i)(C) Send using Edge Protocol - IMAP',
       categories: ['all', 'sendEdgeProtocol', 'send'],
       testCard: true,
       testSources: ['smtp'],
@@ -191,7 +191,7 @@ const H2Component = () => {
     },
     {
       value: 'sendEdgePOP',
-      label: 'Criteria (i)(C) Send using Edge Protocol - POP',
+      label: 'Paragraph (i)(C) Send using Edge Protocol - POP',
       categories: ['all', 'sendEdgeProtocol', 'send'],
       testCard: true,
       testSources: ['smtp'],
@@ -217,7 +217,7 @@ const H2Component = () => {
     },
     {
       value: 'deliveryNotificationSMTP',
-      label: 'Criteria (ii) Delivery Notification in Direct - SMTP',
+      label: 'Paragraph (ii) Delivery Notification in Direct - SMTP',
       categories: ['all', 'sendDeliveryNotification', 'send'],
       testCard: true,
       testSources: ['smtp'],
@@ -225,7 +225,7 @@ const H2Component = () => {
     },
     {
       value: 'receiveSMTPDispositionNotification',
-      label: 'Criteria (ii) Receive SMTP: Disposition-Notification',
+      label: 'Paragraph (ii) Receive SMTP: Disposition-Notification',
       categories: ['all', 'receiveDeliveryNotification', 'receive'],
       testCard: true,
       testSources: ['smtp'],
@@ -234,7 +234,7 @@ const H2Component = () => {
     },
     {
       value: 'deliveryNotificationXDR',
-      label: 'Criteria (ii)(C) Delivery Notification in Direct - XDR',
+      label: 'Paragraph (ii)(C) Delivery Notification in Direct - XDR',
       categories: ['all', 'sendDeliveryNotification', 'send'],
       testCard: true,
       testSources: ['xdr'],
@@ -242,7 +242,7 @@ const H2Component = () => {
     },
     {
       value: 'receiveXDRDispositionNotification',
-      label: 'Criteria (ii)(C) Receive XDR: Disposition-Notification',
+      label: 'Paragraph (ii)(C) Receive XDR: Disposition-Notification',
       categories: ['all', 'receiveDeliveryNotification', 'receive'],
       testCard: true,
       testSources: ['xdr'],
