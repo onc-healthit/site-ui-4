@@ -10,6 +10,7 @@ import {
   Box,
   List,
   ListItem,
+  LinearProgress,
 } from '@mui/material'
 import { FC, useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
@@ -40,6 +41,19 @@ type Root = {
   items?: Item[]
   testcase?: Testcase
   status?: string
+  errors?: FieldError
+}
+
+type FieldError = {
+  '@type': string
+  fields: Error
+}
+
+type Error = {
+  'items[0].directAddress': Fields[]
+}
+type Fields = {
+  messages: string[]
 }
 
 type Item = {
@@ -131,6 +145,37 @@ const Results = ({ response }: ResultsProps) => {
               <strong>Failed</strong>
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: '16px', alignItems: 'center' }}>
+              <Typography>
+                <strong>Testcase:</strong> {response.testcase?.testcase}
+              </Typography>
+              <Typography>
+                <strong>Direct Address:</strong> {response.testcase?.directAddr}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+      )}
+      {response.status === 'error' && response.errors !== undefined && (
+        <Box sx={{ width: '100%', flexDirection: 'row', gap: '16px', display: 'flex', alignItems: 'center', pb: 2 }}>
+          <ErrorIcon
+            fontSize="large"
+            sx={{
+              color: palette.error,
+              transition: 'transform 0.3s ease-in-out',
+              transform: 'scale(1)',
+              '&:hover': {
+                transform: 'scale(1.2)',
+              },
+            }}
+          />
+          <Box>
+            <Typography>
+              <strong>Failed</strong>
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'left' }}>
+              <Typography>
+                <strong>Message:</strong> {response.errors?.fields['items[0].directAddress'][0].messages[0]}
+              </Typography>
               <Typography>
                 <strong>Testcase:</strong> {response.testcase?.testcase}
               </Typography>
@@ -233,6 +278,31 @@ const HostingResultsDialog: FC<HostingResultsDialogProps> = ({ open, handleClose
   )
 }
 
+const LoadingResults = () => {
+  return (
+    <Dialog open maxWidth="lg">
+      <DialogTitle typography={'h3'} sx={{ fontWeight: '600', pb: 2 }} id="dialog-title">
+        Searching for certificate...
+      </DialogTitle>
+      <Divider />
+      <DialogContent>
+        <Typography>{}</Typography>
+        <LinearProgress
+          sx={{
+            height: 4,
+            borderRadius: 5,
+            mt: 2,
+            backgroundColor: palette.secondaryLight,
+            '& .MuiLinearProgress-bar': {
+              backgroundColor: palette.secondary,
+            },
+          }}
+        />
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 const HostingResultsComponent = ({ response }: HostingResultsComponentProps) => {
   const [openDialog, setOpenDialog] = useState(false)
   const { pending } = useFormStatus()
@@ -269,6 +339,7 @@ const HostingResultsComponent = ({ response }: HostingResultsComponentProps) => 
       >
         SUBMIT
       </Button>
+      {pending && <LoadingResults />}
       {!pending && _.has(response, 'error') && (
         <ErrorDisplayCard open={errorOpen} handleClose={handleErrorClose} response={response} />
       )}
