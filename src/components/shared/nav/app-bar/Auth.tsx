@@ -4,6 +4,7 @@ import Login from './Login'
 import { signOut, useSession } from 'next-auth/react'
 import { useState } from 'react'
 import palette from '@/styles/palette'
+import eventTrack from '@/services/analytics'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
 export default function Auth(props: any) {
@@ -14,6 +15,7 @@ export default function Auth(props: any) {
   const { data: session } = useSession()
   const handleAuthMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
+    eventTrack('Open Authentication Panel', 'Authentication', 'User Clicks Login')
   }
   const handleAuthClose = () => {
     setAnchorEl(null)
@@ -67,9 +69,15 @@ export default function Auth(props: any) {
               </Link>
             </MenuItem>
             <Divider />
-            <MenuItem sx={{ color: palette.secondaryLight }} onClick={() => signOut()}>
+            <MenuItem
+              sx={{ color: palette.secondaryLight }}
+              onClick={() => {
+                eventTrack('User Log Out', 'Authentication', 'User Clicks Log out')
+                signOut()
+              }}
+            >
               Log Out
-            </MenuItem>
+            </MenuItem>{' '}
           </Menu>
         </div>
       ) : (

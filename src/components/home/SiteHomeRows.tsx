@@ -16,7 +16,6 @@ import {
   infernoSvg,
   infernoValidatorSvg,
   lanternSvg,
-  referenceDataSvg,
 } from '@public/home'
 import ONCLogo from '@public/shared/LogoBackgroundImage.png'
 import Image from 'next/image'
@@ -138,9 +137,9 @@ export default function SiteHomeRows() {
             >
               {[
                 {
-                  title: 'Inferno FHIR Testing',
+                  title: 'Inferno FHIR® Testing',
                   description:
-                    'This is an instance of Inferno hosted by ONC for purposes of testing for the ONC Health IT Certification Program and to support community-driven health IT standards development projects.',
+                    'This is an instance of Inferno hosted by ASTP for purposes of testing for the ONC Health IT Certification Program and to support community-driven health IT standards development projects.',
                   cardImage: infernoSvg,
                   pathname: 'https://inferno.healthit.gov/',
                 },
@@ -154,7 +153,7 @@ export default function SiteHomeRows() {
                 {
                   title: 'Direct Project Tooling',
                   description:
-                    'The ONC Direct Tool utilizes the Direct Standard® to provide a mechanism for developers and implementers to test the capabilities of securely transporting sensitive health care information over the open internet.',
+                    'The ASTP Direct Tool utilizes the Direct Standard® to provide a mechanism for developers and implementers to test the capabilities of securely transporting sensitive health care information over the open internet.',
                   cardImage: directSvg,
                   pathname: '/direct',
                 },
@@ -248,7 +247,7 @@ export default function SiteHomeRows() {
                 {
                   title: 'Inferno Resource Validator',
                   description:
-                    'FHIR Validator validates your resources using the profile URLs found in the "meta.profile" field of your resource (or the Base FHIR profiles if no profile URLs are present).',
+                    'FHIR® Validator validates your resources using the profile URLs found in the "meta.profile" field of your resource (or the Base FHIR® profiles if no profile URLs are present).',
                   cardImage: infernoValidatorSvg,
                   pathname: 'https://inferno.healthit.gov/validator/',
                 },
@@ -281,9 +280,9 @@ export default function SiteHomeRows() {
               ? skeleton
               : [
                   {
-                    title: 'HL7 Tools',
+                    title: 'HL7® Tools',
                     description:
-                      'Assess the conformance, interoperability, and functionality of healthcare information systems implementing HL7 standards.',
+                      'Assess the conformance, interoperability, and functionality of healthcare information systems implementing HL7® standards.',
                     cardImage: hl7Svg,
                     pathname: '/industry-resources#hl7',
                   },
@@ -293,13 +292,6 @@ export default function SiteHomeRows() {
                       'Implementation guides in healthcare serve as comprehensive documents outlining the specific rules, standards, and protocols for implementing interoperable health information systems.',
                     cardImage: igSvg,
                     pathname: '/industry-resources#ig',
-                  },
-                  {
-                    title: 'Reference Data',
-                    description:
-                      'Values used to standardize and categorize data elements within a system, making it easier to understand and compare data across different applications or processes.',
-                    cardImage: referenceDataSvg,
-                    pathname: '/industry-resources#rd',
                   },
                 ].map((card, index) => (
                   <Box key={index} p={1}>

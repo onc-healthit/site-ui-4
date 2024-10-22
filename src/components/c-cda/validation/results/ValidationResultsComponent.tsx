@@ -6,6 +6,7 @@ import ValidatorResultsCard from './ValidationResultsDialog'
 import _ from 'lodash'
 import ValidatorLoadingCard from './ResultsLoading'
 import ErrorDisplayCard from './ErrorDisplay'
+import eventTrack from '@/services/analytics'
 
 interface ValidatorComponentProps {
   estimatedValidationTime: number
@@ -33,13 +34,24 @@ const ValidatorComponent = ({
   //console.log(response)
   const handleLoadingOpen = () => {
     setLoadingOpen(true)
+    eventTrack(`Submit C-CDA Validation Form`, 'C-CDA Validation', 'User clicks to submit C-CDA Validation Results')
   }
 
   const handleLoadingClose = () => {
     setLoadingOpen(false)
+    eventTrack(
+      `Close loading C-CDA Validation Form - ${criteria}`,
+      'C-CDA Validation',
+      'User clicks off of C-CDA Validation Results'
+    )
   }
   const handleErrorClose = () => {
     setErrorOpen(false)
+    eventTrack(
+      `Error on C-CDA Validation - ${criteria}`,
+      'C-CDA Validation',
+      'Error appears on C-CDA Validation Results'
+    )
   }
   //if there is service error from the response
   const resultsMetaData: ResultsMetaData = _.get(response, 'resultsMetaData')!
