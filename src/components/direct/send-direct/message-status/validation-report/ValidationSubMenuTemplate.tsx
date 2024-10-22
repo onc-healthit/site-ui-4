@@ -19,7 +19,7 @@ interface SubMenuProps {
   filteredChildren: Child[]
   selectNode: (node: ValidationReport) => void
 }
-const extractContentType = (contentType: string) => {
+export const extractContentType = (contentType: string) => {
   const semicolonIndex = contentType.indexOf(';')
   return semicolonIndex !== -1 ? contentType.substring(0, semicolonIndex) : contentType
 }
@@ -60,7 +60,7 @@ const ValidationSubMenuTemplate = ({ filteredChildren, selectNode }: SubMenuProp
     <Card>
       <CardContent>
         <Typography variant="h4" sx={{ pb: 1 }}>
-          Summary
+          Validation Report Summary
         </Typography>
         <Typography variant="caption" sx={{ mb: 2 }}>
           Click on the menu item to view the selected parts & table.

@@ -1,12 +1,26 @@
 import React from 'react'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip, Box } from '@mui/material'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Chip,
+  Box,
+  Typography,
+} from '@mui/material'
 import { styled } from '@mui/material/styles'
 import palette from '@/styles/palette'
 import { Detail, ValidationReport } from './ValidationReportTypes'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { title } from 'process'
 
 interface ValidationTableProps {
   selectedNodeDetails: Detail[] | null
+  selectedContentType: string
+  version?: string
 }
 
 const columns: GridColDef[] = [
@@ -98,19 +112,24 @@ const StyledChip = styled(Chip)<StyledChipProps>(({ status }) => ({
   backgroundColor: 'transparent',
 }))
 
-const ValidationTable = ({ selectedNodeDetails }: ValidationTableProps) => {
+const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: ValidationTableProps) => {
   return (
-    <DataGrid
-      columns={columns}
-      rows={selectedNodeDetails || []}
-      getRowId={() => Math.random()}
-      disableRowSelectionOnClick
-      disableColumnMenu
-      disableColumnSelector
-      disableDensitySelector
-      density={'comfortable'}
-      autoHeight
-    />
+    <Box>
+      <Typography variant="h4" sx={{ pb: 1 }}>
+        Detailed report for {version} {selectedContentType}
+      </Typography>
+      <DataGrid
+        columns={columns}
+        rows={selectedNodeDetails || []}
+        getRowId={() => Math.random()}
+        disableRowSelectionOnClick
+        disableColumnMenu
+        disableColumnSelector
+        disableDensitySelector
+        density={'comfortable'}
+        autoHeight
+      />
+    </Box>
   )
 }
 

@@ -53,11 +53,24 @@ export type Svapdetail = {
 export interface ReportProps {
   validationReport: ValidationReport
   validationReportRawContent: RawContent[]
-  ccdaReport: []
+  ccdaReport: CCDAReport[]
 }
 
 export type RawContent = {
   filename: string
   rawContent: string
   downloadLink: string
+}
+
+export type CCDAReport = {
+  filename: string
+  ccdaReport: CCDAReportContent
+}
+export type CCDAReportContent = {
+  ccdaRType: string
+  ccdaValidationResults: []
+  resultsMetaData: []
+  items?: []
+  pass: boolean
+  report: string
 }

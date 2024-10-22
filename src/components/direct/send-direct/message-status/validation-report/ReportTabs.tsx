@@ -1,15 +1,16 @@
 import { menuProps } from '@/components/shared/SubMenu'
 import palette from '@/styles/palette'
 import { Box, Tabs, Tab, Container, Typography, Button } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import MessageTemplate from './MessageTemplate'
 import ValidationSolutions from './ValidationSelectedPartsTemplate'
 import ValidationSubMenuTemplate from './ValidationSubMenuTemplate'
 import ValidationTable from './ValidationTable'
-import { RawContent, ReportProps, ValidationReport } from './ValidationReportTypes'
+import { CCDAReport, RawContent, ReportProps, ValidationReport } from './ValidationReportTypes'
 import _ from 'lodash'
 import ValidationReportTemplate from './ValidationReportTemplate'
 import TabsComponent, { TabInputs } from '@/components/shared/TabsComponent'
+import CCDAReportTemplate from './CCDAReportTemplate'
 type MenuItemWithLayout = menuProps & { layout: () => JSX.Element }
 
 const TreeNode = ({ node, parent }: { node: ValidationReport; parent: ValidationReport | null }) => {
@@ -68,33 +69,67 @@ const RawContentLayout = (validationReportRawContent: RawContent) => (
     </Box>
   </Container>
 )
-
+const ccdaReportTabName = (ccdaReport: CCDAReport[]) => {
+  if (_.isEqual(ccdaReport[0].ccdaReport.ccdaRType, 'r1')) {
+    return 'CCDA Validation R1.1'
+  } else if (_.isEqual(ccdaReport[0].ccdaReport.ccdaRType, 'r2')) {
+    return 'CCDA Validation R2.1'
+  } else if (_.startsWith(ccdaReport[0].filename, 'XDM_')) {
+    return 'XDM Validation'
+  } else {
+    return 'CCDA Validation'
+  }
+}
 const ReportTabs = ({ validationReport, validationReportRawContent, ccdaReport }: ReportProps) => {
-  const [value, setValue] = useState(0)
+  // const [value, setValue] = useState(0)
 
-  const menuItems: MenuItemWithLayout[] = [
+  /* const menuItems: MenuItemWithLayout[] = [
     { heading: 'Validation Report', href: '', layout: () => ValidationReportLayout(validationReport, '') },
     {
       heading: 'Validation Report USCDI V2',
       href: '',
       layout: () => ValidationReportLayout(validationReport, 'USCDIV2'),
     },
-  ]
-  const reportTabs: TabInputs[] = [
-    { tabName: 'Validation Report', tabIndex: 0, tabPanel: ValidationReportLayout(validationReport, '') },
-    {
-      tabName: 'Validation Report USCDI V2',
-      tabIndex: 1,
-      tabPanel: ValidationReportLayout(validationReport, 'USCDIV2'),
-    },
-  ]
-  validationReportRawContent.map((item, index) => {
-    reportTabs.push({ tabName: item.filename, tabIndex: index + 2, tabPanel: RawContentLayout(item) })
-  })
+  ] */
+  const [reportTabs, setReportTabs] = useState<TabInputs[]>([])
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  useEffect(() => {
+    const newTabs: TabInputs[] = []
+    let currentIndex = 0
+    if (!_.isEmpty(validationReport)) {
+      newTabs.push(
+        {
+          tabName: 'Validation Report',
+          tabIndex: currentIndex++,
+          tabPanel: ValidationReportLayout(validationReport, ''),
+        },
+        {
+          tabName: 'Validation Report USCDI V2',
+          tabIndex: currentIndex++,
+          tabPanel: ValidationReportLayout(validationReport, 'USCDIV2'),
+        }
+      )
+    }
+    if (ccdaReport.length > 0) {
+      const tabName = ccdaReportTabName(ccdaReport)
+
+      newTabs.push({
+        tabName: tabName,
+        tabIndex: currentIndex++,
+        tabPanel: <CCDAReportTemplate ccdaReport={ccdaReport} />,
+      })
+    }
+    if (validationReportRawContent.length > 0) {
+      validationReportRawContent.map((item, index) => {
+        newTabs.push({ tabName: item.filename, tabIndex: currentIndex++, tabPanel: RawContentLayout(item) })
+      })
+    }
+    setReportTabs(newTabs)
+  }, [ccdaReport, validationReport, validationReportRawContent])
+
+  /*  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
-  }
+  } */
   // console.log(JSON.stringify(menuItems))
 
   return (
@@ -136,7 +171,7 @@ const ReportTabs = ({ validationReport, validationReportRawContent, ccdaReport }
         ))}
       </Box>
     </Box> */
-    <TabsComponent selectedTab={''} tabs={reportTabs} />
+    <TabsComponent selectedTab={''} tabs={reportTabs} variant="scrollable" />
   )
 }
 

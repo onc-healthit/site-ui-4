@@ -11,9 +11,10 @@ import {
   Box,
 } from '@mui/material'
 import ValidationTable from './ValidationTable'
-import ValidationSubMenuTemplate from './ValidationSubMenuTemplate'
+import ValidationSubMenuTemplate, { extractContentType } from './ValidationSubMenuTemplate'
 import { ValidationReport } from './ValidationReportTypes'
 import { useState } from 'react'
+import _ from 'lodash'
 import SelectedPartsTemplate from './ValidationSelectedPartsTemplate'
 export type Child = {
   node: ValidationReport
@@ -34,10 +35,22 @@ const ValidationReportTemplate = ({ filteredChildren, version }: FilteredChildre
     <>
       <Box flexDirection={'row'} gap={4} justifyContent={'space-between'} display={'flex'} pb={2}>
         <ValidationSubMenuTemplate filteredChildren={filteredChildren} selectNode={handleSelectNode} />
-        <SelectedPartsTemplate selectedNode={selectedNode} />
+        {!_.isEmpty(selectedNode) && <SelectedPartsTemplate selectedNode={selectedNode} />}
       </Box>
-      {version === '' && <ValidationTable selectedNodeDetails={selectedNode?.details ?? null} />}
-      {version === 'USCDIV2' && <ValidationTable selectedNodeDetails={selectedNode?.svapdetails ?? null} />}
+      {version === '' && !_.isEmpty(selectedNode) && (
+        <ValidationTable
+          selectedNodeDetails={selectedNode?.details ?? null}
+          selectedContentType={extractContentType(selectedNode.contentType)}
+          version={version}
+        />
+      )}
+      {version === 'USCDIV2' && !_.isEmpty(selectedNode) && (
+        <ValidationTable
+          selectedNodeDetails={selectedNode?.svapdetails ?? null}
+          selectedContentType={extractContentType(selectedNode.contentType)}
+          version={version}
+        />
+      )}
     </>
   )
 }
