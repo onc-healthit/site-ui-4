@@ -159,7 +159,7 @@ const H2Component = () => {
     {
       value: 'sendEdgeXDR',
       label: 'Criteria (i)(C) Send using Edge Protocol - XDR',
-      categories: ['all', 'sendEdgeProtocol', 'send', 'sendConversionXDR', 'receive'],
+      categories: ['all', 'sendEdgeProtocol', 'send', 'sendConversionXDR'],
       testCard: true,
       testSources: ['xdr'],
       criteria: ['h2-3'],
@@ -167,7 +167,7 @@ const H2Component = () => {
     {
       value: 'sendEdgeSMTP',
       label: 'Criteria (i)(C) Send using Edge Protocol - SMTP',
-      categories: ['all', 'sendEdgeProtocol', 'send', 'receive'],
+      categories: ['all', 'sendEdgeProtocol', 'send'],
       testCard: true,
       testSources: ['smtp'],
       criteria: [''],
@@ -199,7 +199,7 @@ const H2Component = () => {
     {
       value: 'receiveEdgeXDR',
       label: 'Criteria (i)(C) Receive using Edge Protocol - XDR',
-      categories: ['all', 'receiveEdgeProtocol'],
+      categories: ['all', 'receiveEdgeProtocol', 'receive'],
       testCard: true,
       testSources: ['xdr'],
       criteria: ['h2-7'],
@@ -208,7 +208,7 @@ const H2Component = () => {
     {
       value: 'receiveEdgeSMTP',
       label: 'Criteria (i)(C) Receive using Edge Protocol - SMTP',
-      categories: ['all', 'receiveEdgeProtocol'],
+      categories: ['all', 'receiveEdgeProtocol', 'receive'],
       testCard: true,
       testSources: ['smtp'],
       criteria: ['h2-8'],
