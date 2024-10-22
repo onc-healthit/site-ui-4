@@ -1,8 +1,8 @@
 import DynamicTable from './DynamicTable'
 import _ from 'lodash'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import DocumentSelector from './DocumentSelector'
-import { handleAPICall } from '../test-by-criteria/ServerActions'
+import { handleAPICall, handleSMTPLogAPICall } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import LoadingButton from '../shared/LoadingButton'
@@ -26,6 +26,7 @@ import {
 } from '@mui/material'
 import AlertSnackbar from '../shared/AlertSnackbar'
 import eventTrack from '@/services/analytics'
+import { ProfileContext } from './context'
 
 export type TestCaseFields = {
   name: string
@@ -128,6 +129,7 @@ const TestCard = ({
   const [alertOpen, setAlertOpen] = useState<boolean>(false)
   const [alertMessage, setAlertMessage] = useState<string>('')
   const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('error')
+  const { profilename } = useContext(ProfileContext)
 
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
     console.log('Confirmed Document', selectedData)
@@ -165,6 +167,18 @@ const TestCard = ({
 
   const handleAttachmentTypeChange = (event: SelectChangeEvent<string>) => {
     setAttachmentType(event.target.value)
+  }
+
+  const logTestResults = async (result: APICallResponse) => {
+    if (!_.isEmpty(profilename)) {
+      await handleSMTPLogAPICall({
+        criteriaMet: result.criteriaMet === 'TRUE',
+        testRequestResponses: result.testRequestResponses,
+        attachments: [],
+        testCaseNumber: test.name,
+        profileName: profilename,
+      })
+    }
   }
 
   const [documentDetails, setDocumentDetails] = useState<{
@@ -245,7 +259,7 @@ const TestCard = ({
   const handleChange = (name: string, value: FieldValue) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
-  //Event trigger twice
+
   const handleRunTest = async () => {
     eventTrack(` Run test for ${test.name}`, 'Test By Criteria', `${test.criteria}`)
     const isMDNTest = test.protocol && mdnTestIds.includes(test.protocol)
@@ -282,6 +296,8 @@ const TestCard = ({
           setPreviousResult(null)
           setCurrentStep(1)
         }
+
+        logTestResults(result)
       } else {
         const requestData = createRequestData(0)
         const response = await handleAPICall(requestData)
@@ -294,6 +310,8 @@ const TestCard = ({
         if (result.criteriaMet.includes('STEP2')) {
           setCurrentStep(2)
         }
+
+        logTestResults(result)
       }
     } catch (error) {
       console.error('Failed to run test:', error)
@@ -536,19 +554,11 @@ const TestCard = ({
                 variant="contained"
                 color="primary"
               >
-                <LoadingButton
-                  loading={isLoading}
-                  done={isFinished}
-                  onClick={handleRunTest}
-                  variant="contained"
-                  color="primary"
-                >
-                  {test.protocol && mdnTestIds.includes(test.protocol)
-                    ? currentStep === 1
-                      ? 'RUN'
-                      : 'CHECK MDN'
-                    : 'RUN'}
-                </LoadingButton>
+                {test.protocol && mdnTestIds.includes(test.protocol)
+                  ? currentStep === 1
+                    ? 'RUN'
+                    : 'CHECK MDN'
+                  : 'RUN'}
               </LoadingButton>
               <Button variant="contained" onClick={() => handleToggleDetail('More Info')}>
                 MORE INFO
