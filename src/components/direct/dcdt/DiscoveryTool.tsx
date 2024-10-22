@@ -16,6 +16,7 @@ import {
   Button,
 } from '@mui/material'
 import palette from '@/styles/palette'
+import eventTrack from '@/services/analytics'
 import Hosting from './Hosting'
 import DCDTCertificates from './DCDTCertificates'
 import bulletedList from '../shared/BulletList'
@@ -26,15 +27,9 @@ const menuItems: menuProps[] = [
   { heading: "Discover DCDT's Certificates", href: '#certificates' },
   { heading: 'Resources', href: '#resources' },
 ]
-function trackMenuItemClick(heading: string) {
-  if (typeof window.gtag === 'function') {
-    window.gtag('event', 'Click discovery tool sub menu', {
-      event_category: 'Navigation',
-      event_label: heading,
-    })
-  }
+const trackMenuItemClick = (heading: string) => {
+  eventTrack('Click DCDT sub menu', 'Direct Certificate Discovery Tool', heading)
 }
-
 type LinkButtonProps = {
   href: string
   title: string
@@ -67,8 +62,8 @@ const DiscoveryTool = () => {
             The Direct Certificate Discovery Tool (DCDT) was created to support automated testing of systems that plan
             to enact the Certificate Discovery and Provider Directory Implementation Guide, approved as normative
             specification by the Direct community, as of July 9, 2012. It is based on the written test package and
-            requirement traceability matrix created by the Modular Specifications project under the direction of the
-            Office of the National Coordinator (ONC) and National Institute of Standards and Technology (NIST).
+            requirement traceability matrix created by the Modular Specifications project under the direction of
+            the Assistant Secretary for Technology Policy (ASTP) and National Institute of Standards and Technology (NIST).
           </>
         }
       />

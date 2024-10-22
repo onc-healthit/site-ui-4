@@ -16,7 +16,7 @@ export default function Footer() {
             </Link>
           </Box>
           <Typography color="white">
-            Owned by The Office of the National Coordinator for Health Information Technology
+            Owned by The Assistant Secretary for Technology Policy
           </Typography>
         </Box>
       </Container>

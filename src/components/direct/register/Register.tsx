@@ -28,6 +28,7 @@ import { useSession } from 'next-auth/react'
 import ErrorDisplayCard from '@/components/c-cda/validation/results/ErrorDisplay'
 import AlertSnackbar from '../shared/AlertSnackbar'
 import PageAlertBox from '../../shared/PageAlertBox'
+import eventTrack from '@/services/analytics'
 
 const Register = () => {
   const [selectedDirectEmailAddress, setSelectedDirectEmailAddress] = useState('')
@@ -96,6 +97,7 @@ const Register = () => {
     setSelectedDirectEmailAddress(directEmailAddressToAdd)
     setIsAddingDirectAddress(false)
     setSuccessMessage('Direct email address added.')
+    eventTrack('Add Direct Address', 'Register Direct Email', 'User added direct address')
   }
 
   const addContactAddress = async () => {
@@ -120,6 +122,7 @@ const Register = () => {
       setIsAddingContactAddress(false)
       setSuccessMessage(`Contact email address added to ${selectedDirectEmailAddress}.`)
     }
+    eventTrack('Add Contact Address', 'Register Direct Email', 'User added contact address')
   }
 
   const deleteDirectEmailGroup = async () => {
@@ -145,6 +148,7 @@ const Register = () => {
     }
     setIsDeletingDirectEmailGroup(false)
     setSuccessMessage('Direct email address group deleted.')
+    eventTrack('Delete Direct Email Group', 'Register Direct Email', 'User clicked delete group')
   }
 
   const deleteContactAddress = async (contactEmailAddress: string) => {
@@ -166,6 +170,7 @@ const Register = () => {
     }
     setIsDeletingContactAddress(false)
     setSuccessMessage(`Contact email address deleted from ${selectedDirectEmailAddress}.`)
+    eventTrack('Delete Contact Address', 'Register Direct Email', 'User clicked delete contact cddress')
   }
 
   const handleDirectEmailAddressChange = async (event: SelectChangeEvent) => {

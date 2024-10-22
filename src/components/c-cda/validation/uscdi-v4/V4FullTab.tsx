@@ -1,6 +1,6 @@
 import { Container } from '@mui/material'
-import V3ValidatorForm from '../ValidatorForm'
-import { postToValidatorV3 } from '../actions'
+import V4ValidatorForm from '../ValidatorForm'
+import { postToValidatorV4 } from '../actions'
 
 const getCriteriaOptions = async (githubUrl: string) => {
   const res = await fetch(githubUrl, { next: { revalidate: 3600 } })
@@ -10,20 +10,20 @@ const getCriteriaOptions = async (githubUrl: string) => {
   return res.json()
 }
 
-export default async function V3FullTab() {
-  const senderGitHubUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_CURES_USCDIV3_SENDER_URL || ''
-  const receiverGitHubUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_CURES_USCDIV3_RECEIVER_URL || ''
+export default async function V4FullTab() {
+  const senderGitHubUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_CURES_USCDIV4_SENDER_URL || ''
+  const receiverGitHubUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_CURES_USCDIV4_RECEIVER_URL || ''
   const senderCriteriaOptions = await getCriteriaOptions(senderGitHubUrl)
   const receiverCriteriaOptions = await getCriteriaOptions(receiverGitHubUrl)
   const downloadAllScenariosUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_TEST_DATA_DOWNLOAD || ''
-  const validatorVersion = 'V3'
+  const validatorVersion = 'V4'
   return (
     <Container>
-      <V3ValidatorForm
+      <V4ValidatorForm
         senderCriteriaOptions={senderCriteriaOptions}
         receiverCriteriaOptions={receiverCriteriaOptions}
         downloadAllScenariosUrl={downloadAllScenariosUrl}
-        formAction={postToValidatorV3}
+        formAction={postToValidatorV4}
         version={validatorVersion}
       />
     </Container>

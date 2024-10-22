@@ -19,6 +19,7 @@ import testCases from '../../../assets/SMTPTestCases'
 import xdrTestCases from '../../../assets/XDRTestCases'
 import { ProfileContext } from '../hisp/context'
 import DownloadXDRCert from '../shared/DownloadXDRCert'
+import eventTrack from '@/services/analytics'
 
 interface TestCase {
   id: number
@@ -198,7 +199,7 @@ const H2Component = () => {
     },
     {
       value: 'receiveEdgeXDR',
-      label: 'Criteria (i)(C) Receive using Edge Protocol - XDR',
+      label: 'Paragraph (i)(C) Receive using Edge Protocol - XDR',
       categories: ['all', 'receiveEdgeProtocol'],
       testCard: true,
       testSources: ['xdr'],
@@ -207,7 +208,7 @@ const H2Component = () => {
     },
     {
       value: 'receiveEdgeSMTP',
-      label: 'Criteria (i)(C) Receive using Edge Protocol - SMTP',
+      label: 'Paragraph (i)(C) Receive using Edge Protocol - SMTP',
       categories: ['all', 'receiveEdgeProtocol'],
       testCard: true,
       testSources: ['smtp'],
@@ -253,11 +254,13 @@ const H2Component = () => {
   const handleCategoryChange = (event: SelectChangeEvent<string>) => {
     setSelectedCategory(event.target.value)
     setSelectedSubcategory('')
+
     if (event.target.value.includes('XDR')) {
       setIsXDR(true)
     } else {
       setIsXDR(false)
     }
+    eventTrack(`Selected: ${event.target.value}`, 'Test By Criteria - H2', 'User selects category on h2 tab')
   }
 
   const handleSubcategoryChange = (event: SelectChangeEvent<string>) => {
@@ -269,6 +272,11 @@ const H2Component = () => {
       if (selectedOption.testCard) {
       } else if (selectedOption.link) {
         window.location.href = selectedOption.link
+        eventTrack(
+          `Selected sub category: ${selectedOption.link}`,
+          'Test By Criteria - H2',
+          'User selects sub category on h2 tab'
+        )
       }
     }
     if (event.target.value.includes('XDR')) {
@@ -276,6 +284,11 @@ const H2Component = () => {
     } else {
       setIsXDR(false)
     }
+    eventTrack(
+      `Selected: sub category ${event.target.value}`,
+      'Test By Criteria - H2',
+      'User selects sub category on h2 tab'
+    )
   }
 
   const filteredSubcategories = subcategories.filter(
@@ -311,7 +324,7 @@ const H2Component = () => {
             <CardContent>
               <Box component="form" sx={{ backgroundColor: palette.white }}>
                 <Typography variant="body2" gutterBottom>
-                  Use the menu to select the sub-criteria you want to test for.
+                  Use the menu to select what paragraph you want to test for..
                 </Typography>
                 <Box>
                   <FormControl fullWidth sx={{ mb: 2 }}>

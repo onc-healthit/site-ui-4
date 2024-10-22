@@ -8,6 +8,7 @@ import { SxProps, Theme } from '@mui/system'
 import { useTheme } from '@mui/material/styles'
 import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined'
 import React from 'react'
+import eventTrack from '@/services/analytics'
 
 const DocsHome = () => {
   const menuItems: menuProps[] = [
@@ -49,13 +50,8 @@ const DocsHome = () => {
       gap: '32px',
     },
   }
-  function trackMenuItemClick(heading: string) {
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Click archive sub menu', {
-        event_category: 'Navigation',
-        event_label: heading,
-      })
-    }
+  const trackMenuItemClick = (heading: string) => {
+    eventTrack('Click Documentation sub menu', 'Documentation', heading)
   }
   return (
     <Box>
@@ -146,8 +142,8 @@ const DocsHome = () => {
                   buttonLink="https://github.com/onc-healthit/soap"
                 />
                 <DocsCard
-                  cardHeader="FHIR Tools"
-                  description={'Set of FHIR tools for SITE '}
+                  cardHeader="FHIR® Tools"
+                  description={'Set of FHIR® tools for SITE '}
                   buttonLink="https://github.com/onc-healthit/fhir-tools"
                 />
                 <DocsCard
