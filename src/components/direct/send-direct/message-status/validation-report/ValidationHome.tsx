@@ -69,7 +69,8 @@ const ValidationHome = ({ messageId, category }: ValidationHomeProps) => {
     }
   }
   const handleFetchCcdaReport = async (messageIdForReport: string) => {
-    const ccdaReport = await fetchCcdaReport(messageIdForReport)
+    const response = await fetchCcdaReport(messageIdForReport)
+    const ccdaReport = response?.response || []
     console.log('ccda report', ccdaReport)
     setCcdaReport(ccdaReport)
   }

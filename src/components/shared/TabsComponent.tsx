@@ -13,6 +13,7 @@ export type TabInputs = {
 export interface TabsProps {
   selectedTab: string
   tabs: TabInputs[]
+  variant?: 'scrollable' | 'standard' | 'fullWidth'
 }
 
 interface TabPanelProps {
@@ -21,7 +22,7 @@ interface TabPanelProps {
   value: number
 }
 
-const TabsComponent = ({ selectedTab, tabs }: TabsProps) => {
+const TabsComponent = ({ selectedTab, tabs, variant }: TabsProps) => {
   const [value, setValue] = React.useState(0)
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -45,7 +46,7 @@ const TabsComponent = ({ selectedTab, tabs }: TabsProps) => {
       <Box sx={{ width: '100%', backgroundColor: palette.primary }}>
         <Container>
           <Tabs
-            variant="fullWidth"
+            variant={variant || 'fullWidth'}
             scrollButtons="auto"
             value={value}
             onChange={handleTabChange}

@@ -1,12 +1,25 @@
 import React from 'react'
-import { Chip, Box } from '@mui/material'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Chip,
+  Box,
+  Typography,
+} from '@mui/material'
 import { styled } from '@mui/material/styles'
 import palette from '@/styles/palette'
-import { Detail } from './ValidationReportTypes'
-import { DataGrid, GridColDef, GridRowHeightParams, GridRowHeightReturnValue } from '@mui/x-data-grid'
+import { Detail, ValidationReport } from './ValidationReportTypes'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
 
 interface ValidationTableProps {
   selectedNodeDetails: Detail[] | null
+  selectedContentType: string
+  version?: string
 }
 
 const columns: GridColDef[] = [
@@ -117,7 +130,7 @@ const StyledChip = styled(Chip)<StyledChipProps>(({ status }) => ({
   backgroundColor: 'transparent',
 }))
 
-const ValidationTable = ({ selectedNodeDetails }: ValidationTableProps) => {
+const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: ValidationTableProps) => {
   const getRowHeight = (params: GridRowHeightParams): GridRowHeightReturnValue => {
     // Logic to determine row height
     return 'auto' // Adjust as needed based on your criteria
@@ -132,9 +145,8 @@ const ValidationTable = ({ selectedNodeDetails }: ValidationTableProps) => {
       disableColumnMenu
       disableColumnSelector
       disableDensitySelector
+      density={'comfortable'}
       autoHeight
-      density="comfortable"
-      getRowHeight={getRowHeight} // Add getRowHeight here
     />
   )
 }

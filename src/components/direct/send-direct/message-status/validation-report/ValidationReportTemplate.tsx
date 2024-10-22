@@ -1,8 +1,9 @@
 import { Box, Paper } from '@mui/material'
 import ValidationTable from './ValidationTable'
-import ValidationSubMenuTemplate from './ValidationSubMenuTemplate'
+import ValidationSubMenuTemplate, { extractContentType } from './ValidationSubMenuTemplate'
 import { ValidationReport } from './ValidationReportTypes'
 import { useState } from 'react'
+import _ from 'lodash'
 import SelectedPartsTemplate from './ValidationSelectedPartsTemplate'
 export type Child = {
   node: ValidationReport
@@ -37,11 +38,23 @@ const ValidationReportTemplate = ({ filteredChildren, version }: FilteredChildre
           }}
         >
           <ValidationSubMenuTemplate filteredChildren={filteredChildren} selectNode={handleSelectNode} />
-          <SelectedPartsTemplate selectedNode={selectedNode} />
+          {!_.isEmpty(selectedNode) && <SelectedPartsTemplate selectedNode={selectedNode} />}
         </Box>
         <Paper>
-          {version === '' && <ValidationTable selectedNodeDetails={selectedNode?.details ?? null} />}
-          {version === 'USCDIV2' && <ValidationTable selectedNodeDetails={selectedNode?.svapdetails ?? null} />}
+          {version === '' && !_.isEmpty(selectedNode) && (
+            <ValidationTable
+              selectedNodeDetails={selectedNode?.details ?? null}
+              selectedContentType={extractContentType(selectedNode.contentType)}
+              version={version}
+            />
+          )}
+          {version === 'USCDIV2' && !_.isEmpty(selectedNode) && (
+            <ValidationTable
+              selectedNodeDetails={selectedNode?.svapdetails ?? null}
+              selectedContentType={extractContentType(selectedNode.contentType)}
+              version={version}
+            />
+          )}
         </Paper>
       </Box>
     </>
