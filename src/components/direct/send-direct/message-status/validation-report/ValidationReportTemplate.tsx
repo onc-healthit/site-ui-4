@@ -1,15 +1,4 @@
-import { CheckCircle } from '@mui/icons-material'
-import {
-  Card,
-  CardContent,
-  Typography,
-  Divider,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  Box,
-} from '@mui/material'
+import { Box, Paper } from '@mui/material'
 import ValidationTable from './ValidationTable'
 import ValidationSubMenuTemplate, { extractContentType } from './ValidationSubMenuTemplate'
 import { ValidationReport } from './ValidationReportTypes'
@@ -33,24 +22,41 @@ const ValidationReportTemplate = ({ filteredChildren, version }: FilteredChildre
   }
   return (
     <>
-      <Box flexDirection={'row'} gap={4} justifyContent={'space-between'} display={'flex'} pb={2}>
-        <ValidationSubMenuTemplate filteredChildren={filteredChildren} selectNode={handleSelectNode} />
-        {!_.isEmpty(selectedNode) && <SelectedPartsTemplate selectedNode={selectedNode} />}
+      <Box width={'100%'} display={'flex'} flexDirection={'column'}>
+        <Box
+          gap={4}
+          justifyContent={'space-between'}
+          display={'flex'}
+          py={4}
+          sx={{
+            '@media (max-width:900px)': {
+              flexDirection: 'column', // Adjust the layout for small screens
+            },
+            '@media (min-width:901px)': {
+              flexDirection: 'row', // Keep it as row for larger screens
+            },
+          }}
+        >
+          <ValidationSubMenuTemplate filteredChildren={filteredChildren} selectNode={handleSelectNode} />
+          {!_.isEmpty(selectedNode) && <SelectedPartsTemplate selectedNode={selectedNode} />}
+        </Box>
+        <Paper>
+          {version === '' && !_.isEmpty(selectedNode) && (
+            <ValidationTable
+              selectedNodeDetails={selectedNode?.details ?? null}
+              selectedContentType={extractContentType(selectedNode.contentType)}
+              version={version}
+            />
+          )}
+          {version === 'USCDIV2' && !_.isEmpty(selectedNode) && (
+            <ValidationTable
+              selectedNodeDetails={selectedNode?.svapdetails ?? null}
+              selectedContentType={extractContentType(selectedNode.contentType)}
+              version={version}
+            />
+          )}
+        </Paper>
       </Box>
-      {version === '' && !_.isEmpty(selectedNode) && (
-        <ValidationTable
-          selectedNodeDetails={selectedNode?.details ?? null}
-          selectedContentType={extractContentType(selectedNode.contentType)}
-          version={version}
-        />
-      )}
-      {version === 'USCDIV2' && !_.isEmpty(selectedNode) && (
-        <ValidationTable
-          selectedNodeDetails={selectedNode?.svapdetails ?? null}
-          selectedContentType={extractContentType(selectedNode.contentType)}
-          version={version}
-        />
-      )}
     </>
   )
 }

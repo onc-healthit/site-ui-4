@@ -55,7 +55,7 @@ const ValidationReportLayout = (validationReport: ValidationReport, version: str
   //console.log('filteredChildren', filteredChildren)
   return (
     <Container>
-      <Box flexDirection={'column'} gap={4} justifyContent={'space-between'} display={'flex'} pb={2}>
+      <Box flexDirection={'column'} justifyContent={'space-between'} display={'flex'} pb={2}>
         <ValidationReportTemplate filteredChildren={filteredChildren} version={version} />
       </Box>
     </Container>
@@ -64,7 +64,7 @@ const ValidationReportLayout = (validationReport: ValidationReport, version: str
 
 const RawContentLayout = (validationReportRawContent: RawContent) => (
   <Container>
-    <Box flexDirection={'column'} gap={4} justifyContent={'space-between'} display={'flex'} pb={2}>
+    <Box flexDirection={'column'} justifyContent={'space-between'} display={'flex'} pb={2}>
       <MessageTemplate rawContent={validationReportRawContent} />
     </Box>
   </Container>

@@ -12,7 +12,7 @@ const MessageTemplate = ({ rawContent }: MessageTemplateProps) => {
   return (
     <>
       {/* Main Content */}
-      <Container sx={{ pt: 0, pb: 8 }} maxWidth="lg">
+      <Container sx={{ py: 4 }} maxWidth="lg">
         <Box flexDirection={'row'} justifyContent={'space-between'} display={'flex'} pb={2}>
           <Typography variant="h3">Message</Typography>
           <Button variant="outlined" color="primary" href={downloadLink}>

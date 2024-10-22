@@ -118,13 +118,11 @@ const ValidationHome = ({ messageId, category }: ValidationHomeProps) => {
       {isFetching ? (
         <LinearProgress />
       ) : (
-        <Container>
-          <ReportTabs
-            validationReport={validationReport}
-            validationReportRawContent={validationReportRawContent}
-            ccdaReport={ccdaReport}
-          />
-        </Container>
+        <ReportTabs
+          validationReport={validationReport}
+          validationReportRawContent={validationReportRawContent}
+          ccdaReport={ccdaReport}
+        />
       )}
     </>
   )
