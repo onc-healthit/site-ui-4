@@ -92,8 +92,9 @@ const Login = ({
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
-            label="Email (Or Username)"
+            label="Email"
             variant="outlined"
+            type="email"
             required
             fullWidth
             onChange={(e) => setEmail(e.target.value)}
@@ -149,9 +150,10 @@ const Login = ({
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
-            label="Email (Or Username)"
+            label="Email"
             variant="outlined"
             required
+            type="email"
             fullWidth
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -212,9 +214,10 @@ const Login = ({
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
-            label="Email (Or Username)"
+            label="Email"
             variant="outlined"
             helperText="A new password will be sent to this email"
+            type="email"
             required
             fullWidth
             onChange={(e) => setEmail(e.target.value)}
