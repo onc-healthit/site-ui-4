@@ -13,8 +13,9 @@ const SelectedPartsTemplate = ({ selectedNode }: SelectedPartsTemplateProps) => 
       <Box display={'flex'} width="50%" gap={4} flexDirection={'column'}>
         <Card sx={{ width: '100%', minHeight: '-webkit-fill-available' }}>
           <CardContent>
-            <Typography variant="h4" sx={{ pb: 3.5 }}>
-              Selected Parts
+            <Typography variant="h4" sx={{ pb: 2 }}>
+              Selected <br />
+              Parts
             </Typography>
             <Divider sx={{ mb: 2 }} />
             <Box

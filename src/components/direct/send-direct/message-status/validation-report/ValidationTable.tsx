@@ -8,6 +8,7 @@ import {
   TableRow,
   Paper,
   Chip,
+  Card,
   Box,
   Typography,
 } from '@mui/material'
@@ -15,6 +16,7 @@ import { styled } from '@mui/material/styles'
 import palette from '@/styles/palette'
 import { Detail, ValidationReport } from './ValidationReportTypes'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { title } from 'process'
 
 interface ValidationTableProps {
   selectedNodeDetails: Detail[] | null
@@ -135,19 +137,26 @@ const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: 
     // Logic to determine row height
     return 'auto' // Adjust as needed based on your criteria
   }
-
   return (
-    <DataGrid
-      columns={columns}
-      rows={selectedNodeDetails || []}
-      getRowId={() => Math.random()}
-      disableRowSelectionOnClick
-      disableColumnMenu
-      disableColumnSelector
-      disableDensitySelector
-      density={'comfortable'}
-      autoHeight
-    />
+    <Box>
+      <Card>
+        <Typography variant="h4" sx={{ p: 2 }}>
+          Detailed report for {version} {selectedContentType}
+        </Typography>
+      </Card>
+      <DataGrid
+        columns={columns}
+        rows={selectedNodeDetails || []}
+        getRowId={() => Math.random()}
+        disableRowSelectionOnClick
+        disableColumnMenu
+        disableColumnSelector
+        disableDensitySelector
+        autoHeight
+        density="comfortable"
+        getRowHeight={getRowHeight}
+      />
+    </Box>
   )
 }
 

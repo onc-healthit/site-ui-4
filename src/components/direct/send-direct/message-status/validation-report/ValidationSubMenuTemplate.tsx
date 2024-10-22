@@ -83,7 +83,7 @@ const ValidationSubMenuTemplate = ({ filteredChildren, selectNode }: SubMenuProp
         <Typography variant="h4" sx={{ pb: 1 }}>
           Validation Report Summary
         </Typography>
-        <Typography variant="caption" sx={{ mb: 2 }}>
+        <Typography variant="body1" sx={{ mb: 2 }}>
           Click on the menu item to view the selected parts & table.
         </Typography>
         <Divider sx={{ mb: 2 }} />
