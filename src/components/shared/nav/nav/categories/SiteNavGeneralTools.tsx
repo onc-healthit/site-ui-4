@@ -40,10 +40,10 @@ export default function SiteNavGeneralTools() {
       icon: <FireplaceOutlined fontSize="small" aria-label="Go to Lantern Project" />,
     },
     {
-      text: 'Inferno HL7 FHIR Validator',
+      text: 'Inferno HL7® FHIR® Validator',
       isExternalLink: true,
       href: 'https://inferno.healthit.gov/validator/',
-      icon: <WhatshotOutlined fontSize="small" aria-label="Go to Inferno HL7 FHIR Validator" />,
+      icon: <WhatshotOutlined fontSize="small" aria-label="Go to Inferno HL7® FHIR® Validator" />,
     },
   ]
 

@@ -29,9 +29,13 @@ import BannerBox from '@shared/BannerBox'
 import SectionHeader from '@shared/SectionHeader'
 import styles from '@shared/styles.module.css'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useFormState } from 'react-dom'
+import ErrorDisplayCard from '../validation/results/ErrorDisplay'
+import ValidatorLoadingCard from '../validation/results/ResultsLoading'
 import ScorecardResultsDialog from './ScorecardResultsDialog'
-import { getDemoSample } from './serverside/demoSampleService'
+import { postToScorecardForValidation } from './serverside/actions'
+import { allSampleOptions, allSampleOptionsExceptDebug, getDemoSample } from './serverside/demoSampleService'
 import {
   getDefaultReferenceResult,
   getFailingSectionSpecificErrorCount,
@@ -45,80 +49,18 @@ import {
   SectionNameEnum,
   SORT_ORDER_STARTING_VALUE,
 } from './types/ScorecardConstants'
-import ErrorDisplayCard from '../validation/results/ErrorDisplay'
+import eventTrack from '@/services/analytics'
 
 export default function ScorecardHome() {
   const [resultsDialogState, setResultsDialogState] = useState(false)
   const handleCloseResultsDialog = () => {
     setResultsDialogState(false)
   }
+
   const [isTryMeDemo, setIsTryMeDemo] = useState(false)
 
-  const [scorecardHomeError, setScorecardHomeError] = useState('')
-
-  const demoSampleOptions: { label: string; value: string }[] = [
-    {
-      label: 'High Scoring Sample',
-      value: 'highScoringSample.json',
-    },
-    {
-      label: 'Low Scoring Sample (C-CDA R2.1)',
-      value: 'lowScoringSample_r21.json',
-    },
-    {
-      label: 'Low Scoring Sample (C-CDA R1.0)',
-      value: 'lowScoringSample_r11.json',
-    },
-    {
-      label: 'Sample With Errors',
-      value: 'sampleWithErrors.json',
-    },
-  ]
-
-  const newDemoSampleOptions: { label: string; value: string }[] = [
-    {
-      label: 'Sample with IG Errors',
-      value: 'sampleWithIGErrors.json',
-    },
-    {
-      label: 'Sample with Vocabulary Errors',
-      value: 'sampleWithVocabularyErrors.json',
-    },
-    {
-      label: 'Sample with Empty Sections',
-      value: 'sampleWithEmptySections.json',
-    },
-    {
-      label: 'Sample with Empty Sections and Errors',
-      value: 'sampleWithEmptySectionsAndErrors.json',
-    },
-  ]
-  demoSampleOptions.push(...newDemoSampleOptions)
-
-  const debugSampleOptions: { label: string; value: string }[] = [
-    {
-      label: 'Schema Errors',
-      value: 'sampleWithSchemaErrors.json',
-    },
-    {
-      label: 'No Content',
-      value: 'sampleWithoutAnyContent.json',
-    },
-    {
-      label: 'SITE 3 High Scoring Sample',
-      value: 'site3-highScoringSample.json',
-    },
-    {
-      label: 'SITE 3 Low Scoring Sample',
-      value: 'site3-lowScoringSample.json',
-    },
-    {
-      label: 'SITE 3 Sample With Errors',
-      value: 'site3-sampleWithErrors.json',
-    },
-  ]
-  // TODO: Tie this to a debug mode env var (if true, push, otherwise maybe don't as may not want in production)
-  demoSampleOptions.push(...debugSampleOptions)
+  const IS_DEBUG_MODE: boolean = process.env.NEXT_PUBLIC_IS_DEBUG_MODE === 'true'
+  const demoSampleOptions = IS_DEBUG_MODE ? allSampleOptions : allSampleOptionsExceptDebug
 
   const [demoSampleOption, setDemoSampleOption] = useState<string>(demoSampleOptions[0].value)
   const [scorecardResponseJson, setScorecardResponseJson] = useState<ScorecardJsonResponseType>()
@@ -130,20 +72,68 @@ export default function ScorecardHome() {
     getDefaultReferenceResult(ReferenceInstanceEnum.VOCAB)
   )
 
+  const [scorecardHomeError, setScorecardHomeError] = useState('')
+  const [isDisableStartButton, setIsDisableStartButton] = useState(true)
+  const formRef = useRef<HTMLFormElement>(null)
+  const [formState, formAction] = useFormState(postToScorecardForValidation, { response: null })
+  const [fileName, setFileName] = useState('')
+  // TODO: Consider setting this based off of file size?
+  // Right now, it is the regular validator's estimate for IG + Vocab (15), just like this, but it adds best practice
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [estimatedValidationTime, setEstimatedValidationTime] = useState(20)
+  const [isValidating, setIsValidating] = useState(false)
+
+  /* Set API response when updated */
+  useEffect(() => {
+    if (formState) {
+      if (formState.error) {
+        setScorecardHomeError(
+          formState.error + (formState.errorStatus ? ` Status Number: ${formState.errorStatus}` : '')
+        )
+        setIsValidating(false)
+      } else if (formState.response) {
+        const newScorecardResponseJson: ScorecardJsonResponseType = formState.response
+        setScorecardResponseJson(newScorecardResponseJson)
+      }
+    }
+  }, [formState])
+
+  /* Handle results display after API call results returned */
   useEffect(() => {
     if (scorecardResponseJson) {
-      console.log('Updated scorecardResponseJson:', scorecardResponseJson)
+      const [isValidResults, errorMessage] = processResults(scorecardResponseJson)
+      setIsValidating(false)
+      displayResults(isValidResults, errorMessage)
     }
-    if (scResults) {
-      console.log('Updated scResults:', scResults)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scorecardResponseJson])
+
+  /* Only enable START button if file is selected */
+  useEffect(() => {
+    if (!fileName) {
+      setIsDisableStartButton(true)
+    } else {
+      setIsDisableStartButton(false)
     }
-    if (igResults) {
-      console.log('Updated igResults', igResults)
+  }, [fileName])
+
+  /* Debug logs */
+  useEffect(() => {
+    if (IS_DEBUG_MODE) {
+      if (scorecardResponseJson) {
+        console.log('Updated scorecardResponseJson:', scorecardResponseJson)
+      }
+      if (scResults) {
+        console.log('Updated scResults:', scResults)
+      }
+      if (igResults) {
+        console.log('Updated igResults', igResults)
+      }
+      if (vocabResults) {
+        console.log('Updated vocabResults', vocabResults)
+      }
     }
-    if (vocabResults) {
-      console.log('Updated vocabResults', vocabResults)
-    }
-  }, [scorecardResponseJson, scResults, igResults, vocabResults])
+  }, [scorecardResponseJson, scResults, igResults, vocabResults, IS_DEBUG_MODE])
 
   const handleDemoSampleChange = (e: SelectChangeEvent) => {
     console.log('handleDemoSampleChange(e), event:', e)
@@ -151,12 +141,7 @@ export default function ScorecardHome() {
     console.log(`Selected ${demoSampleSelected}`)
     setDemoSampleOption(demoSampleSelected)
 
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Select demo dropdown', {
-        event_category: 'dropdown',
-        event_label: `Selected ${demoSampleSelected}`,
-      })
-    }
+    eventTrack('Select from Dropdown', 'Scorecard', `Selected ${demoSampleSelected} sample within Try Me Demo`)
   }
 
   const handleSubmitDemoStart = (e: React.FormEvent<HTMLFormElement>) => {
@@ -164,12 +149,11 @@ export default function ScorecardHome() {
     console.log('handleSubmitDemoStart(e), event: ', e)
     console.log('Starting demo with sample: ' + demoSampleOption)
 
+    setIsTryMeDemo(true)
+
     try {
       const newScorecardResponseJson: ScorecardJsonResponseType = getDemoSample(demoSampleOption)
       setScorecardResponseJson(newScorecardResponseJson)
-
-      const [isValidResults, errorMessage]: [boolean, string | null] = processResults(newScorecardResponseJson)
-      displayResults(isValidResults, errorMessage, true)
     } catch (error) {
       const errorMessagePrefix = 'Error running Scorecard Demo'
       console.error(
@@ -181,29 +165,59 @@ export default function ScorecardHome() {
         ${error}. Please try again later.`)
     }
 
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Try Me', {
-        event_category: 'Button',
-        event_label: 'Score card try me demo',
-      })
+    eventTrack('Sumbit Form for Try Me Demo', 'Scorecard', 'Run the Try Me Demo with selected file and view results')
+  }
+
+  const getFileName = (data: File[]) => {
+    console.log(data[0]?.name)
+    if (data) {
+      setFileName(data[0]?.name)
+    } else {
+      console.log('SC Filename is undefined...')
     }
+  }
+
+  const resetResultsData = () => {
+    setScorecardResponseJson(undefined)
+    setScResults(undefined)
+    setIgResults(getDefaultReferenceResult(ReferenceInstanceEnum.IG_CONFORMANCE))
+    setVocabResults(getDefaultReferenceResult(ReferenceInstanceEnum.VOCAB))
+    setIsTryMeDemo(false)
   }
 
   const handleSubmitScorecardStart = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log('handleSubmitScorecardStart(e), event: ', e)
+    console.log('Starting C-CDA Scorecard validation with submitted C-CDA file: ' + fileName)
 
-    // TODO: Support POST response from API
-    // const newScorecardResponseJson: ScorecardJsonResponseType = POST response from API
-    // setScorecardResponseJson(newScorecardResponseJson)
-    //
-    // const [isValidResults, errorMessage]: [boolean, string | null] = processResults(newScorecardResponseJson)
-    // displayResults(isValidResults, errorMessage, false)
+    resetResultsData()
+    setIsValidating(true)
+
+    try {
+      if (formRef.current) {
+        const formData = new FormData(formRef.current)
+        formAction(formData)
+        if (formState.error) {
+          throw new Error(formState.error)
+        }
+      }
+    } catch (error) {
+      const errorMessagePrefix = 'Error running C-CDA Scorecard validation'
+      console.error(
+        `${errorMessagePrefix} in handleSubmitScorecardStart():
+        Failed to run C-CDA Scorecard validation in handleSubmitScorecardStart(), unable to load submitted file: `,
+        error
+      )
+      setScorecardHomeError(`${errorMessagePrefix}: ${error instanceof Error ? error.message : String(error)}.`)
+      setIsValidating(false)
+    }
+
+    eventTrack('Submit file for Scorecard', 'Scorecard', 'User clicks start to score their file and view results')
   }
 
   const processResults = (newJson: ScorecardJsonResponseType): [boolean, string | null] => {
     if (newJson) {
-      if (newJson.success == false) {
+      if (!newJson.success) {
         // Handle valid JSON but with an error returned from the server
         const error = newJson.errorMessage
         const file = newJson.filename
@@ -302,7 +316,7 @@ export default function ScorecardHome() {
   */
   const sortResultsOrderByGradeTypeAndNumberOfIssues = (
     results: ScorecardResultsType | undefined,
-    isisAscending: boolean
+    isAscending: boolean
   ) => {
     if (results?.categoryList) {
       const gradeOrder: { [key: string]: number } = {
@@ -320,20 +334,20 @@ export default function ScorecardHome() {
         const nullFlavorNIComparison: number = compareNullFlavorNI(a, b)
         if (nullFlavorNIComparison !== 0) return nullFlavorNIComparison
 
-        const conformanceComparison: number = compareConformance(a, b, isisAscending)
+        const conformanceComparison: number = compareConformance(a, b, isAscending)
         if (conformanceComparison !== 0) return conformanceComparison
 
-        const vocabularyComparison: number = compareVocabulary(a, b, isisAscending)
+        const vocabularyComparison: number = compareVocabulary(a, b, isAscending)
         if (vocabularyComparison !== 0) return vocabularyComparison
 
         const gradeComparison: number = compareGrades(
           gradeOrder,
-          isisAscending ? (b.categoryGrade as GradeEnum) : (a.categoryGrade as GradeEnum),
-          isisAscending ? (a.categoryGrade as GradeEnum) : (b.categoryGrade as GradeEnum)
+          isAscending ? (b.categoryGrade as GradeEnum) : (a.categoryGrade as GradeEnum),
+          isAscending ? (a.categoryGrade as GradeEnum) : (b.categoryGrade as GradeEnum)
         )
         if (gradeComparison !== 0) return gradeComparison
 
-        const numberOfIssuesComparison: number = compareNumberOfIssues(a, b, isisAscending)
+        const numberOfIssuesComparison: number = compareNumberOfIssues(a, b, isAscending)
         return numberOfIssuesComparison // No check for 0 on last comparison because we have to return something
       })
 
@@ -382,9 +396,8 @@ export default function ScorecardHome() {
       : (a.numberOfIssues ?? 0) - (b.numberOfIssues ?? 0)
   }
 
-  const displayResults = (isValidResults: boolean, errorMessage: string | null, isTryMeButtonClick: boolean) => {
+  const displayResults = (isValidResults: boolean, errorMessage: string | null) => {
     if (isValidResults) {
-      setIsTryMeDemo(isTryMeButtonClick)
       setResultsDialogState(true)
     } else {
       const finalErrorMessage = `Error: ${errorMessage ? errorMessage : 'Unknown error message'} `
@@ -393,6 +406,7 @@ export default function ScorecardHome() {
     }
   }
 
+  // TODO: Separate out as much modal data and logic as possible into it's own component for cleaner code
   const modalUrls = [
     'https://raw.githubusercontent.com/onc-healthit/site-content/master/CCDAScorecardIntroduction.md',
     'https://raw.githubusercontent.com/onc-healthit/site-content/master/CCDAScorecardResultsInterpretation.md',
@@ -417,8 +431,9 @@ export default function ScorecardHome() {
 
   const handleCardWithBorderClick = (index: number) => {
     setModalUrl(modalUrls[index])
+    eventTrack('Open Scorecard Modal', 'Scorecard', modalUrls[index])
   }
-
+  //events firing twice//
   return (
     <>
       {/* Global Header */}
@@ -443,9 +458,9 @@ export default function ScorecardHome() {
       {/* Main Content */}
       <Container>
         <SectionHeader header={'Run the Scorecard'} subHeader={'Upload your file or try the demo'} />
-        {/* Actual Scorecard Validation */}
         <Box display="flex" gap={4} alignContent="stretch">
-          <Box width="70%" component="form" noValidate onSubmit={handleSubmitScorecardStart}>
+          {/* Actual Scorecard Validation */}
+          <Box width="70%" component="form" noValidate onSubmit={handleSubmitScorecardStart} ref={formRef}>
             <Card>
               <CardHeader
                 title="Score your document!"
@@ -470,15 +485,13 @@ export default function ScorecardHome() {
                       for more information on how to de-identify PHI.
                     </>
                   </Typography>
-
                   {/* Scorecard User File Upload */}
                   <Box sx={{ pt: 3 }}>
-                    <DragDropFileUpload />
+                    <DragDropFileUpload maxFiles={1} name="ccdaFile" fileName={getFileName} />
                   </Box>
-
                   {/* Scorecard Validation Submit */}
                   <Box sx={{ pt: 4 }}>
-                    <Button type="submit" variant="contained">
+                    <Button id="validate" type="submit" variant="contained" disabled={isDisableStartButton}>
                       START
                     </Button>
                   </Box>
@@ -582,6 +595,10 @@ export default function ScorecardHome() {
             />
           </Box>
         </Box>
+
+        {isValidating && (
+          <ValidatorLoadingCard open={true} estimatedValidationTime={estimatedValidationTime} fileName={fileName} />
+        )}
 
         <ScorecardResultsDialog
           dialogState={resultsDialogState}

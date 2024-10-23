@@ -3,7 +3,7 @@ import { Box, Dialog, DialogTitle, IconButton, DialogContent, Typography } from 
 import CloseIcon from '@mui/icons-material/Close'
 import { ErrorOutline } from '@mui/icons-material'
 import palette from '@/styles/palette'
-import ONCLogo from '@public/shared/ONCLogo-backgroundImage.png'
+import ONCLogo from '@public/shared/LogoBackgroundImage.png'
 import Image from 'next/image'
 
 interface ErrorDisplayCardProps {

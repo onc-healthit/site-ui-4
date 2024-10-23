@@ -4,12 +4,14 @@ import { FC, useState, useEffect } from 'react'
 
 interface ValidatorLoadingCardProps {
   open: boolean
-  handleClose: () => void
+  handleClose?: () => void
   estimatedValidationTime: number
   fileName: string
 }
 const ValidatorLoadingCard: FC<ValidatorLoadingCardProps> = ({
   open,
+  // TODO: Implement handleClose to maybe cancel the API call, or in some other way, or remove it
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   handleClose,
   estimatedValidationTime,
   fileName,

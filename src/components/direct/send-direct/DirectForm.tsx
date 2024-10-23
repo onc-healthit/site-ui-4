@@ -1,3 +1,6 @@
+import SwitchWithLabel from '@/components/shared/SwitchWithLabel'
+import DragandDropFile from '@components/shared/DragandDropFile'
+import HelpIcon from '@mui/icons-material/Help'
 import {
   Box,
   Container,
@@ -12,14 +15,12 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
-import DragandDropFile from '@components/shared/DragandDropFile'
-import HelpIcon from '@mui/icons-material/Help'
-import React, { useEffect, useState } from 'react'
 import _ from 'lodash'
-import { handleSendDirectMessage } from './actions'
+import React, { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
-import SwitchWithLabel from '@/components/shared/SwitchWIthLabel'
+import { handleSendDirectMessage } from './actions'
 import SendDirectResults from './SendDirectResults'
+import eventTrack from '@/services/analytics'
 
 const documentDropdown = [
   {
@@ -67,6 +68,7 @@ const DirectForm = ({ version, certificateDropdown, algorithmDropdown, domainNam
   const [isMessageWrapped, setIsMessageWrapped] = useState(true)
   const [isInvalidDigest, setIsInvalidDigest] = useState(false)
   const [data, handleSubmit] = useFormState(handleSendDirectMessage, { response: {} })
+  const [algorithmDropdownM, setAlgorithmDropdownM] = useState(algorithmDropdown)
 
   //Validation
   const handleValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,11 +96,20 @@ const DirectForm = ({ version, certificateDropdown, algorithmDropdown, domainNam
   useEffect(() => {
     if (_.has(formValues, 'fromAddress') && _.has(formValues, 'toAddress') && _.isEmpty(formErrors)) {
       setDisableSendButton(false)
+      eventTrack('Run Send Direct Message', 'Send Direct Message', `${version}`)
     }
     if (isInvalidDigest) {
       setSelectedCertificate('')
     }
-  }, [formErrors, formValues, isInvalidDigest])
+    if (_.isEqual(selectedCertificate, 'GOOD_ECDSA_CERT')) {
+      const filteredAlgo = _.filter(algorithmDropdown, function (o) {
+        return o.label.includes('ECDSA')
+      })
+      setAlgorithmDropdownM(filteredAlgo)
+    } else {
+      setAlgorithmDropdownM(algorithmDropdown)
+    }
+  }, [algorithmDropdown, formErrors, formValues, isInvalidDigest, selectedCertificate, version])
   const handleChangeDocument = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setSelectedDocument(value)
@@ -291,7 +302,7 @@ const DirectForm = ({ version, certificateDropdown, algorithmDropdown, domainNam
             value={selectedAlgorithm}
             onChange={(e) => setSelectedAlgorithm(e.target.value)}
           >
-            {algorithmDropdown.map((option) => (
+            {algorithmDropdownM.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>

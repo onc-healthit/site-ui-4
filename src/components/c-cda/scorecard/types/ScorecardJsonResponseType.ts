@@ -4,7 +4,6 @@ export interface ScorecardJsonResponseType {
   ccdaDocumentType: string | null
   results: ScorecardResultsType | null
   referenceResults: ScorecardReferenceResultType[] | []
-  // referenceResults: ScorecardReferenceResultType[]
   schemaErrorList: SchemaErrorList[] | null
   schemaErrors: boolean
   success: boolean

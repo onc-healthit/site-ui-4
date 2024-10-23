@@ -2,6 +2,7 @@ import React from 'react'
 import { MenuItem, List } from '@mui/material'
 import _ from 'lodash'
 import ValidatorMenuSection from './ValidationMenuSection'
+import eventTrack from '@/services/analytics'
 interface ValidatorMenuProps {
   results: object
   summaryRef: React.RefObject<HTMLDivElement>
@@ -107,16 +108,17 @@ const ValidatorMenu = ({
 }: ValidatorMenuProps) => {
   const resultsMetaData = _.get(results, 'resultsMetaData')
   const resultMetaData = _.get(resultsMetaData, 'resultMetaData')
-  const onScroll = (ref: React.RefObject<HTMLDivElement>) => {
-    //hideOriginalCCDA
+  const onScroll = (ref: React.RefObject<HTMLDivElement>, title: string) => {
+    eventTrack(`Click on validation results sub menu`, 'C-CDA Validation', title)
     ref.current?.scrollIntoView({ behavior: 'smooth' })
   }
   return (
     <>
       <List>
-        <MenuItem sx={{ fontWeight: 'bold', py: 1 }} onClick={() => onScroll(summaryRef)}>
+        <MenuItem sx={{ fontWeight: 'bold', py: 1 }} onClick={() => onScroll(summaryRef, 'Summary & Results')}>
           Summary & Results
         </MenuItem>
+        
         {resultMetaData ? (
           <ResultsSection
             resultMetaData={resultMetaData}
@@ -133,8 +135,8 @@ const ValidatorMenu = ({
           />
         ) : null}
 
-        <MenuItem sx={{ fontWeight: 'bold' }} onClick={() => onScroll(originalCCDARef)}>
-          Original C-CDA
+        <MenuItem sx={{ fontWeight: 'bold' }} onClick={() => onScroll(originalCCDARef, 'Original C-CDA')}>
+          Submitted C-CDA Document
         </MenuItem>
       </List>
     </>

@@ -15,7 +15,7 @@ export default async function V3FullTab() {
   const receiverGitHubUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_CURES_USCDIV3_RECEIVER_URL || ''
   const senderCriteriaOptions = await getCriteriaOptions(senderGitHubUrl)
   const receiverCriteriaOptions = await getCriteriaOptions(receiverGitHubUrl)
-  const downloadAllScenariosUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_CURES_USCDIV3_DOWNLOAD_URL || ''
+  const downloadAllScenariosUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_TEST_DATA_DOWNLOAD || ''
   const validatorVersion = 'V3'
   return (
     <Container>

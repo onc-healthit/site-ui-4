@@ -8,6 +8,7 @@ import FAQCard from './ArchiveCard'
 import faq from './data/FAQ.json'
 import VideoItem from '../resources/VideoItem'
 import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined'
+import eventTrack from '@/services/analytics'
 
 export default function ArchiveHome() {
   const menuItems: menuProps[] = [
@@ -26,13 +27,9 @@ export default function ArchiveHome() {
       icon: <ForwardToInboxOutlinedIcon color="primary" fontSize="small" />,
     },
   ]
-  function trackMenuItemClick(heading: string) {
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Click FAQs sub menu', {
-        event_category: 'Navigation',
-        event_label: heading,
-      })
-    }
+
+  const trackMenuItemClick = (heading: string) => {
+    eventTrack('Click archived sub menu', 'Archived', heading)
   }
 
   return (

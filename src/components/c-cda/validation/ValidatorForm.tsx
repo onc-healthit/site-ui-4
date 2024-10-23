@@ -27,6 +27,9 @@ import { useFormState } from 'react-dom'
 interface ValidatorFormProps {
   senderCriteriaOptions: []
   receiverCriteriaOptions: []
+  // Note: GitHub doesn't have obvious native support for a specific path within a repo to download.
+  // So, for now, with the mono repo update, We get everything, making this prop end up essentially static.
+  // TODO: Analyze if there is a workaround, or if GitHub does actually support a specific path?
   downloadAllScenariosUrl: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formAction: (prevState: object | undefined, formData: FormData) => Promise<{ response: any } | undefined>
@@ -149,11 +152,11 @@ export default function ValidatorForm({
           {/* Criteria Selection */}
           <Box sx={{ pt: 3 }}>
             <FormControl fullWidth>
-              <InputLabel id="uscdi-v3-full-criteria-input-label">Select validation criteria</InputLabel>
+              <InputLabel id="full-criteria-input-label">Select validation criteria</InputLabel>
               <Select
-                id="uscdi-v3-full-criteria-select"
+                id="full-criteria-select"
                 label="Select validation criteria"
-                labelId="uscdi-v3-full-criteria-input-label"
+                labelId="full-criteria-input-label"
                 value={criteriaOption}
                 onChange={handleCriteriaChange}
                 name="validationObjective"
@@ -171,11 +174,11 @@ export default function ValidatorForm({
           {!hideScenario && (
             <Box sx={{ pt: 3 }}>
               <FormControl fullWidth>
-                <InputLabel id="uscdi-v3-full-criteria-input-label">Select scenario file</InputLabel>
+                <InputLabel id="full-criteria-input-label">Select scenario file</InputLabel>
                 <Select
-                  id="uscdi-v3-full-scenario-select"
+                  id="full-scenario-select"
                   label="Select scenario file"
-                  labelId="uscdi-v3-full-scenario-input-label"
+                  labelId="full-scenario-input-label"
                   value={scenarioOption}
                   name="referenceFileName"
                   onChange={handleScenarioChange}
@@ -202,6 +205,7 @@ export default function ValidatorForm({
 
           {/* Buttons */}
           <Box display="flex" flexDirection="row" justifyContent="space-between" sx={{ pt: 4 }}>
+            {/* ValidationComponent returns the validate button, a loading dialog, and the validation results */}
             <ValidationComponent
               response={data?.response}
               estimatedValidationTime={estimatedValidationTime}

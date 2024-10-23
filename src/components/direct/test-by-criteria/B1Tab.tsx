@@ -17,15 +17,15 @@ import palette from '@/styles/palette'
 import React, { useState } from 'react'
 import testCases from '../../../assets/SMTPTestCases'
 import xdrTestCases from '../../../assets/XDRTestCases'
-
+import { useContext } from 'react'
+import { ProfileContext } from '../hisp/context'
+import DownloadXDRCert from '../shared/DownloadXDRCert'
+import eventTrack from '@/services/analytics'
 const B1Component = () => {
   const [option, setOption] = useState('')
   const [showTestCard, setShowTestCard] = useState(false)
-  const [hostname, setHostname] = useState('')
-  const [email, setEmail] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [tlsRequired, setTlsRequired] = useState(false)
+  const { hostname, email, password, tls, username } = useContext(ProfileContext)
+  const [isXDR, setIsXDR] = React.useState(false)
 
   const criteriaA = xdrTestCases.filter((testXdr) => testXdr.criteria?.includes('b1-1'))
   const criteriaB = testCases.tests.filter((test) => test.criteria?.includes('b1-8'))
@@ -40,24 +40,29 @@ const B1Component = () => {
     const newOption = event.target.value as string
 
     setShowTestCard(false)
+    if (newOption === 'A' || newOption === 'D') {
+      setIsXDR(true)
+    } else {
+      setIsXDR(false)
+    }
 
     setTimeout(() => {
       setOption(newOption)
+      trackDropdownClick(newOption)
       setShowTestCard(true)
     }, 0)
   }
 
   const dropdown = [
-    { value: 'A', label: 'Criteria (i)(A) Send using Edge Protocol - XDR' },
-    { value: 'B', label: 'Criteria (i)(A) Send using Edge Protocol - SMTP' },
-    { value: 'C', label: 'Criteria (i)(A) Send using Edge Protocol - Delivery Notification' },
-    { value: 'D', label: 'Criteria (i)(B) Receive using Edge Protocol - XDR' },
-    { value: 'E', label: 'Criteria (i)(B) Receive using Edge Protocol - SMTP' },
-    { value: 'F', label: 'Criteria (i)(B) Receive using Edge Protocol - IMAP' },
-    { value: 'G', label: 'Criteria (i)(B) Receive using Edge Protocol - POP3' },
-    { value: 'H', label: 'Criteria (i)(C) XDM Processing Received via Edge Protocol' },
+    { value: 'A', label: 'Paragraph (i)(A) Send using Edge Protocol - XDR' },
+    { value: 'B', label: 'Paragraph (i)(A) Send using Edge Protocol - SMTP' },
+    { value: 'C', label: 'Paragraph (i)(A) Send using Edge Protocol - Delivery Notification' },
+    { value: 'D', label: 'Paragraph (i)(B) Receive using Edge Protocol - XDR' },
+    { value: 'E', label: 'Paragraph (i)(B) Receive using Edge Protocol - SMTP' },
+    { value: 'F', label: 'Paragraph (i)(B) Receive using Edge Protocol - IMAP' },
+    { value: 'G', label: 'Paragraph (i)(B) Receive using Edge Protocol - POP3' },
+    { value: 'H', label: 'Paragraph (i)(C) XDM Processing Received via Edge Protocol' },
   ]
-
   const selectedTestCases = () => {
     switch (option) {
       case 'B':
@@ -89,6 +94,12 @@ const B1Component = () => {
         return criteriaD
       default:
         return []
+    }
+  }
+  const trackDropdownClick = (selectedValue: string) => {
+    const selectedDropdown = dropdown.find((option) => option.value === selectedValue)
+    if (selectedDropdown) {
+      eventTrack(`Selected: ${selectedDropdown.label}`, 'Test By Criteria - B1', 'User selects criteria on b1 tab')
     }
   }
 
@@ -135,15 +146,12 @@ const B1Component = () => {
               </Box>
             </CardContent>
           </Card>
-          <Card>
-            <Profile
-              setHostname={setHostname}
-              setEmail={setEmail}
-              setUsername={setUsername}
-              setPassword={setPassword}
-              setTls={setTlsRequired}
-            />
-          </Card>
+          {!isXDR && (
+            <Card>
+              <Profile />
+            </Card>
+          )}
+          {isXDR && <DownloadXDRCert />}
         </Box>
         <Box width={'60%'}>
           {(!showTestCard || (selectedTestCases().length === 0 && selectedXDRTestCases().length === 0)) && (
@@ -167,7 +175,7 @@ const B1Component = () => {
                   email={email}
                   username={username}
                   password={password}
-                  tlsRequired={tlsRequired}
+                  tlsRequired={tls}
                   receive={isReceiveOption()}
                 />
               </Box>

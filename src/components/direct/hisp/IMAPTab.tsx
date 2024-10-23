@@ -16,13 +16,15 @@ import palette from '@/styles/palette'
 import * as React from 'react'
 import testCases from '@/assets/SMTPTestCases'
 import _ from 'lodash'
-import TestFilter from './TestFilter'
+import { useContext } from 'react'
+import { ProfileContext } from './context'
 
 const IMAP = () => {
   const [option, setOption] = React.useState('')
   const imapTestCases = testCases.tests.filter((test) => test.protocol === 'imap')
   const imapTestCasesSender = imapTestCases.filter((test) => test.sutRole === 'sender' && test.sutHisp)
   const imapTestCasesReceiver = imapTestCases.filter((test) => test.sutRole === 'receiver' && test.sutHisp)
+  const { hostname, email, password, tls, username } = useContext(ProfileContext)
   const handleChange = (event: SelectChangeEvent) => {
     setOption(event.target.value as string)
   }
@@ -45,7 +47,7 @@ const IMAP = () => {
           Select sender or receiver for your system & fill in the additional fields to get started.{' '}
         </Typography>
       </Box>
-      <Box sx={{ display: 'flex', width: '100%', pt: 4, gap: 4 }}>
+      <Box sx={{ display: 'flex', width: '100%', py: 4, gap: 4 }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: '40%' }}>
           <Card>
             <CardContent>
@@ -76,17 +78,19 @@ const IMAP = () => {
           </Card>
         </Box>
         <Box sx={{ flexGrow: 1 }}>
-          {option !== '' && (
-            <Box pb={2}>
-              <TestFilter />
-            </Box>
-          )}
           {option === 'sender' && (
             <div>
               {imapTestCasesSender.map((test, i) => {
                 return (
                   <Box pb={4} key={i}>
-                    <TestCard test={test} />
+                    <TestCard
+                      test={test}
+                      email={email}
+                      hostname={hostname}
+                      password={password}
+                      tlsRequired={tls}
+                      username={username}
+                    />
                   </Box>
                 )
               })}
@@ -98,7 +102,15 @@ const IMAP = () => {
               {imapTestCasesReceiver.map((test, i) => {
                 return (
                   <Box pb={4} key={i}>
-                    <TestCard key={i} test={test} />
+                    <TestCard
+                      key={i}
+                      test={test}
+                      email={email}
+                      hostname={hostname}
+                      password={password}
+                      tlsRequired={tls}
+                      username={username}
+                    />
                   </Box>
                 )
               })}
