@@ -6,6 +6,7 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Link from 'next/link'
 import * as React from 'react'
+import { useTheme } from '@mui/material'
 
 export interface CardWithBorderProps {
   cardHeader: string
@@ -17,21 +18,6 @@ export interface CardWithBorderProps {
   useModal?: boolean // include a modal or a link
   modalContent?: string // sanitized HTML
   cardWidthPercent?: number | undefined // change the width of the card to any % vs default
-}
-
-const genericCardBlueBorder = {
-  display: 'flex',
-  width: '50%', // default width
-  borderTop: '16px solid #122953',
-}
-
-const flexibleContent = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  justifyContent: 'space-between',
-  gap: 2,
-  p: 2,
 }
 
 const CardWithBorder = ({
@@ -46,9 +32,25 @@ const CardWithBorder = ({
   modalContent,
 }: CardWithBorderProps) => {
   const [openModal, setOpenModal] = React.useState(false)
-
+  const theme = useTheme()
   const isExternalLink: boolean = buttonLink ? buttonLink.startsWith('http') : false
 
+  const genericCardBlueBorder = {
+    display: 'flex',
+    borderTop: '16px solid #122953',
+    width: '50%', // default width
+    [theme.breakpoints.down('md')]: {
+      width: '100%', // default width
+    },
+  }
+  const flexibleContent = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    gap: 2,
+    p: 2,
+  }
   const handleClickModal = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (useModal) {
       event.preventDefault() // prevent link navigation
