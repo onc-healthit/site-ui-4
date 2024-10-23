@@ -57,9 +57,13 @@ const Login = ({
     e.preventDefault()
     if (password === repeatPassword) {
       registerAccount({ username: email, password: password })
-        .then(() => {
-          signIn('credentials', { username: email, password: password })
-          eventTrack('Create Account', 'Authentication', 'User create account')
+        .then((response) => {
+          if (response === true) {
+            signIn('credentials', { username: email, password: password })
+            eventTrack('Create Account', 'Authentication', 'User create account')
+          } else {
+            setMessage({ message: response.message, severity: 'error' })
+          }
         })
         .catch((error) => {
           setMessage({ message: error.message, severity: 'error' })
@@ -74,9 +78,13 @@ const Login = ({
   const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     forgotPassword(email)
-      .then(() => {
-        eventTrack('Forgot Password', 'Authentication', 'User clicks on forgot password')
-        setMessage({ message: 'Password reset email sent', severity: 'success' })
+      .then((response) => {
+        if (response === true) {
+          eventTrack('Forgot Password', 'Authentication', 'User clicks on forgot password')
+          setMessage({ message: 'Password reset email sent', severity: 'success' })
+        } else {
+          setMessage({ message: response.message, severity: 'error' })
+        }
       })
       .catch((error) => {
         setMessage({ message: error.message, severity: 'error' })
