@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { List, Typography, Card, CardContent, Divider, Button, Box } from '@mui/material'
 import { CheckCircle, ErrorOutline } from '@mui/icons-material'
 import { ValidationReport } from './ValidationReportTypes'
-import { Child, FilteredChildrenProps } from './ValidationReportTemplate'
+import { Child } from './ValidationReportTemplate'
 import palette from '@/styles/palette'
 
 interface SubMenuProps {
   filteredChildren: Child[]
   selectNode: (node: ValidationReport) => void
+  selectedNode: ValidationReport | null
 }
 export const extractContentType = (contentType: string) => {
   const semicolonIndex = contentType.indexOf(';')
@@ -17,12 +18,15 @@ const TreeNode = ({
   node,
   parent,
   onSelectNode,
+  selectedNode,
 }: {
   node: ValidationReport
   parent: ValidationReport | null
   onSelectNode: (node: ValidationReport) => void
+  selectedNode: ValidationReport | null
 }) => {
   const contentTypeText = extractContentType(node.contentType)
+  const isSelected = selectedNode?.partID === node.partID
   return (
     <Box borderLeft={`1.5px solid ${palette.primary}`} ml={parent ? 4 : 0}>
       <List
@@ -41,6 +45,7 @@ const TreeNode = ({
             },
             ml: '8px',
             bgcolor: 'white',
+            borderRight: isSelected ? `8px solid ${palette.secondaryLight}` : '', // Highlight the selected node
             '&:before': {
               content: '""',
               position: 'absolute',
@@ -62,7 +67,13 @@ const TreeNode = ({
         {Array.isArray(node.children) && node.children.length > 0 && (
           <Box ml={4}>
             {node.children.map((child, index) => (
-              <TreeNode key={index} node={child} parent={node} onSelectNode={onSelectNode} />
+              <TreeNode
+                key={index}
+                node={child}
+                parent={node}
+                onSelectNode={onSelectNode}
+                selectedNode={selectedNode}
+              />
             ))}
           </Box>
         )}
@@ -70,13 +81,7 @@ const TreeNode = ({
     </Box>
   )
 }
-const ValidationSubMenuTemplate = ({ filteredChildren, selectNode }: SubMenuProps) => {
-  /*   useEffect(() => {
-    if (filteredChildren.length > 0) {
-      const firstNode = filteredChildren[0].node
-      selectNode(firstNode)
-    }
-  }, [filteredChildren, selectNode]) */
+const ValidationSubMenuTemplate = ({ filteredChildren, selectNode, selectedNode }: SubMenuProps) => {
   return (
     <Card sx={{ width: '75%' }}>
       <CardContent>
@@ -90,7 +95,15 @@ const ValidationSubMenuTemplate = ({ filteredChildren, selectNode }: SubMenuProp
         <Box border={`1px solid ${palette.greyLight}`} borderRadius={2} p={2}>
           {filteredChildren.map(
             ({ node, parent }, index) =>
-              parent === null && <TreeNode key={index} node={node} parent={parent} onSelectNode={selectNode} />
+              parent === null && (
+                <TreeNode
+                  key={index}
+                  node={node}
+                  parent={parent}
+                  onSelectNode={selectNode}
+                  selectedNode={selectedNode}
+                />
+              )
           )}
         </Box>
       </CardContent>

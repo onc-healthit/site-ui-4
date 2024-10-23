@@ -8,7 +8,7 @@ interface CCDAReportTemplateProps {
   ccdaReport: CCDAReport[] | null
 }
 const CCDAReportTemplate = ({ ccdaReport }: CCDAReportTemplateProps) => {
-  console.log(ccdaReport)
+  // console.log(ccdaReport)
   const scrollRef = useRef<HTMLDivElement>(null)
   const summaryRef = useRef<HTMLDivElement>(null)
   const mdhtErrorRef = useRef<HTMLDivElement>(null)

@@ -59,7 +59,7 @@ const MessageStatusDashboard = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
   useEffect(() => {
-    console.log('status', status)
+    //console.log('status', status)
 
     if (status === 'authenticated') {
       setIsFetching(true)
@@ -177,6 +177,15 @@ const MessageStatusDashboard = () => {
       fetchIncoming().then(() => setIsFetching(false))
     }
   }
+  const handleReload = () => {
+    if (showOutgoing) {
+      setIsFetching(true)
+      fetchOutgoing().then(() => setIsFetching(false))
+    } else {
+      setIsFetching(true)
+      fetchIncoming().then(() => setIsFetching(false))
+    }
+  }
   // console.log(messageData)
   return (
     <>
@@ -196,11 +205,15 @@ const MessageStatusDashboard = () => {
                     <Typography variant="h3" sx={{ pb: 1 }}>
                       Message Status
                     </Typography>
-                    <FormControlLabel
-                      control={<Switch color="secondary" checked={showOutgoing} onChange={handleToggle} />}
-                      label={showOutgoing ? 'Outgoing' : 'Incoming'}
-                    />
-
+                    <Box flexDirection={'row'} gap={4} justifyContent={'space-between'} display={'flex'} pb={2}>
+                      <FormControlLabel
+                        control={<Switch color="secondary" checked={showOutgoing} onChange={handleToggle} />}
+                        label={showOutgoing ? 'Outgoing' : 'Incoming'}
+                      />
+                      <Button variant="contained" color="primary" onClick={handleReload} sx={{ marginLeft: 2 }}>
+                        Reload
+                      </Button>
+                    </Box>
                     {messageData?.map(
                       (message, index) =>
                         message.logList.length > 0 && (

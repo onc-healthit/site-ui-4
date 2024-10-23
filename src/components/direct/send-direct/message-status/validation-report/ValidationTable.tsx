@@ -1,23 +1,9 @@
 import React from 'react'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Chip,
-  Card,
-  Box,
-  Typography,
-} from '@mui/material'
+import { Chip, Card, Box, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import palette from '@/styles/palette'
-import { Detail, ValidationReport } from './ValidationReportTypes'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { title } from 'process'
-
+import { Detail } from './ValidationReportTypes'
+import { DataGrid, GridColDef, GridRowHeightParams, GridRowHeightReturnValue } from '@mui/x-data-grid'
 interface ValidationTableProps {
   selectedNodeDetails: Detail[] | null
   selectedContentType: string
@@ -73,8 +59,8 @@ const columns: GridColDef[] = [
             const text = curr
             const url = array[index + 1]
             acc.push(
-              <div style={{ padding: 16 }}>
-                <Box key={index} component="span" mb={4}>
+              <div key={`rfc-${index}`} style={{ padding: 16 }}>
+                <Box component="span" mb={4}>
                   <a href={url} target="_blank" rel="noopener noreferrer">
                     {text}
                   </a>

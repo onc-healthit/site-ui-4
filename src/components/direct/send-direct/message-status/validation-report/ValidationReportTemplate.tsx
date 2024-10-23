@@ -5,6 +5,7 @@ import { ValidationReport } from './ValidationReportTypes'
 import { useState } from 'react'
 import _ from 'lodash'
 import SelectedPartsTemplate from './ValidationSelectedPartsTemplate'
+import PageAlertBox from '@/components/shared/PageAlertBox'
 export type Child = {
   node: ValidationReport
   parent: ValidationReport | null
@@ -14,12 +15,15 @@ export interface FilteredChildrenProps {
   version: string
 }
 const ValidationReportTemplate = ({ filteredChildren, version }: FilteredChildrenProps) => {
-  const [selectedNode, setSelectedNode] = useState<ValidationReport | null>(null)
+  const initialSelectedNode = filteredChildren.length > 0 ? filteredChildren[0].node : null
+  const [selectedNode, setSelectedNode] = useState<ValidationReport | null>(initialSelectedNode)
 
   const handleSelectNode = (node: ValidationReport) => {
     setSelectedNode(node)
     console.log('selectedNode', node)
   }
+  const unexpectedErrorDetails = selectedNode?.details.filter((detail) => detail.name === 'Unexpected Error') || []
+
   return (
     <>
       <Box width={'100%'} display={'flex'} flexDirection={'column'}>
@@ -37,9 +41,22 @@ const ValidationReportTemplate = ({ filteredChildren, version }: FilteredChildre
             },
           }}
         >
-          <ValidationSubMenuTemplate filteredChildren={filteredChildren} selectNode={handleSelectNode} />
+          {!_.isEmpty(filteredChildren) && (
+            <ValidationSubMenuTemplate
+              filteredChildren={filteredChildren}
+              selectNode={handleSelectNode}
+              selectedNode={selectedNode}
+            />
+          )}
           {!_.isEmpty(selectedNode) && <SelectedPartsTemplate selectedNode={selectedNode} />}
         </Box>
+
+        {unexpectedErrorDetails.map((detail, index) => (
+          <Box pb={2} key={index}>
+            <PageAlertBox message={detail.found} />
+          </Box>
+        ))}
+
         <Paper>
           {version === '' && !_.isEmpty(selectedNode) && (
             <ValidationTable

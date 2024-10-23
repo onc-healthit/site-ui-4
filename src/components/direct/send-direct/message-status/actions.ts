@@ -5,7 +5,7 @@ import { authOptions } from '@/lib/auth'
 import { getServerSession } from 'next-auth'
 const ETT_API_URL = process.env.ETT_API_URL
 export async function fetchValidationReport(messageId: string) {
-  console.log(`'messageId:', ${messageId}`)
+  //console.log(`'messageId:', ${messageId}`)
   const session = await getServerSession(authOptions)
   const jsessionid = session?.user?.jsessionid ?? ''
   try {
@@ -17,11 +17,12 @@ export async function fetchValidationReport(messageId: string) {
       },
     })
     const data = await response.json()
+    console.log('validation report fetch status for', messageId, response.status)
     if (!response.ok) {
-      console.log(`Error: ${data}`)
+      console.log(`validation report fetch error: ${JSON.stringify(data)}`)
       return {
         response: {
-          error: GENERIC_ERROR_MESSAGE,
+          error: data?.message || GENERIC_ERROR_MESSAGE,
           errorStatus: response.status,
         },
       }
@@ -40,7 +41,7 @@ export async function fetchValidationReport(messageId: string) {
 }
 
 export async function fetchValidationReportRawContent(messageId: string) {
-  console.log(`'messageId:', ${messageId}`)
+  // console.log(`'messageId:', ${messageId}`)
   const session = await getServerSession(authOptions)
   const jsessionid = session?.user?.jsessionid ?? ''
   try {
@@ -52,11 +53,12 @@ export async function fetchValidationReportRawContent(messageId: string) {
       },
     })
     const data = await response.json()
+    console.log('validation report raw content fetch status for', messageId, response.status)
     if (!response.ok) {
-      console.log(`Error: ${data}`)
+      console.log(`validation report raw content fetch error: ${JSON.stringify(data)}`)
       return {
         response: {
-          error: GENERIC_ERROR_MESSAGE,
+          error: data?.message || GENERIC_ERROR_MESSAGE,
           errorStatus: response.status,
         },
       }
@@ -75,7 +77,7 @@ export async function fetchValidationReportRawContent(messageId: string) {
 }
 
 export async function fetchCcdaReport(messageId: string) {
-  console.log(`'messageId:', ${messageId}`)
+  //console.log(`'messageId:', ${messageId}`)
   const session = await getServerSession(authOptions)
   const jsessionid = session?.user?.jsessionid ?? ''
   try {
@@ -87,11 +89,12 @@ export async function fetchCcdaReport(messageId: string) {
       },
     })
     const data = await response.json()
+    console.log('validation report ccda fetch status for', messageId, response.status)
     if (!response.ok) {
-      console.log(`Error: ${data}`)
+      console.log(`validation report ccda fetch error: ${JSON.stringify(data)}`)
       return {
         response: {
-          error: GENERIC_ERROR_MESSAGE,
+          error: data?.message || GENERIC_ERROR_MESSAGE,
           errorStatus: response.status,
         },
       }
@@ -110,7 +113,7 @@ export async function fetchCcdaReport(messageId: string) {
 }
 
 export async function findMdn(messageId: string) {
-  console.log(`'messageId:', ${messageId}`)
+  // console.log(`'messageId:', ${messageId}`)
 
   const session = await getServerSession(authOptions)
   const jsessionid = session?.user?.jsessionid ?? ''
@@ -124,13 +127,13 @@ export async function findMdn(messageId: string) {
       },
       body: `${messageId}`,
     })
-    console.log(response.json)
+    console.log('find mdn fetch status for', messageId, response.status)
     const data = await response.json()
     if (!response.ok) {
-      console.log(`Error: ${response}`)
+      console.log(`find mdn fetch error: ${JSON.stringify(data)}`)
       return {
         response: {
-          error: GENERIC_ERROR_MESSAGE,
+          error: data?.message || GENERIC_ERROR_MESSAGE,
           errorStatus: response.status,
         },
       }

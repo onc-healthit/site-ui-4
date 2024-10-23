@@ -57,6 +57,11 @@ const TabsComponent = ({ selectedTab, tabs, variant }: TabsProps) => {
                 height: '8px',
               },
             }}
+            sx={{
+              '& .MuiTabs-scrollButtons': {
+                color: 'white', // Change scroll arrow color to white
+              },
+            }}
           >
             {tabs.map((tab) => (
               <Tab label={tab.tabName} key={tab.tabIndex} />

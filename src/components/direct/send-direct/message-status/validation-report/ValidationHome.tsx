@@ -3,17 +3,14 @@ import React, { useEffect, useState } from 'react'
 import BannerBox from '@/components/shared/BannerBox'
 import Link from 'next/link'
 import styles from '@shared/styles.module.css'
-import { Container, Box, Tabs, Tab, LinearProgress } from '@mui/material'
-import { menuProps } from '@/components/shared/SubMenu'
-import palette from '@/styles/palette'
-import ValidationTable from './ValidationTable'
-import ValidationSolutions from './ValidationSelectedPartsTemplate'
-import MessageTemplate from './MessageTemplate'
-import ValidationSubMenuTemplate from './ValidationSubMenuTemplate'
+import { Container, LinearProgress } from '@mui/material'
 import _ from 'lodash'
 import { fetchCcdaReport, fetchValidationReport, fetchValidationReportRawContent, findMdn } from '../actions'
 import ReportTabs from './ReportTabs'
 import { RawContent, ValidationReport } from './ValidationReportTypes'
+import ErrorDisplayCard from '@/components/c-cda/validation/results/ErrorDisplay'
+import PageAlertBox from '@/components/shared/PageAlertBox'
+import { useSession } from 'next-auth/react'
 
 interface ValidationHomeProps {
   messageId: string
@@ -21,8 +18,8 @@ interface ValidationHomeProps {
 }
 
 const ValidationHome = ({ messageId, category }: ValidationHomeProps) => {
+  const { status } = useSession()
   const [isFetching, setIsFetching] = useState(false)
-
   const [errorMessage, setErrorMessage] = useState('')
   const [validationReport, setValidationReport] = useState<ValidationReport>({
     partID: '',
@@ -51,51 +48,60 @@ const ValidationHome = ({ messageId, category }: ValidationHomeProps) => {
   const handleFetchValidationReport = async (messageIdForReport: string) => {
     const response = await fetchValidationReport(messageIdForReport)
     const validationReport: ValidationReport = response?.response
-    console.log('validation report', validationReport)
+    //console.log('validation report', validationReport)
     if (validationReport) {
       setValidationReport(validationReport)
-    } else {
-      setErrorMessage('Failed to fetch validation report.')
+    }
+    if (_.has(response, 'response.error')) {
+      setErrorMessage(response?.response.error || 'Failed to fetch validation report.')
     }
   }
   const handleFetchValidationReportRawContent = async (messageIdForReport: string) => {
     const response = await fetchValidationReportRawContent(messageIdForReport)
     const validationReportRawContent = response?.response || []
-    console.log('validation report raw content', validationReportRawContent)
+    // console.log('validation report raw content', validationReportRawContent)
     if (validationReportRawContent.length > 0) {
       setValidationReportRawContent(validationReportRawContent)
-    } else {
-      setErrorMessage('Failed to fetch validation report raw content.')
+    }
+    if (_.has(response, 'response.error')) {
+      setErrorMessage(response?.response.error || 'Failed to fetch validation raw content report.')
     }
   }
   const handleFetchCcdaReport = async (messageIdForReport: string) => {
     const response = await fetchCcdaReport(messageIdForReport)
     const ccdaReport = response?.response || []
-    console.log('ccda report', ccdaReport)
-    setCcdaReport(ccdaReport)
+    // console.log('ccda report', ccdaReport)
+    if (ccdaReport.length > 0) {
+      setCcdaReport(ccdaReport)
+    }
+    if (_.has(response, 'response.error')) {
+      setErrorMessage(response?.response.error || 'Failed to fetch ccda report.')
+    }
   }
   useEffect(() => {
-    if (!_.isEmpty(messageId)) {
-      if (category === 'outgoing') {
-        setIsFetching(true)
-        console.log(messageId)
-        const decodedMessageId = decodeURIComponent(messageId)
-        handleFindMdn(decodedMessageId).then((data) => {
-          console.log('mdn report', data)
-          handleFetchValidationReport(data.messageId)
-          handleFetchValidationReportRawContent(data.messageId)
-          handleFetchCcdaReport(data.messageId)
+    if (status === 'authenticated') {
+      if (!_.isEmpty(messageId)) {
+        if (category === 'outgoing') {
+          setIsFetching(true)
+          // console.log(messageId)
+          const decodedMessageId = decodeURIComponent(messageId)
+          handleFindMdn(decodedMessageId).then((data) => {
+            // console.log('mdn report', data)
+            handleFetchValidationReport(data.messageId)
+            handleFetchValidationReportRawContent(data.messageId)
+            handleFetchCcdaReport(data.messageId)
+            setIsFetching(false)
+          })
+        } else {
+          setIsFetching(true)
+          handleFetchValidationReport(messageId)
+          handleFetchValidationReportRawContent(messageId)
+          handleFetchCcdaReport(messageId)
           setIsFetching(false)
-        })
-      } else {
-        setIsFetching(true)
-        handleFetchValidationReport(messageId)
-        handleFetchValidationReportRawContent(messageId)
-        handleFetchCcdaReport(messageId)
-        setIsFetching(false)
+        }
       }
     }
-  }, [category, messageId])
+  }, [category, messageId, status])
   return (
     <>
       {/* Global Header */}
@@ -105,7 +111,7 @@ const ValidationHome = ({ messageId, category }: ValidationHomeProps) => {
             Direct
           </Link>,
           <Link color="inherit" href="/direct/senddirect#message-status" key="2" className={styles.link}>
-            Send Direct Message
+            Message Status
           </Link>,
           <Link color="inherit" href="/direct/messagestatus/validationreport" key="3" className={styles.link}>
             Validation Report
@@ -115,14 +121,35 @@ const ValidationHome = ({ messageId, category }: ValidationHomeProps) => {
         description={`${decodeURIComponent(messageId)}`}
       />
       {/* Main Content */}
-      {isFetching ? (
-        <LinearProgress />
+      {status !== 'authenticated' ? (
+        <Container sx={{ pt: 4 }}>
+          <PageAlertBox message="You must be logged in to access Message Status." />
+        </Container>
       ) : (
-        <ReportTabs
-          validationReport={validationReport}
-          validationReportRawContent={validationReportRawContent}
-          ccdaReport={ccdaReport}
-        />
+        <>
+          {isFetching ? (
+            <LinearProgress />
+          ) : (
+            <>
+              {_.isEmpty(errorMessage) && (
+                <Container>
+                  <ReportTabs
+                    validationReport={validationReport}
+                    validationReportRawContent={validationReportRawContent}
+                    ccdaReport={ccdaReport}
+                  />
+                </Container>
+              )}
+              {!_.isEmpty(errorMessage) && (
+                <ErrorDisplayCard
+                  open={true}
+                  handleClose={() => setErrorMessage('')}
+                  response={{ error: errorMessage }}
+                />
+              )}
+            </>
+          )}
+        </>
       )}
     </>
   )
