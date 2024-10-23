@@ -9,8 +9,14 @@ const nextConfig = {
         permanent: true, // Mark as 301 permanent redirect to update SEO and bookmarks
       },
       {
-        // Redirect old SITE 3 scorecard route, previously done with an Apache2 proxy for the C-CDA server
+        // Redirect old SITE 3 scorecard route, previously done with an Apache2 reverse proxy for the C-CDA server
         source: '/scorecard',
+        destination: '/c-cda/scorecard',
+        permanent: true,
+      },
+      {
+        // Redirect old SITE 3 scorecard route, previously done with an Apache2 reverse proxy for the C-CDA server
+        source: '/ccda-smart-scorecard',
         destination: '/c-cda/scorecard',
         permanent: true,
       },
