@@ -3,7 +3,7 @@ import SubTabsComponent, { TabInputs } from '../shared/SubTabs'
 import Template from './send/TemplateTab'
 import Content from './send/ContentTab'
 import bulletedList from '../shared/BulletList'
-import { Container, Typography, List, ListItem } from '@mui/material'
+import { Box, Container, Typography, List, ListItem } from '@mui/material'
 
 interface SendTabProps {
   sampleCCDAFiles: string[]
@@ -33,29 +33,31 @@ const SendTab = ({ sampleCCDAFiles }: SendTabProps) => {
   return (
     <>
       <Container>
-        <Typography variant="h3" component={'h1'} sx={{ pl: 0, pt: 4, pb: 4 }}>
-          Send XDR messages from the Sandbox to your System.
-        </Typography>
-        <List sx={bulletedList('disc')} dense>
-          <ListItem sx={{ display: 'list-item' }}>
-            <Typography variant="body2">
-              Send messages from SITE XDR Test Tool to your system by entering your endpoint below.
-            </Typography>
-          </ListItem>
-          <ListItem sx={{ display: 'list-item' }}>
-            <Typography variant="body2">
-              Choose a CCDA document that you would like to attach as part of the payload.
-            </Typography>
-          </ListItem>
-          <ListItem sx={{ display: 'list-item' }}>
-            <Typography variant="body2">
-              To add additional properties, toggle the &apos;Show Optional XDR Message Properties&apos; switch.
-            </Typography>
-          </ListItem>
-          <ListItem sx={{ display: 'list-item' }}>
-            <Typography variant="body2">Send the XDR message.</Typography>
-          </ListItem>
-        </List>
+        <Box sx={{ bgcolor: 'white', my: 4, p: 2 }}>
+          <Typography variant="h3" component={'h1'} sx={{ px: 2, pb: 4 }}>
+            Send XDR messages from the Sandbox to your System.
+          </Typography>
+          <List sx={bulletedList('disc')} dense>
+            <ListItem sx={{ display: 'list-item' }}>
+              <Typography variant="body2">
+                Send messages from SITE XDR Test Tool to your system by entering your endpoint below.
+              </Typography>
+            </ListItem>
+            <ListItem sx={{ display: 'list-item' }}>
+              <Typography variant="body2">
+                Choose a CCDA document that you would like to attach as part of the payload.
+              </Typography>
+            </ListItem>
+            <ListItem sx={{ display: 'list-item' }}>
+              <Typography variant="body2">
+                To add additional properties, toggle the &apos;Show Optional XDR Message Properties&apos; switch.
+              </Typography>
+            </ListItem>
+            <ListItem sx={{ display: 'list-item' }}>
+              <Typography variant="body2">Send the XDR message.</Typography>
+            </ListItem>
+          </List>
+        </Box>
         <SubTabsComponent selectedTab={selectedTab} tabs={sendTabs} />
       </Container>
     </>

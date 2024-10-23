@@ -126,10 +126,10 @@ const DirectForm = ({ version, certificateDropdown, algorithmDropdown, domainNam
     setIsInvalidDigest(e.target.checked)
   }
   return (
-    <Container>
+    <Container sx={{ bgcolor: 'white' }}>
       <form action={handleSubmit} noValidate>
-        <Box pb={8} width={'100%'}>
-          <Typography gutterBottom variant="caption" component={'h1'} sx={{ pt: 4, pb: 0, pl: 0 }}>
+        <Box pb={4} my={4} width={'100%'}>
+          <Typography gutterBottom variant="caption" component={'h1'} sx={{ pt: 1, pb: 0, pl: 0 }}>
             Step 1
           </Typography>
           <Typography variant="h3" component={'h1'} sx={{ pl: 0, pt: 0, pb: 4 }}>
