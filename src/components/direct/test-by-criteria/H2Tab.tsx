@@ -171,7 +171,7 @@ const H2Component = () => {
       label: 'Paragraph (i)(C) Send using Edge Protocol - SMTP',
       testCard: true,
       testSources: ['smtp'],
-      criteria: [''],
+      criteria: ['b1-8'],
     },
     {
       value: 'sendEdgeDeliveryNotification',
@@ -179,7 +179,7 @@ const H2Component = () => {
       categories: ['all', 'sendEdgeProtocol', 'send'],
       testCard: true,
       testSources: ['smtp'],
-      criteria: ['b1-8', 'sc2-4'],
+      criteria: ['sc2-4'],
     },
     {
       value: 'sendEdgeIMAP',
