@@ -15,9 +15,6 @@ export async function registerAccount({ username, password }: { username: string
       }),
     })
     const data = await response.json()
-    if (data !== true) {
-      throw new Error(data.message)
-    }
     return data
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -37,9 +34,6 @@ export async function forgotPassword(username: string) {
       body: username,
     })
     const data = await response.json()
-    if (data !== true) {
-      throw new Error(data.message)
-    }
     return data
   } catch (error: unknown) {
     if (error instanceof Error) {
