@@ -1,6 +1,6 @@
 import React, { ReactNode, useState, useEffect } from 'react'
 import { Button, CircularProgress, Box, Typography } from '@mui/material'
-import CheckIcon from '@mui/icons-material/Check'
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges'
 import { ButtonProps } from '@mui/material/Button'
 
 interface ExtendedLoadingButtonProps extends ButtonProps {
@@ -26,12 +26,16 @@ const LoadingButton: React.FC<ExtendedLoadingButtonProps> = ({
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null
     if (progressive && loading && progress < 100) {
+      const intervalTime = 50
+      const numberOfSteps = progressDuration / intervalTime
+      const incrementPerInterval = 100 / numberOfSteps
+
       interval = setInterval(() => {
         setProgress((oldProgress) => {
-          const diff = 100 - oldProgress
-          return Math.min(oldProgress + diff * 0.1, 100)
+          const newProgress = oldProgress + incrementPerInterval
+          return newProgress >= 100 ? 100 : newProgress
         })
-      }, progressDuration / 100)
+      }, intervalTime)
     } else if (!loading) {
       setProgress(0)
     }
@@ -44,16 +48,16 @@ const LoadingButton: React.FC<ExtendedLoadingButtonProps> = ({
   }, [progressive, loading, progressDuration])
 
   return (
-    <Button {...props} disabled={loading || done}>
+    <Button variant="text" {...props} disabled={loading}>
       {done && !progressive ? (
-        <CheckIcon />
+        <PublishedWithChangesIcon />
       ) : done && progressive ? (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <CheckIcon />
+          <PublishedWithChangesIcon fontSize="small" />
           <Typography variant="button">{finalLabel}</Typography>
         </Box>
       ) : loading && progressive ? (
-        <CircularProgress variant="determinate" value={progress} size={24} />
+        <CircularProgress color="warning" variant="determinate" value={progress} size={24} />
       ) : loading && !progressive ? (
         <CircularProgress size={24} />
       ) : (

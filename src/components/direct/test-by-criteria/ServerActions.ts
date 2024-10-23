@@ -339,8 +339,8 @@ export async function GetStatus(testCaseId: string): Promise<StatusResponse> {
     let results: ValidationResults | undefined
 
     if (content && content.content && content.content.value) {
-      testRequest = content.content.value.request || content.message || ''
-      testResponse = content.content.value.response || content.message || ''
+      testRequest = content.content.value.request || ''
+      testResponse = content.content.value.response || ''
       criteriaMet = content.content.criteriaMet || ''
 
       const ccdaReport = content.content.value.ccdaReport
