@@ -45,21 +45,13 @@ export default function NavFooter() {
   return (
     <>
       {/* Release Notes and Version */}
-      <Button
-        disableElevation
-        sx={{ width: '220px' }}
-        color="secondary"
-        variant="text"
-        size="small"
-        onClick={handleOpenDialog}
-      >
+      <Button sx={{ maxWidth: '132px' }} color="secondary" variant="text" size="small" onClick={handleOpenDialog}>
         Release Notes
-        {/* <Box>{releaseVersionHTML && <div dangerouslySetInnerHTML={{ __html: releaseVersionHTML }} />}</Box>
-        <Box>{releaseDateHTML && <div dangerouslySetInnerHTML={{ __html: releaseDateHTML }} />}</Box> */}
-        {/* TODO: Limit to debug mode only */}
-        {/* <Box>Debug Version: {SITE_DEBUG_VERSION}</Box> */}
       </Button>
-
+      {/* <Box>{releaseVersionHTML && <div dangerouslySetInnerHTML={{ __html: releaseVersionHTML }} />}</Box>
+        <Box>{releaseDateHTML && <div dangerouslySetInnerHTML={{ __html: releaseDateHTML }} />}</Box> */}
+      {/* TODO: Limit to debug mode only */}
+      {/* <Box>Debug Version: {SITE_DEBUG_VERSION}</Box> */}
       {/* Dialog Box */}
       <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth={true} maxWidth="lg">
         {/* <DialogTitle typography={'h4'}>
