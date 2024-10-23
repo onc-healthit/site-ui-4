@@ -140,6 +140,7 @@ const TestCard = ({ test }: TestCardProps) => {
   const defaultEndpointTLS =
     process.env.XDR_ENDPOINT_TLS_PREFIX ||
     'https://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
+  const loadingTime = 60000
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testResponse, setTestRequestResponse] = useState<string>('')
@@ -215,12 +216,11 @@ const TestCard = ({ test }: TestCardProps) => {
     '44mu2',
   ]
   const ccdaRequiredTestIds = ['1', '2', '3add']
-  const sendEdgeTestsCriteria = ['b1-1']
+  const sendEdgeTestsIds = ['1', '2', '6', '7', '20amu2', '20bmu2', '49mu2']
   const isCCDADocumentRequired = ccdaRequiredTestIds.includes(test.id.toString())
   const StepText = ({ inputs, role, endpointsGenerated, criteriaMet }: StepTextProps) => {
     if (manualValidationIDs.includes(test.id.toString()) && isFinished) {
       if (test.id == '20amu2' || test.id == '20bmu2') {
-        console.log('abc')
         testRequest == 'Check your SUT logs and accept or reject'
         testResponse == 'Check your SUT logs and accept or reject'
       }
@@ -277,7 +277,6 @@ const TestCard = ({ test }: TestCardProps) => {
     return url
   }
 
-  //Event trigger twice
   const handleRunTest = async () => {
     eventTrack(` Run test for ${test.name}`, 'Test By Criteria - XDR Test', `${test.criteria}`)
     if (!session) {
@@ -295,16 +294,19 @@ const TestCard = ({ test }: TestCardProps) => {
       setAlertOpen(true)
       return
     }
+
     const ip_address = fieldValues['ip_address'] || ''
     const port = fieldValues['port'] || ''
     const direct_to = fieldValues['direct_to'] || ''
     const direct_from = fieldValues['direct_from'] || ''
     const targetEndpointTLS = fieldValues['targetEndpointTLS'] || ''
     const outgoing_from = fieldValues['outgoing_from'] || ''
+
     try {
       setIsLoading(true)
       setIsFinished(false)
       setCriteriaMet('')
+
       if (endpointsGenerated) {
         const status = await GetStatus(test.id.toString())
         console.log('Test status:', status)
@@ -312,6 +314,7 @@ const TestCard = ({ test }: TestCardProps) => {
         setTestRequestResponse(status.testResponse)
         setCriteriaMet(status.criteriaMet)
         setIsFinished(true)
+        setIsLoading(false)
         if (status.results) {
           setValidationResults(status.results)
           setEndpointsGenerated(false)
@@ -335,8 +338,10 @@ const TestCard = ({ test }: TestCardProps) => {
           svap: false,
           uscdiv3: false,
         })
+
         setTimeout(() => {
           setIsFinished(true)
+          setIsLoading(false)
           if (test.criteria && !manualValidationIDs.includes(test.id.toString())) {
             setCriteriaMet(response.criteriaMet)
           }
@@ -370,7 +375,7 @@ const TestCard = ({ test }: TestCardProps) => {
           console.log('Full response: ', response)
           console.log('Criteria met: ', response.criteriaMet)
           console.log('Test Request Responses:', response.testResponse)
-        }, 10)
+        }, loadingTime)
       }
     } catch (error) {
       console.error('Failed to run test:', error)
@@ -378,15 +383,16 @@ const TestCard = ({ test }: TestCardProps) => {
       if (test.criteria && !manualValidationIDs.includes(test.id.toString())) {
         setCriteriaMet('FALSE')
       }
-    } finally {
       setIsLoading(false)
+    } finally {
       if (test.criteria && !manualValidationIDs.includes(test.id.toString())) {
         setTimeout(() => {
           setIsFinished(false)
-        }, 100)
+        }, loadingTime)
       }
     }
   }
+
   const handleAcceptTest = () => {
     setCriteriaMet('TRUE')
     setShowLogs(false)
@@ -421,9 +427,11 @@ const TestCard = ({ test }: TestCardProps) => {
     }
     return null
   }
-  const handleToggleLogs = () => {
+  const handleToggleLogs = (buttonText: string) => {
     setShowLogs((prev) => !prev)
+    eventTrack(buttonText, 'Test By Criteria - XDR Test', `${test.criteria}`)
   }
+
   const handleToggleDetail = (buttonText: string) => {
     setShowDetail((prev) => !prev)
     eventTrack(buttonText, 'Test By Criteria - XDR Test', `${test.criteria}`)
@@ -520,8 +528,8 @@ const TestCard = ({ test }: TestCardProps) => {
           {/* <Button variant="contained" color="primary" onClick={() => console.log(formData)}>
             RUN
           </Button> */}
-          <Button variant="outlined" color="secondary" onClick={() => handleToggleDetail('MORE INFO')}>
-            MORE INFO
+          <Button variant="outlined" color="secondary" onClick={() => handleToggleDetail('RETURN TO TEST')}>
+            RETURN TO TEST
           </Button>
         </Box>
       </Box>
@@ -578,8 +586,8 @@ const TestCard = ({ test }: TestCardProps) => {
                 mt: 2,
               }}
             >
-              <Button variant="outlined" onClick={handleToggleLogs}>
-                Return to test
+              <Button variant="outlined" onClick={() => handleToggleLogs('RETURN TO TEST')}>
+                RETURN TO TEST
               </Button>
               {test.criteria &&
                 manualValidationIDs.includes(test.id.toString()) &&
@@ -717,8 +725,8 @@ const TestCard = ({ test }: TestCardProps) => {
                   <LoadingButton
                     loading={isLoading}
                     done={isFinished}
-                    progressive={true}
-                    progressDuration={5000}
+                    progressive={sendEdgeTestsIds.includes(test.id.toString()) && !endpointsGenerated}
+                    progressDuration={loadingTime}
                     onClick={handleRunTest}
                     variant="contained"
                     color="primary"
@@ -731,26 +739,22 @@ const TestCard = ({ test }: TestCardProps) => {
                   <Button variant="outlined" color="secondary" onClick={() => handleToggleDetail('MORE INFO')}>
                     MORE INFO
                   </Button>
-                  <Button variant="outlined" color="secondary" onClick={handleToggleLogs}>
+                  <Button variant="outlined" color="secondary" onClick={() => handleToggleLogs('LOGS')}>
                     LOGS
                   </Button>
 
-                  {test.criteria &&
-                    (criteriaMet.includes('TRUE') ||
-                      criteriaMet.includes('FALSE') ||
-                      criteriaMet.includes('ERROR') ||
-                      criteriaMet.includes('SUCCESS')) && (
-                      <Box sx={{ display: 'flex', gap: 1 }}>
-                        <Button
-                          variant="text"
-                          sx={{ color: palette.errorDark }}
-                          color="inherit"
-                          onClick={handleClearTest}
-                        >
-                          Clear
-                        </Button>
-                      </Box>
-                    )}
+                  {((test.criteria && criteriaMet) || documentDetails) && (
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Button
+                        variant="text"
+                        sx={{ color: palette.errorDark }}
+                        color="inherit"
+                        onClick={handleClearTest}
+                      >
+                        Clear
+                      </Button>
+                    </Box>
+                  )}
                 </Box>
               </Box>
 

@@ -265,11 +265,18 @@ const TestCard = ({
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const fixEndpoint = (url: string): string => {
+    if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
+      return 'https://' + url
+    }
+    return url
+  }
+
   const handleRunTest = async () => {
     eventTrack(` Run test for ${test.name}`, 'Test By Criteria', `${test.criteria}`)
     const isMDNTest = test.protocol && mdnTestIds.includes(test.protocol)
 
-    if (test.ccdaFileRequired && !documentDetails && !test.name.includes('MT')) {
+    if (test.ccdaFileRequired && !documentDetails && !test.protocol?.includes('mu2')) {
       setAlertMessage(
         'This test requires a CCDA document to be selected. Please select a document before running the test.'
       )
@@ -299,7 +306,6 @@ const TestCard = ({
           }
         } else if (currentStep === 2) {
           setPreviousResult(null)
-          setCurrentStep(1)
         }
 
         logTestResults(result)
@@ -451,8 +457,8 @@ const TestCard = ({
                 {/* <Button variant="contained" color="primary" onClick={() => console.log(formData)}>
                 RUN
               </Button> */}
-                <Button variant="outlined" color="secondary" onClick={() => handleToggleDetail('MORE INFO')}>
-                  MORE INFO
+                <Button variant="outlined" color="secondary" onClick={() => handleToggleDetail('RETURN TO TEST')}>
+                  RETURN TO TEST
                 </Button>
               </Box>
             </CardContent>
@@ -477,8 +483,8 @@ const TestCard = ({
                 mt: 2,
               }}
             >
-              <Button variant="outlined" color="secondary" onClick={() => handleToggleLogs('LOGS')}>
-                LOGS
+              <Button variant="outlined" color="secondary" onClick={() => handleToggleLogs('RETURN TO TEST')}>
+                RETURN TO TEST
               </Button>
               {test.criteria &&
                 manualValidationCriteria.includes(test.criteria) &&
@@ -541,7 +547,7 @@ const TestCard = ({
                   <LoadingButton
                     loading={isLoading}
                     done={isFinished}
-                    progressive={true}
+                    progressive={false}
                     progressDuration={5000}
                     onClick={handleRunTest}
                     variant="contained"
@@ -559,20 +565,18 @@ const TestCard = ({
                   <Button variant="outlined" color="secondary" onClick={() => handleToggleLogs('LOGS')}>
                     LOGS
                   </Button>
-                  {test.criteria &&
-                    manualValidationCriteria.includes(test.criteria) &&
-                    (criteriaMet.includes('TRUE') || criteriaMet.includes('FALSE')) && (
-                      <Box sx={{ display: 'flex', gap: 1 }}>
-                        <Button
-                          variant="text"
-                          sx={{ color: palette.errorDark }}
-                          color="inherit"
-                          onClick={handleClearTest}
-                        >
-                          Clear
-                        </Button>
-                      </Box>
-                    )}
+                  {((test.criteria && criteriaMet) || documentDetails) && (
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Button
+                        variant="text"
+                        sx={{ color: palette.errorDark }}
+                        color="inherit"
+                        onClick={handleClearTest}
+                      >
+                        Clear
+                      </Button>
+                    </Box>
+                  )}
                 </Box>
               </Box>
               <Box

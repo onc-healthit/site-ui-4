@@ -26,12 +26,16 @@ const LoadingButton: React.FC<ExtendedLoadingButtonProps> = ({
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null
     if (progressive && loading && progress < 100) {
+      const intervalTime = 50
+      const numberOfSteps = progressDuration / intervalTime
+      const incrementPerInterval = 100 / numberOfSteps
+
       interval = setInterval(() => {
         setProgress((oldProgress) => {
-          const diff = 100 - oldProgress
-          return Math.min(oldProgress + diff * 0.1, 100)
+          const newProgress = oldProgress + incrementPerInterval
+          return newProgress >= 100 ? 100 : newProgress
         })
-      }, progressDuration / 100)
+      }, intervalTime)
     } else if (!loading) {
       setProgress(0)
     }
@@ -55,7 +59,7 @@ const LoadingButton: React.FC<ExtendedLoadingButtonProps> = ({
       ) : loading && progressive ? (
         <CircularProgress color="warning" variant="determinate" value={progress} size={24} />
       ) : loading && !progressive ? (
-        <CircularProgress value={progress} size={24} />
+        <CircularProgress size={24} />
       ) : (
         children
       )}
