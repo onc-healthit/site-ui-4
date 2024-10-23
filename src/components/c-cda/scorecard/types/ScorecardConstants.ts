@@ -5,7 +5,7 @@ import { ScorecardSectionStyleDataType } from './ScorecardSectionStyleDataType'
 // old ui: ReferenceInstanceTypeEnum
 export enum ReferenceInstanceEnum {
   IG_CONFORMANCE = 'C-CDA IG Conformance Errors',
-  VOCAB = '2015 Edition Certification Feedback',
+  VOCAB = '2015 ONC Certification Program Certification Feedback',
 }
 
 export enum HrefLinkValueEnum {
