@@ -1,3 +1,4 @@
+'use client'
 // MUI Imports
 import BannerBox from '../shared/BannerBox'
 import { Box, Container, Divider } from '@mui/material'
@@ -9,9 +10,8 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowDownward'
 import palette from '@/styles/palette'
 import SectionHeader from '../shared/SectionHeader'
 import CardWithBorder from '../shared/CardWithBorder'
-// Images
+import { useTheme } from '@mui/material'
 
-// * Will bring in at a different time
 // const hoverGrow = {
 //   transition: 'transform 0.15s ease-in-out',
 //   '&:hover': {
@@ -21,6 +21,8 @@ import CardWithBorder from '../shared/CardWithBorder'
 // }
 
 const PHRHome = () => {
+  const theme = useTheme()
+
   return (
     <Box>
       {/* Global Header */}
@@ -55,7 +57,20 @@ const PHRHome = () => {
         {/* CDA Reporting Header */}
         <SectionHeader header={'CDA Reporting'} subHeader={'Ensuring CDA Compliance: Precision in Reporting'} />
         {/* Other Tools & Resources Content */}
-        <Box gap={4} display={'flex'} justifyContent={'space-between'} flexDirection={'row'} width={'100%'}>
+        <Box
+          sx={{
+            gap: 4,
+            pb: 8,
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            width: '100%',
+            [theme.breakpoints.down('md')]: {
+              flexDirection: 'column',
+              gap: '16px',
+            },
+          }}
+        >
           {/* HL7® CDA® Cancer Registry Reporting Validation Tool*/}
 
           <CardWithBorder
@@ -98,7 +113,21 @@ const PHRHome = () => {
           subHeader={'Elevating Healthcare Data Integrity: NIST Reporting Excellence.'}
         />
         {/* Other Tools & Resources Content */}
-        <Box gap={4} pb={8} display={'flex'} justifyContent={'space-between'} flexDirection={'row'} width={'100%'}>
+        <Box
+          sx={{
+            gap: 4,
+            pb: 8,
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            width: '100%',
+            [theme.breakpoints.down('md')]: {
+              flexDirection: 'column',
+              gap: '16px',
+            },
+          }}
+        >
+          {' '}
           {/* NIST HL7® v2 Immunization Test Suite Card */}
           <CardWithBorder
             cardHeader={'NIST HL7® v2 Immunization Test Suite'}
