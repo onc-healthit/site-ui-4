@@ -15,7 +15,7 @@ export default async function V1FullTab() {
   const receiverGitHubUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_CURES_V1_RECEIVER_URL || ''
   const senderCriteriaOptions = await getCriteriaOptions(senderGitHubUrl)
   const receiverCriteriaOptions = await getCriteriaOptions(receiverGitHubUrl)
-  const downloadAllScenariosUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_CURES_DOWNLOAD_URL || ''
+  const downloadAllScenariosUrl = process.env.NEXT_PUBLIC_CCDA_VALIDATOR_TEST_DATA_DOWNLOAD || ''
   const validatorVersion = 'V1'
   return (
     <Container>

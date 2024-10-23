@@ -13,6 +13,7 @@ interface ResultsComponentProps {
   response: ContentProps
   disabled?: boolean
   buttonTitle: string
+  onClick: () => void
 }
 export type ContentProps = {
   pass: boolean
@@ -21,7 +22,7 @@ export type ContentProps = {
   error?: string
   errorStatus?: number
 }
-const XDMResults = ({ response, buttonTitle }: ResultsComponentProps) => {
+const XDMResults = ({ onClick, response, buttonTitle }: ResultsComponentProps) => {
   const [errorOpen, setErrorOpen] = useState(false)
   const { pending } = useFormStatus()
 
@@ -33,11 +34,11 @@ const XDMResults = ({ response, buttonTitle }: ResultsComponentProps) => {
     if (!pending && _.has(response, 'error')) {
       setErrorOpen(true)
     }
-  }, [pending, response])
+  }, [pending, response, onClick])
 
   return (
     <>
-      <Button type="submit" variant="contained" disabled={pending}>
+      <Button onClick={onClick} type="submit" variant="contained" disabled={pending}>
         {pending ? <CircularProgress size={24} /> : buttonTitle}
       </Button>
 

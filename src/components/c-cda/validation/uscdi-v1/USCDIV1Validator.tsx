@@ -22,7 +22,7 @@ export default function USCDIV1Validator() {
           </Link>,
         ]}
         heading={'C-CDA USCDI V1 Validator'}
-        // TODO: Get a unique description from the ONC for USCDI V1
+        // TODO: Get a unique description from ASTP for USCDI V1
         description={
           <>
             The C-CDA R2.1 Validator is a tool used to check if electronic health documents comply with the Clinical

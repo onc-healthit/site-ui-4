@@ -7,6 +7,7 @@ import H2Component from './H2Tab'
 import Link from 'next/link'
 import styles from '@shared/styles.module.css'
 import TabsComponent, { TabInputs } from '@/components/shared/TabsComponent'
+import ProfileProvider from '../hisp/provider'
 export interface criteriaProps {
   selectedTab: string
 }
@@ -31,9 +32,19 @@ const TestByCriteria = ({ selectedTab }: criteriaProps) => {
           </Link>,
         ]}
         heading={'Test By Criteria'}
-        description={<>New Helper Text</>}
+        description={
+          <>
+            To navigate through the certification criteria requirements for Direct validation testing, begin by
+            selecting the appropriate criterion tab for your testing needs. Once you&apos;ve selected a specific
+            criterion, you&apos;ll be able to conduct the test based on the appropriate subparagraph requirements by
+            choosing it from the dropdown menu. This will guide you through the testing process aligned with that
+            particular criterion.
+          </>
+        }
       />
-      <TabsComponent selectedTab={selectedTab} tabs={criteriaTabs} />
+      <ProfileProvider>
+        <TabsComponent selectedTab={selectedTab} tabs={criteriaTabs} />
+      </ProfileProvider>
     </>
   )
 }

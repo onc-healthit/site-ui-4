@@ -24,6 +24,7 @@ import palette from '@/styles/palette'
 import placeholder from '@public/shared/PlaceHolderImageSITE.png'
 import Image from 'next/image'
 import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined'
+import eventTrack from '@/services/analytics'
 
 const drawerWidth = 500
 
@@ -31,22 +32,12 @@ const CommunicationFab: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const handleDrawerOpen = () => {
     setDrawerOpen(true)
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Open Info FAB', {
-        event_category: 'Button',
-        event_label: 'Communication Panel',
-      })
-    }
+    eventTrack('Open Communication FAB', 'Communication Panel', 'User cllicks open communication panel')
   }
 
   const handleDrawerClose = () => {
-    setDrawerOpen(false)
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Close Info FAB', {
-        event_category: 'Button',
-        event_label: 'Communication Panel',
-      })
-    }
+    setDrawerOpen(false)    
+    eventTrack('Close Communication FAB', 'Communication Panel', 'User clicks close communication panel')    
   }
 
   const [releaseVersionHTML, setReleaseVersionHTML] = useState<string | undefined>()
@@ -90,11 +81,13 @@ const CommunicationFab: React.FC = () => {
                 intuitive and efficient user experience.
               </Typography>
             </CardContent>
+            {/*
             <CardActions>
               <Button variant="text" color="secondary">
                 Read More
               </Button>
             </CardActions>
+            */}
           </Card>
           <LinkButton
             label="Access Forum"

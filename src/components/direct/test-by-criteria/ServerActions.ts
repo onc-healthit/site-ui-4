@@ -5,7 +5,7 @@ import _ from 'lodash'
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 
-interface APICallData {
+export interface APICallData {
   testCaseNumber: number | string
   sutSmtpAddress: string
   sutEmailAddress: string
@@ -30,6 +30,15 @@ interface APICallData {
   targetEndpointTLS?: string
   outgoing_from?: string
   attachmentType?: string
+  previousResult?: APICallResponse
+}
+
+export interface SMTPLogAPICallData {
+  attachments: string[]
+  criteriaMet: boolean
+  testCaseNumber: string
+  testRequestResponses: TestRequestResponses
+  profileName: string
 }
 
 export interface Documents {
@@ -57,6 +66,7 @@ interface XDRAPICallData {
   svap: boolean
   uscdiv3: boolean
 }
+
 export interface FileDetail {
   svap: boolean
   cures: boolean
@@ -71,9 +81,28 @@ export interface Directory {
   files: FileDetail[]
 }
 
-interface APIResponse {
+export interface APICallResponse {
+  didRequestTimeOut: boolean
+  timeElapsedInSeconds: number
+  proctored: boolean
+  attachments: Record<string, unknown>
+  CCDAValidationReports: Record<string, unknown>
+  MessageId: string
+  fetchType: string
+  searchType: string
+  startTime: string
+  lastTestResultStatus: number
+  lastTestResponse: string
+  testCaseId: number
+  testCaseDesc: string | null
+  messageId: string
   criteriaMet: string
-  testRequestResponses: string
+  testRequestResponses: TestRequestResponses
+  ccdavalidationReports: Record<string, unknown>
+}
+
+export interface TestRequestResponses {
+  [key: string]: string
 }
 
 interface XDRAPIResponse {
@@ -113,31 +142,71 @@ interface StatusResponse {
   results?: ValidationResults
 }
 
-export async function handleAPICall(data: APICallData): Promise<APIResponse> {
+export async function handleAPICall(data: APICallData): Promise<APICallResponse[]> {
   const apiUrl = process.env.SMTP_TEST_BY_CRITERIA_ENDPOINT
+  const session = await getServerSession(authOptions)
+  const jsessionid = session?.user?.jsessionid ?? ''
   const config = {
     method: 'post',
     url: apiUrl,
-    headers: { 'Content-Type': 'application/json' },
+    headers: session
+      ? { 'Content-Type': 'application/json', Cookie: `JSESSIONID=${jsessionid}` }
+      : { 'Content-Type': 'application/json' },
     data: data,
   }
 
   try {
     const response = await axios(config)
-    return {
-      criteriaMet: response.data[0].criteriaMet,
-      testRequestResponses: response.data[0].testRequestResponses,
-    }
+    console.log('raw API call data: ', response)
+    const responseData: APICallResponse[] = response.data
+    return responseData
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       console.error('API Error Response:', error.response.data)
       console.error('Status:', error.response.status)
       console.error('Headers:', error.response.headers)
     } else {
-      console.error('Error Message:')
+      console.error('Error')
     }
     throw error
   }
+}
+
+export async function handleSMTPLogAPICall(data: SMTPLogAPICallData): Promise<boolean> {
+  const apiUrl = `${process.env.ETT_API_URL}/smtpLog/${data.profileName}`
+  const session = await getServerSession(authOptions)
+  const jsessionid = session?.user?.jsessionid ?? ''
+  const formattedData = {
+    attachments: data.attachments,
+    criteriaMet: data.criteriaMet,
+    testCaseNumber: data.testCaseNumber,
+    testRequestResponses: data.testRequestResponses,
+  }
+  const config = {
+    method: 'post',
+    url: apiUrl,
+    headers: session
+      ? { 'Content-Type': 'application/json', Cookie: `JSESSIONID=${jsessionid}` }
+      : { 'Content-Type': 'application/json' },
+    data: JSON.stringify(formattedData),
+  }
+  try {
+    const response = await axios(config)
+    console.log('Raw content:', response.data)
+    const content = response.data
+
+    return content
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      console.error('API Error Response:', error.response.data)
+      console.error('Status:', error.response.status)
+      console.error('Headers:', error.response.headers)
+    } else {
+      console.error('Error')
+    }
+    throw error
+  }
+  return true
 }
 
 export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResponse> {
@@ -176,7 +245,7 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
 
   try {
     const response = await axios(config)
-    console.log('Raw content 1205:', response.data)
+    console.log('Raw content:', response.data)
     const content = response.data
 
     let testRequest = ''
@@ -185,18 +254,24 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     let endpointTLS = ''
 
     if (content && content.content && content.content.value) {
-      testRequest = content.content.value.request || content.message
-      testResponse = content.content.value.response || content.message
-      endpoint = content.content.value.endpoint || content.message
-      endpointTLS = content.content.value.endpointTLS || content.message
+      testRequest = content.content.value.request
+      testResponse = content.content.value.response
+      endpoint = content.content.value.endpoint
+      endpointTLS = content.content.value.endpointTLS
     } else {
       console.error('Invalid response structure:', content)
       testRequest = content.message
       testResponse = content.message
     }
 
+    let criteriaMet = content.status
+
+    if (content && content.content && content.content.criteriaMet != null) {
+      criteriaMet = content.content.criteriaMet
+    }
+
     return {
-      criteriaMet: content.status,
+      criteriaMet: criteriaMet,
       testRequest: testRequest,
       testResponse: testResponse,
       endpoint: endpoint,
@@ -209,6 +284,38 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
       console.error('Headers:', error.response.headers)
     } else {
       console.error('Error')
+    }
+    throw error
+  }
+}
+
+export async function handleCheckMDNCall(data: APICallData): Promise<XDRAPIResponse> {
+  const apiUrl = process.env.SMTP_TEST_BY_CRITERIA_ENDPOINT
+  const session = await getServerSession(authOptions)
+  const jsessionid = session?.user?.jsessionid ?? ''
+
+  const config = {
+    method: 'post',
+    url: apiUrl,
+    headers: session
+      ? { 'Content-Type': 'application/json', Cookie: `JSESSIONID=${jsessionid}` }
+      : { 'Content-Type': 'application/json' },
+    data: data,
+  }
+
+  console.log('Sending data:', config)
+
+  try {
+    const response = await axios(config)
+    console.log('MDN check raw content:', response.data)
+    return response.data[0]
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      console.error('API Error Response:', error.response.data)
+      console.error('Status:', error.response.status)
+      console.error('Headers:', error.response.headers)
+    } else {
+      console.error('MDN Check Error')
     }
     throw error
   }

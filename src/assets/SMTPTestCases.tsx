@@ -2468,6 +2468,7 @@ const testCases = {
       sutHisp: true,
       criteria: "['h2-6']",
       sutEdge: false,
+      ccdaFileRequired: true,
       fields: [
         {
           label: 'C-CDA Document Type',
@@ -2475,7 +2476,6 @@ const testCases = {
           datatype: 'CCDAWidget',
           value: 'ccdaReferenceFilename',
           readOnly: false,
-          ccdaFileRequired: true,
           display: true,
         },
       ],

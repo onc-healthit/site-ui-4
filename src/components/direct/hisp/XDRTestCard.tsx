@@ -9,11 +9,10 @@ import {
   Tooltip,
   Typography,
   FormControl,
-  Popover,
 } from '@mui/material'
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
 import _ from 'lodash'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import DynamicTable from './DynamicTable'
 import { handleXDRAPICall, GetStatus } from '../test-by-criteria/ServerActions'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
@@ -23,6 +22,8 @@ import DocumentSelector from './DocumentSelector'
 import { useSession } from 'next-auth/react'
 import XMLDisplay from '../shared/colorizeXML'
 import ValidatorResultsSummary from '@/components/c-cda/validation/results/ValidationResultsSummary'
+import AlertSnackbar from '../shared/AlertSnackbar'
+import eventTrack from '@/services/analytics'
 
 export type TestCaseFields = {
   name?: string
@@ -83,6 +84,7 @@ interface StepTextProps {
   inputs: InputFields[]
   role?: string
   endpointsGenerated: boolean
+  criteriaMet: string
 }
 
 interface ValidationResults {
@@ -99,42 +101,9 @@ interface CCDAValidationResult {
   messageId: string
 }
 
-interface StatusResponse {
-  testRequest: string
-  testResponse: string
-  criteriaMet: string
-  results?: ValidationResults
-  message: string
-  status: string
-}
-
 const senderText = 'Hit Run to generate your endpoint.'
 const receiverText = 'Hit Run to send a XDR message.'
 
-const StepText = ({ inputs, role, endpointsGenerated }: StepTextProps) => {
-  if (endpointsGenerated) {
-    return (
-      <Typography variant="body2">
-        <strong>Step 2:</strong> Send XDR message to endpoint and refresh to check status.
-      </Typography>
-    )
-  }
-
-  return (
-    <>
-      <Typography variant="body2">
-        <strong>Step 1:</strong> Provide your{' '}
-        {inputs.map((input, i) => (
-          <span key={i}>
-            {input.name}
-            {inputs.length - 1 === i ? '. ' : ', '}
-          </span>
-        ))}
-        {role === 'sender' ? senderText : receiverText}
-      </Typography>
-    </>
-  )
-}
 export type FieldValue = boolean | string | number
 export type ExtraFields = {
   label: string
@@ -158,7 +127,8 @@ interface SelectedDocument {
   fileName: string
   fileLink: string
 }
-const TestCard = ({ test, receive }: TestCardProps) => {
+
+const TestCard = ({ test }: TestCardProps) => {
   const defaultEndpoint =
     process.env.XDR_ENDPOINT_PREFIX || 'http://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
   const defaultEndpointTLS =
@@ -191,14 +161,12 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   const referenceInfoRef = useRef<HTMLDivElement>(null)
   const originalCCDARef = useRef<HTMLDivElement>(null)
 
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
-  const [popoverMessage, setPopoverMessage] = useState('')
-  const [autoCloseTimer, setAutoCloseTimer] = useState<NodeJS.Timeout | null>(null)
-  const open = Boolean(anchorEl)
-  const id = open ? 'simple-popover' : undefined
-  const hiddenAnchorRef = useRef(null)
+  const [alertOpen, setAlertOpen] = useState<boolean>(false)
+  const [alertMessage, setAlertMessage] = useState<string>('')
+  const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('info')
+
   const [logType, setLogType] = useState<'request' | 'response' | 'ccdaValidation'>('request')
-  const manualValidationCriteria = ["['b1-3']", "['b1-3','su1-3']"]
+  const manualValidationIDs = ['4a', '4b', '20amu2', '20bmu2']
   const { data: session } = useSession()
   const subHeader = 'Description'
   const subDesc = test['Purpose/Description']
@@ -210,30 +178,16 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   const shouldDisplayInput = (input: InputFields) => {
     return !(input.key === 'payload' && input.type?.includes('CCDAWidget'))
   }
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, link: string) => {
     navigator.clipboard.writeText(link)
-    showPopover('Copied to clipboard!', event.currentTarget)
+    setAlertMessage('Copied to clipboard!')
+    setAlertSeverity('success')
+    setAlertOpen(true)
   }
-  const showPopover = (message: string, anchor: HTMLButtonElement | null) => {
-    setPopoverMessage(message)
-    setAnchorEl(anchor || hiddenAnchorRef.current)
-    if (autoCloseTimer) clearTimeout(autoCloseTimer)
-    const timer = setTimeout(() => {
-      handleClosePopover()
-    }, 3000)
-    setAutoCloseTimer(timer)
-  }
-  useEffect(() => {
-    return () => {
-      if (autoCloseTimer) clearTimeout(autoCloseTimer)
-    }
-  }, [autoCloseTimer, anchorEl])
-  const handleClosePopover = () => {
-    if (autoCloseTimer) {
-      clearTimeout(autoCloseTimer)
-      setAutoCloseTimer(null)
-    }
-    setAnchorEl(null)
+
+  const handleAlertClose = () => {
+    setAlertOpen(false)
   }
   const toggleLogType = (type: 'request' | 'response' | 'ccdaValidation') => {
     setLogType(type)
@@ -255,7 +209,45 @@ const TestCard = ({ test, receive }: TestCardProps) => {
     '44mu2',
   ]
   const ccdaRequiredTestIds = ['1', '2', '3add']
+  const sendEdgeTestsCriteria = ['b1-1']
   const isCCDADocumentRequired = ccdaRequiredTestIds.includes(test.id.toString())
+  const StepText = ({ inputs, role, endpointsGenerated, criteriaMet }: StepTextProps) => {
+    if (manualValidationIDs.includes(test.id.toString()) && isFinished) {
+      if (test.id == '20amu2' || test.id == '20bmu2') {
+        console.log('abc')
+        testRequest == 'Check your SUT logs and accept or reject'
+        testResponse == 'Check your SUT logs and accept or reject'
+      }
+      return (
+        <Typography variant="body2">
+          <strong>Step 3:</strong> Check the logs to accept/reject the response
+        </Typography>
+      )
+    }
+
+    if (endpointsGenerated) {
+      return (
+        <Typography variant="body2">
+          <strong>Step 2:</strong> Send XDR message to endpoint and refresh to check status.
+        </Typography>
+      )
+    }
+
+    return (
+      <>
+        <Typography variant="body2">
+          <strong>Step 1:</strong> Provide your{' '}
+          {inputs.map((input, i) => (
+            <span key={i}>
+              {input.name}
+              {inputs.length - 1 === i ? '. ' : ', '}
+            </span>
+          ))}
+          {role === 'sender' ? senderText : receiverText}
+        </Typography>
+      </>
+    )
+  }
   const [formData] = useState<{ [key: string]: FieldValue }>(() => {
     const initialData: { [key: string]: FieldValue } = {}
     test.moreInfo?.fields?.forEach((field) => {
@@ -271,94 +263,121 @@ const TestCard = ({ test, receive }: TestCardProps) => {
       }))
     }
   }
+
+  const fixEndpoint = (url: string): string => {
+    if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
+      return 'https://' + url
+    }
+    return url
+  }
+
+  //Event trigger twice
   const handleRunTest = async () => {
+    eventTrack(` Run test for ${test.name}`, 'Test By Criteria - XDR Test', `${test.criteria}`)
     if (!session) {
-      showPopover('You must be logged in and have a valid session to perform this action.', null)
+      setAlertMessage('You must be logged in and have a valid session to perform this action.')
+      setAlertSeverity('error')
+      setAlertOpen(true)
       return
     }
-    console.log('ccda required' + test.ccdaFileRequired)
-    console.log('doc details ' + documentDetails)
+
     if (isCCDADocumentRequired && !documentDetails) {
-      showPopover(
-        'This test requires a CCDA document to be selected. Please select a document before running the test.',
-        null
+      setAlertMessage(
+        'This test requires a CCDA document to be selected. Please select a document before running the test.'
       )
+      setAlertSeverity('error')
+      setAlertOpen(true)
       return
-    } else {
-      const ip_address = fieldValues['ip_address'] || ''
-      const port = fieldValues['port'] || ''
-      const direct_to = fieldValues['direct_to'] || ''
-      const direct_from = fieldValues['direct_from'] || ''
-      const targetEndpointTLS = fieldValues['targetEndpointTLS'] || ''
-      const outgoing_from = fieldValues['outgoing_from'] || ''
-      try {
-        setIsLoading(true)
-        setIsFinished(false)
-        setCriteriaMet('')
-        if (endpointsGenerated) {
-          const status = await GetStatus(test.id.toString())
-          console.log('Test status:', status)
-          setTestRequestRequest(status.testRequest)
-          setTestRequestResponse(status.testResponse)
-          setCriteriaMet(status.criteriaMet)
+    }
+    const ip_address = fieldValues['ip_address'] || ''
+    const port = fieldValues['port'] || ''
+    const direct_to = fieldValues['direct_to'] || ''
+    const direct_from = fieldValues['direct_from'] || ''
+    const targetEndpointTLS = fieldValues['targetEndpointTLS'] || ''
+    const outgoing_from = fieldValues['outgoing_from'] || ''
+    try {
+      setIsLoading(true)
+      setIsFinished(false)
+      setCriteriaMet('')
+      if (endpointsGenerated) {
+        const status = await GetStatus(test.id.toString())
+        console.log('Test status:', status)
+        setTestRequestRequest(status.testRequest)
+        setTestRequestResponse(status.testResponse)
+        setCriteriaMet(status.criteriaMet)
+        setIsFinished(true)
+        if (status.results) {
+          setValidationResults(status.results)
+          setEndpointsGenerated(false)
+        }
+      } else {
+        const response = await handleXDRAPICall({
+          ip_address: ip_address,
+          port: port,
+          direct_to: direct_to,
+          direct_from: direct_from,
+          targetEndpointTLS: targetEndpointTLS,
+          outgoing_from: outgoing_from,
+          name: documentDetails ? documentDetails.fileName : '',
+          path: documentDetails ? documentDetails.directory : '',
+          link: documentDetails ? documentDetails.fileLink : '',
+          id: test.id.toString(),
+          jsession: session.user.jsessionid,
+          cures: false,
+          itemNumber: '12',
+          selected: true,
+          svap: false,
+          uscdiv3: false,
+        })
+        setTimeout(() => {
           setIsFinished(true)
-          if (status.results) {
-            setValidationResults(status.results)
+          if (test.criteria && !manualValidationIDs.includes(test.id.toString())) {
+            setCriteriaMet(response.criteriaMet)
           }
-        } else {
-          const response = await handleXDRAPICall({
-            ip_address: ip_address,
-            port: port,
-            direct_to: direct_to,
-            direct_from: direct_from,
-            targetEndpointTLS: targetEndpointTLS,
-            outgoing_from: outgoing_from,
-            name: documentDetails ? documentDetails.fileName : '',
-            path: documentDetails ? documentDetails.directory : '',
-            link: documentDetails ? documentDetails.fileLink : '',
-            id: test.id.toString(),
-            jsession: session.user.jsessionid,
-            cures: false,
-            itemNumber: '12',
-            selected: true,
-            svap: false,
-            uscdiv3: false,
-          })
-          setTimeout(() => {
-            setIsFinished(true)
-            if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
-              setCriteriaMet(response.criteriaMet)
+          if (!endpointTestIds.includes(test.id.toString())) {
+            let endpointSet = false
+            if (response.endpoint && response.endpoint.length > 10) {
+              setEndpoint(fixEndpoint(response.endpoint))
+              endpointSet = true
             }
-            if (
-              !endpointTestIds.includes(test.id.toString()) &&
-              (response.endpoint.length > 10 || response.endpointTLS.length > 10)
-            ) {
+            if (response.endpointTLS && response.endpointTLS.length > 10) {
+              setEndpointTLS(fixEndpoint(response.endpointTLS))
+              endpointSet = true
+            }
+            if (endpointSet) {
+              console.log('setting endpoints generated')
               setEndpointsGenerated(true)
-              setEndpoint(response.endpoint || defaultEndpoint)
-              setEndpointTLS(response.endpointTLS || defaultEndpointTLS)
             }
-            setTestRequestRequest(response.testRequest)
-            setTestRequestResponse(response.testResponse)
-            if (!testRequest && !testResponse && test.criteria && !manualValidationCriteria.includes(test.criteria)) {
-              setCriteriaMet('FALSE')
-            }
-            console.log('Criteria met: ', response.criteriaMet)
-            console.log('Test Request Responses:', response.testResponse)
-          }, 10)
-        }
-      } catch (error) {
-        console.error('Failed to run test:', error)
-        setApiError(true)
-        if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
-          setCriteriaMet('FALSE')
-        }
-      } finally {
-        setIsLoading(false)
-        if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
-          setTimeout(() => {
-            setIsFinished(false)
-          }, 100)
-        }
+          }
+          setTestRequestRequest(response.testRequest)
+          setTestRequestResponse(response.testResponse)
+          if (
+            !testRequest &&
+            !testResponse &&
+            test.criteria &&
+            !manualValidationIDs.includes(test.id.toString()) &&
+            criteriaMet
+          ) {
+            console.log('Response null, setting criteria met false')
+            setCriteriaMet('FALSE')
+          }
+          console.log('Full response: ', response)
+          console.log('Criteria met: ', response.criteriaMet)
+          console.log('Test Request Responses:', response.testResponse)
+        }, 10)
+      }
+    } catch (error) {
+      console.error('Failed to run test:', error)
+      setApiError(true)
+      if (test.criteria && !manualValidationIDs.includes(test.id.toString())) {
+        setCriteriaMet('FALSE')
+      }
+    } finally {
+      setIsLoading(false)
+      if (test.criteria && !manualValidationIDs.includes(test.id.toString())) {
+        setTimeout(() => {
+          setIsFinished(false)
+        }, 100)
       }
     }
   }
@@ -384,15 +403,15 @@ const TestCard = ({ test, receive }: TestCardProps) => {
     setEndpointTLS(defaultEndpointTLS)
     setApiError(false)
     setValidationResults(null)
+    eventTrack('Clear Test', 'Test By Criteria - XDR Test', `${test.criteria}`)
   }
 
   const renderCriteriaMetIcon = () => {
-    if (endpointsGenerated && criteriaMet != 'PASSED') {
+    if (endpointsGenerated) {
       return <Typography style={{ color: 'red' }}>Pending</Typography>
-    }
-    if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED') {
+    } else if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED' || criteriaMet === 'SUCCESS') {
       return <CheckCircleIcon style={{ color: 'green' }} />
-    } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR') {
+    } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR' || criteriaMet === 'FAILED') {
       return <CancelIcon style={{ color: 'red' }} />
     }
     return null
@@ -400,8 +419,9 @@ const TestCard = ({ test, receive }: TestCardProps) => {
   const handleToggleLogs = () => {
     setShowLogs((prev) => !prev)
   }
-  const handleToggleDetail = () => {
+  const handleToggleDetail = (buttonText: string) => {
     setShowDetail((prev) => !prev)
+    eventTrack(buttonText, 'Test By Criteria - XDR Test', `${test.criteria}`)
   }
   const toggleDocumentSelector = () => {
     setShowDocumentSelector(!showDocumentSelector)
@@ -445,7 +465,12 @@ const TestCard = ({ test, receive }: TestCardProps) => {
         return <Typography>No C-CDA Validation results available.</Typography>
       }
     } else {
-      const content = logType === 'request' ? testRequest : testResponse
+      let content = logType === 'request' ? testRequest : testResponse
+
+      if ((test.id === '20amu2' || test.id === '20bmu2') && isFinished && (!testRequest || !testResponse)) {
+        content = 'Check your SUT logs and accept or reject'
+      }
+
       return <XMLDisplay xmlContent={content || 'No logs to display.'} />
     }
   }
@@ -473,7 +498,13 @@ const TestCard = ({ test, receive }: TestCardProps) => {
           <TextField key={index} label={field.label} defaultValue={field.value} variant="outlined" fullWidth disabled />
         ))}
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 2 }}>
-          <Button variant="contained" color="primary" onClick={() => console.log(formData)}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              console.log(formData)
+            }}
+          >
             RUN
           </Button>
           <Button
@@ -488,7 +519,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                 boxShadow: '0px 4px 2px -1px rgba(0, 0, 0, 0.22)',
               },
             }}
-            onClick={handleToggleDetail}
+            onClick={() => handleToggleDetail('Return to test')}
           >
             RETURN TO TEST
           </Button>
@@ -501,22 +532,7 @@ const TestCard = ({ test, receive }: TestCardProps) => {
       <CardHeader title={test.name}></CardHeader>
       <Divider />
       <CardContent>
-        <Popover
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClosePopover}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-        >
-          <Typography sx={{ p: 2 }}>{popoverMessage}</Typography>
-        </Popover>
+        <AlertSnackbar message={alertMessage} severity={alertSeverity} open={alertOpen} onClose={handleAlertClose} />
         {showDetail ? (
           renderMoreInfo()
         ) : showLogs ? (
@@ -554,19 +570,16 @@ const TestCard = ({ test, receive }: TestCardProps) => {
             {renderLogs()}
             <Divider sx={{ mb: 2, mt: 2 }} />
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-              {test.criteria &&
-                manualValidationCriteria.includes(test.criteria) &&
-                testRequest &&
-                testRequest.length > 0 && (
-                  <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button variant="contained" color="primary" onClick={handleAcceptTest}>
-                      Accept
-                    </Button>
-                    <Button variant="outlined" color="primary" onClick={handleRejectTest}>
-                      Reject
-                    </Button>
-                  </Box>
-                )}
+              {test.criteria && manualValidationIDs.includes(test.id.toString()) && isFinished && (
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  <Button variant="contained" color="primary" onClick={handleAcceptTest}>
+                    Accept
+                  </Button>
+                  <Button variant="outlined" color="primary" onClick={handleRejectTest}>
+                    Reject
+                  </Button>
+                </Box>
+              )}
               <Button variant="contained" onClick={handleToggleLogs}>
                 Close Logs
               </Button>
@@ -579,14 +592,25 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                 {test.desc}
               </Typography>
               {_.isEqual(test.sutRole, 'receiver') && _.has(test, 'inputs') && test.inputs !== undefined && (
-                <StepText inputs={test.inputs} role={test.sutRole} endpointsGenerated={endpointsGenerated} />
+                <StepText
+                  inputs={test.inputs}
+                  role={test.sutRole}
+                  endpointsGenerated={endpointsGenerated}
+                  criteriaMet={criteriaMet}
+                />
               )}
               {_.isEqual(test.sutRole, 'sender') && _.has(test, 'inputs') && test.inputs !== undefined && (
-                <StepText inputs={test.inputs} role={test.sutRole} endpointsGenerated={endpointsGenerated} />
+                <StepText
+                  inputs={test.inputs}
+                  role={test.sutRole}
+                  endpointsGenerated={endpointsGenerated}
+                  criteriaMet={criteriaMet}
+                />
               )}
               {_.has(test, 'inputs') &&
                 test.inputs &&
                 !endpointsGenerated &&
+                !isFinished &&
                 test.inputs.filter(shouldDisplayInput).map((input) => (
                   <Box sx={{ pt: 2 }} key={input.key || 'default-key'}>
                     <FormControl fullWidth>
@@ -626,32 +650,22 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                       Endpoint
                     </Button>
                   </Tooltip>
-                  <Tooltip placement="bottom" title={endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`} arrow>
-                    <Button
-                      sx={{ ml: 2 }}
-                      color="secondary"
-                      endIcon={<ContentPasteGoIcon />}
-                      onClick={(e) => handleClick(e, endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`)}
+                  {test.id != 7 && (
+                    <Tooltip
+                      placement="bottom"
+                      title={endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`}
+                      arrow
                     >
-                      Endpoint TLS
-                    </Button>
-                  </Tooltip>
-                  <Popover
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClosePopover}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'center',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'center',
-                    }}
-                  >
-                    <Typography sx={{ p: 2 }}>{popoverMessage}</Typography>
-                  </Popover>
+                      <Button
+                        sx={{ ml: 2 }}
+                        color="secondary"
+                        endIcon={<ContentPasteGoIcon />}
+                        onClick={(e) => handleClick(e, endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`)}
+                      >
+                        Endpoint TLS
+                      </Button>
+                    </Tooltip>
+                  )}
                 </Box>
               )}
               {requiresCCDADocument() && !endpointsGenerated && (
@@ -693,32 +707,22 @@ const TestCard = ({ test, receive }: TestCardProps) => {
                 >
                   {endpointsGenerated ? 'REFRESH' : 'RUN'}
                 </LoadingButton>
-                <div ref={hiddenAnchorRef} style={{ visibility: 'hidden', top: '50px' }}></div>
-                <Button variant="contained" onClick={handleToggleDetail}>
+                <Button variant="contained" onClick={() => handleToggleDetail('More Info')}>
                   MORE INFO
                 </Button>
                 <Button variant="contained" color="inherit" onClick={handleToggleLogs}>
                   LOGS
                 </Button>
-                {test.criteria &&
-                  criteriaMet &&
-                  (criteriaMet.includes('TRUE') ||
-                    criteriaMet.includes('FALSE') ||
-                    criteriaMet.includes('ERROR') ||
-                    criteriaMet.includes('PASSED') ||
-                    criteriaMet.includes('PENDING') ||
-                    criteriaMet.includes('SUCCESS')) && (
-                    <Box sx={{ display: 'flex', gap: 1 }}>
-                      <Button variant="contained" color="inherit" onClick={handleClearTest}>
-                        Clear
-                      </Button>
-                    </Box>
-                  )}
-                {test.criteria &&
-                  manualValidationCriteria.includes(test.criteria) &&
-                  (testRequest || testResponse) &&
-                  isFinished &&
-                  !apiError && <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>}
+                {((test.criteria && criteriaMet) || isFinished) && (
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button variant="contained" color="inherit" onClick={handleClearTest}>
+                      Clear
+                    </Button>
+                  </Box>
+                )}
+                {test.criteria && manualValidationIDs.includes(test.id.toString()) && isFinished && !apiError && (
+                  <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>
+                )}
               </Box>
             </Box>
           </>

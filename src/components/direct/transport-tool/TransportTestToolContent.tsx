@@ -8,6 +8,8 @@ import TrustAnchorExchange from './TrustAnchorExchange'
 import SendMessageSITE from './SendMessageSITETrustAnchor'
 import SendMessageDirect from './SendMessageDirectTrustBundle'
 import ReceiveMessageSITE from './ReceiveMessageSITE'
+import eventTrack from '@/services/analytics'
+
 interface TransportTestToolProps {
   sampleCCDAFiles: string[]
   trustBundleDownloadUrl: string
@@ -19,13 +21,8 @@ const menuItems: menuProps[] = [
   { heading: 'Send Direct Message using Direct Trust Production Bundle', href: '#sendMessageDirect' },
   { heading: 'Receive Direct Message from SITE', href: '#receiveMessageSITE' },
 ]
-function trackMenuItemClick(heading: string) {
-  if (typeof window.gtag === 'function') {
-    window.gtag('event', 'Click transport test tool sub menu', {
-      event_category: 'Navigation',
-      event_label: heading,
-    })
-  }
+const trackMenuItemClick = (heading: string) => {
+  eventTrack('Click transport tool sub menu', 'Transport Test Tool', heading)
 }
 
 const TransportTestToolContent = ({ sampleCCDAFiles, trustBundleDownloadUrl }: TransportTestToolProps) => {

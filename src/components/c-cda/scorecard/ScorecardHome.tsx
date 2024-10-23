@@ -49,6 +49,7 @@ import {
   SectionNameEnum,
   SORT_ORDER_STARTING_VALUE,
 } from './types/ScorecardConstants'
+import eventTrack from '@/services/analytics'
 
 export default function ScorecardHome() {
   const [resultsDialogState, setResultsDialogState] = useState(false)
@@ -140,12 +141,7 @@ export default function ScorecardHome() {
     console.log(`Selected ${demoSampleSelected}`)
     setDemoSampleOption(demoSampleSelected)
 
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Select demo dropdown', {
-        event_category: 'dropdown',
-        event_label: `Selected ${demoSampleSelected}`,
-      })
-    }
+    eventTrack('Select from Dropdown', 'Scorecard', `Selected ${demoSampleSelected} sample within Try Me Demo`)
   }
 
   const handleSubmitDemoStart = (e: React.FormEvent<HTMLFormElement>) => {
@@ -169,12 +165,7 @@ export default function ScorecardHome() {
         ${error}. Please try again later.`)
     }
 
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Try Me', {
-        event_category: 'Button',
-        event_label: 'Score card try me demo',
-      })
-    }
+    eventTrack('Sumbit Form for Try Me Demo', 'Scorecard', 'Run the Try Me Demo with selected file and view results')
   }
 
   const getFileName = (data: File[]) => {
@@ -221,7 +212,7 @@ export default function ScorecardHome() {
       setIsValidating(false)
     }
 
-    // TODO: Add event tracking for Scorecard validation
+    eventTrack('Submit file for Scorecard', 'Scorecard', 'User clicks start to score their file and view results')
   }
 
   const processResults = (newJson: ScorecardJsonResponseType): [boolean, string | null] => {
@@ -440,8 +431,9 @@ export default function ScorecardHome() {
 
   const handleCardWithBorderClick = (index: number) => {
     setModalUrl(modalUrls[index])
+    eventTrack('Open Scorecard Modal', 'Scorecard', modalUrls[index])
   }
-
+  //events firing twice//
   return (
     <>
       {/* Global Header */}
