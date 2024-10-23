@@ -19,7 +19,6 @@ import * as React from 'react'
 import testCases from '@/assets/SMTPTestCases'
 import DragandDropFile from '@/components/shared/DragandDropFile'
 import HelpIcon from '@mui/icons-material/Help'
-import TestFilter from './TestFilter'
 import { useContext } from 'react'
 import { ProfileContext } from './context'
 
@@ -95,11 +94,6 @@ const MessageTracking = () => {
           )}
         </Box>
         <Box sx={{ flexGrow: 1 }}>
-          {option !== '' && (
-            <Box pb={2}>
-              <TestFilter />
-            </Box>
-          )}
           {option === 'sender' && (
             <div>
               {mu2TestCasesSender.map((test, i) => {

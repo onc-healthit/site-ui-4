@@ -199,7 +199,7 @@ const H2Component = () => {
     },
     {
       value: 'receiveEdgeXDR',
-      label: 'Criteria (i)(C) Receive using Edge Protocol - XDR',
+      label: 'Paragraph (i)(C) Receive using Edge Protocol - XDR',
       categories: ['all', 'receiveEdgeProtocol', 'receive'],
       testCard: true,
       testSources: ['xdr'],
@@ -208,7 +208,7 @@ const H2Component = () => {
     },
     {
       value: 'receiveEdgeSMTP',
-      label: 'Criteria (i)(C) Receive using Edge Protocol - SMTP',
+      label: 'Paragraph (i)(C) Receive using Edge Protocol - SMTP',
       categories: ['all', 'receiveEdgeProtocol', 'receive'],
       testCard: true,
       testSources: ['smtp'],

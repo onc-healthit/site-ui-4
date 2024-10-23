@@ -33,6 +33,14 @@ export interface APICallData {
   previousResult?: APICallResponse
 }
 
+export interface SMTPLogAPICallData {
+  attachments: string[]
+  criteriaMet: boolean
+  testCaseNumber: string
+  testRequestResponses: TestRequestResponses
+  profileName: string
+}
+
 export interface Documents {
   [key: string]: {
     dirs: Directory[]
@@ -136,10 +144,14 @@ interface StatusResponse {
 
 export async function handleAPICall(data: APICallData): Promise<APICallResponse[]> {
   const apiUrl = process.env.SMTP_TEST_BY_CRITERIA_ENDPOINT
+  const session = await getServerSession(authOptions)
+  const jsessionid = session?.user?.jsessionid ?? ''
   const config = {
     method: 'post',
     url: apiUrl,
-    headers: { 'Content-Type': 'application/json' },
+    headers: session
+      ? { 'Content-Type': 'application/json', Cookie: `JSESSIONID=${jsessionid}` }
+      : { 'Content-Type': 'application/json' },
     data: data,
   }
 
@@ -158,6 +170,43 @@ export async function handleAPICall(data: APICallData): Promise<APICallResponse[
     }
     throw error
   }
+}
+
+export async function handleSMTPLogAPICall(data: SMTPLogAPICallData): Promise<boolean> {
+  const apiUrl = `${process.env.ETT_API_URL}/smtpLog/${data.profileName}`
+  const session = await getServerSession(authOptions)
+  const jsessionid = session?.user?.jsessionid ?? ''
+  const formattedData = {
+    attachments: data.attachments,
+    criteriaMet: data.criteriaMet,
+    testCaseNumber: data.testCaseNumber,
+    testRequestResponses: data.testRequestResponses,
+  }
+  const config = {
+    method: 'post',
+    url: apiUrl,
+    headers: session
+      ? { 'Content-Type': 'application/json', Cookie: `JSESSIONID=${jsessionid}` }
+      : { 'Content-Type': 'application/json' },
+    data: JSON.stringify(formattedData),
+  }
+  try {
+    const response = await axios(config)
+    console.log('Raw content:', response.data)
+    const content = response.data
+
+    return content
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      console.error('API Error Response:', error.response.data)
+      console.error('Status:', error.response.status)
+      console.error('Headers:', error.response.headers)
+    } else {
+      console.error('Error')
+    }
+    throw error
+  }
+  return true
 }
 
 export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResponse> {
@@ -215,8 +264,14 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
       testResponse = content.message
     }
 
+    let criteriaMet = content.status
+
+    if (content && content.content && content.content.criteriaMet != null) {
+      criteriaMet = content.content.criteriaMet
+    }
+
     return {
-      criteriaMet: content.status,
+      criteriaMet: criteriaMet,
       testRequest: testRequest,
       testResponse: testResponse,
       endpoint: endpoint,
