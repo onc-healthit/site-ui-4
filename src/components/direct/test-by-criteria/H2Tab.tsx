@@ -1,14 +1,14 @@
 import {
   Box,
-  Typography,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
-  SelectChangeEvent,
   Card,
   CardContent,
   Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
 } from '@mui/material'
 import React, { useState, useContext } from 'react'
 import Profile from '../shared/Profile'
@@ -318,13 +318,26 @@ const H2Component = () => {
 
   return (
     <Container>
-      <Box sx={{ display: 'flex', width: '100%', pt: 4, gap: 4 }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: '40%' }}>
-          <Card>
+      <Box sx={{ display: 'flex', width: '100%', py: 4, gap: 4 }}>
+        {/* Left-side UI (Category and Subcategory Selection) */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            maxWidth: '35%',
+            position: 'sticky',
+            top: '75px',
+            zIndex: '801',
+            height: '80vh',
+          }}
+        >
+          <Card sx={{ position: 'relative', border: '.5px solid #BCBCBC' }}>
             <CardContent>
               <Box component="form" sx={{ backgroundColor: palette.white }}>
-                <Typography variant="body2" gutterBottom>
-                  Use the menu to select what paragraph you want to test for..
+                <Typography fontWeight={'600'} variant="h5" component="h2" gutterBottom pb={2}>
+                  Use the menu to select what
+                  <br /> sub criteria you want to test for.
                 </Typography>
                 <Box>
                   <FormControl fullWidth sx={{ mb: 2 }}>
@@ -367,6 +380,7 @@ const H2Component = () => {
               </Box>
             </CardContent>
           </Card>
+          {/* Conditional display of Profile or DownloadXDRCert */}
           {isXDR && <DownloadXDRCert />}
           {!isXDR && (
             <Card>
@@ -374,7 +388,19 @@ const H2Component = () => {
             </Card>
           )}
         </Box>
-        <Box sx={{ flexGrow: 1 }}>
+        {/* Right-side Content (Test Cards) */}
+        <Box width={'60%'}>
+          {!showTestCard && (
+            <Box
+              border={`1px solid ${palette.grey}`}
+              borderRadius={2}
+              padding={2}
+              display={'flex'}
+              alignItems={'center'}
+            >
+              <p>Waiting for sub criteria to be selected...</p>
+            </Box>
+          )}
           {showTestCard &&
             selectedTestCases.map((test: TestCase, i: number) => (
               <Box key={i} sx={{ mb: 2 }}>
