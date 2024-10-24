@@ -21,12 +21,12 @@ import SecurityIcon from '@mui/icons-material/Security'
 import LinkButton from './LinkButton'
 import { fetchReleaseData } from '@/assets/ReleaseService'
 import palette from '@/styles/palette'
-import placeholder from '@public/shared/PlaceHolderImageSITE.png'
+import websiteLaunch from '@public/shared/SITE_Website_Launch.svg'
 import Image from 'next/image'
 import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined'
 import eventTrack from '@/services/analytics'
 
-const drawerWidth = 500
+const drawerWidth = 350
 
 const CommunicationFab: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -36,8 +36,8 @@ const CommunicationFab: React.FC = () => {
   }
 
   const handleDrawerClose = () => {
-    setDrawerOpen(false)    
-    eventTrack('Close Communication FAB', 'Communication Panel', 'User clicks close communication panel')    
+    setDrawerOpen(false)
+    eventTrack('Close Communication FAB', 'Communication Panel', 'User clicks close communication panel')
   }
 
   const [releaseVersionHTML, setReleaseVersionHTML] = useState<string | undefined>()
@@ -56,7 +56,7 @@ const CommunicationFab: React.FC = () => {
   }, [])
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div>
       <Drawer
         variant="persistent"
         anchor="right"
@@ -68,26 +68,26 @@ const CommunicationFab: React.FC = () => {
           },
         }}
       >
-        <Box p={2} display={'flex'} flexDirection={'column'} gap={4}>
+        <Box width={'auto'} p={2} mb={8} display={'flex'} flexDirection={'column'} gap={4}>
           <Card>
             <CardMedia sx={{ width: 'auto' }}>
-              <Image style={{ width: '500px', height: 'auto' }} src={placeholder} alt="Placeholder" />
+              <Image style={{ width: '330px', height: 'auto' }} src={websiteLaunch} alt="Placeholder" />
             </CardMedia>
-            <CardHeader title="Enhancing Usability and Performance: Comprehensive Updates to the Standards Implementation & Testing Environment (SITE)" />
-            <CardContent>
-              <Typography>
-                The Standards Implementation & Testing Environment (SITE) and the Edge Testing Tool (ETT) have undergone
-                comprehensive enhancements to improve usability, functionality, and performance, offering a more
-                intuitive and efficient user experience.
-              </Typography>
-            </CardContent>
-            {/*
+            <CardHeader
+              sx={{ px: 1, pt: 1, pb: 0 }}
+              titleTypographyProps={{ variant: 'body1', fontSize: '.85em', fontWeight: 'bold' }}
+              title="SITE Unveils Revamped User Interface & Optimized Experience"
+            ></CardHeader>
+            <Typography sx={{ px: 1, fontSize: '.75em' }} variant="body2">
+              The Standards Implementation & Testing Environment (SITE) have undergone comprehensive enhancements to
+              improve usability, functionality, and performance, offering a more intuitive and efficient user
+              experience.
+            </Typography>
             <CardActions>
-              <Button variant="text" color="secondary">
-                Read More
+              <Button size="small" variant="text" color="secondary">
+                Read More...
               </Button>
             </CardActions>
-            */}
           </Card>
           <LinkButton
             label="Access Forum"
@@ -105,25 +105,35 @@ const CommunicationFab: React.FC = () => {
             icon={<ForwardToInboxOutlinedIcon fontSize="small" htmlColor={palette.primaryDark} />}
           />
         </Box>
-        <Tooltip arrow placement="left" title="Close Information Panel">
-          <Fab
-            onClick={handleDrawerClose}
-            size="small"
-            color="inherit"
-            aria-label="Close Info"
-            style={{ position: 'fixed', bottom: '20px', right: '20px' }}
-          >
-            <CloseIcon fontSize="small" htmlColor={palette.error} />
-          </Fab>
-        </Tooltip>
-        <Typography
-          sx={{ position: 'fixed', bottom: '12px', padding: '0 16px 8px 16px', fontSize: '12px' }}
-          variant="caption"
-          color={palette.greyDark}
+        <Box
+          position={'fixed'}
+          width={'-webkit-fill-available'}
+          bottom={'0px'}
+          padding={'0 16px 8px 16px'}
+          bgcolor={palette.white}
         >
-          {releaseVersionHTML && <div dangerouslySetInnerHTML={{ __html: releaseVersionHTML }} />}
-          {releaseDateHTML && <div dangerouslySetInnerHTML={{ __html: releaseDateHTML }} />}
-        </Typography>
+          <Tooltip arrow placement="left" title="Close Information Panel">
+            <Fab
+              onClick={handleDrawerClose}
+              size="small"
+              color="inherit"
+              aria-label="Close Info"
+              style={{ position: 'fixed', bottom: '8px', right: '20px' }}
+            >
+              <CloseIcon fontSize="small" htmlColor={palette.error} />
+            </Fab>
+          </Tooltip>
+          <Typography
+            sx={{
+              fontSize: '12px',
+            }}
+            variant="caption"
+            color={palette.greyDark}
+          >
+            {releaseVersionHTML && <div dangerouslySetInnerHTML={{ __html: releaseVersionHTML }} />}
+            {releaseDateHTML && <div dangerouslySetInnerHTML={{ __html: releaseDateHTML }} />}
+          </Typography>
+        </Box>
       </Drawer>
       <Tooltip arrow placement="left" title="Open Information Panel">
         <Fab

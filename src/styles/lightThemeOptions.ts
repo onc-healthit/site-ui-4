@@ -114,8 +114,9 @@ export const lightThemeOptions: ThemeOptions = {
           scrollbarColor: '#00000020',
           '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
             backgroundColor: '#00000020',
-            width: '6px',
+            width: '4px',
             borderRadius: 32,
+            height: '4px',
           },
           '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
             borderRadius: 16,

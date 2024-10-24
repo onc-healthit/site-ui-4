@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography'
 import { Button, CardActions } from '@mui/material'
 import Image from 'next/image'
 import ArrowForwardIcon from '@mui/icons-material/ArrowDownward'
-import Link from 'next/link'
 import eventTrack from '@/services/analytics'
 export interface CertificateCardProps {
   title: string

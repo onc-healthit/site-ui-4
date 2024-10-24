@@ -1,4 +1,5 @@
-// MUI Imports
+'use client'
+
 import BannerBox from '../shared/BannerBox'
 import { Box, Container, Divider, Typography } from '@mui/material'
 // Global Imports
@@ -16,10 +17,10 @@ import palette from '@/styles/palette'
 import SectionHeader from '../shared/SectionHeader'
 import VerticalCard from '../shared/VerticalCard'
 import CardWithBorder from '../shared/CardWithBorder'
-// Images
-// const maxWidth: number = 320
+import { useTheme } from '@mui/material'
 
 const CqmHome = () => {
+  const theme = useTheme()
   return (
     <Box>
       {/* Global Header */}
@@ -50,12 +51,18 @@ const CqmHome = () => {
 
         {/* Cypress Content*/}
         <Box
-          display={'flex'}
-          flexDirection={'row'}
-          width={'100%'}
-          justifyContent={'space-between'}
-          gap={4}
-          alignItems={'flex-start'}
+          sx={{
+            gap: 4,
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            alignItems: 'flex-start',
+            width: '100%',
+            [theme.breakpoints.down('md')]: {
+              flexDirection: 'column',
+              gap: '16px',
+            },
+          }}
         >
           {/* Cypress Card With Images */}
           <Box display={'flex'} gap={4} justifyContent={'space-between'} alignItems={'flex-start'}>
@@ -120,7 +127,19 @@ const CqmHome = () => {
           subHeader={'Expanding Your Toolkit: Explore a Range of CQM Tools and Resources Beyond the Basics'}
         />
         {/* Other Tools & Resources Content */}
-        <Box gap={4} display={'flex'} flexDirection={'row'} width={'100%'} mb={4}>
+        <Box
+          sx={{
+            gap: 4,
+            display: 'flex',
+            flexDirection: 'row',
+            width: '100%',
+            mb: 4,
+            [theme.breakpoints.down('md')]: {
+              flexDirection: 'column',
+              gap: '16px',
+            },
+          }}
+        >
           {/* eCQI Resource CenterCard */}
           <CardWithBorder
             cardHeader={'eCQI Resource Center'}
@@ -132,14 +151,18 @@ const CqmHome = () => {
             buttonIcon={<ArrowForward />}
           />
           <Box
-            border={`1px solid ${palette.grey}`}
-            borderRadius={2}
-            padding={8}
-            display={'flex'}
-            alignItems={'center'}
-            justifyContent={'space-between'}
-            flexDirection={'row'}
-            width={'50%'}
+            sx={{
+              border: `1px solid ${palette.grey}`,
+              borderRadius: 2,
+              p: 8,
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: '50%',
+              [theme.breakpoints.down('md')]: {
+                width: '100%',
+              },
+            }}
           >
             <Typography align="center" variant="body2" color={palette.greyDark}>
               <TipsAndUpdatesOutlined color="primary" />

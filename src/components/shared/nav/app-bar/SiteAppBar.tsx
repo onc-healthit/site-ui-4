@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react' // Import React and necessary hooks
 import MenuIcon from '@mui/icons-material/Menu'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
 import Image from 'next/image'
@@ -6,16 +7,16 @@ import Toolbar from '@mui/material/Toolbar'
 import { styled } from '@mui/material/styles'
 import SITELogo from '@public/shared/SITEWhiteLogo.svg'
 import Grow from '@mui/material/Grow'
+import { Container, Box, Tooltip } from '@mui/material'
 
 /* Custom Imports */
 import Auth from '@/components/shared/nav/app-bar/Auth'
 import { DRAWER_WIDTH } from '@/constants/navConstants'
-import { Container, Box, Tooltip } from '@mui/material'
-// import Search from '@/components/shared/nav/app-bar/Search'
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean
 }
+
 const StyledAppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
@@ -38,7 +39,24 @@ interface SiteAppBarProps {
   open: boolean
   handleDrawerOpen: () => void
 }
+
 export default function SiteAppBar({ open, handleDrawerOpen }: SiteAppBarProps) {
+  useEffect(() => {
+    const handleResize = () => {
+      // Logic to close the drawer if window width is less than 900px
+      if (window.innerWidth < 900 && open) {
+        handleDrawerOpen() // Call to close the drawer
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    handleResize() // Check on initial render
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [open, handleDrawerOpen]) // Dependency on open and handleDrawerOpen
+
   return (
     <StyledAppBar sx={{ top: 0, height: 'fit-content' }} open={open}>
       <Toolbar
@@ -59,7 +77,7 @@ export default function SiteAppBar({ open, handleDrawerOpen }: SiteAppBarProps) 
               edge="start"
               sx={{
                 marginLeft: -2,
-                ...(open && { display: 'none' }),
+                ...(open && { display: 'none' }), // Hide button when drawer is open
               }}
             >
               <MenuIcon />
@@ -71,7 +89,6 @@ export default function SiteAppBar({ open, handleDrawerOpen }: SiteAppBarProps) 
             sx={{ pr: 0, pl: 4, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}
           >
             <div>
-              {/* Will turn search on in later versions */}
               <Grow timeout={500} in={!open}>
                 <a href="/">
                   <Image
