@@ -216,7 +216,7 @@ const TestCard = ({ test }: TestCardProps) => {
     '44mu2',
   ]
   const ccdaRequiredTestIds = ['1', '2', '3add']
-  const sendEdgeTestsIds = ['1', '2', '6', '7', '20amu2', '20bmu2', '49mu2']
+  const sendEdgeTestsIds = ['1', '2', '6', '7', '10', '11', '12', '20amu2', '20bmu2', '49mu2']
   const isCCDADocumentRequired = ccdaRequiredTestIds.includes(test.id.toString())
   const StepText = ({ inputs, role, endpointsGenerated, criteriaMet }: StepTextProps) => {
     if (manualValidationIDs.includes(test.id.toString()) && isFinished) {
@@ -345,7 +345,7 @@ const TestCard = ({ test }: TestCardProps) => {
           if (test.criteria && !manualValidationIDs.includes(test.id.toString())) {
             setCriteriaMet(response.criteriaMet)
           }
-          if (!endpointTestIds.includes(test.id.toString())) {
+          if (true) {
             let endpointSet = false
             if (response.endpoint && response.endpoint.length > 10) {
               setEndpoint(fixEndpoint(response.endpoint))
