@@ -662,7 +662,7 @@ const TestCard = ({ test }: TestCardProps) => {
                     </Button>
                   </Tooltip>
                   <Typography whiteSpace={'preline'} variant="caption">
-                    {endpointsGenerated ? endpointTLS : endpointTLS}
+                    {endpointsGenerated ? defaultEndpoint : defaultEndpoint}
                   </Typography>
                 </Box>
                 <Box width={'30%'} display={'flex'} flexDirection={'column'}>
