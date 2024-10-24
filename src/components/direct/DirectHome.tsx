@@ -92,8 +92,8 @@ const DirectHome = () => {
           <CriteriaCard
             title={'B1'}
             cardImage={b1}
-            cardHeader={'§ Transitions of Care'}
-            cardSubheader={'170.315 (b)(1)'}
+            cardHeader={'Transitions of Care'}
+            cardSubheader={'§ 170.315 (b)(1)'}
             description={
               'Ensure your system meets the certification criteria for managing transitions of care. This includes the capability to create and receive transition of care/referral summaries that adhere to the Direct Standard®. By passing this test, you validate that your system can securely transport sensitive healthcare information during patient transitions between different care settings and providers.'
             }
