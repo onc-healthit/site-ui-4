@@ -116,6 +116,7 @@ const TestCard = ({
     "['h2-8','b1-4','b1-7','su1-4','su1-7','sc2-8']",
     "['b1-4','su1-4']",
     "['b1-4']",
+    "['h2-4','sc2-4']",
   ]
   const mdnTestIds = ['mu2']
   const clearButtonVisibleOnCriteriaSet = new Set(['TRUE', 'FALSE', 'ERROR', 'PASSED', 'PENDING', 'SUCCESS', 'STEP2'])
@@ -530,9 +531,12 @@ const TestCard = ({
               >
                 <Box>
                   {' '}
-                  {test.criteria && manualValidationCriteria.includes(test.criteria) && !apiError && isFinished && (
-                    <Typography sx={{ ml: 1, color: 'primary' }}>Waiting Validation...(Check Logs)</Typography>
-                  )}
+                  {test.criteria &&
+                    manualValidationCriteria.includes(test.criteria) &&
+                    formattedLogs.length > 0 &&
+                    criteriaMet.includes('MANUAL') && (
+                      <Typography sx={{ ml: 1, color: 'primary' }}>Waiting Validation...(Check Logs)</Typography>
+                    )}
                 </Box>
 
                 <Box
