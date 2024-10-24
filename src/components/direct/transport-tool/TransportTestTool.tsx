@@ -5,7 +5,9 @@ import styles from '@/components/shared/styles.module.css'
 import { getSampleCCDAFiles } from './actions'
 
 export default async function TransportTestTool() {
-  const sampleCCDAFilesEndpoint = process.env.TTT_SAMPLE_CCDA_FILES_ENDPOINT || ''
+  const sampleCCDAFilesEndpoint =
+    process.env.TTT_SAMPLE_CCDA_FILES_ENDPOINT ||
+    'https://site.healthit.gov/directtransportmessagesender/listsampleccdafiles'
   const sampleCCDAFiles: string[] = (await getSampleCCDAFiles(sampleCCDAFilesEndpoint)) || []
   const trustBundleDownloadUrl = process.env.TTT_DOWNLOAD_TRUSTANCHOR || ''
 

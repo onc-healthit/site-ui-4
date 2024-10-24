@@ -136,7 +136,7 @@ interface SelectedDocument {
 
 const TestCard = ({ test }: TestCardProps) => {
   const defaultEndpoint =
-    process.env.XDR_ENDPOINT_PREFIX || 'http://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
+    process.env.XDR_ENDPOINT_PREFIX || 'http://ett.healthit.gov:11080/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
   const defaultEndpointTLS =
     process.env.XDR_ENDPOINT_TLS_PREFIX ||
     'https://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
@@ -662,7 +662,7 @@ const TestCard = ({ test }: TestCardProps) => {
                     </Button>
                   </Tooltip>
                   <Typography whiteSpace={'preline'} variant="caption">
-                    {endpointsGenerated ? endpointTLS : endpointTLS}
+                    {endpointsGenerated ? defaultEndpoint : defaultEndpoint}
                   </Typography>
                 </Box>
                 <Box width={'30%'} display={'flex'} flexDirection={'column'}>
