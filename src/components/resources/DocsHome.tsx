@@ -179,24 +179,9 @@ const DocsHome = () => {
                   buttonLink="https://github.com/onc-healthit/ccda-parser"
                 />
                 <DocsCard
-                  cardHeader="C-CDA USCDI Certification Testdata"
+                  cardHeader="C-CDA USCDI Certification Test Data"
                   description={' '}
                   buttonLink="https://github.com/onc-healthit/ccda-uscdi-certification-testdata"
-                />
-                <DocsCard
-                  cardHeader="2015 ONC Certification Program Cures Update Data"
-                  description={'Repository for the test data supporting the 2015 Cures Update final rule. '}
-                  buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-data"
-                />
-                <DocsCard
-                  cardHeader="2015 ONC Certification Program Cures Update USCDI V2 Data"
-                  description={' '}
-                  buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v2-testdata"
-                />
-                <DocsCard
-                  cardHeader="2015 ONC Certification Program Cures Update USCDI V3 Data"
-                  description={' '}
-                  buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v3-testdata"
                 />
               </Box>
             </Box>
