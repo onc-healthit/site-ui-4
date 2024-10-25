@@ -40,10 +40,10 @@ export default function ArchiveHome() {
             Archived
           </Link>
         }
-        heading={'Archived tools, files and other additional content'}
+        heading={'Archived Content'}
         isTourButton={false}
         description={
-          'This section contains archived materials, including FAQs and videos. While these items are no longer actively maintained, they may provide useful insights and historical context. Feel free to explore the collection for reference and background information.'
+          'This section contains archived materials. While these items are no longer actively maintained, they may provide useful insights and historical context. Feel free to explore the collection for reference and background information.'
         }
       />
       <Container>
