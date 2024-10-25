@@ -6,7 +6,7 @@ import ListItemText from '@mui/material/ListItemText'
 /* Custom Imports */
 import palette from '@/styles/palette'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
-import { Divider } from '@mui/material'
+import { Divider, Tooltip } from '@mui/material'
 
 interface NavListHeadItemProps {
   text: string
@@ -22,13 +22,16 @@ export default function NavListHeadItem({
 }: NavListHeadItemProps) {
   return (
     <>
-      <ListItemButton onClick={handleClickCategoryList}>
-        <ListItemIcon sx={{ color: `${palette.primary}`, strokeWidth: 0.5, stroke: `${palette.primary}` }}>
-          {icon}
-        </ListItemIcon>
-        <ListItemText primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }} primary={text} />
-        {openCategoryList ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />}
-      </ListItemButton>
+      <Tooltip title={text} arrow placement="right">
+        <ListItemButton onClick={handleClickCategoryList}>
+          <ListItemIcon sx={{ color: `${palette.primary}`, strokeWidth: 0.5, stroke: `${palette.primary}` }}>
+            {icon}
+          </ListItemIcon>
+          <ListItemText primaryTypographyProps={{ color: palette.primary, fontWeight: 500 }} primary={text} />
+          {openCategoryList ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />}
+        </ListItemButton>
+      </Tooltip>
+
       {/* As the Nav drawer is closed, remove the divider below the header
       so we don't have double dividers (which looks too thick) */}
       {openCategoryList && <Divider sx={{ borderWidth: 1.4 }} />}

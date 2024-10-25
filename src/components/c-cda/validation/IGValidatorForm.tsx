@@ -21,7 +21,7 @@ export default function IGValidatorForm({ version, formAction }: IGValidatorForm
     }
   }
   return (
-    <Container>
+    <Container sx={{ pb: 4 }}>
       {/* Header */}
       <form action={submitAction}>
         <Box>
