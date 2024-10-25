@@ -1,5 +1,5 @@
 import { fetchSanitizedMarkdownData } from '@/services/markdownToHTMLService'
-import { Box, Button, Dialog, DialogActions, DialogContent } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, Tooltip } from '@mui/material'
 import { useEffect, useState } from 'react'
 import eventTrack from '@/services/analytics'
 import { Notes } from '@mui/icons-material'
@@ -41,15 +41,26 @@ export default function NavFooter({ open }: NavFooterProps) {
 
   return (
     <>
-      <Button
-        color="secondary"
-        variant="text"
-        onClick={handleOpenDialog}
-        startIcon={<Notes color="primary" />}
-        sx={{ minWidth: open ? 'auto' : 0, justifyContent: open ? 'flex-start' : 'center' }}
-      >
-        {open && 'Release Notes'}
-      </Button>
+      <Tooltip title="Release Notes" arrow placement="right">
+        <Button
+          color="primary"
+          variant="text"
+          size="small"
+          onClick={handleOpenDialog}
+          startIcon={<Notes fontSize="small" sx={{}} color="primary" />}
+          sx={{
+            textTransform: 'capitalize',
+            minWidth: open ? 'auto' : 0,
+            mb: 1.3,
+            display: 'flex',
+            gap: open ? '28px' : '0',
+            ml: open ? '16px' : '4px',
+            justifyContent: open ? 'flex-start' : 'center',
+          }}
+        >
+          {open && 'Release Notes'}
+        </Button>
+      </Tooltip>
       <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth={true} maxWidth="lg">
         <DialogContent>
           <Box>{releaseNotesHTML && <div dangerouslySetInnerHTML={{ __html: releaseNotesHTML }} />}</Box>
