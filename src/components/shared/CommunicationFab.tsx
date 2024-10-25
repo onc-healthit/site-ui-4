@@ -76,15 +76,19 @@ const CommunicationFab: React.FC = () => {
             <CardHeader
               sx={{ px: 1, pt: 1, pb: 0 }}
               titleTypographyProps={{ variant: 'body1', fontSize: '.85em', fontWeight: 'bold' }}
-              title="SITE Unveils Revamped User Interface & Optimized Experience"
+              title={process.env.NEXT_PUBLIC_ASTP_RELEASE_CONTENT_HEADER ?? ''}
             ></CardHeader>
             <Typography sx={{ px: 1, fontSize: '.75em' }} variant="body2">
-              The Standards Implementation & Testing Environment (SITE) have undergone comprehensive enhancements to
-              improve usability, functionality, and performance, offering a more intuitive and efficient user
-              experience.
+              {process.env.NEXT_PUBLIC_ASTP_RELEASE_CONTENT ?? ''}
             </Typography>
             <CardActions>
-              <Button size="small" variant="text" color="secondary">
+              <Button
+                href={process.env.NEXT_PUBLIC_ASTP_RELEASE_BLOG_URL ?? '/'}
+                size="small"
+                variant="text"
+                color="secondary"
+                target="_blank"
+              >
                 Read More...
               </Button>
             </CardActions>
