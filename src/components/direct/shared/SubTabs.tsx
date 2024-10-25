@@ -52,25 +52,23 @@ const SubTabsComponent = ({ selectedTab, tabs }: TabsProps) => {
   return (
     <>
       <Box sx={{ width: '100%' }}>
-        <Container>
-          <Tabs
-            variant="fullWidth"
-            scrollButtons="auto"
-            value={value}
-            onChange={handleTabChange}
-            indicatorColor="secondary"
-            TabIndicatorProps={{
-              sx: {
-                bgcolor: palette.primary,
-                height: '8px',
-              },
-            }}
-          >
-            {tabs.map((tab) => (
-              <StyledTab label={tab.tabName} key={tab.tabIndex} />
-            ))}
-          </Tabs>
-        </Container>
+        <Tabs
+          variant="fullWidth"
+          scrollButtons="auto"
+          value={value}
+          onChange={handleTabChange}
+          indicatorColor="secondary"
+          TabIndicatorProps={{
+            sx: {
+              bgcolor: palette.primary,
+              height: '8px',
+            },
+          }}
+        >
+          {tabs.map((tab) => (
+            <StyledTab label={tab.tabName} key={tab.tabIndex} />
+          ))}
+        </Tabs>
       </Box>
 
       {tabs.map((tab) => (

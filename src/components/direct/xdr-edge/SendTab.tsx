@@ -4,6 +4,7 @@ import Template from './send/TemplateTab'
 import Content from './send/ContentTab'
 import bulletedList from '../shared/BulletList'
 import { Box, Container, Typography, List, ListItem } from '@mui/material'
+import palette from '@/styles/palette'
 
 interface SendTabProps {
   sampleCCDAFiles: string[]
@@ -33,8 +34,8 @@ const SendTab = ({ sampleCCDAFiles }: SendTabProps) => {
   return (
     <>
       <Container>
-        <Box sx={{ bgcolor: 'white', my: 4, p: 2 }}>
-          <Typography variant="h3" component={'h1'} sx={{ px: 2, pb: 4 }}>
+        <Box sx={{ borderRadius: '4px', bgcolor: 'white', my: 4, p: 2, border: `1px solid ${palette.greyLight}` }}>
+          <Typography variant="h3" component={'h1'} sx={{ px: 2, pb: 2 }}>
             Send XDR messages from the Sandbox to your System.
           </Typography>
           <List sx={bulletedList('disc')} dense>
