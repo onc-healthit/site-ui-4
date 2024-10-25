@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography'
 import { Button, CardActions } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import Link from 'next/link'
+import palette from '@/styles/palette'
 
 export interface DocsCardProps {
   cardHeader: string
@@ -20,7 +21,7 @@ const DocsCard = ({ cardHeader, description, buttonLink }: DocsCardProps) => {
     <Card
       sx={{
         width: '310px',
-        borderTop: '16px solid #E8E8E8',
+        borderTop: `16px solid ${palette.primary} `,
         display: 'flex',
         flexDirection: 'column',
       }}
