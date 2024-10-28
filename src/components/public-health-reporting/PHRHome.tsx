@@ -154,7 +154,7 @@ const PHRHome = () => {
             cardHeader={'NIST Electronic Laboratory Reporting (ELR) Validation Suite'}
             subHeader="170.315(f)(3)"
             description={
-              'The NIST Electronic Lab Reporting (ELR) Validation Suite is intended to be used for Health IT ONC 2014 and 2015 Edition certification testing. The validation suite provides functionality to test HIT senders.'
+              'The NIST Electronic Lab Reporting (ELR) Validation Suite is intended to be used for ONC Certification Program testing. The validation suite provides functionality to test HIT senders.'
             }
             buttonTitle={'Go to test suite'}
             buttonLink={'https://hl7v2-elr-testing.nist.gov/mu-elr/'}
