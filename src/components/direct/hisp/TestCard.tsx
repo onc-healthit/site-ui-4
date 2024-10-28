@@ -1,10 +1,7 @@
 import DynamicTable from './DynamicTable'
 import _ from 'lodash'
-import React, { useState } from 'react'
-import DocumentSelector from './DocumentSelector'
-import { handleAPICall } from '../test-by-criteria/ServerActions'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import CancelIcon from '@mui/icons-material/Cancel'
+import React, { useState, useContext } from 'react'
+import { handleSMTPLogAPICall } from '../test-by-criteria/ServerActions'
 import LoadingButton from '../shared/LoadingButton'
 import { APICallData, APICallResponse, TestRequestResponses } from '../test-by-criteria/ServerActions'
 import {
@@ -13,6 +10,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Chip,
   Divider,
   FormControl,
   InputLabel,
@@ -25,6 +23,15 @@ import {
   SelectChangeEvent,
 } from '@mui/material'
 import AlertSnackbar from '../shared/AlertSnackbar'
+import eventTrack from '@/services/analytics'
+import { ProfileContext } from './context'
+
+import palette from '@/styles/palette'
+import DocumentSelector from './DocumentSelector'
+import { handleAPICall } from '../test-by-criteria/ServerActions'
+
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import CancelIcon from '@mui/icons-material/Cancel'
 
 export type TestCaseFields = {
   name: string
@@ -109,6 +116,7 @@ const TestCard = ({
     "['h2-8','b1-4','b1-7','su1-4','su1-7','sc2-8']",
     "['b1-4','su1-4']",
     "['b1-4']",
+    "['h2-4','sc2-4']",
   ]
   const mdnTestIds = ['mu2']
   const clearButtonVisibleOnCriteriaSet = new Set(['TRUE', 'FALSE', 'ERROR', 'PASSED', 'PENDING', 'SUCCESS', 'STEP2'])
@@ -127,6 +135,7 @@ const TestCard = ({
   const [alertOpen, setAlertOpen] = useState<boolean>(false)
   const [alertMessage, setAlertMessage] = useState<string>('')
   const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('error')
+  const { profilename } = useContext(ProfileContext)
 
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
     console.log('Confirmed Document', selectedData)
@@ -159,10 +168,23 @@ const TestCard = ({
     setDocumentDetails(null)
     setApiError(false)
     setPreviousResult(null)
+    eventTrack('Clear Test', 'Test By Criteria', `${test.criteria}`)
   }
 
   const handleAttachmentTypeChange = (event: SelectChangeEvent<string>) => {
     setAttachmentType(event.target.value)
+  }
+
+  const logTestResults = async (result: APICallResponse) => {
+    if (!_.isEmpty(profilename)) {
+      await handleSMTPLogAPICall({
+        criteriaMet: result.criteriaMet === 'TRUE',
+        testRequestResponses: result.testRequestResponses,
+        attachments: [],
+        testCaseNumber: test.name,
+        profileName: profilename,
+      })
+    }
   }
 
   const [documentDetails, setDocumentDetails] = useState<{
@@ -244,10 +266,18 @@ const TestCard = ({
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const fixEndpoint = (url: string): string => {
+    if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
+      return 'https://' + url
+    }
+    return url
+  }
+
   const handleRunTest = async () => {
+    eventTrack(` Run test for ${test.name}`, 'Test By Criteria', `${test.criteria}`)
     const isMDNTest = test.protocol && mdnTestIds.includes(test.protocol)
 
-    if (test.ccdaFileRequired && !documentDetails && !test.name.includes('MT')) {
+    if (test.ccdaFileRequired && !documentDetails && !test.protocol?.includes('mu2')) {
       setAlertMessage(
         'This test requires a CCDA document to be selected. Please select a document before running the test.'
       )
@@ -277,8 +307,9 @@ const TestCard = ({
           }
         } else if (currentStep === 2) {
           setPreviousResult(null)
-          setCurrentStep(1)
         }
+
+        logTestResults(result)
       } else {
         const requestData = createRequestData(0)
         const response = await handleAPICall(requestData)
@@ -291,6 +322,8 @@ const TestCard = ({
         if (result.criteriaMet.includes('STEP2')) {
           setCurrentStep(2)
         }
+
+        logTestResults(result)
       }
     } catch (error) {
       console.error('Failed to run test:', error)
@@ -311,9 +344,9 @@ const TestCard = ({
 
   const renderCriteriaMetIcon = () => {
     if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED') {
-      return <CheckCircleIcon style={{ color: 'green' }} />
-    } else if (criteriaMet === 'FALSE') {
-      return <CancelIcon style={{ color: 'red' }} />
+      return <Chip color="success" label="Success"></Chip>
+    } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR') {
+      return <Chip color="error" label="Failed"></Chip>
     }
     return null
   }
@@ -322,12 +355,14 @@ const TestCard = ({
     setShowDocumentSelector(!showDocumentSelector)
   }
 
-  const handleToggleLogs = () => {
+  const handleToggleLogs = (buttonText: string) => {
     setShowLogs((prev) => !prev)
+    eventTrack(buttonText, 'Test By Criteria - XDR Test', `${test.criteria}`)
   }
 
-  const handleToggleDetail = () => {
+  const handleToggleDetail = (buttonText: string) => {
     setShowDetail((prev) => !prev)
+    eventTrack(buttonText, 'Test By Criteria - XDR Test', `${test.criteria}`)
   }
 
   const handleAlertClose = () => {
@@ -363,211 +398,242 @@ const TestCard = ({
 
   return (
     <Card>
-      <CardHeader title={test.name} />
+      <CardHeader titleTypographyProps={{ fontWeight: '500' }} title={test.name} />
       <Divider />
-      <Card>
-        <AlertSnackbar message={alertMessage} severity={alertSeverity} open={alertOpen} onClose={handleAlertClose} />
-      </Card>
-      {showDetail ? (
-        <>
-          <CardContent>
-            <Typography variant="h6" sx={{ marginBottom: 2 }}>
-              {test.moreInfo?.subHeader}
-            </Typography>
-            <Typography variant="body2" sx={{ fontSize: '0.875rem' }}>
-              {test.longDesc}
-            </Typography>
-            {test.moreInfo?.tableData && (
-              <DynamicTable headers={test.moreInfo.headers} rows={test.moreInfo.tableData} />
-            )}
-            <Box sx={{ mt: 2 }}>
-              {test.moreInfo?.fields?.map((field) => (
-                <Box key={field.name} sx={{ mb: 2 }}>
-                  {field.render ? (
-                    field.render(formData[field.name])
-                  ) : field.datatype === 'checkbox' ? (
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={formData[field.name] as boolean}
-                          onChange={(e) => handleChange(field.name, e.target.checked)}
-                        />
-                      }
-                      label={field.label}
-                    />
-                  ) : (
-                    <TextField
-                      label={field.label}
-                      type={field.datatype === 'number' ? 'number' : 'text'}
-                      value={formData[field.name] as string}
-                      onChange={(e) => handleChange(field.name, e.target.value)}
-                      fullWidth
-                      variant="outlined"
-                      sx={{ mt: 1 }}
-                    />
-                  )}
-                </Box>
-              ))}
-            </Box>
-
-            {test.moreInfo?.optionalTextField && (
-              <TextField
-                fullWidth
-                label={test.moreInfo.optionalTextField.label}
-                helperText={test.moreInfo.optionalTextField.helperText}
-                defaultValue={test.moreInfo.optionalTextField.defaultValue}
-                sx={{ mt: 2 }}
-              />
-            )}
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 2 }}>
-              <Button variant="contained" color="primary" onClick={() => console.log(formData)}>
+      <CardContent sx={{ px: 2 }}>
+        <Card>
+          <AlertSnackbar message={alertMessage} severity={alertSeverity} open={alertOpen} onClose={handleAlertClose} />
+        </Card>
+        {showDetail ? (
+          <>
+            <CardContent sx={{ px: 0, pb: '0px!important' }}>
+              <Typography variant="h6" sx={{ marginBottom: 2 }}>
+                {test.moreInfo?.subHeader}
+              </Typography>
+              <Typography variant="body2" sx={{ fontSize: '0.875rem' }}>
+                {test.longDesc}
+              </Typography>
+              {test.moreInfo?.tableData && (
+                <DynamicTable headers={test.moreInfo.headers} rows={test.moreInfo.tableData} />
+              )}
+              <Box sx={{ mt: 2 }}>
+                {test.moreInfo?.fields?.map((field) => (
+                  <Box key={field.name} sx={{ mb: 2 }}>
+                    {field.render ? (
+                      field.render(formData[field.name])
+                    ) : field.datatype === 'checkbox' ? (
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={formData[field.name] as boolean}
+                            onChange={(e) => handleChange(field.name, e.target.checked)}
+                          />
+                        }
+                        label={field.label}
+                      />
+                    ) : (
+                      <TextField
+                        label={field.label}
+                        type={field.datatype === 'number' ? 'number' : 'text'}
+                        value={formData[field.name] as string}
+                        onChange={(e) => handleChange(field.name, e.target.value)}
+                        fullWidth
+                        variant="outlined"
+                        sx={{ mt: 1 }}
+                      />
+                    )}
+                  </Box>
+                ))}
+              </Box>
+              {test.moreInfo?.optionalTextField && (
+                <TextField
+                  fullWidth
+                  label={test.moreInfo.optionalTextField.label}
+                  helperText={test.moreInfo.optionalTextField.helperText}
+                  defaultValue={test.moreInfo.optionalTextField.defaultValue}
+                  sx={{ mt: 2 }}
+                />
+              )}
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 2 }}>
+                {/* <Button variant="contained" color="primary" onClick={() => console.log(formData)}>
                 RUN
-              </Button>
-              <Button
-                variant="outlined"
-                sx={{
-                  color: 'black',
-                  backgroundColor: '#E8E8E8',
-                  borderColor: 'transparent',
-                  boxShadow: '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
-                  '&:hover': {
-                    backgroundColor: '#E8E8E8',
-                    boxShadow: '0px 4px 2px -1px rgba(0, 0, 0, 0.22)',
-                  },
-                }}
-                onClick={handleToggleDetail}
-              >
+              </Button> */}
+                <Button variant="outlined" color="secondary" onClick={() => handleToggleDetail('RETURN TO TEST')}>
+                  RETURN TO TEST
+                </Button>
+              </Box>
+            </CardContent>
+          </>
+        ) : showLogs ? (
+          <CardContent sx={{ display: 'flex', flexDirection: 'column', minWidth: '100%', p: 0, pb: '0px!important' }}>
+            <Typography variant="h6">Test Logs</Typography>
+            {testRequestResponses ? (
+              <Typography variant="body1" style={{ whiteSpace: 'pre-line' }}>
+                {formattedLogs}
+              </Typography>
+            ) : (
+              <Typography variant="body1">No logs to display.</Typography>
+            )}
+            <Divider sx={{ mb: 2, mt: 2 }} />
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row-reverse',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+                mt: 2,
+              }}
+            >
+              <Button variant="outlined" color="secondary" onClick={() => handleToggleLogs('RETURN TO TEST')}>
                 RETURN TO TEST
               </Button>
+              {test.criteria &&
+                manualValidationCriteria.includes(test.criteria) &&
+                formattedLogs.length > 0 &&
+                criteriaMet.includes('MANUAL') && (
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button variant="outlined" color="success" onClick={handleAcceptTest}>
+                      Accept
+                    </Button>
+                    <Button variant="text" sx={{ color: palette.warningDark }} onClick={handleRejectTest}>
+                      Reject
+                    </Button>
+                  </Box>
+                )}
             </Box>
           </CardContent>
-        </>
-      ) : showLogs ? (
-        <CardContent>
-          <Typography variant="h6">Test Logs</Typography>
-          {testRequestResponses ? (
-            <Typography variant="body1" style={{ whiteSpace: 'pre-line' }}>
-              {formattedLogs}
-            </Typography>
-          ) : (
-            <Typography variant="body1">No logs to display.</Typography>
-          )}
-          <Divider sx={{ mb: 2, mt: 2 }} />
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-            {test.criteria &&
-              manualValidationCriteria.includes(test.criteria) &&
-              formattedLogs.length > 0 &&
-              criteriaMet.includes('MANUAL') && (
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                  <Button variant="contained" color="primary" onClick={handleAcceptTest}>
-                    Accept
-                  </Button>
-                  <Button variant="outlined" color="primary" onClick={handleRejectTest}>
-                    Reject
-                  </Button>
-                </Box>
-              )}
-            <Button variant="contained" onClick={handleToggleLogs}>
-              Close Logs
-            </Button>
-          </Box>
-        </CardContent>
-      ) : (
-        <CardContent>
-          <Typography variant="body2" sx={{ mb: 2 }}>
-            {test.desc}
-          </Typography>
-          {attachmentTypeTestIDs.includes(test.id) && renderAttachmentTypeDropdown()}
-          <Divider sx={{ mb: 0 }} />
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'end',
-              width: '100%',
-              p: 1,
-            }}
-          >
-            {test.ccdaFileRequired && (
+        ) : (
+          <>
+            <CardContent sx={{ px: 0 }}>
+              <Typography variant="body2" sx={{ mb: 2 }}>
+                {test.desc}
+              </Typography>
+              {attachmentTypeTestIDs.includes(test.id) && renderAttachmentTypeDropdown()}
+            </CardContent>
+            <Divider />
+            <Box
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'flex-end'}
+              pt={2}
+              flexWrap={'wrap'}
+              flexDirection={'row-reverse'}
+            >
               <Box
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
+                  alignContent: 'flex-end',
+                  alignItems: 'flex-end',
+                  justifyContent: 'space-between',
                   gap: 1,
-                  alignItems: 'flex-start',
-                  justifyContent: 'flex-end',
                 }}
               >
-                <Typography>CCDA Document Type</Typography>
-                <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
-                  SELECT A DOCUMENT
-                </Button>
-                {documentDetails && <Typography sx={{ mt: 1 }}>Selected: {documentDetails.fileName}</Typography>}
-              </Box>
-            )}
-
-            {showDocumentSelector && (
-              <DocumentSelector
-                onConfirm={handleDocumentConfirm}
-                onClose={handleDocumentSelectorClose}
-                receive={test.sutRole === 'receiver'}
-              />
-            )}
-
-            {_.has(test, 'fields') &&
-              test.fields !== undefined &&
-              test.fields[0]?.name === 'sutCommandTimeoutInSeconds' && (
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                  <TextField name={test.fields[0].name} label={test.fields[0].label} />
+                <Box>
+                  {' '}
+                  {test.criteria &&
+                    manualValidationCriteria.includes(test.criteria) &&
+                    formattedLogs.length > 0 &&
+                    criteriaMet.includes('MANUAL') && (
+                      <Typography sx={{ ml: 1, color: 'primary' }}>Waiting Validation...(Check Logs)</Typography>
+                    )}
                 </Box>
-              )}
-            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
-              {renderCriteriaMetIcon()}
-              <LoadingButton
-                loading={isLoading}
-                done={isFinished}
-                onClick={handleRunTest}
-                variant="contained"
-                color="primary"
-              >
-                <LoadingButton
-                  loading={isLoading}
-                  done={isFinished}
-                  onClick={handleRunTest}
-                  variant="contained"
-                  color="primary"
+
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'flex-end',
+                    justifyContent: 'space-between',
+                    gap: 1,
+                  }}
                 >
-                  {test.protocol && mdnTestIds.includes(test.protocol)
-                    ? currentStep === 1
-                      ? 'RUN'
-                      : 'CHECK MDN'
-                    : 'RUN'}
-                </LoadingButton>
-              </LoadingButton>
-              <Button variant="contained" onClick={handleToggleDetail}>
-                MORE INFO
-              </Button>
-              <Button variant="contained" color="inherit" onClick={handleToggleLogs}>
-                LOGS
-              </Button>
-              {((test.criteria &&
-                criteriaMet &&
-                Array.from(clearButtonVisibleOnCriteriaSet).some((status) => criteriaMet.includes(status))) ||
-                isFinished) && (
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                  <Button variant="contained" color="inherit" onClick={handleClearTest}>
-                    Clear
+                  <LoadingButton
+                    loading={isLoading}
+                    done={isFinished}
+                    progressive={false}
+                    progressDuration={5000}
+                    onClick={handleRunTest}
+                    variant="contained"
+                    color="primary"
+                  >
+                    {test.protocol && mdnTestIds.includes(test.protocol)
+                      ? currentStep === 1
+                        ? 'RUN'
+                        : 'CHECK MDN'
+                      : 'RUN'}
+                  </LoadingButton>
+                  <Button variant="outlined" color="secondary" onClick={() => handleToggleDetail('MORE INFO')}>
+                    MORE INFO
                   </Button>
+                  <Button variant="outlined" color="secondary" onClick={() => handleToggleLogs('LOGS')}>
+                    LOGS
+                  </Button>
+                  {((test.criteria && criteriaMet) || documentDetails) && (
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      <Button
+                        variant="text"
+                        sx={{ color: palette.errorDark }}
+                        color="inherit"
+                        onClick={handleClearTest}
+                      >
+                        Clear
+                      </Button>
+                    </Box>
+                  )}
                 </Box>
-              )}
-              {test.criteria && manualValidationCriteria.includes(test.criteria) && !apiError && isFinished && (
-                <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>
-              )}
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  justifyContent: 'space-between',
+                  gap: 1,
+                  mt: 1,
+                }}
+              >
+                {test.ccdaFileRequired && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 1,
+                      alignItems: 'flex-start',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
+                    <Typography>CCDA Document Type</Typography>
+                    <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
+                      SELECT A DOCUMENT
+                    </Button>
+                    {documentDetails && (
+                      <Typography variant="caption" sx={{ lineBreak: 'anywhere', mt: 1 }}>
+                        Selected: {documentDetails.fileName}
+                      </Typography>
+                    )}
+                  </Box>
+                )}
+                {showDocumentSelector && (
+                  <DocumentSelector
+                    onConfirm={handleDocumentConfirm}
+                    onClose={handleDocumentSelectorClose}
+                    receive={test.sutRole === 'receiver'}
+                  />
+                )}
+                {_.has(test, 'fields') &&
+                  test.fields !== undefined &&
+                  test.fields[0]?.name === 'sutCommandTimeoutInSeconds' && (
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                      <TextField name={test.fields[0].name} label={test.fields[0].label} />
+                    </Box>
+                  )}
+                {renderCriteriaMetIcon()}
+              </Box>
             </Box>
-          </Box>
-        </CardContent>
-      )}
+          </>
+        )}
+      </CardContent>
     </Card>
   )
 }

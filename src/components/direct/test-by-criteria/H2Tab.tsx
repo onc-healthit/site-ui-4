@@ -1,14 +1,14 @@
 import {
   Box,
-  Typography,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
-  SelectChangeEvent,
   Card,
   CardContent,
   Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Typography,
 } from '@mui/material'
 import React, { useState, useContext } from 'react'
 import Profile from '../shared/Profile'
@@ -19,6 +19,7 @@ import testCases from '../../../assets/SMTPTestCases'
 import xdrTestCases from '../../../assets/XDRTestCases'
 import { ProfileContext } from '../hisp/context'
 import DownloadXDRCert from '../shared/DownloadXDRCert'
+import eventTrack from '@/services/analytics'
 
 interface TestCase {
   id: number
@@ -90,58 +91,67 @@ const H2Component = () => {
   const subcategories: Subcategory[] = [
     {
       value: 'certificateDiscoveryHosting',
-      label: 'Criteria (i) Certificate Discovery / Hosting - 2015 DCDT',
-      categories: ['all', 'setup'],
+      label: 'Paragraph (i) Certificate Discovery / Hosting - 2015 DCDT',
+      categories: [
+        'all',
+        'setup',
+        'send',
+        'sendDeliveryNotification',
+        'sendDirectXDM',
+        'receive',
+        'receiveDeliveryNotification',
+        'receiveDirectXDM',
+      ],
       link: '/direct/dcdt#hosting',
     },
     {
       value: 'registerDirect',
-      label: 'Criteria (i) Register Direct',
-      categories: ['all', 'setup'],
+      label: 'Paragraph (i) Register Direct',
+      categories: ['all', 'setup', 'send', 'sendDeliveryNotification', 'sendDirectXDM'],
       link: '/direct/register',
     },
     {
       value: 'directHomeCertificates',
-      label: 'Criteria (i) Direct Home - Certificates',
-      categories: ['all', 'setup'],
+      label: 'Paragraph (i) Direct Home - Certificates',
+      categories: ['all', 'setup', 'send', 'receive', 'receiveDirectXDM'],
       link: '/direct#certification-download',
     },
     {
       value: 'sendDirectMessage',
-      label: 'Criteria (i) Send Direct Message',
-      categories: ['all', 'send'],
+      label: 'Paragraph (i) Send Direct Message',
+      categories: ['all', 'setup', 'send', 'receive', 'receiveDirectXDM'],
       link: '/direct/senddirect',
     },
     {
       value: 'messageStatus',
-      label: 'Criteria (i) Message Status',
-      categories: ['all', 'receive'],
+      label: 'Paragraph (i) Message Status',
+      categories: ['all', 'setup', 'send', 'receive', 'receiveDirectXDM'],
       link: '/direct/senddirect#message-status',
     },
     {
       value: 'ccdaValidator',
-      label: 'Criteria (i) C-CDA R2.1 validator',
-      categories: ['all', 'setup'],
+      label: 'Paragraph (i) C-CDA R2.1 validator',
+      categories: ['all', 'send'],
       link: '/c-cda/uscdi-v3',
     },
     {
       value: 'xdmValidator',
-      label: 'Criteria (i) XDM Validator',
-      categories: ['all', 'setup'],
+      label: 'Paragraph (i) XDM Validator',
+      categories: ['all', 'send', 'sendDirectXDM', 'sendEdgeProtocol', 'receive', 'receiveDirectXDM'],
       link: '/direct/xdm',
     },
     {
       value: 'sendConversionXDR',
-      label: 'Criteria Send conversion XDR',
-      categories: ['all', 'sendConversionXDR'],
+      label: 'Paragraph (i)(B) Send conversion XDR',
+      categories: ['all', 'sendConversionXDR', 'send'],
       testCard: true,
       testSources: ['xdr'],
       criteria: ['h2-1'],
     },
     {
       value: 'receiveConversionXDR',
-      label: 'Criteria Receive conversion XDR',
-      categories: ['all', 'receiveConversionXDR'],
+      label: 'Paragraph (i)(B) Receive conversion XDR',
+      categories: ['all', 'receiveConversionXDR', 'receive'],
       testCard: true,
       testSources: ['xdr'],
       criteria: ['h2-2'],
@@ -149,48 +159,48 @@ const H2Component = () => {
     },
     {
       value: 'sendEdgeXDR',
-      label: 'Criteria (i)(C) Send using Edge Protocol - XDR',
-      categories: ['all', 'sendEdgeProtocol'],
+      categories: ['all', 'sendEdgeProtocol', 'send', 'sendConversionXDR'],
+      label: 'Paragraph (i)(C) Send using Edge Protocol - XDR',
       testCard: true,
       testSources: ['xdr'],
       criteria: ['h2-3'],
     },
     {
       value: 'sendEdgeSMTP',
-      label: 'Criteria (i)(C) Send using Edge Protocol - SMTP',
-      categories: ['all', 'sendEdgeProtocol'],
+      categories: ['all', 'sendEdgeProtocol', 'send'],
+      label: 'Paragraph (i)(C) Send using Edge Protocol - SMTP',
       testCard: true,
       testSources: ['smtp'],
-      criteria: [''],
+      criteria: ['h2-13'],
     },
     {
       value: 'sendEdgeDeliveryNotification',
-      label: 'Criteria (i)(C) Send using Edge Protocol - Delivery Notification',
-      categories: ['all', 'sendEdgeProtocol'],
+      label: 'Paragraph (i)(C) Send using Edge Protocol - Delivery Notification',
+      categories: ['all', 'sendEdgeProtocol', 'send'],
       testCard: true,
       testSources: ['smtp'],
-      criteria: ['b1-8', 'sc2-4'],
+      criteria: ['sc2-4'],
     },
     {
       value: 'sendEdgeIMAP',
-      label: 'Criteria (i)(C) Send using Edge Protocol - IMAP',
-      categories: ['all', 'sendEdgeProtocol'],
+      label: 'Paragraph (i)(C) Send using Edge Protocol - IMAP',
+      categories: ['all', 'sendEdgeProtocol', 'send'],
       testCard: true,
       testSources: ['smtp'],
       criteria: ['h2-5'],
     },
     {
       value: 'sendEdgePOP',
-      label: 'Criteria (i)(C) Send using Edge Protocol - POP',
-      categories: ['all', 'sendEdgeProtocol'],
+      label: 'Paragraph (i)(C) Send using Edge Protocol - POP',
+      categories: ['all', 'sendEdgeProtocol', 'send'],
       testCard: true,
       testSources: ['smtp'],
       criteria: ['h2-6'],
     },
     {
       value: 'receiveEdgeXDR',
-      label: 'Criteria (i)(C) Receive using Edge Protocol - XDR',
-      categories: ['all', 'receiveEdgeProtocol'],
+      label: 'Paragraph (i)(C) Receive using Edge Protocol - XDR',
+      categories: ['all', 'receiveEdgeProtocol', 'receive'],
       testCard: true,
       testSources: ['xdr'],
       criteria: ['h2-7'],
@@ -198,8 +208,8 @@ const H2Component = () => {
     },
     {
       value: 'receiveEdgeSMTP',
-      label: 'Criteria (i)(C) Receive using Edge Protocol - SMTP',
-      categories: ['all', 'receiveEdgeProtocol'],
+      label: 'Paragraph (i)(C) Receive using Edge Protocol - SMTP',
+      categories: ['all', 'receiveEdgeProtocol', 'receive'],
       testCard: true,
       testSources: ['smtp'],
       criteria: ['h2-8'],
@@ -207,16 +217,16 @@ const H2Component = () => {
     },
     {
       value: 'deliveryNotificationSMTP',
-      label: 'Criteria (ii) Delivery Notification in Direct - SMTP',
-      categories: ['all', 'sendDeliveryNotification'],
+      label: 'Paragraph (ii) Delivery Notification in Direct - SMTP',
+      categories: ['all', 'sendDeliveryNotification', 'send'],
       testCard: true,
       testSources: ['smtp'],
       criteria: ['h2-9'],
     },
     {
       value: 'receiveSMTPDispositionNotification',
-      label: 'Criteria (ii) Receive SMTP: Disposition-Notification',
-      categories: ['all', 'receiveDeliveryNotification'],
+      label: 'Paragraph (ii) Receive SMTP: Disposition-Notification',
+      categories: ['all', 'receiveDeliveryNotification', 'receive'],
       testCard: true,
       testSources: ['smtp'],
       criteria: ['h2-10'],
@@ -224,16 +234,16 @@ const H2Component = () => {
     },
     {
       value: 'deliveryNotificationXDR',
-      label: 'Criteria (ii)(C) Delivery Notification in Direct - XDR',
-      categories: ['all', 'sendDeliveryNotification'],
+      label: 'Paragraph (ii)(C) Delivery Notification in Direct - XDR',
+      categories: ['all', 'sendDeliveryNotification', 'send'],
       testCard: true,
       testSources: ['xdr'],
       criteria: ['h2-11'],
     },
     {
       value: 'receiveXDRDispositionNotification',
-      label: 'Criteria (ii)(C) Receive XDR: Disposition-Notification',
-      categories: ['all', 'receiveDeliveryNotification'],
+      label: 'Paragraph (ii)(C) Receive XDR: Disposition-Notification',
+      categories: ['all', 'receiveDeliveryNotification', 'receive'],
       testCard: true,
       testSources: ['xdr'],
       criteria: ['h2-12'],
@@ -244,11 +254,13 @@ const H2Component = () => {
   const handleCategoryChange = (event: SelectChangeEvent<string>) => {
     setSelectedCategory(event.target.value)
     setSelectedSubcategory('')
+
     if (event.target.value.includes('XDR')) {
       setIsXDR(true)
     } else {
       setIsXDR(false)
     }
+    eventTrack(`Selected: ${event.target.value}`, 'Test By Criteria - H2', 'User selects category on h2 tab')
   }
 
   const handleSubcategoryChange = (event: SelectChangeEvent<string>) => {
@@ -260,6 +272,11 @@ const H2Component = () => {
       if (selectedOption.testCard) {
       } else if (selectedOption.link) {
         window.location.href = selectedOption.link
+        eventTrack(
+          `Selected sub category: ${selectedOption.link}`,
+          'Test By Criteria - H2',
+          'User selects sub category on h2 tab'
+        )
       }
     }
     if (event.target.value.includes('XDR')) {
@@ -267,6 +284,11 @@ const H2Component = () => {
     } else {
       setIsXDR(false)
     }
+    eventTrack(
+      `Selected: sub category ${event.target.value}`,
+      'Test By Criteria - H2',
+      'User selects sub category on h2 tab'
+    )
   }
 
   const filteredSubcategories = subcategories.filter(
@@ -296,13 +318,26 @@ const H2Component = () => {
 
   return (
     <Container>
-      <Box sx={{ display: 'flex', width: '100%', pt: 4, gap: 4 }}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, minWidth: '40%' }}>
-          <Card>
+      <Box sx={{ display: 'flex', width: '100%', py: 4, gap: 4 }}>
+        {/* Left-side UI (Category and Subcategory Selection) */}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            maxWidth: '35%',
+            position: 'sticky',
+            top: '75px',
+            zIndex: '801',
+            height: '80vh',
+          }}
+        >
+          <Card sx={{ position: 'relative', border: '.5px solid #BCBCBC' }}>
             <CardContent>
               <Box component="form" sx={{ backgroundColor: palette.white }}>
-                <Typography variant="body2" gutterBottom>
-                  Use the menu to select the sub-criteria you want to test for.
+                <Typography fontWeight={'600'} variant="h5" component="h2" gutterBottom pb={2}>
+                  Use the menu to select what
+                  <br /> sub criteria you want to test for.
                 </Typography>
                 <Box>
                   <FormControl fullWidth sx={{ mb: 2 }}>
@@ -345,6 +380,7 @@ const H2Component = () => {
               </Box>
             </CardContent>
           </Card>
+          {/* Conditional display of Profile or DownloadXDRCert */}
           {isXDR && <DownloadXDRCert />}
           {!isXDR && (
             <Card>
@@ -352,7 +388,19 @@ const H2Component = () => {
             </Card>
           )}
         </Box>
-        <Box sx={{ flexGrow: 1 }}>
+        {/* Right-side Content (Test Cards) */}
+        <Box width={'60%'}>
+          {!showTestCard && (
+            <Box
+              border={`1px solid ${palette.grey}`}
+              borderRadius={2}
+              padding={2}
+              display={'flex'}
+              alignItems={'center'}
+            >
+              <p>Waiting for sub criteria to be selected...</p>
+            </Box>
+          )}
           {showTestCard &&
             selectedTestCases.map((test: TestCase, i: number) => (
               <Box key={i} sx={{ mb: 2 }}>

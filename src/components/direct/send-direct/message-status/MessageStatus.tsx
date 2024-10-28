@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import _ from 'lodash'
 import {
   Container,
   Box,
@@ -8,154 +9,265 @@ import {
   AccordionDetails,
   FormControlLabel,
   Switch,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
   Typography,
   Chip,
+  LinearProgress,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-
-interface Message {
-  from: string
-  messageId: string
-  time: string
+import { useSession } from 'next-auth/react'
+import PageAlertBox from '@/components/shared/PageAlertBox'
+import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import ErrorDisplayCard from '@/components/c-cda/validation/results/ErrorDisplay'
+import { format } from 'date-fns'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+interface LogEntry {
+  logID: string
+  incoming: boolean
+  timestamp: string
   status: string
-  contentType: string
+  origDate: string
+  fromLine: string[]
+  toLine: string[]
+  messageId: string
+  originalMessageId: string
+  mimeVersion: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  received: any[]
+  replyTo: string[]
+  subject: string
+  contentType: string | null
   contentDisposition: string
-  contentTransfer: string
+  mdn: boolean
+  b_messageID: string
+  c_time: string
+  d_status: string
+  a_from: string
 }
-const MessageStatusDashboard = () => {
-  const [showOutgoing, setShowOutgoing] = useState(true)
-  const [selectedLabel, setSelectedLabel] = useState('hisp@direct.net')
+interface MessageData {
+  type: string
+  directAddress: string
+  logList: LogEntry[]
+}
 
-  const handleToggle = () => {
-    setShowOutgoing((prev) => !prev)
-  }
+const MessageStatusDashboard = () => {
+  const { status } = useSession()
+  const [showOutgoing, setShowOutgoing] = useState(true)
+  const [selectedLabel, setSelectedLabel] = useState<string | null>(null)
+  const [messageData, setMessageData] = useState<MessageData[]>([])
+  const [isFetching, setIsFetching] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const router = useRouter()
+  useEffect(() => {
+    //console.log('status', status)
+
+    if (status === 'authenticated') {
+      setIsFetching(true)
+      fetchOutgoing().then(() => setIsFetching(false))
+    }
+  }, [status])
 
   const handleLabelChange = (label: string) => {
-    setSelectedLabel(label)
-  }
-  interface MessageData {
-    [key: string]: Message[]
-  }
-  const messageData: MessageData = {
-    'hisp@direct.net': [
-      {
-        from: 'Alice',
-        messageId: '12345',
-        time: '10:00 AM',
-        status: 'MDN RECEIVED',
-        contentType: ' application/pks-mine; smime-type=envopleddata; name “smime.p7m',
-        contentDisposition: 'placeholder',
-        contentTransfer: 'placeholder',
-      },
-      {
-        from: 'Bob',
-        messageId: '67890',
-        time: '11:30 AM',
-        status: 'Failed',
-        contentType: ' application/pks-mine; smime-type=envopleddata; name “smime.p7m',
-        contentDisposition: 'placeholder',
-        contentTransfer: 'placeholder',
-      },
-    ],
-    'another@direct.net': [
-      {
-        from: 'Charlie',
-        messageId: '54321',
-        time: '1:00 PM',
-        status: 'MDN RECEIVED',
-        contentType: ' application/pks-mine; smime-type=envopleddata; name “smime.p7m',
-        contentDisposition: 'placeholder',
-        contentTransfer: 'placeholder',
-      },
-      {
-        from: 'David',
-        messageId: '09876',
-        time: '2:30 PM',
-        status: 'Failed',
-        contentType: ' application/pks-mine; smime-type=envopleddata; name “smime.p7m',
-        contentDisposition: 'placeholder',
-        contentTransfer: 'placeholder',
-      },
-    ],
+    setSelectedLabel((prevLabel) => (prevLabel === label ? null : label))
   }
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'MDN RECEIVED':
+      case 'MDN_RECEIVED':
         return 'success'
-      case 'Failed':
+      case 'TIMEOUT':
+        return 'error'
+      case 'SUCCESS':
+        return 'success'
+      case 'ERROR':
         return 'error'
       default:
         return 'primary'
     }
   }
+  const handleMessageClick = (messageId: string) => {
+    const category = showOutgoing ? 'outgoing' : 'incoming'
+    router.push(`/direct/messagestatus/validationreport/${category}/${messageId}`)
+  }
+  const columns: GridColDef[] = [
+    { field: 'a_from', headerName: showOutgoing ? 'From' : 'To', minWidth: 200, flex: 0.5 },
+    {
+      field: 'b_messageID',
+      headerName: 'Message ID',
+      minWidth: 400,
+      flex: 1,
+      renderCell: (params) => (
+        <>
+          {!showOutgoing ? (
+            <Link href={`/direct/messagestatus/validationreport/incoming/${params.value}`} passHref>
+              {params.value}
+            </Link>
+          ) : (
+            params.value
+          )}
+        </>
+      ),
+    },
+    {
+      field: 'c_time',
+      headerName: 'Time',
+      minWidth: 200,
+      flex: 0.5,
+      valueFormatter: (value) => (!_.isEmpty(value) ? format(new Date(value), 'MMM d, yyyy hh:mm:ss a XXX') : value),
+      sortComparator: (v1, v2) => new Date(v1).getTime() - new Date(v2).getTime(),
+    },
+    {
+      field: 'd_status',
+      headerName: 'Status',
+      minWidth: 200,
+      flex: 0.5,
+      renderCell: (params) => (
+        <>
+          {params.value === 'MDN_RECEIVED' ? (
+            <Button
+              variant="outlined"
+              color={getStatusColor(params.value)}
+              onClick={() => handleMessageClick(params.row.b_messageID)}
+            >
+              {params.value}
+            </Button>
+          ) : (
+            <Typography variant="h6" color={getStatusColor(params.value)} py={3}>
+              {params.value}
+            </Typography>
+          )}
+        </>
+      ),
+    },
+  ]
 
+  const fetchOutgoing = async () => {
+    const response = await fetch('/api/direct/messagestatus/outgoing', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const data = await response.json()
+    if (!response.ok) {
+      setErrorMessage(data.error.message || 'An error occurred while fetching data.')
+    }
+    setMessageData(data)
+  }
+  const fetchIncoming = async () => {
+    const response = await fetch('/api/direct/messagestatus/incoming', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const data = await response.json()
+    if (!response.ok) {
+      setErrorMessage(data.error.message || 'An error occurred while fetching data.')
+    }
+    setMessageData(data)
+  }
+  const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setShowOutgoing(e.target.checked)
+    if (e.target.checked) {
+      setIsFetching(true)
+      fetchOutgoing().then(() => setIsFetching(false))
+    } else {
+      setIsFetching(true)
+      fetchIncoming().then(() => setIsFetching(false))
+    }
+  }
+  const handleReload = () => {
+    if (showOutgoing) {
+      setIsFetching(true)
+      fetchOutgoing().then(() => setIsFetching(false))
+    } else {
+      setIsFetching(true)
+      fetchIncoming().then(() => setIsFetching(false))
+    }
+  }
+  // console.log(messageData)
   return (
-    <Container sx={{ pt: 4, pb: 8 }} maxWidth="lg">
-      <>
-        <Typography variant="h3" sx={{ pb: 1 }}>
-          Message Status
-        </Typography>
-        <FormControlLabel
-          control={<Switch color="secondary" checked={showOutgoing} onChange={handleToggle} />}
-          label={showOutgoing ? 'Show Outgoing' : 'Show Incoming'}
-        />
-
-        {Object.keys(messageData).map((label, index) => (
-          <Accordion
-            key={index}
-            expanded={selectedLabel === label}
-            onChange={() => handleLabelChange(label)}
-            style={{ marginTop: '10px' }}
-          >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              Messages to: {label}{' '}
-              <Chip color="secondary" label={messageData[label].length} size="small" sx={{ marginLeft: 2 }} />
-            </AccordionSummary>
-            <AccordionDetails>
-              <TableContainer component={Paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>From</TableCell>
-                      <TableCell>Message ID</TableCell>
-                      <TableCell>Time</TableCell>
-                      <TableCell>Status</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {messageData[label].map((message, idx) => (
-                      <TableRow key={idx}>
-                        <TableCell>{message.from}</TableCell>
-                        <TableCell>{message.messageId}</TableCell>
-                        <TableCell>{message.time}</TableCell>
-                        <TableCell>
-                          <Button
-                            href="senddirect/messagestatusreport"
-                            variant="outlined"
-                            color={getStatusColor(message.status)}
+    <>
+      {status !== 'authenticated' ? (
+        <Container sx={{ pt: 4 }}>
+          <PageAlertBox message="You must be logged in to access Message Status." />
+        </Container>
+      ) : (
+        <>
+          {isFetching ? (
+            <LinearProgress />
+          ) : (
+            <>
+              {_.isEmpty(errorMessage) && (
+                <Container sx={{ pt: 4, pb: 8 }} maxWidth="lg">
+                  <>
+                    <Typography variant="h3" sx={{ pb: 1 }}>
+                      Message Status
+                    </Typography>
+                    <Box flexDirection={'row'} gap={4} justifyContent={'space-between'} display={'flex'} pb={2}>
+                      <FormControlLabel
+                        control={<Switch color="secondary" checked={showOutgoing} onChange={handleToggle} />}
+                        label={showOutgoing ? 'Outgoing' : 'Incoming'}
+                      />
+                      <Button variant="contained" color="primary" onClick={handleReload} sx={{ marginLeft: 2 }}>
+                        Reload
+                      </Button>
+                    </Box>
+                    {messageData?.map(
+                      (message, index) =>
+                        message.logList.length > 0 && (
+                          <Accordion
+                            key={index}
+                            expanded={selectedLabel === message.directAddress}
+                            onChange={() => handleLabelChange(message.directAddress)}
+                            style={{ marginTop: '10px' }}
                           >
-                            {message.status}
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </AccordionDetails>
-          </Accordion>
-        ))}
-        <Box py={4} display="flex" flexDirection="row" justifyContent="space-between"></Box>
-      </>
-    </Container>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                              Messages {message.type}: {message.directAddress}{' '}
+                              <Chip
+                                color="secondary"
+                                label={message.logList.length}
+                                size="small"
+                                sx={{ marginLeft: 2 }}
+                              />
+                            </AccordionSummary>
+                            <AccordionDetails>
+                              <DataGrid
+                                columns={columns}
+                                rows={message.logList}
+                                getRowId={() => Math.random()}
+                                disableRowSelectionOnClick
+                                disableColumnMenu
+                                disableColumnSelector
+                                disableDensitySelector
+                                density={'comfortable'}
+                                autoHeight
+                                initialState={{
+                                  sorting: {
+                                    sortModel: [{ field: 'c_time', sort: 'desc' }],
+                                  },
+                                }}
+                              />
+                            </AccordionDetails>
+                          </Accordion>
+                        )
+                    )}
+                  </>
+                </Container>
+              )}
+              {!_.isEmpty(errorMessage) && (
+                <ErrorDisplayCard
+                  open={true}
+                  handleClose={() => setErrorMessage('')}
+                  response={{ error: errorMessage }}
+                />
+              )}
+            </>
+          )}
+        </>
+      )}
+    </>
   )
 }
 

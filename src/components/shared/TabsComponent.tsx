@@ -1,4 +1,5 @@
 'use client'
+import eventTrack from '@/services/analytics'
 import palette from '@/styles/palette'
 import { Box, Container, Tabs, Tab } from '@mui/material'
 import * as React from 'react'
@@ -13,6 +14,7 @@ export type TabInputs = {
 export interface TabsProps {
   selectedTab: string
   tabs: TabInputs[]
+  variant?: 'scrollable' | 'standard' | 'fullWidth'
 }
 
 interface TabPanelProps {
@@ -21,10 +23,14 @@ interface TabPanelProps {
   value: number
 }
 
-const TabsComponent = ({ selectedTab, tabs }: TabsProps) => {
+const TabsComponent = ({ selectedTab, tabs, variant }: TabsProps) => {
   const [value, setValue] = React.useState(0)
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
+    const h1Element = document.querySelector('h1')
+    const pageTitle = h1Element?.textContent || 'Unknown Title'
+    const { tabName, tabIndex } = tabs[newValue]
+    eventTrack(`Click on ${tabName} Tab`, pageTitle, `Index: ${tabIndex}`)
   }
 
   useEffect(() => {
@@ -45,7 +51,7 @@ const TabsComponent = ({ selectedTab, tabs }: TabsProps) => {
       <Box sx={{ width: '100%', backgroundColor: palette.primary }}>
         <Container>
           <Tabs
-            variant="fullWidth"
+            variant={variant || 'fullWidth'}
             scrollButtons="auto"
             value={value}
             onChange={handleTabChange}
@@ -54,6 +60,11 @@ const TabsComponent = ({ selectedTab, tabs }: TabsProps) => {
               sx: {
                 bgcolor: palette.secondaryLight,
                 height: '8px',
+              },
+            }}
+            sx={{
+              '& .MuiTabs-scrollButtons': {
+                color: 'white', // Change scroll arrow color to white
               },
             }}
           >

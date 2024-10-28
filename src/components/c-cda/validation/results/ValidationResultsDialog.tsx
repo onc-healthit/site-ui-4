@@ -6,6 +6,7 @@ import ValidatorResultsSummary from './ValidationResultsSummary'
 import ValidatorMenu from './ValidationMenu'
 import CloseIcon from '@mui/icons-material/Close'
 import { useReactToPrint } from 'react-to-print'
+import eventTrack from '@/services/analytics'
 
 // Define props interface for ScrollableDialog
 interface ScrollableDialogProps {
@@ -35,12 +36,7 @@ const ScrollableDialog: React.FC<ScrollableDialogProps> = ({ open, handleClose, 
     content: () => contentRef.current,
   })
   const trackSaveButtonClick = () => {
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Save Results', {
-        event_category: 'Button',
-        event_label: 'Print/Save Validator Results',
-      })
-    }
+    eventTrack('Save Results', 'C-CDA Validation', 'Print/Save Validator Results')
   }
   return (
     <DialogTemplate

@@ -1,9 +1,11 @@
 import {
   Box,
   Button,
+  ButtonGroup,
   Card,
   CardContent,
   CardHeader,
+  Chip,
   Divider,
   TextField,
   Tooltip,
@@ -11,18 +13,23 @@ import {
   FormControl,
 } from '@mui/material'
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo'
+import palette from '@/styles/palette'
+
 import _ from 'lodash'
-import React, { useState, useRef } from 'react'
 import DynamicTable from './DynamicTable'
-import { handleXDRAPICall, GetStatus } from '../test-by-criteria/ServerActions'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import CancelIcon from '@mui/icons-material/Cancel'
+import React, { useState, useRef } from 'react'
 import LoadingButton from '../shared/LoadingButton'
 import DocumentSelector from './DocumentSelector'
+import { handleXDRAPICall, GetStatus } from '../test-by-criteria/ServerActions'
 import { useSession } from 'next-auth/react'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { prism } from 'react-syntax-highlighter/dist/esm/styles/prism'
+
+import ValidatorMenu from '@/components/c-cda/validation/results/ValidationMenu'
 import XMLDisplay from '../shared/colorizeXML'
 import ValidatorResultsSummary from '@/components/c-cda/validation/results/ValidationResultsSummary'
 import AlertSnackbar from '../shared/AlertSnackbar'
+import eventTrack from '@/services/analytics'
 
 export type TestCaseFields = {
   name?: string
@@ -129,10 +136,11 @@ interface SelectedDocument {
 
 const TestCard = ({ test }: TestCardProps) => {
   const defaultEndpoint =
-    process.env.XDR_ENDPOINT_PREFIX || 'http://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
+    process.env.XDR_ENDPOINT_PREFIX || 'http://ett.healthit.gov:11080/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
   const defaultEndpointTLS =
     process.env.XDR_ENDPOINT_TLS_PREFIX ||
     'https://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
+  const loadingTime = 60000
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testResponse, setTestRequestResponse] = useState<string>('')
@@ -208,12 +216,11 @@ const TestCard = ({ test }: TestCardProps) => {
     '44mu2',
   ]
   const ccdaRequiredTestIds = ['1', '2', '3add']
-  const sendEdgeTestsCriteria = ['b1-1']
+  const sendEdgeTestsIds = ['1', '2', '6', '7', '10', '11', '12', '20amu2', '20bmu2', '49mu2']
   const isCCDADocumentRequired = ccdaRequiredTestIds.includes(test.id.toString())
   const StepText = ({ inputs, role, endpointsGenerated, criteriaMet }: StepTextProps) => {
     if (manualValidationIDs.includes(test.id.toString()) && isFinished) {
       if (test.id == '20amu2' || test.id == '20bmu2') {
-        console.log('abc')
         testRequest == 'Check your SUT logs and accept or reject'
         testResponse == 'Check your SUT logs and accept or reject'
       }
@@ -271,6 +278,7 @@ const TestCard = ({ test }: TestCardProps) => {
   }
 
   const handleRunTest = async () => {
+    eventTrack(` Run test for ${test.name}`, 'Test By Criteria - XDR Test', `${test.criteria}`)
     if (!session) {
       setAlertMessage('You must be logged in and have a valid session to perform this action.')
       setAlertSeverity('error')
@@ -286,16 +294,19 @@ const TestCard = ({ test }: TestCardProps) => {
       setAlertOpen(true)
       return
     }
+
     const ip_address = fieldValues['ip_address'] || ''
     const port = fieldValues['port'] || ''
     const direct_to = fieldValues['direct_to'] || ''
     const direct_from = fieldValues['direct_from'] || ''
     const targetEndpointTLS = fieldValues['targetEndpointTLS'] || ''
     const outgoing_from = fieldValues['outgoing_from'] || ''
+
     try {
       setIsLoading(true)
       setIsFinished(false)
       setCriteriaMet('')
+
       if (endpointsGenerated) {
         const status = await GetStatus(test.id.toString())
         console.log('Test status:', status)
@@ -303,6 +314,7 @@ const TestCard = ({ test }: TestCardProps) => {
         setTestRequestResponse(status.testResponse)
         setCriteriaMet(status.criteriaMet)
         setIsFinished(true)
+        setIsLoading(false)
         if (status.results) {
           setValidationResults(status.results)
           setEndpointsGenerated(false)
@@ -326,12 +338,14 @@ const TestCard = ({ test }: TestCardProps) => {
           svap: false,
           uscdiv3: false,
         })
+
         setTimeout(() => {
           setIsFinished(true)
+          setIsLoading(false)
           if (test.criteria && !manualValidationIDs.includes(test.id.toString())) {
             setCriteriaMet(response.criteriaMet)
           }
-          if (!endpointTestIds.includes(test.id.toString())) {
+          if (true) {
             let endpointSet = false
             if (response.endpoint && response.endpoint.length > 10) {
               setEndpoint(fixEndpoint(response.endpoint))
@@ -358,9 +372,10 @@ const TestCard = ({ test }: TestCardProps) => {
             console.log('Response null, setting criteria met false')
             setCriteriaMet('FALSE')
           }
+          console.log('Full response: ', response)
           console.log('Criteria met: ', response.criteriaMet)
           console.log('Test Request Responses:', response.testResponse)
-        }, 10)
+        }, loadingTime)
       }
     } catch (error) {
       console.error('Failed to run test:', error)
@@ -368,22 +383,21 @@ const TestCard = ({ test }: TestCardProps) => {
       if (test.criteria && !manualValidationIDs.includes(test.id.toString())) {
         setCriteriaMet('FALSE')
       }
-    } finally {
       setIsLoading(false)
+    } finally {
       if (test.criteria && !manualValidationIDs.includes(test.id.toString())) {
         setTimeout(() => {
           setIsFinished(false)
-        }, 100)
+        }, loadingTime)
       }
     }
   }
+
   const handleAcceptTest = () => {
-    setIsFinished(false)
     setCriteriaMet('TRUE')
     setShowLogs(false)
   }
   const handleRejectTest = () => {
-    setIsFinished(false)
     setCriteriaMet('FALSE')
     setShowLogs(false)
   }
@@ -399,23 +413,28 @@ const TestCard = ({ test }: TestCardProps) => {
     setEndpointTLS(defaultEndpointTLS)
     setApiError(false)
     setValidationResults(null)
+    eventTrack('Clear Test', 'Test By Criteria - XDR Test', `${test.criteria}`)
   }
 
   const renderCriteriaMetIcon = () => {
     if (endpointsGenerated) {
-      return <Typography style={{ color: 'red' }}>Pending</Typography>
-    } else if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED' || criteriaMet === 'SUCCESS') {
-      return <CheckCircleIcon style={{ color: 'green' }} />
-    } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR') {
-      return <CancelIcon style={{ color: 'red' }} />
+      return <Chip variant="outlined" color="warning" label="Pending"></Chip>
+    }
+    if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED' || criteriaMet === 'SUCCESS') {
+      return <Chip color="success" label="Success"></Chip>
+    } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR' || criteriaMet === 'FAILED') {
+      return <Chip color="error" label="Failed"></Chip>
     }
     return null
   }
-  const handleToggleLogs = () => {
+  const handleToggleLogs = (buttonText: string) => {
     setShowLogs((prev) => !prev)
+    eventTrack(buttonText, 'Test By Criteria - XDR Test', `${test.criteria}`)
   }
-  const handleToggleDetail = () => {
+
+  const handleToggleDetail = (buttonText: string) => {
     setShowDetail((prev) => !prev)
+    eventTrack(buttonText, 'Test By Criteria - XDR Test', `${test.criteria}`)
   }
   const toggleDocumentSelector = () => {
     setShowDocumentSelector(!showDocumentSelector)
@@ -434,6 +453,7 @@ const TestCard = ({ test }: TestCardProps) => {
     fileLink: string
   } | null>(null)
   const [showDocumentSelector, setShowDocumentSelector] = useState(false)
+
   const renderLogs = () => {
     if (logType === 'ccdaValidation') {
       if (validationResults) {
@@ -465,7 +485,20 @@ const TestCard = ({ test }: TestCardProps) => {
         content = 'Check your SUT logs and accept or reject'
       }
 
-      return <XMLDisplay xmlContent={content || 'No logs to display.'} />
+      const xmlString = typeof content === 'string' ? content : 'No logs to display.'
+      const issueXmlStyle = {
+        overflow: 'auto',
+        borderRadius: 0,
+        maxHeight: '700px',
+      }
+
+      return (
+        <Box sx={issueXmlStyle}>
+          <SyntaxHighlighter language="xml" style={prism} wrapLongLines={true}>
+            {xmlString}
+          </SyntaxHighlighter>
+        </Box>
+      )
     }
   }
 
@@ -492,23 +525,10 @@ const TestCard = ({ test }: TestCardProps) => {
           <TextField key={index} label={field.label} defaultValue={field.value} variant="outlined" fullWidth disabled />
         ))}
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2, gap: 2 }}>
-          <Button variant="contained" color="primary" onClick={() => console.log(formData)}>
+          {/* <Button variant="contained" color="primary" onClick={() => console.log(formData)}>
             RUN
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{
-              color: 'black',
-              backgroundColor: '#E8E8E8',
-              borderColor: 'transparent',
-              boxShadow: '0px 3px 1px -2px rgba(0, 0, 0, 0.20)',
-              '&:hover': {
-                backgroundColor: '#E8E8E8',
-                boxShadow: '0px 4px 2px -1px rgba(0, 0, 0, 0.22)',
-              },
-            }}
-            onClick={handleToggleDetail}
-          >
+          </Button> */}
+          <Button variant="outlined" color="secondary" onClick={() => handleToggleDetail('RETURN TO TEST')}>
             RETURN TO TEST
           </Button>
         </Box>
@@ -517,65 +537,76 @@ const TestCard = ({ test }: TestCardProps) => {
   }
   return (
     <Card>
-      <CardHeader title={test.name}></CardHeader>
+      <CardHeader titleTypographyProps={{ fontWeight: '500' }} title={test.name} />
       <Divider />
       <CardContent>
         <AlertSnackbar message={alertMessage} severity={alertSeverity} open={alertOpen} onClose={handleAlertClose} />
         {showDetail ? (
           renderMoreInfo()
         ) : showLogs ? (
-          <CardContent>
+          <Box sx={{ px: 2, pb: 0 }}>
             <Typography variant="h3">Log for {test.name}</Typography>
-            <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-start', mt: 2, mb: 2 }}>
-              <Button
-                variant="contained"
-                onClick={() => toggleLogType('request')}
-                color={logType === 'request' ? 'primary' : 'inherit'}
-              >
-                Request
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => toggleLogType('response')}
-                color={logType === 'response' ? 'primary' : 'inherit'}
-              >
-                Response
-              </Button>
-              <Button
-                variant="contained"
-                onClick={() => toggleLogType('ccdaValidation')}
-                color={logType === 'ccdaValidation' ? 'primary' : 'inherit'}
-                disabled={!validationResults}
-              >
-                C-CDA Validation
-              </Button>
-              <Button variant="outlined" onClick={handleToggleLogs}>
-                Close Logs
-              </Button>
+            <Box sx={{ display: 'flex', gap: 1, justifyContent: 'space-between', mt: 2, mb: 2 }}>
+              <ButtonGroup>
+                <Button
+                  variant={logType === 'request' ? 'contained' : 'outlined'}
+                  onClick={() => toggleLogType('request')}
+                  color="primary"
+                  size="small"
+                >
+                  Request
+                </Button>
+                <Button
+                  variant={logType === 'response' ? 'contained' : 'outlined'}
+                  onClick={() => toggleLogType('response')}
+                  color="primary"
+                >
+                  Response
+                </Button>
+                <Button
+                  variant={logType === 'ccdaValidation' ? 'contained' : 'outlined'}
+                  onClick={() => toggleLogType('ccdaValidation')}
+                  color="primary"
+                  disabled={!validationResults}
+                >
+                  C-CDA Validation
+                </Button>
+              </ButtonGroup>
             </Box>
 
             <Divider sx={{ mb: 2, mt: 2 }} />
             {renderLogs()}
             <Divider sx={{ mb: 2, mt: 2 }} />
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-              {test.criteria && manualValidationIDs.includes(test.id.toString()) && isFinished && (
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                  <Button variant="contained" color="primary" onClick={handleAcceptTest}>
-                    Accept
-                  </Button>
-                  <Button variant="outlined" color="primary" onClick={handleRejectTest}>
-                    Reject
-                  </Button>
-                </Box>
-              )}
-              <Button variant="contained" onClick={handleToggleLogs}>
-                Close Logs
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row-reverse',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+                mt: 2,
+              }}
+            >
+              <Button variant="outlined" onClick={() => handleToggleLogs('RETURN TO TEST')}>
+                RETURN TO TEST
               </Button>
+              {test.criteria &&
+                manualValidationIDs.includes(test.id.toString()) &&
+                testRequest &&
+                testRequest.length > 0 && (
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button variant="outlined" color="success" onClick={handleAcceptTest}>
+                      Accept
+                    </Button>
+                    <Button variant="text" sx={{ color: palette.warningDark }} onClick={handleRejectTest}>
+                      Reject
+                    </Button>
+                  </Box>
+                )}
             </Box>
-          </CardContent>
+          </Box>
         ) : (
           <>
-            <CardContent>
+            <CardContent sx={{ px: 0 }}>
               <Typography variant="body2" sx={{ pb: 2 }}>
                 {test.desc}
               </Typography>
@@ -603,6 +634,7 @@ const TestCard = ({ test }: TestCardProps) => {
                   <Box sx={{ pt: 2 }} key={input.key || 'default-key'}>
                     <FormControl fullWidth>
                       <TextField
+                        required
                         fullWidth
                         label={input.name}
                         variant="outlined"
@@ -615,22 +647,13 @@ const TestCard = ({ test }: TestCardProps) => {
                 ))}
             </CardContent>
             <Divider />
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: 1,
-                paddingY: 2,
-                pr: 2,
-              }}
-            >
-              {(endpointTestIds.includes(test.id.toString()) || endpointsGenerated) && (
-                <Box width={'50%'}>
-                  <Tooltip placement="bottom" title={endpointsGenerated ? endpoint : `${defaultEndpoint}`} arrow>
+            {(endpointTestIds.includes(test.id.toString()) || endpointsGenerated) && (
+              <Box display={'flex'} flexDirection={'row'} gap={4} px={2} pt={2}>
+                <Box width={'50%'} display={'flex'} flexDirection={'column'}>
+                  <Tooltip placement="top" title="Click to copy" arrow>
                     <Button
-                      sx={{ ml: 2 }}
+                      sx={{ width: 'fit-content' }}
+                      size="small"
                       color="secondary"
                       endIcon={<ContentPasteGoIcon />}
                       onClick={(e) => handleClick(e, endpointsGenerated ? endpoint : `${defaultEndpoint}`)}
@@ -638,25 +661,104 @@ const TestCard = ({ test }: TestCardProps) => {
                       Endpoint
                     </Button>
                   </Tooltip>
-                  {test.id != 7 && (
-                    <Tooltip
-                      placement="bottom"
-                      title={endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`}
-                      arrow
+                  <Typography whiteSpace={'preline'} variant="caption">
+                    {endpointsGenerated ? defaultEndpoint : defaultEndpoint}
+                  </Typography>
+                </Box>
+                <Box width={'30%'} display={'flex'} flexDirection={'column'}>
+                  <Tooltip placement="top" title="Click to copy" arrow>
+                    <Button
+                      sx={{ width: 'fit-content' }}
+                      size="small"
+                      color="secondary"
+                      endIcon={<ContentPasteGoIcon />}
+                      onClick={(e) => handleClick(e, endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`)}
                     >
+                      Endpoint TLS
+                    </Button>
+                  </Tooltip>
+                  <Typography variant="caption">
+                    {endpointsGenerated ? defaultEndpointTLS : defaultEndpointTLS}
+                  </Typography>
+                </Box>
+              </Box>
+            )}
+            <Box
+              display={'flex'}
+              justifyContent={'space-between'}
+              alignItems={'flex-end'}
+              pt={2}
+              flexWrap={'wrap'}
+              flexDirection={'row-reverse'}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignContent: 'flex-end',
+                  alignItems: 'flex-end',
+                  justifyContent: 'space-between',
+                  gap: 1,
+                  mt: 1,
+                }}
+              >
+                <Box>
+                  {' '}
+                  {test.criteria &&
+                    manualValidationIDs.includes(test.id.toString()) &&
+                    (testRequest || testResponse) &&
+                    isFinished &&
+                    !apiError && (
+                      <Typography sx={{ ml: 1, color: 'primary' }}>Waiting Validation...(Check Logs)</Typography>
+                    )}
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'flex-end',
+                    justifyContent: 'space-between',
+                    gap: 1,
+                    mt: 1,
+                  }}
+                >
+                  <LoadingButton
+                    loading={isLoading}
+                    done={isFinished}
+                    progressive={sendEdgeTestsIds.includes(test.id.toString()) && !endpointsGenerated}
+                    progressDuration={loadingTime}
+                    onClick={handleRunTest}
+                    variant="contained"
+                    color="primary"
+                  >
+                    {endpointsGenerated ? 'REFRESH' : 'RUN'}
+                  </LoadingButton>
+
+                  {/* <div ref={hiddenAnchorRef} style={{ visibility: 'hidden', top: '50px' }}></div> */}
+
+                  <Button variant="outlined" color="secondary" onClick={() => handleToggleDetail('MORE INFO')}>
+                    MORE INFO
+                  </Button>
+                  <Button variant="outlined" color="secondary" onClick={() => handleToggleLogs('LOGS')}>
+                    LOGS
+                  </Button>
+
+                  {((test.criteria && criteriaMet) || documentDetails) && (
+                    <Box sx={{ display: 'flex', gap: 1 }}>
                       <Button
-                        sx={{ ml: 2 }}
-                        color="secondary"
-                        endIcon={<ContentPasteGoIcon />}
-                        onClick={(e) => handleClick(e, endpointsGenerated ? endpointTLS : `${defaultEndpointTLS}`)}
+                        variant="text"
+                        sx={{ color: palette.errorDark }}
+                        color="inherit"
+                        onClick={handleClearTest}
                       >
-                        Endpoint TLS
+                        Clear
                       </Button>
-                    </Tooltip>
+                    </Box>
                   )}
                 </Box>
-              )}
-              {requiresCCDADocument() && !endpointsGenerated && (
+              </Box>
+
+              {requiresCCDADocument() && !endpointsGenerated && !isFinished && (
                 <Box
                   sx={{
                     display: 'flex',
@@ -671,7 +773,11 @@ const TestCard = ({ test }: TestCardProps) => {
                   <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
                     SELECT A DOCUMENT
                   </Button>
-                  {documentDetails && <Typography sx={{ mt: 1 }}>Selected: {documentDetails.fileName}</Typography>}
+                  {documentDetails && (
+                    <Typography variant="caption" sx={{ mt: 1 }}>
+                      Selected: {documentDetails.fileName}
+                    </Typography>
+                  )}
                 </Box>
               )}
               {showDocumentSelector && (
@@ -681,37 +787,8 @@ const TestCard = ({ test }: TestCardProps) => {
                   receive={test.sutRole === 'receiver'}
                 />
               )}
-              <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 1, pl: 2 }}>
-                {renderCriteriaMetIcon()}
 
-                <LoadingButton
-                  loading={isLoading}
-                  done={isFinished}
-                  progressive={false}
-                  progressDuration={10000}
-                  onClick={handleRunTest}
-                  variant="contained"
-                  color="primary"
-                >
-                  {endpointsGenerated ? 'REFRESH' : 'RUN'}
-                </LoadingButton>
-                <Button variant="contained" onClick={handleToggleDetail}>
-                  MORE INFO
-                </Button>
-                <Button variant="contained" color="inherit" onClick={handleToggleLogs}>
-                  LOGS
-                </Button>
-                {((test.criteria && criteriaMet) || isFinished) && (
-                  <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button variant="contained" color="inherit" onClick={handleClearTest}>
-                      Clear
-                    </Button>
-                  </Box>
-                )}
-                {test.criteria && manualValidationIDs.includes(test.id.toString()) && isFinished && !apiError && (
-                  <Typography sx={{ ml: 2, color: 'error.main' }}>Waiting Validation</Typography>
-                )}
-              </Box>
+              {renderCriteriaMetIcon()}
             </Box>
           </>
         )}

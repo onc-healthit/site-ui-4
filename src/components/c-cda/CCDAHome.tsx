@@ -1,17 +1,27 @@
+'use client'
 import { Box, Container, Divider } from '@mui/material'
 import oneclick from '@public/c-cda/oneclick.svg'
 import scorecard from '@public/c-cda/scorecard.svg'
 import uscdiv1 from '@public/c-cda/uscdi-v1.svg'
 import uscdiv3 from '@public/c-cda/uscdi-v3.svg'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import uscdiv4 from '@public/c-cda/uscdi-v4.svg'
 import BannerBox from '@shared/BannerBox'
 import CardWithImage from '@shared/CardWithImage'
 import styles from '@shared/styles.module.css'
 import Link from 'next/link'
 import SectionHeader from '../shared/SectionHeader'
+import { useTheme, useMediaQuery } from '@mui/material'
 
 const CCDAHome = () => {
-  const maxWidth = 550
-  const flexibleBox = { display: 'flex', gap: 4, flexDirection: 'row', width: '100%', justifyContent: 'space-between' }
+  const theme = useTheme()
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'))
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down('lg'))
+
+  // Dynamically set the width based on screen size
+  const maxWidthCards = isSmallScreen ? 300 : isMediumScreen ? 332 : isLargeScreen ? 400 : 600
   return (
     <>
       {/* Global Header */}
@@ -35,16 +45,44 @@ const CCDAHome = () => {
       />
       {/* Main Content */}
       <Container>
-        <SectionHeader header={'C-CDA Validators'} subHeader={'The latest C-CDA validators from ONC'} />
-        <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
+        <SectionHeader header={'C-CDA Validators'} subHeader={'The latest C-CDA validators from ASTP'} />
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: '100%',
+            gap: '32px',
+            [theme.breakpoints.down('md')]: {
+              flexDirection: 'row',
+              gap: '16px',
+              flexWrap: 'wrap',
+            },
+            [theme.breakpoints.down('sm')]: {
+              flexDirection: 'column',
+              gap: '32px',
+              flexWrap: 'wrap',
+            },
+          }}
+        >
+          {/* TODO: Update each description to be unique to each validator version */}
+          {/* TODO: When adding USCDI v4, Uncomment code below, reduce maxWidthMainValidatorCards to 390 */}
+          {/* <CardWithImage
+            title={'C-CDA Validator: USCDI V4'}
+            cardImage={uscdiv4}
+            cardHeader={'C-CDA Validator: USCDI v4'}
+            description={`This area provides tools for testing conformance of artifacts to industry standards and specific criteria. There are both context-free validators for general testing and validators for the ONC Health IT Certification Program's certification criteria.`}
+            pathname={'/c-cda/uscdi-v4'}
+            maxWidth={maxWidthMainValidatorCards}
+            imageWidth={maxWidthMainValidatorCards + 'px'}
+          /> */}
           <CardWithImage
             title={'C-CDA Validator: USCDI v3'}
             cardImage={uscdiv3}
             cardHeader={'C-CDA Validator: USCDI v3'}
             description={`This area provides tools for testing conformance of artifacts to industry standards and specific criteria. There are both context-free validators for general testing and validators for the ONC Health IT Certification Program's certification criteria.`}
             pathname={'/c-cda/uscdi-v3'}
-            maxWidth={maxWidth}
-            imageWidth={maxWidth + 'px'}
+            maxWidth={maxWidthCards}
+            imageWidth={maxWidthCards + 'px'}
           />
           <CardWithImage
             title={'C-CDA Validator: USCDI v1'}
@@ -52,8 +90,8 @@ const CCDAHome = () => {
             cardHeader={'C-CDA Validator: USCDI v1'}
             description={`This area provides tools for testing conformance of artifacts to industry standards and specific criteria. There are both context-free validators for general testing and validators for the ONC Health IT Certification Program's certification criteria.`}
             pathname={'/c-cda/uscdi-v1'}
-            maxWidth={maxWidth}
-            imageWidth={maxWidth + 'px'}
+            maxWidth={maxWidthCards}
+            imageWidth={maxWidthCards + 'px'}
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
@@ -62,7 +100,25 @@ const CCDAHome = () => {
           header={'C-CDA Additional Tools'}
           subHeader={'Help with quantitative assessment of the data quality using the Scorecard'}
         />
-        <Box sx={{ ...flexibleBox }} paddingBottom={4}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: '100%',
+            gap: '32px',
+            mb: 4,
+            [theme.breakpoints.down('md')]: {
+              flexDirection: 'row',
+              gap: '16px',
+              flexWrap: 'wrap',
+            },
+            [theme.breakpoints.down('sm')]: {
+              flexDirection: 'column',
+              gap: '32px',
+              flexWrap: 'wrap',
+            },
+          }}
+        >
           <CardWithImage
             title={'C-CDA Scorecard'}
             cardImage={scorecard}
@@ -71,10 +127,9 @@ const CCDAHome = () => {
               'The SITE C-CDA Scorecard provides an enhanced level of interoperability for C-CDA documents by using a comprehensive scoring system, which allows implementers to improve the data quality and representation of their C-CDA documents.'
             }
             pathname={'/c-cda/scorecard/'}
-            maxWidth={maxWidth}
-            imageWidth={maxWidth + 'px'}
+            maxWidth={maxWidthCards}
+            imageWidth={maxWidthCards + 'px'}
           />
-          {/* TODO: Are we going to make a landing page for the one click scorecard or just link to the ONC page? */}
           <CardWithImage
             title={'One Click Scorecard'}
             cardImage={oneclick}
@@ -83,8 +138,8 @@ const CCDAHome = () => {
               'Providers can use the One Click Scorecard with Direct to evaluate the quality of clinical summary documents (C-CDAs) received, or created, by their system.'
             }
             pathname={'https://oncprojectracking.healthit.gov/wiki/display/TechLabTU/ONC+One+Click+Scorecard'}
-            maxWidth={maxWidth}
-            imageWidth={maxWidth + 'px'}
+            maxWidth={maxWidthCards}
+            imageWidth={maxWidthCards + 'px'}
           />
         </Box>
       </Container>

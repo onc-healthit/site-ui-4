@@ -16,13 +16,18 @@ import Link from 'next/link'
 import styles from '@shared/styles.module.css'
 import SectionHeader from '../shared/SectionHeader'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import { useTheme } from '@mui/material/styles'
 import { SxProps, Theme } from '@mui/system'
+import { useTheme, useMediaQuery } from '@mui/material'
 
 const DirectHome = () => {
-  const cardMaxWidth = 345
-  const cardImageWidth = '345px'
   const theme = useTheme()
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMediumScreen = useMediaQuery(theme.breakpoints.down('md'))
+  const isLargeScreen = useMediaQuery(theme.breakpoints.down('lg'))
+
+  // Dynamically set the width based on screen size
+  const cardMaxWidth = isSmallScreen ? 350 : isMediumScreen ? 332 : isLargeScreen ? 275 : 390
+  const cardImageWidth = isSmallScreen ? 350 : isMediumScreen ? 332 : isLargeScreen ? 275 : 390
   const flexibleBox: SxProps<Theme> = {
     display: 'flex',
     justifyContent: 'space-between',
@@ -30,23 +35,9 @@ const DirectHome = () => {
     flexDirection: 'row',
     width: '100%',
     mb: 4,
-    [theme.breakpoints.only('lg')]: {
+    [theme.breakpoints.down('lg')]: {
       width: '100%',
-      justifyContent: 'space-between',
-      gap: '32px',
-      flexWrap: 'nowrap',
-      flexDirection: 'row',
-    },
-    [theme.breakpoints.between('lg', 'md')]: {
-      width: '100%',
-      justifyContent: 'space-between',
-      gap: '4px',
-      flexWrap: 'wrap',
-      flexDirection: 'row',
-    },
-    [theme.breakpoints.down('md')]: {
-      width: '100%',
-      flexDirection: 'row',
+      flexDirection: 'column',
       flexWrap: 'wrap',
       gap: '32px',
     },
@@ -63,9 +54,9 @@ const DirectHome = () => {
         heading={'Direct Project Tooling'}
         description={
           <>
-            The ONC Direct Tool, built on the foundation of the Direct Standard®, provides a comprehensive testing
+            The ASTP Direct Tool, built on the foundation of the Direct Standard®, provides a comprehensive testing
             platform for developers and implementers to validate their Direct implementations. With a suite of testing
-            capabilities and essential certificates, the ONC Direct Tool empowers organizations to ensure compliance
+            capabilities and essential certificates, the ASTP Direct Tool empowers organizations to ensure compliance
             with applicable standards and specifications, facilitating secure, interoperable exchange of sensitive
             healthcare information over the open internet. Verify your system&apos;s basic Direct send capabilities by
             sending a message to{' '}
@@ -83,15 +74,18 @@ const DirectHome = () => {
         <Box
           sx={{
             display: 'flex',
+            flexDirection: 'row',
             width: '100%',
-            justifyContent: 'space-between',
-            alignItems: 'stretch',
-            [theme.breakpoints.down('lg')]: {
-              display: 'flex',
+            gap: '32px',
+            [theme.breakpoints.down('md')]: {
+              flexDirection: 'row',
+              gap: '16px',
               flexWrap: 'wrap',
-              justifyContent: 'flex-start',
-              gap: 4,
-              overflowX: 'hidden',
+            },
+            [theme.breakpoints.down('sm')]: {
+              flexDirection: 'column',
+              gap: '32px',
+              flexWrap: 'wrap',
             },
           }}
         >
@@ -99,13 +93,13 @@ const DirectHome = () => {
             title={'B1'}
             cardImage={b1}
             cardHeader={'Transitions of Care'}
-            cardSubheader={'170.315 (b)(1):'}
+            cardSubheader={'§ 170.315 (b)(1)'}
             description={
               'Ensure your system meets the certification criteria for managing transitions of care. This includes the capability to create and receive transition of care/referral summaries that adhere to the Direct Standard®. By passing this test, you validate that your system can securely transport sensitive healthcare information during patient transitions between different care settings and providers.'
             }
             pathname={'/direct/testbycriteria/B1'}
             maxWidth={cardMaxWidth}
-            imageWidth={cardImageWidth}
+            imageWidth={cardImageWidth + 'px'}
             buttonTitle={'BEGIN B1 TESTING'}
           />
 
@@ -119,7 +113,7 @@ const DirectHome = () => {
             }
             pathname={'/direct/testbycriteria/H1'}
             maxWidth={cardMaxWidth}
-            imageWidth={cardImageWidth}
+            imageWidth={cardImageWidth + 'px'}
             buttonTitle={'BEGIN H1 TESTING'}
           />
 
@@ -133,7 +127,7 @@ const DirectHome = () => {
             }
             pathname={'/direct/testbycriteria/H2'}
             maxWidth={cardMaxWidth}
-            imageWidth={cardImageWidth}
+            imageWidth={cardImageWidth + 'px'}
             buttonTitle={'BEGIN H2 TESTING'}
           />
         </Box>
@@ -211,7 +205,26 @@ const DirectHome = () => {
             subHeader={'Empower Your Testing with Essential Certificates'}
           />
         </div>
-        <Box sx={{ ...flexibleBox }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: '100%',
+            justifyContent: 'space-between',
+            mb: 4,
+            [theme.breakpoints.down('lg')]: {
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: 8,
+            },
+            [theme.breakpoints.down('sm')]: {
+              flexDirection: 'column',
+              gap: '32px',
+              flexWrap: 'wrap',
+            },
+          }}
+        >
           <CertificateCard
             title={'Public Cert'}
             cardImage={publicCert}

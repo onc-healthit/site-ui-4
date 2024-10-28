@@ -18,7 +18,7 @@ import React, { useState } from 'react'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { registerAccount, forgotPassword } from '../actions'
 import _ from 'lodash'
-
+import eventTrack from '@/services/analytics'
 const LoginButtonStyle = {
   padding: '10px 0',
   width: '100%',
@@ -50,30 +50,45 @@ const Login = ({
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     signIn('credentials', { username: email, password: password })
+    eventTrack('Sign In', 'Authentication', 'User clicks Sign In')
   }
 
   const handleCreateAccount = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (password === repeatPassword) {
-      registerAccount({ username: email, password: password }).then((data) => {
-        if (data === true) {
-          signIn('credentials', { username: email, password: password })
-        } else {
-          setMessage({ message: 'User already exists', severity: 'error' })
-        }
-      })
+      registerAccount({ username: email, password: password })
+        .then((response) => {
+          if (response === true) {
+            signIn('credentials', { username: email, password: password })
+            eventTrack('Create Account', 'Authentication', 'User create account')
+          } else {
+            setMessage({ message: response.message, severity: 'error' })
+          }
+        })
+        .catch((error) => {
+          setMessage({ message: error.message, severity: 'error' })
+          eventTrack('Error on Create Account', 'Authentication', 'User exists already on create account')
+        })
     } else {
       setMessage({ message: 'Passwords do not match', severity: 'error' })
+      eventTrack('Error on Create Account', 'Authentication', 'Password does not match on create account')
     }
   }
 
   const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    forgotPassword(email).then((data) => {
-      if (data !== true) {
-        setMessage({ message: 'This username does not exist', severity: 'error' })
-      }
-    })
+    forgotPassword(email)
+      .then((response) => {
+        if (response === true) {
+          eventTrack('Forgot Password', 'Authentication', 'User clicks on forgot password')
+          setMessage({ message: 'Password reset email sent', severity: 'success' })
+        } else {
+          setMessage({ message: response.message, severity: 'error' })
+        }
+      })
+      .catch((error) => {
+        setMessage({ message: error.message, severity: 'error' })
+      })
   }
 
   const handleClickShowPassword = () => {
@@ -85,8 +100,9 @@ const Login = ({
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
-            label="Email (Or Username)"
+            label="Email"
             variant="outlined"
+            type="email"
             required
             fullWidth
             onChange={(e) => setEmail(e.target.value)}
@@ -142,9 +158,10 @@ const Login = ({
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
-            label="Email (Or Username)"
+            label="Email"
             variant="outlined"
             required
+            type="email"
             fullWidth
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -205,9 +222,10 @@ const Login = ({
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
-            label="Email (Or Username)"
+            label="Email"
             variant="outlined"
             helperText="A new password will be sent to this email"
+            type="email"
             required
             fullWidth
             onChange={(e) => setEmail(e.target.value)}

@@ -1,20 +1,29 @@
 'use client'
 import TourButton from '@components/shared/tour/TourButton'
 import { Box, Breadcrumbs, Container, Typography } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+
 export interface BannerProps {
   breadcrumbs?: React.ReactNode
-  heading: string
+  heading: React.ReactNode
   subHeading?: string
   isTourButton?: boolean
   description: React.ReactNode
   description2?: React.ReactNode
 }
 const BannerBox = ({ breadcrumbs, heading, subHeading, isTourButton, description, description2 }: BannerProps) => {
+  const theme = useTheme()
+
   const subHeadingAndTourButtonBoxStyle = {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    paddingRight: '32px',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      gap: '8px',
+    },
   }
 
   return (
