@@ -40,10 +40,10 @@ export default function ArchiveHome() {
             Archived
           </Link>
         }
-        heading={'Archived tools, files and other additional content'}
+        heading={'Archived Content'}
         isTourButton={false}
         description={
-          'This section contains archived materials, including FAQs and videos. While these items are no longer actively maintained, they may provide useful insights and historical context. Feel free to explore the collection for reference and background information.'
+          'This section contains archived materials. While these items are no longer actively maintained, they may provide useful insights and historical context. Feel free to explore the collection for reference and background information.'
         }
       />
       <Container>
@@ -51,46 +51,45 @@ export default function ArchiveHome() {
           <SubMenu onClick={trackMenuItemClick} menuItems={menuItems} />
           <Box gap={4} display={'flex'} flexDirection={'column'}>
             <Box>
-              <Box id="faq">
-                <Card>
-                  <CardHeader
-                    titleTypographyProps={{ fontWeight: 700 }}
-                    title="Frequently Asked Questions"
-                    subheader="Historical questions & answers"
-                    subheaderTypographyProps={{ style: { marginTop: 0, color: '#333' } }}
-                  />
-                  <Divider />
-                  <CardContent>
-                    <Typography variant="body2">
-                      The Frequently Asked Questions (FAQ) section of the SITE website compiles questions and inquiries
-                      we have received in the past. You can search for answers by SITE&apos;s features and
-                      functionality.
-                    </Typography>
-                  </CardContent>
-                </Card>
+              <Box sx={{ scrollMarginTop: '200px' }} id="overview">
+                <FAQCard header={'SITE Overview'} items={faq.Overview} />
               </Box>
             </Box>
-            <Box id="overview">
-              <FAQCard header={'SITE Overview'} items={faq.Overview} />
+            <Box sx={{ scrollMarginTop: '200px' }} id="faq">
+              <Card>
+                <CardHeader
+                  titleTypographyProps={{ fontWeight: 700 }}
+                  title="Frequently Asked Questions"
+                  subheader="Historical questions & answers"
+                  subheaderTypographyProps={{ style: { marginTop: 0, color: '#333' } }}
+                />
+                <Divider />
+                <CardContent>
+                  <Typography variant="body2">
+                    The Frequently Asked Questions (FAQ) section of the SITE website compiles questions and inquiries we
+                    have received in the past. You can search for answers by SITE&apos;s features and functionality.
+                  </Typography>
+                </CardContent>
+              </Card>
             </Box>
-            <Box id="ccda">
+            <Box sx={{ scrollMarginTop: '200px' }} id="ccda">
               <FAQCard header={'Consolidated Clinical Document Architecture (C-CDA) FAQs'} items={faq['C-CDA']} />
             </Box>
-            <Box id="direct">
+            <Box sx={{ scrollMarginTop: '200px' }} id="direct">
               <FAQCard header={'Direct Project Tooling FAQs'} items={faq.Direct} />
             </Box>
-            <Box id="xdm">
+            <Box sx={{ scrollMarginTop: '200px' }} id="xdm">
               <FAQCard header={'XDM FAQs'} items={faq.XDM} />
             </Box>
-            <Box id="xdr">
+            <Box sx={{ scrollMarginTop: '200px' }} id="xdr">
               <FAQCard header={'XDR FAQs'} items={faq.XDR} />
             </Box>
-            <Box id="smtp">
+            <Box sx={{ scrollMarginTop: '200px' }} id="smtp">
               <FAQCard header={'SMTP/POP/IMAP FAQs'} items={faq.SMTP} />
             </Box>
-            <Box id="other">
+            <Box sx={{ scrollMarginTop: '200px' }} id="other">
               <FAQCard header={'Other FAQs & Helpful Items'} items={faq.Other} />
-              <Box id="videos" sx={{ my: 4 }}>
+              <Box id="videos" sx={{ scrollMarginTop: '200px', my: 4 }}>
                 <Card>
                   <CardHeader
                     titleTypographyProps={{ fontWeight: 700, variant: 'h2', sx: { textAlign: 'left' } }}

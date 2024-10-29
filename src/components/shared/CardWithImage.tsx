@@ -44,7 +44,7 @@ const CriteriaCard = ({
         },
       }}
     >
-      <CardActionArea aria-label="button">
+      <CardActionArea sx={{ maxWidth: maxWidth }} aria-label="button">
         <Card
           sx={{
             height: '100%',

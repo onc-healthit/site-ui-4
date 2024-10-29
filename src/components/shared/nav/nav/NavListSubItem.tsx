@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { NAV_PADDING_LEFT } from '@/constants/navConstants'
 import palette from '@/styles/palette'
 import { NavListItemType } from '@/types/NavListItemType'
+import { Tooltip } from '@mui/material'
 
 interface NavListSubItemProps {
   item: NavListItemType
@@ -20,10 +21,12 @@ export default function NavListSubItem({ item }: NavListSubItemProps) {
         target={item.isExternalLink ? '_blank' : undefined}
         rel={item.isExternalLink ? 'noopener noreferrer' : undefined}
       >
-        <ListItemButton sx={{ pl: NAV_PADDING_LEFT }}>
-          <ListItemIcon sx={{ color: `${palette.primary}` }}>{item.icon}</ListItemIcon>
-          <ListItemText primaryTypographyProps={{ color: palette.primary }} primary={item.text} />
-        </ListItemButton>
+        <Tooltip title={item.text} arrow placement="right">
+          <ListItemButton sx={{ pl: NAV_PADDING_LEFT }}>
+            <ListItemIcon sx={{ color: `${palette.primary}` }}>{item.icon}</ListItemIcon>
+            <ListItemText primaryTypographyProps={{ color: palette.primary }} primary={item.text} />
+          </ListItemButton>
+        </Tooltip>
       </Link>
     </List>
   )

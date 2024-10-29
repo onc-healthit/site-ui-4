@@ -86,7 +86,14 @@ const DocsHome = () => {
                 Our document library offers a growing collection of resources relevant to SITE. It will be updated to
                 build a comprehensive repository of relevant materials.
               </Typography>
-              <Box id="document-library" display={'flex'} flexDirection={'row'} gap={4} width="100%">
+              <Box
+                id="document-library"
+                sx={{ scrollMarginTop: '200px' }}
+                display={'flex'}
+                flexDirection={'row'}
+                gap={4}
+                width="100%"
+              >
                 <DocsCard
                   cardHeader="Access Testing Procedures and Companion Guides"
                   description={''}
@@ -106,7 +113,15 @@ const DocsHome = () => {
                 <Typography>The following GitHub repositories are part of SITE releases.</Typography>
               </Box>
 
-              <Box id="github" display={'flex'} flexDirection={'row'} flexWrap="wrap" gap={4} width="100%">
+              <Box
+                id="github"
+                sx={{ scrollMarginTop: '200px' }}
+                display={'flex'}
+                flexDirection={'row'}
+                flexWrap="wrap"
+                gap={4}
+                width="100%"
+              >
                 <DocsCard
                   cardHeader="Reference C-CDA Validator"
                   description={'Reference C-CDA Configuration and Deployment'}
@@ -179,24 +194,9 @@ const DocsHome = () => {
                   buttonLink="https://github.com/onc-healthit/ccda-parser"
                 />
                 <DocsCard
-                  cardHeader="C-CDA USCDI Certification Testdata"
+                  cardHeader="C-CDA USCDI Certification Test Data"
                   description={' '}
                   buttonLink="https://github.com/onc-healthit/ccda-uscdi-certification-testdata"
-                />
-                <DocsCard
-                  cardHeader="2015 Edition Cures Update Data"
-                  description={'Repository for the test data supporting the 2015 Cures Update final rule. '}
-                  buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-data"
-                />
-                <DocsCard
-                  cardHeader="2015 Edition Cures Update USCDI V2 Data"
-                  description={' '}
-                  buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v2-testdata"
-                />
-                <DocsCard
-                  cardHeader="2015 Edition Cures Update USCDI V3 Data"
-                  description={' '}
-                  buttonLink="https://github.com/onc-healthit/2015-edition-cures-update-uscdi-v3-testdata"
                 />
               </Box>
             </Box>
