@@ -21,6 +21,8 @@ import _ from 'lodash'
 import bulletedList from '../shared/BulletList'
 import { CustomListItem } from './TestCasePanel'
 import ErrorDisplayCard from '@/components/c-cda/validation/results/ErrorDisplay'
+import eventTrack from '@/services/analytics'
+
 interface HostingResultsDialogProps {
   open: boolean
   handleClose: () => void
@@ -305,11 +307,17 @@ const HostingResultsComponent = ({ response }: HostingResultsComponentProps) => 
   const [openDialog, setOpenDialog] = useState(false)
   const { pending } = useFormStatus()
   const [errorOpen, setErrorOpen] = useState(false)
+  const handleOpenDialog = () => {
+    setOpenDialog(true)
+    eventTrack('Submits Hosting Fields', 'Direct Certificate Discovery Tool', `User clicks submits hosting fields`)
+  }
   const handleCloseDialog = () => {
     setOpenDialog(false)
+    eventTrack('Close Hosting Dialog', 'Direct Certificate Discovery Tool', `User clicks close hosting dialog`)
   }
   const handleErrorClose = () => {
     setErrorOpen(false)
+    eventTrack('Error on Hosting Fields', 'Direct Certificate Discovery Tool', `User close error on hosting fields`)
   }
   useEffect(() => {
     if (!pending && !_.isEmpty(response) && !_.has(response, 'error')) {

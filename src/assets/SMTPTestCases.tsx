@@ -226,7 +226,7 @@ const testCases = {
       name: 'SMTP MT Test 45 - Generate Unique Message-ID (IG for Delivery Notification Suite)',
       id: 145,
       protocol: 'mu2',
-      desc: "Verifies the ability of the sending system to send messages with unique message-IDs and a properly formed Disposition Notification Options Header. The sending system will send multiple messages (at least 3) to wellformed14@james.healthit.gov. Hitting 'Run' will cause ETT to check the message IDs for uniqueness (2014 Edition Note: use this case if you opt for 'Message tracking using Implementation Guide for Delivery Notification').",
+      desc: "Verifies the ability of the sending system to send messages with unique message-IDs and a properly formed Disposition Notification Options Header. The sending system will send multiple messages (at least 3) to wellformed14@james.healthit.gov. Hitting 'Run' will cause ETT to check the message IDs for uniqueness.",
       longDesc: 'The credentials for authentication is vendoraccount@james.healthit.gov / vendortesting123  ',
       sutRole: 'sender',
       sutHisp: false,
@@ -2468,6 +2468,7 @@ const testCases = {
       sutHisp: true,
       criteria: "['h2-6']",
       sutEdge: false,
+      ccdaFileRequired: true,
       fields: [
         {
           label: 'C-CDA Document Type',
@@ -2475,7 +2476,6 @@ const testCases = {
           datatype: 'CCDAWidget',
           value: 'ccdaReferenceFilename',
           readOnly: false,
-          ccdaFileRequired: true,
           display: true,
         },
       ],

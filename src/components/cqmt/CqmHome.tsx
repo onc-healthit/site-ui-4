@@ -1,4 +1,5 @@
-// MUI Imports
+'use client'
+
 import BannerBox from '../shared/BannerBox'
 import { Box, Container, Divider, Typography } from '@mui/material'
 // Global Imports
@@ -16,10 +17,10 @@ import palette from '@/styles/palette'
 import SectionHeader from '../shared/SectionHeader'
 import VerticalCard from '../shared/VerticalCard'
 import CardWithBorder from '../shared/CardWithBorder'
-// Images
-// const maxWidth: number = 320
+import { useTheme } from '@mui/material'
 
 const CqmHome = () => {
+  const theme = useTheme()
   return (
     <Box>
       {/* Global Header */}
@@ -32,9 +33,11 @@ const CqmHome = () => {
         heading={'Clinical Quality Measure Testing'}
         description={
           <>
-            {
-              "Cypress, the official testing tool for EHR Certification under ONC's 2014 and 2015 Certification Editions, ensures precise evaluation of Clinical Quality Measures (CQM) in Electronic Health Records. Tailored for both EHR vendors and Authorized Testing Labs, Cypress, sponsored by the Office of the National Coordinator for Health IT and developed by The MITRE Corporation, facilitates rigorous and repeatable testing for accurate calculation of CQMs for Eligible Providers and Hospitals."
-            }
+            Cypress is a test tool authorized by the ONC Health IT Certification Program for testing of certification
+            criteria related to clinical quality measures (CQM) in Health IT Modules outlined at 45 CFR 170.315(c).
+            Tailored for both Certified Health IT developers and ONC-Authorized Testing Labs and developed by the MITRE
+            Corporation, Cypress facilitates rigorous and repeatable testing for the accurate calculation of CQMs for
+            Eligible Providers and Hospitals.
           </>
         }
       />
@@ -48,12 +51,18 @@ const CqmHome = () => {
 
         {/* Cypress Content*/}
         <Box
-          display={'flex'}
-          flexDirection={'row'}
-          width={'100%'}
-          justifyContent={'space-between'}
-          gap={4}
-          alignItems={'flex-start'}
+          sx={{
+            gap: 4,
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            alignItems: 'flex-start',
+            width: '100%',
+            [theme.breakpoints.down('md')]: {
+              flexDirection: 'column',
+              gap: '16px',
+            },
+          }}
         >
           {/* Cypress Card With Images */}
           <Box display={'flex'} gap={4} justifyContent={'space-between'} alignItems={'flex-start'}>
@@ -74,7 +83,7 @@ const CqmHome = () => {
               cardImage={cypressImagery}
               cardHeader={'Rigorous & repeatable testing of Electronic Health Records'}
               description={
-                'Cypress is the rigorous and repeatable testing tool of Electronic Health Records (EHR) and EHR modules in calculating eCQMs used by CMS’s Quality Reporting Programs. The Cypress tool is open source and freely available for use or adoption by the health IT community including EHR vendors and testing labs. Cypress serves as the official testing tool for the EHR Certification program supported by the Office of the National Coordinator for Health IT (ONC).'
+                'Cypress is the rigorous and repeatable testing tool of Electronic Health Records (EHRs) and EHR modules in calculating eCQMs used by CMS’s Quality Reporting Programs. The Cypress tool is open source and freely available for use or adoption by the health IT community including EHR vendors and testing labs. Cypress serves as the official testing tool for the EHR Certification program supported by the Assistant Secretary for Technology Policy (ASTP).'
               }
               pathname={'https://www.healthit.gov/cypress/'}
               maxWidth={900}
@@ -104,7 +113,7 @@ const CqmHome = () => {
             />
             <VerticalCard
               title={'Cypress Issue Tracker'}
-              description={'Track questions and issue that Cypress supports.'}
+              description={'Track questions and issues that Cypress supports.'}
               buttonTitle={'TRACK your question'}
               buttonIcon={<TrackChangesIcon />}
               buttonHref={'https://jira.oncprojectracking.org/browse/CYPRESSef'}
@@ -118,7 +127,19 @@ const CqmHome = () => {
           subHeader={'Expanding Your Toolkit: Explore a Range of CQM Tools and Resources Beyond the Basics'}
         />
         {/* Other Tools & Resources Content */}
-        <Box gap={4} display={'flex'} flexDirection={'row'} width={'100%'} mb={4}>
+        <Box
+          sx={{
+            gap: 4,
+            display: 'flex',
+            flexDirection: 'row',
+            width: '100%',
+            mb: 4,
+            [theme.breakpoints.down('md')]: {
+              flexDirection: 'column',
+              gap: '16px',
+            },
+          }}
+        >
           {/* eCQI Resource CenterCard */}
           <CardWithBorder
             cardHeader={'eCQI Resource Center'}
@@ -130,14 +151,18 @@ const CqmHome = () => {
             buttonIcon={<ArrowForward />}
           />
           <Box
-            border={`1px solid ${palette.grey}`}
-            borderRadius={2}
-            padding={8}
-            display={'flex'}
-            alignItems={'center'}
-            justifyContent={'space-between'}
-            flexDirection={'row'}
-            width={'50%'}
+            sx={{
+              border: `1px solid ${palette.grey}`,
+              borderRadius: 2,
+              p: 8,
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: '50%',
+              [theme.breakpoints.down('md')]: {
+                width: '100%',
+              },
+            }}
           >
             <Typography align="center" variant="body2" color={palette.greyDark}>
               <TipsAndUpdatesOutlined color="primary" />

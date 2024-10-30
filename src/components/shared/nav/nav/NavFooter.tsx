@@ -1,38 +1,28 @@
-'use client'
 import { fetchSanitizedMarkdownData } from '@/services/markdownToHTMLService'
-import { Box, Button, Dialog, DialogActions, DialogContent } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, Tooltip } from '@mui/material'
 import { useEffect, useState } from 'react'
+import eventTrack from '@/services/analytics'
+import { Notes } from '@mui/icons-material'
 
-export default function NavFooter() {
+interface NavFooterProps {
+  open: boolean
+}
+
+export default function NavFooter({ open }: NavFooterProps) {
   const [openDialog, setOpenDialog] = useState(false)
 
   const handleOpenDialog = () => {
     setOpenDialog(true)
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Open Release Notes', {
-        event_category: 'Button',
-        event_label: 'Open Release Notes thru Nav',
-      })
-    }
+    eventTrack('Open Release Notes', 'Release Notes', 'User clicks open release notes thru navigation')
   }
 
   const handleCloseDialog = () => {
     setOpenDialog(false)
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'Close Release Notes', {
-        event_category: 'Button',
-        event_label: 'Close Release Notes',
-      })
-    }
+    eventTrack('Close Release Notes', 'Release Notes', 'User clicks close release')
   }
-
-  // const [releaseVersionHTML, setReleaseVersionHTML] = useState<string | undefined>()
-  // const [releaseDateHTML, setReleaseDateHTML] = useState<string | undefined>()
   const [releaseNotesHTML, setReleaseNotesHTML] = useState<string | undefined>()
   const [historicalReleaseNotesHTML, setHistoricalReleaseNotesHTML] = useState<string | undefined>()
 
-  // const releaseVersionURL = 'https://raw.githubusercontent.com/onc-healthit/site-content/master/site-ui-4/version.md'
-  // const releaseDateURL = 'https://raw.githubusercontent.com/onc-healthit/site-content/master/site-ui-4/release-date.md'
   const releaseNotesURL =
     'https://raw.githubusercontent.com/onc-healthit/site-content/master/site-ui-4/latest-release-notes.md'
   const historicalReleaseNotesURL =
@@ -41,8 +31,6 @@ export default function NavFooter() {
   useEffect(() => {
     ;(async () => {
       try {
-        // setReleaseVersionHTML(await fetchSanitizedMarkdownData(releaseVersionURL))
-        // setReleaseDateHTML(await fetchSanitizedMarkdownData(releaseDateURL))
         setReleaseNotesHTML(await fetchSanitizedMarkdownData(releaseNotesURL))
         setHistoricalReleaseNotesHTML(await fetchSanitizedMarkdownData(historicalReleaseNotesURL))
       } catch (e) {
@@ -53,27 +41,27 @@ export default function NavFooter() {
 
   return (
     <>
-      {/* Release Notes and Version */}
-      <Button
-        disableElevation
-        sx={{ width: '220px' }}
-        color="secondary"
-        variant="text"
-        size="small"
-        onClick={handleOpenDialog}
-      >
-        Release Notes
-        {/* <Box>{releaseVersionHTML && <div dangerouslySetInnerHTML={{ __html: releaseVersionHTML }} />}</Box>
-        <Box>{releaseDateHTML && <div dangerouslySetInnerHTML={{ __html: releaseDateHTML }} />}</Box> */}
-        {/* TODO: Limit to debug mode only */}
-        {/* <Box>Debug Version: {SITE_DEBUG_VERSION}</Box> */}
-      </Button>
-
-      {/* Dialog Box */}
+      <Tooltip title="Release Notes" arrow placement="right">
+        <Button
+          color="primary"
+          variant="text"
+          size="small"
+          onClick={handleOpenDialog}
+          startIcon={<Notes fontSize="small" sx={{}} color="primary" />}
+          sx={{
+            textTransform: 'capitalize',
+            minWidth: open ? 'auto' : 0,
+            mb: 1.3,
+            display: 'flex',
+            gap: open ? '28px' : '0',
+            ml: open ? '16px' : '4px',
+            justifyContent: open ? 'flex-start' : 'center',
+          }}
+        >
+          {open && 'Release Notes'}
+        </Button>
+      </Tooltip>
       <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth={true} maxWidth="lg">
-        {/* <DialogTitle typography={'h4'}>
-          <strong>Release Notes</strong>
-        </DialogTitle> */}
         <DialogContent>
           <Box>{releaseNotesHTML && <div dangerouslySetInnerHTML={{ __html: releaseNotesHTML }} />}</Box>
           <Box>

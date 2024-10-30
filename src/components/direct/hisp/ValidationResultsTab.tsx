@@ -62,7 +62,9 @@ const ValidationResults = () => {
   const handleGetProfileReport = async (profileName: string) => {
     setIsLoading(true)
     const profileReport = await fetchProfileReport(profileName)
-    setProfileReport(profileReport)
+    setProfileReport(
+      profileReport.sort((a: { timestamp: number }, b: { timestamp: number }) => b.timestamp - a.timestamp)
+    )
     setProfileName(profileName)
     setOpen(true)
     setIsLoading(false)

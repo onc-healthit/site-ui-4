@@ -6,6 +6,8 @@ import hostingTestCases from './HostingTestCases'
 import bulletedList from '../shared/BulletList'
 import { useFormState } from 'react-dom'
 import HostingResultsComponent from './HostingResults'
+import eventTrack from '@/services/analytics'
+
 interface HostingProps {
   formAction: (
     prevState: object | undefined,
@@ -35,6 +37,7 @@ const Hosting = ({ formAction }: HostingProps) => {
   const handleReset = () => {
     setHostingCase(hostingTestCases.filter((c) => c.code === ''))
     setHostingDirectAddress('')
+    eventTrack('Reset Hosting Fields', 'Direct Certificate Discovery Tool', `User clicks reset hosting fields`)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

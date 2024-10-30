@@ -6,6 +6,7 @@ import { Check } from '@mui/icons-material'
 import ErrorIcon from '@mui/icons-material/Error'
 import _ from 'lodash'
 import ErrorDisplayCard from '@/components/c-cda/validation/results/ErrorDisplay'
+import eventTrack from '@/services/analytics'
 
 interface DiscoverResultsDialogProps {
   open: boolean
@@ -173,11 +174,29 @@ const DiscoverResultsComponent = ({ response }: DiscoverResultsComponentProps) =
   const [openDialog, setOpenDialog] = useState(false)
   const { pending } = useFormStatus()
   const [errorOpen, setErrorOpen] = useState(false)
+  const handleOpenDialog = () => {
+    setOpenDialog(true)
+    eventTrack(
+      'Submit Discover DCDT Certificates',
+      'Direct Certificate Discovery Tool',
+      'User clicks submit Discover DCDT Certifications'
+    )
+  }
   const handleCloseDialog = () => {
     setOpenDialog(false)
+    eventTrack(
+      'Close Discover DCDT Certificates Dialog',
+      'Direct Certificate Discovery Tool',
+      'User clicks close discover DCDT certifications dialog'
+    )
   }
   const handleErrorClose = () => {
     setErrorOpen(false)
+    eventTrack(
+      'Error on Discover DCDT Certificates',
+      'Direct Certificate Discovery Tool',
+      'User close error on discover DCDT certifications'
+    )
   }
   useEffect(() => {
     if (!pending && !_.isEmpty(response) && !_.has(response, 'error')) {

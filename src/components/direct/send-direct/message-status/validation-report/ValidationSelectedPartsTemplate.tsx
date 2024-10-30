@@ -2,36 +2,40 @@
 import React from 'react'
 import { Card, CardContent, Box, Typography, Divider } from '@mui/material'
 import palette from '@/styles/palette'
-
-const ValidationSolutions = () => {
+import { ValidationReport } from './ValidationReportTypes'
+interface SelectedPartsTemplateProps {
+  selectedNode: ValidationReport | null
+}
+const SelectedPartsTemplate = ({ selectedNode }: SelectedPartsTemplateProps) => {
   return (
     <>
       {/* Main Content */}
       <Box display={'flex'} width="50%" gap={4} flexDirection={'column'}>
-        <Card sx={{ width: '100%' }}>
+        <Card sx={{ width: '100%', minHeight: '-webkit-fill-available' }}>
           <CardContent>
-            <Typography variant="h4" sx={{ pb: 1 }}>
-              Selected Parts
+            <Typography variant="h4" sx={{ pb: 2 }}>
+              Selected <br />
+              Parts
             </Typography>
             <Divider sx={{ mb: 2 }} />
             <Box
               display={'flex'}
               width="100%"
-              gap={1}
+              gap={3}
               bgcolor={palette.greyLight}
               flexDirection={'column'}
               p={2}
               borderRadius={1}
               border={`1px solid ${palette.greyDark}`}
             >
-              <Typography fontFamily={'monospace'} variant="body1">
-                Content-Type: application/pks-mine; smime-type=envopleddata; name “smime.p7m”
+              <Typography fontFamily={'monospace'} variant="h6">
+                Content-Type: {selectedNode?.contentType}
               </Typography>
-              <Typography fontFamily={'monospace'} variant="body1">
-                Content-Disposition: placeholder
+              <Typography fontFamily={'monospace'} variant="h6">
+                Content-Disposition: {selectedNode?.contentDisposition}
               </Typography>
-              <Typography fontFamily={'monospace'} variant="body1">
-                Content-Transfer: placeholder
+              <Typography fontFamily={'monospace'} variant="h6">
+                Content-Transfer: {selectedNode?.contentTransferEncoding}
               </Typography>
             </Box>
           </CardContent>
@@ -41,4 +45,4 @@ const ValidationSolutions = () => {
   )
 }
 
-export default ValidationSolutions
+export default SelectedPartsTemplate

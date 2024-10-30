@@ -72,8 +72,6 @@ export default function SiteNav({ open, handleDrawerClose }: SiteNavProps) {
       {/* Nav Header with SITE logo */}
       <NavHeader handleDrawerClose={handleDrawerClose} theme={theme} />
 
-      {/* Expandable Nav List Categories:
-        TODO: Consider matching FIGMA design exactly, or, allowing home to still be selected on drawer close */}
       <Box
         sx={{
           display: 'flex',
@@ -98,7 +96,7 @@ export default function SiteNav({ open, handleDrawerClose }: SiteNavProps) {
           <SiteNavResources />
         </List>
         {/* <DevTools auth={auth} handleAuthChange={handleAuthChange} /> */}
-        <NavFooter />
+        <NavFooter open={open} />
       </Box>
     </Drawer>
   )

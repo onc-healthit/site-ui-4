@@ -1,7 +1,6 @@
 'use server'
 
 import { authOptions } from '@/lib/auth'
-import { StringIterator } from 'lodash'
 import { getServerSession } from 'next-auth'
 
 const ETT_API_URL = process.env.ETT_API_URL

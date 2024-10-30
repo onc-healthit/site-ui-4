@@ -47,109 +47,107 @@ const SendForm = ({ version, sampleCCDAFiles }: SendFormProps) => {
   }
 
   return (
-    <Container>
-      <Card>
-        <CardContent>
-          <form action={handleSubmit}>
-            <Box pb={4} width={'100%'}>
-              <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} pb={4} gap={4} pt={2}>
-                <TextField sx={{ width: '50%', pb: 2 }} id="endpoint" name="endpoint" label="Enter Your Endpoint URL" />
+    <Card>
+      <CardContent>
+        <form action={handleSubmit}>
+          <Box pb={4} width={'100%'}>
+            <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} pb={4} gap={4} pt={2}>
+              <TextField sx={{ width: '50%', pb: 2 }} id="endpoint" name="endpoint" label="Enter Your Endpoint URL" />
+              <TextField
+                sx={{ width: '50%', pb: 2 }}
+                id="message-type"
+                select
+                name="messageType"
+                label="Select an XDR Message Type:"
+                helperText=""
+                defaultValue="Minimal"
+              >
+                {messageType.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+            <Box
+              display={'flex'}
+              alignItems={'baseline'}
+              flexDirection={'row'}
+              justifyContent={'space-between'}
+              pb={4}
+              gap={4}
+            >
+              {version === 'template' && (
                 <TextField
-                  sx={{ width: '50%', pb: 2 }}
-                  id="message-type"
+                  fullWidth
+                  id="select-document"
+                  name="attachmentFilePath"
                   select
-                  name="messageType"
-                  label="Select an XDR Message Type:"
+                  label="Select a Sample C-CDA File to Send:"
                   helperText=""
-                  defaultValue="Minimal"
+                  defaultValue=" "
+                  value={selectedFile}
+                  onChange={handleFileSelect}
                 >
-                  {messageType.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
+                  <MenuItem key=" " value=" " />
+                  {ccdaFiles.map((option: string) => (
+                    <MenuItem key={option} value={option}>
+                      {option.substring(option.lastIndexOf('/') + 1)}
                     </MenuItem>
                   ))}
                 </TextField>
-              </Box>
-              <Box
-                display={'flex'}
-                alignItems={'baseline'}
-                flexDirection={'row'}
-                justifyContent={'space-between'}
-                pb={4}
-                gap={4}
-              >
-                {version === 'template' && (
-                  <TextField
-                    fullWidth
-                    id="select-document"
-                    name="attachmentFilePath"
-                    select
-                    label="Select a Sample C-CDA File to Send:"
-                    helperText=""
-                    defaultValue=" "
-                    value={selectedFile}
-                    onChange={handleFileSelect}
-                  >
-                    <MenuItem key=" " value=" " />
-                    {ccdaFiles.map((option: string) => (
-                      <MenuItem key={option} value={option}>
-                        {option.substring(option.lastIndexOf('/') + 1)}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                )}
-                {version === 'content' && (
-                  <Box width={'100%'}>
-                    <Stack direction="row" alignItems="flex-start" gap={1}>
-                      <Typography gutterBottom variant="body1">
-                        Select a Local C-CDA File to Send:
-                      </Typography>
-                      <Tooltip
-                        title="Upload your own C-CDA to attach the message. Only one C-CDA document will be attached either your own or the one you selected from the tool."
-                        arrow
-                        placement="right"
-                      >
-                        <HelpIcon color="primary" fontSize={'small'} />
-                      </Tooltip>
-                    </Stack>
-                    <DragandDropFile name="attachment" />
-                  </Box>
-                )}
-              </Box>
-
-              <Divider sx={{ borderBottomWidth: 2 }} />
-              <Box pt={2} pl={1} pb={2}>
-                <SwitchWithLabel
-                  isChecked={showOptional}
-                  handleToggleSwitch={handleOptionalChange}
-                  labelText="Show Optional XDR Message Properties"
-                  labelOnRight
-                />
-              </Box>
-
-              {showOptional && (
-                <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} pb={4} gap={4} pt={0}>
-                  <TextField
-                    sx={{ width: '50%', pb: 2 }}
-                    hidden={showOptional}
-                    id="directFromAddress"
-                    name="directFromAddress"
-                    label="Enter Your From Direct Address"
-                  />
-                  <TextField
-                    sx={{ width: '50%', pb: 2 }}
-                    id="directToAddress"
-                    name="directToAddress"
-                    label="Enter Your To Direct Address"
-                  />
+              )}
+              {version === 'content' && (
+                <Box width={'100%'}>
+                  <Stack direction="row" alignItems="flex-start" gap={1}>
+                    <Typography gutterBottom variant="body1">
+                      Select a Local C-CDA File to Send:
+                    </Typography>
+                    <Tooltip
+                      title="Upload your own C-CDA to attach the message. Only one C-CDA document will be attached either your own or the one you selected from the tool."
+                      arrow
+                      placement="right"
+                    >
+                      <HelpIcon color="primary" fontSize={'small'} />
+                    </Tooltip>
+                  </Stack>
+                  <DragandDropFile name="attachment" />
                 </Box>
               )}
-              <SendResults response={data?.response} buttonTitle={'SEND MESSAGE'} />
             </Box>
-          </form>
-        </CardContent>
-      </Card>
-    </Container>
+
+            <Divider sx={{ borderBottomWidth: 2 }} />
+            <Box pt={2} pl={1} pb={2}>
+              <SwitchWithLabel
+                isChecked={showOptional}
+                handleToggleSwitch={handleOptionalChange}
+                labelText="Show Optional XDR Message Properties"
+                labelOnRight
+              />
+            </Box>
+
+            {showOptional && (
+              <Box display={'flex'} flexDirection={'row'} justifyContent={'space-between'} pb={4} gap={4} pt={0}>
+                <TextField
+                  sx={{ width: '50%', pb: 2 }}
+                  hidden={showOptional}
+                  id="directFromAddress"
+                  name="directFromAddress"
+                  label="Enter Your From Direct Address"
+                />
+                <TextField
+                  sx={{ width: '50%', pb: 2 }}
+                  id="directToAddress"
+                  name="directToAddress"
+                  label="Enter Your To Direct Address"
+                />
+              </Box>
+            )}
+            <SendResults response={data?.response} buttonTitle={'SEND MESSAGE'} />
+          </Box>
+        </form>
+      </CardContent>
+    </Card>
   )
 }
 

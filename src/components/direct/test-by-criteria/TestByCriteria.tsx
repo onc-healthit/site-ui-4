@@ -32,7 +32,15 @@ const TestByCriteria = ({ selectedTab }: criteriaProps) => {
           </Link>,
         ]}
         heading={'Test By Criteria'}
-        description={<>New Helper Text</>}
+        description={
+          <>
+            To navigate through the certification criteria requirements for Direct validation testing, begin by
+            selecting the appropriate criterion tab for your testing needs. Once you&apos;ve selected a specific
+            criterion, you&apos;ll be able to conduct the test based on the appropriate subparagraph requirements by
+            choosing it from the dropdown menu. This will guide you through the testing process aligned with that
+            particular criterion.
+          </>
+        }
       />
       <ProfileProvider>
         <TabsComponent selectedTab={selectedTab} tabs={criteriaTabs} />

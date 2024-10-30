@@ -16,7 +16,6 @@ import palette from '@/styles/palette'
 import * as React from 'react'
 import testCases from '@/assets/SMTPTestCases'
 import _ from 'lodash'
-import TestFilter from './TestFilter'
 import { useContext } from 'react'
 import { ProfileContext } from './context'
 
@@ -80,11 +79,6 @@ const POP3 = () => {
           </Card>
         </Box>
         <Box sx={{ flexGrow: 1 }}>
-          {option !== '' && (
-            <Box pb={2}>
-              <TestFilter />
-            </Box>
-          )}
           {option === 'sender' && (
             <div>
               {popTestCasesSender.map((test, i) => {

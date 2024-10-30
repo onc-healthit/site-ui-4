@@ -25,10 +25,10 @@ export default function SiteNavOncCertTools() {
 
   const items: NavListItemType[] = [
     {
-      text: 'FHIR Inferno Framework',
+      text: 'FHIR® Inferno Framework',
       isExternalLink: true,
       href: 'https://inferno.healthit.gov/',
-      icon: <LocalFireDepartmentOutlined aria-label=" Go to FHIR Inferno Framework" fontSize="small" />,
+      icon: <LocalFireDepartmentOutlined aria-label=" Go to FHIR® Inferno Framework" fontSize="small" />,
     },
     {
       text: 'C-CDA Testing',

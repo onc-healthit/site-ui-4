@@ -20,6 +20,7 @@ import React, { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 import { handleSendDirectMessage } from './actions'
 import SendDirectResults from './SendDirectResults'
+import eventTrack from '@/services/analytics'
 
 const documentDropdown = [
   {
@@ -68,7 +69,7 @@ const DirectForm = ({ version, certificateDropdown, algorithmDropdown, domainNam
   const [isInvalidDigest, setIsInvalidDigest] = useState(false)
   const [data, handleSubmit] = useFormState(handleSendDirectMessage, { response: {} })
   const [algorithmDropdownM, setAlgorithmDropdownM] = useState(algorithmDropdown)
-  
+
   //Validation
   const handleValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
     const errors = { ...formErrors }
@@ -95,6 +96,7 @@ const DirectForm = ({ version, certificateDropdown, algorithmDropdown, domainNam
   useEffect(() => {
     if (_.has(formValues, 'fromAddress') && _.has(formValues, 'toAddress') && _.isEmpty(formErrors)) {
       setDisableSendButton(false)
+      eventTrack('Run Send Direct Message', 'Send Direct Message', `${version}`)
     }
     if (isInvalidDigest) {
       setSelectedCertificate('')
@@ -107,7 +109,7 @@ const DirectForm = ({ version, certificateDropdown, algorithmDropdown, domainNam
     } else {
       setAlgorithmDropdownM(algorithmDropdown)
     }
-  }, [algorithmDropdown, formErrors, formValues, isInvalidDigest, selectedCertificate])
+  }, [algorithmDropdown, formErrors, formValues, isInvalidDigest, selectedCertificate, version])
   const handleChangeDocument = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setSelectedDocument(value)
@@ -124,10 +126,10 @@ const DirectForm = ({ version, certificateDropdown, algorithmDropdown, domainNam
     setIsInvalidDigest(e.target.checked)
   }
   return (
-    <Container>
+    <Container sx={{ bgcolor: 'white' }}>
       <form action={handleSubmit} noValidate>
-        <Box pb={8} width={'100%'}>
-          <Typography gutterBottom variant="caption" component={'h1'} sx={{ pt: 4, pb: 0, pl: 0 }}>
+        <Box pb={4} my={4} width={'100%'}>
+          <Typography gutterBottom variant="caption" component={'h1'} sx={{ pt: 1, pb: 0, pl: 0 }}>
             Step 1
           </Typography>
           <Typography variant="h3" component={'h1'} sx={{ pl: 0, pt: 0, pb: 4 }}>
