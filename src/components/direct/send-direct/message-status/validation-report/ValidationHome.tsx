@@ -113,7 +113,7 @@ const ValidationHome = ({ messageId, category }: ValidationHomeProps) => {
           <Link color="inherit" href="/direct/senddirect#message-status" key="2" className={styles.link}>
             Message Status
           </Link>,
-          <Link color="inherit" href="/direct/messagestatus/validationreport" key="3" className={styles.link}>
+          <Link color="inherit" href={window.location.href} key="3" className={styles.link}>
             Validation Report
           </Link>,
         ]}
