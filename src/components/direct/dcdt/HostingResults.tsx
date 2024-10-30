@@ -305,9 +305,6 @@ const HostingResultsComponent = ({ response }: HostingResultsComponentProps) => 
   const [openDialog, setOpenDialog] = useState(false)
   const { pending } = useFormStatus()
   const [errorOpen, setErrorOpen] = useState(false)
-  const handleOpenDialog = () => {
-    setOpenDialog(true)
-  }
   const handleCloseDialog = () => {
     setOpenDialog(false)
   }
@@ -325,13 +322,7 @@ const HostingResultsComponent = ({ response }: HostingResultsComponentProps) => 
 
   return (
     <>
-      <Button
-        variant="contained"
-        sx={{ color: palette.white }}
-        type="submit"
-        onClick={handleOpenDialog}
-        disabled={pending}
-      >
+      <Button variant="contained" sx={{ color: palette.white }} type="submit" disabled={pending}>
         SUBMIT
       </Button>
       {pending && <LoadingResults />}
