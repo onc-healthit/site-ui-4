@@ -249,7 +249,7 @@ const TestCard = ({ test }: TestCardProps) => {
               {inputs.length - 1 === i ? '. ' : ', '}
             </span>
           ))}
-          {role === 'sender' ? senderText : receiverText}
+          {/* {role === 'sender' ? senderText : receiverText} */}
         </Typography>
       </>
     )
@@ -306,7 +306,6 @@ const TestCard = ({ test }: TestCardProps) => {
       setIsLoading(true)
       setIsFinished(false)
       setCriteriaMet('')
-
       if (endpointsGenerated) {
         const status = await GetStatus(test.id.toString())
         console.log('Test status:', status)
@@ -417,10 +416,15 @@ const TestCard = ({ test }: TestCardProps) => {
   }
 
   const renderCriteriaMetIcon = () => {
-    if (endpointsGenerated) {
+    if (endpointsGenerated && !isFinished) {
       return <Chip variant="outlined" color="warning" label="Pending"></Chip>
     }
-    if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED' || criteriaMet === 'SUCCESS') {
+    if (
+      criteriaMet === 'TRUE' ||
+      criteriaMet === 'PASSED' ||
+      criteriaMet === 'SUCCESS' ||
+      (criteriaMet === 'PENDING' && isFinished)
+    ) {
       return <Chip color="success" label="Success"></Chip>
     } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR' || criteriaMet === 'FAILED') {
       return <Chip color="error" label="Failed"></Chip>
@@ -662,7 +666,7 @@ const TestCard = ({ test }: TestCardProps) => {
                     </Button>
                   </Tooltip>
                   <Typography whiteSpace={'preline'} variant="caption">
-                    {endpointsGenerated ? defaultEndpoint : defaultEndpoint}
+                    {endpointsGenerated ? endpoint : defaultEndpoint}
                   </Typography>
                 </Box>
                 <Box width={'30%'} display={'flex'} flexDirection={'column'}>
@@ -677,9 +681,7 @@ const TestCard = ({ test }: TestCardProps) => {
                       Endpoint TLS
                     </Button>
                   </Tooltip>
-                  <Typography variant="caption">
-                    {endpointsGenerated ? defaultEndpointTLS : defaultEndpointTLS}
-                  </Typography>
+                  <Typography variant="caption">{endpointsGenerated ? endpointTLS : defaultEndpointTLS}</Typography>
                 </Box>
               </Box>
             )}

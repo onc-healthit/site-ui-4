@@ -330,13 +330,7 @@ const HostingResultsComponent = ({ response }: HostingResultsComponentProps) => 
 
   return (
     <>
-      <Button
-        variant="contained"
-        sx={{ color: palette.white }}
-        type="submit"
-        onClick={handleOpenDialog}
-        disabled={pending}
-      >
+      <Button variant="contained" sx={{ color: palette.white }} type="submit" disabled={pending}>
         SUBMIT
       </Button>
       {pending && <LoadingResults />}
