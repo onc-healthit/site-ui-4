@@ -216,6 +216,7 @@ const TestCard = ({ test }: TestCardProps) => {
     '44mu2',
   ]
   const ccdaRequiredTestIds = ['1', '2', '3add']
+  const sendXDRTestsIds = ['16', '17']
   const sendEdgeTestsIds = ['1', '2', '6', '7', '10', '11', '12', '20amu2', '20bmu2', '49mu2']
   const isCCDADocumentRequired = ccdaRequiredTestIds.includes(test.id.toString())
   const StepText = ({ inputs, role, endpointsGenerated, criteriaMet }: StepTextProps) => {
@@ -728,7 +729,10 @@ const TestCard = ({ test }: TestCardProps) => {
                   <LoadingButton
                     loading={isLoading}
                     done={isFinished}
-                    progressive={sendEdgeTestsIds.includes(test.id.toString()) && !endpointsGenerated}
+                    progressive={
+                      (sendEdgeTestsIds.includes(test.id.toString()) || sendXDRTestsIds.includes(test.id.toString())) &&
+                      !endpointsGenerated
+                    }
                     progressDuration={loadingTime}
                     onClick={handleRunTest}
                     variant="contained"
