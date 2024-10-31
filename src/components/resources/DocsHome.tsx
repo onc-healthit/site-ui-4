@@ -136,7 +136,7 @@ const DocsHome = () => {
                 />
                 <DocsCard
                   cardHeader="Content Validator API"
-                  description={' '}
+                  description={'Source code for the C-CDA Validator API'}
                   buttonLink="https://github.com/onc-healthit/content-validator-api"
                 />
                 <DocsCard
@@ -163,22 +163,24 @@ const DocsHome = () => {
                 />
                 <DocsCard
                   cardHeader="Direct Transport Message Sender"
-                  description={' '}
+                  description={'Source code for Direct transport sender service'}
                   buttonLink="https://github.com/onc-healthit/direct-transport-message-sender"
                 />
                 <DocsCard
                   cardHeader="Trust Anchor Uploader"
-                  description={' '}
+                  description={
+                    'Upload trust anchors so they can be added to the trust bundle used for Direct Transport'
+                  }
                   buttonLink="https://github.com/onc-healthit/trustanchor-uploader"
                 />
                 <DocsCard
                   cardHeader="XDR Message Sender"
-                  description={' '}
+                  description={'Source code for the XDR Message Sender service'}
                   buttonLink="https://github.com/onc-healthit/xdr-message-sender"
                 />
                 <DocsCard
                   cardHeader="Scorecard Results Mailer Job"
-                  description={' '}
+                  description={'Source code for Scorecard Results Mailer Job'}
                   buttonLink="https://github.com/onc-healthit/scorecard-results-mailer-job"
                 />
                 <DocsCard
@@ -186,16 +188,24 @@ const DocsHome = () => {
                   description={'The open code repository for the Direct Certificate Discovery Tool (DCDT). '}
                   buttonLink="https://github.com/onc-healthit/dcdt"
                 />
-                <DocsCard cardHeader="ETT" description={' '} buttonLink="https://github.com/onc-healthit/ett" />
-                <DocsCard cardHeader="SITE UI" description={' '} buttonLink="https://github.com/onc-healthit/site-ui" />
+                <DocsCard
+                  cardHeader="ETT"
+                  description={'Source code for the Edge Testing Tool'}
+                  buttonLink="https://github.com/onc-healthit/ett"
+                />
+                <DocsCard
+                  cardHeader="SITE UI"
+                  description={'Source code for SITE UI'}
+                  buttonLink="https://github.com/onc-healthit/site-ui"
+                />
                 <DocsCard
                   cardHeader="C-CDA Parser"
-                  description={' '}
+                  description={'Source code for the C-CDA Parser'}
                   buttonLink="https://github.com/onc-healthit/ccda-parser"
                 />
                 <DocsCard
                   cardHeader="C-CDA USCDI Certification Test Data"
-                  description={' '}
+                  description={'Source code for C-CDA USCDI Certification Test Data '}
                   buttonLink="https://github.com/onc-healthit/ccda-uscdi-certification-testdata"
                 />
               </Box>

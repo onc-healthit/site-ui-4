@@ -1,5 +1,5 @@
 import palette from '@/styles/palette'
-import { Dialog, Divider, DialogContent, Typography, Button, Box } from '@mui/material'
+import { Dialog, Divider, DialogContent, Typography, Button, Box, DialogTitle, LinearProgress } from '@mui/material'
 import { FC, useEffect, useState } from 'react'
 import { useFormStatus } from 'react-dom'
 import { Check } from '@mui/icons-material'
@@ -145,6 +145,31 @@ const DiscoverResultsDialog: FC<DiscoverResultsDialogProps> = ({ open, handleClo
   )
 }
 
+const LoadingResults = () => {
+  return (
+    <Dialog open maxWidth="lg">
+      <DialogTitle typography={'h3'} sx={{ fontWeight: '600', pb: 2 }} id="dialog-title">
+        Sending...
+      </DialogTitle>
+      <Divider />
+      <DialogContent>
+        <Typography>{}</Typography>
+        <LinearProgress
+          sx={{
+            height: 4,
+            borderRadius: 5,
+            mt: 2,
+            backgroundColor: palette.secondaryLight,
+            '& .MuiLinearProgress-bar': {
+              backgroundColor: palette.secondary,
+            },
+          }}
+        />
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 const DiscoverResultsComponent = ({ response }: DiscoverResultsComponentProps) => {
   const [openDialog, setOpenDialog] = useState(false)
   const { pending } = useFormStatus()
@@ -183,15 +208,10 @@ const DiscoverResultsComponent = ({ response }: DiscoverResultsComponentProps) =
   }, [pending, response])
   return (
     <>
-      <Button
-        variant="contained"
-        sx={{ color: palette.white }}
-        type="submit"
-        onClick={handleOpenDialog}
-        disabled={pending}
-      >
+      <Button variant="contained" sx={{ color: palette.white }} type="submit" disabled={pending}>
         SUBMIT
       </Button>
+      {pending && <LoadingResults />}
       {!pending && _.has(response, 'error') && (
         <ErrorDisplayCard open={errorOpen} handleClose={handleErrorClose} response={response} />
       )}

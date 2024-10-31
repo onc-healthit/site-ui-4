@@ -1,18 +1,6 @@
 // src/components/CommunicationFab.tsx
 'use client'
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  Drawer,
-  Fab,
-  Tooltip,
-  Typography,
-} from '@mui/material'
+import { Box, Drawer, Fab, Tooltip, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
@@ -21,14 +9,16 @@ import SecurityIcon from '@mui/icons-material/Security'
 import LinkButton from './LinkButton'
 import { fetchReleaseData } from '@/assets/ReleaseService'
 import palette from '@/styles/palette'
-import websiteLaunch from '@public/shared/SITE_Website_Launch.svg'
-import Image from 'next/image'
 import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined'
 import eventTrack from '@/services/analytics'
 
 const drawerWidth = 350
 
-const CommunicationFab: React.FC = () => {
+interface CommunicationFabProps {
+  children: React.ReactNode
+}
+
+const CommunicationFab: React.FC<CommunicationFabProps> = ({ children }) => {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const handleDrawerOpen = () => {
     setDrawerOpen(true)
@@ -69,30 +59,7 @@ const CommunicationFab: React.FC = () => {
         }}
       >
         <Box width={'auto'} p={2} mb={8} display={'flex'} flexDirection={'column'} gap={4}>
-          <Card>
-            <CardMedia sx={{ width: 'auto' }}>
-              <Image style={{ width: '330px', height: 'auto' }} src={websiteLaunch} alt="Placeholder" />
-            </CardMedia>
-            <CardHeader
-              sx={{ px: 1, pt: 1, pb: 0 }}
-              titleTypographyProps={{ variant: 'body1', fontSize: '.85em', fontWeight: 'bold' }}
-              title={process.env.NEXT_PUBLIC_ASTP_RELEASE_CONTENT_HEADER ?? ''}
-            ></CardHeader>
-            <Typography sx={{ px: 1, fontSize: '.75em' }} variant="body2">
-              {process.env.NEXT_PUBLIC_ASTP_RELEASE_CONTENT ?? ''}
-            </Typography>
-            <CardActions>
-              <Button
-                href={process.env.NEXT_PUBLIC_ASTP_RELEASE_BLOG_URL ?? '/'}
-                size="small"
-                variant="text"
-                color="secondary"
-                target="_blank"
-              >
-                Read More...
-              </Button>
-            </CardActions>
-          </Card>
+          {children}
           <LinkButton
             label="Access Forum"
             url="https://groups.google.com/g/edge-test-tool"
