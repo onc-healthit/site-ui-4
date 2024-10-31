@@ -250,6 +250,7 @@ const TestCard = ({ test }: TestCardProps) => {
             </span>
           ))}
           {/* {role === 'sender' ? senderText : receiverText} */}
+          {/* {role === 'sender' ? senderText : receiverText} */}
         </Typography>
       </>
     )
@@ -416,14 +417,14 @@ const TestCard = ({ test }: TestCardProps) => {
   }
 
   const renderCriteriaMetIcon = () => {
-    if (endpointsGenerated && !isFinished) {
+    if (endpointsGenerated && criteriaMet === 'PENDING') {
       return <Chip variant="outlined" color="warning" label="Pending"></Chip>
     }
     if (
       criteriaMet === 'TRUE' ||
       criteriaMet === 'PASSED' ||
       criteriaMet === 'SUCCESS' ||
-      (criteriaMet === 'PENDING' && isFinished)
+      (criteriaMet === 'MANUAL' && isFinished)
     ) {
       return <Chip color="success" label="Success"></Chip>
     } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR' || criteriaMet === 'FAILED') {
