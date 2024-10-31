@@ -88,7 +88,8 @@ const DialogTemplate: FC<DialogTemplateProps> = ({
               xs: '50%', // small screens
               sm: '75%', // small screens
               md: '85%', // medium screens
-              lg: '100%', // large screens and above
+              lg: 'max-content',
+              xl: 'max-content',
             },
           }}
         >
