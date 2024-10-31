@@ -66,7 +66,7 @@ export default function NotificationHistory() {
         <Timeline
           items={notifications.map((notification) => ({
             title: notification.title,
-            date: new Date().toLocaleDateString(), // Placeholder; adjust if you have actual dates
+            date: '11/6/2024',
             description: notification.content,
           }))}
         />
