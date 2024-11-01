@@ -85,11 +85,11 @@ const DialogTemplate: FC<DialogTemplateProps> = ({
         <Box
           sx={{
             maxWidth: {
-              xs: '50%', // small screens
-              sm: '75%', // small screens
-              md: '85%', // medium screens
-              lg: 'max-content',
-              xl: 'max-content',
+              xs: '50%',
+              sm: '75%',
+              md: '85%',
+              lg: '85%',
+              xl: '85%',
             },
           }}
         >
