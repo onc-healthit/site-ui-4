@@ -1,4 +1,3 @@
-import { lightThemeOptions } from '@/styles/lightThemeOptions'
 import palette from '@/styles/palette'
 import CloseIcon from '@mui/icons-material/Close'
 import { Box, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
@@ -46,21 +45,35 @@ const DialogTemplate: FC<DialogTemplateProps> = ({
     <Dialog disableScrollLock disableEnforceFocus maxWidth="xl" open={open} onClose={handleClose}>
       <CustomDialogTitle handleClose={handleClose}>{title}</CustomDialogTitle>
       <DialogContent
-        sx={{ display: 'flex', borderColor: palette.divider, alignItems: 'stretch', flexDirection: 'row' }}
+        sx={{
+          display: 'flex',
+          borderColor: palette.divider,
+          alignItems: 'stretch',
+          flexDirection: 'row',
+          overflowX: 'hidden',
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Menu */}
         {menuContent && (
           <Box
             sx={{
-              minWidth: '275px',
               scrollBehavior: 'smooth',
               overflowY: 'scroll',
-              [`@media (min-width: ${lightThemeOptions?.breakpoints?.values?.lg}px)`]: {
-                // Use theme breakpoint value
-                overflowY: 'auto',
+              minWidth: {
+                xs: '50%', // small screens
+                sm: '200px', // small screens
+                md: 'min-content', // medium screens
+                lg: '275px', // large screens and above
+              },
+              maxWidth: {
+                xs: '50%', // small screens
+                sm: '200px', // small screens
+                md: 'min-content', // medium screens
+                lg: '275px', // large screens and above
               },
             }}
+            maxHeight={'100vh'}
             top={'0px'}
             position={'sticky'}
             borderRight={`1px solid ${palette.divider} `}
@@ -69,7 +82,19 @@ const DialogTemplate: FC<DialogTemplateProps> = ({
           </Box>
         )}
         {/* Results */}
-        {resultsContent}
+        <Box
+          sx={{
+            maxWidth: {
+              xs: '50%', // small screens
+              sm: '75%', // small screens
+              md: '85%', // medium screens
+              lg: 'max-content',
+              xl: 'max-content',
+            },
+          }}
+        >
+          {resultsContent}
+        </Box>
       </DialogContent>
       {/* Actions */}
       {actionsContent}

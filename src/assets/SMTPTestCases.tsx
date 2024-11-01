@@ -211,6 +211,17 @@ const testCases = {
       sutHisp: true,
       criteria: "['h2-8']",
       sutEdge: true,
+      fields: [
+        {
+          label: 'Command timeout in seconds',
+          name: 'sutCommandTimeoutInSeconds',
+          datatype: 'String',
+          placeHolder: 'Command timeout in seconds',
+          value: 'Command timeout in seconds',
+          readOnly: false,
+          display: true,
+        },
+      ],
     },
     {
       name: 'SMTP MT Test 17 - Generate Unique Message-ID (Processed MDN suite)',
@@ -338,7 +349,7 @@ const testCases = {
         actionLabel: 'RUN',
       },
       desc: ' Verifies the ability of SUT to receive PDF and CCDA attachments',
-      longDesc: 'Verifies the ability of SUT to receive text and CCDA attachments',
+      longDesc: 'Verifies the ability of SUT to receive PDF and CCDA attachments',
       sutRole: 'receiver',
       sutHisp: true,
       criteria: "['b1-4','su1-4']",

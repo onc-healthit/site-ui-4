@@ -411,7 +411,7 @@ const TestCard = ({
                 {test.moreInfo?.subHeader}
               </Typography>
               <Typography variant="body2" sx={{ fontSize: '0.875rem' }}>
-                {test.longDesc}
+                {test.longDesc ? test.longDesc : test.desc}
               </Typography>
               {test.moreInfo?.tableData && (
                 <DynamicTable headers={test.moreInfo.headers} rows={test.moreInfo.tableData} />
