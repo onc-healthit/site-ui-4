@@ -65,7 +65,7 @@ const CCDAHome = () => {
           }}
         >
           {/* TODO: When adding USCDI v4, Uncomment code below, reduce maxWidthMainValidatorCards to 390
-          maxWidthMainValidatorCards looks to have been removed, so, search old code to figure out integratino  */}
+          maxWidthMainValidatorCards looks to have been removed, so, search old code to figure out integration  */}
           {/* <CardWithImage
             title={'C-CDA Validator: USCDI V4'}
             cardImage={uscdiv4}
