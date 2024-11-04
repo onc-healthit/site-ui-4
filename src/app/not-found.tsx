@@ -79,7 +79,7 @@ export default function NotFound() {
                   <Button color="primary" onClick={() => window.location.reload()} variant="outlined">
                     Reload Page
                   </Button>
-                  <Link href="https://site.healthit.gov/" passHref>
+                  <Link href="/" passHref>
                     <Button variant="outlined" color="primary" component="a">
                       Go to Home Page
                     </Button>
