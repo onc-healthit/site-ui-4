@@ -3,15 +3,26 @@
 import palette from '@/styles/palette'
 import { lightTheme } from '@/styles/lightTheme'
 import { Box, Button, ButtonGroup, Container, ThemeProvider, Typography, Fade } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Inter } from 'next/font/google'
 import Image from 'next/image'
+import Link from 'next/link'
 import ONCLogo from '@public/shared/LogoBackgroundImage.png'
 
 // Load the Inter font
 const inter = Inter({ subsets: ['latin'] })
 
 export default function NotFound() {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient) {
+    return null
+  }
+
   return (
     <>
       <Box height={'90vh'} sx={{ position: 'relative' }}>
@@ -58,26 +69,22 @@ export default function NotFound() {
                   </Typography>
                   <ul>
                     <li>Try reloading the page.</li>
-                    <li>Use the navigation on the left hand side to move to a different page.</li>
-                    <li>If error still occurs, please contact us.</li>
+                    <li>Use the navigation on the left-hand side to move to a different page.</li>
+                    <li>If the error still occurs, please contact us.</li>
                   </ul>
                 </Box>
               </Fade>
               <Fade in={true} timeout={500}>
-                <ButtonGroup sx={{ mt: 8, color: palette.primary }}>
-                  <Button onClick={() => window.location.reload()} variant="outlined" color="inherit">
+                <ButtonGroup color="primary" sx={{ mt: 8, color: palette.primary }}>
+                  <Button color="primary" onClick={() => window.location.reload()} variant="outlined">
                     Reload Page
                   </Button>
-                  <Button
-                    href="https://site.healthit.gov/"
-                    variant="outlined"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    color="inherit"
-                  >
-                    Go to Home Page
-                  </Button>
-                  <Button color="inherit" href="mailto:edge-test-tool@googlegroups.com" variant="outlined">
+                  <Link href="https://site.healthit.gov/" passHref>
+                    <Button variant="outlined" color="primary" component="a">
+                      Go to Home Page
+                    </Button>
+                  </Link>
+                  <Button color="primary" href="mailto:edge-test-tool@googlegroups.com" variant="outlined">
                     Contact Us
                   </Button>
                 </ButtonGroup>
