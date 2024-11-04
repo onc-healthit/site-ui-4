@@ -64,13 +64,13 @@ const CCDAHome = () => {
             },
           }}
         >
-          {/* TODO: Update each description to be unique to each validator version */}
-          {/* TODO: When adding USCDI v4, Uncomment code below, reduce maxWidthMainValidatorCards to 390 */}
+          {/* TODO: When adding USCDI v4, Uncomment code below, reduce maxWidthMainValidatorCards to 390
+          maxWidthMainValidatorCards looks to have been removed, so, search old code to figure out integratino  */}
           {/* <CardWithImage
             title={'C-CDA Validator: USCDI V4'}
             cardImage={uscdiv4}
             cardHeader={'C-CDA Validator: USCDI v4'}
-            description={`This area provides tools for testing conformance of artifacts to industry standards and specific criteria. There are both context-free validators for general testing and validators for the ONC Health IT Certification Program's certification criteria.`}
+            description="USCDI v4 adds 20 data elements and one data class to USCDI v3."
             pathname={'/c-cda/uscdi-v4'}
             maxWidth={maxWidthMainValidatorCards}
             imageWidth={maxWidthMainValidatorCards + 'px'}
@@ -79,7 +79,8 @@ const CCDAHome = () => {
             title={'C-CDA Validator: USCDI v3'}
             cardImage={uscdiv3}
             cardHeader={'C-CDA Validator: USCDI v3'}
-            description={`This area provides tools for testing conformance of artifacts to industry standards and specific criteria. There are both context-free validators for general testing and validators for the ONC Health IT Certification Program's certification criteria.`}
+            description="USCDI v3 contains data classes and elements from USCDI v2 and new data classes and elements
+              submitted through the ONDEC system."
             pathname={'/c-cda/uscdi-v3'}
             maxWidth={maxWidthCards}
             imageWidth={maxWidthCards + 'px'}
@@ -88,7 +89,9 @@ const CCDAHome = () => {
             title={'C-CDA Validator: USCDI v1'}
             cardImage={uscdiv1}
             cardHeader={'C-CDA Validator: USCDI v1'}
-            description={`This area provides tools for testing conformance of artifacts to industry standards and specific criteria. There are both context-free validators for general testing and validators for the ONC Health IT Certification Program's certification criteria.`}
+            description="The first version of the United States Core Data for Interoperability (USCDI v1) is adopted
+              as a standard in the ONC Cures Act Final Rule. The USCDI sets a foundation for broader sharing of
+              electronic health information to support patient care."
             pathname={'/c-cda/uscdi-v1'}
             maxWidth={maxWidthCards}
             imageWidth={maxWidthCards + 'px'}
@@ -123,9 +126,9 @@ const CCDAHome = () => {
             title={'C-CDA Scorecard'}
             cardImage={scorecard}
             cardHeader={'C-CDA Scorecard'}
-            description={
-              'The SITE C-CDA Scorecard provides an enhanced level of interoperability for C-CDA documents by using a comprehensive scoring system, which allows implementers to improve the data quality and representation of their C-CDA documents.'
-            }
+            description="The SITE C-CDA Scorecard provides an enhanced level of interoperability for C-CDA documents
+              by using a comprehensive scoring system, which allows implementers to improve the data quality and
+              representation of their C-CDA documents."
             pathname={'/c-cda/scorecard/'}
             maxWidth={maxWidthCards}
             imageWidth={maxWidthCards + 'px'}
@@ -134,9 +137,8 @@ const CCDAHome = () => {
             title={'One Click Scorecard'}
             cardImage={oneclick}
             cardHeader={'One Click Scorecard'}
-            description={
-              'Providers can use the One Click Scorecard with Direct to evaluate the quality of clinical summary documents (C-CDAs) received, or created, by their system.'
-            }
+            description="Providers can use the One Click Scorecard with Direct to evaluate the quality of clinical
+            summary documents (C-CDAs) received, or created, by their system."
             pathname={'https://oncprojectracking.healthit.gov/wiki/display/TechLabTU/ONC+One+Click+Scorecard'}
             maxWidth={maxWidthCards}
             imageWidth={maxWidthCards + 'px'}
