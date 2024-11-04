@@ -22,13 +22,14 @@ export default function USCDIV1Validator() {
           </Link>,
         ]}
         heading={'C-CDA USCDI V1 Validator'}
-        // TODO: Get a unique description from ASTP for USCDI V1
         description={
           <>
-            The C-CDA R2.1 Validator is a tool used to check if electronic health documents comply with the Clinical
-            Document Architecture (C-CDA) standard&apos;s R2.1 version. C-CDA is a standardized format for sharing
-            clinical information, and the validator ensures that documents follow the correct format and content rules
-            before being exchanged between healthcare systems.
+            The C-CDA USCDI v1 Validator is a tool used to check if electronic health documents comply with the Clinical
+            Document Architecture (C-CDA) standard&apos;s R2.1 version.
+            <br />
+            The first version of the United States Core Data for Interoperability (USCDI v1) is adopted as a standard in
+            the ONC Cures Act Final Rule. The USCDI sets a foundation for broader sharing of electronic health
+            information to support patient care.
           </>
         }
       />
