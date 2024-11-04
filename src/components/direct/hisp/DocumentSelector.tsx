@@ -109,7 +109,7 @@ const DocumentSelector = ({ onConfirm, onClose, receive: receive }: DocumentSele
       : 'Cures Update Svap Uscdiv3 Receiver SUT Test Data'
     : selectedType === 'cures'
       ? 'Cures Update Sender SUT Test Data'
-      : 'Svap Uscdiv3 Sender SUT Test Data'
+      : 'Cures Update Svap Uscdiv3 Sender SUT Test Data'
   const directories = documents[documentType]?.dirs || []
   const files = directories.find((dir) => dir.name === selectedDirectory)?.files || []
 
