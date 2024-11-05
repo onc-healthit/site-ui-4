@@ -21,6 +21,7 @@ interface DocumentSelectorProps {
   onConfirm: (selectedData: { directory: string; fileName: string; fileLink: string }) => void
   onClose: () => void
   receive: boolean
+  protocol: string
 }
 
 export interface FileDetail {
@@ -37,7 +38,7 @@ export interface Directory {
   files: FileDetail[]
 }
 
-const DocumentSelector = ({ onConfirm, onClose, receive: receive }: DocumentSelectorProps) => {
+const DocumentSelector = ({ onConfirm, onClose, receive: receive, protocol }: DocumentSelectorProps) => {
   const [open, setOpen] = useState(true)
   const [documents, setDocuments] = useState<Documents>({})
   const [selectedType, setSelectedType] = useState('cures')
@@ -46,9 +47,9 @@ const DocumentSelector = ({ onConfirm, onClose, receive: receive }: DocumentSele
 
   useEffect(() => {
     if (selectedType) {
-      fetchCCDADocuments(receive).then(setDocuments).catch(console.error)
+      fetchCCDADocuments(protocol).then(setDocuments).catch(console.error)
     }
-  }, [selectedType, receive])
+  }, [selectedType, protocol])
 
   interface FileDetail {
     svap: boolean
@@ -105,7 +106,7 @@ const DocumentSelector = ({ onConfirm, onClose, receive: receive }: DocumentSele
 
   const documentType = receive
     ? selectedType === 'cures'
-      ? 'Receiver SUT Test Data'
+      ? 'Cures Update Receiver SUT Test Data'
       : 'Cures Update Svap Uscdiv3 Receiver SUT Test Data'
     : selectedType === 'cures'
       ? 'Cures Update Sender SUT Test Data'

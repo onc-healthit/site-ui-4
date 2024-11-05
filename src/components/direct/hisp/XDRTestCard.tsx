@@ -847,6 +847,7 @@ const TestCard = ({ test }: TestCardProps) => {
                   onConfirm={handleDocumentConfirm}
                   onClose={handleDocumentSelectorClose}
                   receive={test.sutRole === 'receiver'}
+                  protocol={test.name?.includes('XDR') ? 'xdr' : ''}
                 />
               )}
 
