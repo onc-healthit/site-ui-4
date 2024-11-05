@@ -329,15 +329,15 @@ const H2Component = () => {
             position: 'sticky',
             top: '75px',
             zIndex: '801',
-            height: '80vh',
+            height: '100%',
+            mb: 16,
           }}
         >
-          <Card sx={{ position: 'relative', border: '.5px solid #BCBCBC' }}>
+          <Card sx={{ position: 'relative', border: '.5px solid #BCBCBC', minHeight: 'fit-content' }}>
             <CardContent>
               <Box component="form" sx={{ backgroundColor: palette.white }}>
                 <Typography fontWeight={'600'} variant="h5" component="h2" gutterBottom pb={2}>
-                  Use the menu to select what
-                  <br /> sub criteria you want to test for.
+                  Use the menu to select what sub criteria you want to test for.
                 </Typography>
                 <Box>
                   <FormControl fullWidth sx={{ mb: 2 }}>
@@ -382,11 +382,7 @@ const H2Component = () => {
           </Card>
           {/* Conditional display of Profile or DownloadXDRCert */}
           {isXDR && <DownloadXDRCert />}
-          {!isXDR && (
-            <Card>
-              <Profile />
-            </Card>
-          )}
+          {!isXDR && <Profile />}
         </Box>
         {/* Right-side Content (Test Cards) */}
         <Box width={'60%'}>

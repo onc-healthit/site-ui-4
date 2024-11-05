@@ -619,6 +619,7 @@ const TestCard = ({
                     onConfirm={handleDocumentConfirm}
                     onClose={handleDocumentSelectorClose}
                     receive={test.sutRole === 'receiver'}
+                    protocol={test.protocol || ''}
                   />
                 )}
                 {_.has(test, 'fields') &&

@@ -22,13 +22,12 @@ export default function USCDIV4Validator() {
           </Link>,
         ]}
         heading={'C-CDA USCDI V4 Validator'}
-        // TODO: Get a unique description from the ONC for USCDI V4
         description={
           <>
-            The C-CDA R2.1 Validator is a tool used to check if electronic health documents comply with the Clinical
-            Document Architecture (C-CDA) standard&apos;s R2.1 version. C-CDA is a standardized format for sharing
-            clinical information, and the validator ensures that documents follow the correct format and content rules
-            before being exchanged between healthcare systems.
+            The C-CDA USCDI v4 Validator is a tool used to check if electronic health documents comply with the Clinical
+            Document Architecture (C-CDA) standard&apos;s R2.1 version.
+            <br />
+            USCDI v4 adds 20 data elements and one data class to USCDI v3.
           </>
         }
       />

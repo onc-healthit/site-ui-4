@@ -154,6 +154,8 @@ const TestCard = ({ test }: TestCardProps) => {
   const [endpoint, setEndpoint] = useState(defaultEndpoint)
   const [endpointTLS, setEndpointTLS] = useState(defaultEndpointTLS)
   const [validationResults, setValidationResults] = useState<ValidationResults | null>(null)
+  const [acceptValidationLogs, setAcceptValidationLogs] = useState<boolean>(false)
+  const [displayValidationMessage, setDisplayValidationMessage] = useState<boolean>(false)
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const summaryRef = useRef<HTMLDivElement>(null)
@@ -173,7 +175,7 @@ const TestCard = ({ test }: TestCardProps) => {
   const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('info')
 
   const [logType, setLogType] = useState<'request' | 'response' | 'ccdaValidation'>('request')
-  const manualValidationIDs = ['4a', '4b', '20amu2', '20bmu2']
+  const manualValidationIDs = ['4a', '4b', '20amu2', '20bmu2', '13', '14', '15a', '15b', '18', '19', '30mu2', '31mu2']
   const { data: session } = useSession()
   const subHeader = 'Description'
   const subDesc = test['Purpose/Description']
@@ -217,6 +219,18 @@ const TestCard = ({ test }: TestCardProps) => {
   ]
   const ccdaRequiredTestIds = ['1', '2', '3add']
   const sendXDRTestsIds = ['16', '17']
+  const xdrTestIdsWithThreeSteps = [
+    '16',
+    '32mu2',
+    '33mu2',
+    '34mu2',
+    '35mu2',
+    '36mu2',
+    '37mu2',
+    '38mu2',
+    '43mu2',
+    '44mu2',
+  ]
   const sendEdgeTestsIds = ['1', '2', '6', '7', '10', '11', '12', '20amu2', '20bmu2', '49mu2']
   const isCCDADocumentRequired = ccdaRequiredTestIds.includes(test.id.toString())
   const StepText = ({ inputs, role, endpointsGenerated, criteriaMet }: StepTextProps) => {
@@ -232,7 +246,7 @@ const TestCard = ({ test }: TestCardProps) => {
       )
     }
 
-    if (endpointsGenerated) {
+    if (endpointsGenerated || xdrTestIdsWithThreeSteps.includes(test.id.toString())) {
       return (
         <Typography variant="body2">
           <strong>Step 2:</strong> Send XDR message to endpoint and refresh to check status.
@@ -308,7 +322,11 @@ const TestCard = ({ test }: TestCardProps) => {
       setIsLoading(true)
       setIsFinished(false)
       setCriteriaMet('')
-      if (endpointsGenerated) {
+
+      if (
+        endpointsGenerated ||
+        (xdrTestIdsWithThreeSteps.includes(test.id.toString()) && !isFinished && criteriaMet === 'PENDING')
+      ) {
         const status = await GetStatus(test.id.toString())
         console.log('Test status:', status)
         setTestRequestRequest(status.testRequest)
@@ -395,12 +413,16 @@ const TestCard = ({ test }: TestCardProps) => {
   }
 
   const handleAcceptTest = () => {
+    setDisplayValidationMessage(true)
+    setAcceptValidationLogs(true)
     setCriteriaMet('TRUE')
-    setShowLogs(false)
+    //setShowLogs(false)
   }
   const handleRejectTest = () => {
+    setDisplayValidationMessage(true)
+    setAcceptValidationLogs(false)
     setCriteriaMet('FALSE')
-    setShowLogs(false)
+    // setShowLogs(false)
   }
   const handleClearTest = () => {
     setCriteriaMet('')
@@ -414,6 +436,7 @@ const TestCard = ({ test }: TestCardProps) => {
     setEndpointTLS(defaultEndpointTLS)
     setApiError(false)
     setValidationResults(null)
+    setDisplayValidationMessage(false)
     eventTrack('Clear Test', 'Test By Criteria - XDR Test', `${test.criteria}`)
   }
 
@@ -421,11 +444,14 @@ const TestCard = ({ test }: TestCardProps) => {
     if (endpointsGenerated && criteriaMet === 'PENDING') {
       return <Chip variant="outlined" color="warning" label="Pending"></Chip>
     }
+    if (criteriaMet === 'PENDING' && xdrTestIdsWithThreeSteps.includes(test.id.toString())) {
+      return <Chip variant="outlined" color="warning" label="Pending"></Chip>
+    }
     if (
       criteriaMet === 'TRUE' ||
       criteriaMet === 'PASSED' ||
       criteriaMet === 'SUCCESS' ||
-      (criteriaMet === 'MANUAL' && isFinished)
+      (criteriaMet === 'MANUAL' && isFinished && !xdrTestIdsWithThreeSteps.includes(test.id.toString()))
     ) {
       return <Chip color="success" label="Success"></Chip>
     } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR' || criteriaMet === 'FAILED') {
@@ -595,19 +621,33 @@ const TestCard = ({ test }: TestCardProps) => {
               <Button variant="outlined" onClick={() => handleToggleLogs('RETURN TO TEST')}>
                 RETURN TO TEST
               </Button>
-              {test.criteria &&
+
+              {((test.criteria &&
                 manualValidationIDs.includes(test.id.toString()) &&
                 testRequest &&
-                testRequest.length > 0 && (
-                  <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button variant="outlined" color="success" onClick={handleAcceptTest}>
-                      Accept
-                    </Button>
-                    <Button variant="text" sx={{ color: palette.warningDark }} onClick={handleRejectTest}>
-                      Reject
-                    </Button>
-                  </Box>
-                )}
+                testRequest.length > 0 &&
+                !displayValidationMessage) ||
+                (test.criteria &&
+                  xdrTestIdsWithThreeSteps.includes(test.id.toString()) &&
+                  criteriaMet === 'MANUAL' &&
+                  testRequest &&
+                  testRequest.length > 0 &&
+                  !displayValidationMessage)) && (
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  <Button variant="outlined" color="success" onClick={handleAcceptTest}>
+                    Accept
+                  </Button>
+                  <Button variant="text" sx={{ color: palette.warningDark }} onClick={handleRejectTest}>
+                    Reject
+                  </Button>
+                </Box>
+              )}
+              {displayValidationMessage &&
+                (acceptValidationLogs ? (
+                  <Chip color="success" label="Validation Accepted"></Chip>
+                ) : (
+                  <Chip color="error" label="Validation Rejected"></Chip>
+                ))}
             </Box>
           </Box>
         ) : (
@@ -708,13 +748,23 @@ const TestCard = ({ test }: TestCardProps) => {
               >
                 <Box>
                   {' '}
-                  {test.criteria &&
+                  {((test.criteria &&
                     manualValidationIDs.includes(test.id.toString()) &&
                     (testRequest || testResponse) &&
                     isFinished &&
-                    !apiError && (
-                      <Typography sx={{ ml: 1, color: 'primary' }}>Waiting Validation...(Check Logs)</Typography>
-                    )}
+                    !apiError &&
+                    criteriaMet !== 'TRUE' &&
+                    criteriaMet !== 'FALSE') ||
+                    (test.criteria &&
+                      xdrTestIdsWithThreeSteps.includes(test.id.toString()) &&
+                      (testRequest || testResponse) &&
+                      isFinished &&
+                      !apiError &&
+                      criteriaMet !== 'TRUE' &&
+                      criteriaMet !== 'FALSE' &&
+                      criteriaMet === 'MANUAL')) && (
+                    <Typography sx={{ ml: 1, color: 'primary' }}>Waiting Validation...(Check Logs)</Typography>
+                  )}
                 </Box>
                 <Box
                   sx={{
@@ -730,7 +780,9 @@ const TestCard = ({ test }: TestCardProps) => {
                     loading={isLoading}
                     done={isFinished}
                     progressive={
-                      (sendEdgeTestsIds.includes(test.id.toString()) || sendXDRTestsIds.includes(test.id.toString())) &&
+                      (sendEdgeTestsIds.includes(test.id.toString()) ||
+                        sendXDRTestsIds.includes(test.id.toString()) ||
+                        xdrTestIdsWithThreeSteps.includes(test.id.toString())) &&
                       !endpointsGenerated
                     }
                     progressDuration={loadingTime}
@@ -738,7 +790,10 @@ const TestCard = ({ test }: TestCardProps) => {
                     variant="contained"
                     color="primary"
                   >
-                    {endpointsGenerated ? 'REFRESH' : 'RUN'}
+                    {endpointsGenerated ||
+                    (xdrTestIdsWithThreeSteps.includes(test.id.toString()) && criteriaMet === 'PENDING')
+                      ? 'REFRESH'
+                      : 'RUN'}
                   </LoadingButton>
 
                   {/* <div ref={hiddenAnchorRef} style={{ visibility: 'hidden', top: '50px' }}></div> */}
@@ -792,6 +847,7 @@ const TestCard = ({ test }: TestCardProps) => {
                   onConfirm={handleDocumentConfirm}
                   onClose={handleDocumentSelectorClose}
                   receive={test.sutRole === 'receiver'}
+                  protocol={test.name?.includes('XDR') ? 'xdr' : ''}
                 />
               )}
 

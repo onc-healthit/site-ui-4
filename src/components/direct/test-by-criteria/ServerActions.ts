@@ -375,10 +375,12 @@ export async function GetStatus(testCaseId: string): Promise<StatusResponse> {
   }
 }
 
-export async function fetchCCDADocuments(receive: boolean): Promise<Documents> {
-  const baseUrl = receive
-    ? process.env.CCDA_DOCUMENTS_XDR || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType=xdr'
-    : process.env.CCDA_DOCUMENTS || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType'
+export async function fetchCCDADocuments(protocol: string): Promise<Documents> {
+  console.log(protocol)
+  const baseUrl =
+    protocol === 'xdr'
+      ? process.env.CCDA_DOCUMENTS_XDR || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType=xdr'
+      : process.env.CCDA_DOCUMENTS || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType'
 
   const config = {
     method: 'get',
