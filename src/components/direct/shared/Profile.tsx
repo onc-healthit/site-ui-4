@@ -10,6 +10,7 @@ import {
   MenuItem,
   SelectChangeEvent,
   LinearProgress,
+  Card,
 } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import { ProfileContext } from '../hisp/context'
@@ -175,7 +176,11 @@ const Profile = () => {
       {isLoading ? (
         <LinearProgress />
       ) : (
-        <Box component="form" onSubmit={handleSaveProfile} sx={{ backgroundColor: palette.white }}>
+        <Card
+          component="form"
+          onSubmit={handleSaveProfile}
+          sx={{ backgroundColor: palette.white, border: '.5px solid #BCBCBC', minHeight: 'fit-content' }}
+        >
           {!_.isEmpty(profiles) && (
             <>
               <Select
@@ -293,7 +298,7 @@ const Profile = () => {
               onClose={() => setMessage(null)}
             />
           )}
-        </Box>
+        </Card>
       )}
     </>
   )
