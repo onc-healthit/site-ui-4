@@ -76,7 +76,7 @@ export default function ArchiveHome() {
               <FAQCard header={'Consolidated Clinical Document Architecture (C-CDA) FAQs'} items={faq['C-CDA']} />
             </Box>
             <Box sx={{ scrollMarginTop: '200px' }} id="direct">
-              <FAQCard header={'Direct Project Tooling FAQs'} items={faq.Direct} />
+              <FAQCard header={'Direct Tooling FAQs'} items={faq.Direct} />
             </Box>
             <Box sx={{ scrollMarginTop: '200px' }} id="xdm">
               <FAQCard header={'XDM FAQs'} items={faq.XDM} />
