@@ -535,7 +535,7 @@ const TestCard = ({
                     manualValidationCriteria.includes(test.criteria) &&
                     formattedLogs.length > 0 &&
                     criteriaMet.includes('MANUAL') && (
-                      <Typography sx={{ ml: 1, color: 'primary' }}>Waiting Validation...(Check Logs)</Typography>
+                      <Typography sx={{ ml: 1, color: 'primary' }}>Awaiting Validation...(Check Logs)</Typography>
                     )}
                 </Box>
 
