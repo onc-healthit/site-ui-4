@@ -108,7 +108,7 @@ const testCases = {
         },
         actionLabel: 'RUN',
       },
-      desc: "Verifies the ability of the receiving system to accept a STARTTLS connection with PLAIN SASL authentication(if enabled). Hitting 'Run' will cause ETT to send an email. Verify the receipt of email with subject 'STARTTLS & PLAIN SASL AUTHENTICATION'.",
+      desc: "Verifies the ability of the receiving system to accept a STARTTLS connection with PLAIN SASL authentication (if enabled). Hitting 'Run' will cause ETT to send an email. Verify the receipt of email with subject 'STARTTLS & PLAIN SASL AUTHENTICATION'.",
       longDesc:
         "Run this series collectively from one action: Test 9 and 16 verifies the ability of the receiving system to accept a STARTTLS connection with PLAIN SASL authentication. Hitting 'Run' will cause ETT to send an email (Test 20). Verify the receipt of email with subject 'STARTTLS & PLAIN SASL AUTHENTICATION'. If TLS Required is unchecked in the profile--STARTTLS validation will be ignored. ",
       sutRole: 'receiver',
@@ -1959,7 +1959,7 @@ const testCases = {
         ],
         actionLabel: 'RUN',
       },
-      desc: "Verifies the ability of the Edge system to initiate a IMAP session with STARTTLS and PLAIN SASL AUTHENTICATION(if enabled). The Vendor should retrieve an email from 'imaptesting@james.healthit.gov'.",
+      desc: "Verifies the ability of the Edge system to initiate a IMAP session with STARTTLS and PLAIN SASL AUTHENTICATION (if enabled). The Vendor should retrieve an email from 'imaptesting@james.healthit.gov'.",
       longDesc:
         'Run this series collectively from one action: Test 19 invokes the STARTTLS validation and Test 20 validates the SASL authentication. Test 24 invokes the retrieve validation. It is necessary to configure an email account on the SUT in order to retrieve messages using these credentials: imaptesting@james.healthit.gov / smtptesting123.',
       sutRole: 'receiver',
@@ -2011,9 +2011,9 @@ const testCases = {
         ],
         actionLabel: 'RUN',
       },
-      desc: 'Verifies the ability of the Vendor to receive status and size updates from the IMAP4 server. An email will be sent to the SUT and the SUT will show size and status updates (e.g change in the number of emails in inbox) when new email is received',
+      desc: 'Verifies the ability of the Vendor to receive status and size updates from the IMAP4 server. An email will be sent to the SUT and the SUT will show size and status updates (e.g change in the number of emails in inbox) when new email is received.',
       longDesc:
-        'The proctor needs to send an email to the Vendor and should verify that the Vendor system is able to show size and status updates (e.g change in the number of emails in inbox) when new email is received ',
+        'The proctor needs to send an email to the Vendor and should verify that the Vendor system is able to show size and status updates (e.g change in the number of emails in inbox) when new email is received. ',
       sutRole: 'receiver',
       sutHisp: false,
       criteria: "['b1-5']",

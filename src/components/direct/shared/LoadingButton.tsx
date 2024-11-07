@@ -10,11 +10,13 @@ interface ExtendedLoadingButtonProps extends ButtonProps {
   progressDuration?: number
   finalLabel?: ReactNode
   children: ReactNode
+  disabled?: boolean
 }
 
 const LoadingButton: React.FC<ExtendedLoadingButtonProps> = ({
   loading,
   done,
+  disabled,
   progressive = false,
   progressDuration = 3000,
   finalLabel = 'Refresh',
@@ -48,7 +50,7 @@ const LoadingButton: React.FC<ExtendedLoadingButtonProps> = ({
   }, [progressive, loading, progressDuration])
 
   return (
-    <Button variant="text" {...props} disabled={loading}>
+    <Button variant="text" {...props} disabled={disabled || loading}>
       {done && !progressive ? (
         <PublishedWithChangesIcon />
       ) : done && progressive ? (
