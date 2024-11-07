@@ -17,7 +17,7 @@ import palette from '@/styles/palette'
 
 import _ from 'lodash'
 import DynamicTable from './DynamicTable'
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import LoadingButton from '../shared/LoadingButton'
 import DocumentSelector from './DocumentSelector'
 import { handleXDRAPICall, GetStatus } from '../test-by-criteria/ServerActions'
@@ -156,6 +156,8 @@ const TestCard = ({ test }: TestCardProps) => {
   const [validationResults, setValidationResults] = useState<ValidationResults | null>(null)
   const [acceptValidationLogs, setAcceptValidationLogs] = useState<boolean>(false)
   const [displayValidationMessage, setDisplayValidationMessage] = useState<boolean>(false)
+  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({})
+  const [disableRun, setDisableRun] = useState(true)
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const summaryRef = useRef<HTMLDivElement>(null)
@@ -181,6 +183,11 @@ const TestCard = ({ test }: TestCardProps) => {
   const subDesc = test['Purpose/Description']
   const expTestHeader = 'Expected Test Results'
   const expTestResults = test['Expected Test Results']
+
+  useEffect(() => {
+    const fieldsPresent = areAllFieldsPresent(test.inputs?.filter(shouldDisplayInput) || [], fieldValues)
+    setDisableRun(Object.keys(formErrors).length > 0 || !fieldsPresent)
+  }, [disableRun, fieldValues, formErrors, test.inputs])
   const requiresCCDADocument = () => {
     return test.inputs?.some((input) => input.key === 'payload' && input.type?.includes('CCDAWidget'))
   }
@@ -277,13 +284,36 @@ const TestCard = ({ test }: TestCardProps) => {
     })
     return initialData
   })
-  const handleChange = (key: string | undefined, value: string) => {
+  const areAllFieldsPresent = (inputs: InputFields[], fieldValues: { [key: string]: string }): boolean => {
+    const inputKeys = inputs.map((input) => input.key).filter((key): key is string => key !== undefined)
+    const fieldValueKeys = Object.keys(fieldValues)
+    const keysPresent =
+      inputKeys.every((key) => fieldValueKeys.includes(key)) && fieldValueKeys.every((key) => inputKeys.includes(key))
+    return keysPresent
+  }
+
+  const handleChange = (key: string, value: string) => {
+    const errors = { ...formErrors }
+
     if (key) {
       setFieldValues((prev) => ({
         ...prev,
         [key]: value,
       }))
+      if (value === '') {
+        errors[key] = 'This field is required'
+      } else if (key === 'direct_to' || key === 'direct_from' || key === 'outgoing_from') {
+        if (!/^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/.test(value)) {
+          errors[key] = 'Please enter a valid email'
+        } else {
+          delete errors[key]
+        }
+      } else {
+        delete errors[key]
+      }
     }
+
+    setFormErrors(errors)
   }
 
   const fixEndpoint = (url: string): string => {
@@ -684,9 +714,14 @@ const TestCard = ({ test }: TestCardProps) => {
                         fullWidth
                         label={input.name}
                         variant="outlined"
+                        error={input.key !== undefined && _.has(formErrors, input.key as string)}
                         value={input.key ? fieldValues[input.key] || '' : ''}
                         onChange={(e) => input.key && handleChange(input.key, e.target.value)}
-                        helperText={input.hoverlabel}
+                        helperText={
+                          input.key !== undefined && _.has(formErrors, input.key)
+                            ? _.get(formErrors, input.key as string, null)
+                            : input.hoverlabel
+                        }
                       />
                     </FormControl>
                   </Box>
@@ -763,7 +798,7 @@ const TestCard = ({ test }: TestCardProps) => {
                       criteriaMet !== 'TRUE' &&
                       criteriaMet !== 'FALSE' &&
                       criteriaMet === 'MANUAL')) && (
-                    <Typography sx={{ ml: 1, color: 'primary' }}>Waiting Validation...(Check Logs)</Typography>
+                    <Typography sx={{ ml: 1, color: 'primary' }}>Awaiting Validation...(Check Logs)</Typography>
                   )}
                 </Box>
                 <Box
@@ -789,6 +824,7 @@ const TestCard = ({ test }: TestCardProps) => {
                     onClick={handleRunTest}
                     variant="contained"
                     color="primary"
+                    disabled={disableRun}
                   >
                     {endpointsGenerated ||
                     (xdrTestIdsWithThreeSteps.includes(test.id.toString()) && criteriaMet === 'PENDING')
