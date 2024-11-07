@@ -828,7 +828,6 @@ const TestCard = ({ test }: TestCardProps) => {
                     gap: 1,
                     alignItems: 'flex-start',
                     justifyContent: 'flex-end',
-                    ml: 1,
                   }}
                 >
                   <Typography>CCDA Document Type</Typography>
@@ -840,18 +839,18 @@ const TestCard = ({ test }: TestCardProps) => {
                       Selected: {documentDetails.fileName}
                     </Typography>
                   )}
+                  {showDocumentSelector && (
+                    <DocumentSelector
+                      onConfirm={handleDocumentConfirm}
+                      onClose={handleDocumentSelectorClose}
+                      receive={test.sutRole === 'receiver'}
+                      protocol={test.name?.includes('XDR') ? 'xdr' : ''}
+                    />
+                  )}
+
+                  {renderCriteriaMetIcon()}
                 </Box>
               )}
-              {showDocumentSelector && (
-                <DocumentSelector
-                  onConfirm={handleDocumentConfirm}
-                  onClose={handleDocumentSelectorClose}
-                  receive={test.sutRole === 'receiver'}
-                  protocol={test.name?.includes('XDR') ? 'xdr' : ''}
-                />
-              )}
-
-              {renderCriteriaMetIcon()}
             </Box>
           </>
         )}
