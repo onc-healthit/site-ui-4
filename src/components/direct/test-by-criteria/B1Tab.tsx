@@ -105,7 +105,7 @@ const B1Component = () => {
 
   return (
     <Container>
-      <Box sx={{ display: 'flex', width: '100%', py: 4, gap: 4 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', py: 4, gap: 4 }}>
         <Box
           sx={{
             display: 'flex',
@@ -115,15 +115,15 @@ const B1Component = () => {
             position: 'sticky',
             top: '75px',
             zIndex: '801',
-            height: '80vh',
+            height: '100%',
+            mb: 16,
           }}
         >
-          <Card sx={{ position: 'relative', border: '.5px solid #BCBCBC' }}>
+          <Card sx={{ position: 'relative', border: '.5px solid #BCBCBC', minHeight: 'fit-content' }}>
             <CardContent>
               <Box component="form" sx={{ backgroundColor: palette.white }}>
                 <Typography fontWeight={'600'} variant="h5" component="h2" gutterBottom pb={2}>
-                  Use the menu to select what
-                  <br /> sub criteria you want to test for.
+                  Use the menu to select what sub criteria you want to test for.
                 </Typography>
                 <Box>
                   <FormControl fullWidth>
@@ -146,11 +146,7 @@ const B1Component = () => {
               </Box>
             </CardContent>
           </Card>
-          {!isXDR && (
-            <Card>
-              <Profile />
-            </Card>
-          )}
+          {!isXDR && <Profile />}
           {isXDR && <DownloadXDRCert />}
         </Box>
         <Box width={'60%'}>
