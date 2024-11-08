@@ -158,7 +158,7 @@ export default function SiteHomeRows() {
                     pathname: '/c-cda',
                   },
                   {
-                    title: 'Direct Project Tooling',
+                    title: 'Direct Tooling',
                     description:
                       'The ASTP Direct Tool utilizes the Direct Standard® to provide a mechanism for developers and implementers to test the capabilities of securely transporting sensitive health care information over the open internet.',
                     cardImage: directSvg,

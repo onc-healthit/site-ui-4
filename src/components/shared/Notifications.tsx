@@ -19,16 +19,16 @@ const NotificationFab: React.FC = () => {
     }
     return new Set()
   })
-  const [releaseVersionHTML, setReleaseVersionHTML] = useState<string | undefined>()
-  const [releaseDateHTML, setReleaseDateHTML] = useState<string | undefined>()
+  const [releaseVersionText, setReleaseVersionText] = useState<string | undefined>()
+  const [releaseDateText, setReleaseDateText] = useState<string | undefined>()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setNotifications(await fetchNotifications())
-        const { releaseVersionHTML, releaseDateHTML } = await fetchReleaseData()
-        setReleaseVersionHTML(releaseVersionHTML)
-        setReleaseDateHTML(releaseDateHTML)
+        const { releaseVersionText, releaseDateText } = await fetchReleaseData()
+        setReleaseVersionText(releaseVersionText)
+        setReleaseDateText(releaseDateText)
       } catch (error) {
         console.error('Failed to fetch data:', error)
       }
@@ -139,8 +139,12 @@ const NotificationFab: React.FC = () => {
             variant="caption"
             color={palette.greyDark}
           >
-            {releaseVersionHTML && <div dangerouslySetInnerHTML={{ __html: releaseVersionHTML }} />}
-            {releaseDateHTML && <div dangerouslySetInnerHTML={{ __html: releaseDateHTML }} />}
+            <div>
+              <b>Version:</b> {releaseVersionText}
+            </div>
+            <div>
+              <b>Release Date:</b> {releaseDateText}
+            </div>
           </Typography>
         </Drawer>
       )}

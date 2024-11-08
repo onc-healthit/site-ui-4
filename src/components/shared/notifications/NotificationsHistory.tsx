@@ -7,12 +7,24 @@ import palette from '@/styles/palette'
 import SectionHeader from '../SectionHeader'
 import Timeline from './Timeline'
 import { Announcement, fetchNotifications } from '@/assets/NotificationService'
+import { fetchReleaseDate } from '@/assets/ReleaseService'
 
 export default function NotificationHistory() {
+  const [releaseDateHTML, setReleaseDateHTML] = useState<string | undefined>()
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const releaseDateHTML = await fetchReleaseDate()
+        setReleaseDateHTML(releaseDateHTML)
+      } catch (e) {
+        console.error(e)
+      }
+    })()
+  }, [])
+
   const [notifications, setNotifications] = useState<Announcement[]>([]) // TypeScript type for notifications
   const [loading, setLoading] = useState<boolean>(true) // TypeScript type for loading state
   const [error, setError] = useState<string | null>(null) // TypeScript type for error state
-
   useEffect(() => {
     const loadNotifications = async () => {
       try {
@@ -66,7 +78,10 @@ export default function NotificationHistory() {
         <Timeline
           items={notifications.map((notification) => ({
             title: notification.title,
-            date: '11/6/2024',
+            // Dates will be hardcoded with this line below eventually post-release
+            // date: notification.date,
+            // For now though, we will overwrite all with a dynamic variable due to unknowns in release timing
+            date: releaseDateHTML ?? 'Unknown Date',
             description: notification.content,
           }))}
         />

@@ -30,15 +30,15 @@ const CommunicationFab: React.FC<CommunicationFabProps> = ({ children }) => {
     eventTrack('Close Communication FAB', 'Communication Panel', 'User clicks close communication panel')
   }
 
-  const [releaseVersionHTML, setReleaseVersionHTML] = useState<string | undefined>()
-  const [releaseDateHTML, setReleaseDateHTML] = useState<string | undefined>()
+  const [releaseVersionText, setReleaseVersionText] = useState<string | undefined>()
+  const [releaseDateText, setReleaseDateText] = useState<string | undefined>()
 
   useEffect(() => {
     ;(async () => {
       try {
-        const { releaseVersionHTML, releaseDateHTML } = await fetchReleaseData()
-        setReleaseVersionHTML(releaseVersionHTML)
-        setReleaseDateHTML(releaseDateHTML)
+        const { releaseVersionText, releaseDateText } = await fetchReleaseData()
+        setReleaseVersionText(releaseVersionText)
+        setReleaseDateText(releaseDateText)
       } catch (e) {
         console.error(e)
       }
@@ -89,20 +89,22 @@ const CommunicationFab: React.FC<CommunicationFabProps> = ({ children }) => {
               size="small"
               color="inherit"
               aria-label="Close Info"
-              style={{ position: 'fixed', bottom: '8px', right: '20px' }}
+              style={{ position: 'fixed', bottom: 20, right: 20 }}
             >
               <CloseIcon fontSize="small" htmlColor={palette.error} />
             </Fab>
           </Tooltip>
           <Typography
-            sx={{
-              fontSize: '12px',
-            }}
+            sx={{ position: 'fixed', bottom: '12px', padding: '0 16px 8px 0px', fontSize: '12px' }}
             variant="caption"
             color={palette.greyDark}
           >
-            {releaseVersionHTML && <div dangerouslySetInnerHTML={{ __html: releaseVersionHTML }} />}
-            {releaseDateHTML && <div dangerouslySetInnerHTML={{ __html: releaseDateHTML }} />}
+            <div>
+              <b>Version:</b> {releaseVersionText}
+            </div>
+            <div>
+              <b>Release Date:</b> {releaseDateText}
+            </div>
           </Typography>
         </Box>
       </Drawer>
