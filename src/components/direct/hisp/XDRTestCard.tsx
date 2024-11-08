@@ -140,7 +140,7 @@ const TestCard = ({ test }: TestCardProps) => {
   const defaultEndpointTLS =
     process.env.XDR_ENDPOINT_TLS_PREFIX ||
     'https://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
-  const loadingTime = 60000
+  const [loadingTime, setLoadingTime] = useState(60000)
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testResponse, setTestRequestResponse] = useState<string>('')
@@ -177,7 +177,7 @@ const TestCard = ({ test }: TestCardProps) => {
   const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('info')
 
   const [logType, setLogType] = useState<'request' | 'response' | 'ccdaValidation'>('request')
-  const manualValidationIDs = ['4a', '4b', '20amu2', '20bmu2', '13', '14', '15a', '15b', '18', '19', '30mu2', '31mu2']
+  const manualValidationIDs = ['4a', '4b', '20amu2', '20bmu2', '13', '14', '15a', '15b', '30mu2', '31mu2']
   const { data: session } = useSession()
   const subHeader = 'Description'
   const subDesc = test['Purpose/Description']
@@ -224,6 +224,7 @@ const TestCard = ({ test }: TestCardProps) => {
     '43mu2',
     '44mu2',
   ]
+  const nullResponseExceptionIds = ['19']
   const ccdaRequiredTestIds = ['1', '2', '3add']
   const sendXDRTestsIds = ['16', '17']
   const xdrTestIdsWithThreeSteps = [
@@ -240,6 +241,11 @@ const TestCard = ({ test }: TestCardProps) => {
   ]
   const sendEdgeTestsIds = ['1', '2', '6', '7', '10', '11', '12', '20amu2', '20bmu2', '49mu2']
   const isCCDADocumentRequired = ccdaRequiredTestIds.includes(test.id.toString())
+  const shouldEnableProgressiveLoading =
+    (sendEdgeTestsIds.includes(test.id.toString()) ||
+      sendXDRTestsIds.includes(test.id.toString()) ||
+      xdrTestIdsWithThreeSteps.includes(test.id.toString())) &&
+    !endpointsGenerated
   const StepText = ({ inputs, role, endpointsGenerated, criteriaMet }: StepTextProps) => {
     if (manualValidationIDs.includes(test.id.toString()) && isFinished) {
       if (test.id == '20amu2' || test.id == '20bmu2') {
@@ -341,6 +347,12 @@ const TestCard = ({ test }: TestCardProps) => {
       return
     }
 
+    if (shouldEnableProgressiveLoading) {
+      setLoadingTime(60000)
+    } else {
+      setLoadingTime(0)
+    }
+
     const ip_address = fieldValues['ip_address'] || ''
     const port = fieldValues['port'] || ''
     const direct_to = fieldValues['direct_to'] || ''
@@ -405,7 +417,6 @@ const TestCard = ({ test }: TestCardProps) => {
               endpointSet = true
             }
             if (endpointSet) {
-              console.log('setting endpoints generated')
               setEndpointsGenerated(true)
             }
           }
@@ -415,6 +426,7 @@ const TestCard = ({ test }: TestCardProps) => {
             !testRequest &&
             !testResponse &&
             test.criteria &&
+            !nullResponseExceptionIds.includes(test.id.toString()) &&
             !manualValidationIDs.includes(test.id.toString()) &&
             criteriaMet
           ) {
@@ -814,12 +826,7 @@ const TestCard = ({ test }: TestCardProps) => {
                   <LoadingButton
                     loading={isLoading}
                     done={isFinished}
-                    progressive={
-                      (sendEdgeTestsIds.includes(test.id.toString()) ||
-                        sendXDRTestsIds.includes(test.id.toString()) ||
-                        xdrTestIdsWithThreeSteps.includes(test.id.toString())) &&
-                      !endpointsGenerated
-                    }
+                    progressive={shouldEnableProgressiveLoading}
                     progressDuration={loadingTime}
                     onClick={handleRunTest}
                     variant="contained"
@@ -841,7 +848,7 @@ const TestCard = ({ test }: TestCardProps) => {
                     LOGS
                   </Button>
 
-                  {((test.criteria && criteriaMet) || documentDetails) && (
+                  {((test.criteria && criteriaMet) || documentDetails || isFinished) && (
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <Button
                         variant="text"
@@ -883,10 +890,9 @@ const TestCard = ({ test }: TestCardProps) => {
                       protocol={test.name?.includes('XDR') ? 'xdr' : ''}
                     />
                   )}
-
-                  {renderCriteriaMetIcon()}
                 </Box>
               )}
+              {renderCriteriaMetIcon()}
             </Box>
           </>
         )}
