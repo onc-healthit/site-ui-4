@@ -431,9 +431,8 @@ export default function ScorecardHome() {
 
   const handleCardWithBorderClick = (index: number) => {
     setModalUrl(modalUrls[index])
-    eventTrack('Open Scorecard Modal', 'Scorecard', modalUrls[index])
   }
-  //events firing twice//
+
   return (
     <>
       {/* Global Header */}
@@ -555,6 +554,10 @@ export default function ScorecardHome() {
                 useModal={true}
                 cardWidthPercent={100}
                 modalContent={modalContent}
+                trackEvent={true}
+                eventCategory="Open Scorecard Modal"
+                eventLabel="Scorecard"
+                eventType={modalUrls[0]}
               />
             </div>
             <div onClick={() => handleCardWithBorderClick(1)}>
@@ -565,6 +568,10 @@ export default function ScorecardHome() {
                 useModal={true}
                 cardWidthPercent={100}
                 modalContent={modalContent}
+                trackEvent={true}
+                eventCategory="Open Scorecard Modal"
+                eventLabel="Scorecard"
+                eventType={modalUrls[1]}
               />
             </div>
             <CardWithBorder
@@ -584,6 +591,10 @@ export default function ScorecardHome() {
                 useModal={true}
                 cardWidthPercent={100}
                 modalContent={modalContent}
+                trackEvent={true}
+                eventCategory="Open Scorecard Modal"
+                eventLabel="Scorecard"
+                eventType={modalUrls[2]}
               />
             </div>
             <CardWithBorder
