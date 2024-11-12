@@ -862,37 +862,47 @@ const TestCard = ({ test }: TestCardProps) => {
                   )}
                 </Box>
               </Box>
-
-              {requiresCCDADocument() && !endpointsGenerated && !isFinished && (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 1,
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-end',
-                  }}
-                >
-                  <Typography>CCDA Document Type</Typography>
-                  <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
-                    SELECT A DOCUMENT
-                  </Button>
-                  {documentDetails && (
-                    <Typography variant="caption" sx={{ mt: 1 }}>
-                      Selected: {documentDetails.fileName}
-                    </Typography>
-                  )}
-                  {showDocumentSelector && (
-                    <DocumentSelector
-                      onConfirm={handleDocumentConfirm}
-                      onClose={handleDocumentSelectorClose}
-                      receive={test.sutRole === 'receiver'}
-                      protocol={test.name?.includes('XDR') ? 'xdr' : ''}
-                    />
-                  )}
-                </Box>
-              )}
-              {renderCriteriaMetIcon()}
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  justifyContent: 'space-between',
+                  gap: 1,
+                  mt: 1,
+                }}
+              >
+                {requiresCCDADocument() && !endpointsGenerated && !isFinished && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 1,
+                      alignItems: 'flex-start',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
+                    <Typography>CCDA Document Type</Typography>
+                    <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
+                      SELECT A DOCUMENT
+                    </Button>
+                  </Box>
+                )}
+                {documentDetails && (
+                  <Typography variant="caption" sx={{ mt: 1 }}>
+                    Selected: {documentDetails.fileName}
+                  </Typography>
+                )}
+                {showDocumentSelector && (
+                  <DocumentSelector
+                    onConfirm={handleDocumentConfirm}
+                    onClose={handleDocumentSelectorClose}
+                    receive={test.sutRole === 'receiver'}
+                    protocol={test.name?.includes('XDR') ? 'xdr' : ''}
+                  />
+                )}
+                {renderCriteriaMetIcon()}
+              </Box>
             </Box>
           </>
         )}
