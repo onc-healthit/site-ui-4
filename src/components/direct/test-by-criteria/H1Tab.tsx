@@ -126,8 +126,8 @@ const H1Component = () => {
             </Box>
           )}
           {showTestCard &&
-            selectedTestCases().map((test, i) => (
-              <Box key={i} sx={{ mb: 2 }}>
+            selectedTestCases().map((test) => (
+              <Box key={`test-${test.id}`} sx={{ mb: 2 }}>
                 <TestCard
                   test={test}
                   hostname={hostname}

@@ -164,7 +164,6 @@ const B1Component = () => {
           {showTestCard &&
             selectedTestCases().map((test, i) => (
               <Box key={i} sx={{ mb: 2 }}>
-                {' '}
                 <TestCard
                   test={test}
                   hostname={hostname}
@@ -179,7 +178,6 @@ const B1Component = () => {
           {showTestCard &&
             selectedXDRTestCases().map((test, i) => (
               <Box key={i} sx={{ mb: 2 }}>
-                {' '}
                 <XDRTestCard key={i} test={test} receive={isReceiveOption()} />
               </Box>
             ))}
