@@ -398,8 +398,8 @@ const H2Component = () => {
             </Box>
           )}
           {showTestCard &&
-            selectedTestCases.map((test: TestCase, i: number) => (
-              <Box key={i} sx={{ mb: 2 }}>
+            selectedTestCases.map((test: TestCase) => (
+              <Box key={`test-${test.id}`} sx={{ mb: 2 }}>
                 <TestCard
                   test={{
                     ...test,
@@ -415,8 +415,8 @@ const H2Component = () => {
               </Box>
             ))}
           {showTestCard &&
-            selectedXDRTestCases.map((test: XDRTestCase, i: number) => (
-              <Box key={i} sx={{ mb: 2 }}>
+            selectedXDRTestCases.map((test: XDRTestCase) => (
+              <Box key={`xdrtest-${test.id}`} sx={{ mb: 2 }}>
                 <XDRTestCard
                   test={{
                     ...test,
