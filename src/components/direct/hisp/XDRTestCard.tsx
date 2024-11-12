@@ -246,6 +246,19 @@ const TestCard = ({ test }: TestCardProps) => {
       sendXDRTestsIds.includes(test.id.toString()) ||
       xdrTestIdsWithThreeSteps.includes(test.id.toString())) &&
     !endpointsGenerated
+
+  const testPassed =
+    criteriaMet === 'TRUE' ||
+    criteriaMet === 'PASSED' ||
+    criteriaMet === 'SUCCESS' ||
+    (criteriaMet === 'MANUAL' && isFinished && !xdrTestIdsWithThreeSteps.includes(test.id.toString()))
+
+  const testFailed = criteriaMet === 'FALSE' || criteriaMet === 'FAILED' || criteriaMet === 'ERROR'
+
+  const testPending = criteriaMet === 'PENDING' || criteriaMet === 'MANUAL'
+
+  const isTestCompleted = testPassed || testFailed
+
   const StepText = ({ inputs, role, endpointsGenerated, criteriaMet }: StepTextProps) => {
     if (manualValidationIDs.includes(test.id.toString()) && isFinished) {
       if (test.id == '20amu2' || test.id == '20bmu2') {
@@ -825,7 +838,7 @@ const TestCard = ({ test }: TestCardProps) => {
                 >
                   <LoadingButton
                     loading={isLoading}
-                    done={isFinished}
+                    done={isTestCompleted}
                     progressive={shouldEnableProgressiveLoading}
                     progressDuration={loadingTime}
                     onClick={handleRunTest}
