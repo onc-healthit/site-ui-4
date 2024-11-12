@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography'
 import Link from 'next/link'
 import * as React from 'react'
 import { useTheme } from '@mui/material'
+import eventTrack from '@/services/analytics'
 
 export interface CardWithBorderProps {
   cardHeader: string
@@ -18,6 +19,10 @@ export interface CardWithBorderProps {
   useModal?: boolean // include a modal or a link
   modalContent?: string // sanitized HTML
   cardWidthPercent?: number | undefined // change the width of the card to any % vs default
+  trackEvent?: boolean
+  eventType?: string
+  eventCategory?: string
+  eventLabel?: string
 }
 
 const CardWithBorder = ({
@@ -30,6 +35,10 @@ const CardWithBorder = ({
   useModal,
   cardWidthPercent,
   modalContent,
+  trackEvent,
+  eventType,
+  eventCategory,
+  eventLabel,
 }: CardWithBorderProps) => {
   const [openModal, setOpenModal] = React.useState(false)
   const theme = useTheme()
@@ -55,6 +64,12 @@ const CardWithBorder = ({
     if (useModal) {
       event.preventDefault() // prevent link navigation
       setOpenModal(true)
+    }
+    if (trackEvent) {
+      const type = eventType || ''
+      const category = eventCategory || ''
+      const label = eventLabel || ''
+      eventTrack(type, category, label)
     }
   }
 
