@@ -140,7 +140,7 @@ const TestCard = ({ test }: TestCardProps) => {
   const defaultEndpointTLS =
     process.env.XDR_ENDPOINT_TLS_PREFIX ||
     'https://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
-  const [loadingTime, setLoadingTime] = useState(60000)
+  const [loadingTime, setLoadingTime] = useState(0)
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testResponse, setTestRequestResponse] = useState<string>('')
@@ -801,6 +801,7 @@ const TestCard = ({ test }: TestCardProps) => {
                     isFinished &&
                     !apiError &&
                     criteriaMet !== 'TRUE' &&
+                    criteriaMet !== 'ERROR' &&
                     criteriaMet !== 'FALSE') ||
                     (test.criteria &&
                       xdrTestIdsWithThreeSteps.includes(test.id.toString()) &&
@@ -809,6 +810,7 @@ const TestCard = ({ test }: TestCardProps) => {
                       !apiError &&
                       criteriaMet !== 'TRUE' &&
                       criteriaMet !== 'FALSE' &&
+                      criteriaMet !== 'ERROR' &&
                       criteriaMet === 'MANUAL')) && (
                     <Typography sx={{ ml: 1, color: 'primary' }}>Awaiting Validation...(Check Logs)</Typography>
                   )}
@@ -827,7 +829,7 @@ const TestCard = ({ test }: TestCardProps) => {
                     loading={isLoading}
                     done={isFinished}
                     progressive={shouldEnableProgressiveLoading}
-                    progressDuration={loadingTime}
+                    progressDuration={60000}
                     onClick={handleRunTest}
                     variant="contained"
                     color="primary"
