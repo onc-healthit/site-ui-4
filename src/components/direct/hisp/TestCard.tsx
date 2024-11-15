@@ -293,22 +293,22 @@ const TestCard = ({
 
       if (isMDNTest) {
         const requestData = createRequestData(currentStep, previousResult)
-
         const response = await handleAPICall(requestData)
         const result = response[0]
-
-        setIsFinished(true)
-        setCriteriaMet(result.criteriaMet)
-        setTestRequestResponses(result.testRequestResponses)
 
         if (currentStep === 1) {
           setPreviousResult(result)
           if (result.criteriaMet.includes('STEP2')) {
             setCurrentStep(2)
           }
+          setIsFinished(false)
         } else if (currentStep === 2) {
           setPreviousResult(null)
+          setIsFinished(false)
         }
+
+        setCriteriaMet(result.criteriaMet)
+        setTestRequestResponses(result.testRequestResponses)
 
         logTestResults(result)
       } else {
@@ -337,11 +337,9 @@ const TestCard = ({
       setIsLoading(false)
       if (
         test.criteria &&
-        !(manualValidationCriteria.includes(test.criteria) || manualValidationIDs.includes(test.id))
+        !(manualValidationCriteria.includes(test.criteria) || manualValidationIDs.includes(test.id) || isMDNTest)
       ) {
-        setTimeout(() => {
-          setIsFinished(false)
-        }, 100)
+        setIsFinished(false)
       }
     }
   }
