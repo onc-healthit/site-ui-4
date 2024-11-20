@@ -51,7 +51,7 @@ const DirectHome = () => {
             Direct
           </Link>
         }
-        heading={'Direct Project Tooling'}
+        heading={'Direct Tooling'}
         description={
           <>
             The ASTP Direct Tool, built on the foundation of the Direct Standard®, provides a comprehensive testing
@@ -133,8 +133,8 @@ const DirectHome = () => {
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
         <SectionHeader
-          header={'Select a category to start your direct project tooling.'}
-          subHeader={'Jumpstart Your Direct Project Journey: Select a Testing Category'}
+          header={'Select a category to start your direct tooling.'}
+          subHeader={'Jumpstart Your Direct Tooling Journey: Select a Testing Category'}
         />
         <Box sx={flexibleBox}>
           <CategoryCard

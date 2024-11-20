@@ -5,7 +5,7 @@ describe('Home Page - ONC Certification Tools', () => {
   const links = [
     { text: 'Inferno FHIR Testing', url: 'https://inferno.healthit.gov/' },
     { text: 'C-CDA Testing', url: '/c-cda' },
-    { text: 'Direct Project Tooling', url: `/direct` },
+    { text: 'Direct Tooling', url: `/direct` },
     { text: 'Clinical Quality Measure Testing', url: `/cqmt` },
     { text: 'Electronic Prescribing (eRX) Tool', url: 'https://erx.healthit.gov/erx/' },
     { text: 'Public Health Reporting', url: `/public-health-reporting` },

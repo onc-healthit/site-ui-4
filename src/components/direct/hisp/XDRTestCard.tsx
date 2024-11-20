@@ -17,7 +17,7 @@ import palette from '@/styles/palette'
 
 import _ from 'lodash'
 import DynamicTable from './DynamicTable'
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import LoadingButton from '../shared/LoadingButton'
 import DocumentSelector from './DocumentSelector'
 import { handleXDRAPICall, GetStatus } from '../test-by-criteria/ServerActions'
@@ -140,7 +140,7 @@ const TestCard = ({ test }: TestCardProps) => {
   const defaultEndpointTLS =
     process.env.XDR_ENDPOINT_TLS_PREFIX ||
     'https://ett.healthit.gov:11084/xdstools/sim/edge-ttp__' + test.id + '/rep/xdrpr'
-  const loadingTime = 60000
+  const [loadingTime, setLoadingTime] = useState(0)
   const [showDetail, setShowDetail] = useState(false)
   const [criteriaMet, setCriteriaMet] = useState<string>('')
   const [testResponse, setTestRequestResponse] = useState<string>('')
@@ -156,6 +156,8 @@ const TestCard = ({ test }: TestCardProps) => {
   const [validationResults, setValidationResults] = useState<ValidationResults | null>(null)
   const [acceptValidationLogs, setAcceptValidationLogs] = useState<boolean>(false)
   const [displayValidationMessage, setDisplayValidationMessage] = useState<boolean>(false)
+  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({})
+  const [disableRun, setDisableRun] = useState(true)
 
   const scrollRef = useRef<HTMLDivElement>(null)
   const summaryRef = useRef<HTMLDivElement>(null)
@@ -175,12 +177,17 @@ const TestCard = ({ test }: TestCardProps) => {
   const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('info')
 
   const [logType, setLogType] = useState<'request' | 'response' | 'ccdaValidation'>('request')
-  const manualValidationIDs = ['4a', '4b', '20amu2', '20bmu2', '13', '14', '15a', '15b', '18', '19', '30mu2', '31mu2']
+  const manualValidationIDs = ['4a', '4b', '20amu2', '20bmu2', '13', '14', '15a', '15b', '30mu2', '31mu2']
   const { data: session } = useSession()
   const subHeader = 'Description'
   const subDesc = test['Purpose/Description']
   const expTestHeader = 'Expected Test Results'
   const expTestResults = test['Expected Test Results']
+
+  useEffect(() => {
+    const fieldsPresent = areAllFieldsPresent(test.inputs?.filter(shouldDisplayInput) || [], fieldValues)
+    setDisableRun(Object.keys(formErrors).length > 0 || !fieldsPresent)
+  }, [disableRun, fieldValues, formErrors, test.inputs])
   const requiresCCDADocument = () => {
     return test.inputs?.some((input) => input.key === 'payload' && input.type?.includes('CCDAWidget'))
   }
@@ -217,6 +224,7 @@ const TestCard = ({ test }: TestCardProps) => {
     '43mu2',
     '44mu2',
   ]
+  const nullResponseExceptionIds = ['19']
   const ccdaRequiredTestIds = ['1', '2', '3add']
   const sendXDRTestsIds = ['16', '17']
   const xdrTestIdsWithThreeSteps = [
@@ -233,6 +241,24 @@ const TestCard = ({ test }: TestCardProps) => {
   ]
   const sendEdgeTestsIds = ['1', '2', '6', '7', '10', '11', '12', '20amu2', '20bmu2', '49mu2']
   const isCCDADocumentRequired = ccdaRequiredTestIds.includes(test.id.toString())
+  const shouldEnableProgressiveLoading =
+    (sendEdgeTestsIds.includes(test.id.toString()) ||
+      sendXDRTestsIds.includes(test.id.toString()) ||
+      xdrTestIdsWithThreeSteps.includes(test.id.toString())) &&
+    !endpointsGenerated
+
+  const testPassed =
+    criteriaMet === 'TRUE' ||
+    criteriaMet === 'PASSED' ||
+    criteriaMet === 'SUCCESS' ||
+    (criteriaMet === 'MANUAL' && isFinished && !xdrTestIdsWithThreeSteps.includes(test.id.toString()))
+
+  const testFailed = criteriaMet === 'FALSE' || criteriaMet === 'FAILED' || criteriaMet === 'ERROR'
+
+  const testPending = criteriaMet === 'PENDING' || criteriaMet === 'MANUAL'
+
+  const isTestCompleted = testPassed || testFailed
+
   const StepText = ({ inputs, role, endpointsGenerated, criteriaMet }: StepTextProps) => {
     if (manualValidationIDs.includes(test.id.toString()) && isFinished) {
       if (test.id == '20amu2' || test.id == '20bmu2') {
@@ -277,13 +303,36 @@ const TestCard = ({ test }: TestCardProps) => {
     })
     return initialData
   })
-  const handleChange = (key: string | undefined, value: string) => {
+  const areAllFieldsPresent = (inputs: InputFields[], fieldValues: { [key: string]: string }): boolean => {
+    const inputKeys = inputs.map((input) => input.key).filter((key): key is string => key !== undefined)
+    const fieldValueKeys = Object.keys(fieldValues)
+    const keysPresent =
+      inputKeys.every((key) => fieldValueKeys.includes(key)) && fieldValueKeys.every((key) => inputKeys.includes(key))
+    return keysPresent
+  }
+
+  const handleChange = (key: string, value: string) => {
+    const errors = { ...formErrors }
+
     if (key) {
       setFieldValues((prev) => ({
         ...prev,
         [key]: value,
       }))
+      if (value === '') {
+        errors[key] = 'This field is required'
+      } else if (key === 'direct_to' || key === 'direct_from' || key === 'outgoing_from') {
+        if (!/^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/.test(value)) {
+          errors[key] = 'Please enter a valid email'
+        } else {
+          delete errors[key]
+        }
+      } else {
+        delete errors[key]
+      }
     }
+
+    setFormErrors(errors)
   }
 
   const fixEndpoint = (url: string): string => {
@@ -309,6 +358,12 @@ const TestCard = ({ test }: TestCardProps) => {
       setAlertSeverity('error')
       setAlertOpen(true)
       return
+    }
+
+    if (shouldEnableProgressiveLoading) {
+      setLoadingTime(60000)
+    } else {
+      setLoadingTime(0)
     }
 
     const ip_address = fieldValues['ip_address'] || ''
@@ -375,7 +430,6 @@ const TestCard = ({ test }: TestCardProps) => {
               endpointSet = true
             }
             if (endpointSet) {
-              console.log('setting endpoints generated')
               setEndpointsGenerated(true)
             }
           }
@@ -385,6 +439,7 @@ const TestCard = ({ test }: TestCardProps) => {
             !testRequest &&
             !testResponse &&
             test.criteria &&
+            !nullResponseExceptionIds.includes(test.id.toString()) &&
             !manualValidationIDs.includes(test.id.toString()) &&
             criteriaMet
           ) {
@@ -684,9 +739,14 @@ const TestCard = ({ test }: TestCardProps) => {
                         fullWidth
                         label={input.name}
                         variant="outlined"
+                        error={input.key !== undefined && _.has(formErrors, input.key as string)}
                         value={input.key ? fieldValues[input.key] || '' : ''}
                         onChange={(e) => input.key && handleChange(input.key, e.target.value)}
-                        helperText={input.hoverlabel}
+                        helperText={
+                          input.key !== undefined && _.has(formErrors, input.key)
+                            ? _.get(formErrors, input.key as string, null)
+                            : input.hoverlabel
+                        }
                       />
                     </FormControl>
                   </Box>
@@ -754,6 +814,7 @@ const TestCard = ({ test }: TestCardProps) => {
                     isFinished &&
                     !apiError &&
                     criteriaMet !== 'TRUE' &&
+                    criteriaMet !== 'ERROR' &&
                     criteriaMet !== 'FALSE') ||
                     (test.criteria &&
                       xdrTestIdsWithThreeSteps.includes(test.id.toString()) &&
@@ -762,8 +823,9 @@ const TestCard = ({ test }: TestCardProps) => {
                       !apiError &&
                       criteriaMet !== 'TRUE' &&
                       criteriaMet !== 'FALSE' &&
+                      criteriaMet !== 'ERROR' &&
                       criteriaMet === 'MANUAL')) && (
-                    <Typography sx={{ ml: 1, color: 'primary' }}>Waiting Validation...(Check Logs)</Typography>
+                    <Typography sx={{ ml: 1, color: 'primary' }}>Awaiting Validation...(Check Logs)</Typography>
                   )}
                 </Box>
                 <Box
@@ -778,17 +840,13 @@ const TestCard = ({ test }: TestCardProps) => {
                 >
                   <LoadingButton
                     loading={isLoading}
-                    done={isFinished}
-                    progressive={
-                      (sendEdgeTestsIds.includes(test.id.toString()) ||
-                        sendXDRTestsIds.includes(test.id.toString()) ||
-                        xdrTestIdsWithThreeSteps.includes(test.id.toString())) &&
-                      !endpointsGenerated
-                    }
-                    progressDuration={loadingTime}
+                    done={isTestCompleted}
+                    progressive={shouldEnableProgressiveLoading}
+                    progressDuration={60000}
                     onClick={handleRunTest}
                     variant="contained"
                     color="primary"
+                    disabled={disableRun}
                   >
                     {endpointsGenerated ||
                     (xdrTestIdsWithThreeSteps.includes(test.id.toString()) && criteriaMet === 'PENDING')
@@ -805,7 +863,7 @@ const TestCard = ({ test }: TestCardProps) => {
                     LOGS
                   </Button>
 
-                  {((test.criteria && criteriaMet) || documentDetails) && (
+                  {((test.criteria && criteriaMet) || documentDetails || isFinished) && (
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <Button
                         variant="text"
@@ -819,39 +877,47 @@ const TestCard = ({ test }: TestCardProps) => {
                   )}
                 </Box>
               </Box>
-
-              {requiresCCDADocument() && !endpointsGenerated && !isFinished && (
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 1,
-                    alignItems: 'flex-start',
-                    justifyContent: 'flex-end',
-                    ml: 1,
-                  }}
-                >
-                  <Typography>CCDA Document Type</Typography>
-                  <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
-                    SELECT A DOCUMENT
-                  </Button>
-                  {documentDetails && (
-                    <Typography variant="caption" sx={{ mt: 1 }}>
-                      Selected: {documentDetails.fileName}
-                    </Typography>
-                  )}
-                </Box>
-              )}
-              {showDocumentSelector && (
-                <DocumentSelector
-                  onConfirm={handleDocumentConfirm}
-                  onClose={handleDocumentSelectorClose}
-                  receive={test.sutRole === 'receiver'}
-                  protocol={test.name?.includes('XDR') ? 'xdr' : ''}
-                />
-              )}
-
-              {renderCriteriaMetIcon()}
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  justifyContent: 'space-between',
+                  gap: 1,
+                  mt: 1,
+                }}
+              >
+                {requiresCCDADocument() && !endpointsGenerated && !isFinished && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 1,
+                      alignItems: 'flex-start',
+                      justifyContent: 'flex-end',
+                    }}
+                  >
+                    <Typography>CCDA Document Type</Typography>
+                    <Button variant="outlined" color="primary" onClick={toggleDocumentSelector}>
+                      SELECT A DOCUMENT
+                    </Button>
+                  </Box>
+                )}
+                {documentDetails && (
+                  <Typography variant="caption" sx={{ mt: 1 }}>
+                    Selected: {documentDetails.fileName}
+                  </Typography>
+                )}
+                {showDocumentSelector && (
+                  <DocumentSelector
+                    onConfirm={handleDocumentConfirm}
+                    onClose={handleDocumentSelectorClose}
+                    receive={test.sutRole === 'receiver'}
+                    protocol={test.name?.includes('XDR') ? 'xdr' : ''}
+                  />
+                )}
+                {renderCriteriaMetIcon()}
+              </Box>
             </Box>
           </>
         )}

@@ -37,10 +37,10 @@ export default function SiteNavOncCertTools() {
       icon: <PublishedWithChanges aria-label="Go to C-CDA Testing" fontSize="small" />,
     },
     {
-      text: 'Direct Project Tooling',
+      text: 'Direct Tooling',
       isExternalLink: false,
       href: '/direct',
-      icon: <CompareArrows aria-label="Go to Direct Project Tooling" fontSize="small" />,
+      icon: <CompareArrows aria-label="Go to Direct Tooling" fontSize="small" />,
     },
     {
       text: 'Clinical Quality Measure Testing',

@@ -118,6 +118,7 @@ const TestCard = ({
     "['b1-4']",
     "['h2-4','sc2-4']",
   ]
+  const manualValidationIDs = [521, 523, 524, 525, 526, 527, 528, 529]
   const mdnTestIds = ['mu2']
   const clearButtonVisibleOnCriteriaSet = new Set(['TRUE', 'FALSE', 'ERROR', 'PASSED', 'PENDING', 'SUCCESS', 'STEP2'])
   const [currentStep, setCurrentStep] = useState<number>(1)
@@ -292,22 +293,22 @@ const TestCard = ({
 
       if (isMDNTest) {
         const requestData = createRequestData(currentStep, previousResult)
-
         const response = await handleAPICall(requestData)
         const result = response[0]
-
-        setIsFinished(true)
-        setCriteriaMet(result.criteriaMet)
-        setTestRequestResponses(result.testRequestResponses)
 
         if (currentStep === 1) {
           setPreviousResult(result)
           if (result.criteriaMet.includes('STEP2')) {
             setCurrentStep(2)
           }
+          setIsFinished(false)
         } else if (currentStep === 2) {
           setPreviousResult(null)
+          setIsFinished(false)
         }
+
+        setCriteriaMet(result.criteriaMet)
+        setTestRequestResponses(result.testRequestResponses)
 
         logTestResults(result)
       } else {
@@ -334,10 +335,11 @@ const TestCard = ({
       setCriteriaMet('FALSE')
     } finally {
       setIsLoading(false)
-      if (test.criteria && !manualValidationCriteria.includes(test.criteria)) {
-        setTimeout(() => {
-          setIsFinished(false)
-        }, 100)
+      if (
+        test.criteria &&
+        !(manualValidationCriteria.includes(test.criteria) || manualValidationIDs.includes(test.id) || isMDNTest)
+      ) {
+        setIsFinished(false)
       }
     }
   }
@@ -488,7 +490,7 @@ const TestCard = ({
                 RETURN TO TEST
               </Button>
               {test.criteria &&
-                manualValidationCriteria.includes(test.criteria) &&
+                (manualValidationCriteria.includes(test.criteria) || manualValidationIDs.includes(test.id)) &&
                 formattedLogs.length > 0 &&
                 criteriaMet.includes('MANUAL') && (
                   <Box sx={{ display: 'flex', gap: 1 }}>
@@ -532,10 +534,10 @@ const TestCard = ({
                 <Box>
                   {' '}
                   {test.criteria &&
-                    manualValidationCriteria.includes(test.criteria) &&
+                    (manualValidationCriteria.includes(test.criteria) || manualValidationIDs.includes(test.id)) &&
                     formattedLogs.length > 0 &&
                     criteriaMet.includes('MANUAL') && (
-                      <Typography sx={{ ml: 1, color: 'primary' }}>Waiting Validation...(Check Logs)</Typography>
+                      <Typography sx={{ ml: 1, color: 'primary' }}>Awaiting Validation...(Check Logs)</Typography>
                     )}
                 </Box>
 
@@ -569,7 +571,7 @@ const TestCard = ({
                   <Button variant="outlined" color="secondary" onClick={() => handleToggleLogs('LOGS')}>
                     LOGS
                   </Button>
-                  {((test.criteria && criteriaMet) || documentDetails) && (
+                  {((test.criteria && criteriaMet) || documentDetails || testRequestResponses) && (
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <Button
                         variant="text"
