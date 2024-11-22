@@ -116,7 +116,7 @@ const CqmHome = () => {
               description={'Track questions and issues that Cypress supports.'}
               buttonTitle={'TRACK your question'}
               buttonIcon={<TrackChangesIcon />}
-              buttonHref={'https://jira.oncprojectracking.org/browse/CYPRESSef'}
+              buttonHref={'https://oncprojectracking.healthit.gov/support/projects/CYPRESS'}
             />
           </Box>
         </Box>
