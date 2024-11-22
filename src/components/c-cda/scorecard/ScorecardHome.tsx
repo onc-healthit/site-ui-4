@@ -58,6 +58,7 @@ export default function ScorecardHome() {
   }
 
   const [isTryMeDemo, setIsTryMeDemo] = useState(false)
+  const [dialogKey, setDialogKey] = useState(0)
 
   const IS_DEBUG_MODE: boolean = process.env.NEXT_PUBLIC_IS_DEBUG_MODE === 'true'
   const demoSampleOptions = IS_DEBUG_MODE ? allSampleOptions : allSampleOptionsExceptDebug
@@ -149,11 +150,13 @@ export default function ScorecardHome() {
     console.log('handleSubmitDemoStart(e), event: ', e)
     console.log('Starting demo with sample: ' + demoSampleOption)
 
+    resetResultsData()
+
     setIsTryMeDemo(true)
 
     try {
       const newScorecardResponseJson: ScorecardJsonResponseType = getDemoSample(demoSampleOption)
-      setScorecardResponseJson(newScorecardResponseJson)
+      setScorecardResponseJson({ ...newScorecardResponseJson })
     } catch (error) {
       const errorMessagePrefix = 'Error running Scorecard Demo'
       console.error(
@@ -165,7 +168,7 @@ export default function ScorecardHome() {
         ${error}. Please try again later.`)
     }
 
-    eventTrack('Sumbit Form for Try Me Demo', 'Scorecard', 'Run the Try Me Demo with selected file and view results')
+    eventTrack('Submit Form for Try Me Demo', 'Scorecard', 'Run the Try Me Demo with selected file and view results')
   }
 
   const getFileName = (data: File[]) => {
@@ -398,6 +401,7 @@ export default function ScorecardHome() {
 
   const displayResults = (isValidResults: boolean, errorMessage: string | null) => {
     if (isValidResults) {
+      setDialogKey((prevKey) => prevKey + 1)
       setResultsDialogState(true)
     } else {
       const finalErrorMessage = `Error: ${errorMessage ? errorMessage : 'Unknown error message'} `
@@ -612,6 +616,7 @@ export default function ScorecardHome() {
         )}
 
         <ScorecardResultsDialog
+          key={dialogKey}
           dialogState={resultsDialogState}
           handleCloseDialog={handleCloseResultsDialog}
           isTryMeDemo={isTryMeDemo}
