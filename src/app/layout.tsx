@@ -12,7 +12,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 
 export const metadata: Metadata = {
-  title: 'SITE UI 4.0',
+  title: 'SITE',
   description:
     'The Standards Implementation and Testing Environment (SITE) is a centralized collection ' +
     'of testing tools and resources designed to assist health IT developers and health IT users fully ' +
