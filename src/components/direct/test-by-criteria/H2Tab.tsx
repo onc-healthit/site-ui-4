@@ -91,7 +91,7 @@ const H2Component = () => {
   const subcategories: Subcategory[] = [
     {
       value: 'certificateDiscoveryHosting',
-      label: 'Paragraph (i) Certificate Discovery / Hosting - 2015 DCDT',
+      label: 'Paragraph (i) Certificate Discovery / Hosting - DCDT',
       categories: [
         'all',
         'setup',
