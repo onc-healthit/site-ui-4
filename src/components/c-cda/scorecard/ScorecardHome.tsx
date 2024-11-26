@@ -58,7 +58,6 @@ export default function ScorecardHome() {
   }
 
   const [isTryMeDemo, setIsTryMeDemo] = useState(false)
-  const [dialogKey, setDialogKey] = useState(0)
 
   const IS_DEBUG_MODE: boolean = process.env.NEXT_PUBLIC_IS_DEBUG_MODE === 'true'
   const demoSampleOptions = IS_DEBUG_MODE ? allSampleOptions : allSampleOptionsExceptDebug
@@ -149,8 +148,6 @@ export default function ScorecardHome() {
     e.preventDefault()
     console.log('handleSubmitDemoStart(e), event: ', e)
     console.log('Starting demo with sample: ' + demoSampleOption)
-
-    resetResultsData()
 
     setIsTryMeDemo(true)
 
@@ -401,8 +398,8 @@ export default function ScorecardHome() {
 
   const displayResults = (isValidResults: boolean, errorMessage: string | null) => {
     if (isValidResults) {
-      setDialogKey((prevKey) => prevKey + 1)
-      setResultsDialogState(true)
+      setResultsDialogState(false)
+      setTimeout(() => setResultsDialogState(true), 0)
     } else {
       const finalErrorMessage = `Error: ${errorMessage ? errorMessage : 'Unknown error message'} `
       console.error(finalErrorMessage)
