@@ -153,7 +153,7 @@ export default function ScorecardHome() {
 
     try {
       const newScorecardResponseJson: ScorecardJsonResponseType = getDemoSample(demoSampleOption)
-      setScorecardResponseJson(newScorecardResponseJson)
+      setScorecardResponseJson({ ...newScorecardResponseJson })
     } catch (error) {
       const errorMessagePrefix = 'Error running Scorecard Demo'
       console.error(
@@ -165,7 +165,7 @@ export default function ScorecardHome() {
         ${error}. Please try again later.`)
     }
 
-    eventTrack('Sumbit Form for Try Me Demo', 'Scorecard', 'Run the Try Me Demo with selected file and view results')
+    eventTrack('Submit Form for Try Me Demo', 'Scorecard', 'Run the Try Me Demo with selected file and view results')
   }
 
   const getFileName = (data: File[]) => {
@@ -398,7 +398,8 @@ export default function ScorecardHome() {
 
   const displayResults = (isValidResults: boolean, errorMessage: string | null) => {
     if (isValidResults) {
-      setResultsDialogState(true)
+      setResultsDialogState(false)
+      setTimeout(() => setResultsDialogState(true), 0)
     } else {
       const finalErrorMessage = `Error: ${errorMessage ? errorMessage : 'Unknown error message'} `
       console.error(finalErrorMessage)
