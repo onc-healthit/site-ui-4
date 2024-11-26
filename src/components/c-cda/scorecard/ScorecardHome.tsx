@@ -613,7 +613,6 @@ export default function ScorecardHome() {
         )}
 
         <ScorecardResultsDialog
-          key={dialogKey}
           dialogState={resultsDialogState}
           handleCloseDialog={handleCloseResultsDialog}
           isTryMeDemo={isTryMeDemo}
