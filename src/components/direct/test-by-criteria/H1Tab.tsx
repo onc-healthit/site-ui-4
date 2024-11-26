@@ -30,7 +30,7 @@ const H1Component = () => {
     },
     {
       value: 'certificateDiscovery',
-      label: 'Paragraph (i) Certificate Discovery / Hosting',
+      label: 'Paragraph (i) Certificate Discovery / Hosting - DCDT',
       link: '/direct/dcdt#hosting',
     },
     { value: 'registerDirect', label: 'Paragraph (i) Register Direct', link: '/direct/register' },
