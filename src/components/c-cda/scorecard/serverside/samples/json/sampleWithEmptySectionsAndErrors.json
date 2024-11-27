@@ -554,10 +554,10 @@
     "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
     "industryAverageScore": 76,
     "industryAverageGrade": "C",
-    "numberOfDocumentsScored": 214821,
+    "numberOfDocumentsScored": 216563,
     "ccdaVersion": "R2.1",
     "passedCertification": null,
-    "numberOfDocsScoredPerCcdaDocumentType": 126233,
+    "numberOfDocsScoredPerCcdaDocumentType": 127630,
     "industryAverageScoreForCcdaDocumentType": 75,
     "industryAverageGradeForCcdaDocumentType": "C",
     "numberOfRules": 27,
@@ -566,12 +566,12 @@
     "totalCertificationErrorChecks": 175,
     "totalConformanceErrorChecks": 8396,
     "totalGradesGiven": {
-      "aPlusGrades": 29463,
-      "aMinusGrades": 15274,
-      "bPlusGrades": 9082,
-      "bMinusGrades": 11614,
-      "cGrades": 87690,
-      "dGrades": 62555
+      "aPlusGrades": 29722,
+      "aMinusGrades": 15308,
+      "bPlusGrades": 9102,
+      "bMinusGrades": 11709,
+      "cGrades": 88181,
+      "dGrades": 63398
     }
   },
   "referenceResults": [
