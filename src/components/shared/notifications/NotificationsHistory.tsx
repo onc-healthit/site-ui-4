@@ -10,6 +10,7 @@ import { Announcement, fetchNotifications } from '@/assets/NotificationService'
 import { fetchReleaseDate } from '@/assets/ReleaseService'
 
 export default function NotificationHistory() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [releaseDateHTML, setReleaseDateHTML] = useState<string | undefined>()
   useEffect(() => {
     ;(async () => {
@@ -22,9 +23,9 @@ export default function NotificationHistory() {
     })()
   }, [])
 
-  const [notifications, setNotifications] = useState<Announcement[]>([]) // TypeScript type for notifications
-  const [loading, setLoading] = useState<boolean>(true) // TypeScript type for loading state
-  const [error, setError] = useState<string | null>(null) // TypeScript type for error state
+  const [notifications, setNotifications] = useState<Announcement[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
   useEffect(() => {
     const loadNotifications = async () => {
       try {
@@ -78,10 +79,10 @@ export default function NotificationHistory() {
         <Timeline
           items={notifications.map((notification) => ({
             title: notification.title,
-            // Dates will be hardcoded with this line below eventually post-release
-            // date: notification.date,
-            // For now though, we will overwrite all with a dynamic variable due to unknowns in release timing
-            date: releaseDateHTML ?? 'Unknown Date',
+            // static
+            date: notification.date ?? 'Unknown Date',
+            // dynamic
+            // date: releaseDateHTML ?? 'Unknown Date',
             description: notification.content,
           }))}
         />
