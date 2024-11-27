@@ -3,8 +3,8 @@
   "filename": "site3-lowScoringSample.xml",
   "ccdaDocumentType": "CCD",
   "results": {
-    "finalGrade": "C",
-    "finalNumericalGrade": 70,
+    "finalGrade": "D",
+    "finalNumericalGrade": 58,
     "categoryList": [
       {
         "categoryName": "Miscellaneous",
@@ -67,7 +67,7 @@
       {
         "categoryName": "Allergies",
         "categoryGrade": "C",
-        "categoryNumericalScore": 75,
+        "categoryNumericalScore": 71,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -87,11 +87,15 @@
           },
           {
             "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-            "numberOfIssues": 3,
+            "numberOfIssues": 5,
             "issuesList": [
               {
                 "lineNumber": "696",
                 "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"419199007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Allergy\" xsi:type=\"CD\"/>"
+              },
+              {
+                "lineNumber": "710",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"70618\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Penicillin\"/>"
               },
               {
                 "lineNumber": "760",
@@ -100,6 +104,10 @@
               {
                 "lineNumber": "806",
                 "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"419199007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Allergy\" xsi:type=\"CD\"/>"
+              },
+              {
+                "lineNumber": "820",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"2670\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNorm\" displayName=\"Codeine\"/>"
               }
             ],
             "exampleTaskForceLinks": [
@@ -193,7 +201,7 @@
             "description": null
           }
         ],
-        "numberOfIssues": 9,
+        "numberOfIssues": 11,
         "numberOfChecks": 27,
         "numberOfFailedRubrics": 5,
         "certificationFeedback": false,
@@ -203,7 +211,7 @@
       {
         "categoryName": "Encounters",
         "categoryGrade": "D",
-        "categoryNumericalScore": 50,
+        "categoryNumericalScore": 42,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -237,7 +245,7 @@
           },
           {
             "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-            "numberOfIssues": 2,
+            "numberOfIssues": 4,
             "issuesList": [
               {
                 "lineNumber": "885",
@@ -246,6 +254,14 @@
               {
                 "lineNumber": "913",
                 "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"99213\" codeSystem=\"2.16.840.1.113883.6.12\" codeSystemName=\"CPT-4\" displayName=\"Office outpatient visit 15 minutes\">\n                <originalText>\n                  <reference value=\"#Encounter\"/>\n                </originalText>\n                <translation code=\"AMB\" codeSystem=\"2.16.840.1.113883.5.4\" codeSystemName=\"HL7 ActEncounterCode\" displayName=\"Ambulatory\"/>\n              </code>"
+              },
+              {
+                "lineNumber": "953",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"75321-0\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Clinical finding\"/>"
+              },
+              {
+                "lineNumber": "958",
+                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"233604007\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Pneumonia\" xsi:type=\"CD\"/>"
               }
             ],
             "exampleTaskForceLinks": [
@@ -286,7 +302,7 @@
             "description": null
           }
         ],
-        "numberOfIssues": 5,
+        "numberOfIssues": 7,
         "numberOfChecks": 12,
         "numberOfFailedRubrics": 4,
         "certificationFeedback": false,
@@ -295,8 +311,8 @@
       },
       {
         "categoryName": "Immunizations",
-        "categoryGrade": "C",
-        "categoryNumericalScore": 70,
+        "categoryGrade": "D",
+        "categoryNumericalScore": 40,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -334,11 +350,27 @@
           },
           {
             "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-            "numberOfIssues": 1,
+            "numberOfIssues": 5,
             "issuesList": [
               {
                 "lineNumber": "1195",
                 "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"11369-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"History of immunizations\"/>"
+              },
+              {
+                "lineNumber": "1336",
+                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"1427027\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNORM\" displayName=\"Influenza A virus vaccine, A-California-7-2009 (H1N1)-like virus 0.03 MG/ML / Influenza A virus vaccine, A-Victoria-361-2011 (H3N2)-like virus 0.03 MG/ML / Influenza B virus vaccine, B-Brisbane-60-2008-like virus 0.03 MG/ML / Influenza B virus vaccine, B-Massachusetts-2-2012-like virus 0.03 MG/ML Injectable Suspension\"/>"
+              },
+              {
+                "lineNumber": "1410",
+                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"854981\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNORM\" displayName=\"Pneumovax 23 (Pneumococcal vaccine polyvalent) Injectable Solution\"/>"
+              },
+              {
+                "lineNumber": "1473",
+                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"1300310\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNORM\" displayName=\"Daptacel DTaP (Diphtheria and Tetanus Toxoids and Acellular Pertussis Vaccine Adsorbed) Injectable Suspension\"/>"
+              },
+              {
+                "lineNumber": "1527",
+                "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"1300310\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNORM\" displayName=\"Daptacel DTaP (Diphtheria and Tetanus Toxoids and Acellular Pertussis Vaccine Adsorbed) Injectable Suspension\"/>"
               }
             ],
             "exampleTaskForceLinks": [
@@ -349,11 +381,26 @@
           },
           {
             "rule": "Immunizations coded with CVX codes",
-            "numberOfIssues": 0,
-            "issuesList": [],
-            "exampleTaskForceLinks": [],
-            "igReferences": [],
-            "description": null
+            "numberOfIssues": 3,
+            "issuesList": [
+              {
+                "lineNumber": "1263",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"27\" codeSystem=\"2.16.840.1.113883.12.292\" codeSystemName=\"CVX\" displayName=\"Botulinum antitoxin\"/>"
+              },
+              {
+                "lineNumber": "1407",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"27\" codeSystem=\"2.16.840.1.113883.12.292\" codeSystemName=\"CVX\" displayName=\"Botulinum antitoxin\">\n                      <translation code=\"854981\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNORM\" displayName=\"Pneumovax 23 (Pneumococcal vaccine polyvalent) Injectable Solution\"/>\n                    </code>"
+              },
+              {
+                "lineNumber": "1524",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"19\" codeSystem=\"2.16.840.1.113883.12.292\" codeSystemName=\"CVX\" displayName=\"BCG\">\n                      <translation code=\"1300310\" codeSystem=\"2.16.840.1.113883.6.88\" codeSystemName=\"RxNORM\" displayName=\"Daptacel DTaP (Diphtheria and Tetanus Toxoids and Acellular Pertussis Vaccine Adsorbed) Injectable Suspension\"/>\n                    </code>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/Unknown_Immunization_Status_R2.xml"
+            ],
+            "igReferences": ["Section 5.34 Immunization Activity"],
+            "description": "Each Immunization code should be validated aganist CVX Vaccines Administered valueset"
           },
           {
             "rule": "Each entry has to be linked to related narrative text",
@@ -395,9 +442,9 @@
             "description": null
           }
         ],
-        "numberOfIssues": 9,
+        "numberOfIssues": 16,
         "numberOfChecks": 34,
-        "numberOfFailedRubrics": 4,
+        "numberOfFailedRubrics": 5,
         "certificationFeedback": false,
         "failingConformance": false,
         "nullFlavorNI": false
@@ -405,7 +452,7 @@
       {
         "categoryName": "Laboratory Tests and Results",
         "categoryGrade": "D",
-        "categoryNumericalScore": 61,
+        "categoryNumericalScore": 55,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -439,7 +486,7 @@
           },
           {
             "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-            "numberOfIssues": 5,
+            "numberOfIssues": 9,
             "issuesList": [
               {
                 "lineNumber": "2366",
@@ -450,8 +497,24 @@
                 "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"57021-8\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"CBC W Auto Differential panel in Blood\"/>"
               },
               {
+                "lineNumber": "2442",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"718-7\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Hemoglobin\"/>"
+              },
+              {
                 "lineNumber": "2464",
                 "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"6690\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Leukocytes\"/>"
+              },
+              {
+                "lineNumber": "2490",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"777-3\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Platelets\"/>"
+              },
+              {
+                "lineNumber": "2515",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"4544-3\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Hematocrit\"/>"
+              },
+              {
+                "lineNumber": "2541",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"789-8\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Erythrocytes\"/>"
               },
               {
                 "lineNumber": "2566",
@@ -577,7 +640,7 @@
             "description": null
           }
         ],
-        "numberOfIssues": 21,
+        "numberOfIssues": 25,
         "numberOfChecks": 58,
         "numberOfFailedRubrics": 7,
         "certificationFeedback": false,
@@ -587,7 +650,7 @@
       {
         "categoryName": "Medications",
         "categoryGrade": "C",
-        "categoryNumericalScore": 79,
+        "categoryNumericalScore": 71,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -607,8 +670,12 @@
           },
           {
             "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-            "numberOfIssues": 1,
+            "numberOfIssues": 2,
             "issuesList": [
+              {
+                "lineNumber": "1586",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"10160-0\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"HISTORY OF MEDICATION USE\"/>"
+              },
               {
                 "lineNumber": "1608",
                 "xmlString": "<translation xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"410942007\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED-CT\" displayName=\"drug or medication\"/>"
@@ -660,7 +727,7 @@
             "description": null
           }
         ],
-        "numberOfIssues": 2,
+        "numberOfIssues": 3,
         "numberOfChecks": 9,
         "numberOfFailedRubrics": 2,
         "certificationFeedback": false,
@@ -669,8 +736,8 @@
       },
       {
         "categoryName": "Problems",
-        "categoryGrade": "B-",
-        "categoryNumericalScore": 82,
+        "categoryGrade": "D",
+        "categoryNumericalScore": 61,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -704,11 +771,43 @@
           },
           {
             "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-            "numberOfIssues": 1,
+            "numberOfIssues": 9,
             "issuesList": [
+              {
+                "lineNumber": "1919",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"11450-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"PROBLEM LIST\"/>"
+              },
               {
                 "lineNumber": "1973",
                 "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"75323-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Cond\"/>"
+              },
+              {
+                "lineNumber": "1984",
+                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"233604007\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Pneumonia\" xsi:type=\"CD\"/>"
+              },
+              {
+                "lineNumber": "2027",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"75323-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Condition\"/>"
+              },
+              {
+                "lineNumber": "2036",
+                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29857009\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Chest pain\" xsi:type=\"CD\"/>"
+              },
+              {
+                "lineNumber": "2053",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"75323-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Condition\"/>"
+              },
+              {
+                "lineNumber": "2061",
+                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"194828000\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Angina\" xsi:type=\"CD\"/>"
+              },
+              {
+                "lineNumber": "2107",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"75323-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Condition\"/>"
+              },
+              {
+                "lineNumber": "2117",
+                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"233604007\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Pneumonia\" xsi:type=\"CD\">\n                    <qualifier>\n                      <name code=\"363698007\" displayName=\"Finding site\"/>\n                      <value code=\"41224006\" displayName=\"Left lower lobe of lung\"/>\n                    </qualifier>\n                  </value>"
               }
             ],
             "exampleTaskForceLinks": [
@@ -719,11 +818,30 @@
           },
           {
             "rule": "All problem codes are should express with core subset of SNOMED codes",
-            "numberOfIssues": 0,
-            "issuesList": [],
-            "exampleTaskForceLinks": [],
-            "igReferences": [],
-            "description": null
+            "numberOfIssues": 4,
+            "issuesList": [
+              {
+                "lineNumber": "1984",
+                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"233604007\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Pneumonia\" xsi:type=\"CD\"/>"
+              },
+              {
+                "lineNumber": "2036",
+                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29857009\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Chest pain\" xsi:type=\"CD\"/>"
+              },
+              {
+                "lineNumber": "2061",
+                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"194828000\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Angina\" xsi:type=\"CD\"/>"
+              },
+              {
+                "lineNumber": "2117",
+                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"233604007\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Pneumonia\" xsi:type=\"CD\">\n                    <qualifier>\n                      <name code=\"363698007\" displayName=\"Finding site\"/>\n                      <value code=\"41224006\" displayName=\"Left lower lobe of lung\"/>\n                    </qualifier>\n                  </value>"
+              }
+            ],
+            "exampleTaskForceLinks": [
+              "https://github.com/brettmarquard/HL7-C-CDA-Task-Force-Examples/blob/master/No_Known_Problems_Section_20140226.xml"
+            ],
+            "igReferences": ["Section 5.59\tProblem Observation"],
+            "description": "code validation Rubric failed for Problems"
           },
           {
             "rule": "Problem Concern effective times reflect the appropriate problem concern status",
@@ -804,9 +922,9 @@
             "description": null
           }
         ],
-        "numberOfIssues": 11,
+        "numberOfIssues": 23,
         "numberOfChecks": 53,
-        "numberOfFailedRubrics": 5,
+        "numberOfFailedRubrics": 6,
         "certificationFeedback": false,
         "failingConformance": false,
         "nullFlavorNI": false
@@ -814,12 +932,16 @@
       {
         "categoryName": "Procedures",
         "categoryGrade": "D",
-        "categoryNumericalScore": 50,
+        "categoryNumericalScore": 33,
         "categoryRubrics": [
           {
             "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-            "numberOfIssues": 1,
+            "numberOfIssues": 2,
             "issuesList": [
+              {
+                "lineNumber": "2144",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"47519-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"HISTORY OF PROCEDURES\"/>"
+              },
               {
                 "lineNumber": "2169",
                 "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"73761001\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Colon\">\n                \n              </code>"
@@ -855,7 +977,7 @@
             "description": null
           }
         ],
-        "numberOfIssues": 2,
+        "numberOfIssues": 3,
         "numberOfChecks": 5,
         "numberOfFailedRubrics": 2,
         "certificationFeedback": false,
@@ -865,7 +987,7 @@
       {
         "categoryName": "Social History",
         "categoryGrade": "D",
-        "categoryNumericalScore": 54,
+        "categoryNumericalScore": 46,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -899,8 +1021,16 @@
           },
           {
             "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-            "numberOfIssues": 1,
+            "numberOfIssues": 3,
             "issuesList": [
+              {
+                "lineNumber": "2593",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"29762-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Social History\"/>"
+              },
+              {
+                "lineNumber": "2634",
+                "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8517006\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Former smoker\" xsi:type=\"CD\"/>"
+              },
               {
                 "lineNumber": "2661",
                 "xmlString": "<value xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"160604004\" codeSystem=\"2.16.840.1.113883.6.96\" displayName=\"Moderate cigarette smoker, 10-19/day\" xsi:type=\"CD\"/>"
@@ -978,7 +1108,7 @@
             "description": "All Template Ids should be present with valid extension value"
           }
         ],
-        "numberOfIssues": 7,
+        "numberOfIssues": 9,
         "numberOfChecks": 15,
         "numberOfFailedRubrics": 6,
         "certificationFeedback": false,
@@ -987,8 +1117,8 @@
       },
       {
         "categoryName": "Vital Signs",
-        "categoryGrade": "C",
-        "categoryNumericalScore": 72,
+        "categoryGrade": "D",
+        "categoryNumericalScore": 57,
         "categoryRubrics": [
           {
             "rule": "EffectiveDate/Time elements have the right time and timezone offsets",
@@ -1022,8 +1152,16 @@
           },
           {
             "rule": "The Display Names used by the structured data should match the Display Name (Preferred Name) within the Terminology",
-            "numberOfIssues": 7,
+            "numberOfIssues": 11,
             "issuesList": [
+              {
+                "lineNumber": "2703",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8716-3\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"VITAL SIGNS\"/>"
+              },
+              {
+                "lineNumber": "2738",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"46680005\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Vital signs\"/>"
+              },
               {
                 "lineNumber": "2749",
                 "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Height\"/>"
@@ -1033,8 +1171,16 @@
                 "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"3141\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>"
               },
               {
+                "lineNumber": "2793",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8480-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Intravascular Systolic\"/>"
+              },
+              {
                 "lineNumber": "2815",
                 "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8462-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Diastolic\"/>"
+              },
+              {
+                "lineNumber": "2838",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"46680005\" codeSystem=\"2.16.840.1.113883.6.96\" codeSystemName=\"SNOMED CT\" displayName=\"Vital signs\"/>"
               },
               {
                 "lineNumber": "2849",
@@ -1061,11 +1207,39 @@
           },
           {
             "rule": "The Vital Sign Observation entries should use LOINC codes to represent the type of vital sign being captured",
-            "numberOfIssues": 1,
+            "numberOfIssues": 8,
             "issuesList": [
+              {
+                "lineNumber": "2749",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Height\"/>"
+              },
               {
                 "lineNumber": "2771",
                 "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"3141\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>"
+              },
+              {
+                "lineNumber": "2793",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8480-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Intravascular Systolic\"/>"
+              },
+              {
+                "lineNumber": "2815",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8462-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Diastolic\"/>"
+              },
+              {
+                "lineNumber": "2849",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8302-2\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Height\"/>"
+              },
+              {
+                "lineNumber": "2871",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"3141-9\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"Patient Body Weight - Measured\"/>"
+              },
+              {
+                "lineNumber": "2893",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8480-6\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Systolic\"/>"
+              },
+              {
+                "lineNumber": "2915",
+                "xmlString": "<code xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" code=\"8462-4\" codeSystem=\"2.16.840.1.113883.6.1\" codeSystemName=\"LOINC\" displayName=\"BP Diastolic\"/>"
               }
             ],
             "exampleTaskForceLinks": [
@@ -1156,7 +1330,7 @@
             "description": null
           }
         ],
-        "numberOfIssues": 20,
+        "numberOfIssues": 31,
         "numberOfChecks": 74,
         "numberOfFailedRubrics": 7,
         "certificationFeedback": false,
@@ -1164,28 +1338,28 @@
         "nullFlavorNI": false
       }
     ],
-    "numberOfIssues": 86,
+    "numberOfIssues": 128,
     "igReferenceUrl": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=379",
-    "industryAverageScore": 81,
-    "industryAverageGrade": "B-",
-    "numberOfDocumentsScored": 175,
+    "industryAverageScore": 76,
+    "industryAverageGrade": "C",
+    "numberOfDocumentsScored": 216570,
     "ccdaVersion": "R1.1",
     "passedCertification": null,
-    "numberOfDocsScoredPerCcdaDocumentType": 174,
-    "industryAverageScoreForCcdaDocumentType": 81,
-    "industryAverageGradeForCcdaDocumentType": "B-",
+    "numberOfDocsScoredPerCcdaDocumentType": 127636,
+    "industryAverageScoreForCcdaDocumentType": 75,
+    "industryAverageGradeForCcdaDocumentType": "C",
     "numberOfRules": 68,
     "totalElementsChecked": 339,
-    "numberOfFailedRules": 42,
-    "totalCertificationErrorChecks": 121,
+    "numberOfFailedRules": 44,
+    "totalCertificationErrorChecks": 175,
     "totalConformanceErrorChecks": 6964,
     "totalGradesGiven": {
-      "aPlusGrades": 20,
-      "aMinusGrades": 61,
-      "bPlusGrades": 14,
-      "bMinusGrades": 6,
-      "cGrades": 25,
-      "dGrades": 50
+      "aPlusGrades": 29722,
+      "aMinusGrades": 15308,
+      "bPlusGrades": 9102,
+      "bMinusGrades": 11709,
+      "cGrades": 88184,
+      "dGrades": 63402
     }
   },
   "referenceResults": [],
