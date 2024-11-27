@@ -347,7 +347,7 @@ const TestCard = ({
   const renderCriteriaMetIcon = () => {
     if (criteriaMet === 'TRUE' || criteriaMet === 'PASSED') {
       return <Chip color="success" label="Success"></Chip>
-    } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR') {
+    } else if (criteriaMet === 'FALSE' || criteriaMet === 'ERROR' || criteriaMet === 'RETRY') {
       return <Chip color="error" label="Failed"></Chip>
     }
     return null
