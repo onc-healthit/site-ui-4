@@ -1,5 +1,5 @@
 import React, { ReactNode, useState, useEffect } from 'react'
-import { Button, CircularProgress, Box, Typography } from '@mui/material'
+import { Button, CircularProgress, Box, Typography, Tooltip } from '@mui/material'
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges'
 import { ButtonProps } from '@mui/material/Button'
 
@@ -18,38 +18,59 @@ const LoadingButton: React.FC<ExtendedLoadingButtonProps> = ({
   done,
   disabled,
   progressive = false,
-  progressDuration = 3000,
+  progressDuration = 60,
   finalLabel = 'Refresh',
   children,
   ...props
 }) => {
   const [progress, setProgress] = useState(0)
-
+  const totalTime = progressDuration // total estimated time in seconds
+  const [secondsElapsed, setSecondsElapsed] = useState(0)
+  const [timeRemaining, setTimeRemaining] = useState(totalTime)
+  const [waiting, setWaiting] = useState(false)
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null
-    if (progressive && loading && progress < 100) {
-      const intervalTime = 50
-      const numberOfSteps = progressDuration / intervalTime
-      const incrementPerInterval = 100 / numberOfSteps
+    let timer: NodeJS.Timeout | null = null
 
-      interval = setInterval(() => {
-        setProgress((oldProgress) => {
-          const newProgress = oldProgress + incrementPerInterval
-          return newProgress >= 100 ? 100 : newProgress
-        })
-      }, intervalTime)
-    } else if (!loading) {
+    const startTimer = () => {
+      setSecondsElapsed(0)
       setProgress(0)
+      setTimeRemaining(totalTime)
+      setWaiting(false)
+
+      timer = setInterval(() => {
+        setSecondsElapsed((oldSeconds) => {
+          const newSeconds = oldSeconds + 1
+          if (newSeconds >= totalTime) {
+            clearInterval(timer!)
+            setSecondsElapsed(0)
+            setProgress(0)
+            setTimeRemaining(0)
+            setWaiting(true) // Set waiting for response to true when total estimated time is met
+          } else {
+            setProgress((newSeconds / totalTime) * 100)
+            setTimeRemaining(totalTime - newSeconds)
+          }
+          return newSeconds
+        })
+      }, 1000)
+    }
+
+    if (loading) {
+      startTimer()
+    } else {
+      setProgress(0)
+      setTimeRemaining(totalTime)
+      setWaiting(false)
     }
 
     return () => {
-      if (interval) {
-        clearInterval(interval)
+      if (timer) {
+        clearInterval(timer)
       }
     }
-  }, [progressive, loading, progressDuration])
+  }, [loading, totalTime])
 
-  return (
+  const buttonContent = (
     <Button variant="text" {...props} disabled={disabled || loading}>
       {done && !progressive ? (
         <PublishedWithChangesIcon />
@@ -59,13 +80,42 @@ const LoadingButton: React.FC<ExtendedLoadingButtonProps> = ({
           <Typography variant="button">{finalLabel}</Typography>
         </Box>
       ) : loading && progressive ? (
-        <CircularProgress color="warning" variant="determinate" value={progress} size={24} />
+        <div style={{ position: 'relative', display: 'inline-flex' }}>
+          <CircularProgress color="warning" variant="determinate" value={progress} size={24} />
+          <div
+            style={{
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+              position: 'absolute',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Typography variant="caption" component="div" color="textSecondary">
+              {timeRemaining}
+            </Typography>
+          </div>
+        </div>
       ) : loading && !progressive ? (
         <CircularProgress size={24} />
       ) : (
         children
       )}
     </Button>
+  )
+  return (loading && progressive) || (loading && !progressive) ? (
+    <Tooltip
+      title={waiting ? 'Awaiting response' : `Estimated time: ${Math.round(timeRemaining)} seconds`}
+      arrow
+      placement="left"
+    >
+      <span> {buttonContent}</span>
+    </Tooltip>
+  ) : (
+    buttonContent
   )
 }
 
