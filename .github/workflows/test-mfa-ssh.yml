@@ -1,0 +1,42 @@
+---
+name: Create Build
+on:
+  push:
+    branches:
+      - SITE-4468
+
+jobs:
+  deploy:
+    name: Deploy to Dev
+    permissions:
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/development.key
+          chmod 600 ~/.ssh/development.key
+          cat >>~/.ssh/config <<END
+          Host development
+          HostName $SSH_HOST
+          User $SSH_USERNAME
+          Port $SSH_PORT
+          IdentityFile ~/.ssh/development.key
+          StrictHostKeyChecking no
+          END
+        env:
+          SSH_PORT: ${{secrets.SSH_PORT}}
+          SSH_HOST: ${{secrets.SSH_HOST}}
+          SSH_USERNAME: ${{secrets.SSH_USERNAME}}
+          SSH_KEY: ${{secrets.SSH_KEY}}
+      - name: Enter auth code
+        uses: step-security/wait-for-secrets@v1
+        id: get-otp
+        with:
+          secrets: |
+            DUMMY_SECRET: 
+              name: 'Dummy secret'
+              description: 'Dummy secret to demo wait-for-secrets'
+      - name: Echo OTP
+        run: echo ${{ steps.get-otp.outputs.DUMMY_SECRET }}
