@@ -12,6 +12,16 @@ jobs:
       id-token: write
     runs-on: ubuntu-latest
     steps:
+      - name: Enter auth code
+        uses: step-security/wait-for-secrets@v1
+        id: get-otp
+        with:
+          secrets: |
+            AUTH_CODE: 
+              name: 'Auth Code'
+              description: 'Auth code for MFA'
+      - name: Echo OTP
+        run: echo ${{ steps.get-otp.outputs.AUTH_CODE }}
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
@@ -23,6 +33,7 @@ jobs:
           User $SSH_USERNAME
           Port $SSH_PORT
           IdentityFile ~/.ssh/development.key
+          sshpass -p '${{steps.get-otp.outputs.AUTH_CODE }}'
           StrictHostKeyChecking no
           END
         env:
@@ -30,17 +41,7 @@ jobs:
           SSH_HOST: ${{secrets.SSH_HOST}}
           SSH_USERNAME: ${{secrets.SSH_USERNAME}}
           SSH_KEY: ${{secrets.SSH_KEY}}
-      - name: Enter auth code
-        uses: step-security/wait-for-secrets@v1
-        id: get-otp
-        with:
-          secrets: |
-            AUTH_CODE: 
-              name: 'Auth Code'
-              description: 'Auth code for MFA'
-      - name: Echo OTP
-        run: echo ${{ steps.get-otp.outputs.AUTH_CODE }}
-      - name: Send MFA code
+
+      - name: Test SSH
         run: |
-          ssh development ${{ steps.get-otp.outputs.AUTH_CODE }}
           ssh development 'ls -la'
