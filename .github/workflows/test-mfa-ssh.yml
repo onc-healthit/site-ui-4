@@ -35,8 +35,12 @@ jobs:
         id: get-otp
         with:
           secrets: |
-            DUMMY_SECRET: 
-              name: 'Dummy secret'
-              description: 'Dummy secret to demo wait-for-secrets'
+            AUTH_CODE: 
+              name: 'Auth Code'
+              description: 'Auth code for MFA'
       - name: Echo OTP
-        run: echo ${{ steps.get-otp.outputs.DUMMY_SECRET }}
+        run: echo ${{ steps.get-otp.outputs.AUTH_CODE }}
+      - name: Send MFA code
+        run: |
+          ssh development ${{ steps.get-otp.outputs.AUTH_CODE }}
+          ssh development 'ls -la'
