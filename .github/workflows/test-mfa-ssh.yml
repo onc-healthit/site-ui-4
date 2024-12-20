@@ -12,16 +12,8 @@ jobs:
       id-token: write
     runs-on: ubuntu-latest
     steps:
-      - name: Enter auth code
-        uses: step-security/wait-for-secrets@v1
-        id: get-otp
-        with:
-          secrets: |
-            AUTH_CODE: 
-              name: 'Auth Code'
-              description: 'Auth code for MFA'
-      - name: Install sshpass
-        run: sudo apt-get update && sudo apt-get install -y sshpass
+      - name: Install expect
+        run: sudo apt-get update && sudo apt-get install -y expect
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
@@ -41,9 +33,22 @@ jobs:
           SSH_HOST: ${{secrets.SSH_HOST}}
           SSH_USERNAME: ${{secrets.SSH_USERNAME}}
           SSH_KEY: ${{secrets.SSH_KEY}}
+      - name: Enter auth code
+        uses: step-security/wait-for-secrets@v1
+        id: get-otp
+        with:
+          secrets: |
+            AUTH_CODE: 
+              name: 'Auth Code'
+              description: 'Auth code for MFA'
       - name: Connect to SSH and send verification code
         run: |
-          sshpass -v -p "${{ steps.get-otp.outputs.AUTH_CODE }}" ssh -vvv -o "StrictHostKeyChecking=no" -o "PreferredAuthentications=publickey,keyboard-interactive" -i ~/.ssh/development.key $SSH_USERNAME@$SSH_HOST -p $SSH_PORT 'ls -la'
+          expect <<EOF
+          spawn ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o "PreferredAuthentications=publickey,keyboard-interactive" -i ~/.ssh/development.key $SSH_USERNAME@$SSH_HOST -p $SSH_PORT
+          expect "Verification code:"
+          send "${{ steps.get-otp.outputs.AUTH_CODE }}\r"
+          interact
+          EOF
         env:
           SSH_HOST: ${{secrets.SSH_HOST}}
           SSH_USERNAME: ${{secrets.SSH_USERNAME}}
