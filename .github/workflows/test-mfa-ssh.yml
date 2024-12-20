@@ -20,41 +20,11 @@ jobs:
             AUTH_CODE: 
               name: 'Auth Code'
               description: 'Auth code for MFA'
-      - name: Echo OTP
-        run: echo ${{ steps.get-otp.outputs.AUTH_CODE }}
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
-      - name: Configure SSH
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/development.key
-          chmod 600 ~/.ssh/development.key
-          cat >>~/.ssh/config <<END
-          Host development
-          HostName $SSH_HOST
-          User $SSH_USERNAME
-          Port $SSH_PORT
-          IdentityFile ~/.ssh/development.key
-          StrictHostKeyChecking no
-          PreferredAuthentications publickey,keyboard-interactive
-          END
-        env:
-          SSH_PORT: ${{secrets.SSH_PORT}}
-          SSH_HOST: ${{secrets.SSH_HOST}}
-          SSH_USERNAME: ${{secrets.SSH_USERNAME}}
-          SSH_KEY: ${{secrets.SSH_KEY}}
-
-      - name: Debug SSH connection
-        run: |
-          ssh -vvv -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o "PreferredAuthentications=publickey,keyboard-interactive" -i ~/.ssh/development.key $SSH_USERNAME@$SSH_HOST -p $SSH_PORT 'ls -la'
-        env:
-          SSH_HOST: ${{secrets.SSH_HOST}}
-          SSH_USERNAME: ${{secrets.SSH_USERNAME}}
-          SSH_PORT: ${{secrets.SSH_PORT}}
-          SSH_KEY: ${{secrets.SSH_KEY}}
       - name: Connect to SSH and send verification code
         run: |
-          sshpass -p "${{ steps.get-otp.outputs.AUTH_CODE }}" ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o "PreferredAuthentications=publickey,keyboard-interactive" -i ~/.ssh/development.key $SSH_USERNAME@$SSH_HOST -p $SSH_PORT 'ls -la'
+          sshpass -v -p "${{ steps.get-otp.outputs.AUTH_CODE }}" ssh -vvv -o "StrictHostKeyChecking=no" -o "PreferredAuthentications=publickey,keyboard-interactive" -i ~/.ssh/development.key $SSH_USERNAME@$SSH_HOST -p $SSH_PORT 'ls -la'
         env:
           SSH_HOST: ${{secrets.SSH_HOST}}
           SSH_USERNAME: ${{secrets.SSH_USERNAME}}
