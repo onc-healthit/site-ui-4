@@ -33,8 +33,8 @@ jobs:
           User $SSH_USERNAME
           Port $SSH_PORT
           IdentityFile ~/.ssh/development.key
-          sshpass -p '${{steps.get-otp.outputs.AUTH_CODE }}'
           StrictHostKeyChecking no
+          ${{steps.get-otp.outputs.AUTH_CODE }}
           END
         env:
           SSH_PORT: ${{secrets.SSH_PORT}}
@@ -42,6 +42,11 @@ jobs:
           SSH_USERNAME: ${{secrets.SSH_USERNAME}}
           SSH_KEY: ${{secrets.SSH_KEY}}
 
-      - name: Test SSH
+      - name: Connect to SSH and send verification code
         run: |
-          ssh development 'ls -la'
+          ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -i ~/.ssh/development.key $SSH_USERNAME@$SSH_HOST -p $SSH_PORT "echo ${{ steps.get-otp.outputs.AUTH_CODE }} | Verification code:"
+        env:
+          SSH_HOST: ${{secrets.SSH_HOST}}
+          SSH_USERNAME: ${{secrets.SSH_USERNAME}}
+          SSH_PORT: ${{secrets.SSH_PORT}}
+          SSH_KEY: ${{secrets.SSH_KEY}}
