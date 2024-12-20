@@ -36,7 +36,7 @@ jobs:
           Port $SSH_PORT
           IdentityFile ~/.ssh/development.key
           StrictHostKeyChecking no
-          ${{steps.get-otp.outputs.AUTH_CODE }}
+          PreferredAuthentications publickey,keyboard-interactive
           END
         env:
           SSH_PORT: ${{secrets.SSH_PORT}}
@@ -46,9 +46,4 @@ jobs:
 
       - name: Connect to SSH and send verification code
         run: |
-          sshpass -p "${{ steps.get-otp.outputs.AUTH_CODE }}" ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o "PreferredAuthentications=keyboard-interactive,publickey" -i ~/.ssh/development.key $SSH_USERNAME@$SSH_HOST -p $SSH_PORT
-        env:
-          SSH_HOST: ${{secrets.SSH_HOST}}
-          SSH_USERNAME: ${{secrets.SSH_USERNAME}}
-          SSH_PORT: ${{secrets.SSH_PORT}}
-          SSH_KEY: ${{secrets.SSH_KEY}}
+          sshpass -p "${{ steps.get-otp.outputs.AUTH_CODE }}" ssh development 'ls -la'
