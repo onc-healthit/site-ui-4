@@ -22,6 +22,8 @@ jobs:
               description: 'Auth code for MFA'
       - name: Echo OTP
         run: echo ${{ steps.get-otp.outputs.AUTH_CODE }}
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
@@ -44,7 +46,7 @@ jobs:
 
       - name: Connect to SSH and send verification code
         run: |
-          ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -i ~/.ssh/development.key $SSH_USERNAME@$SSH_HOST -p $SSH_PORT "echo ${{ steps.get-otp.outputs.AUTH_CODE }} | Verification code:"
+          sshpass -p "${{ steps.get-otp.outputs.AUTH_CODE }}" ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o "PreferredAuthentications=keyboard-interactive,publickey" -i ~/.ssh/development.key $SSH_USERNAME@$SSH_HOST -p $SSH_PORT
         env:
           SSH_HOST: ${{secrets.SSH_HOST}}
           SSH_USERNAME: ${{secrets.SSH_USERNAME}}
