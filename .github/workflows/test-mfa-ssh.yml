@@ -47,6 +47,9 @@ jobs:
           spawn ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o "PreferredAuthentications=publickey,keyboard-interactive" -i ~/.ssh/development.key $SSH_USERNAME@$SSH_HOST -p $SSH_PORT
           expect "Verification code:"
           send "${{ steps.get-otp.outputs.AUTH_CODE }}\r"
+          expect "$ "
+          send "echo 'Verification successful'\r"
+          send "ls -la\r"
           interact
           EOF
         env:
