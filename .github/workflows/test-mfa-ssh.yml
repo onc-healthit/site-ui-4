@@ -78,7 +78,7 @@ jobs:
             AUTH_CODE: 
               name: 'Auth Code'
               description: 'Auth code for MFA'
-      - name: Connect to SSH and send verification code
+      - name: Copy Build Artifact to remote server
         run: |
           zip -r -o BuildArtifact.zip ./
           expect <<EOF
@@ -86,9 +86,21 @@ jobs:
           spawn scp BuildArtifact.zip development:
           expect "Verification code:"
           send "${{ steps.get-otp.outputs.AUTH_CODE }}\r"
+          expect eof
+          EOF
+      - name: Connect to SSH and send verification code
+        run: |
+          expect <<EOF
+          log_user 1
+          spawn ssh development /bin/bash
+          expect "Verification code:"
+          send "${{ steps.get-otp.outputs.AUTH_CODE }}\r"
           expect "$ "
-          send "echo 'Verification successful'\r"
-          expect "$ "
+          send "sudo bash\r"
+          send "export PATH=$PATH:/root/.nvm/versions/node/v20.12.1/bin\r"
+          send "pm2 stop site-ui-4\r"
           send "ls -la\r"
+          send "unzip -o BuildArtifact.zip -d /opt/site-ui-4\r"
+          send "pm2 startOrRestart /opt/site-ui-4/ecosystem.config.js --env production  && pm2 save\r"
           expect eof
           EOF
