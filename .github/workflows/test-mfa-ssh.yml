@@ -6,11 +6,43 @@ on:
       - SITE-4468
 
 jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: Install Dependencies
+        run: npm ci --force
+      - name: Run Build
+        run: npm run build
+      - name: Create Build Artifact
+        run: |
+          ls -la
+          mkdir ./build
+          cp ./.next -pR ./build/.next
+          cp ./next.config.js ./build/next.config.js
+          cp ./public -pR ./build/public
+          cp ./package.json ./build/package.json
+          cp ./package-lock.json ./build/package-lock.json
+          ls -la ./build
+      - name: Upload build folder
+        uses: actions/upload-artifact@v4
+        with:
+          name: BuildArtifact
+          include-hidden-files: true
+          path: ./build
+          retention-days: 7
   deploy:
     name: Deploy to Dev
     permissions:
       id-token: write
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: Install expect
         run: sudo apt-get update && sudo apt-get install -y expect
@@ -33,6 +65,11 @@ jobs:
           SSH_HOST: ${{secrets.SSH_HOST}}
           SSH_USERNAME: ${{secrets.SSH_USERNAME}}
           SSH_KEY: ${{secrets.SSH_KEY}}
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: BuildArtifact
+          path: ./
       - name: Enter auth code
         uses: step-security/wait-for-secrets@v1
         id: get-otp
@@ -43,12 +80,15 @@ jobs:
               description: 'Auth code for MFA'
       - name: Connect to SSH and send verification code
         run: |
+          zip -r -o BuildArtifact.zip ./
           expect <<EOF
-          spawn ssh development
+          log_user 1
+          spawn scp BuildArtifact.zip development:
           expect "Verification code:"
           send "${{ steps.get-otp.outputs.AUTH_CODE }}\r"
           expect "$ "
           send "echo 'Verification successful'\r"
+          expect "$ "
           send "ls -la\r"
-          interact
+          expect eof
           EOF
