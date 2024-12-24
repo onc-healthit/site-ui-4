@@ -44,7 +44,7 @@ jobs:
       - name: Connect to SSH and send verification code
         run: |
           expect <<EOF
-          spawn ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -o "PreferredAuthentications=publickey,keyboard-interactive" -i ~/.ssh/development.key $SSH_USERNAME@$SSH_HOST -p $SSH_PORT
+          spawn ssh development
           expect "Verification code:"
           send "${{ steps.get-otp.outputs.AUTH_CODE }}\r"
           expect "$ "
@@ -52,8 +52,3 @@ jobs:
           send "ls -la\r"
           interact
           EOF
-        env:
-          SSH_HOST: ${{secrets.SSH_HOST}}
-          SSH_USERNAME: ${{secrets.SSH_USERNAME}}
-          SSH_PORT: ${{secrets.SSH_PORT}}
-          SSH_KEY: ${{secrets.SSH_KEY}}
