@@ -99,8 +99,12 @@ jobs:
           send "sudo bash\r"
           send "export PATH=$PATH:/root/.nvm/versions/node/v20.12.1/bin\r"
           send "pm2 stop site-ui-4\r"
+          expect "# "
           send "ls -la\r"
+          expect "# "
           send "unzip -o BuildArtifact.zip -d /opt/site-ui-4\r"
+          expect "# "
           send "pm2 startOrRestart /opt/site-ui-4/ecosystem.config.js --env production  && pm2 save\r"
+          expect "# "
           expect eof
           EOF
