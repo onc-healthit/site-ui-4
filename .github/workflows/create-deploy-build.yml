@@ -60,10 +60,14 @@ jobs:
           retention-days: 7
   deploy:
     name: Deploy to Dev
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/main'
     needs: build
     steps:
+      - name: Install expect
+        run: sudo apt-get update && sudo apt-get install -y expect
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
@@ -76,6 +80,7 @@ jobs:
           Port $SSH_PORT
           IdentityFile ~/.ssh/development.key
           StrictHostKeyChecking no
+          PreferredAuthentications publickey,keyboard-interactive
           END
         env:
           SSH_PORT: ${{secrets.SSH_PORT}}
@@ -87,29 +92,41 @@ jobs:
         with:
           name: BuildArtifact
           path: ./
-      - name: Copy Artifact to Environment
+      - name: Enter auth code
+        uses: step-security/wait-for-secrets@v1
+        id: get-otp
+        with:
+          secrets: |
+            AUTH_CODE: 
+              name: 'Auth Code'
+              description: 'Auth code for MFA'
+      - name: Copy Build Artifact to remote server
         run: |
           zip -r -o BuildArtifact.zip ./
-          scp BuildArtifact.zip  development:
-          ssh development 'ls -la'
-      - name: Stop application
-        run: |
-          ssh development /bin/bash<< EOF
-          sudo bash
-          export PATH=$PATH:/root/.nvm/versions/node/v20.12.1/bin
-          pm2 stop site-ui-4
+          expect <<EOF
+          log_user 1
+          spawn scp BuildArtifact.zip development:
+          expect "Verification code:"
+          send "${{ steps.get-otp.outputs.AUTH_CODE }}\r"
+          expect eof
           EOF
-      - name: Update site-ui-4 files
+      - name: Deploy to remote server
         run: |
-          ssh development /bin/bash<< EOF
-          sudo bash
-          ls -la
-          unzip -o BuildArtifact.zip -d /opt/site-ui-4
-          EOF
-      - name: Restart application
-        run: |
-          ssh development /bin/bash<< EOF
-          sudo bash
-          export PATH=$PATH:/root/.nvm/versions/node/v20.12.1/bin
-          pm2 startOrRestart /opt/site-ui-4/ecosystem.config.js --env production  && pm2 save
+          expect <<EOF
+          log_user 1
+          spawn ssh development /bin/bash
+          expect "Verification code:"
+          send "${{ steps.get-otp.outputs.AUTH_CODE }}\r"
+          expect "$ "
+          send "sudo bash\r"
+          send "export PATH=$PATH:/root/.nvm/versions/node/v20.12.1/bin\r"
+          send "pm2 stop site-ui-4\r"
+          expect "# "
+          send "ls -la\r"
+          expect "# "
+          send "unzip -o BuildArtifact.zip -d /opt/site-ui-4\r"
+          expect "# "
+          send "pm2 startOrRestart /opt/site-ui-4/ecosystem.config.js --env production  && pm2 save\r"
+          expect "# "
+          expect eof
           EOF
