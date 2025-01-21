@@ -82,7 +82,8 @@ const postToUscdiValidator = async (formData: FormData, uscdiVersion: string) =>
     return { response: response.data }
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error(error.response?.data)
+      console.error(error)
+      console.error(error.response)
       return {
         response: {
           error: GENERIC_ERROR_MESSAGE,
