@@ -120,14 +120,14 @@ const DocumentSelector = ({ onConfirm, onClose, receive: receive, protocol }: Do
       <Divider sx={{ my: 0 }} />
       <DialogContent>
         <Typography variant="body1" gutterBottom>
-          First select a message format. It can be one or both formats.
+          First select a message format.
         </Typography>
         <RadioGroup row value={selectedType} onChange={handleTypeChange}>
           <FormControlLabel value="cures" control={<Radio />} label="Cures" />
           <FormControlLabel value="svap" control={<Radio />} label="SVAP" />
         </RadioGroup>
         <Typography variant="body1" sx={{ mb: 2, mt: 1 }} gutterBottom>
-          Then select a document. You can search within the field below to find your file.
+          Then select a document.
         </Typography>
         <Box display={'flex'} flexDirection={'column'} gap={2}>
           <>
