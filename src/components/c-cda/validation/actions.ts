@@ -29,6 +29,7 @@ async function getToken() {
     const response = await axios.post(keycloakUrl, params, {
       httpsAgent: new https.Agent(httpsAgentOptions), //this was needed for dev endpoint TLS issue with IP match, can remove for Prod
     })
+    console.log('Token retrieved from keycloak: response.data', response.data)
     return response.data
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -40,18 +41,49 @@ async function getToken() {
   }
 }
 
+function ensureTrailingSlash(url: string): string {
+  // We define our env vars so this should never happen but if it does,
+  // this will keep it from redirecting and failing the request
+  if (!url.endsWith('/')) {
+    return `${url}/` // Add a slash if it doesn't exist
+  }
+  return url // Return the original URL if it already ends with a slash
+}
+
 const postToUscdiValidator = async (formData: FormData, uscdiVersion: string) => {
   const ccdaValidatorUrl = process.env.CCDA_VALIDATOR_URL
+  if (!ccdaValidatorUrl) {
+    throw new Error('The C-CDA Validator API URL is undefined, there is no valid endpoint to call')
+  }
+  const ccdaValUrlWithTrailngSlash = ensureTrailingSlash(ccdaValidatorUrl!)
+  console.log('C-CDA Validator API URL:', ccdaValUrlWithTrailngSlash)
+
   const token = await getToken()
+  // console.log('Acces Token: ', token.access_token)
+
   const uploadFile = formData.get('ccdaFile')
   console.log('uploaded File', uploadFile)
 
-  formData.append('curesUpdate', uscdiVersion === 'v1' ? 'true' : 'false')
-  formData.append('svap2022', uscdiVersion === 'v2' ? 'true' : 'false')
-  formData.append('svap2023', uscdiVersion === 'v3' ? 'true' : 'false')
-  // TODO: Update v4 based on arg value or impl if complex type when implemented in ref val
-  formData.append('uscdiv4', uscdiVersion === 'v4' ? 'true' : 'false')
+  // Handle new string format in RefVal for uscdi type
+  const uscdiVersionApiFormDataKey = 'ccdaType'
+  switch (uscdiVersion) {
+    case 'v1':
+      // uscdiv1
+      formData.append(uscdiVersionApiFormDataKey, 'cures')
+      break
+    case 'v2':
+      // uscdiv2
+      formData.append(uscdiVersionApiFormDataKey, 'svap')
+      break
+    case 'v3':
+      formData.append(uscdiVersionApiFormDataKey, 'uscdiv3')
+      break
+    case 'v4':
+      formData.append(uscdiVersionApiFormDataKey, 'uscdiv4')
+  }
 
+  // Note: version formData is set externally
+  console.log('formData version:', formData.get('version'))
   if (formData.get('version') === `${uscdiVersion}IG`) {
     formData.append('referenceFileName', 'Readme.txt')
     formData.append('validationObjective', 'C-CDA_IG_Only')
@@ -64,11 +96,15 @@ const postToUscdiValidator = async (formData: FormData, uscdiVersion: string) =>
     formData.append('referenceFileName', 'Readme.txt')
   }
 
-  console.log(`Submitted data for Validator ${uscdiVersion}: `, formData)
+  console.log('Submitted form data for validator:')
+  const formDataEntries = Array.from(formData.entries())
+  formDataEntries.forEach((pair) => {
+    console.log(pair[0] + ', ' + pair[1])
+  })
 
   const config = {
     method: 'post',
-    url: ccdaValidatorUrl,
+    url: ccdaValUrlWithTrailngSlash,
     headers: {
       Authorization: 'Bearer ' + token.access_token,
     },
@@ -77,13 +113,16 @@ const postToUscdiValidator = async (formData: FormData, uscdiVersion: string) =>
 
   try {
     const response = await axios.request(config)
+    console.log(`URL submitted to API: ${config.url}`)
     console.log('Response data', JSON.stringify(response.data))
     console.log(`Validator ${uscdiVersion} API response status`, response.status)
     return { response: response.data }
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error(error)
-      console.error(error.response)
+      console.error('error', error)
+      console.error('error.response:', error.response)
+      console.error('errorResponseData:', error.response?.data)
+      console.error('responseUrl: ', +error.response?.request.res.responseUrl)
       return {
         response: {
           error: GENERIC_ERROR_MESSAGE,
