@@ -1,6 +1,6 @@
 import DynamicTable from './DynamicTable'
 import _ from 'lodash'
-import React, { useState, useContext } from 'react'
+import React, { useState, useMemo, SyntheticEvent, useContext } from 'react'
 import { handleSMTPLogAPICall } from '../test-by-criteria/ServerActions'
 import LoadingButton from '../shared/LoadingButton'
 import { APICallData, APICallResponse, TestRequestResponses } from '../test-by-criteria/ServerActions'
@@ -20,6 +20,8 @@ import {
   FormControlLabel,
   Checkbox,
   TextField,
+  Tabs,
+  Tab,
   SelectChangeEvent,
 } from '@mui/material'
 import AlertSnackbar from '../shared/AlertSnackbar'
@@ -83,6 +85,16 @@ export type ExtraFields = {
   render?: (value: FieldValue) => JSX.Element
 }
 
+interface Attachment {
+  filename: string
+  content: string
+}
+
+interface ParsedEmailData {
+  email: string
+  attachments: Attachment[]
+}
+
 interface TestCardProps {
   test: TestCaseFields
   hostname?: string
@@ -91,6 +103,7 @@ interface TestCardProps {
   password?: string
   tlsRequired?: boolean
   receive?: boolean
+  testRequestResponsesRaw: { [key: string]: string }
 }
 
 interface SelectedDocument {
@@ -99,14 +112,15 @@ interface SelectedDocument {
   fileLink: string
 }
 
-const TestCard = ({
+const TestCard: React.FC<TestCardProps> = ({
+  testRequestResponsesRaw,
   test,
   hostname = 'defaultHostname',
   email = 'defaultEmail',
   username = 'defaultUsername',
   password = 'defaultPassword',
   tlsRequired = false,
-}: TestCardProps) => {
+}) => {
   const attachmentTypeTestIDs = [231, 331]
   const manualValidationCriteria = [
     "['b1-5']",
@@ -137,6 +151,7 @@ const TestCard = ({
   const [alertMessage, setAlertMessage] = useState<string>('')
   const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('error')
   const { profilename } = useContext(ProfileContext)
+  const [downloadTab, setDownloadTab] = useState(0)
 
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
     console.log('Confirmed Document', selectedData)
@@ -172,8 +187,54 @@ const TestCard = ({
     eventTrack('Clear Test', 'Test By Criteria', `${test.criteria}`)
   }
 
+  const handleDownload = (content: string, filename: string): void => {
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = filename
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
+
+  const parseEmailResponse = (raw: string): ParsedEmailData => {
+    const boundaryMatch = raw.match(/--_+\S+/)
+    if (!boundaryMatch) {
+      return { email: raw, attachments: [] }
+    }
+    const boundary = boundaryMatch[0]
+    const parts = raw.split(boundary)
+    const emailPart = parts[0].trim()
+    const attachments: Attachment[] = parts
+      .slice(1)
+      .map((part: string) => {
+        let filename = 'attachment.txt'
+        const filenameMatch = part.match(/filename="?([^"]+)"?/i)
+        if (filenameMatch) {
+          filename = filenameMatch[1]
+        }
+        return { filename, content: part.trim() }
+      })
+      .filter((att: Attachment) => att.content !== '')
+    return { email: emailPart, attachments }
+  }
+
+  const parsedEmailData: ParsedEmailData = useMemo(() => {
+    if (!testRequestResponsesRaw || Object.keys(testRequestResponsesRaw).length === 0) {
+      return { email: '', attachments: [] }
+    }
+    const rawResponse: string = Object.values(testRequestResponsesRaw).join('\n')
+    return parseEmailResponse(rawResponse)
+  }, [testRequestResponsesRaw])
+
   const handleAttachmentTypeChange = (event: SelectChangeEvent<string>) => {
     setAttachmentType(event.target.value)
+  }
+
+  const handleTabChange = (event: SyntheticEvent, newValue: number) => {
+    setDownloadTab(newValue)
   }
 
   const logTestResults = async (result: APICallResponse) => {
@@ -467,7 +528,15 @@ const TestCard = ({
             </CardContent>
           </>
         ) : showLogs ? (
-          <CardContent sx={{ display: 'flex', flexDirection: 'column', minWidth: '100%', p: 0, pb: '0px!important' }}>
+          <CardContent
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              minWidth: '100%',
+              p: 0,
+              pb: '0px!important',
+            }}
+          >
             <Typography variant="h6">Test Logs</Typography>
             {testRequestResponses ? (
               <Typography variant="body1" style={{ whiteSpace: 'pre-line' }}>
@@ -476,7 +545,53 @@ const TestCard = ({
             ) : (
               <Typography variant="body1">No logs to display.</Typography>
             )}
+
             <Divider sx={{ mb: 2, mt: 2 }} />
+
+            {/* New Tabs for Email and Attachments */}
+            <Tabs value={downloadTab} onChange={(e, newValue) => setDownloadTab(newValue)} aria-label="Download Tabs">
+              <Tab label="Email Content" />
+              <Tab label="Attachments" />
+            </Tabs>
+
+            {downloadTab === 0 && (
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+                  {parsedEmailData.email}
+                </Typography>
+                <Button
+                  variant="outlined"
+                  sx={{ mt: 1 }}
+                  onClick={() => handleDownload(parsedEmailData.email, 'email.txt')}
+                >
+                  Download Email
+                </Button>
+              </Box>
+            )}
+
+            {downloadTab === 1 && (
+              <Box sx={{ mt: 2 }}>
+                {parsedEmailData.attachments.length === 0 ? (
+                  <Typography>No attachments available.</Typography>
+                ) : (
+                  parsedEmailData.attachments.map((att, index) => (
+                    <Box key={index} sx={{ mb: 2 }}>
+                      <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+                        {att.content}
+                      </Typography>
+                      <Button
+                        variant="outlined"
+                        sx={{ mt: 1 }}
+                        onClick={() => handleDownload(att.content, att.filename)}
+                      >
+                        Download {att.filename}
+                      </Button>
+                    </Box>
+                  ))
+                )}
+              </Box>
+            )}
+
             <Box
               sx={{
                 display: 'flex',
@@ -489,19 +604,6 @@ const TestCard = ({
               <Button variant="outlined" color="secondary" onClick={() => handleToggleLogs('RETURN TO TEST')}>
                 RETURN TO TEST
               </Button>
-              {test.criteria &&
-                (manualValidationCriteria.includes(test.criteria) || manualValidationIDs.includes(test.id)) &&
-                formattedLogs.length > 0 &&
-                criteriaMet.includes('MANUAL') && (
-                  <Box sx={{ display: 'flex', gap: 1 }}>
-                    <Button variant="outlined" color="success" onClick={handleAcceptTest}>
-                      Accept
-                    </Button>
-                    <Button variant="text" sx={{ color: palette.warningDark }} onClick={handleRejectTest}>
-                      Reject
-                    </Button>
-                  </Box>
-                )}
             </Box>
           </CardContent>
         ) : (
@@ -635,6 +737,46 @@ const TestCard = ({
               </Box>
             </Box>
           </>
+        )}
+        <Divider sx={{ mb: 2, mt: 2 }} />
+
+        <Tabs value={downloadTab} onChange={handleTabChange} aria-label="Download Tabs">
+          <Tab label="Email Content" />
+          <Tab label="Attachments" />
+        </Tabs>
+
+        {downloadTab === 0 && (
+          <Box sx={{ mt: 2 }}>
+            <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+              {parsedEmailData.email}
+            </Typography>
+            <Button
+              variant="outlined"
+              sx={{ mt: 1 }}
+              onClick={() => handleDownload(parsedEmailData.email, 'email.txt')}
+            >
+              Download Email
+            </Button>
+          </Box>
+        )}
+
+        {downloadTab === 1 && (
+          <Box sx={{ mt: 2 }}>
+            {parsedEmailData.attachments.length === 0 ? (
+              <Typography>No attachments available.</Typography>
+            ) : (
+              parsedEmailData.attachments.map((att: Attachment, index: number) => (
+                <Box key={index} sx={{ mb: 2 }}>
+                  <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+                    {att.content}
+                  </Typography>
+                  <Button variant="outlined" sx={{ mt: 1 }} onClick={() => handleDownload(att.content, att.filename)}>
+                    Download {att.filename}
+                  </Button>
+                </Box>
+              ))
+            )}
+          </Box>
         )}
       </CardContent>
     </Card>
