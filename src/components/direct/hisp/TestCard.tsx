@@ -152,6 +152,9 @@ const TestCard: React.FC<TestCardProps> = ({
   const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('error')
   const { profilename } = useContext(ProfileContext)
   const [downloadTab, setDownloadTab] = useState(0)
+  const [selectedAttachmentTab, setSelectedAttachmentTab] = useState(0)
+
+  const [apiResponse, setApiResponse] = useState<APICallResponse | null>(null)
 
   const handleDocumentConfirm = (selectedData: SelectedDocument) => {
     console.log('Confirmed Document', selectedData)
@@ -187,8 +190,54 @@ const TestCard: React.FC<TestCardProps> = ({
     eventTrack('Clear Test', 'Test By Criteria', `${test.criteria}`)
   }
 
+  const decodeAttachment = (content: string): Uint8Array => {
+    const sanitized = content.replace(/\s/g, '')
+    const isLikelyBase64 = /^[A-Za-z0-9+/=]+$/.test(sanitized)
+
+    if (isLikelyBase64) {
+      try {
+        const binaryString = window.atob(sanitized)
+        const len = binaryString.length
+        const bytes = new Uint8Array(len)
+        for (let i = 0; i < len; i++) {
+          bytes[i] = binaryString.charCodeAt(i)
+        }
+        return bytes
+      } catch (e) {
+        console.error('Base64 decoding failed:', e)
+        return new Uint8Array()
+      }
+    } else {
+      const len = content.length
+      const bytes = new Uint8Array(len)
+      for (let i = 0; i < len; i++) {
+        bytes[i] = content.charCodeAt(i) & 0xff
+      }
+      return bytes
+    }
+  }
+
   const handleDownload = (content: string, filename: string): void => {
-    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+    console.log(`Downloading ${filename} with length:`, content.length)
+    let blob: Blob
+    if (
+      filename.toLowerCase().endsWith('.png') ||
+      filename.toLowerCase().endsWith('.jpg') ||
+      filename.toLowerCase().endsWith('.jpeg') ||
+      filename.toLowerCase().endsWith('.gif')
+    ) {
+      const bytes = decodeAttachment(content)
+      const mimeType = filename.toLowerCase().endsWith('.png')
+        ? 'image/png'
+        : filename.toLowerCase().endsWith('.jpg') || filename.toLowerCase().endsWith('.jpeg')
+          ? 'image/jpeg'
+          : filename.toLowerCase().endsWith('.gif')
+            ? 'image/gif'
+            : 'application/octet-stream'
+      blob = new Blob([bytes], { type: mimeType })
+    } else {
+      blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+    }
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
@@ -200,34 +249,116 @@ const TestCard: React.FC<TestCardProps> = ({
   }
 
   const parseEmailResponse = (raw: string): ParsedEmailData => {
-    const boundaryMatch = raw.match(/--_+\S+/)
-    if (!boundaryMatch) {
+    raw = raw.replace(/\r\n/g, '\n')
+    const outerBoundaryMatch = raw.match(/boundary="?([^";]+)"?/i)
+    if (!outerBoundaryMatch) {
       return { email: raw, attachments: [] }
     }
-    const boundary = boundaryMatch[0]
-    const parts = raw.split(boundary)
-    const emailPart = parts[0].trim()
-    const attachments: Attachment[] = parts
-      .slice(1)
-      .map((part: string) => {
-        let filename = 'attachment.txt'
-        const filenameMatch = part.match(/filename="?([^"]+)"?/i)
+    const outerBoundary = '--' + outerBoundaryMatch[1]
+    const outerParts = raw.split(outerBoundary)
+    let emailContent = ''
+    const attachments: Attachment[] = []
+    outerParts.forEach((part) => {
+      part = part.trim()
+      if (!part || part === '--') return
+      if (part.toLowerCase().startsWith('content-type: multipart/alternative')) {
+        const innerBoundaryMatch = part.match(/boundary="?([^";]+)"?/i)
+        if (innerBoundaryMatch) {
+          const innerBoundary = '--' + innerBoundaryMatch[1]
+          const innerParts = part.split(innerBoundary)
+          innerParts.forEach((innerPart) => {
+            innerPart = innerPart.trim()
+            if (!innerPart || innerPart.startsWith('--')) return
+            const headerEnd = innerPart.indexOf('\n\n')
+            if (headerEnd === -1) return
+            const headers = innerPart.substring(0, headerEnd).toLowerCase()
+            const body = innerPart.substring(headerEnd).trim()
+            if (headers.includes('content-type: text/plain')) {
+              emailContent += body + '\n'
+            } else if (headers.includes('content-type: text/html') && !emailContent) {
+              emailContent = body
+            }
+          })
+        }
+      } else if (part.toLowerCase().includes('content-type: image/')) {
+        const headerEnd = part.indexOf('\n\n')
+        if (headerEnd === -1) return
+        const headers = part.substring(0, headerEnd).toLowerCase()
+        const body = part.substring(headerEnd).trim()
+        let filename = 'attachment'
+        const filenameMatch = headers.match(/filename="?([^"]+\.(png|jpg|jpeg|gif))"?/i)
         if (filenameMatch) {
           filename = filenameMatch[1]
+        } else {
+          const typeMatch = headers.match(/content-type:\s*image\/(\w+)/i)
+          if (typeMatch) {
+            filename += '.' + typeMatch[1]
+          } else {
+            filename += '.bin'
+          }
         }
-        return { filename, content: part.trim() }
-      })
-      .filter((att: Attachment) => att.content !== '')
-    return { email: emailPart, attachments }
+        attachments.push({ filename, content: body })
+      } else {
+        if (!emailContent) {
+          emailContent += part
+        }
+      }
+    })
+    return { email: emailContent.trim(), attachments }
+  }
+
+  const fixBase64 = (str: string): string => {
+    let sanitized = str.replace(/\s/g, '')
+    sanitized = sanitized.replace(/-/g, '+').replace(/_/g, '/')
+    while (sanitized.length % 4 !== 0) {
+      sanitized += '='
+    }
+    return sanitized
+  }
+
+  const base64ToUint8Array = (base64: string): Uint8Array => {
+    const fixedBase64 = fixBase64(base64)
+    if (!fixedBase64) {
+      console.error('Empty base64 string')
+      return new Uint8Array()
+    }
+    try {
+      const binaryString = window.atob(fixedBase64)
+      console.log('Decoded binaryString length:', binaryString.length)
+      const len = binaryString.length
+      const bytes = new Uint8Array(len)
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i)
+      }
+      return bytes
+    } catch (e) {
+      console.error('Failed to decode base64:', e, fixedBase64)
+      return new Uint8Array()
+    }
   }
 
   const parsedEmailData: ParsedEmailData = useMemo(() => {
-    if (!testRequestResponsesRaw || Object.keys(testRequestResponsesRaw).length === 0) {
-      return { email: '', attachments: [] }
+    if (apiResponse && apiResponse.attachments && typeof apiResponse.attachments === 'object') {
+      const attachmentsObj = apiResponse.attachments as Record<string, string>
+      let emailContent = ''
+      const attachments: Attachment[] = []
+      if ('Message Content 1' in attachmentsObj) {
+        emailContent = attachmentsObj['Message Content 1']
+      } else {
+        emailContent = Object.values(testRequestResponses).join('\n')
+      }
+      for (const key in attachmentsObj) {
+        if (key !== 'Message Content 1') {
+          attachments.push({ filename: key, content: attachmentsObj[key] })
+        }
+      }
+      return { email: emailContent.trim(), attachments }
+    } else if (!_.isEmpty(testRequestResponses)) {
+      const rawResponse: string = Object.values(testRequestResponses).join('\n')
+      return parseEmailResponse(rawResponse)
     }
-    const rawResponse: string = Object.values(testRequestResponsesRaw).join('\n')
-    return parseEmailResponse(rawResponse)
-  }, [testRequestResponsesRaw])
+    return { email: '', attachments: [] }
+  }, [apiResponse, testRequestResponses])
 
   const handleAttachmentTypeChange = (event: SelectChangeEvent<string>) => {
     setAttachmentType(event.target.value)
@@ -338,7 +469,6 @@ const TestCard: React.FC<TestCardProps> = ({
   const handleRunTest = async () => {
     eventTrack(` Run test for ${test.name}`, 'Test By Criteria', `${test.criteria}`)
     const isMDNTest = test.protocol && mdnTestIds.includes(test.protocol)
-
     if (test.ccdaFileRequired && !documentDetails && !test.protocol?.includes('mu2')) {
       setAlertMessage(
         'This test requires a CCDA document to be selected. Please select a document before running the test.'
@@ -351,12 +481,11 @@ const TestCard: React.FC<TestCardProps> = ({
       setIsLoading(true)
       setIsFinished(false)
       setCriteriaMet('')
-
       if (isMDNTest) {
         const requestData = createRequestData(currentStep, previousResult)
         const response = await handleAPICall(requestData)
         const result = response[0]
-
+        setApiResponse(result)
         if (currentStep === 1) {
           setPreviousResult(result)
           if (result.criteriaMet.includes('STEP2')) {
@@ -367,24 +496,20 @@ const TestCard: React.FC<TestCardProps> = ({
           setPreviousResult(null)
           setIsFinished(false)
         }
-
         setCriteriaMet(result.criteriaMet)
         setTestRequestResponses(result.testRequestResponses)
-
         logTestResults(result)
       } else {
         const requestData = createRequestData(0)
         const response = await handleAPICall(requestData)
         const result = response[0]
-
+        setApiResponse(result)
         setIsFinished(true)
         setCriteriaMet(result.criteriaMet)
         setTestRequestResponses(result.testRequestResponses)
-
         if (result.criteriaMet.includes('STEP2')) {
           setCurrentStep(2)
         }
-
         logTestResults(result)
       }
     } catch (error) {
@@ -528,15 +653,7 @@ const TestCard: React.FC<TestCardProps> = ({
             </CardContent>
           </>
         ) : showLogs ? (
-          <CardContent
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              minWidth: '100%',
-              p: 0,
-              pb: '0px!important',
-            }}
-          >
+          <CardContent sx={{ display: 'flex', flexDirection: 'column', minWidth: '100%', p: 0, pb: '0px!important' }}>
             <Typography variant="h6">Test Logs</Typography>
             {testRequestResponses ? (
               <Typography variant="body1" style={{ whiteSpace: 'pre-line' }}>
@@ -545,10 +662,8 @@ const TestCard: React.FC<TestCardProps> = ({
             ) : (
               <Typography variant="body1">No logs to display.</Typography>
             )}
-
             <Divider sx={{ mb: 2, mt: 2 }} />
 
-            {/* New Tabs for Email and Attachments */}
             <Tabs value={downloadTab} onChange={(e, newValue) => setDownloadTab(newValue)} aria-label="Download Tabs">
               <Tab label="Email Content" />
               <Tab label="Attachments" />
@@ -556,16 +671,16 @@ const TestCard: React.FC<TestCardProps> = ({
 
             {downloadTab === 0 && (
               <Box sx={{ mt: 2 }}>
-                <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
-                  {parsedEmailData.email}
-                </Typography>
                 <Button
                   variant="outlined"
                   sx={{ mt: 1 }}
                   onClick={() => handleDownload(parsedEmailData.email, 'email.txt')}
                 >
-                  Download Email
+                  Download Content
                 </Button>
+                <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+                  {parsedEmailData.email}
+                </Typography>
               </Box>
             )}
 
@@ -574,20 +689,38 @@ const TestCard: React.FC<TestCardProps> = ({
                 {parsedEmailData.attachments.length === 0 ? (
                   <Typography>No attachments available.</Typography>
                 ) : (
-                  parsedEmailData.attachments.map((att, index) => (
-                    <Box key={index} sx={{ mb: 2 }}>
-                      <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
-                        {att.content}
-                      </Typography>
-                      <Button
-                        variant="outlined"
-                        sx={{ mt: 1 }}
-                        onClick={() => handleDownload(att.content, att.filename)}
-                      >
-                        Download {att.filename}
-                      </Button>
+                  <>
+                    <Tabs
+                      value={selectedAttachmentTab}
+                      onChange={(e, newValue) => setSelectedAttachmentTab(newValue)}
+                      aria-label="Attachment Tabs"
+                      variant="scrollable"
+                      scrollButtons="auto"
+                    >
+                      {parsedEmailData.attachments.map((att, index) => (
+                        <Tab key={index} label={att.filename} />
+                      ))}
+                    </Tabs>
+                    <Box sx={{ mt: 2 }}>
+                      {(() => {
+                        const att = parsedEmailData.attachments[selectedAttachmentTab]
+                        return (
+                          <>
+                            <Button
+                              variant="outlined"
+                              sx={{ mt: 1 }}
+                              onClick={() => handleDownload(att.content, att.filename)}
+                            >
+                              Download {att.filename}
+                            </Button>
+                            <Typography variant="body2" sx={{ whiteSpace: 'pre-line', mt: 1 }}>
+                              {att.content}
+                            </Typography>
+                          </>
+                        )
+                      })()}
                     </Box>
-                  ))
+                  </>
                 )}
               </Box>
             )}
@@ -634,7 +767,6 @@ const TestCard: React.FC<TestCardProps> = ({
                 }}
               >
                 <Box>
-                  {' '}
                   {test.criteria &&
                     (manualValidationCriteria.includes(test.criteria) || manualValidationIDs.includes(test.id)) &&
                     formattedLogs.length > 0 &&
@@ -642,7 +774,6 @@ const TestCard: React.FC<TestCardProps> = ({
                       <Typography sx={{ ml: 1, color: 'primary' }}>Awaiting Validation...(Check Logs)</Typography>
                     )}
                 </Box>
-
                 <Box
                   sx={{
                     display: 'flex',
@@ -739,45 +870,6 @@ const TestCard: React.FC<TestCardProps> = ({
           </>
         )}
         <Divider sx={{ mb: 2, mt: 2 }} />
-
-        <Tabs value={downloadTab} onChange={handleTabChange} aria-label="Download Tabs">
-          <Tab label="Email Content" />
-          <Tab label="Attachments" />
-        </Tabs>
-
-        {downloadTab === 0 && (
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
-              {parsedEmailData.email}
-            </Typography>
-            <Button
-              variant="outlined"
-              sx={{ mt: 1 }}
-              onClick={() => handleDownload(parsedEmailData.email, 'email.txt')}
-            >
-              Download Email
-            </Button>
-          </Box>
-        )}
-
-        {downloadTab === 1 && (
-          <Box sx={{ mt: 2 }}>
-            {parsedEmailData.attachments.length === 0 ? (
-              <Typography>No attachments available.</Typography>
-            ) : (
-              parsedEmailData.attachments.map((att: Attachment, index: number) => (
-                <Box key={index} sx={{ mb: 2 }}>
-                  <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
-                    {att.content}
-                  </Typography>
-                  <Button variant="outlined" sx={{ mt: 1 }} onClick={() => handleDownload(att.content, att.filename)}>
-                    Download {att.filename}
-                  </Button>
-                </Box>
-              ))
-            )}
-          </Box>
-        )}
       </CardContent>
     </Card>
   )
