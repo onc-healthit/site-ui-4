@@ -29,9 +29,14 @@ interface Profile {
   smtpEdgeProfileID: string
 }
 
+interface Message {
+  text: string
+  severity: 'info' | 'error' | 'success' | 'warning'
+}
+
 const NEWPROFILENAME = '__new__'
 const removeProfilesWithNullProfileName = (profiles: Profile[]) => {
-  return profiles.filter((profile) => profile.profileName !== null)
+  return profiles?.filter((profile) => profile.profileName !== null)
 }
 const Profile = () => {
   const {
@@ -51,21 +56,19 @@ const Profile = () => {
     username,
   } = useContext(ProfileContext)
   const { data: session, status } = useSession()
-
   const [profiles, setProfiles] = useState<Profile[]>([])
   const [selectedProfileName, setSelectedProfileName] = useState(NEWPROFILENAME)
   const [isLoading, setIsLoading] = useState(false)
-  interface Message {
-    text: string
-    severity: 'info' | 'error' | 'success' | 'warning'
-  }
-
   const [message, setMessage] = useState<Message | null>(null)
 
   useEffect(() => {
     async function fetchLoggedInUsersProfiles() {
       setIsLoading(true)
       const loggedInUsersProfiles = await fetchProfiles()
+      if (_.isEmpty(loggedInUsersProfiles)) {
+        setIsLoading(false)
+        window.location.reload()
+      }
       const filteredProfiles = removeProfilesWithNullProfileName(loggedInUsersProfiles)
       if (!_.isEmpty(filteredProfiles)) {
         setProfiles(filteredProfiles)
@@ -114,6 +117,8 @@ const Profile = () => {
         }
       } else {
         setMessage({ text: `Failed to save ${profilename}`, severity: 'error' })
+        setIsLoading(false)
+        window.location.reload()
       }
       setIsLoading(false)
     })
@@ -139,6 +144,8 @@ const Profile = () => {
         setProfileid(lastProfile?.smtpEdgeProfileID || NEWPROFILENAME)
       } else {
         setMessage({ text: `Failed to remove ${profileNameToDelete}`, severity: 'error' })
+        setIsLoading(false)
+        window.location.reload()
       }
       setIsLoading(false)
     })
