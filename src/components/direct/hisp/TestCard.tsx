@@ -103,7 +103,7 @@ interface TestCardProps {
   password?: string
   tlsRequired?: boolean
   receive?: boolean
-  testRequestResponsesRaw: { [key: string]: string }
+  testRequestResponsesRaw?: { [key: string]: string }
 }
 
 interface SelectedDocument {
@@ -113,7 +113,7 @@ interface SelectedDocument {
 }
 
 const TestCard: React.FC<TestCardProps> = ({
-  testRequestResponsesRaw,
+  testRequestResponsesRaw = {},
   test,
   hostname = 'defaultHostname',
   email = 'defaultEmail',
