@@ -133,6 +133,9 @@ const TestCard: React.FC<TestCardProps> = ({
     "['h2-4','sc2-4']",
   ]
   const manualValidationIDs = [521, 523, 524, 525, 526, 527, 528, 529]
+  const allowedDownloadTestIDs = [1]
+  const showDownloadInterface = allowedDownloadTestIDs.includes(test.id)
+
   const mdnTestIds = ['mu2']
   const clearButtonVisibleOnCriteriaSet = new Set(['TRUE', 'FALSE', 'ERROR', 'PASSED', 'PENDING', 'SUCCESS', 'STEP2'])
   const [currentStep, setCurrentStep] = useState<number>(1)
@@ -662,69 +665,75 @@ const TestCard: React.FC<TestCardProps> = ({
             ) : (
               <Typography variant="body1">No logs to display.</Typography>
             )}
+
             <Divider sx={{ mb: 2, mt: 2 }} />
-
-            <Tabs value={downloadTab} onChange={(e, newValue) => setDownloadTab(newValue)} aria-label="Download Tabs">
-              <Tab label="Email Content" />
-              <Tab label="Attachments" />
-            </Tabs>
-
-            {downloadTab === 0 && (
-              <Box sx={{ mt: 2 }}>
-                <Button
-                  variant="outlined"
-                  sx={{ mt: 1 }}
-                  onClick={() => handleDownload(parsedEmailData.email, 'email.txt')}
+            {showDownloadInterface && (
+              <>
+                <Tabs
+                  value={downloadTab}
+                  onChange={(e, newValue) => setDownloadTab(newValue)}
+                  aria-label="Download Tabs"
                 >
-                  Download Content
-                </Button>
-                <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
-                  {parsedEmailData.email}
-                </Typography>
-              </Box>
-            )}
+                  <Tab label="Email Content" />
+                  <Tab label="Attachments" />
+                </Tabs>
 
-            {downloadTab === 1 && (
-              <Box sx={{ mt: 2 }}>
-                {parsedEmailData.attachments.length === 0 ? (
-                  <Typography>No attachments available.</Typography>
-                ) : (
-                  <>
-                    <Tabs
-                      value={selectedAttachmentTab}
-                      onChange={(e, newValue) => setSelectedAttachmentTab(newValue)}
-                      aria-label="Attachment Tabs"
-                      variant="scrollable"
-                      scrollButtons="auto"
+                {downloadTab === 0 && (
+                  <Box sx={{ mt: 2 }}>
+                    <Button
+                      variant="outlined"
+                      sx={{ mb: 1 }}
+                      onClick={() => handleDownload(parsedEmailData.email, 'email.txt')}
                     >
-                      {parsedEmailData.attachments.map((att, index) => (
-                        <Tab key={index} label={att.filename} />
-                      ))}
-                    </Tabs>
-                    <Box sx={{ mt: 2 }}>
-                      {(() => {
-                        const att = parsedEmailData.attachments[selectedAttachmentTab]
-                        return (
-                          <>
-                            <Button
-                              variant="outlined"
-                              sx={{ mt: 1 }}
-                              onClick={() => handleDownload(att.content, att.filename)}
-                            >
-                              Download {att.filename}
-                            </Button>
-                            <Typography variant="body2" sx={{ whiteSpace: 'pre-line', mt: 1 }}>
-                              {att.content}
-                            </Typography>
-                          </>
-                        )
-                      })()}
-                    </Box>
-                  </>
+                      Download Content
+                    </Button>
+                    <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+                      {parsedEmailData.email}
+                    </Typography>
+                  </Box>
                 )}
-              </Box>
+                {downloadTab === 1 && showDownloadInterface && (
+                  <Box sx={{ mt: 2 }}>
+                    {parsedEmailData.attachments.length === 0 ? (
+                      <Typography>No attachments available.</Typography>
+                    ) : (
+                      <>
+                        <Tabs
+                          value={selectedAttachmentTab}
+                          onChange={(e, newValue) => setSelectedAttachmentTab(newValue)}
+                          aria-label="Attachment Tabs"
+                          variant="scrollable"
+                          scrollButtons="auto"
+                        >
+                          {parsedEmailData.attachments.map((att, index) => (
+                            <Tab key={index} label={att.filename} />
+                          ))}
+                        </Tabs>
+                        <Box sx={{ mt: 2 }}>
+                          {(() => {
+                            const att = parsedEmailData.attachments[selectedAttachmentTab]
+                            return (
+                              <>
+                                <Button
+                                  variant="outlined"
+                                  sx={{ mt: 1 }}
+                                  onClick={() => handleDownload(att.content, att.filename)}
+                                >
+                                  Download {att.filename}
+                                </Button>
+                                <Typography variant="body2" sx={{ whiteSpace: 'pre-line', mt: 1 }}>
+                                  {att.content}
+                                </Typography>
+                              </>
+                            )
+                          })()}
+                        </Box>
+                      </>
+                    )}
+                  </Box>
+                )}
+              </>
             )}
-
             <Box
               sx={{
                 display: 'flex',
