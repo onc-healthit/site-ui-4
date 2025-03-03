@@ -21,7 +21,9 @@ const CCDAHome = () => {
 
   // Dynamically set the width based on screen size
   const maxWidthCards = isSmallScreen ? 300 : isMediumScreen ? 332 : isLargeScreen ? 400 : 600
-  const maxWidthMainValidatorCards = isSmallScreen ? 300 : isMediumScreen ? 332 : isLargeScreen ? 255 : 390
+  const maxWidthMainValidatorCards = isSmallScreen ? 300 : isMediumScreen ? 332 : isLargeScreen ? 400 : 600
+  // TODO: When adding back USCDIv4, delete above version and replace with below commented version
+  // const maxWidthMainValidatorCards = isSmallScreen ? 300 : isMediumScreen ? 332 : isLargeScreen ? 255 : 390
 
   return (
     <>
@@ -65,7 +67,7 @@ const CCDAHome = () => {
             },
           }}
         >
-          <CardWithImage
+          {/* <CardWithImage
             title={'C-CDA Validator: USCDI V4'}
             cardImage={uscdiv4}
             cardHeader={'C-CDA Validator: USCDI v4'}
@@ -73,7 +75,7 @@ const CCDAHome = () => {
             pathname={'/c-cda/uscdi-v4'}
             maxWidth={maxWidthMainValidatorCards}
             imageWidth={maxWidthMainValidatorCards + 'px'}
-          />
+          /> */}
           <CardWithImage
             title={'C-CDA Validator: USCDI v3'}
             cardImage={uscdiv3}
