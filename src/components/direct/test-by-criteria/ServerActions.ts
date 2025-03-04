@@ -158,6 +158,7 @@ export async function handleAPICall(data: APICallData): Promise<APICallResponse[
   try {
     const response = await axios(config)
     console.log('raw API call data: ', response)
+    console.log('raw API call response.data: ', response.data)
     const responseData: APICallResponse[] = response.data
     return responseData
   } catch (error) {
@@ -185,6 +186,7 @@ export async function handleSMTPLogAPICall(data: SMTPLogAPICallData): Promise<bo
   const config = {
     method: 'post',
     url: apiUrl,
+    responseType: 'text' as const,
     headers: session
       ? { 'Content-Type': 'application/json', Cookie: `JSESSIONID=${jsessionid}` }
       : { 'Content-Type': 'application/json' },

@@ -8,7 +8,9 @@ interface MessageTemplateProps {
 }
 const MessageTemplate = ({ rawContent }: MessageTemplateProps) => {
   //revisit this to make it dynamic based on the download link
-  const downloadLink = `https://ett.healthit.gov/ett/api/validationReport/download/${rawContent.downloadLink}`
+  const downloadLink =
+    process.env.VALIDATION_REPORT_API ||
+    `https://ett.healthit.gov/ett/api/validationReport/download/${rawContent.downloadLink}`
   return (
     <>
       {/* Main Content */}

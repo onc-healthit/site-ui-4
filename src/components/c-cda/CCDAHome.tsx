@@ -4,7 +4,6 @@ import oneclick from '@public/c-cda/oneclick.svg'
 import scorecard from '@public/c-cda/scorecard.svg'
 import uscdiv1 from '@public/c-cda/uscdi-v1.svg'
 import uscdiv3 from '@public/c-cda/uscdi-v3.svg'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import uscdiv4 from '@public/c-cda/uscdi-v4.svg'
 import BannerBox from '@shared/BannerBox'
 import CardWithImage from '@shared/CardWithImage'
@@ -22,6 +21,10 @@ const CCDAHome = () => {
 
   // Dynamically set the width based on screen size
   const maxWidthCards = isSmallScreen ? 300 : isMediumScreen ? 332 : isLargeScreen ? 400 : 600
+  const maxWidthMainValidatorCards = isSmallScreen ? 300 : isMediumScreen ? 332 : isLargeScreen ? 400 : 600
+  // TODO: When adding back USCDIv4, delete above version and replace with below commented version
+  // const maxWidthMainValidatorCards = isSmallScreen ? 300 : isMediumScreen ? 332 : isLargeScreen ? 255 : 390
+
   return (
     <>
       {/* Global Header */}
@@ -64,8 +67,6 @@ const CCDAHome = () => {
             },
           }}
         >
-          {/* TODO: When adding USCDI v4, Uncomment code below, reduce maxWidthMainValidatorCards to 390
-          maxWidthMainValidatorCards looks to have been removed, so, search old code to figure out integration  */}
           {/* <CardWithImage
             title={'C-CDA Validator: USCDI V4'}
             cardImage={uscdiv4}
@@ -82,8 +83,8 @@ const CCDAHome = () => {
             description="USCDI v3 contains data classes and elements from USCDI v2 and new data classes and elements
               submitted through the ONDEC system."
             pathname={'/c-cda/uscdi-v3'}
-            maxWidth={maxWidthCards}
-            imageWidth={maxWidthCards + 'px'}
+            maxWidth={maxWidthMainValidatorCards}
+            imageWidth={maxWidthMainValidatorCards + 'px'}
           />
           <CardWithImage
             title={'C-CDA Validator: USCDI v1'}
@@ -93,8 +94,8 @@ const CCDAHome = () => {
               as a standard in the ONC Cures Act Final Rule. The USCDI sets a foundation for broader sharing of
               electronic health information to support patient care."
             pathname={'/c-cda/uscdi-v1'}
-            maxWidth={maxWidthCards}
-            imageWidth={maxWidthCards + 'px'}
+            maxWidth={maxWidthMainValidatorCards}
+            imageWidth={maxWidthMainValidatorCards + 'px'}
           />
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />

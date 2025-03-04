@@ -156,11 +156,12 @@ const DocsHome = () => {
                   }
                   buttonLink="https://github.com/onc-healthit/soap"
                 />
-                <DocsCard
+                {/* Although the GitHub repo still exists - removed as per ASTP request for 2025-01-06 SITE Release */}
+                {/* <DocsCard
                   cardHeader="FHIR® Tools"
                   description={'Set of FHIR® tools for SITE '}
                   buttonLink="https://github.com/onc-healthit/fhir-tools"
-                />
+                /> */}
                 <DocsCard
                   cardHeader="Direct Transport Message Sender"
                   description={'Source code for Direct transport sender service'}

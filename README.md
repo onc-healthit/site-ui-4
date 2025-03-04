@@ -1,4 +1,4 @@
-# SITE UI 4.0
+# SITE UI 4
 
 ## Project Overview
 
@@ -9,10 +9,6 @@
 
 - This document is designed to help get a general understanding of the app, some of our processes, understand how to set it up and run it, and effectively develop the application as a cohesive team
 - Whether major or minor (including typos), please edit this document as you see fit for the benefit of the team
-
-## Development Process
-
-- Please review the [Process document](https://github.com/onc-healthit/site-ett-docs/blob/main/site-ui-4-process.md)
 
 ## Stack
 

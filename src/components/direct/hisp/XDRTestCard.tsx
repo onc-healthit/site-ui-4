@@ -842,7 +842,7 @@ const TestCard = ({ test }: TestCardProps) => {
                     loading={isLoading}
                     done={isTestCompleted}
                     progressive={shouldEnableProgressiveLoading}
-                    progressDuration={60000}
+                    progressDuration={120} //duration in secs
                     onClick={handleRunTest}
                     variant="contained"
                     color="primary"
