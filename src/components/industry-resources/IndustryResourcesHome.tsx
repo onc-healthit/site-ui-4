@@ -36,7 +36,7 @@ const IndustryResourcesHome = () => {
         description={
           <>
             {
-              'Welcome to the Industry Resources Hub, designed to support your testing and certification efforts. Here, you will find valuable links to HL7 standards, Implementation Guides, and MITRE GitHub repositories, along with other resources that can assist with the ONC Certification program. Whether you are navigating technical requirements or seeking tools for interoperability testing, these resources can help guide your process.'
+              'Welcome to the Industry Resources Hub! Here, you will find valuable links to resources that can support your development, testing, and certification efforts in the ONC Certification program. Whether you are navigating technical requirements or seeking tools for interoperability testing, these resources can help guide your process.'
             }
           </>
         }
