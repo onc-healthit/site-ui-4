@@ -5,7 +5,7 @@ import { Box, Container, Typography } from '@mui/material'
 // Global Imports
 import Link from 'next/link'
 // MUI Icons
-import { ArrowForward, TipsAndUpdatesOutlined } from '@mui/icons-material'
+import { ArrowForward } from '@mui/icons-material'
 import palette from '@/styles/palette'
 import SectionHeader from '../shared/SectionHeader'
 import SubMenu, { menuProps } from '@/components/shared/SubMenu'
@@ -70,11 +70,11 @@ const IndustryResourcesHome = () => {
               flexDirection={'row'}
               width={'100%'}
             >
-              <Typography align="center" variant="body2" color={palette.greyDark}>
+              {/* <Typography align="center" variant="body2" color={palette.greyDark}>
                 <TipsAndUpdatesOutlined color="primary" />
                 <br />
                 Stay tuned for future releases where additional resources may be available on this page.
-              </Typography>
+              </Typography> */}
             </Box>
           </Box>
 
@@ -102,7 +102,7 @@ const IndustryResourcesHome = () => {
                     </Typography>
                   </Box>
                 }
-                buttonTitle={'ACCESS MORE INFORMATION'}
+                buttonTitle={'Access HL7 FHIR Tooling'}
                 buttonIcon={<ArrowForward />}
                 buttonHref={'https://confluence.hl7.org/display/FHIR/FHIR+Tooling+Ecosystem'}
               />
@@ -123,11 +123,41 @@ const IndustryResourcesHome = () => {
                     </Typography>
                   </Box>
                 }
-                buttonTitle={'ACCESS GUIDES'}
+                buttonTitle={'Access FHIR Implementation Guides'}
                 buttonIcon={<ArrowForward />}
                 buttonHref={
                   'https://confluence.hl7.org/display/FHIR/Authoring+FHIR+Implementation+Guides+-+Introduction'
                 }
+              />
+            </Box>
+            <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
+              <VerticalCard
+                title={'HL7 GitHub'}
+                description={
+                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
+                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
+                      Multiple repositories for Health Level Seven International
+                    </Typography>
+                  </Box>
+                }
+                buttonTitle={'Visit HL7 GitHub Repositories'}
+                buttonIcon={<ArrowForward />}
+                buttonHref={'https://github.com/HL7'}
+              />
+            </Box>
+            <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
+              <VerticalCard
+                title={'HL7 Zulip Chat'}
+                description={
+                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
+                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
+                      Join the ongoing conversations about various HL7 topics
+                    </Typography>
+                  </Box>
+                }
+                buttonTitle={'Acces HL7 Zulip Chat'}
+                buttonIcon={<ArrowForward />}
+                buttonHref={'https://chat.fhir.org'}
               />
             </Box>
             <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
@@ -146,7 +176,7 @@ const IndustryResourcesHome = () => {
                     </Typography>
                   </Box>
                 }
-                buttonTitle={'MITRE GitHub Repositories'}
+                buttonTitle={'Visit MITRE GitHub Repositories'}
                 buttonIcon={<ArrowForward />}
                 buttonHref={'https://github.com/mitre'}
               />
@@ -161,7 +191,7 @@ const IndustryResourcesHome = () => {
                     </Typography>
                   </Box>
                 }
-                buttonTitle={'HAPI'}
+                buttonTitle={'Access HAPI FHIR'}
                 buttonIcon={<ArrowForward />}
                 buttonHref={'https://hapifhir.io'}
               />
@@ -176,7 +206,7 @@ const IndustryResourcesHome = () => {
                     </Typography>
                   </Box>
                 }
-                buttonTitle={'BCH resources'}
+                buttonTitle={'Access BCH resources'}
                 buttonIcon={<ArrowForward />}
                 buttonHref={'https://smarthealthit.org/developer-resources'}
               />
@@ -191,7 +221,7 @@ const IndustryResourcesHome = () => {
                     </Typography>
                   </Box>
                 }
-                buttonTitle={'Microsoft FHIR API documentation'}
+                buttonTitle={'Access Microsoft FHIR API documentation'}
                 buttonIcon={<ArrowForward />}
                 buttonHref={'https://learn.microsoft.com/en-us/azure/healthcare-apis/fhir/'}
               />
@@ -206,7 +236,7 @@ const IndustryResourcesHome = () => {
                     </Typography>
                   </Box>
                 }
-                buttonTitle={'Google FHIR API documentation'}
+                buttonTitle={'Access Google FHIR API documentation'}
                 buttonIcon={<ArrowForward />}
                 buttonHref={'https://cloud.google.com/healthcare-api/docs/how-tos/fhir'}
               />
