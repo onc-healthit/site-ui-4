@@ -132,7 +132,7 @@ const IndustryResourcesHome = () => {
             </Box>
             <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
               <VerticalCard
-                title={'MITRE Github'}
+                title={'MITRE GitHub'}
                 description={
                   <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
                     <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
@@ -149,6 +149,66 @@ const IndustryResourcesHome = () => {
                 buttonTitle={'MITRE GitHub Repositories'}
                 buttonIcon={<ArrowForward />}
                 buttonHref={'https://github.com/mitre'}
+              />
+            </Box>
+            <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
+              <VerticalCard
+                title={'HAPI'}
+                description={
+                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
+                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
+                      The foremost open-source server for FHIR
+                    </Typography>
+                  </Box>
+                }
+                buttonTitle={'HAPI'}
+                buttonIcon={<ArrowForward />}
+                buttonHref={'https://hapifhir.io'}
+              />
+            </Box>
+            <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
+              <VerticalCard
+                title={'BCH'}
+                description={
+                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
+                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
+                      SMART BCH Platform developed the original tools for SMART
+                    </Typography>
+                  </Box>
+                }
+                buttonTitle={'BCH resources'}
+                buttonIcon={<ArrowForward />}
+                buttonHref={'https://smarthealthit.org/developer-resources'}
+              />
+            </Box>
+            <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
+              <VerticalCard
+                title={'Microsoft'}
+                description={
+                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
+                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
+                      Microsoft Azure FHIR healthcare API documentation
+                    </Typography>
+                  </Box>
+                }
+                buttonTitle={'Microsoft FHIR API documentation'}
+                buttonIcon={<ArrowForward />}
+                buttonHref={'https://learn.microsoft.com/en-us/azure/healthcare-apis/fhir/'}
+              />
+            </Box>
+            <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
+              <VerticalCard
+                title={'Google'}
+                description={
+                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
+                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
+                      Google Cloud FHIR healthcare API documentation
+                    </Typography>
+                  </Box>
+                }
+                buttonTitle={'Google FHIR API documentation'}
+                buttonIcon={<ArrowForward />}
+                buttonHref={'https://cloud.google.com/healthcare-api/docs/how-tos/fhir'}
               />
             </Box>
             {/*
