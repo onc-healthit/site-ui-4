@@ -401,7 +401,7 @@ const TestCard: React.FC<TestCardProps> = ({
     startTlsPort: 0,
     status: '',
     ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
-    ccdaValidationObjective: test.criteria || '',
+    ccdaValidationObjective: documentDetails?.directory || '',
     ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
     cures: true,
     year: '2021',
