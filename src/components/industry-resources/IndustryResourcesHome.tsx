@@ -13,9 +13,15 @@ import VerticalCard from '../shared/VerticalCard'
 import eventTrack from '@/services/analytics'
 
 const menuItems: menuProps[] = [
-  { heading: 'HL7', href: '#hl7' },
-  { heading: 'Implementation Guides', href: '#ig' },
-  { heading: 'MITRE Github', href: '#mg' },
+  { heading: 'HL7 FHIR Tooling', href: '#hl7-fhir' },
+  { heading: 'HL7 GitHub', href: '#hl7-gh' },
+  { heading: 'HL7 Zulip Chat', href: '#hl7-zulip' },
+  { heading: 'FHIR Implementation Guides', href: '#fhir-ig' },
+  { heading: 'MITRE Github', href: '#mitre-gh' },
+  { heading: 'HAPI', href: '#hapi' },
+  { heading: 'BCH', href: '#bch' },
+  { heading: 'Microsoft', href: '#microsoft' },
+  { heading: 'Google', href: '#google' },
 ]
 
 const trackMenuItemClick = (heading: string) => {
@@ -60,7 +66,7 @@ const IndustryResourcesHome = () => {
             flexDirection={'column'}
           >
             <SubMenu onClick={trackMenuItemClick} menuItems={menuItems} />
-            <Box
+            {/* <Box
               border={`1px solid ${palette.grey}`}
               borderRadius={2}
               padding={4}
@@ -70,19 +76,19 @@ const IndustryResourcesHome = () => {
               flexDirection={'row'}
               width={'100%'}
             >
-              {/* <Typography align="center" variant="body2" color={palette.greyDark}>
+              <Typography align="center" variant="body2" color={palette.greyDark}>
                 <TipsAndUpdatesOutlined color="primary" />
                 <br />
                 Stay tuned for future releases where additional resources may be available on this page.
-              </Typography> */}
-            </Box>
+              </Typography>
+            </Box> */}
           </Box>
 
           {/* Resources*/}
           <Box display={'flex'} gap={4} flexDirection={'column'} width={'100%'}>
-            <Box id="hl7" sx={{ scrollMarginTop: '6em' }}>
+            <Box id="hl7-fhir" sx={{ scrollMarginTop: '6em' }}>
               <VerticalCard
-                title={'HL7'}
+                title={'HL7 FHIR Tooling'}
                 description={
                   <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
                     <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
@@ -107,9 +113,39 @@ const IndustryResourcesHome = () => {
                 buttonHref={'https://confluence.hl7.org/display/FHIR/FHIR+Tooling+Ecosystem'}
               />
             </Box>
-            <Box id="ig" sx={{ scrollMarginTop: '6em' }}>
+            <Box id="hl7-gh" sx={{ scrollMarginTop: '6em' }}>
               <VerticalCard
-                title={'Implementation Guides'}
+                title={'HL7 GitHub'}
+                description={
+                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
+                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
+                      Multiple repositories for Health Level Seven International
+                    </Typography>
+                  </Box>
+                }
+                buttonTitle={'Visit HL7 GitHub Repositories'}
+                buttonIcon={<ArrowForward />}
+                buttonHref={'https://github.com/HL7'}
+              />
+            </Box>
+            <Box id="hl7-zulip" sx={{ scrollMarginTop: '6em' }}>
+              <VerticalCard
+                title={'HL7 Zulip Chat'}
+                description={
+                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
+                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
+                      Join the ongoing conversations about various HL7 topics
+                    </Typography>
+                  </Box>
+                }
+                buttonTitle={'Acces HL7 Zulip Chat'}
+                buttonIcon={<ArrowForward />}
+                buttonHref={'https://chat.fhir.org'}
+              />
+            </Box>
+            <Box id="fhir-ig" sx={{ scrollMarginTop: '6em' }}>
+              <VerticalCard
+                title={'FHIR Implementation Guides'}
                 description={
                   <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
                     <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
@@ -130,37 +166,7 @@ const IndustryResourcesHome = () => {
                 }
               />
             </Box>
-            <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
-              <VerticalCard
-                title={'HL7 GitHub'}
-                description={
-                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
-                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
-                      Multiple repositories for Health Level Seven International
-                    </Typography>
-                  </Box>
-                }
-                buttonTitle={'Visit HL7 GitHub Repositories'}
-                buttonIcon={<ArrowForward />}
-                buttonHref={'https://github.com/HL7'}
-              />
-            </Box>
-            <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
-              <VerticalCard
-                title={'HL7 Zulip Chat'}
-                description={
-                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
-                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
-                      Join the ongoing conversations about various HL7 topics
-                    </Typography>
-                  </Box>
-                }
-                buttonTitle={'Acces HL7 Zulip Chat'}
-                buttonIcon={<ArrowForward />}
-                buttonHref={'https://chat.fhir.org'}
-              />
-            </Box>
-            <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
+            <Box id="mitre-gh" sx={{ scrollMarginTop: '6em' }}>
               <VerticalCard
                 title={'MITRE GitHub'}
                 description={
@@ -181,7 +187,7 @@ const IndustryResourcesHome = () => {
                 buttonHref={'https://github.com/mitre'}
               />
             </Box>
-            <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
+            <Box id="hapi" sx={{ scrollMarginTop: '6em' }}>
               <VerticalCard
                 title={'HAPI'}
                 description={
@@ -196,7 +202,7 @@ const IndustryResourcesHome = () => {
                 buttonHref={'https://hapifhir.io'}
               />
             </Box>
-            <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
+            <Box id="bch" sx={{ scrollMarginTop: '6em' }}>
               <VerticalCard
                 title={'BCH'}
                 description={
@@ -211,7 +217,7 @@ const IndustryResourcesHome = () => {
                 buttonHref={'https://smarthealthit.org/developer-resources'}
               />
             </Box>
-            <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
+            <Box id="microsoft" sx={{ scrollMarginTop: '6em' }}>
               <VerticalCard
                 title={'Microsoft'}
                 description={
@@ -226,7 +232,7 @@ const IndustryResourcesHome = () => {
                 buttonHref={'https://learn.microsoft.com/en-us/azure/healthcare-apis/fhir/'}
               />
             </Box>
-            <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
+            <Box id="google" sx={{ scrollMarginTop: '6em' }}>
               <VerticalCard
                 title={'Google'}
                 description={
