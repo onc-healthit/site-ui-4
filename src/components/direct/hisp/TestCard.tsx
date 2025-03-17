@@ -392,7 +392,7 @@ const TestCard: React.FC<TestCardProps> = ({
     testCaseNumber: test.id,
     sutSmtpAddress: hostname,
     sutEmailAddress: email,
-    useTLS: tlsRequired,
+    useTLS: false,
     sutCommandTimeoutInSeconds: 0,
     sutUserName: username,
     sutPassword: password,
