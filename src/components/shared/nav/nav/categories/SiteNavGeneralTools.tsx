@@ -4,6 +4,7 @@ import {
   HandymanOutlined,
   HealingOutlined,
   ImportantDevicesOutlined,
+  TouchAppOutlined,
   WhatshotOutlined,
 } from '@mui/icons-material'
 import { useState } from 'react'
@@ -25,12 +26,12 @@ export default function SiteNavGeneralTools() {
       text: 'CPOE Evaluation Tool',
       isExternalLink: true,
       href: 'https://www.leapfroggroup.org/survey-materials/prepare-cpoe-tool',
-      icon: <ImportantDevicesOutlined fontSize="small" aria-label="CPOE Evaluation Tool" />,
+      icon: <ImportantDevicesOutlined fontSize="small" aria-label="Go to CPOE Evaluation Tool" />,
     },
     {
       text: 'IHE Testing Tools',
       isExternalLink: true,
-      href: 'https://www.ihe.net/testing/testing_tools/',
+      href: 'https://www.ihe.net/testing/testing_tools',
       icon: <HealingOutlined fontSize="small" aria-label="Go to IHE Testing Tool" />,
     },
     {
@@ -42,8 +43,14 @@ export default function SiteNavGeneralTools() {
     {
       text: 'Inferno HL7® FHIR® Validator',
       isExternalLink: true,
-      href: 'https://inferno.healthit.gov/validator/',
+      href: 'https://inferno.healthit.gov/validator',
       icon: <WhatshotOutlined fontSize="small" aria-label="Go to Inferno HL7® FHIR® Validator" />,
+    },
+    {
+      text: 'Touchstone',
+      isExternalLink: true,
+      href: 'https://touchstone.aegis.net/touchstone',
+      icon: <TouchAppOutlined fontSize="small" aria-label="Go to Touchstone" />,
     },
   ]
 

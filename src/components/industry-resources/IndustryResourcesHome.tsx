@@ -5,7 +5,7 @@ import { Box, Container, Typography } from '@mui/material'
 // Global Imports
 import Link from 'next/link'
 // MUI Icons
-import { ArrowForward, TipsAndUpdatesOutlined } from '@mui/icons-material'
+import { ArrowForward } from '@mui/icons-material'
 import palette from '@/styles/palette'
 import SectionHeader from '../shared/SectionHeader'
 import SubMenu, { menuProps } from '@/components/shared/SubMenu'
@@ -13,9 +13,15 @@ import VerticalCard from '../shared/VerticalCard'
 import eventTrack from '@/services/analytics'
 
 const menuItems: menuProps[] = [
-  { heading: 'HL7', href: '#hl7' },
-  { heading: 'Implementation Guides', href: '#ig' },
-  { heading: 'MITRE Github', href: '#mg' },
+  { heading: 'HL7 FHIR Tooling', href: '#hl7-fhir' },
+  { heading: 'HL7 GitHub', href: '#hl7-gh' },
+  { heading: 'HL7 Zulip Chat', href: '#hl7-zulip' },
+  { heading: 'FHIR Implementation Guides', href: '#fhir-ig' },
+  { heading: 'MITRE Github', href: '#mitre-gh' },
+  { heading: 'HAPI', href: '#hapi' },
+  { heading: 'BCH', href: '#bch' },
+  { heading: 'Microsoft', href: '#microsoft' },
+  { heading: 'Google', href: '#google' },
 ]
 
 const trackMenuItemClick = (heading: string) => {
@@ -36,7 +42,7 @@ const IndustryResourcesHome = () => {
         description={
           <>
             {
-              'Welcome to the Industry Resources Hub, designed to support your testing and certification efforts. Here, you will find valuable links to HL7 standards, Implementation Guides, and MITRE GitHub repositories, along with other resources that can assist with the ONC Certification program. Whether you are navigating technical requirements or seeking tools for interoperability testing, these resources can help guide your process.'
+              'Welcome to the Industry Resources Hub! Here, you will find valuable links to resources that can support your development, testing, and certification efforts in the ONC Certification program. Whether you are navigating technical requirements or seeking tools for interoperability testing, these resources can help guide your process.'
             }
           </>
         }
@@ -60,7 +66,7 @@ const IndustryResourcesHome = () => {
             flexDirection={'column'}
           >
             <SubMenu onClick={trackMenuItemClick} menuItems={menuItems} />
-            <Box
+            {/* <Box
               border={`1px solid ${palette.grey}`}
               borderRadius={2}
               padding={4}
@@ -75,14 +81,14 @@ const IndustryResourcesHome = () => {
                 <br />
                 Stay tuned for future releases where additional resources may be available on this page.
               </Typography>
-            </Box>
+            </Box> */}
           </Box>
 
           {/* Resources*/}
           <Box display={'flex'} gap={4} flexDirection={'column'} width={'100%'}>
-            <Box id="hl7" sx={{ scrollMarginTop: '6em' }}>
+            <Box id="hl7-fhir" sx={{ scrollMarginTop: '6em' }}>
               <VerticalCard
-                title={'HL7'}
+                title={'HL7 FHIR Tooling'}
                 description={
                   <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
                     <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
@@ -102,14 +108,44 @@ const IndustryResourcesHome = () => {
                     </Typography>
                   </Box>
                 }
-                buttonTitle={'ACCESS MORE INFORMATION'}
+                buttonTitle={'Access HL7 FHIR Tooling'}
                 buttonIcon={<ArrowForward />}
                 buttonHref={'https://confluence.hl7.org/display/FHIR/FHIR+Tooling+Ecosystem'}
               />
             </Box>
-            <Box id="ig" sx={{ scrollMarginTop: '6em' }}>
+            <Box id="hl7-gh" sx={{ scrollMarginTop: '6em' }}>
               <VerticalCard
-                title={'Implementation Guides'}
+                title={'HL7 GitHub'}
+                description={
+                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
+                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
+                      Multiple repositories for Health Level Seven International
+                    </Typography>
+                  </Box>
+                }
+                buttonTitle={'Visit HL7 GitHub Repositories'}
+                buttonIcon={<ArrowForward />}
+                buttonHref={'https://github.com/HL7'}
+              />
+            </Box>
+            <Box id="hl7-zulip" sx={{ scrollMarginTop: '6em' }}>
+              <VerticalCard
+                title={'HL7 Zulip Chat'}
+                description={
+                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
+                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
+                      Join the ongoing conversations about various HL7 topics
+                    </Typography>
+                  </Box>
+                }
+                buttonTitle={'Acces HL7 Zulip Chat'}
+                buttonIcon={<ArrowForward />}
+                buttonHref={'https://chat.fhir.org'}
+              />
+            </Box>
+            <Box id="fhir-ig" sx={{ scrollMarginTop: '6em' }}>
+              <VerticalCard
+                title={'FHIR Implementation Guides'}
                 description={
                   <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
                     <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
@@ -123,16 +159,16 @@ const IndustryResourcesHome = () => {
                     </Typography>
                   </Box>
                 }
-                buttonTitle={'ACCESS GUIDES'}
+                buttonTitle={'Access FHIR Implementation Guides'}
                 buttonIcon={<ArrowForward />}
                 buttonHref={
                   'https://confluence.hl7.org/display/FHIR/Authoring+FHIR+Implementation+Guides+-+Introduction'
                 }
               />
             </Box>
-            <Box id="mg" sx={{ scrollMarginTop: '6em' }}>
+            <Box id="mitre-gh" sx={{ scrollMarginTop: '6em' }}>
               <VerticalCard
-                title={'MITRE Github'}
+                title={'MITRE GitHub'}
                 description={
                   <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
                     <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
@@ -146,9 +182,69 @@ const IndustryResourcesHome = () => {
                     </Typography>
                   </Box>
                 }
-                buttonTitle={'MITRE GitHub Repositories'}
+                buttonTitle={'Visit MITRE GitHub Repositories'}
                 buttonIcon={<ArrowForward />}
                 buttonHref={'https://github.com/mitre'}
+              />
+            </Box>
+            <Box id="hapi" sx={{ scrollMarginTop: '6em' }}>
+              <VerticalCard
+                title={'HAPI'}
+                description={
+                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
+                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
+                      The foremost open-source server for FHIR
+                    </Typography>
+                  </Box>
+                }
+                buttonTitle={'Access HAPI FHIR'}
+                buttonIcon={<ArrowForward />}
+                buttonHref={'https://hapifhir.io'}
+              />
+            </Box>
+            <Box id="bch" sx={{ scrollMarginTop: '6em' }}>
+              <VerticalCard
+                title={'BCH'}
+                description={
+                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
+                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
+                      SMART BCH Platform developed the original tools for SMART
+                    </Typography>
+                  </Box>
+                }
+                buttonTitle={'Access BCH resources'}
+                buttonIcon={<ArrowForward />}
+                buttonHref={'https://smarthealthit.org/developer-resources'}
+              />
+            </Box>
+            <Box id="microsoft" sx={{ scrollMarginTop: '6em' }}>
+              <VerticalCard
+                title={'Microsoft'}
+                description={
+                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
+                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
+                      Microsoft Azure FHIR healthcare API documentation
+                    </Typography>
+                  </Box>
+                }
+                buttonTitle={'Access Microsoft FHIR API documentation'}
+                buttonIcon={<ArrowForward />}
+                buttonHref={'https://learn.microsoft.com/en-us/azure/healthcare-apis/fhir/'}
+              />
+            </Box>
+            <Box id="google" sx={{ scrollMarginTop: '6em' }}>
+              <VerticalCard
+                title={'Google'}
+                description={
+                  <Box sx={{ borderTop: `1px solid ${palette.divider}` }}>
+                    <Typography pt={2} gutterBottom variant="body2" fontWeight={600}>
+                      Google Cloud FHIR healthcare API documentation
+                    </Typography>
+                  </Box>
+                }
+                buttonTitle={'Access Google FHIR API documentation'}
+                buttonIcon={<ArrowForward />}
+                buttonHref={'https://cloud.google.com/healthcare-api/docs/how-tos/fhir'}
               />
             </Box>
             {/*
