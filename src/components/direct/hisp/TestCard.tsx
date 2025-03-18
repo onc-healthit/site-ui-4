@@ -3,7 +3,12 @@ import _ from 'lodash'
 import React, { useState, useMemo, SyntheticEvent, useContext } from 'react'
 import { handleSMTPLogAPICall } from '../test-by-criteria/ServerActions'
 import LoadingButton from '../shared/LoadingButton'
-import { APICallData, APICallResponse, TestRequestResponses } from '../test-by-criteria/ServerActions'
+import {
+  APICallData,
+  APICallResponse,
+  TestRequestResponses,
+  sendMessageWithAttachmentFilePath,
+} from '../test-by-criteria/ServerActions'
 import {
   Box,
   Button,
@@ -392,14 +397,14 @@ const TestCard: React.FC<TestCardProps> = ({
     testCaseNumber: test.id,
     sutSmtpAddress: hostname,
     sutEmailAddress: email,
-    useTLS: false,
+    useTLS: tlsRequired,
     sutCommandTimeoutInSeconds: 0,
     sutUserName: username,
     sutPassword: password,
     tttUserName: '',
     tttPassword: '',
     startTlsPort: 0,
-    status: '',
+    status: 'na',
     ccdaReferenceFilename: documentDetails ? documentDetails.fileName : '',
     ccdaValidationObjective: documentDetails?.directory || '',
     ccdaFileLink: documentDetails ? documentDetails.fileLink : '',
@@ -470,8 +475,8 @@ const TestCard: React.FC<TestCardProps> = ({
   }
 
   const handleRunTest = async () => {
-    eventTrack(` Run test for ${test.name}`, 'Test By Criteria', `${test.criteria}`)
-    const isMDNTest = test.protocol && mdnTestIds.includes(test.protocol)
+    eventTrack(`Run test for ${test.name}`, 'Test By Criteria', `${test.criteria}`)
+
     if (test.ccdaFileRequired && !documentDetails && !test.protocol?.includes('mu2')) {
       setAlertMessage(
         'This test requires a CCDA document to be selected. Please select a document before running the test.'
@@ -480,40 +485,54 @@ const TestCard: React.FC<TestCardProps> = ({
       setAlertOpen(true)
       return
     }
+
     try {
       setIsLoading(true)
       setIsFinished(false)
       setCriteriaMet('')
-      if (isMDNTest) {
-        const requestData = createRequestData(currentStep, previousResult)
-        const response = await handleAPICall(requestData)
-        const result = response[0]
-        setApiResponse(result)
-        if (currentStep === 1) {
-          setPreviousResult(result)
+
+      if (test.id === 16) {
+        if (!documentDetails) {
+          throw new Error('No document selected.')
+        }
+
+        const result = await sendMessageWithAttachmentFilePath(email, documentDetails.fileLink)
+
+        setTestRequestResponses({
+          '\n1': `SENDING STARTTLS & PLAIN SASL AUTHENTICATION EMAIL TO ${email} WITH ATTACHMENT ${documentDetails.fileName}`,
+          '\n2': 'Email sent Successfully',
+        })
+
+        setIsFinished(true)
+        setCriteriaMet('TRUE')
+      } else {
+        const isMDNTest = test.protocol && mdnTestIds.includes(test.protocol)
+        if (isMDNTest) {
+          const requestData = createRequestData(currentStep, previousResult)
+          const response = await handleAPICall(requestData)
+          const result = response[0]
+          setApiResponse(result)
+          if (currentStep === 1 && result.criteriaMet.includes('STEP2')) {
+            setCurrentStep(2)
+          } else if (currentStep === 2) {
+            setPreviousResult(null)
+          }
+          setCriteriaMet(result.criteriaMet)
+          setTestRequestResponses(result.testRequestResponses)
+          await logTestResults(result)
+        } else {
+          const requestData = createRequestData(0)
+          const response = await handleAPICall(requestData)
+          const result = response[0]
+          setApiResponse(result)
+          setIsFinished(true)
+          setCriteriaMet(result.criteriaMet)
+          setTestRequestResponses(result.testRequestResponses)
           if (result.criteriaMet.includes('STEP2')) {
             setCurrentStep(2)
           }
-          setIsFinished(false)
-        } else if (currentStep === 2) {
-          setPreviousResult(null)
-          setIsFinished(false)
+          await logTestResults(result)
         }
-        setCriteriaMet(result.criteriaMet)
-        setTestRequestResponses(result.testRequestResponses)
-        logTestResults(result)
-      } else {
-        const requestData = createRequestData(0)
-        const response = await handleAPICall(requestData)
-        const result = response[0]
-        setApiResponse(result)
-        setIsFinished(true)
-        setCriteriaMet(result.criteriaMet)
-        setTestRequestResponses(result.testRequestResponses)
-        if (result.criteriaMet.includes('STEP2')) {
-          setCurrentStep(2)
-        }
-        logTestResults(result)
       }
     } catch (error) {
       console.error('Failed to run test:', error)
@@ -524,12 +543,6 @@ const TestCard: React.FC<TestCardProps> = ({
       setCriteriaMet('FALSE')
     } finally {
       setIsLoading(false)
-      if (
-        test.criteria &&
-        !(manualValidationCriteria.includes(test.criteria) || manualValidationIDs.includes(test.id) || isMDNTest)
-      ) {
-        setIsFinished(false)
-      }
     }
   }
 
