@@ -67,6 +67,13 @@ interface XDRAPICallData {
   uscdiv3: boolean
 }
 
+export interface AttachmentSendResult {
+  success: boolean
+  messageId?: string
+  error?: string
+  [key: string]: unknown
+}
+
 export interface FileDetail {
   svap: boolean
   cures: boolean
@@ -377,7 +384,10 @@ export async function GetStatus(testCaseId: string): Promise<StatusResponse> {
   }
 }
 
-export async function sendMessageWithAttachmentFilePath(toAddress: string, attachmentFilePath: string): Promise<any> {
+export async function sendMessageWithAttachmentFilePath(
+  toAddress: string,
+  attachmentFilePath: string
+): Promise<AttachmentSendResult> {
   const session = await getServerSession(authOptions)
   const jsessionid = session?.user?.jsessionid ?? ''
 
@@ -404,7 +414,8 @@ export async function sendMessageWithAttachmentFilePath(toAddress: string, attac
 
     const result = await response.json()
     console.log('Attachment send result:', result)
-    return result
+
+    return result as AttachmentSendResult
   } catch (error) {
     console.error('Error sending message with attachment file path:', error)
     throw error
