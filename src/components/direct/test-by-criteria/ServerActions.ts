@@ -143,7 +143,7 @@ interface StatusResponse {
 }
 
 export async function handleAPICall(data: APICallData): Promise<APICallResponse[]> {
-  const apiUrl = process.env.SMTP_TEST_BY_CRITERIA_ENDPOINT || 'https://ett.healthit.gov/ett/api/smtpTestCases'
+  const apiUrl = process.env.SMTP_TEST_BY_CRITERIA_ENDPOINT || 'http://52.55.22.102:8081/ett/api/smtpTestCases'
   const session = await getServerSession(authOptions)
   const jsessionid = session?.user?.jsessionid ?? ''
   const config = {

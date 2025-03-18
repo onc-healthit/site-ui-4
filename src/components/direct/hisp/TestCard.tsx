@@ -761,6 +761,18 @@ const TestCard: React.FC<TestCardProps> = ({
               <Button variant="outlined" color="secondary" onClick={() => handleToggleLogs('RETURN TO TEST')}>
                 RETURN TO TEST
               </Button>
+              {test.criteria &&
+                (manualValidationCriteria.includes(test.criteria) || manualValidationIDs.includes(test.id)) &&
+                formattedLogs.length > 0 && (
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Button variant="outlined" color="success" onClick={handleAcceptTest}>
+                      Accept
+                    </Button>
+                    <Button variant="text" sx={{ color: palette.warningDark }} onClick={handleRejectTest}>
+                      Reject
+                    </Button>
+                  </Box>
+                )}
             </Box>
           </CardContent>
         ) : (
