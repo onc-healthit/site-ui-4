@@ -67,6 +67,13 @@ interface XDRAPICallData {
   uscdiv3: boolean
 }
 
+export interface AttachmentSendResult {
+  success: boolean
+  messageId?: string
+  error?: string
+  [key: string]: unknown
+}
+
 export interface FileDetail {
   svap: boolean
   cures: boolean
@@ -143,7 +150,7 @@ interface StatusResponse {
 }
 
 export async function handleAPICall(data: APICallData): Promise<APICallResponse[]> {
-  const apiUrl = process.env.SMTP_TEST_BY_CRITERIA_ENDPOINT
+  const apiUrl = process.env.SMTP_TEST_BY_CRITERIA_ENDPOINT || 'http://52.55.22.102:8081/ett/api/smtpTestCases'
   const session = await getServerSession(authOptions)
   const jsessionid = session?.user?.jsessionid ?? ''
   const config = {
@@ -374,6 +381,44 @@ export async function GetStatus(testCaseId: string): Promise<StatusResponse> {
       console.error('Unexpected error:', error)
       throw new Error('An unexpected error occurred')
     }
+  }
+}
+
+export async function sendMessageWithAttachmentFilePath(
+  toAddress: string,
+  attachmentFilePath: string
+): Promise<AttachmentSendResult> {
+  const session = await getServerSession(authOptions)
+  const jsessionid = session?.user?.jsessionid ?? ''
+
+  const formData = new FormData()
+  formData.append('toAddress', toAddress)
+  formData.append('attachmentFilePath', attachmentFilePath)
+
+  const headers: Record<string, string> = session ? { Cookie: `JSESSIONID=${jsessionid}` } : {}
+
+  try {
+    const response = await fetch(
+      process.env.SEND_MESSAGE_WITH_ATTACHMENTS_URL ||
+        'https://site-dev.healthit.gov/directtransportmessagesender/sendmessagewithattachmentfilepath',
+      {
+        method: 'POST',
+        headers,
+        body: formData,
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error(`Send message failed. Status: ${response.status}`)
+    }
+
+    const result = await response.json()
+    console.log('Attachment send result:', result)
+
+    return result as AttachmentSendResult
+  } catch (error) {
+    console.error('Error sending message with attachment file path:', error)
+    throw error
   }
 }
 
