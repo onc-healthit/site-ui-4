@@ -3,7 +3,12 @@ import _ from 'lodash'
 import React, { useState, useMemo, SyntheticEvent, useContext } from 'react'
 import { handleSMTPLogAPICall } from '../test-by-criteria/ServerActions'
 import LoadingButton from '../shared/LoadingButton'
-import { APICallData, APICallResponse, TestRequestResponses } from '../test-by-criteria/ServerActions'
+import {
+  APICallData,
+  APICallResponse,
+  TestRequestResponses,
+  sendMessageWithAttachmentFilePath,
+} from '../test-by-criteria/ServerActions'
 import {
   Box,
   Button,
@@ -392,7 +397,7 @@ const TestCard: React.FC<TestCardProps> = ({
     testCaseNumber: test.id,
     sutSmtpAddress: hostname,
     sutEmailAddress: email,
-    useTLS: tlsRequired,
+    useTLS: false,
     sutCommandTimeoutInSeconds: 0,
     sutUserName: username,
     sutPassword: password,
