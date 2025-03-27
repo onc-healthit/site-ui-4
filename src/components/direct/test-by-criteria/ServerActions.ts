@@ -384,44 +384,6 @@ export async function GetStatus(testCaseId: string): Promise<StatusResponse> {
   }
 }
 
-export async function sendMessageWithAttachmentFilePath(
-  toAddress: string,
-  attachmentFilePath: string
-): Promise<AttachmentSendResult> {
-  const session = await getServerSession(authOptions)
-  const jsessionid = session?.user?.jsessionid ?? ''
-
-  const formData = new FormData()
-  formData.append('toAddress', toAddress)
-  formData.append('attachmentFilePath', attachmentFilePath)
-
-  const headers: Record<string, string> = session ? { Cookie: `JSESSIONID=${jsessionid}` } : {}
-
-  try {
-    const response = await fetch(
-      process.env.SEND_MESSAGE_WITH_ATTACHMENTS_URL ||
-        'https://site-dev.healthit.gov/directtransportmessagesender/sendmessagewithattachmentfilepath',
-      {
-        method: 'POST',
-        headers,
-        body: formData,
-      }
-    )
-
-    if (!response.ok) {
-      throw new Error(`Send message failed. Status: ${response.status}`)
-    }
-
-    const result = await response.json()
-    console.log('Attachment send result:', result)
-
-    return result as AttachmentSendResult
-  } catch (error) {
-    console.error('Error sending message with attachment file path:', error)
-    throw error
-  }
-}
-
 export async function fetchCCDADocuments(protocol: string): Promise<Documents> {
   console.log(protocol)
   const baseUrl =
