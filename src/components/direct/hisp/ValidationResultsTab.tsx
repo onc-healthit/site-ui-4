@@ -57,7 +57,7 @@ const ValidationResults = () => {
     if (status === 'authenticated') {
       fetchLoggedInUsersProfiles()
     }
-  }, [status, session])
+  }, [status])
 
   const handleGetProfileReport = async (profileName: string) => {
     setIsLoading(true)
