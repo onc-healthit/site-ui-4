@@ -65,10 +65,7 @@ const Profile = () => {
     async function fetchLoggedInUsersProfiles() {
       setIsLoading(true)
       const loggedInUsersProfiles = await fetchProfiles()
-      if (_.isEmpty(loggedInUsersProfiles)) {
-        setIsLoading(false)
-        window.location.reload()
-      }
+
       const filteredProfiles = removeProfilesWithNullProfileName(loggedInUsersProfiles)
       if (!_.isEmpty(filteredProfiles)) {
         setProfiles(filteredProfiles)
