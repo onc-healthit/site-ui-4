@@ -126,6 +126,8 @@ jobs:
           expect "# "
           send "unzip -o BuildArtifact.zip -d /opt/site-ui-4\r"
           expect "# "
+          send "ls -la\r"
+          expect "# "
           send "pm2 startOrRestart /opt/site-ui-4/ecosystem.config.js --env production  && pm2 save\r"
           expect "# "
           expect eof

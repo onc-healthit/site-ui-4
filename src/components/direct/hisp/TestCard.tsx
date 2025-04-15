@@ -3,12 +3,7 @@ import _ from 'lodash'
 import React, { useState, useMemo, SyntheticEvent, useContext } from 'react'
 import { handleSMTPLogAPICall } from '../test-by-criteria/ServerActions'
 import LoadingButton from '../shared/LoadingButton'
-import {
-  APICallData,
-  APICallResponse,
-  TestRequestResponses,
-  sendMessageWithAttachmentFilePath,
-} from '../test-by-criteria/ServerActions'
+import { APICallData, APICallResponse, TestRequestResponses } from '../test-by-criteria/ServerActions'
 import {
   Box,
   Button,
@@ -39,6 +34,7 @@ import { handleAPICall } from '../test-by-criteria/ServerActions'
 
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
+import criteria from '@/assets/Criteria'
 
 export type TestCaseFields = {
   name: string
@@ -397,7 +393,7 @@ const TestCard: React.FC<TestCardProps> = ({
     testCaseNumber: test.id,
     sutSmtpAddress: hostname,
     sutEmailAddress: email,
-    useTLS: false,
+    useTLS: tlsRequired,
     sutCommandTimeoutInSeconds: 0,
     sutUserName: username,
     sutPassword: password,
@@ -425,6 +421,10 @@ const TestCard: React.FC<TestCardProps> = ({
       requestData.previousResult = prevResult
     } else {
       requestData.status = ''
+    }
+    if (test.id === 16) {
+      delete requestData.previousResult
+      delete requestData.attachmentType
     }
     return requestData
   }
@@ -490,49 +490,37 @@ const TestCard: React.FC<TestCardProps> = ({
       setIsLoading(true)
       setIsFinished(false)
       setCriteriaMet('')
-
-      if (test.id === 16) {
-        if (!documentDetails) {
-          throw new Error('No document selected.')
+      const isMDNTest = test.protocol && mdnTestIds.includes(test.protocol)
+      if (isMDNTest) {
+        const requestData = createRequestData(currentStep, previousResult)
+        const response = await handleAPICall(requestData)
+        const result = response[0]
+        setApiResponse(result)
+        if (currentStep === 1 && result.criteriaMet.includes('STEP2')) {
+          setCurrentStep(2)
+        } else if (currentStep === 2) {
+          setPreviousResult(null)
         }
-
-        const result = await sendMessageWithAttachmentFilePath(email, documentDetails.fileLink)
-
-        setTestRequestResponses({
-          '\n1': `SENDING STARTTLS & PLAIN SASL AUTHENTICATION EMAIL TO ${email} WITH ATTACHMENT ${documentDetails.fileName}`,
-          '\n2': 'Email sent Successfully',
-        })
-
-        setIsFinished(true)
-        setCriteriaMet('TRUE')
+        setCriteriaMet(result.criteriaMet)
+        setTestRequestResponses(result.testRequestResponses)
+        await logTestResults(result)
       } else {
-        const isMDNTest = test.protocol && mdnTestIds.includes(test.protocol)
-        if (isMDNTest) {
-          const requestData = createRequestData(currentStep, previousResult)
-          const response = await handleAPICall(requestData)
-          const result = response[0]
-          setApiResponse(result)
-          if (currentStep === 1 && result.criteriaMet.includes('STEP2')) {
-            setCurrentStep(2)
-          } else if (currentStep === 2) {
-            setPreviousResult(null)
-          }
-          setCriteriaMet(result.criteriaMet)
-          setTestRequestResponses(result.testRequestResponses)
-          await logTestResults(result)
-        } else {
-          const requestData = createRequestData(0)
-          const response = await handleAPICall(requestData)
-          const result = response[0]
-          setApiResponse(result)
-          setIsFinished(true)
-          setCriteriaMet(result.criteriaMet)
-          setTestRequestResponses(result.testRequestResponses)
-          if (result.criteriaMet.includes('STEP2')) {
-            setCurrentStep(2)
-          }
-          await logTestResults(result)
+        const requestData = createRequestData(0)
+        if (test.id == 16) {
+          requestData.status = 'fail'
         }
+
+        //console.log('Final payload:', requestData)
+        const response = await handleAPICall(requestData)
+        const result = response[0]
+        setApiResponse(result)
+        setIsFinished(true)
+        setCriteriaMet(result.criteriaMet)
+        setTestRequestResponses(result.testRequestResponses)
+        if (result.criteriaMet.includes('STEP2')) {
+          setCurrentStep(2)
+        }
+        await logTestResults(result)
       }
     } catch (error) {
       console.error('Failed to run test:', error)
