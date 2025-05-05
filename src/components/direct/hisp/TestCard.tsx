@@ -490,6 +490,7 @@ const TestCard: React.FC<TestCardProps> = ({
       setIsLoading(true)
       setIsFinished(false)
       setCriteriaMet('')
+      console.log('Running test:', test.protocol, test.id, test.name)
       const isMDNTest = test.protocol && mdnTestIds.includes(test.protocol)
       if (isMDNTest) {
         const requestData = createRequestData(currentStep, previousResult)
@@ -497,6 +498,7 @@ const TestCard: React.FC<TestCardProps> = ({
         const result = response[0]
         setApiResponse(result)
         if (currentStep === 1 && result.criteriaMet.includes('STEP2')) {
+          setPreviousResult(result)
           setCurrentStep(2)
         } else if (currentStep === 2) {
           setPreviousResult(null)
