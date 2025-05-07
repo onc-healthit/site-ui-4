@@ -164,7 +164,7 @@ export async function handleAPICall(data: APICallData): Promise<APICallResponse[
 
   try {
     const response = await axios(config)
-    console.log('raw API call data: ', response)
+    //   console.log('raw API call data: ', response)
     console.log('raw API call response.data: ', response.data)
     const responseData: APICallResponse[] = response.data
     return responseData
