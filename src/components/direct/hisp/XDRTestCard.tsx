@@ -224,7 +224,7 @@ const TestCard = ({ test }: TestCardProps) => {
     '43mu2',
     '44mu2',
   ]
-  const nullResponseExceptionIds = ['19']
+  const nullResponseExceptionIds = ['8', '9', '19']
   const ccdaRequiredTestIds = ['1', '2', '3add']
   const sendXDRTestsIds = ['16', '17']
   const xdrTestIdsWithThreeSteps = [
