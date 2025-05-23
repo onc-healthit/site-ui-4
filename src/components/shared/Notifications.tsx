@@ -135,7 +135,7 @@ const NotificationFab: React.FC = () => {
             </Fab>
           </Tooltip>
           <Typography
-            sx={{ position: 'fixed', bottom: '12px', padding: '0 16px 8px 16px', fontSize: '12px' }}
+            sx={{ bottom: '12px', padding: '0 16px 8px 16px', fontSize: '12px' }}
             variant="caption"
             color={palette.greyDark}
           >
