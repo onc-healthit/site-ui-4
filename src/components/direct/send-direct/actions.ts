@@ -51,7 +51,10 @@ export async function handleSendDirectMessage(prevState: object | undefined, for
   const invalidDigest = formData.get('invalidDigest') === 'on' ? true : false
   const signingCert = formData.get('signingCert') !== '' ? (formData.get('signingCert') as string) : ''
   const signingCertPassword = ''
-
+  console.log('--- raw FormData entries ---')
+  formData.forEach((value, key) => {
+    console.log(key, value)
+  })
   const digestAlgo =
     version === 'v13'
       ? formData.get('digestAlgo') !== ''
