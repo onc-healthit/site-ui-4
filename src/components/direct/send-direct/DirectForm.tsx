@@ -284,7 +284,7 @@ const DirectForm = ({ version, certificateDropdown, algorithmDropdown, domainNam
                   handleToggleSwitch={handleInvalidDigestChange}
                   labelText="Invalid Digest"
                   labelOnRight={true}
-                  name="wrapped"
+                  name="invalidDigest"
                 />
               </FormGroup>
               <input type="hidden" name="version" value={version} />
