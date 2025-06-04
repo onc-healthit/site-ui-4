@@ -80,6 +80,7 @@ export interface FileDetail {
   name: string
   link: string
   uscdiv3: boolean
+  uscdiv4: boolean
 }
 
 export interface Directory {
