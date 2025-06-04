@@ -6,6 +6,9 @@ export interface Announcement {
 }
 
 export const fetchNotifications = async (): Promise<Announcement[]> => {
+  /* -To add a new notification, add a defined Announcement type to the end of the list.
+     -New notifications should have a unique id that is higher than the old notifications
+     --e.g. Simply use an id that is one higher than last existing notification. */
   return [
     {
       id: '1',

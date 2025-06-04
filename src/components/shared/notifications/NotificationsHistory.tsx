@@ -76,8 +76,9 @@ export default function NotificationHistory() {
           subHeader="For any questions or assistance with the Notification History Page, please contact our support team or refer to the help section for further guidance."
         />
         {/* Timeline View */}
+        {/* // Note: We reverse the order so that the latest notifications appear first */}
         <Timeline
-          items={notifications.map((notification) => ({
+          items={notifications.toReversed().map((notification) => ({
             title: notification.title,
             // static
             date: notification.date ?? 'Unknown Date',

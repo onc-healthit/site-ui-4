@@ -8,8 +8,10 @@ import { fetchNotifications, Announcement } from '@/assets/NotificationService'
 import palette from '@/styles/palette'
 import { fetchReleaseData } from '@/assets/ReleaseService'
 import eventTrack from '@/services/analytics'
+import { useRouter } from 'next/navigation'
 
 const NotificationFab: React.FC = () => {
+  const router = useRouter()
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [notifications, setNotifications] = useState<Announcement[]>([]) // Use the Announcement type
   const [dismissedNotification, setDismissedNotification] = useState<Set<string>>(() => {
@@ -69,7 +71,9 @@ const NotificationFab: React.FC = () => {
     })
   }
 
-  const undismissedNotifications = notifications.filter((a) => !dismissedNotification.has(a.id))
+  // Note: We reverse the order so that the latest notifications appear first
+  const undismissedNotifications =
+    notifications.filter((a) => !dismissedNotification.has(a.id)).toReversed()
   const badgeContent = undismissedNotifications.length
 
   return (
@@ -119,8 +123,8 @@ const NotificationFab: React.FC = () => {
                 </Box>
               ))}
             </Box>
-            <Button variant="outlined" fullWidth size="small" onClick={() => (window.location.href = '/notifications')}>
-              Go to all previous notifications
+            <Button variant="outlined" fullWidth size="small" onClick={() => router.push('/notifications')}>
+              View all previous notifications
             </Button>
           </Box>
           <Tooltip arrow placement="left" title="Close Notification Panel">

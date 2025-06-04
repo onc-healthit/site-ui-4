@@ -11,6 +11,7 @@ import { fetchReleaseData } from '@/assets/ReleaseService'
 import palette from '@/styles/palette'
 import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined'
 import eventTrack from '@/services/analytics'
+import { Notifications } from '@mui/icons-material'
 
 const drawerWidth = 350
 
@@ -74,6 +75,12 @@ const CommunicationFab: React.FC<CommunicationFabProps> = ({ children }) => {
             label="Questions or Inquiries"
             url="mailto:edge-test-tool@googlegroups.com"
             icon={<ForwardToInboxOutlinedIcon fontSize="small" htmlColor={palette.primaryDark} />}
+          />
+          <LinkButton
+            label="View Notification History"
+            url="/notifications"
+            icon={<Notifications fontSize="small" htmlColor={palette.primaryDark} />}
+            isExternalUrl={false}
           />
         </Box>
         <Box
