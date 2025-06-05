@@ -254,7 +254,9 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     },
   })
 
-  const safe = (path: any, def = '') => path ?? def
+  function safe<T>(value: T | null | undefined, def: T): T {
+    return (value ?? def) as T
+  }
   const req = safe(resp?.content?.value?.request, resp.message)
   const res = safe(resp?.content?.value?.response, resp.message)
 
@@ -262,8 +264,8 @@ export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResp
     criteriaMet: safe(resp?.content?.criteriaMet, resp.status),
     testRequest: req,
     testResponse: res,
-    endpoint: safe(resp?.content?.value?.endpoint),
-    endpointTLS: safe(resp?.content?.value?.endpointTLS),
+    endpoint: safe(resp?.content?.value?.endpoint, ''),
+    endpointTLS: safe(resp?.content?.value?.endpointTLS, ''),
   }
 }
 
