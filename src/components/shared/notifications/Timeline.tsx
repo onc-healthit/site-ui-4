@@ -58,7 +58,10 @@ const CustomTimeline = ({ items }: TimelineProps) => (
               <Typography fontWeight={'600'} gutterBottom variant="h5">
                 {item.title}
               </Typography>
-              <Typography variant="body1">{item.description}</Typography>
+              <Typography
+                variant="body1"
+                dangerouslySetInnerHTML={{ __html: item.description }}
+              />
             </Box>
           </TimelineContent>
         </TimelineItem>

@@ -33,7 +33,8 @@ export const fetchNotifications = async (): Promise<Announcement[]> => {
         <li>XDR Receive Tests: A fix has been deployed to resolve the root cause of a PKIX error that was affecting XDR receive test cases (3, 4a, 4b, 5, 8, and 9).</li>
         <li>XDR Test 1: A fix has been deployed to address an error with the XDR send test.</li>
       </ol>
-      Before utilizing these services again, we recommend that all users review and verify they have downloaded the current certificates available on the website and install them on their systems. If you encounter any further issues, please report them to the Google Groups page.<br /><br />
+      <br />
+      Before utilizing these services again, we recommend that all users review and verify they have downloaded the current certificates available on the website and install them on their systems. If you encounter any further issues, please report them to the <a href="https://groups.google.com/g/edge-test-tool" target="_blank">Google Groups page</a>.<br /><br />
       Please be advised that we are still working on resolving an ongoing issue with the Direct Certificate Discovery Tool (DCDT). Our team is actively working to resolve this issue as quickly as possible. While this issue may not impact all testers, we are committed to addressing it for those who are affected.<br /><br />
       We will provide an update as soon as it becomes available.<br /><br />
       Thank you for your patience and understanding.`,
