@@ -398,8 +398,8 @@ export async function fetchCCDADocuments(protocol: string): Promise<Documents> {
   console.log(protocol)
   const baseUrl =
     protocol === 'xdr'
-      ? process.env.CCDA_DOCUMENTS_XDR || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType=xdr'
-      : process.env.CCDA_DOCUMENTS || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType'
+      ? process.env.CCDA_DOCUMENTS_XDR || process.env.ETT_API_URL + '/ccdadocuments?testCaseType=xdr'
+      : process.env.CCDA_DOCUMENTS || process.env.ETT_API_URL +'/ccdadocuments?testCaseType'
 
   const config = {
     method: 'get',
