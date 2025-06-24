@@ -80,6 +80,7 @@ export interface FileDetail {
   name: string
   link: string
   uscdiv3: boolean
+  uscdiv4: boolean
 }
 
 export interface Directory {
@@ -219,82 +220,53 @@ export async function handleSMTPLogAPICall(data: SMTPLogAPICallData): Promise<bo
 }
 
 export async function handleXDRAPICall(data: XDRAPICallData): Promise<XDRAPIResponse> {
-  const apiUrl = process.env.XDR_TEST_BY_CRITERIA_ENDPOINT + data.id + '/run'
+  const apiUrl = `${process.env.XDR_TEST_BY_CRITERIA_ENDPOINT}${data.id}/run`
   const session = await getServerSession(authOptions)
-  const jsessionid = session?.user?.jsessionid ?? ''
-  const formattedData = {
-    targetEndpointTLS: data.targetEndpointTLS,
-    ip_address: data.ip_address,
-    port: data.port,
-    direct_to: data.direct_to,
-    direct_from: data.direct_from,
-    outgoing_from: data.outgoing_from,
-    payload: {
-      svap: data.svap,
-      cures: data.cures,
-      name: data.name,
-      link: data.link,
-      uscdiv3: data.uscdiv3,
-      path: [null, data.path],
-      selected: data.selected,
-      itemNumber: data.itemNumber,
+  const jsession = session?.user?.jsessionid ?? ''
+
+  const body =
+    data.id === '5' || data.id === '5'
+      ? {
+          targetEndpointTLS: data.targetEndpointTLS,
+        }
+      : {
+          targetEndpointTLS: data.targetEndpointTLS,
+          ip_address: data.ip_address,
+          port: data.port,
+          direct_to: data.direct_to,
+          direct_from: data.direct_from,
+          outgoing_from: data.outgoing_from,
+          payload: {
+            svap: data.svap,
+            cures: data.cures,
+            name: data.name,
+            link: data.link,
+            uscdiv3: data.uscdiv3,
+            path: [null, data.path],
+            selected: data.selected,
+            itemNumber: data.itemNumber,
+          },
+        }
+  console.log('body:', body)
+  const { data: resp } = await axios.post(apiUrl, body, {
+    headers: {
+      'Content-Type': 'application/json',
+      Cookie: `JSESSIONID=${jsession}`,
     },
+  })
+
+  function safe<T>(value: T | null | undefined, def: T): T {
+    return (value ?? def) as T
   }
+  const req = safe(resp?.content?.value?.request, resp.message)
+  const res = safe(resp?.content?.value?.response, resp.message)
 
-  const config = {
-    method: 'post',
-    url: apiUrl,
-    headers: session
-      ? { 'Content-Type': 'application/json', Cookie: `JSESSIONID=${jsessionid}` }
-      : { 'Content-Type': 'application/json' },
-    data: JSON.stringify(formattedData),
-  }
-
-  console.log('Sending data:', config)
-
-  try {
-    const response = await axios(config)
-    console.log('Raw content:', response.data)
-    const content = response.data
-
-    let testRequest = ''
-    let testResponse = ''
-    let endpoint = ''
-    let endpointTLS = ''
-
-    if (content && content.content && content.content.value) {
-      testRequest = content.content.value.request
-      testResponse = content.content.value.response
-      endpoint = content.content.value.endpoint
-      endpointTLS = content.content.value.endpointTLS
-    } else {
-      console.error('Invalid response structure:', content)
-      testRequest = content.message
-      testResponse = content.message
-    }
-
-    let criteriaMet = content.status
-
-    if (content && content.content && content.content.criteriaMet != null) {
-      criteriaMet = content.content.criteriaMet
-    }
-
-    return {
-      criteriaMet: criteriaMet,
-      testRequest: testRequest,
-      testResponse: testResponse,
-      endpoint: endpoint,
-      endpointTLS: endpointTLS,
-    }
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      console.error('API Error Response:', error.response.data)
-      console.error('Status:', error.response.status)
-      console.error('Headers:', error.response.headers)
-    } else {
-      console.error('Error')
-    }
-    throw error
+  return {
+    criteriaMet: safe(resp?.content?.criteriaMet, resp.status),
+    testRequest: req,
+    testResponse: res,
+    endpoint: safe(resp?.content?.value?.endpoint, ''),
+    endpointTLS: safe(resp?.content?.value?.endpointTLS, ''),
   }
 }
 
@@ -426,8 +398,8 @@ export async function fetchCCDADocuments(protocol: string): Promise<Documents> {
   console.log(protocol)
   const baseUrl =
     protocol === 'xdr'
-      ? process.env.CCDA_DOCUMENTS_XDR || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType=xdr'
-      : process.env.CCDA_DOCUMENTS || 'https://ett.healthit.gov/ett/api/ccdadocuments?testCaseType'
+      ? process.env.CCDA_DOCUMENTS_XDR || process.env.ETT_API_URL + '/ccdadocuments?testCaseType=xdr'
+      : process.env.CCDA_DOCUMENTS || process.env.ETT_API_URL +'/ccdadocuments?testCaseType'
 
   const config = {
     method: 'get',

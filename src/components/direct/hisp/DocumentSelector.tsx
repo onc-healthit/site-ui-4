@@ -30,6 +30,7 @@ export interface FileDetail {
   name: string
   link: string
   uscdiv3: boolean
+  uscdiv4: boolean
 }
 
 export interface Directory {
@@ -57,6 +58,7 @@ const DocumentSelector = ({ onConfirm, onClose, receive: receive, protocol }: Do
     name: string
     link: string
     uscdiv3: boolean
+    uscdiv4: boolean
   }
 
   interface Directory {
@@ -107,10 +109,15 @@ const DocumentSelector = ({ onConfirm, onClose, receive: receive, protocol }: Do
   const documentType = receive
     ? selectedType === 'cures'
       ? 'Cures Update Receiver SUT Test Data'
-      : 'Cures Update Svap Uscdiv3 Receiver SUT Test Data'
+      : selectedType === 'svap'
+        ? 'Cures Update Svap Uscdiv3 Receiver SUT Test Data'
+        : 'Uscdiv4 Test Data Receiver SUT Test Data'
     : selectedType === 'cures'
       ? 'Cures Update Sender SUT Test Data'
-      : 'Cures Update Svap Uscdiv3 Sender SUT Test Data'
+      : selectedType === 'svap'
+        ? 'Cures Update Svap Uscdiv3 Sender SUT Test Data'
+        : 'Uscdiv4 Test Data Sender SUT Test Data'
+
   const directories = documents[documentType]?.dirs || []
   const files = directories.find((dir) => dir.name === selectedDirectory)?.files || []
 
@@ -123,8 +130,9 @@ const DocumentSelector = ({ onConfirm, onClose, receive: receive, protocol }: Do
           First select a message format.
         </Typography>
         <RadioGroup row value={selectedType} onChange={handleTypeChange}>
-          <FormControlLabel value="cures" control={<Radio />} label="Cures" />
-          <FormControlLabel value="svap" control={<Radio />} label="SVAP" />
+          <FormControlLabel value="cures" control={<Radio />} label="USCDI V1" />
+          <FormControlLabel value="svap" control={<Radio />} label="USCDI V3" />
+          <FormControlLabel value="uscdiv4" control={<Radio />} label="USCDI V4" />
         </RadioGroup>
         <Typography variant="body1" sx={{ mb: 2, mt: 1 }} gutterBottom>
           Then select a document.
