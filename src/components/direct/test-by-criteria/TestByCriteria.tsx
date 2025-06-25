@@ -28,7 +28,7 @@ const TestByCriteria = ({ selectedTab }: criteriaProps) => {
             Direct
           </Link>,
           <Link color="inherit" href="/direct/testbycriteria" key="2" className={styles.link}>
-            Test By Criteria ---TEST BUILD
+            Test By Criteria
           </Link>,
         ]}
         heading={'Test By Criteria'}
