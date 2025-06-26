@@ -191,7 +191,7 @@ const TestCard: React.FC<TestCardProps> = ({
     setDocumentDetails(null)
     setApiError(false)
     setPreviousResult(null)
-    eventTrack('Clear Test', 'Test By Criteria -- TESTCARD', `${test.criteria}`)
+    eventTrack('Clear Test', 'Test By Criteria', `${test.criteria}`)
   }
 
   const decodeAttachment = (content: string): Uint8Array => {

@@ -70,7 +70,7 @@ const DirectHome = () => {
       />
       {/* Main Content */}
       <Container>
-        <SectionHeader header={'Test By Criteria --DIRECT HOME TEST'} subHeader={'All-Inclusive Criterion Testing'} />
+        <SectionHeader header={'Test By Criteria'} subHeader={'All-Inclusive Criterion Testing'} />
         <Box
           sx={{
             display: 'flex',
