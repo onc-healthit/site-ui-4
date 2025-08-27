@@ -3,7 +3,7 @@ import { Chip, Card, Box, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import palette from '@/styles/palette'
 import { Detail } from './ValidationReportTypes'
-import { DataGrid, GridColDef, GridRowHeightParams, GridRowHeightReturnValue } from '@mui/x-data-grid'
+import { DataGrid, GridColDef, GridRowHeightParams, GridRowHeightReturnValue ,GridToolbarContainer, GridToolbarExport} from '@mui/x-data-grid'
 
 
 interface ValidationTableProps {
@@ -121,6 +121,14 @@ const StyledChip = styled(Chip)<StyledChipProps>(({ status }) => ({
 }))
 
 
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
+}
+
 const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: ValidationTableProps) => {
 
   const getRowHeight = (params: GridRowHeightParams): GridRowHeightReturnValue => {
@@ -146,7 +154,9 @@ const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: 
         autoHeight
         density="comfortable"
         getRowHeight={getRowHeight}
-        showToolbar
+        slots={{
+          toolbar: CustomToolbar,
+        }}
       />
     </Box>
   )
