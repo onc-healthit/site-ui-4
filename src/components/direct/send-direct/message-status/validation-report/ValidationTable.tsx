@@ -1,14 +1,19 @@
-import React from 'react'
+import React , { useRef } from 'react';
 import { Chip, Card, Box, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import palette from '@/styles/palette'
 import { Detail } from './ValidationReportTypes'
 import { DataGrid, GridColDef, GridRowHeightParams, GridRowHeightReturnValue } from '@mui/x-data-grid'
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 interface ValidationTableProps {
   selectedNodeDetails: Detail[] | null
   selectedContentType: string
   version?: string
 }
+
+const gridRef = useRef(null);
 
 const columns: GridColDef[] = [
   {
@@ -118,7 +123,20 @@ const StyledChip = styled(Chip)<StyledChipProps>(({ status }) => ({
   backgroundColor: 'transparent',
 }))
 
+
+      const handleExportPdf = async () => {
+        if (gridRef.current) {
+          const input = gridRef.current.querySelector('.MuiDataGrid-root'); // Adjust selector based on your DataGrid
+          const canvas = await html2canvas(input);
+          const imgData = canvas.toDataURL('image/png');
+          const pdf = new jsPDF();
+          pdf.addImage(imgData, 'PNG', 0, 0);
+          pdf.save('DataGrid.pdf');
+        }
+      };
+
 const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: ValidationTableProps) => {
+
   const getRowHeight = (params: GridRowHeightParams): GridRowHeightReturnValue => {
     // Logic to determine row height
     return 'auto' // Adjust as needed based on your criteria
@@ -127,9 +145,11 @@ const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: 
     <Box>
       <Card>
         <Typography variant="h4" sx={{ p: 2 }}>
-          Detailed report for {version} {selectedContentType}
+          Detailed report for {version} {selectedContentType}      
         </Typography>
       </Card>
+      <button onClick={handleExportPdf}>Export to PDF</button>
+      <div ref={gridRef}>
       <DataGrid
         columns={columns}
         rows={selectedNodeDetails || []}
@@ -142,6 +162,7 @@ const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: 
         density="comfortable"
         getRowHeight={getRowHeight}
       />
+      </div>
     </Box>
   )
 }

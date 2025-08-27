@@ -43,7 +43,9 @@
     "rehype-raw": "^7.0.0",
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.0",
-    "xml-formatter": "^3.6.3"
+    "xml-formatter": "^3.6.3",
+    "jspdf": "^2.5.1",
+    "html2canvas": "^1.4.1" 
   },
   "devDependencies": {
     "@types/cypress": "^1.1.3",
