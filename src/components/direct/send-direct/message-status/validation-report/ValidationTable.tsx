@@ -1,4 +1,4 @@
-import React , { useRef } from 'react';
+import React from 'react'
 import { Chip, Card, Box, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import palette from '@/styles/palette'
@@ -146,6 +146,7 @@ const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: 
         autoHeight
         density="comfortable"
         getRowHeight={getRowHeight}
+        showToolbar
       />
     </Box>
   )
