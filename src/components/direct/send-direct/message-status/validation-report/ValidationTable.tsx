@@ -4,16 +4,13 @@ import { styled } from '@mui/material/styles'
 import palette from '@/styles/palette'
 import { Detail } from './ValidationReportTypes'
 import { DataGrid, GridColDef, GridRowHeightParams, GridRowHeightReturnValue } from '@mui/x-data-grid'
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+
 
 interface ValidationTableProps {
   selectedNodeDetails: Detail[] | null
   selectedContentType: string
   version?: string
 }
-
-const gridRef = useRef(null);
 
 const columns: GridColDef[] = [
   {
@@ -124,17 +121,6 @@ const StyledChip = styled(Chip)<StyledChipProps>(({ status }) => ({
 }))
 
 
-      const handleExportPdf = async () => {
-        if (gridRef.current) {
-          const input = gridRef.current.querySelector('.MuiDataGrid-root'); // Adjust selector based on your DataGrid
-          const canvas = await html2canvas(input);
-          const imgData = canvas.toDataURL('image/png');
-          const pdf = new jsPDF();
-          pdf.addImage(imgData, 'PNG', 0, 0);
-          pdf.save('DataGrid.pdf');
-        }
-      };
-
 const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: ValidationTableProps) => {
 
   const getRowHeight = (params: GridRowHeightParams): GridRowHeightReturnValue => {
@@ -148,8 +134,7 @@ const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: 
           Detailed report for {version} {selectedContentType}      
         </Typography>
       </Card>
-      <button onClick={handleExportPdf}>Export to PDF</button>
-      <div ref={gridRef}>
+
       <DataGrid
         columns={columns}
         rows={selectedNodeDetails || []}
@@ -162,7 +147,6 @@ const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: 
         density="comfortable"
         getRowHeight={getRowHeight}
       />
-      </div>
     </Box>
   )
 }

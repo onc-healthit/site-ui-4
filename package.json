@@ -45,7 +45,8 @@
     "remark-gfm": "^4.0.0",
     "xml-formatter": "^3.6.3",
     "jspdf": "^2.5.1",
-    "html2canvas": "^1.4.1" 
+    "html2canvas": "^1.4.1",
+    "jspdf-autotable": "^3.8.4"
   },
   "devDependencies": {
     "@types/cypress": "^1.1.3",
