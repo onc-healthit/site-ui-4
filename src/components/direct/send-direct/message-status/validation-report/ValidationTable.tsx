@@ -157,6 +157,17 @@ const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: 
         slots={{
           toolbar: CustomToolbar,
         }}
+  slotProps={{
+    toolbar: {
+      showQuickFilter: true,
+      pdfExportOptions: {
+        // Example: Customize PDF export options
+        fileName: 'MyDataGridExport.pdf',
+        allColumns: true, // Export all columns, even hidden ones
+        // Other options available based on jsPDF capabilities
+      },
+    },
+  }}        
       />
     </Box>
   )
