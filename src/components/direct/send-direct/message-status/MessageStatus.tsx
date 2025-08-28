@@ -191,7 +191,7 @@ const MessageStatusDashboard = () => {
     <>
       {status !== 'authenticated' ? (
         <Container sx={{ pt: 4 }}>
-          <PageAlertBox message="You must be logged in to access Message Status TEST 1111." />
+          <PageAlertBox message="You must be logged in to access Message Status." />
         </Container>
       ) : (
         <>

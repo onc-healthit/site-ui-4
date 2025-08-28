@@ -123,7 +123,7 @@ const ValidationHome = ({ messageId, category }: ValidationHomeProps) => {
       {/* Main Content */}
       {status !== 'authenticated' ? (
         <Container sx={{ pt: 4 }}>
-          <PageAlertBox message="You must be logged in to access Message Status  TEST 2222." />
+          <PageAlertBox message="You must be logged in to access Message Status." />
         </Container>
       ) : (
         <>
