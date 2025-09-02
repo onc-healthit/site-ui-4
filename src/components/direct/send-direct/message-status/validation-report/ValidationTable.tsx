@@ -3,7 +3,9 @@ import { Chip, Card, Box, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import palette from '@/styles/palette'
 import { Detail } from './ValidationReportTypes'
-import { DataGrid, GridColDef, GridRowHeightParams, GridRowHeightReturnValue } from '@mui/x-data-grid'
+import { DataGrid, GridColDef, GridRowHeightParams, GridRowHeightReturnValue ,GridToolbarContainer, GridToolbarExport} from '@mui/x-data-grid'
+
+
 interface ValidationTableProps {
   selectedNodeDetails: Detail[] | null
   selectedContentType: string
@@ -118,7 +120,17 @@ const StyledChip = styled(Chip)<StyledChipProps>(({ status }) => ({
   backgroundColor: 'transparent',
 }))
 
+
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
+}
+
 const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: ValidationTableProps) => {
+
   const getRowHeight = (params: GridRowHeightParams): GridRowHeightReturnValue => {
     // Logic to determine row height
     return 'auto' // Adjust as needed based on your criteria
@@ -127,9 +139,10 @@ const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: 
     <Box>
       <Card>
         <Typography variant="h4" sx={{ p: 2 }}>
-          Detailed report for {version} {selectedContentType}
+          Detailed report for {version} {selectedContentType}      
         </Typography>
       </Card>
+
       <DataGrid
         columns={columns}
         rows={selectedNodeDetails || []}
@@ -141,6 +154,9 @@ const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: 
         autoHeight
         density="comfortable"
         getRowHeight={getRowHeight}
+        slots={{
+          toolbar: CustomToolbar,
+        }}
       />
     </Box>
   )
