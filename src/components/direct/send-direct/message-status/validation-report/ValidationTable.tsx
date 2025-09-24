@@ -3,8 +3,9 @@ import { Chip, Card, Box, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import palette from '@/styles/palette'
 import { Detail } from './ValidationReportTypes'
-import { DataGrid, GridColDef, GridRowHeightParams, GridRowHeightReturnValue ,GridToolbarContainer, GridToolbarExport} from '@mui/x-data-grid'
-
+import { DataGrid, GridColDef, GridRowHeightParams, GridRowHeightReturnValue ,GridToolbarContainer, GridToolbarExport, useGridApiContext, useGridApiRef} from '@mui/x-data-grid'
+import { Button } from "@mui/material";
+import PrintIcon from '@mui/icons-material/Print';
 
 interface ValidationTableProps {
   selectedNodeDetails: Detail[] | null
@@ -122,9 +123,19 @@ const StyledChip = styled(Chip)<StyledChipProps>(({ status }) => ({
 
 
 function CustomToolbar() {
+
+ const apiRef = useGridApiContext();
+
+       const handlePrint = () => {
+        apiRef.current.exportDataAsPrint(); // This triggers the browser's print dialog
+      };
+
   return (
     <GridToolbarContainer>
       <GridToolbarExport />
+                <Button startIcon={<PrintIcon />} onClick={handlePrint}>
+            Export as PDF
+          </Button>
     </GridToolbarContainer>
   );
 }
@@ -134,7 +145,8 @@ const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: 
   const getRowHeight = (params: GridRowHeightParams): GridRowHeightReturnValue => {
     // Logic to determine row height
     return 'auto' // Adjust as needed based on your criteria
-  }
+  } 
+  const apiRef = useGridApiRef();
   return (
     <Box>
       <Card>
@@ -153,10 +165,9 @@ const ValidationTable = ({ selectedNodeDetails, selectedContentType, version }: 
         disableDensitySelector
         autoHeight
         density="comfortable"
-        getRowHeight={getRowHeight}
         slots={{
           toolbar: CustomToolbar,
-        }}
+        }}   
       />
     </Box>
   )
