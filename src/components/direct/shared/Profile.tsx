@@ -229,7 +229,7 @@ const Profile = () => {
               <TextField
                 fullWidth
                 id="vendor-email"
-                label="Vendor Direct Email Address"
+                label="Vendor Email Address"
                 helperText="Email of the vendor SMTP system"
                 value={email || ''}
                 size="small"
