@@ -28,7 +28,7 @@ const ProfilesCard: React.FC<DocsCardProps> = ({ smtpAddress, emailAddress, head
             <Typography variant="body2">{smtpAddress}</Typography>
           </Box>
           <Box display={'flex'} sx={{ flexDirection: 'column' }}>
-            <Typography variant="subtitle2">Vendor Direct Email Address:</Typography>
+            <Typography variant="subtitle2">Vendor Email Address:</Typography>
             <Typography variant="body2">{emailAddress}</Typography>
           </Box>
         </Box>
