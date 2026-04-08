@@ -49,7 +49,7 @@ const CCDAHome = () => {
       />
       {/* Main Content */}
       <Container>
-        <SectionHeader header={'C-CDA Validators'} subHeader={'The latest C-CDA validators from ASTP'} />
+        <SectionHeader header={'C-CDA Validators'} subHeader={'The latest C-CDA validators from ONC'} />
         <Box
           sx={{
             display: 'flex',
