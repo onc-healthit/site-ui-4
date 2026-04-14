@@ -26,7 +26,7 @@ export default function Footer() {
               <Image style={{ width: '20px', height: 'auto' }} src={websiteLaunch} alt="Placeholder" />
             </Link>
             <Typography sx={{ mr: 6 }} color="white">
-              Office of the National Coordinator for Health Information Technology
+              Owned by Office of the National Coordinator for Health Information Technology
             </Typography>
           </Box>
         </Box>
