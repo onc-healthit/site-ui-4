@@ -4,8 +4,7 @@ import { Typography } from '@mui/material'
 
 const headingHome = (
   <Typography component="h1" variant="inherit" pb={1}>
-    Welcome to the Office of the National Coordinator for Health Information Technology for <br /> Technology Policy Standards Implementation & Testing Environment
-    (SITE)
+    Welcome to the Office of the National Coordinator for Health Information Technology Standards Implementation & Testing Environment (SITE)
   </Typography>
 )
 export default function SiteHome() {
