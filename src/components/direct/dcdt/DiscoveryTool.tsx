@@ -63,7 +63,7 @@ const DiscoveryTool = () => {
             to enact the Certificate Discovery and Provider Directory Implementation Guide, approved as normative
             specification by the Direct community, as of July 9, 2012. It is based on the written test package and
             requirement traceability matrix created by the Modular Specifications project under the direction of
-            the Assistant Secretary for Technology Policy (ASTP) and National Institute of Standards and Technology (NIST).
+            the Office of the National Coordinator for Health Information Technology (ONC) and National Institute of Standards and Technology (NIST).
           </>
         }
       />

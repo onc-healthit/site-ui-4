@@ -156,7 +156,7 @@ const DocsHome = () => {
                   }
                   buttonLink="https://github.com/onc-healthit/soap"
                 />
-                {/* Although the GitHub repo still exists - removed as per ASTP request for 2025-01-06 SITE Release */}
+                {/* Although the GitHub repo still exists - removed as per ONC request for 2025-01-06 SITE Release */}
                 {/* <DocsCard
                   cardHeader="FHIR® Tools"
                   description={'Set of FHIR® tools for SITE '}
