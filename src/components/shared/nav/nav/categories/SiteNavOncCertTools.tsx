@@ -61,10 +61,10 @@ export default function SiteNavOncCertTools() {
       icon: <GroupsOutlined aria-label="Go to Public Health Reporting" fontSize="small" />,
     },
     {
-      text: 'Alternative Test Methods',
+      text: 'HIMSS Immunization Integration Test Suite',
       isExternalLink: true,
-      href: 'https://hl7v2-iz-cdc-testing.nist.gov/iztool/#/home',
-      icon: <AltRouteOutlined aria-label="Go to Alternative Test Methods" fontSize="small" />,
+      href: 'http://tools.valitheus.com/immunization-himss/',
+      icon: <AltRouteOutlined aria-label="Go to HIMSS Immunization Integration Test Suite" fontSize="small" />,
     },
   ]
 

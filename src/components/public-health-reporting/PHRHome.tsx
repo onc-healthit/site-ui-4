@@ -107,7 +107,7 @@ const PHRHome = () => {
           />          
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
-        {/* NIST Reporting Header */}
+        {/* Reporting Header */}
         <SectionHeader header={'Public Health Reporting'} subHeader={'Elevating Healthcare Data Integrity'} />
         {/* Other Tools & Resources Content */}
         <Box
@@ -176,7 +176,7 @@ const PHRHome = () => {
               'The Electronic Lab Reporting (ELR) Validation Suite is intended to be used for ONC Certification Program testing. The validation suite provides functionality to test HIT senders.'
             }
             buttonTitle={'Go to test suite'}
-            buttonLink={'https://hl7v2-elr-testing.nist.gov/mu-elr/'}
+            buttonLink={'http://tools.valitheus.com/mu-elr/'}
             buttonIcon={<ArrowForwardIcon />}
           />
         </Box>
