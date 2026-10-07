@@ -63,7 +63,7 @@ const PHRHome = () => {
           {/* HL7® CDA®*/}
 
           <CardWithBorder
-            cardHeader={'HL7® CDA® Cancer Registry Reporting Validation Tool'}
+            cardHeader={'Cancer Registry Validator'}
             subHeader="170.315(f)(4)"
             description={
               'The Cancer Report  (CRV) is an interactive tool for validating the content of electronic submissions of cancer-related medical information prior to a systems communication with a cancer registry.'
@@ -127,7 +127,7 @@ const PHRHome = () => {
           {' '}
           {/*  HL7® v2 Immunization Test Suite Card */}
           <CardWithBorder
-            cardHeader={'HL7® v2 Immunization Test Suite Edition 1 (ONC 2015 Edition)'}
+            cardHeader={'HL7® v2 Immunization Test Suite Edition 1'}
             subHeader="170.315(f)(1)"
             description={
               'The Immunization Test Suite supports a broad range of testing in support of the Immunization Community, including transport, messaging (content), and functional.'
@@ -138,7 +138,7 @@ const PHRHome = () => {
           />
           {/*  HL7® v2 Immunization Test Suite Card */}
           <CardWithBorder
-            cardHeader={'HL7® v2 Immunization Test Suite Edition 2 (ONC SVAP 2024)'}
+            cardHeader={'HL7® v2 Immunization Test Suite Edition 2 (SVAP 2024)'}
             subHeader="170.315(f)(1)"
             description={
               'The Immunization Test Suite supports a broad range of testing in support of the Immunization Community, including transport, messaging (content), and functional.'
@@ -149,7 +149,7 @@ const PHRHome = () => {
           />          
           {/* HL7® v2 Syndromic Surveillance Test Suite */}
           <CardWithBorder
-            cardHeader={'HL7® v2 Syndromic Surveillance Test Suite Edition 1 (ONC 2015 Edition)'}
+            cardHeader={'HL7® v2 Syndromic Surveillance Test Suite Edition 1 '}
             subHeader="170.315(f)(2) "
             description={
               'The Syndromic Surveillance Test Suite supports the testing of HL7 v2.5.1 messages in support of the Syndromic Surveillance Community.'
@@ -160,7 +160,7 @@ const PHRHome = () => {
           />          
           {/* HL7® v2 Syndromic Surveillance Test Suite */}
           <CardWithBorder
-            cardHeader={'HL7® v2 Syndromic Surveillance Test Suite Edition 2 (ONC SVAP 2024)'}
+            cardHeader={'HL7® v2 Syndromic Surveillance Test Suite Edition 2 ( SVAP 2024)'}
             subHeader="170.315(f)(2) "
             description={
               'The Syndromic Surveillance Test Suite supports the testing of HL7 v2.5.1 messages in support of the Syndromic Surveillance Community.'
@@ -170,7 +170,7 @@ const PHRHome = () => {
             buttonIcon={<ArrowForwardIcon />}
           />
           <CardWithBorder
-            cardHeader={'Electronic Laboratory Reporting (ELR) Validation Suite'}
+            cardHeader={'Electronic Laboratory Reporting (ELR) Validation Tool (Electronic Laboratory Reporting)'}
             subHeader="170.315(f)(3)"
             description={
               'The Electronic Lab Reporting (ELR) Validation Suite is intended to be used for ONC Certification Program testing. The validation suite provides functionality to test HIT senders.'
