@@ -37,18 +37,7 @@ const PHRHome = () => {
           <>
             These tools support the public health criteria in the ONC Certification Program. The public health criteria
             help promote interoperability to support State, Tribal, Local, and Territorial Health Departments and
-            programs in the Centers for Disease Control and Prevention. Most of the public health tooling for the ONC
-            Certification Program is developed using {''}
-            <span>
-              <Link
-                href={
-                  'https://www.nist.gov/itl/ssd/systems-interoperability-group/nist-test-tools-onc-health-it-certification-program'
-                }
-                target="_blank"
-              >
-                NIST tooling.
-              </Link>
-            </span>
+            programs in the Centers for Disease Control and Prevention.
           </>
         }
       />
@@ -71,16 +60,16 @@ const PHRHome = () => {
             },
           }}
         >
-          {/* HL7® CDA® Cancer Registry Reporting Validation Tool*/}
+          {/* HL7® CDA®*/}
 
           <CardWithBorder
-            cardHeader={'HL7® CDA® Cancer Registry Reporting Validation Tool'}
+            cardHeader={'Cancer Registry Validator'}
             subHeader="170.315(f)(4)"
             description={
               'The Cancer Report  (CRV) is an interactive tool for validating the content of electronic submissions of cancer-related medical information prior to a systems communication with a cancer registry.'
             }
             buttonTitle={'Go to validator'}
-            buttonLink={'https://cda-validation.nist.gov/cda-validation/muCRV.html'}
+            buttonLink={'http://tools.valitheus.com/cda/'}
             buttonIcon={<ArrowForwardIcon />}
           />
           {/* Antimicrobial use and resistance HL7® CDA® validato*/}
@@ -96,22 +85,30 @@ const PHRHome = () => {
           />
           {/* HL7® CDA® National Health Care Surveys Validator */}
           <CardWithBorder
-            cardHeader={'HL7® CDA® National Health Care Surveys Validator'}
+            cardHeader={'National Health Care Surveys Validators (CDA, versions 1.0 to 1.2)'}
             subHeader="170.315(f)(7)"
             description={
               'Facilitate testing of National Health Care Surveys CDA XML documents conformant to HL7 Implementation Guide for CDA® Release 2: National Health Care Surveys (NHCS)'
             }
             buttonTitle={'Go to validator'}
-            buttonLink={'https://cda-validation.nist.gov/cda-validation/muNHCS.html'}
+            buttonLink={'http://tools.valitheus.com/cda/'}
             buttonIcon={<ArrowForwardIcon />}
           />
+          {/* HL7® CDA® National Health Care Surveys Validator */}
+          <CardWithBorder
+            cardHeader={'National Health Care Surveys Validators (CDA, versions 3.0 and 3.1): Available within GVT'}
+            subHeader="170.315(f)(7)"
+            description={
+              'Facilitate testing of National Health Care Surveys CDA XML documents conformant to HL7 Implementation Guide for CDA® Release 2: National Health Care Surveys (NHCS)'
+            }
+            buttonTitle={'Go to validator'}
+            buttonLink={'http://tools.valitheus.com/gvt/'}
+            buttonIcon={<ArrowForwardIcon />}
+          />          
         </Box>
         <Divider sx={{ p: 2, borderBottomWidth: 2 }} />
-        {/* NIST Reporting Header */}
-        <SectionHeader
-          header={'NIST Reporting'}
-          subHeader={'Elevating Healthcare Data Integrity: NIST Reporting Excellence.'}
-        />
+        {/* Reporting Header */}
+        <SectionHeader header={'Public Health Reporting'} subHeader={'Elevating Healthcare Data Integrity'} />
         {/* Other Tools & Resources Content */}
         <Box
           sx={{
@@ -128,36 +125,58 @@ const PHRHome = () => {
           }}
         >
           {' '}
-          {/* NIST HL7® v2 Immunization Test Suite Card */}
+          {/*  HL7® v2 Immunization Test Suite Card */}
           <CardWithBorder
-            cardHeader={'NIST HL7® v2 Immunization Test Suite'}
+            cardHeader={'HL7® v2 Immunization Test Suite Edition 1'}
             subHeader="170.315(f)(1)"
             description={
-              'The NIST Immunization Test Suite supports a broad range of testing in support of the Immunization Community, including transport, messaging (content), and functional.'
+              'The Immunization Test Suite supports a broad range of testing in support of the Immunization Community, including transport, messaging (content), and functional.'
             }
             buttonTitle={'Go to test suite'}
-            buttonLink={'https://hl7v2-iz-r1-5-testing.nist.gov/iztool/#/home'}
+            buttonLink={'http://tools.valitheus.com/immunization-edition1/'}
             buttonIcon={<ArrowForwardIcon />}
           />
-          {/* NIST HL7® v2 Syndromic Surveillance Test Suite */}
+          {/*  HL7® v2 Immunization Test Suite Card */}
           <CardWithBorder
-            cardHeader={'NIST HL7® v2 Syndromic Surveillance Test Suite'}
+            cardHeader={'HL7® v2 Immunization Test Suite Edition 2 (SVAP 2024)'}
+            subHeader="170.315(f)(1)"
+            description={
+              'The Immunization Test Suite supports a broad range of testing in support of the Immunization Community, including transport, messaging (content), and functional.'
+            }
+            buttonTitle={'Go to test suite'}
+            buttonLink={'https://tools.valitheus.com/immunization-edition2/'}
+            buttonIcon={<ArrowForwardIcon />}
+          />          
+          {/* HL7® v2 Syndromic Surveillance Test Suite */}
+          <CardWithBorder
+            cardHeader={'HL7® v2 Syndromic Surveillance Test Suite Edition 1 '}
             subHeader="170.315(f)(2) "
             description={
-              'The NIST Syndromic Surveillance Test Suite supports the testing of HL7 v2.5.1 messages in support of the Syndromic Surveillance Community.'
+              'The Syndromic Surveillance Test Suite supports the testing of HL7 v2.5.1 messages in support of the Syndromic Surveillance Community.'
             }
             buttonTitle={'Go to test suite'}
-            buttonLink={'https://hl7v2-ss-r2-testing.nist.gov/ss-r2/#/home'}
+            buttonLink={'http://tools.valitheus.com/syndromic-edition1/'}
+            buttonIcon={<ArrowForwardIcon />}
+          />          
+          {/* HL7® v2 Syndromic Surveillance Test Suite */}
+          <CardWithBorder
+            cardHeader={'HL7® v2 Syndromic Surveillance Test Suite Edition 2 ( SVAP 2024)'}
+            subHeader="170.315(f)(2) "
+            description={
+              'The Syndromic Surveillance Test Suite supports the testing of HL7 v2.5.1 messages in support of the Syndromic Surveillance Community.'
+            }
+            buttonTitle={'Go to test suite'}
+            buttonLink={'http://tools.valitheus.com/syndromic-edition2/'}
             buttonIcon={<ArrowForwardIcon />}
           />
           <CardWithBorder
-            cardHeader={'NIST Electronic Laboratory Reporting (ELR) Validation Suite'}
+            cardHeader={'Electronic Laboratory Reporting (ELR) Validation Tool (Electronic Laboratory Reporting)'}
             subHeader="170.315(f)(3)"
             description={
-              'The NIST Electronic Lab Reporting (ELR) Validation Suite is intended to be used for ONC Certification Program testing. The validation suite provides functionality to test HIT senders.'
+              'The Electronic Lab Reporting (ELR) Validation Suite is intended to be used for ONC Certification Program testing. The validation suite provides functionality to test HIT senders.'
             }
             buttonTitle={'Go to test suite'}
-            buttonLink={'https://hl7v2-elr-testing.nist.gov/mu-elr/'}
+            buttonLink={'http://tools.valitheus.com/mu-elr/'}
             buttonIcon={<ArrowForwardIcon />}
           />
         </Box>

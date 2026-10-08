@@ -9,7 +9,7 @@ describe('Home Page - ONC Certification Tools', () => {
     { text: 'Clinical Quality Measure Testing', url: `/cqmt` },
     { text: 'Electronic Prescribing (eRX) Tool', url: 'https://erx.healthit.gov/erx/' },
     { text: 'Public Health Reporting', url: `/public-health-reporting` },
-    { text: 'Alternative Test Methods', url: `https://hl7v2-iz-cdc-testing.nist.gov/iztool/#/home` },
+    { text: 'HIMSS Immunization Integration Test Suite', url: `http://tools.valitheus.com/immunization-himss/` },
   ]
 
   links.forEach((link) => {

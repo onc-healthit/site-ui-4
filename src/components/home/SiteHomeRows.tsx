@@ -185,11 +185,11 @@ export default function SiteHomeRows() {
                     pathname: '/public-health-reporting',
                   },
                   {
-                    title: 'Alternative Test Methods',
+                    title: 'HIMSS Immunization Integration Test Suite',
                     description:
                       'Innovative approaches deviating from conventional techniques, aiming to enhance accuracy, efficiency, or ethical considerations in assessing health-related data, systems, or software solutions.',
                     cardImage: atmSvg,
-                    pathname: 'https://hl7v2-iz-cdc-testing.nist.gov/iztool/#/home',
+                    pathname: 'http://tools.valitheus.com/immunization-himss/',
                   },
                 ].map((card, index) => (
                   <Box key={index} p={1}>
