@@ -575,13 +575,6 @@ export default function ScorecardHome() {
                 eventType={modalUrls[1]}
               />
             </div>
-            <CardWithBorder
-              cardHeader={'One Click Scorecard using Direct'}
-              buttonTitle={'ACCESS VIDEO'}
-              buttonIcon={<ArrowForward />}
-              buttonLink="https://oncprojectracking.healthit.gov/wiki/display/TechLabTU/ONC+One+Click+Scorecard"
-              cardWidthPercent={100}
-            />
           </Box>
           <Box display="flex" flexDirection="column" gap={3} width="50%" sx={{ pb: 4 }}>
             <div onClick={() => handleCardWithBorderClick(2)}>
