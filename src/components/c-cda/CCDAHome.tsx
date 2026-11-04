@@ -136,16 +136,6 @@ const CCDAHome = () => {
             maxWidth={maxWidthCards}
             imageWidth={maxWidthCards + 'px'}
           />
-          <CardWithImage
-            title={'One Click Scorecard'}
-            cardImage={oneclick}
-            cardHeader={'One Click Scorecard'}
-            description="Providers can use the One Click Scorecard with Direct to evaluate the quality of clinical
-            summary documents (C-CDAs) received, or created, by their system."
-            pathname={'https://oncprojectracking.healthit.gov/wiki/display/TechLabTU/ONC+One+Click+Scorecard'}
-            maxWidth={maxWidthCards}
-            imageWidth={maxWidthCards + 'px'}
-          />
         </Box>
       </Container>
     </>
